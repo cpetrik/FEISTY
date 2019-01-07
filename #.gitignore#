@@ -1,0 +1,15 @@
+*.jld
+*.nc
+
+*.m~
+*.jl~
+
+*.png
+*.pdf
+*.csv
+*.mat
+*.npy
+*.o
+*.so
+*.out
+*.dylib
