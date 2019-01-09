@@ -68,7 +68,7 @@ bvec <- rvec[,c(high,20,36)]
 
 # Multiply params with corr by -1 so both changes incr F
 newn <- c("ac-10","ac+10","ae-10","ae+10","am-10","am+10","alp-10","alp+10",
-          "bc-10","bc+10","be-10","be+10","bm-10","bm+10","BE-10","BE+10",
+          "bc-10","bc+10","be-10","be+10","bm-10","bm+10","bet-10","bet+10",
           "f-10","kc-10","kc+10","ke-10","ke+10","km-10","km+10","kap-10",
           "kap+10","A-10","A+10","J-10","f+10","J+10")
 names(bvec) <- newn
@@ -80,7 +80,7 @@ mult <- names(bvec)[negF]
 
 bvec[,30:44] <- -1*bvec[,negF]
 names(bvec)[30:44] <- c("-ac+10","-ae+10","-am-10","-alp+10","-bc-10","-be-10",
-                        "-bm+10","-BE-10","-f-10","-kc+10","-ke-10","-km+10",
+                        "-bm+10","-bet-10","-f-10","-kc+10","-ke-10","-km+10",
                         "-kap-10","-A+10","-J+10")
 params <- c(posF,30:44)
 tvec <- bvec[1:5,params]

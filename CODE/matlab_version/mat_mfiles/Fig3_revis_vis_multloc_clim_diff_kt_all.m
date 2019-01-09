@@ -136,10 +136,10 @@ surfm(geolat_t,geolon_t,log10(A1))
 colormap(cmBP)
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
+caxis([-1 2]);
 set(gcf,'renderer','painters')
 text(-2.75,1.75,'A')
-text(-0.75,1.75,'kt=0.04')
+text(-0.75,1.75,'kt=0.0405')
 %B
 subplot('Position',[0.01 0.37 0.4 0.3])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
@@ -148,7 +148,7 @@ surfm(geolat_t,geolon_t,log10(A4))
 colormap(cmBP)
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
+caxis([-1 2]);
 set(gcf,'renderer','painters')
 text(-2.75,1.75,'B')
 text(-0.75,1.75,'kt=0.0855')
@@ -160,11 +160,14 @@ surfm(geolat_t,geolon_t,log10(A7))
 colormap(cmBP)
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
+caxis([-1 2]);
 set(gcf,'renderer','painters')
 text(-2.75,1.75,'C')
-text(-0.75,1.75,'kt=0.13')
+text(-0.75,1.75,'kt=0.1305')
 %stamp('')
 colorbar('Position',[0.04 0.04 0.339 0.025],'orientation','horizontal')
 print('-dpng',[pp 'Fig3_Climatol_' harv '_All_comp_kt_4-13_BP.png'])
 
+%%
+ks = [0.0405,0.0855,0.1305]';
+q10s = exp(10*ks)
