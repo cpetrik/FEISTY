@@ -5,9 +5,9 @@ close all
 
 %%%%!! EXPERIMENTS
 testoneloc = false;
-testlocs = true;
+testlocs = false;
 histlocs = false;
-climlocs = false;
+climlocs = true;
 oneloc_fishing = false;
 oneloc_hind_pristine = false;
 oneloc_fore_pristine = false;

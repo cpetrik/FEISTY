@@ -40,7 +40,7 @@ names = abbrev;
 ID = ids;
 
 %! Create a directory for output
-fname = sub_fname(frate);
+fname = sub_fname_kap(frate);
 
 NX = length(ID);
 %! Initialize
@@ -72,7 +72,7 @@ S_Cobalt = NaN*ones(12*YEARS,5,NX);
 
 %! Iterate forward in time with NO fishing
 MNT=0;
-for YR = 1:YEARS % years
+for YR = 1%:YEARS % years
     num2str(YR)
     for DAY = 1:DT:DAYS % days
         
