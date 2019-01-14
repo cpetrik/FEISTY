@@ -11,7 +11,7 @@ Pdir = '/Volumes/GFDL/POEM_JLD/esm26_hist/';
 
 gpath = [Pdrpbx 'Princeton/POEM_other/grid_cobalt/'];
 cpath = [Pdrpbx 'Princeton/POEM_other/cobalt_data/'];
-pp = [Pdrpbx 'Princeton/POEM_2.0/CODE/Figs/PNG/Matlab_New_sizes/'];
+pp = [Pdrpbx 'Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/'];
 
 load([Pdir 'ESM26_1deg_5yr_clim_191_195_gridspec.mat']);
 load([gpath 'esm26_area_1deg.mat']);
@@ -198,5 +198,5 @@ xlabel('log_1_0 NPP')
 %ylabel('L / (L+M)')
 axis([-0.5 1 0 1])
 text(-0.4,0.9,'L')
-print('-dpng',[ppath 'lme_scatter_ZlDet_allGAMfit_BW_points_ms.png'])
+print('-dpng',[ppath 'FigS3_lme_scatter_ZlDet_allGAMfit_BW_points_ms.png'])
 

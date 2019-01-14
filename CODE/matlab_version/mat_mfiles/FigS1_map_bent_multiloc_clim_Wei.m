@@ -131,7 +131,7 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-1.5 2]);
 colorbar
 set(gcf,'renderer','painters')
-title('Wei et al. log_1_0 mean meiofauna (g m^-^2)')
+title('Wei et al. log_1_0 mean meio-infauna (g m^-^2)')
 
 figure(2)
 % macro
@@ -144,7 +144,7 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-1.5 2]);
 colorbar
 set(gcf,'renderer','painters')
-title('Wei et al. log_1_0 mean macrofauna (g m^-^2)')
+title('Wei et al. log_1_0 mean macro-infauna (g m^-^2)')
 
 figure(3)
 % mega
@@ -157,7 +157,7 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-1.5 2]);
 colorbar
 set(gcf,'renderer','painters')
-title('Wei et al. log_1_0 mean megafauna (g m^-^2)')
+title('Wei et al. log_1_0 mean mega-epifauna (g m^-^2)')
 
 
 %% Inv
@@ -173,7 +173,7 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-1.5 2]);
 colorbar('Position',[0.25 0.525 0.5 0.03],'orientation','horizontal')
 set(gcf,'renderer','painters')
-title('Wei et al. log_1_0 mean invertebrates (g m^-^2)')
+title('Wei et al. log_1_0 mean invertebrate epifauna (g m^-^2)')
 
 % FEISTY
 subplot(2,2,2)
@@ -208,7 +208,7 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-1.5 2]);
 set(gcf,'renderer','painters')
 title('FEISTY log_1_0 mean benthos (g m^-^2), \beta=0.125')
-%print('-dpng',[fpath 'Clim_All_fish03_global_benthos_Wei.png'])
+print('-dpng',[fpath 'Clim_All_fish03_global_inverts_Wei.png'])
 
 %%
 figure(5)
@@ -259,11 +259,12 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-1.5 2]);
 set(gcf,'renderer','painters')
 title('FEISTY log_1_0 mean benthos (g m^-^2), \beta=0.125')
-%print('-dpng',[fpath 'Clim_All_fish03_global_benthos_Wei.png'])
+print('-dpng',[fpath 'Clim_All_fish03_global_inv_fish_Wei.png'])
 
 %%
-fauna = Zmi + Zme + Zma;
-efauna = Zme + Zma;
+fauna = Zmi + Zma + Zme;
+ifauna = Zmi + Zma;
+
 figure(6)
 % Wei
 subplot(2,2,1)
@@ -277,7 +278,7 @@ axesmui
 caxis([-1.5 2]);
 colorbar('Position',[0.05 0.525 0.5 0.03],'orientation','horizontal')
 set(gcf,'renderer','painters')
-title('Wei et al. log_1_0 mean benthos (g m^-^2)')
+title('Wei et al. log_1_0 mean benthic fauna (g m^-^2)')
 
 % FEISTY
 subplot(2,2,2)
@@ -312,7 +313,7 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-1.5 2]);
 set(gcf,'renderer','painters')
 title('FEISTY log_1_0 mean benthos (g m^-^2), \beta=0.125')
-%print('-dpng',[fpath 'Clim_All_fish03_global_fauna_Wei.png'])
+print('-dpng',[fpath 'Clim_All_fish03_global_fauna_Wei.png'])
 
 %%
 figure(7)
@@ -320,7 +321,7 @@ figure(7)
 subplot(2,2,1)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',[-180 180],'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0] ,'FLonLimit',[-180 180])% thos doesn't work for some reason
-surfm(geolat_w,geolon_w,log10(efauna))
+surfm(geolat_w,geolon_w,log10(ifauna))
 colormap(cmBP)
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
@@ -328,7 +329,7 @@ axesmui
 caxis([-1.5 2]);
 colorbar('Position',[0.05 0.525 0.5 0.03],'orientation','horizontal')
 set(gcf,'renderer','painters')
-title('Wei et al. log_1_0 mean epifauna (g m^-^2)')
+title('Wei et al. log_1_0 mean infauna (g m^-^2)')
 
 % FEISTY
 subplot(2,2,2)
@@ -363,7 +364,7 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-1.5 2]);
 set(gcf,'renderer','painters')
 title('FEISTY log_1_0 mean benthos (g m^-^2), \beta=0.125')
-%print('-dpng',[fpath 'Clim_All_fish03_global_epifauna_Wei.png'])
+print('-dpng',[fpath 'Clim_All_fish03_global_infauna_Wei.png'])
 
 %%
 figure(8)
@@ -379,7 +380,7 @@ axesmui
 caxis([-1.5 2]);
 colorbar('Position',[0.25 0.525 0.5 0.03],'orientation','horizontal')
 set(gcf,'renderer','painters')
-title('Wei et al. log_1_0 mean macrofauna (g m^-^2)')
+title('Wei et al. log_1_0 mean macro-infauna (g m^-^2)')
 
 % FEISTY
 subplot('Position',[0.5 0.51 0.5 0.5])
@@ -415,4 +416,106 @@ caxis([-1.5 2]);
 set(gcf,'renderer','painters')
 title('FEISTY log_1_0 mean benthos (g m^-^2), \beta=0.125')
 print('-dpng',[fpath 'Clim_All_fish03_global_macrofauna_Wei_multBE.png'])
+
+%%
+figure(9)
+% Wei
+subplot('Position',[0 0.51 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',[-180 180],'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0] ,'FLonLimit',[-180 180])% thos doesn't work for some reason
+surfm(geolat_w,geolon_w,log10(Zme))
+colormap(cmBP)
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+axesmui
+caxis([-1.5 2]);
+colorbar('Position',[0.25 0.525 0.5 0.03],'orientation','horizontal')
+set(gcf,'renderer','painters')
+title('Wei et al. log_1_0 mean megafauna (g m^-^2)')
+
+% FEISTY
+subplot('Position',[0.5 0.51 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,log10(Zb3))
+colormap(cmBP)
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1.5 2]);
+set(gcf,'renderer','painters')
+title('FEISTY log_1_0 mean benthos (g m^-^2), \beta=0.025')
+
+subplot('Position',[0 0 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,log10(Zb8))
+colormap(cmBP)
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1.5 2]);
+set(gcf,'renderer','painters')
+title('FEISTY log_1_0 mean benthos (g m^-^2), \beta=0.075')
+
+subplot('Position',[0.5 0 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,log10(Zb13))
+colormap(cmBP)
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1.5 2]);
+set(gcf,'renderer','painters')
+title('FEISTY log_1_0 mean benthos (g m^-^2), \beta=0.125')
+print('-dpng',[fpath 'Clim_All_fish03_global_megafauna_Wei_multBE.png'])
+
+%%
+figure(10)
+% Wei
+subplot('Position',[0 0.51 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',[-180 180],'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0] ,'FLonLimit',[-180 180])% thos doesn't work for some reason
+surfm(geolat_w,geolon_w,log10(Zma+Zi))
+colormap(cmBP)
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+axesmui
+caxis([-1.5 2]);
+colorbar('Position',[0.25 0.525 0.5 0.03],'orientation','horizontal')
+set(gcf,'renderer','painters')
+title('Wei et al. log_1_0 mean macro and mega invertebrates')
+
+% FEISTY
+subplot('Position',[0.5 0.51 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,log10(Zb3))
+colormap(cmBP)
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1.5 2]);
+set(gcf,'renderer','painters')
+title('FEISTY log_1_0 mean benthos, \beta=0.025')
+
+subplot('Position',[0 0 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,log10(Zb8))
+colormap(cmBP)
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1.5 2]);
+set(gcf,'renderer','painters')
+title('FEISTY log_1_0 mean benthos, \beta=0.075')
+
+subplot('Position',[0.5 0 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,log10(Zb13))
+colormap(cmBP)
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1.5 2]);
+set(gcf,'renderer','painters')
+title('FEISTY log_1_0 mean benthos, \beta=0.125')
+print('-dpng',[fpath 'Clim_All_fish03_global_macro_inverts_Wei_multBE.png'])
 
