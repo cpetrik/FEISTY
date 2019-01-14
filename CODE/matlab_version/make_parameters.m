@@ -63,7 +63,7 @@ function make_parameters()
     % subscript is larvae, juv, adult)
     K_l = 1;
     K_j = 1;
-    K_a = 0.25;
+    K_a = 0.0;
 
     %%%! Metabolism constants (activity and basal)
     amet = 4;       % coeff on met

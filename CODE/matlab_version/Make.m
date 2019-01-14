@@ -7,7 +7,7 @@ close all
 testoneloc = false;
 testlocs = false;
 histlocs = false;
-climlocs = true;
+climlocs = false;
 oneloc_fishing = false;
 oneloc_hind_pristine = false;
 oneloc_fore_pristine = false;
@@ -16,7 +16,7 @@ climatol_loop = false;
 climatol_IC_day = false;
 climatol_IC_biom = false;
 climatol_param = false;
-climatol = false;
+climatol = true;
 climatol_crr = false;
 climatol_con = false;
 climatol_ngdc = false;
