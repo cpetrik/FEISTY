@@ -4,32 +4,24 @@ clear all
 close all
 
 %%%%!! EXPERIMENTS
-testoneloc = false;
 testlocs = false;
 histlocs = false;
 climlocs = false;
-oneloc_fishing = false;
-oneloc_hind_pristine = false;
-oneloc_fore_pristine = false;
 spinup_pristine = false;
 climatol_loop = false;
-climatol_IC_day = false;
-climatol_IC_biom = false;
 climatol_param = false;
-climatol = true;
+climatol = false;
 climatol_crr = false;
 climatol_con = false;
 climatol_ngdc = false;
 pre_industrial = false;
 historic_pristine = false;
 historic_fished = false;
+historic_fished_prod = true;
 forecast_pristine = false;
 forecast_fished = false;
 
 tic
-if testoneloc
-    Testoneloc()
-end
 if testlocs
     Locs_clim_param_acmax_aenc_search()
 end
@@ -44,12 +36,6 @@ if spinup_pristine
 end
 if climatol_loop
     Climatol_param_search_name()
-end
-if climatol_IC_day
-    Climatol_ICday_loop()
-end
-if climatol_IC_biom
-    Climatol_ICbiom_loop()
 end
 if climatol_param
     Climatol_param_sens_v3()
@@ -74,6 +60,9 @@ if historic_pristine
 end
 if historic_fished
     Historic_fished()
+end
+if historic_fished_prod
+    Historic_fished_prod()
 end
 if forecast_pristine
     Forecast_pristine()
