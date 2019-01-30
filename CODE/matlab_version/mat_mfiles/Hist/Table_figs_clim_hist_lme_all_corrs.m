@@ -1,0 +1,401 @@
+% All correlations
+clear all
+close all
+
+spath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/SAUP/';
+gpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
+cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/cobalt_data/';
+
+dp = '/Volumes/GFDL/NC/Matlab_new_size/';
+pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
+
+load(['/Users/cpetrik/Dropbox/Princeton/POEM_other/poem_ms/',...
+    'Stock_PNAS_catch_oceanprod_output.mat'],'notLELC')
+%keep = notLELC;
+keep=1:66;
+
+cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
+harv = 'All_fish03';
+fpath = [dp cfile '/'];
+ppath = [pp cfile '/'];
+
+%% Climatol grid
+Pdir = '/Volumes/GFDL/POEM_JLD/esm26_hist/';
+cdir='/Volumes/GFDL/GCM_DATA/ESM26_hist/';
+load([gpath 'ESM26_1deg_5yr_clim_191_195_gridspec.mat']);
+load([gpath 'esm26_lme_mask_onedeg_SAU_66.mat']);
+load([gpath 'LME_clim_temp_zoop_det.mat']);
+
+clme = lme_mask_onedeg;
+
+clme_ptemp = lme_ptemp;
+clear lme_ptemp
+
+%% Hist grid
+load('/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/hindcast_gridspec.mat',...
+    'geolon_t','geolat_t','AREA_OCN');
+grid = csvread([gpath 'grid_csv.csv']);
+load([gpath 'lme_mask_esm2m.mat']);
+load([cpath 'LME_hist9095_temp_zoop_det.mat'],'lme_ptemp','lme_area');
+
+hlme_ptemp = lme_ptemp;
+clear lme_ptemp
+
+hlme_area_km2 = lme_area * 1e-6;
+clear lme_area
+
+hlme = lme_mask_esm2m';
+hID = grid(:,1);
+
+%% POEM Climatol
+load([fpath 'LME_clim_fished_',harv,'_' cfile '.mat'],'lme_mcatch',...
+    'lme_mbio','lme_sbio','lme_area');
+clme_area_km2 = lme_area * 1e-6;
+clear lme_area
+
+% POEM LME biomass in MT
+plme_mcatch = nansum(lme_mcatch,2) * 1e-6;
+plme_Fmcatch = (lme_mcatch(:,1)) * 1e-6;
+plme_Pmcatch = (lme_mcatch(:,2)+lme_mcatch(:,4)) * 1e-6;
+plme_Dmcatch = (lme_mcatch(:,3)+lme_mcatch(:,5)) * 1e-6;
+plme_Bmbio = lme_mbio(:,9) * 1e-6;
+plme_Mmbio = (lme_mbio(:,4) + lme_mbio(:,5) + lme_mbio(:,6)) * 1e-6;
+plme_Lmbio = (lme_mbio(:,7) + lme_mbio(:,8)) * 1e-6;
+% MT/km2
+plme_mcatch = plme_mcatch ./ clme_area_km2;
+plme_Fmcatch = plme_Fmcatch ./ clme_area_km2;
+plme_Pmcatch = plme_Pmcatch ./ clme_area_km2;
+plme_Dmcatch = plme_Dmcatch ./ clme_area_km2;
+plme_Bmbio = plme_Bmbio ./ clme_area_km2;
+plme_Mmbio = plme_Mmbio ./ clme_area_km2;
+plme_Lmbio = plme_Lmbio ./ clme_area_km2;
+
+pFracPD = plme_Pmcatch ./ (plme_Pmcatch + plme_Dmcatch);
+pFracPF = plme_Pmcatch ./ (plme_Pmcatch + plme_Fmcatch);
+pFracLM = plme_Lmbio ./ (plme_Lmbio + plme_Mmbio);
+
+l10p=log10(plme_mcatch);
+l10pF=log10(plme_Fmcatch);
+l10pP=log10(plme_Pmcatch);
+l10pD=log10(plme_Dmcatch);
+l10pB=log10(plme_Bmbio);
+
+clear lme_mcatch lme_mbio lme_sbio
+ 
+%% FEISTY Hist 90-95
+load([fpath 'LME_hist_90-95_fished_',harv,'_' cfile '.mat']);
+
+hlme_mcatch = nansum(lme_mcatch,2) * 1e-6;
+hlme_Fmcatch = (lme_mcatch(:,1)) * 1e-6;
+hlme_Pmcatch = (lme_mcatch(:,2)+lme_mcatch(:,4)) * 1e-6;
+hlme_Dmcatch = (lme_mcatch(:,3)+lme_mcatch(:,5)) * 1e-6;
+hlme_Bmbio = lme_mbio(:,9) * 1e-6;
+hlme_Mmbio = (lme_mbio(:,4) + lme_mbio(:,5) + lme_mbio(:,6)) * 1e-6;
+hlme_Lmbio = (lme_mbio(:,7) + lme_mbio(:,8)) * 1e-6;
+
+% MT/km2
+hlme_mcatch = hlme_mcatch ./ hlme_area_km2;
+hlme_Fmcatch = hlme_Fmcatch ./ hlme_area_km2;
+hlme_Pmcatch = hlme_Pmcatch ./ hlme_area_km2;
+hlme_Dmcatch = hlme_Dmcatch ./ hlme_area_km2;
+hlme_Bmbio = hlme_Bmbio ./ hlme_area_km2;
+hlme_Mmbio = hlme_Mmbio ./ hlme_area_km2;
+hlme_Lmbio = hlme_Lmbio ./ hlme_area_km2;
+
+hFracPD = hlme_Pmcatch ./ (hlme_Pmcatch + hlme_Dmcatch);
+hFracPF = hlme_Pmcatch ./ (hlme_Pmcatch + hlme_Fmcatch);
+hFracLM = hlme_Lmbio ./ (hlme_Lmbio + hlme_Mmbio);
+
+l10h=log10(hlme_mcatch);
+l10hF=log10(hlme_Fmcatch);
+l10hP=log10(hlme_Pmcatch);
+l10hD=log10(hlme_Dmcatch);
+l10hB=log10(hlme_Bmbio);
+
+clear lme_mcatch lme_mbio lme_sbio
+
+%% Stats
+%r
+[rall,pall]=corr(l10h(keep),l10p(keep));
+[rF,pF]=corr(l10hF(keep),l10pF(keep));
+[rP,pP]=corr(l10hP(keep),l10pP(keep));
+[rD,pD]=corr(l10hD(keep),l10pD(keep));
+[rB,pB]=corr(l10hB(keep),l10pB(keep));
+[rPD,pPD]=corr(hFracPD(keep),pFracPD(keep));
+[rPF,pPF]=corr(hFracPF(keep),pFracPF(keep));
+[rLM,pLM]=corr(hFracLM(keep),pFracLM(keep));
+
+%root mean square error
+o=l10h(keep);
+p=l10p(keep);
+n = length(o);
+num=nansum((p-o).^2);
+rmse = sqrt(num/n);
+
+o=l10hF(keep);
+p=l10pF(keep);
+n = length(o);
+num=nansum((p-o).^2);
+rmseF = sqrt(num/n);
+
+o=l10hP(keep);
+p=l10pP(keep);
+n = length(o);
+num=nansum((p-o).^2);
+rmseP = sqrt(num/n);
+
+o=l10hD(keep);
+p=l10pD(keep);
+n = length(o);
+num=nansum((p-o).^2);
+rmseD = sqrt(num/n);
+
+o=l10hB(keep);
+p=l10pB(keep);
+n = length(o);
+num=nansum((p-o).^2);
+rmseB = sqrt(num/n);
+
+o=hFracPD(keep);
+p=pFracPD(keep);
+n = length(o);
+num=nansum((p-o).^2);
+rmsePD = sqrt(num/n);
+
+o=hFracPF(keep);
+p=pFracPF(keep);
+n = length(o);
+num=nansum((p-o).^2);
+rmsePF = sqrt(num/n);
+
+o=hFracLM(keep);
+p=pFracLM(keep);
+n = length(o);
+num=nansum((p-o).^2);
+rmseLM = sqrt(num/n);
+
+% Bias (Historic minus Climatol)
+%average error = bias
+%skill(3,c) = nansum(p-o) / n;
+o=l10h(keep);
+p=l10p(keep);
+n = length(o);
+bias = nansum(o-p) / n;
+
+o=l10hF(keep);
+p=l10pF(keep);
+n = length(o);
+biasF = nansum(o-p) / n;
+
+o=l10hP(keep);
+p=l10pP(keep);
+n = length(o);
+biasP = nansum(o-p) / n;
+
+o=l10hD(keep);
+p=l10pD(keep);
+n = length(o);
+biasD = nansum(o-p) / n;
+
+o=l10hB(keep);
+p=l10pB(keep);
+n = length(o);
+biasB = nansum(o-p) / n;
+
+o=hFracPD(keep);
+p=pFracPD(keep);
+n = length(o);
+biasPD = nansum(o-p) / n;
+
+o=hFracPF(keep);
+p=pFracPF(keep);
+n = length(o);
+biasPF = nansum(o-p) / n;
+
+o=hFracLM(keep);
+p=pFracLM(keep);
+n = length(o);
+biasLM = nansum(o-p) / n;
+
+%% Table
+fish_stat(1,1) = rall;
+fish_stat(2,1) = rF;
+fish_stat(3,1) = rP;
+fish_stat(4,1) = rD;
+fish_stat(5,1) = rB;
+fish_stat(6,1) = rPD;
+fish_stat(7,1) = rPF;
+fish_stat(8,1) = rLM;
+
+fish_stat(1,2) = rmse;
+fish_stat(2,2) = rmseF;
+fish_stat(3,2) = rmseP;
+fish_stat(4,2) = rmseD;
+fish_stat(5,2) = rmseB;
+fish_stat(6,2) = rmsePD;
+fish_stat(7,2) = rmsePF;
+fish_stat(8,2) = rmseLM;
+
+fish_stat(1,3) = bias;
+fish_stat(2,3) = biasF;
+fish_stat(3,3) = biasP;
+fish_stat(4,3) = biasD;
+fish_stat(5,3) = biasB;
+fish_stat(6,3) = biasPD;
+fish_stat(7,3) = biasPF;
+fish_stat(8,3) = biasLM;
+
+fish_stat(1,4) = pall;
+fish_stat(2,4) = pF;
+fish_stat(3,4) = pP;
+fish_stat(4,4) = pD;
+fish_stat(5,4) = pB;
+fish_stat(6,4) = pPD;
+fish_stat(7,4) = pPF;
+fish_stat(8,4) = pLM;
+
+% save
+Fstat = array2table(fish_stat,'VariableNames',{'r','RMSE','Bias','p'},...
+    'RowNames',{'All Fish','F','P','D','B','Frac Pel-Dem','Frac Pel-Forage',...
+    'Frac Large-Med'});
+writetable(Fstat,[fpath 'LME_clim_hist9095_stats_' cfile '.csv'],'Delimiter',',',...
+    'WriteRowNames',true)
+save([fpath 'LME_clim_hist9095_stats_' cfile '.mat'],'fish_stat')
+
+%% Figures
+x=-8:0.5:8;
+x2h = x+log10(2);
+x2l = x-log10(2);
+x5h = x+log10(5);
+x5l = x-log10(5);
+
+figure(1)
+subplot(2,2,1)
+plot(x,x,'--k'); hold on;
+plot(x,x2h,':b'); hold on;
+plot(x,x2l,':b'); hold on;
+plot(x,x5h,':r'); hold on;
+plot(x,x5l,':r'); hold on;
+scatter(l10hF(keep),l10pF(keep),20,clme_ptemp(keep,1),'filled'); hold on;
+cmocean('thermal');
+colorbar('Position',[0.375 0.5 0.3 0.025],'orientation','horizontal')
+text(-5.5,1.0,['r = ' sprintf('%2.2f',rF) ' (p = ' sprintf('%2.2f',pF) ')'])
+text(-5.5,0.5,['RMSE = ' sprintf('%2.2f',rmseF)])
+axis([-6 2 -6 2])
+xlabel('Hist')
+ylabel('Clim')
+title('Forage Fishes')
+
+subplot(2,2,2)
+plot(x,x,'--k'); hold on;
+plot(x,x2h,':b'); hold on;
+plot(x,x2l,':b'); hold on;
+plot(x,x5h,':r'); hold on;
+plot(x,x5l,':r'); hold on;
+scatter(l10hP(keep),l10pP(keep),20,clme_ptemp(keep,1),'filled'); hold on;
+cmocean('thermal');
+text(-5.5,1.0,['r = ' sprintf('%2.2f',rP) ' (p = ' sprintf('%2.2f',pP) ')'])
+text(-5.5,0.5,['RMSE = ' sprintf('%2.2f',rmseP)])
+axis([-6 2 -6 2])
+xlabel('Hist')
+ylabel('Clim')
+title('Large Pelagics')
+
+subplot(2,2,3)
+plot(x,x,'--k'); hold on;
+plot(x,x2h,':b'); hold on;
+plot(x,x2l,':b'); hold on;
+plot(x,x5h,':r'); hold on;
+plot(x,x5l,':r'); hold on;
+scatter(l10hD(keep),l10pD(keep),20,clme_ptemp(keep,1),'filled'); hold on;
+cmocean('thermal');
+text(-1.75,1.4,['r = ' sprintf('%2.2f',rD) ' (p = ' sprintf('%2.2f',pD) ')'])
+text(-1.75,1.1,['RMSE = ' sprintf('%2.2f',rmseD)])
+axis([-2 2 -2 2])
+xlabel('Hist')
+ylabel('Clim')
+title('Demersals')
+
+subplot(2,2,4)
+plot(x,x,'--k'); hold on;
+plot(x,x2h,':b'); hold on;
+plot(x,x2l,':b'); hold on;
+plot(x,x5h,':r'); hold on;
+plot(x,x5l,':r'); hold on;
+scatter(l10h(keep),l10p(keep),20,clme_ptemp(keep,1),'filled'); hold on;
+cmocean('thermal');
+text(-1.75,1.4,['r = ' sprintf('%2.2f',rall) ' (p = ' sprintf('%2.2f',pall) ')'])
+text(-1.75,1.1,['RMSE = ' sprintf('%2.2f',rmse)])
+axis([-2 2 -2 2])
+xlabel('Hist')
+ylabel('Clim')
+title('All fishes')
+stamp([harv '_' cfile])
+print('-dpng',[ppath 'Clim_Hist9095_',harv,'_comp_types_temp.png'])
+
+%% Fractions
+figure(2)
+subplot(2,2,1)
+plot(x,x,'--k'); hold on;
+plot(x,x2h,':b'); hold on;
+plot(x,x2l,':b'); hold on;
+plot(x,x5h,':r'); hold on;
+plot(x,x5l,':r'); hold on;
+scatter(hFracPF(keep),pFracPF(keep),20,clme_ptemp(keep,1),'filled'); hold on;
+cmocean('thermal');
+colorbar('Position',[0.375 0.5 0.3 0.025],'orientation','horizontal')
+text(0.05,1.15,['r = ' sprintf('%2.2f',rPF) ' (p = ' sprintf('%2.2f',pPF) ')'])
+text(0.05,1.05,['RMSE = ' sprintf('%2.2f',rmsePF)])
+axis([0 1.2 0 1.2])
+xlabel('Hist')
+ylabel('Clim')
+title('P / (P+F)')
+
+subplot(2,2,2)
+plot(x,x,'--k'); hold on;
+plot(x,x2h,':b'); hold on;
+plot(x,x2l,':b'); hold on;
+plot(x,x5h,':r'); hold on;
+plot(x,x5l,':r'); hold on;
+scatter(hFracPD(keep),pFracPD(keep),20,clme_ptemp(keep,1),'filled'); hold on;
+cmocean('thermal');
+text(0.05,1.15,['r = ' sprintf('%2.2f',rPD) ' (p = ' sprintf('%2.2f',pPD) ')'])
+text(0.05,1.05,['RMSE = ' sprintf('%2.2f',rmsePD)])
+axis([0 1.2 0 1.2])
+xlabel('Hist')
+ylabel('Clim')
+title('P / (P+D)')
+
+subplot(2,2,3)
+plot(x,x,'--k'); hold on;
+plot(x,x2h,':b'); hold on;
+plot(x,x2l,':b'); hold on;
+plot(x,x5h,':r'); hold on;
+plot(x,x5l,':r'); hold on;
+scatter(hFracLM(keep),pFracLM(keep),20,clme_ptemp(keep,1),'filled'); hold on;
+cmocean('thermal');
+text(0.05,1.15,['r = ' sprintf('%2.2f',rLM) ' (p = ' sprintf('%2.2f',pLM) ')'])
+text(0.05,1.05,['RMSE = ' sprintf('%2.2f',rmseLM)])
+axis([0 1.2 0 1.2])
+xlabel('Hist')
+ylabel('Clim')
+title('L / (L+M)')
+
+subplot(2,2,4)
+plot(x,x,'--k'); hold on;
+plot(x,x2h,':b'); hold on;
+plot(x,x2l,':b'); hold on;
+plot(x,x5h,':r'); hold on;
+plot(x,x5l,':r'); hold on;
+scatter(l10hB(keep),l10pB(keep),20,clme_ptemp(keep,1),'filled'); hold on;
+cmocean('thermal');
+text(-3.75,-0.3,['r = ' sprintf('%2.2f',rB) ' (p = ' sprintf('%2.2f',pB) ')'])
+text(-3.75,-0.7,['RMSE = ' sprintf('%2.2f',rmseB)])
+axis([-4 0 -4 0])
+xlabel('Hist')
+ylabel('Clim')
+title('Benthos')
+stamp([harv '_' cfile])
+print('-dpng',[ppath 'Clim_Hist9095_',harv,'_comp_fracs_temp.png'])
+
+% benthos figs look the same scale, so mistake somewhere else

@@ -5,15 +5,21 @@ clear all
 close all
 
 spath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/SAUP/';
-cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
+gpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
+cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/cobalt_data/';
 dp = '/Volumes/GFDL/NC/Matlab_new_size/';
-pp = '/Users/cpetrik/Dropbox/Princeton/POEM_2.0/CODE/Figs/PNG/Matlab_New_sizes/';
+pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
 
-Pdir = '/Volumes/GFDL/POEM_JLD/esm26_hist/';
-load([Pdir 'ESM26_1deg_5yr_clim_191_195_gridspec.mat']);
-load([cpath 'esm26_lme_mask_onedeg_SAU_66.mat']);
-load([cpath 'esm26_area_1deg.mat']);
-load([cpath 'LME_clim_temp_zoop_det.mat']);
+load('/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/hindcast_gridspec.mat',...
+    'geolon_t','geolat_t','AREA_OCN');
+grid = csvread([gpath 'grid_csv.csv']);
+load([gpath 'lme_mask_esm2m.mat']);
+load([cpath 'LME_hist9095_temp_zoop_det.mat'],'lme_ptemp','lme_area');
+
+AREA_OCN = AREA_OCN*510072000*1e6;
+AREA_OCN = max(AREA_OCN,1);
+tlme = lme_mask_esm2m';
+ID = grid(:,1);
 
 %use weighted catches
 load([spath 'SAUP_LME_Catch_annual.mat'],'yr','totcatch','lme_catch',...
@@ -22,8 +28,6 @@ load([spath 'SAUP_LME_Catch_annual.mat'],'yr','totcatch','lme_catch',...
 %Colormap
 load('MyColormaps.mat')
 load('cmap_ppt_angles.mat')
-
-AREA_OCN = max(area,1);
 
 % FEISTY file info
 frate = 0.3;
@@ -36,14 +40,15 @@ tharv = 'Harvest all fish 0.3 yr^-^1';
 ppath = [pp cfile '/'];
 dpath = [dp cfile '/'];
 
-load([dpath 'LME_clim_fished_',harv,'_' cfile '.mat']);
+load([dpath 'LME_hist_90-95_fished_',harv,'_' cfile '.mat']);
+%load([dpath 'LME_clim_fished_',harv,'_' cfile '.mat'],'lme_area');
 lme_area_km2 = lme_area * 1e-6;
-
+% MAY NEED TO CHANGE TO ESM2M AREA
 
 %% plot info
-[ni,nj]=size(lon);
-geolon_t = double(lon);
-geolat_t = double(lat);
+[ni,nj]=size(geolon_t);
+geolon_t = double(geolon_t);
+geolat_t = double(geolat_t);
 plotminlat=-90; %Set these bounds for your data
 plotmaxlat=90;
 plotminlon=-280;
@@ -251,5 +256,5 @@ axis([-2 2 -2 2])
 xlabel('SAU')
 ylabel('FEISTY ')
 title('All fishes')
-% stamp([harv '_' cfile])
-print('-dpng',[ppath 'Clim_',harv,'_SAUP_comp_types_temp_Stock_LELC_ms.png'])
+stamp([harv '_' cfile])
+print('-dpng',[ppath 'Hist9095_',harv,'_SAUP_comp_types_temp_Stock_LELC_ms.png'])

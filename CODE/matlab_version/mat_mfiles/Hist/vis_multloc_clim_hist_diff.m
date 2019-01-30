@@ -21,7 +21,7 @@ grid = csvread([cpath 'grid_csv.csv']); %grid
 %% FEISTY Output
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 fpath=['/Volumes/GFDL/NC/Matlab_new_size/' cfile '/'];
-pp = ['/Users/cpetrik/Dropbox/Princeton/POEM_2.0/CODE/Figs/PNG/Matlab_New_sizes/' cfile '/'];
+pp = ['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/' cfile '/'];
 
 harv = 'All_fish03';
 tharv = 'Harvest all fish 0.3 yr^-^1';
@@ -121,6 +121,7 @@ clon = lon;
 hF = griddata(geolat,geolon,HF',glat,glon);
 hP = griddata(geolat,geolon,HP',glat,glon);
 hD = griddata(geolat,geolon,HD',glat,glon);
+hB = griddata(geolat,geolon,Hb',glat,glon);
 hS = griddata(geolat,geolon,HS',glat,glon);
 hM = griddata(geolat,geolon,HM',glat,glon);
 hL = griddata(geolat,geolon,HL',glat,glon);
@@ -128,6 +129,7 @@ hL = griddata(geolat,geolon,HL',glat,glon);
 cF = griddata(clat,clon,CF,glat,glon);
 cP = griddata(clat,clon,CP,glat,glon);
 cD = griddata(clat,clon,CD,glat,glon);
+cB = griddata(clat,clon,Cb,glat,glon);
 cS = griddata(clat,clon,CS,glat,glon);
 cM = griddata(clat,clon,CM,glat,glon);
 cL = griddata(clat,clon,CL,glat,glon);
@@ -154,6 +156,7 @@ hFrahLM = hL ./ (hL+hM);
 diffF = (cF-hF) ./ cF;
 diffP = (cP-hP) ./ cP;
 diffD = (cD-hD) ./ cD;
+diffB = (cB-hB) ./ cB;
 diffAll = (cAll-hAll) ./ cAll;
 
 %% Maps
@@ -264,8 +267,36 @@ set(gcf,'renderer','painters')
 title('Climatology All');
 print('-dpng',[pp 'Hist_Climatol_' harv '_global_All.png'])
 
-%% 5
+%% B
 figure(5)
+subplot(2,1,1)
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
+surfm(glat,glon,real(log10(hB)))
+colormap('jet')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1.5 0.5]);
+colorbar
+set(gcf,'renderer','painters')
+title('Hindcast Benthos');
+
+subplot(2,1,2)
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
+surfm(glat,glon,real(log10(cB)))
+colormap('jet')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1.5 0.5]);
+colorbar
+set(gcf,'renderer','painters')
+title('Climatology Benthos');
+print('-dpng',[pp 'Hist_Climatol_' harv '_global_Bent.png'])
+
+%% diffs
+%F
+figure(6)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) 
 surfm(glat,glon,diffF)
@@ -278,8 +309,8 @@ set(gcf,'renderer','painters')
 title('Climatology - Hindcast F');
 print('-dpng',[pp 'Hist_Climatol_' harv '_global_diffF.png'])
 
-%6
-figure(6)
+%P
+figure(7)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) 
 surfm(glat,glon,diffP)
@@ -292,8 +323,8 @@ set(gcf,'renderer','painters')
 title('Climatology - Hindcast P');
 print('-dpng',[pp 'Hist_Climatol_' harv '_global_diffP.png'])
 
-figure(7)
-%7
+figure(8)
+%D
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) 
 surfm(glat,glon,diffD)
@@ -306,8 +337,8 @@ set(gcf,'renderer','painters')
 title('Climatology - Hindcast D');
 print('-dpng',[pp 'Hist_Climatol_' harv '_global_diffD.png'])
 
-%8
-figure(8)
+%diif all
+figure(9)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) 
 surfm(glat,glon,diffAll)
@@ -319,6 +350,20 @@ colorbar
 set(gcf,'renderer','painters')
 title('Climatology - Hindcast All');
 print('-dpng',[pp 'Hist_Climatol_' harv '_global_diffAll.png'])
+
+%% B
+figure(10)
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) 
+surfm(glat,glon,diffB)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1 1]);
+colorbar
+set(gcf,'renderer','painters')
+title('Climatology - Hindcast B');
+print('-dpng',[pp 'Hist_Climatol_' harv '_global_diffB.png'])
 
 %% Calc differences in total biomass
 

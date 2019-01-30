@@ -8,16 +8,16 @@ clear all
 close all
 
 spath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/SAUP/';
-cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
-pp = '/Users/cpetrik/Dropbox/Princeton/POEM_2.0/CODE/Figs/PNG/Matlab_New_sizes/';
+gpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
+cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/cobalt_data/';
+pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
 dp = '/Volumes/GFDL/NC/Matlab_new_size/';
 
 load('/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/hindcast_gridspec.mat',...
     'geolon_t','geolat_t','AREA_OCN');
-grid = csvread([cpath 'grid_csv.csv']);
-load([cpath 'lme_mask_esm2m.mat']);
-
-% NEED LME MEAN TEMPS
+grid = csvread([gpath 'grid_csv.csv']);
+load([gpath 'lme_mask_esm2m.mat']);
+load([cpath 'LME_hist9095_temp_zoop_det.mat'],'lme_ptemp','lme_area');
 
 AREA_OCN = AREA_OCN*510072000*1e6;
 AREA_OCN = max(AREA_OCN,1);
@@ -30,6 +30,8 @@ tharv = 'Harvest all fish 0.3 yr^-^1';
 ppath = [pp cfile '/'];
 dpath = [dp cfile '/'];
 load([dpath 'LME_hist_90-95_fished_',harv,'_' cfile '.mat']);
+%load([dpath 'LME_clim_fished_',harv,'_' cfile '.mat'],'lme_area');
+% MAY NEED TO CHANGE TO ESM2M AREA
 
 lme_area_km2 = lme_area * 1e-6;
 
@@ -172,9 +174,9 @@ title('FEISTY - vanD difference')
 %SAU corr
 subplot('Position',[0.075 0.075 0.4 0.4])
 plot(x,x,'--k');hold on;
-scatter(sFracPD(notLELC),plme_rPDcatch(notLELC),20,'filled'); hold on;
-%scatter(sFracPD(notLELC),plme_rPDcatch(notLELC),20,lme_ptemp(notLELC,1),'filled'); hold on;
-%cmocean('thermal');
+%scatter(sFracPD(notLELC),plme_rPDcatch(notLELC),20,'filled'); hold on;
+scatter(sFracPD(notLELC),plme_rPDcatch(notLELC),20,lme_ptemp(notLELC,1),'filled'); hold on;
+cmocean('thermal');
 text(0.75,0.55,['r = ' sprintf('%2.2f',rPD)])
 text(0.75,0.5,['RMSE = ' sprintf('%2.2f',rmsePD)])
 text(0.75,0.45,['Fmed = ' sprintf('%2.2f',FPD)])
@@ -186,9 +188,9 @@ ylabel('FEISTY')
 %vanD Corr
 subplot('Position',[0.55 0.075 0.4 0.4])
 plot(x,x,'--k');hold on;
-scatter(FracLP(did),plme_rPDcatch(did),20,'filled'); hold on;
-%scatter(FracLP(did),plme_rPDcatch(did),20,lme_ptemp(did,1),'filled'); hold on;
-%cmocean('thermal');
+%scatter(FracLP(did),plme_rPDcatch(did),20,'filled'); hold on;
+scatter(FracLP(did),plme_rPDcatch(did),20,lme_ptemp(did,1),'filled'); hold on;
+cmocean('thermal');
 text(0.75,0.55,['r = ' sprintf('%2.2f',rall)])
 text(0.75,0.5,['RMSE = ' sprintf('%2.2f',rmse)])
 text(0.75,0.45,['Fmed = ' sprintf('%2.2f',Fall)])
@@ -229,9 +231,9 @@ title('FEISTY - vanD difference')
 %SAU corr
 subplot('Position',[0.1 0.16 0.35 0.35])
 plot(x,x,'--k');hold on;
-scatter(sFracPD(notLELC),plme_rPDcatch(notLELC),20,'filled'); hold on;
-%scatter(sFracPD(notLELC),plme_rPDcatch(notLELC),20,lme_ptemp(notLELC,1),'filled'); hold on;
-%cmocean('thermal');
+%scatter(sFracPD(notLELC),plme_rPDcatch(notLELC),20,'filled'); hold on;
+scatter(sFracPD(notLELC),plme_rPDcatch(notLELC),20,lme_ptemp(notLELC,1),'filled'); hold on;
+cmocean('thermal');
 text(0.725,0.55,['r = ' sprintf('%2.2f',rPD)])
 text(0.725,0.49,['RMSE = ' sprintf('%2.2f',rmsePD)])
 axis([0 1.05 0 1.05])
@@ -242,9 +244,9 @@ ylabel('FEISTY')
 %DvD Corr
 subplot('Position',[0.575 0.16 0.35 0.35])
 plot(x,x,'--k');hold on;
-scatter(FracLP(did),plme_rPDcatch(did),20,'filled'); hold on;
-%scatter(FracLP(did),plme_rPDcatch(did),20,lme_ptemp(did,1),'filled'); hold on;
-%cmocean('thermal');
+%scatter(FracLP(did),plme_rPDcatch(did),20,'filled'); hold on;
+scatter(FracLP(did),plme_rPDcatch(did),20,lme_ptemp(did,1),'filled'); hold on;
+cmocean('thermal');
 colorbar('Position',[0.25 0.05 0.5 0.025],'orientation','horizontal')
 text(0.725,0.55,['r = ' sprintf('%2.2f',rall)])
 text(0.725,0.49,['RMSE = ' sprintf('%2.2f',rmse)])

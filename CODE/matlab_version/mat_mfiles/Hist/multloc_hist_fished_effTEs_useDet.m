@@ -1,4 +1,4 @@
-% Visualize output of POEM Historic globally
+% Visualize output of FEISTY Historic globally
 % 150 years, monthly means saved
 % Transfer efficiency ("effective") 
 % Use BE*det
@@ -9,7 +9,7 @@ close all
 Pdrpbx = '/Users/cpetrik/Dropbox/';
 Pdir = '/Volumes/GFDL/POEM_JLD/esm26_hist/';
 cpath = [Pdrpbx 'Princeton/POEM_other/grid_cobalt/'];
-pp = [Pdrpbx 'Princeton/POEM_2.0/CODE/Figs/PNG/Matlab_New_sizes/'];
+pp = [Pdrpbx 'Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/'];
 
 load([cpath 'hindcast_gridspec.mat'],'geolon_t','geolat_t'); %geolon_t,geolat_t
 %grid = csvread([cpath 'grid_csv.csv']);
@@ -32,10 +32,10 @@ cmRP=cbrewer('seq','RdPu',50);
 cmPR=cbrewer('seq','PuRd',50);
 
 
-%% Zoop and det and npp
-gpath='/Volumes/GFDL/GCM_DATA/ESM26_hist/';
+%% Zoop and det and npp NEED TO GET HIST NPP
+gpath='/Volumes/GFDL/GCM_DATA/ESM2M_hist/';
 load([gpath 'hist_90-95_det_biom_Dmeans_Ytot.mat'])
-load([gpath 'clim_npp_Dmeans_Ytot.mat'])
+load([gpath 'hist_npp_Dmeans_Ytot.mat']) 
 
 %ESM2M in mmol N m-2 or mmol N m-2 d-1
 % from mol N to mol C

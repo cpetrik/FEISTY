@@ -1,4 +1,4 @@
-% Calc LME biomass of POEM
+% Calc LME biomass of FEISTY
 % Hindcast time period 1990-1995 (for comparing with Climatology)
 % 5 years
 % Saved as mat files
@@ -7,7 +7,7 @@ clear all
 close all
 
 cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
-pp = '/Users/cpetrik/Dropbox/Princeton/POEM_2.0/CODE/Figs/PNG/Matlab_New_sizes/';
+pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
 dp = '/Volumes/GFDL/NC/Matlab_new_size/';
 
 load('/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/hindcast_gridspec.mat',...

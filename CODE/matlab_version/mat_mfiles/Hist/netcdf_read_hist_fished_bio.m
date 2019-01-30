@@ -19,7 +19,7 @@ end
 netcdf.close(ncid);
 
 [ni,nt] = size(biomass);
-
+%%
 SP.bio = biomass;
 Sml_p.bio = biomass(:,nt);
 clear biomass prod

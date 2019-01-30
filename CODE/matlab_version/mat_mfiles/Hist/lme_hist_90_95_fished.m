@@ -1,4 +1,4 @@
-% Calc LME biomass of POEM
+% Calc LME biomass of FEISTY
 % Hindcast time period 1990-1995 (for comparing with Climatology)
 % 5 years
 % Saved as mat files
@@ -7,7 +7,7 @@ clear all
 close all
 
 cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
-pp = '/Users/cpetrik/Dropbox/Princeton/POEM_2.0/CODE/Figs/PNG/Matlab_New_sizes/';
+pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
 dp = '/Volumes/GFDL/NC/Matlab_new_size/';
 
 load('/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/hindcast_gridspec.mat',...
@@ -70,15 +70,15 @@ Amd_mcatch = Zmd .* AREA_OCN * 365;
 Alp_mcatch = Zlp .* AREA_OCN * 365;
 Ald_mcatch= Zld .* AREA_OCN * 365;
 
-Asf_mean = Bsf .* AREA_OCN * 365;
-Asp_mean = Bsp .* AREA_OCN * 365;
-Asd_mean = Bsd .* AREA_OCN * 365;
-Amf_mean = Bmf .* AREA_OCN * 365;
-Amp_mean = Bmp .* AREA_OCN * 365;
-Amd_mean = Bmd .* AREA_OCN * 365;
-Alp_mean = Blp .* AREA_OCN * 365;
-Ald_mean = Bld .* AREA_OCN * 365;
-Ab_mean = Bb .* AREA_OCN * 365;
+Asf_mean = Bsf .* AREA_OCN;
+Asp_mean = Bsp .* AREA_OCN;
+Asd_mean = Bsd .* AREA_OCN;
+Amf_mean = Bmf .* AREA_OCN;
+Amp_mean = Bmp .* AREA_OCN;
+Amd_mean = Bmd .* AREA_OCN;
+Alp_mean = Blp .* AREA_OCN;
+Ald_mean = Bld .* AREA_OCN;
+Ab_mean = Bb .* AREA_OCN;
 
 %% Calc LMEs
 lat = geolat_t;
@@ -201,9 +201,8 @@ surfm(geolat_t,geolon_t,real(log10(clme_All*1e-6)))
 colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([4 7]);
+caxis([3.5 7.5]);
 hcb = colorbar('h');
-ylim(hcb,[4 7])                   %Set color axis if needed
 set(gcf,'renderer','painters')
 title('Historic 1990-1994 LME mean log10 total annual catch (MT) All Fishes')
 stamp(cfile)
@@ -217,9 +216,9 @@ surfm(geolat_t,geolon_t,real(log10(clme_AllF*1e-6)))
 colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([3.5 6.5]);
+caxis([3.5 7.5]);
 hcb = colorbar('h');
-ylim(hcb,[3.5 6.5])                   %Set color axis if needed
+ylim(hcb,[3.5 7.5])                   %Set color axis if needed
 set(gcf,'renderer','painters')
 title('Historic 1990-1994 LME mean log10 total annual catch (MT) Forage Fishes')
 stamp(cfile)
@@ -233,9 +232,9 @@ surfm(geolat_t,geolon_t,real(log10(clme_AllP*1e-6)))
 colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([3.5 6.5]);
+caxis([3.5 7.5]);
 hcb = colorbar('h');
-ylim(hcb,[3.5 6.5])                   %Set color axis if needed
+ylim(hcb,[3.5 7.5])                   %Set color axis if needed
 set(gcf,'renderer','painters')
 title('Historic 1990-1994 LME mean log10 total annual catch (MT) Pelagic Fishes')
 stamp(cfile)
@@ -249,9 +248,9 @@ surfm(geolat_t,geolon_t,real(log10(clme_AllD*1e-6)))
 colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([3.5 6.5]);
+caxis([3.5 7.5]);
 hcb = colorbar('h');
-ylim(hcb,[3.5 6.5])                   %Set color axis if needed
+ylim(hcb,[3.5 7.5])                   %Set color axis if needed
 set(gcf,'renderer','painters')
 title('Historic 1990-1994 LME mean log10 total annual catch (MT) Demersal Fishes')
 stamp(cfile)
@@ -265,9 +264,9 @@ surfm(geolat_t,geolon_t,real(log10(clme_AllM*1e-6)))
 colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([3.5 6.5]);
+caxis([3.5 7.5]);
 hcb = colorbar('h');
-ylim(hcb,[3.5 6.5])                   %Set color axis if needed
+ylim(hcb,[3.5 7.5])                   %Set color axis if needed
 set(gcf,'renderer','painters')
 title('Historic 1990-1994 LME mean log10 total annual catch (MT) Medium Fishes')
 stamp(cfile)
@@ -281,9 +280,9 @@ surfm(geolat_t,geolon_t,real(log10(clme_AllL*1e-6)))
 colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([3.5 6.5]);
+caxis([3.5 7.5]);
 hcb = colorbar('h');
-ylim(hcb,[3.5 6.5])                   %Set color axis if needed
+ylim(hcb,[3.5 7.5])                   %Set color axis if needed
 set(gcf,'renderer','painters')
 title('Historic 1990-1994 LME mean log10 total annual catch (MT) Large Fishes')
 stamp(cfile)

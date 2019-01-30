@@ -17,12 +17,12 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-%%
+
 SP.bio = biomass;
 SP.prod = prod;
 clear biomass prod
 
-% SF
+%% SF
 ncid = netcdf.open([fpath 'Historic_pristine_sml_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
@@ -36,7 +36,7 @@ SF.bio = biomass;
 SF.prod = prod;
 clear biomass prod
 
-% SD
+%% SD
 ncid = netcdf.open([fpath 'Historic_pristine_sml_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
