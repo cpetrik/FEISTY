@@ -20,7 +20,7 @@ end
 netcdf.close(ncid);
 
 [ni,nt] = size(biomass);
-
+%%
 SP.bio = biomass;
 SP.prod = prod;
 % SP.rec = rec;
@@ -208,14 +208,14 @@ lp_tmean=mean(LP.bio,1);
 ld_tmean=mean(LD.bio,1);
 b_tmean=mean(Bent.bio,1);
 
-% sp_tprod=mean(SP.prod,1);
-% sf_tprod=mean(SF.prod,1);
-% sd_tprod=mean(SD.prod,1);
-% mp_tprod=mean(MP.prod,1);
-% mf_tprod=mean(MF.prod,1);
-% md_tprod=mean(MD.prod,1);
-% lp_tprod=mean(LP.prod,1);
-% ld_tprod=mean(LD.prod,1);
+sp_tprod=mean(SP.prod,1);
+sf_tprod=mean(SF.prod,1);
+sd_tprod=mean(SD.prod,1);
+mp_tprod=mean(MP.prod,1);
+mf_tprod=mean(MF.prod,1);
+md_tprod=mean(MD.prod,1);
+lp_tprod=mean(LP.prod,1);
+ld_tprod=mean(LD.prod,1);
 % 
 % sp_trec=mean(SP.rec,1);
 % sf_trec=mean(SF.rec,1);
@@ -241,15 +241,15 @@ for n=1:length(st)
     ld_mean(:,n)=nanmean(LD.bio(:,st(n):en(n)),2);
     b_mean(:,n)=nanmean(Bent.bio(:,st(n):en(n)),2);
     
-%     sp_prod(:,n)=nanmean(SP.prod(:,st(n):en(n)),2);
-%     sf_prod(:,n)=nanmean(SF.prod(:,st(n):en(n)),2);
-%     sd_prod(:,n)=nanmean(SD.prod(:,st(n):en(n)),2);
-%     mp_prod(:,n)=nanmean(MP.prod(:,st(n):en(n)),2);
-%     mf_prod(:,n)=nanmean(MF.prod(:,st(n):en(n)),2);
-%     md_prod(:,n)=nanmean(MD.prod(:,st(n):en(n)),2);
-%     lp_prod(:,n)=nanmean(LP.prod(:,st(n):en(n)),2);
-%     ld_prod(:,n)=nanmean(LD.prod(:,st(n):en(n)),2);
-%     
+    sp_prod(:,n)=nanmean(SP.prod(:,st(n):en(n)),2);
+    sf_prod(:,n)=nanmean(SF.prod(:,st(n):en(n)),2);
+    sd_prod(:,n)=nanmean(SD.prod(:,st(n):en(n)),2);
+    mp_prod(:,n)=nanmean(MP.prod(:,st(n):en(n)),2);
+    mf_prod(:,n)=nanmean(MF.prod(:,st(n):en(n)),2);
+    md_prod(:,n)=nanmean(MD.prod(:,st(n):en(n)),2);
+    lp_prod(:,n)=nanmean(LP.prod(:,st(n):en(n)),2);
+    ld_prod(:,n)=nanmean(LD.prod(:,st(n):en(n)),2);
+    
 %     sp_rec(:,n)=nanmean(SP.rec(:,st(n):en(n)),2);
 %     sf_rec(:,n)=nanmean(SF.rec(:,st(n):en(n)),2);
 %     sd_rec(:,n)=nanmean(SD.rec(:,st(n):en(n)),2);
@@ -273,6 +273,7 @@ lp_mean50=mean(LP.bio(:,yr50),2);
 ld_mean50=mean(LD.bio(:,yr50),2);
 b_mean50=mean(Bent.bio(:,yr50),2);
 
+
 %Means & medians
 lyr=yr50;
 all_mean1=mean(SP.bio(:,lyr),2)+mean(SF.bio(:,lyr),2)+mean(SD.bio(:,lyr),2)+...
@@ -288,15 +289,16 @@ all_median2=median((SP.bio(:,lyr)+SF.bio(:,lyr)+SD.bio(:,lyr)+...
     MP.bio(:,lyr)+MF.bio(:,lyr)+MD.bio(:,lyr)+...
     LP.bio(:,lyr)+LD.bio(:,lyr)),2);
 
-% sp_prod50=nanmean(SP.prod(:,yr50),2);
-% sf_prod50=nanmean(SF.prod(:,yr50),2);
-% sd_prod50=nanmean(SD.prod(:,yr50),2);
-% mp_prod50=nanmean(MP.prod(:,yr50),2);
-% mf_prod50=nanmean(MF.prod(:,yr50),2);
-% md_prod50=nanmean(MD.prod(:,yr50),2);
-% lp_prod50=nanmean(LP.prod(:,yr50),2);
-% ld_prod50=nanmean(LD.prod(:,yr50),2);
-% 
+
+sp_prod50=nanmean(SP.prod(:,yr50),2);
+sf_prod50=nanmean(SF.prod(:,yr50),2);
+sd_prod50=nanmean(SD.prod(:,yr50),2);
+mp_prod50=nanmean(MP.prod(:,yr50),2);
+mf_prod50=nanmean(MF.prod(:,yr50),2);
+md_prod50=nanmean(MD.prod(:,yr50),2);
+lp_prod50=nanmean(LP.prod(:,yr50),2);
+ld_prod50=nanmean(LD.prod(:,yr50),2);
+
 % sp_rec50=nanmean(SP.rec(:,yr50),2);
 % sf_rec50=nanmean(SF.rec(:,yr50),2);
 % sd_rec50=nanmean(SD.rec(:,yr50),2);

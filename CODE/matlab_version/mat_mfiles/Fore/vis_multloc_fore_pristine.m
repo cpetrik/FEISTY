@@ -1,6 +1,6 @@
 % Visualize output of FEISTY
-% Historic time period (1861-2005) at all locations
-% 145 years
+% Forecast time period (2006-2100) at all locations
+% 95 years, no fishing
 % Saved as mat files
 
 clear all
@@ -10,28 +10,28 @@ cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
 
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
-harv = 'All_fish03';
+harv = 'pristine';
 
 fpath=['/Volumes/GFDL/NC/Matlab_new_size/' cfile '/'];
 ppath = [pp cfile '/'];
 
-load([fpath 'Means_Historic_',harv,'_' cfile '.mat']);
+load([fpath 'Means_fore_pristine_' cfile '.mat']);
 
 load('/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/hindcast_gridspec.mat',...
     'geolon_t','geolat_t');
 grid = csvread([cpath 'grid_csv.csv']);
 
 %% Pick which time period mean
-% 1990-1994
-sp_smean=sp_mean5;
-sf_smean=sf_mean5;
-sd_smean=sd_mean5;
-mp_smean=mp_mean5;
-mf_smean=mf_mean5;
-md_smean=md_mean5;
-lp_smean=lp_mean5;
-ld_smean=ld_mean5;
-b_smean=b_mean5;
+% 2051-2100
+sp_smean=sp_mean50;
+sf_smean=sf_mean50;
+sd_smean=sd_mean50;
+mp_smean=mp_mean50;
+mf_smean=mf_mean50;
+md_smean=md_mean50;
+lp_smean=lp_mean50;
+ld_smean=ld_mean50;
+b_smean=b_mean50;
 
 %% colors
 cm9=[0.5 0.5 0;... %tan/army
@@ -70,18 +70,18 @@ set(groot,'defaultAxesColorOrder',cm9);
 
 %% Plots in time
 
-HistFish(1,:)=sf_tmean;
-HistFish(2,:)=sp_tmean;
-HistFish(3,:)=sd_tmean;
-HistFish(4,:)=mf_tmean;
-HistFish(5,:)=mp_tmean;
-HistFish(6,:)=md_tmean;
-HistFish(7,:)=lp_tmean;
-HistFish(8,:)=ld_tmean;
-HistFish(9,:)=b_tmean;
-save([fpath 'Means_Historic_',harv,'_' cfile '.mat'],'HistFish','-append');
+ForePris(1,:)=sf_tmean;
+ForePris(2,:)=sp_tmean;
+ForePris(3,:)=sd_tmean;
+ForePris(4,:)=mf_tmean;
+ForePris(5,:)=mp_tmean;
+ForePris(6,:)=md_tmean;
+ForePris(7,:)=lp_tmean;
+ForePris(8,:)=ld_tmean;
+ForePris(9,:)=b_tmean;
+save([fpath 'Means_fore_',harv,'_' cfile '.mat'],'ForePris','-append');
 
-y = 1860+(1/12):(1/12):2005;
+y = 2005+(1/12):(1/12):2100;
 F = sf_tmean+mf_tmean;
 P = sp_tmean+mp_tmean+lp_tmean;
 D = sd_tmean+md_tmean+ld_tmean;
@@ -102,9 +102,9 @@ xlim([y(1) y(end)])
 ylim([-1.5 0.5])
 xlabel('Year')
 ylabel('log10 Biomass (g m^-^2)')
-title('Historic fished')
+title('Forecast pristine')
 stamp(cfile)
-print('-dpng',[ppath 'Hist_',harv,'_all_sizes.png'])
+print('-dpng',[ppath 'Fore_',harv,'_all_sizes.png'])
 
 figure(2)
 plot(y,log10(F),'r','Linewidth',2); hold on;
@@ -116,8 +116,8 @@ xlim([y(1) y(end)])
 ylim([-0.2 0.4])
 xlabel('Year')
 ylabel('log10 Biomass (g m^-^2)')
-title(['Historic fished'])
-print('-dpng',[ppath 'Hist_',harv,'_all_types.png'])
+title(['Forecast pristine'])
+print('-dpng',[ppath 'Fore_',harv,'_all_types.png'])
 
 % %% Recruitment
 % st=1:12:length(y);
@@ -150,19 +150,19 @@ print('-dpng',[ppath 'Hist_',harv,'_all_types.png'])
 % plot(1861:2005,log10(MDy),'k','Linewidth',2); hold on;
 % xlim([1861 2005])
 % title('Demersals')
-% print('-dpng',[ppath 'Hist_',harv,'_recruitment.png'])
+% print('-dpng',[ppath 'Fore_',harv,'_recruitment.png'])
 
 %% Time series
 all_bio = sp_tmean+sf_tmean+sd_tmean+mp_tmean+mf_tmean+md_tmean+lp_tmean+ld_tmean;
 
 figure(70)
-plot(y,log10(all_bio),'k','LineWidth',2)
+plot(y,log10(all_bio),'k','LineWidth',2); hold on;
 ylim([0.42 0.62])
-xlim([1860 2005])
+xlim([2006 2100])
 xlabel('Year')
 ylabel('All fish mean biomass (g/m^2)')
-title('Historic fished')
-print('-dpng',[ppath 'Hist_',harv,'_ts_mbio.png'])
+title('Forecast pristine')
+print('-dpng',[ppath 'Fore_',harv,'_ts_mbio.png'])
 
 %% Plots in space
 [ni,nj]=size(geolon_t);
@@ -206,9 +206,9 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-2 2]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
-title('Historic fished 1990-1994 log10 mean benthic biomass (g m^-^2)')
+title('Forecast pristine 2051-2100 log10 mean benthic biomass (g m^-^2)')
 stamp(cfile)
-print('-dpng',[ppath 'Hist_',harv,'_global_BENT.png'])
+print('-dpng',[ppath 'Fore_',harv,'_global_BENT.png'])
 
 %
 % mgZb = (Zb/9)*1e3;
@@ -221,99 +221,98 @@ print('-dpng',[ppath 'Hist_',harv,'_global_BENT.png'])
 % h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 % caxis([-0.8 2.3]);
 % hcb = colorbar('h');
-% ylim(hcb,[-0.8 2.3])                   %Set color axis if needed
 % set(gcf,'renderer','painters')
-% title('Historic fished 1990-1994 log10 mean benthic biomass (mg C m^-^2)')
+% title('Forecast pristine 2051-2100 log10 mean benthic biomass (mg C m^-^2)')
 % stamp(cfile)
-% print('-dpng',[ppath 'Hist_',harv,'_global_BENT_mgC.png'])
+% print('-dpng',[ppath 'Fore_',harv,'_global_BENT_mgC.png'])
 
 % % sp
 % figure(6)
 % surf(geolon_t,geolat_t,log10(Zsp)); view(2); hold on;
 % shading flat
-% title('Historic fished 1990-1994 log10 mean Larval P biomass (g m^-^2)')
+% title('Forecast pristine 2051-2100 log10 mean Larval P biomass (g m^-^2)')
 % colormap('jet')
 % colorbar('h')
 % caxis([-2 1])
 % stamp(cfile)
-% print('-dpng',[ppath 'Hist_',harv,'_global_SP.png'])
+% print('-dpng',[ppath 'Fore_',harv,'_global_SP.png'])
 %
 % % sf
 % figure(7)
 % surf(geolon_t,geolat_t,log10(Zsf)); view(2); hold on;
 % shading flat
-% title('Historic fished 1990-1994 log10 mean Larval F biomass (g m^-^2)')
+% title('Forecast pristine 2051-2100 log10 mean Larval F biomass (g m^-^2)')
 % colormap('jet')
 % colorbar('h')
 % caxis([-2 1])
 % stamp(cfile)
-% print('-dpng',[ppath 'Hist_',harv,'_global_SF.png'])
+% print('-dpng',[ppath 'Fore_',harv,'_global_SF.png'])
 %
 % % sd
 % figure(8)
 % surf(geolon_t,geolat_t,log10(Zsd)); view(2); hold on;
 % shading flat
-% title('Historic fished 1990-1994 log10 mean Larval D biomass (g m^-^2)')
+% title('Forecast pristine 2051-2100 log10 mean Larval D biomass (g m^-^2)')
 % colormap('jet')
 % colorbar('h')
 % caxis([-2 1])
 % stamp(cfile)
-% print('-dpng',[ppath 'Hist_',harv,'_global_SD.png'])
+% print('-dpng',[ppath 'Fore_',harv,'_global_SD.png'])
 %
 % % mp
 % figure(9)
 % surf(geolon_t,geolat_t,log10(Zmp)); view(2); hold on;
 % shading flat
-% title('Historic fished 1990-1994 log10 mean Juvenile P biomass (g m^-^2)')
+% title('Forecast pristine 2051-2100 log10 mean Juvenile P biomass (g m^-^2)')
 % colormap('jet')
 % colorbar('h')
 % caxis([-2 1])
 % stamp(cfile)
-% print('-dpng',[ppath 'Hist_',harv,'_global_MP.png'])
+% print('-dpng',[ppath 'Fore_',harv,'_global_MP.png'])
 %
 % % mf
 % figure(10)
 % surf(geolon_t,geolat_t,log10(Zmf)); view(2); hold on;
 % shading flat
-% title('Historic fished 1990-1994 log10 mean Adult F biomass (g m^-^2)')
+% title('Forecast pristine 2051-2100 log10 mean Adult F biomass (g m^-^2)')
 % colormap('jet')
 % colorbar('h')
 % caxis([-2 1])
 % stamp(cfile)
-% print('-dpng',[ppath 'Hist_',harv,'_global_MF.png'])
+% print('-dpng',[ppath 'Fore_',harv,'_global_MF.png'])
 %
 % % md
 % figure(11)
 % surf(geolon_t,geolat_t,log10(Zmd)); view(2); hold on;
 % shading flat
-% title('Historic fished 1990-1994 log10 mean Juvenile D biomass (g m^-^2)')
+% title('Forecast pristine 2051-2100 log10 mean Juvenile D biomass (g m^-^2)')
 % colormap('jet')
 % colorbar('h')
 % caxis([-2 1])
 % stamp(cfile)
-% print('-dpng',[ppath 'Hist_',harv,'_global_MD.png'])
+% print('-dpng',[ppath 'Fore_',harv,'_global_MD.png'])
 %
 % % lp
 % figure(12)
 % surf(geolon_t,geolat_t,log10(Zlp)); view(2); hold on;
 % shading flat
-% title('Historic fished 1990-1994 log10 mean Adult P biomass (g m^-^2)')
+% title('Forecast pristine 2051-2100 log10 mean Adult P biomass (g m^-^2)')
 % colormap('jet')
 % colorbar('h')
 % caxis([-2 1])
 % stamp(cfile)
-% print('-dpng',[ppath 'Hist_',harv,'_global_LP.png'])
+% print('-dpng',[ppath 'Fore_',harv,'_global_LP.png'])
 %
 % % ld
 % figure(13)
 % surf(geolon_t,geolat_t,log10(Zld)); view(2); hold on;
 % shading flat
-% title('Historic fished 1990-1994 log10 mean Adult D biomass (g m^-^2)')
+% title('Forecast pristine 2051-2100 log10 mean Adult D biomass (g m^-^2)')
 % colormap('jet')
 % colorbar('h')
 % caxis([-2 1])
 % stamp(cfile)
-% print('-dpng',[ppath 'Hist_',harv,'_global_LD.png'])
+% print('-dpng',[ppath 'Fore_',harv,'_global_LD.png'])
 
 %% Diff maps of all fish
 All = Zsp+Zsf+Zsd+Zmp+Zmf+Zmd+Zlp+Zld;
@@ -338,9 +337,9 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-2 2]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
-title('Historic fished 1990-1994 log10 mean biomass All Fishes (g m^-^2)')
+title('Forecast pristine 2051-2100 log10 mean biomass All Fishes (g m^-^2)')
 stamp(cfile)
-print('-dpng',[ppath 'Hist_',harv,'_global_All.png'])
+print('-dpng',[ppath 'Fore_',harv,'_global_All.png'])
 
 % all F
 figure(15)
@@ -352,11 +351,10 @@ load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-2 2]);
 hcb = colorbar('h');
-ylim(hcb,[-2 2])                   %Set color axis if needed
 set(gcf,'renderer','painters')
-title('Historic fished 1990-1994 log10 mean biomass All F (g m^-^2)')
+title('Forecast pristine 2051-2100 log10 mean biomass All F (g m^-^2)')
 stamp(cfile)
-print('-dpng',[ppath 'Hist_',harv,'_global_AllF.png'])
+print('-dpng',[ppath 'Fore_',harv,'_global_AllF.png'])
 
 % all D
 figure(16)
@@ -368,11 +366,10 @@ load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-2 2]);
 hcb = colorbar('h');
-ylim(hcb,[-2 2])                   %Set color axis if needed
 set(gcf,'renderer','painters')
-title('Historic fished 1990-1994 log10 mean biomass All D (g m^-^2)')
+title('Forecast pristine 2051-2100 log10 mean biomass All D (g m^-^2)')
 stamp(cfile)
-print('-dpng',[ppath 'Hist_',harv,'_global_AllD.png'])
+print('-dpng',[ppath 'Fore_',harv,'_global_AllD.png'])
 
 % All P
 figure(17)
@@ -384,11 +381,10 @@ load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-2 2]);
 hcb = colorbar('h');
-ylim(hcb,[-2 2])                   %Set color axis if needed
 set(gcf,'renderer','painters')
-title('Historic fished 1990-1994 log10 mean biomass All P (g m^-^2)')
+title('Forecast pristine 2051-2100 log10 mean biomass All P (g m^-^2)')
 stamp(cfile)
-print('-dpng',[ppath 'Hist_',harv,'_global_AllP.png'])
+print('-dpng',[ppath 'Fore_',harv,'_global_AllP.png'])
 
 %% All 4 on subplots
 figure(18)
@@ -441,7 +437,7 @@ caxis([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
 stamp(cfile)
-print('-dpng',[ppath 'Hist_',harv,'_global_All_subplot.png'])
+print('-dpng',[ppath 'Fore_',harv,'_global_All_subplot.png'])
 
 %% Ratios on subplots red-white-blue
 % 3 figure subplot P:D, P:F, M:L
@@ -483,5 +479,5 @@ colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('Fraction Large vs. Medium')
 stamp(cfile)
-print('-dpng',[ppath 'Hist_',harv,'_global_ratios_subplot.png'])
+print('-dpng',[ppath 'Fore_',harv,'_global_ratios_subplot.png'])
 
