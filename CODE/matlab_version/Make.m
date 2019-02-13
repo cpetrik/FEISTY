@@ -5,7 +5,7 @@ close all
 
 %%%%!! EXPERIMENTS
 testlocs = false;
-histlocs = false;
+histlocs = true;
 climlocs = false;
 spinup_pristine = false;
 climatol_loop = false;
@@ -17,7 +17,7 @@ climatol_ngdc = false;
 pre_industrial = false;
 historic_pristine = false;
 historic_fished = false;
-historic_fished_prod = true;
+historic_fished_prod = false;
 forecast_pristine = false;
 forecast_fished = false;
 

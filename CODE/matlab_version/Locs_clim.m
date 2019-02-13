@@ -40,7 +40,7 @@ names = abbrev;
 ID = ids;
 
 %! Create a directory for output
-fname = sub_fname_kap(frate);
+fname = sub_fname(frate);
 
 NX = length(ID);
 %! Initialize
@@ -70,7 +70,7 @@ S_Lrg_p = NaN*ones(12*YEARS,26,NX);
 S_Lrg_d = NaN*ones(12*YEARS,26,NX);
 S_Cobalt = NaN*ones(12*YEARS,5,NX);
 
-%! Iterate forward in time with NO fishing
+%! Iterate forward in time 
 MNT=0;
 for YR = 1:YEARS % years
     num2str(YR)
