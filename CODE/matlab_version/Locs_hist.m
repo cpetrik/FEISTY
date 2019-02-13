@@ -26,10 +26,10 @@ mfn=nan;
 make_parameters()
 
 %! Setup spinup (loop last year of COBALT)
-load('/Volumes/GFDL/POEM_JLD/esm2m_hist/Data_ESM2Mhist_2000.mat');
+load('/Volumes/GFDL/POEM_JLD/esm2m_hist/Data_ESM2Mhist_1990.mat');
 
 %! How long to run the model
-YEARS = 150;
+YEARS = 145;
 DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
