@@ -6,13 +6,17 @@
 clear all
 close all
 
-Pdrpbx = '/Users/cpetrik/Dropbox/';
 Pdir = '/Volumes/GFDL/POEM_JLD/esm26_hist/';
-cpath = [Pdrpbx 'Princeton/POEM_other/grid_cobalt/'];
-pp = [Pdrpbx 'Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/'];
+cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
+gpath='/Users/cpetrik/Dropbox/Princeton/POEM_other/cobalt_data/';
+pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
 
 load([cpath 'hindcast_gridspec.mat'],'geolon_t','geolat_t'); %geolon_t,geolat_t
-%grid = csvread([cpath 'grid_csv.csv']);
+grid = csvread([cpath 'grid_csv.csv']);
+ID = grid(:,1);
+
+% Zoop and det and npp 
+load([gpath 'cobalt_hist9095_det_temp_zoop_npp_means.mat']) 
 
 % POEM
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
@@ -25,42 +29,49 @@ if (~isdir(ppath))
     mkdir(ppath)
 end
 %load([fpath 'Means_bio_prod_fish_Historic_' harv '_' cfile '.mat']);
-load([fpath 'Means_Historic_' harv '_' cfile '.mat']);
+load([fpath 'Means_Historic_' harv '_prod_' cfile '.mat']);
 
 cmYOR=cbrewer('seq','YlOrRd',50);
 cmRP=cbrewer('seq','RdPu',50);
 cmPR=cbrewer('seq','PuRd',50);
 
 
-%% Zoop and det and npp NEED TO GET HIST NPP
-gpath='/Volumes/GFDL/GCM_DATA/ESM2M_hist/';
-load([gpath 'hist_90-95_det_biom_Dmeans_Ytot.mat'])
-load([gpath 'hist_npp_Dmeans_Ytot.mat']) 
+%% Zoop and det and npp 
+load([gpath 'cobalt_hist9095_det_temp_zoop_npp_means.mat']) 
 
 %ESM2M in mmol N m-2 or mmol N m-2 d-1
-% from mol N to mol C
-% from mol C to g C
-% from g C (dry) to wet weight
-% 1 g dry W in 9 g wet W (Pauly & Christiansen)
+% molN/m2 --> g/m2
+% 106/16 mol C in 1 mol N
+% 12.01 g C in 1 mol C
+% 1 g dry W in 9 g wet W
+mz_mean_hist9095 = mz_mean_hist9095 * (106.0/16.0) * 12.01 * 9.0;
+lz_mean_hist9095 = lz_mean_hist9095 * (106.0/16.0) * 12.01 * 9.0;
+% molN/m2/s --> g/m2/d
+mzloss_mean_hist9095 = mzloss_mean_hist9095 * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+lzloss_mean_hist9095 = lzloss_mean_hist9095 * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+det_mean_hist9095 = det_mean_hist9095 * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+npp_mean_hist9095 = npp_mean_hist9095 * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 
-mmz_mean = mz_mean_clim * 1e-3 * 9.0;
-mlz_mean = lz_mean_clim * 1e-3 * 9.0;
-mmz_loss = mzloss_mean_clim * 1e-3 * 9.0;
-mlz_loss = lzloss_mean_clim * 1e-3 * 9.0;
 
-tmz_mean = mz_tot_clim * 1e-3 * 9.0;
-tlz_mean = lz_tot_clim * 1e-3 * 9.0;
-tmz_loss = mzl_tot_clim * 1e-3 * 9.0;
-tlz_loss = lzl_tot_clim * 1e-3 * 9.0;
+mmz_mean = mz_mean_hist9095;
+mlz_mean = lz_mean_hist9095;
+mmz_loss = mzloss_mean_hist9095;
+mlz_loss = lzloss_mean_hist9095;
+mdet = det_mean_hist9095;
+mnpp = npp_mean_hist9095;
 
-mdet = det_mean_clim* 1e-3 * 9.0;
-tdet = det_tot_clim* 1e-3 * 9.0;
-
-mnpp = npp_mean_clim* 1e-3 * 9.0;
-tnpp = npp_tot_clim* 1e-3 * 9.0;
+% tmz_mean = mz_tot_hist * 1e-3 * 9.0;
+% tlz_mean = lz_tot_hist * 1e-3 * 9.0;
+% tmz_loss = mzl_tot_hist * 1e-3 * 9.0;
+% tlz_loss = lzl_tot_hist * 1e-3 * 9.0;
+% tdet = det_tot_hist * 1e-3 * 9.0;
+% tnpp = npp_tot_hist * 1e-3 * 9.0;
 
 %% plot info
-[ni,nj]=size(lon);
+
+geolon_t=double(geolon_t);
+geolat_t=double(geolat_t);
+[ni,nj]=size(geolon_t);
 plotminlat=-90; %Set these bounds for your data
 plotmaxlat=90;
 plotminlon=-280;
@@ -70,9 +81,6 @@ lonlim=[plotminlon plotmaxlon]; %[-255 -60] = Pac
 
 land=-999*ones(ni,nj);
 land(ID)=NaN*ones(size(ID));
-
-geolat_t=lat;
-geolon_t=lon;
 
 Psf=NaN*ones(ni,nj);
 Psp=NaN*ones(ni,nj);
@@ -84,15 +92,15 @@ Plp=NaN*ones(ni,nj);
 Pld=NaN*ones(ni,nj);
 Plb=NaN*ones(ni,nj);
 
-Psf(ID)=sf_mprod;
-Psp(ID)=sp_mprod;
-Psd(ID)=sd_mprod;
-Pmf(ID)=mf_mprod;
-Pmp(ID)=mp_mprod;
-Pmd(ID)=md_mprod;
-Plp(ID)=lp_mprod;
-Pld(ID)=ld_mprod;
-Plb(ID)=b_mean;
+Psf(ID)=sf_prod5;
+Psp(ID)=sp_prod5;
+Psd(ID)=sd_prod5;
+Pmf(ID)=mf_prod5;
+Pmp(ID)=mp_prod5;
+Pmd(ID)=md_prod5;
+Plp(ID)=lp_prod5;
+Pld(ID)=ld_prod5;
+Plb(ID)=b_mean5;
 
 All = Psp+Psf+Psd+Pmp+Pmf+Pmd+Plp+Pld;
 AllF = Psf+Pmf;
@@ -101,6 +109,21 @@ AllD = Psd+Pmd+Pld;
 AllS = Psp+Psf+Psd;
 AllM = Pmp+Pmf+Pmd;
 AllL = Plp+Pld;
+
+%%
+figure
+subplot(2,2,1)
+hist(log10(mnpp(:)))
+title('NPP')
+subplot(2,2,2)
+hist(log10(mdet(:)))
+title('Det')
+subplot(2,2,3)
+hist(log10(mmz_loss(:) + mlz_loss(:)))
+title('Zoop')
+subplot(2,2,4)
+hist(log10(AllL(:)))
+title('Large')
 
 %% Effective TEs
 % With BE*det instead of Bent
@@ -138,95 +161,14 @@ Q = array2table(q,'VariableNames',{'Quantile','TEeff_LTLd','TEeff_HTLd',...
     'TEeff_L','TEHTLd','TEL'});
 
 %% save
-mspath='/Users/cpetrik/Dropbox/Princeton/POEM_other/poem_ms/';
-writetable(Q,[mspath 'TEeff_quant_Historic_All_fish03_' cfile '.csv'],'Delimiter',',');
+writetable(Q,[fpath 'TEeff_quant_Historic_All_fish03_' cfile '.csv'],'Delimiter',',');
 
 save([fpath 'TEeffDet_Historic_All_fish03_' cfile '.mat'],'TEeffM',...
     'Pmf','Pmp','Pmd','Plp','Pld','Plb','mmz_loss','mlz_loss','mnpp',...
     'TEeff_L','TEeff_LTLd','TEeff_HTLd');
 
 %% Figures
-% Effective
-% all L
-figure(2)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(TEeff_L))
-colormap(cmYOR);
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-5.5 -2.5]);
-hcb = colorbar('h');
-ylim(hcb,[-5.5 -2.5])                   
-set(gcf,'renderer','painters')
-title('Climatology log10 TEeff L')
-stamp([harv '_' cfile])
-print('-dpng',[ppath 'Historic_' harv '_TEeffL.png'])
-
-%LTL w/det
-figure(4)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(TEeff_LTLd))
-colormap(cmYOR);
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 0]);
-hcb = colorbar('h');
-ylim(hcb,[-2 0])                   
-set(gcf,'renderer','painters')
-title('Climatology log10 TEeff LTL (det)')
-stamp([harv '_' cfile])
-print('-dpng',[ppath 'Historic_' harv '_TEeffLTLd.png'])
-
-%HTL w/det
-figure(6)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(TEeff_HTLd))
-colormap(cmYOR);
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-5 -1]);
-hcb = colorbar('h');
-ylim(hcb,[-5 -1])                   
-set(gcf,'renderer','painters')
-title('Climatology log10 TEeff HTL (det)')
-stamp([harv '_' cfile])
-print('-dpng',[ppath 'Historic_' harv '_TEeffHTLd.png'])
-
-%% all L1
-figure(8)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,TEL)
-colormap(cmYOR);
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([0.05 0.30]);
-hcb = colorbar('h');
-ylim(hcb,[0.05 0.30])                   
-set(gcf,'renderer','painters')
-title('Climatology TE L')
-stamp([harv '_' cfile])
-print('-dpng',[ppath 'Historic_' harv '_TEeffL_converted.png'])
-
-figure(10)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,TEHTLd)
-colormap(cmYOR);
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([0.05 0.35]);
-hcb = colorbar('h');
-ylim(hcb,[0.05 0.35])                   
-set(gcf,'renderer','painters')
-title('Climatology TE HTL (det)')
-stamp([harv '_' cfile])
-print('-dpng',[ppath 'Historic_' harv '_TEeffHTLd_converted.png'])
-
-%% All 3 on subplots
+% All 3 on subplots
 %Detritus----------------------
 figure(12)
 subplot('Position',[0 0.53 0.5 0.5])
