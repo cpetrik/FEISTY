@@ -18,7 +18,6 @@ function make_parameters()
     K = 600.0;
     
     %! Which fishes harvested
-    frate = 0.3;
     MFsel = 1;
     LPsel = 1;
     LDsel = 1;
