@@ -26,7 +26,7 @@ mfn=nan;
 make_parameters()
 
 %! Setup spinup (loop last year of COBALT)
-load('/Volumes/GFDL/POEM_JLD/esm2m_hist/Data_ESM2Mhist_1990.mat');
+%load('/Volumes/GFDL/POEM_JLD/esm2m_hist/Data_ESM2Mhist_1990.mat');
 
 %! How long to run the model
 YEARS = 145;
@@ -38,13 +38,16 @@ load('/Volumes/GFDL/Data/Data_grid_hindcast_NOTflipped.mat');
 load('/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/hist_grid_360x200_id_locs_area_dep.mat','ids','abbrev');
 names = abbrev;
 ID = ids;
+NX = length(ID);
 
 %! Create a directory for output
-fname = sub_fname_hist(frate);
+[fname,simname] = sub_fname_hist(frate);
 
-NX = length(ID);
 %! Initialize
-[Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish(ID,DAYS);
+init_sim = simname;
+load(['/Volumes/GFDL/NC/Matlab_new_size/',init_sim '/Historic_1990_spinup_locs_All_fish03_lastmo_mean_biom.mat']);
+[Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_hist_locs(ID,DAYS,SF_mean,SP_mean,SD_mean,MF_mean,MP_mean,MD_mean,LP_mean,LD_mean,B_mean);
+%[Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish(ID,DAYS);
 Med_d.td(1) = 0.0;
 Lrg_d.td(1) = 0.0;
 ENVR = sub_init_env(ID);
@@ -73,6 +76,10 @@ S_Cobalt = NaN*ones(12*YEARS,5,NX);
 %! Iterate forward in time 
 MNT=0;
 for YR = 1:YEARS % years
+    %! Load a year's COBALT data
+    ti = num2str(YR+1860);
+    load(['/Volumes/GFDL/POEM_JLD/esm2m_hist/Data_ESM2Mhist_',ti,'.mat']);
+    
     for DAY = 1:DT:DAYS % days
         
         %%%! ticker
