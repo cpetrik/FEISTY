@@ -1,6 +1,5 @@
 % Plot effective TEs at LME scale
-% Historic
-% 1860-2005, last 50 years
+% Forecast, last 50 years
 % Saved as mat files
 
 clear all
@@ -50,7 +49,7 @@ tharv = 'Harvest all fish 0.3 yr^-^1';
 ppath = [pp cfile '/'];
 dpath = [dp cfile '/'];
 
-load([dpath 'TEeffDet_Historic_All_fish03_' cfile '.mat']);
+load([dpath 'TEeffDet_Forecast_All_fish03_' cfile '.mat']);
 
 %% Calc LMEs
 tlme = lme_mask_esm2m';
@@ -80,7 +79,7 @@ for L=1:66
 end
 
 %%
-save([dpath 'TEeffDet_Historic_All_fish03_' cfile '.mat'],'lme_te',...
+save([dpath 'TEeffDet_Forecast_All_fish03_' cfile '.mat'],'lme_te',...
     'lme_m','lme_l','lme_htlD','lme_ltlD','-append');
 
 TEM = real(lme_te(:,1).^(1/2));
@@ -92,10 +91,10 @@ Tab=table([1:66]',lme_te(:,2),lme_te(:,4),lme_te(:,6),...
     TEL,TEHTLd,TELTLd,...
     'VariableNames',{'LME','TEeffL','TEeffHTLd','TEeffLTLd',...
     'TEL','TEHTLd','TELTLd'});
-writetable(Tab,[dpath 'LME_TEeff_hist_',harv,'_' cfile '.csv'],'Delimiter',',');
-save([dpath 'LME_TEeff_hist_',harv,'_' cfile '.mat'],'Tab');
+writetable(Tab,[dpath 'LME_TEeff_fore_',harv,'_' cfile '.csv'],'Delimiter',',');
+save([dpath 'LME_TEeff_fore_',harv,'_' cfile '.mat'],'Tab');
 
-writetable(Tab,[dpath 'LME_TEeff_hist_',harv,'_' cfile '.csv'],'Delimiter',',');
+writetable(Tab,[dpath 'LME_TEeff_fore_',harv,'_' cfile '.csv'],'Delimiter',',');
 
 %% Figures
 % M
@@ -110,9 +109,9 @@ writetable(Tab,[dpath 'LME_TEeff_hist_',harv,'_' cfile '.csv'],'Delimiter',',');
 % hcb = colorbar('h');
 % ylim(hcb,[0.005 0.03])                   %Set color axis if needed
 % set(gcf,'renderer','painters')
-% title('Historic TEeff M')
+% title('Forecast TEeff M')
 % stamp(cfile)
-% print('-dpng',[ppath 'Hist_fished_',harv,'_LME_TEeffM.png'])
+% print('-dpng',[ppath 'Fore_fished_',harv,'_LME_TEeffM.png'])
 
 % L
 figure(2)
@@ -126,9 +125,9 @@ caxis([0.0005 0.003]);
 hcb = colorbar('h');
 ylim(hcb,[0.0005 0.003])                   %Set color axis if needed
 set(gcf,'renderer','painters')
-title('Historic TEeff L')
+title('Forecast TEeff L')
 stamp(cfile)
-%print('-dpng',[ppath 'Hist_fished_',harv,'_LME_TEeffL.png'])
+%print('-dpng',[ppath 'Fore_fished_',harv,'_LME_TEeffL.png'])
 
 % HTLd
 figure(4)
@@ -141,9 +140,9 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([0.005 0.045]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
-title('Historic TEeff HTL (det)')
+title('Forecast TEeff HTL (det)')
 stamp(cfile)
-%print('-dpng',[ppath 'Hist_fished_',harv,'_LME_TEeffHTLd.png'])
+%print('-dpng',[ppath 'Fore_fished_',harv,'_LME_TEeffHTLd.png'])
 
 % LTLd
 figure(6)
@@ -156,9 +155,9 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([0.02 0.12]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
-title('Historic TEeff LTL (det)')
+title('Forecast TEeff LTL (det)')
 stamp(cfile)
-%print('-dpng',[ppath 'Hist_fished_',harv,'_LME_TEeffLTLd.png'])
+%print('-dpng',[ppath 'Fore_fished_',harv,'_LME_TEeffLTLd.png'])
 
 
 %% M
@@ -173,9 +172,9 @@ stamp(cfile)
 % hcb = colorbar('h');
 % ylim(hcb,[0 0.4])                   %Set color axis if needed
 % set(gcf,'renderer','painters')
-% title('Historic TEeff M')
+% title('Forecast TEeff M')
 % stamp(cfile)
-% print('-dpng',[ppath 'Hist_fished_',harv,'_LME_TEeffM_converted.png'])
+% print('-dpng',[ppath 'Fore_fished_',harv,'_LME_TEeffM_converted.png'])
 
 % L
 figure(8)
@@ -188,9 +187,9 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([0.05 0.35]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
-title('Historic TE L')
+title('Forecast TE L')
 stamp(cfile)
-%print('-dpng',[ppath 'Hist_fished_',harv,'_LME_TEeffL_converted.png'])
+%print('-dpng',[ppath 'Fore_fished_',harv,'_LME_TEeffL_converted.png'])
 
 % HTLd
 figure(10)
@@ -203,9 +202,9 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([0.05 0.35]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
-title('Historic TE HTL (det)')
+title('Forecast TE HTL (det)')
 stamp(cfile)
-%print('-dpng',[ppath 'Hist_fished_',harv,'_LME_TEeffHTLd_converted.png'])
+%print('-dpng',[ppath 'Fore_fished_',harv,'_LME_TEeffHTLd_converted.png'])
 
 % LLTd
 figure(12)
@@ -218,7 +217,7 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([0.05 0.15]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
-title('Historic TE LTL (det)')
+title('Forecast TE LTL (det)')
 stamp(cfile)
-%print('-dpng',[ppath 'Hist_fished_',harv,'_LME_TEeffLTLd_converted.png'])
+%print('-dpng',[ppath 'Fore_fished_',harv,'_LME_TEeffLTLd_converted.png'])
 

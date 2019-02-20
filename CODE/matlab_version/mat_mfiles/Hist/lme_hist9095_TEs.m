@@ -1,6 +1,6 @@
 % Plot effective TEs at LME scale
 % Historic
-% 1860-2005, last 50 years
+% 1990-1994
 % Saved as mat files
 
 clear all
@@ -16,10 +16,7 @@ cdir = '/Volumes/GFDL/GCM_DATA/ESM2M_hist/';
 load([gpath 'hindcast_gridspec.mat'],'geolon_t','geolat_t','AREA_OCN');
 load([gpath 'lme_mask_esm2m.mat']);
 grid = csvread([gpath 'grid_csv.csv']);
-load([cpath 'cobalt_det_biom_means.mat']);
-load([cpath 'cobalt_npp_means.mat']);
-load([cpath 'cobalt_temp_means.mat']);
-load([cpath 'cobalt_zoop_biom_means.mat']); 
+load([cpath 'cobalt_hist9095_det_temp_zoop_npp_means.mat']);
 %lme areas?
 
 % plot info
@@ -50,7 +47,7 @@ tharv = 'Harvest all fish 0.3 yr^-^1';
 ppath = [pp cfile '/'];
 dpath = [dp cfile '/'];
 
-load([dpath 'TEeffDet_Historic_All_fish03_' cfile '.mat']);
+load([dpath 'TEeffDet_Historic9095_All_fish03_' cfile '.mat']);
 
 %% Calc LMEs
 tlme = lme_mask_esm2m';
@@ -80,7 +77,7 @@ for L=1:66
 end
 
 %%
-save([dpath 'TEeffDet_Historic_All_fish03_' cfile '.mat'],'lme_te',...
+save([dpath 'TEeffDet_Historic9095_All_fish03_' cfile '.mat'],'lme_te',...
     'lme_m','lme_l','lme_htlD','lme_ltlD','-append');
 
 TEM = real(lme_te(:,1).^(1/2));
@@ -92,10 +89,10 @@ Tab=table([1:66]',lme_te(:,2),lme_te(:,4),lme_te(:,6),...
     TEL,TEHTLd,TELTLd,...
     'VariableNames',{'LME','TEeffL','TEeffHTLd','TEeffLTLd',...
     'TEL','TEHTLd','TELTLd'});
-writetable(Tab,[dpath 'LME_TEeff_hist_',harv,'_' cfile '.csv'],'Delimiter',',');
-save([dpath 'LME_TEeff_hist_',harv,'_' cfile '.mat'],'Tab');
+writetable(Tab,[dpath 'LME_TEeff_hist9095_',harv,'_' cfile '.csv'],'Delimiter',',');
+save([dpath 'LME_TEeff_hist9095_',harv,'_' cfile '.mat'],'Tab');
 
-writetable(Tab,[dpath 'LME_TEeff_hist_',harv,'_' cfile '.csv'],'Delimiter',',');
+writetable(Tab,[dpath 'LME_TEeff_hist9095_',harv,'_' cfile '.csv'],'Delimiter',',');
 
 %% Figures
 % M

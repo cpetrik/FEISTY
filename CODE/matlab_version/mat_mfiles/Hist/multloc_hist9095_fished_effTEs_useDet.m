@@ -1,5 +1,5 @@
 % Visualize output of FEISTY Historic globally
-% last 50 years, monthly means saved
+% 1990-1995, monthly means saved
 % Transfer efficiency ("effective") 
 % Use BE*det
 
@@ -11,15 +11,12 @@ cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
 gpath='/Users/cpetrik/Dropbox/Princeton/POEM_other/cobalt_data/';
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
 
-load([cpath 'hindcast_gridspec.mat'],'geolon_t','geolat_t'); 
+load([cpath 'hindcast_gridspec.mat'],'geolon_t','geolat_t'); %geolon_t,geolat_t
 grid = csvread([cpath 'grid_csv.csv']);
 ID = grid(:,1);
 
 % Zoop and det and npp 
-load([gpath 'cobalt_det_biom_means.mat']);
-load([gpath 'cobalt_npp_means.mat']);
-load([gpath 'cobalt_temp_means.mat']);
-load([gpath 'cobalt_zoop_biom_means.mat']); 
+load([gpath 'cobalt_hist9095_det_temp_zoop_npp_means.mat']) 
 
 % POEM
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
@@ -31,6 +28,7 @@ ppath = [pp cfile '/'];
 if (~isdir(ppath))
     mkdir(ppath)
 end
+%load([fpath 'Means_bio_prod_fish_Historic_' harv '_' cfile '.mat']);
 load([fpath 'Means_Historic_' harv '_prod_' cfile '.mat']);
 
 cmYOR=cbrewer('seq','YlOrRd',50);
@@ -39,27 +37,28 @@ cmPR=cbrewer('seq','PuRd',50);
 
 
 %% Zoop and det and npp 
+load([gpath 'cobalt_hist9095_det_temp_zoop_npp_means.mat']) 
 
 %ESM2M in mmol N m-2 or mmol N m-2 d-1
 % molN/m2 --> g/m2
 % 106/16 mol C in 1 mol N
 % 12.01 g C in 1 mol C
 % 1 g dry W in 9 g wet W
-mz_mean_hist = mz_mean_hist * (106.0/16.0) * 12.01 * 9.0;
-lz_mean_hist = lz_mean_hist * (106.0/16.0) * 12.01 * 9.0;
+mz_mean_hist9095 = mz_mean_hist9095 * (106.0/16.0) * 12.01 * 9.0;
+lz_mean_hist9095 = lz_mean_hist9095 * (106.0/16.0) * 12.01 * 9.0;
 % molN/m2/s --> g/m2/d
-mzloss_mean_hist = mzloss_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
-lzloss_mean_hist = lzloss_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
-det_mean_hist = det_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
-npp_mean_hist = npp_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+mzloss_mean_hist9095 = mzloss_mean_hist9095 * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+lzloss_mean_hist9095 = lzloss_mean_hist9095 * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+det_mean_hist9095 = det_mean_hist9095 * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+npp_mean_hist9095 = npp_mean_hist9095 * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 
 
-mmz_mean = mz_mean_hist;
-mlz_mean = lz_mean_hist;
-mmz_loss = mzloss_mean_hist;
-mlz_loss = lzloss_mean_hist;
-mdet = det_mean_hist;
-mnpp = npp_mean_hist;
+mmz_mean = mz_mean_hist9095;
+mlz_mean = lz_mean_hist9095;
+mmz_loss = mzloss_mean_hist9095;
+mlz_loss = lzloss_mean_hist9095;
+mdet = det_mean_hist9095;
+mnpp = npp_mean_hist9095;
 
 % tmz_mean = mz_tot_hist * 1e-3 * 9.0;
 % tlz_mean = lz_tot_hist * 1e-3 * 9.0;
@@ -91,27 +90,17 @@ Pmp=NaN*ones(ni,nj);
 Pmd=NaN*ones(ni,nj);
 Plp=NaN*ones(ni,nj);
 Pld=NaN*ones(ni,nj);
-Pb=NaN*ones(ni,nj);
+Plb=NaN*ones(ni,nj);
 
-Psf(ID)=sf_prod50;
-Psp(ID)=sp_prod50;
-Psd(ID)=sd_prod50;
-Pmf(ID)=mf_prod50;
-Pmp(ID)=mp_prod50;
-Pmd(ID)=md_prod50;
-Plp(ID)=lp_prod50;
-Pld(ID)=ld_prod50;
-Pb(ID)=b_mean50;
-
-Psf(Psf(:)<0) = 0;
-Psp(Psp(:)<0) = 0;
-Psd(Psd(:)<0) = 0;
-Pmf(Pmf(:)<0) = 0;
-Pmp(Pmp(:)<0) = 0;
-Pmd(Pmd(:)<0) = 0;
-Plp(Plp(:)<0) = 0;
-Pld(Pld(:)<0) = 0;
-Pb(Pb(:)<0) = 0;
+Psf(ID)=sf_prod5;
+Psp(ID)=sp_prod5;
+Psd(ID)=sd_prod5;
+Pmf(ID)=mf_prod5;
+Pmp(ID)=mp_prod5;
+Pmd(ID)=md_prod5;
+Plp(ID)=lp_prod5;
+Pld(ID)=ld_prod5;
+Plb(ID)=b_mean5;
 
 All = Psp+Psf+Psd+Pmp+Pmf+Pmd+Plp+Pld;
 AllF = Psf+Pmf;
@@ -172,10 +161,10 @@ Q = array2table(q,'VariableNames',{'Quantile','TEeff_LTLd','TEeff_HTLd',...
     'TEeff_L','TEHTLd','TEL'});
 
 %% save
-writetable(Q,[fpath 'TEeff_quant_Historic_All_fish03_' cfile '.csv'],'Delimiter',',');
+writetable(Q,[fpath 'TEeff_quant_Historic9095_All_fish03_' cfile '.csv'],'Delimiter',',');
 
-save([fpath 'TEeffDet_Historic_All_fish03_' cfile '.mat'],'TEeffM',...
-    'Pmf','Pmp','Pmd','Plp','Pld','Pb','mmz_loss','mlz_loss','mnpp',...
+save([fpath 'TEeffDet_Historic9095_All_fish03_' cfile '.mat'],'TEeffM',...
+    'Pmf','Pmp','Pmd','Plp','Pld','Plb','mmz_loss','mlz_loss','mnpp',...
     'TEeff_L','TEeff_LTLd','TEeff_HTLd');
 
 %% Figures
@@ -224,7 +213,7 @@ set(gcf,'renderer','painters')
 title('log_1_0 TEeff L')
 text(-2.75,1.25,'C')
 %stamp([harv '_' cfile])
-print('-dpng',[ppath 'Historic_' harv '_global_DeffTEs_subplot.png'])
+print('-dpng',[ppath 'Historic9095_' harv '_global_DeffTEs_subplot.png'])
 
 %% All 3 converted on subplots
 %Detritus----------------------
@@ -268,6 +257,6 @@ colorbar('Position',[0.525 0.555 0.45 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('B. TE HTL')
 %stamp([harv '_' cfile])
-print('-dpng',[ppath 'Historic_' harv '_global_DTEs_subplot.png'])
+print('-dpng',[ppath 'Historic9095_' harv '_global_DTEs_subplot.png'])
 
 

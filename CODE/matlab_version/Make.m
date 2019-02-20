@@ -17,8 +17,8 @@ climatol_ngdc = false;
 pre_industrial = false;
 historic_pristine = false;
 historic_fished = false;
-historic_fished_prod = false;
-forecast_pristine = true;
+historic_fished_prod = true;
+forecast_pristine = false;
 forecast_fished = false;
 
 tic

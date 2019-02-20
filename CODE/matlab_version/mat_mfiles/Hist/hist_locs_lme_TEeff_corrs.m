@@ -23,7 +23,7 @@ spots=spots';
 % POEM
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 BE = 0.075;
-sname = 'Climatol_';
+sname = 'Historic_';
 harv = 'All_fish03';
 dpath = [datap char(cfile) '/'];
 fpath = [figp char(cfile) '/'];
@@ -31,7 +31,7 @@ fpath = [figp char(cfile) '/'];
 % Load saved data
 %Locs
 load([dpath sname harv '_locs_lastyr_effTEs.mat'],'TEeff');
-load([dpath 'Locs_TE_clim_fished_',harv,'_' cfile '.mat'],'Tab2');
+load([dpath 'Locs_TE_hist_fished_',harv,'_' cfile '.mat'],'Tab2');
 
 %TEeff: 'TE_Mb','TE_HTLb','TE_Lb','TE_LTLb',...
 %       'TE_Md','TE_HTLd','TE_Ld','TE_LTLd'
@@ -46,7 +46,7 @@ TE_Ld   = real(TEeff(7,:).^(1/4));
 TE_LTLd = real(TEeff(8,:));
 
 %LMEs
-load([dpath 'LME_TEeff_Mauread_comp_' cfile '.mat'],'tab','keep',...
+load([dpath 'LME_TEeff_hist_Mauread_comp_' cfile '.mat'],'tab','keep',...
     'mECI','pECI')
 % tab(:,1)=keep;
 % tab(:,2)=mECI;
@@ -63,8 +63,8 @@ Tab=table(TEeff_Ld(spot2)',TEeff_LTLd(spot2)',TEeff_HTLd(spot2)',...
     pECI(locs),mECI(locs),locs,name',...
     'VariableNames',{'TEeffL','TEeffLTL','TEeffHTL',...
     'POEM','Mauread','LME','Name',});
-writetable(Tab,[spath 'LME_locs_TEeff_Mauread_',harv,'_' cfile '.csv'],'Delimiter',',');
-save([dpath 'LME_locs_TEeff_Mauread_',harv,'_' cfile '.mat'],'Tab');
+writetable(Tab,[dpath 'LME_hist_locs_TEeff_Mauread_',harv,'_' cfile '.csv'],'Delimiter',',');
+save([dpath 'LME_hist_locs_TEeff_Mauread_',harv,'_' cfile '.mat'],'Tab');
 
 
 

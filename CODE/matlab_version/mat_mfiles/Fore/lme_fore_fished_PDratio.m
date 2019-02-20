@@ -1,6 +1,6 @@
 % P:D ratio by LME 
-% Historic time period 1861-2005
-% 50 years 1951-2000 for 
+% Forecast time period 2006-2100
+% Last 50 years
 % Saved as mat files
 
 clear all
@@ -29,7 +29,7 @@ dpath = [dp cfile '/'];
 %% Calc LMEs
 tlme = lme_mask_esm2m';
 
-load([dpath 'LME_hist_',harv,'_' cfile '.mat'],...
+load([dpath 'LME_fore_',harv,'_' cfile '.mat'],...
     'lme_mcatch','lme_mbio','lme_area');
 
 lme_area_km2 = lme_area * 1e-6;
@@ -101,7 +101,7 @@ rLM_biom = lme_AllL ./ (lme_AllL+lme_AllM);
 rPD_catch = clme_AllP ./ (clme_AllP+clme_AllD);
 rPD_catch_mtkm2 = plme_AllP ./ (plme_AllP+plme_AllD);
 
-save([dpath 'LME_hist_',harv,'_' cfile '.mat'],...
+save([dpath 'LME_fore_',harv,'_' cfile '.mat'],...
     'rPD_biom','rPF_biom','rLM_biom','rPD_catch','rPD_catch_mtkm2',...
     '-append');
 
@@ -159,5 +159,5 @@ colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('Fraction Large vs. Medium')
 %stamp([harv '_' cfile])
-print('-dpng',[ppath 'Historic_' harv '_LME_ratios_subplot.png'])
+print('-dpng',[ppath 'Forecast_' harv '_LME_ratios_subplot.png'])
 

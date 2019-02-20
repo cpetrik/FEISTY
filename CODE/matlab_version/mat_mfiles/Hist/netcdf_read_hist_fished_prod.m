@@ -10,7 +10,7 @@ harv = 'All_fish03';
 
 fpath=['/Volumes/GFDL/NC/Matlab_new_size/' cfile '/'];
 
-% SP
+%% SP
 ncid = netcdf.open([fpath 'Historic_' harv '_prod_sml_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
@@ -271,6 +271,20 @@ save([fpath 'Means_Historic_' harv '_prod_' cfile '.mat'],'time',...
     'mf_my50','mp_my50','md_my50','lp_my50','ld_my50');
 
 %save([fpath 'Means_Historic_' harv '_prod_' cfile '.mat']);
+
+%%
+load([fpath 'Means_Historic_' harv '_prod_' cfile '.mat']);
+HistProdT(1,:)=sf_tprod;
+HistProdT(2,:)=sp_tprod;
+HistProdT(3,:)=sd_tprod;
+HistProdT(4,:)=mf_tprod;
+HistProdT(5,:)=mp_tprod;
+HistProdT(6,:)=md_tprod;
+HistProdT(7,:)=lp_tprod;
+HistProdT(8,:)=ld_tprod;
+HistProdT(9,:)=b_tmean;
+save([fpath 'Means_Historic_',harv,'_prod_' cfile '.mat'],'HistProdT','-append');
+
 
 
 

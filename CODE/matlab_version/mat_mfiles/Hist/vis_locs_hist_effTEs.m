@@ -1,4 +1,4 @@
-% Visualize output of FEISTY Climatology at single locations
+% Visualize output of POEM Climatology at single locations
 % 150 years, monthly means saved
 % Transfer efficiency ("effective") and trophic level
 
@@ -10,9 +10,9 @@ warning off
 datap = '/Volumes/GFDL/NC/Matlab_new_size/';
 figp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
 
-load('/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/clim_grid_180x360_id_locs_area_dep.mat','ids','abbrev');
+load('/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/hist_grid_360x200_id_locs_area_dep.mat','ids','abbrev');
 spots = abbrev;
-ID = ids;
+%ID = ids;
 cols = {'bio','enc_f','enc_p','enc_d','enc_zm','enc_zl','enc_be','con_f',...
     'con_p','con_d','con_zm','con_zl','con_be','I','nu','gamma','die','rep',...
     'rec','clev','prod','pred','nmort','met','caught'};
@@ -21,7 +21,7 @@ spots=spots';
 
 dp = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 BE = 0.075;
-sname = 'Climatol_';
+sname = 'Historic_';
 harv = 'All_fish03';
 dpath = [datap char(dp) '/'];
 fpath = [figp char(dp) '/'];
@@ -86,45 +86,44 @@ AB = (0.35 .* 4.5 .* mass.^(-0.25)) ./365;
 stages={'SF','MF','SP','MP','LP','SD','MD','LD'};
 
 %% Zoop and det and npp
-cpath = '/Volumes/GFDL/POEM_JLD/esm26_hist/';
-gpath='/Volumes/GFDL/GCM_DATA/ESM26_hist/';
-load([gpath 'clim_det_biom_Dmeans_Ytot.mat'])
-load([gpath 'clim_npp_Dmeans_Ytot.mat'])
-load([cpath 'ESM26_1deg_5yr_clim_191_195_gridspec.mat']);
+cpath = ['/Users/cpetrik/Dropbox/Princeton/POEM_other/cobalt_data/'];
+gpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
+load([cpath 'cobalt_hist9095_det_temp_zoop_npp_means.mat']);
+grid = csvread([gpath 'grid_csv.csv']);
+ID = grid(:,1);
 
-%ESM2.6 in mg C m-2 or mg C m-2 d-1
-%from mg C m-2 to g(WW) m-2
-% 1e-3 g C in 1 mg C
-% 1 g dry W in 9 g wet W (Pauly & Christiansen)
+load('/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/hindcast_gridspec.mat',...
+    'geolon_t','geolat_t','AREA_OCN');
 
-mmz_mean = mz_mean_clim(ID) * 1e-3 * 9.0;
-mlz_mean = lz_mean_clim(ID) * 1e-3 * 9.0;
-mmz_loss = mzloss_mean_clim(ID) * 1e-3 * 9.0;
-mlz_loss = lzloss_mean_clim(ID) * 1e-3 * 9.0;
+ptemp_mean_hist=ptemp_mean_hist9095;
+btemp_mean_hist=btemp_mean_hist9095;
 
-tmz_mean = mz_tot_clim(ID) * 1e-3 * 9.0;
-tlz_mean = lz_tot_clim(ID) * 1e-3 * 9.0;
-tmz_loss = mzl_tot_clim(ID) * 1e-3 * 9.0;
-tlz_loss = lzl_tot_clim(ID) * 1e-3 * 9.0;
+% molN/m2 --> g/m2
+% 106/16 mol C in 1 mol N
+% 12.01 g C in 1 mol C
+% 1 g dry W in 9 g wet W
+mz_mean_hist9095 = mz_mean_hist9095 * (106.0/16.0) * 12.01 * 9.0;
+lz_mean_hist9095 = lz_mean_hist9095 * (106.0/16.0) * 12.01 * 9.0;
+% molN/m2/s --> g/m2/d
+mzloss_mean_hist9095 = mzloss_mean_hist9095 * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+lzloss_mean_hist9095 = lzloss_mean_hist9095 * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+det_mean_hist9095 = det_mean_hist9095 * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+npp_mean_hist9095 = npp_mean_hist9095 * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 
-mdet = det_mean_clim(ID)* 1e-3 * 9.0;
-tdet = det_tot_clim(ID)* 1e-3 * 9.0;
 
-mnpp = npp_mean_clim(ID)* 1e-3 * 9.0;
-tnpp = npp_tot_clim(ID)* 1e-3 * 9.0;
+mmz_mean = mz_mean_hist9095(ID);
+mlz_mean = lz_mean_hist9095(ID);
+mmz_loss = mzloss_mean_hist9095(ID);
+mlz_loss = lzloss_mean_hist9095(ID);
+mdet = det_mean_hist9095(ID);
+mnpp = npp_mean_hist9095(ID);
 
 mmz_locs = mmz_mean(ids);
 mlz_locs = mlz_mean(ids);
-tmz_locs = tmz_mean(ids);
-tlz_locs = tlz_mean(ids);
 mmzl_locs = mmz_loss(ids);
 mlzl_locs = mlz_loss(ids);
-tmzl_locs = tmz_loss(ids);
-tlzl_locs = tlz_loss(ids);
 mdet_locs = mdet(ids);
-tdet_locs = tdet(ids);
 mnpp_locs = mnpp(ids);
-tnpp_locs = tnpp(ids);
 
 %%
 all_mean=NaN*ones(3,4,length(spots));
@@ -204,15 +203,15 @@ Tab=table(spots,TEeff(1,:)',TEeff(2,:)',TEeff(3,:)',TEeff(4,:)',...
     TEeff(5,:)',TEeff(6,:)',TEeff(7,:)',TEeff(8,:)',...
     'VariableNames',{'Site','TEeff_Mb','TEeff_HTLb','TEeff_Lb','TEeff_LTLb',...
     'TEeff_Md','TEeff_HTLd','TEeff_Ld','TEeff_LTLd'});
-writetable(Tab,[dpath 'Locs_TEeff_clim_fished_',harv,'_' cfile '.csv'],'Delimiter',',');
-save([dpath 'Locs_TEeff_clim_fished_',harv,'_' cfile '.mat'],'Tab');
+writetable(Tab,[dpath 'Locs_TEeff_hist_fished_',harv,'_' cfile '.csv'],'Delimiter',',');
+save([dpath 'Locs_TEeff_hist_fished_',harv,'_' cfile '.mat'],'Tab');
 
 Tab2=table(spots,TE(1,:)',TE(2,:)',TE(3,:)',TE(4,:)',...
     TE(5,:)',TE(6,:)',TE(7,:)',TE(8,:)',...
     'VariableNames',{'Site','TE_Mb','TE_HTLb','TE_Lb','TE_LTLb',...
     'TE_Md','TE_HTLd','TE_Ld','TE_LTLd'});
-writetable(Tab2,[dpath 'Locs_TE_clim_fished_',harv,'_' cfile '.csv'],'Delimiter',',');
-save([dpath 'Locs_TE_clim_fished_',harv,'_' cfile '.mat'],'Tab2');
+writetable(Tab2,[dpath 'Locs_TE_hist_fished_',harv,'_' cfile '.csv'],'Delimiter',',');
+save([dpath 'Locs_TE_hist_fished_',harv,'_' cfile '.mat'],'Tab2');
 
 
 %% Figures

@@ -1,22 +1,22 @@
-% Calc LME biomass of POEM
-% Hindcast time period 1861-2005
-% 145 years
+% Calc LME biomass of FEISTY
+% Forecast time period 2006-2100
+% 95 years
 % Saved as mat files
 
 clear all
 close all
 
 cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
-pp = '/Users/cpetrik/Dropbox/Princeton/POEM_2.0/CODE/Figs/PNG/Matlab_New_sizes/';
+pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
 dp = '/Volumes/GFDL/NC/Matlab_new_size/';
 
-cfile = 'Dc_enc70_cmax-metab20_fcrit20_D075_J100_A050_Sm025_nmort1_BE05_CC050_lgRE00100_mdRE00400';
-harv = '03';
+cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
+harv = 'All_fish03';
 
 ppath = [pp cfile '/'];
 dpath = [dp cfile '/'];
 
-load([dpath 'Means_hist_fished',harv,'_' cfile '.mat']);
+load([dpath 'Means_fore_',harv,'_' cfile '.mat']);
 
 load('/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/hindcast_gridspec.mat',...
     'geolon_t','geolat_t','AREA_OCN');
@@ -68,15 +68,15 @@ Amd_mcatch = Zmd .* AREA_OCN * 365;
 Alp_mcatch = Zlp .* AREA_OCN * 365;
 Ald_mcatch= Zld .* AREA_OCN * 365;
 
-Asf_mean = Bsf .* AREA_OCN * 365;
-Asp_mean = Bsp .* AREA_OCN * 365;
-Asd_mean = Bsd .* AREA_OCN * 365;
-Amf_mean = Bmf .* AREA_OCN * 365;
-Amp_mean = Bmp .* AREA_OCN * 365;
-Amd_mean = Bmd .* AREA_OCN * 365;
-Alp_mean = Blp .* AREA_OCN * 365;
-Ald_mean = Bld .* AREA_OCN * 365;
-Ab_mean = Bb .* AREA_OCN * 365;
+Asf_mean = Bsf .* AREA_OCN;
+Asp_mean = Bsp .* AREA_OCN;
+Asd_mean = Bsd .* AREA_OCN;
+Amf_mean = Bmf .* AREA_OCN;
+Amp_mean = Bmp .* AREA_OCN;
+Amd_mean = Bmd .* AREA_OCN;
+Alp_mean = Blp .* AREA_OCN;
+Ald_mean = Bld .* AREA_OCN;
+Ab_mean = Bb .* AREA_OCN;
 
 %% Calc LMEs
 lat = geolat_t;
@@ -86,6 +86,7 @@ tlme = lme_mask_esm2m';
 
 lme_mcatch = NaN*ones(66,5);
 lme_mbio = NaN*ones(66,9);
+lme_area = NaN*ones(66,1);
 
 for L=1:66
     lid = find(tlme==L);
@@ -105,11 +106,13 @@ for L=1:66
     lme_mbio(L,7) = nanmean(Alp_mean(lid));
     lme_mbio(L,8) = nanmean(Ald_mean(lid));
     lme_mbio(L,9) = nanmean(Ab_mean(lid));
+    %total area of LME
+    lme_area(L,1) = nansum(AREA_OCN(lid));
 end
 
 %%
-save([dpath 'LME_hist_fished',harv,'_' cfile '.mat'],...
-    'lme_mcatch','lme_mbio');
+save([dpath 'LME_fore_',harv,'_' cfile '.mat'],...
+    'lme_mcatch','lme_mbio','lme_area');
 
 %% Figures
 
@@ -175,10 +178,27 @@ lonlim=[plotminlon plotmaxlon]; %[-255 -60] = Pac
 land=-999*ones(ni,nj);
 land(grid(:,1))=NaN*ones(size(mf_mean50));
 
-%% Catch
+%% Biomass
 
 % all
 figure(1)
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,real(log10(lme_All)))
+colormap('jet')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([9.5 11.5]);
+hcb = colorbar('h');
+set(gcf,'renderer','painters')
+title('Forecast 2051-2100 LME mean log10 total mean bio (g) All Fishes')
+stamp(cfile)
+print('-dpng',[ppath 'Fore_fished_LME_bio_All.png'])
+
+%% Catch
+
+% all
+figure(2)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,real(log10(clme_All*1e-6)))
@@ -189,12 +209,12 @@ caxis([4 7]);
 hcb = colorbar('h');
 ylim(hcb,[4 7])                   %Set color axis if needed
 set(gcf,'renderer','painters')
-title('Historic 1956-2005 LME mean log10 total annual catch (MT) All Fishes')
+title('Forecast 2051-2100 LME mean log10 total annual catch (MT) All Fishes')
 stamp(cfile)
-print('-dpng',[ppath 'Hist_fished',harv,'_LME_catch_All.png'])
+%print('-dpng',[ppath 'Fore_fished',harv,'_LME_catch_All.png'])
 
-%% all F
-figure(2)
+% all F
+figure(3)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,real(log10(clme_AllF*1e-6)))
@@ -205,12 +225,12 @@ caxis([3.5 6.5]);
 hcb = colorbar('h');
 ylim(hcb,[3.5 6.5])                   %Set color axis if needed
 set(gcf,'renderer','painters')
-title('Historic 2051-2100 LME mean log10 total annual catch (MT) Forage Fishes')
+title('Forecast 2051-2100 LME mean log10 total annual catch (MT) Forage Fishes')
 stamp(cfile)
-print('-dpng',[ppath 'Hist_fished',harv,'_LME_catch_AllF.png'])
+%print('-dpng',[ppath 'Fore_fished',harv,'_LME_catch_AllF.png'])
 
 % all P
-figure(3)
+figure(4)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,real(log10(clme_AllP*1e-6)))
@@ -221,12 +241,12 @@ caxis([3.5 6.5]);
 hcb = colorbar('h');
 ylim(hcb,[3.5 6.5])                   %Set color axis if needed
 set(gcf,'renderer','painters')
-title('Historic 2051-2100 LME mean log10 total annual catch (MT) Pelagic Fishes')
+title('Forecast 2051-2100 LME mean log10 total annual catch (MT) Pelagic Fishes')
 stamp(cfile)
-print('-dpng',[ppath 'Hist_fished',harv,'_LME_catch_AllP.png'])
+%print('-dpng',[ppath 'Fore_fished',harv,'_LME_catch_AllP.png'])
 
 % All D
-figure(4)
+figure(5)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,real(log10(clme_AllD*1e-6)))
@@ -237,12 +257,12 @@ caxis([3.5 6.5]);
 hcb = colorbar('h');
 ylim(hcb,[3.5 6.5])                   %Set color axis if needed
 set(gcf,'renderer','painters')
-title('Historic 2051-2100 LME mean log10 total annual catch (MT) Demersal Fishes')
+title('Forecast 2051-2100 LME mean log10 total annual catch (MT) Demersal Fishes')
 stamp(cfile)
-print('-dpng',[ppath 'Hist_fished',harv,'_LME_catch_AllD.png'])
+%print('-dpng',[ppath 'Fore_fished',harv,'_LME_catch_AllD.png'])
 
 % all M
-figure(5)
+figure(6)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,real(log10(clme_AllM*1e-6)))
@@ -253,12 +273,12 @@ caxis([3.5 6.5]);
 hcb = colorbar('h');
 ylim(hcb,[3.5 6.5])                   %Set color axis if needed
 set(gcf,'renderer','painters')
-title('Historic 2051-2100 LME mean log10 total annual catch (MT) Medium Fishes')
+title('Forecast 2051-2100 LME mean log10 total annual catch (MT) Medium Fishes')
 stamp(cfile)
-print('-dpng',[ppath 'Hist_fished',harv,'_LME_catch_AllM.png'])
+%print('-dpng',[ppath 'Fore_fished',harv,'_LME_catch_AllM.png'])
 
 % all L
-figure(6)
+figure(7)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,real(log10(clme_AllL*1e-6)))
@@ -269,7 +289,7 @@ caxis([3.5 6.5]);
 hcb = colorbar('h');
 ylim(hcb,[3.5 6.5])                   %Set color axis if needed
 set(gcf,'renderer','painters')
-title('Historic 2051-2100 LME mean log10 total annual catch (MT) Large Fishes')
+title('Forecast 2051-2100 LME mean log10 total annual catch (MT) Large Fishes')
 stamp(cfile)
-print('-dpng',[ppath 'Hist_fished',harv,'_LME_catch_AllL.png'])
+%print('-dpng',[ppath 'Fore_fished',harv,'_LME_catch_AllL.png'])
 

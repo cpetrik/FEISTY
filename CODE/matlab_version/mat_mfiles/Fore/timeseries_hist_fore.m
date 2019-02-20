@@ -60,7 +60,7 @@ ylim([-0.15 0.3])
 xlabel('Year')
 ylabel('log10 Biomass (g m^-^2)')
 %title(['Historic fished'])
-print('-dpng',[ppath 'Hist_Fore_',harv,'_all_types.png'])
+print('-dpng',[ppath 'Hist_Fore_pristine_',harv,'_all_types.png'])
 
 %%
 figure(2)
@@ -72,9 +72,39 @@ xlim([y(1) y(end)])
 xlabel('Year')
 ylabel('All fish mean biomass (g/m^2)')
 %title('Forecast fished')
+print('-dpng',[ppath 'Hist_Fore_pristine_',harv,'_ts_mbio.png'])
+
+%%
+FF = [HFF FFF];
+FP = [HFP FFP];
+FD = [HFD FFD];
+FA = [HFA FFA];
+figure(3)
+plot(y,log10(FF),'r','Linewidth',2); hold on;
+plot(y,log10(FP),'b','Linewidth',2); hold on;
+plot(y,log10(FD),'k','Linewidth',2); hold on;
+legend('F','P','D')
+legend('location','eastoutside')
+xlim([y(1) y(end)])
+ylim([-0.15 0.3])
+xlabel('Year')
+ylabel('log10 Biomass (g m^-^2)')
+title(['Fished'])
+print('-dpng',[ppath 'Hist_Fore_',harv,'_all_types.png'])
+
+%%
+figure(4)
+plot(y,log10(FA),'color',[0.5 0.5 0.5],'LineWidth',2); hold on;
+ylim([0.46 0.62])
+xlim([y(1) y(end)])
+xlabel('Year')
+ylabel('All fish mean biomass (g/m^2)')
+title('Fished')
 print('-dpng',[ppath 'Hist_Fore_',harv,'_ts_mbio.png'])
 
-
+test = movmean(FA,61);
+hold on
+plot(y,log10(test),'c','LineWidth',2);
 
 
 
