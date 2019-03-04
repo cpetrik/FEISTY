@@ -1,6 +1,5 @@
 % POEM output at all locations
-% Hist fished prod only ran through 1999 (139 years)
-% All values starting at mo 1669 are 9.969e+36 == NA
+
 
 clear all
 close all
@@ -20,9 +19,7 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-[ni,nj] = size(prod);
-nas = find(isnan(prod(1,:)));
-nt = nas(1) - 1;
+[ni,nt] = size(prod);
 
 SP.prod = prod;
 Sml_p.prod = prod(:,nt);
@@ -38,7 +35,7 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-SF.prod = prod(:,1:nj);
+SF.prod = prod(:,1:nt);
 Sml_f.prod = prod(:,nt);
 clear prod
 
@@ -274,6 +271,18 @@ save([fpath 'Means_Historic_' harv '_prod_' cfile '.mat'],'time',...
 
 %%
 load([fpath 'Means_Historic_' harv '_prod_' cfile '.mat']);
+load([fpath 'Means_Historic_' harv '_' cfile '.mat']);
+
+HistFish(1,:)=sf_tmean;
+HistFish(2,:)=sp_tmean;
+HistFish(3,:)=sd_tmean;
+HistFish(4,:)=mf_tmean;
+HistFish(5,:)=mp_tmean;
+HistFish(6,:)=md_tmean;
+HistFish(7,:)=lp_tmean;
+HistFish(8,:)=ld_tmean;
+HistFish(9,:)=b_tmean;
+
 HistProdT(1,:)=sf_tprod;
 HistProdT(2,:)=sp_tprod;
 HistProdT(3,:)=sd_tprod;
@@ -283,7 +292,11 @@ HistProdT(6,:)=md_tprod;
 HistProdT(7,:)=lp_tprod;
 HistProdT(8,:)=ld_tprod;
 HistProdT(9,:)=b_tmean;
-save([fpath 'Means_Historic_',harv,'_prod_' cfile '.mat'],'HistProdT','-append');
+
+save([fpath 'Means_Historic_',harv,'_' cfile '.mat'],'HistFish',...
+    'HistProdT','-append');
+save([fpath 'Means_Historic_',harv,'_prod_' cfile '.mat'],'HistFish',...
+    'HistProdT','-append');
 
 
 

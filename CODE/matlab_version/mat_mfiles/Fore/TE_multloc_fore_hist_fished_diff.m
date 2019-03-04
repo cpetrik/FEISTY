@@ -92,7 +92,7 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-0.5 0.5]);
 colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
-title('Percent difference TEeff L')
-stamp(cfile)
+title('Percent difference TEeff ATL')
+%stamp(cfile)
 print('-dpng',[ppath 'Hist_Fore_',harv,'_global_TEeff_diff_subplot.png'])
 

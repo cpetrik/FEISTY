@@ -22,16 +22,16 @@ load('/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/hindcast_gridspec.
 grid = csvread([cpath 'grid_csv.csv']);
 
 %% Pick which time period mean
-% 1951-2000
-sp_smean=sp_mean50;
-sf_smean=sf_mean50;
-sd_smean=sd_mean50;
-mp_smean=mp_mean50;
-mf_smean=mf_mean50;
-md_smean=md_mean50;
-lp_smean=lp_mean50;
-ld_smean=ld_mean50;
-b_smean=b_mean50;
+% 1990-1994
+sp_smean=sp_mean5;
+sf_smean=sf_mean5;
+sd_smean=sd_mean5;
+mp_smean=mp_mean5;
+mf_smean=mf_mean5;
+md_smean=md_mean5;
+lp_smean=lp_mean5;
+ld_smean=ld_mean5;
+b_smean=b_mean5;
 
 %% colors
 cm9=[0.5 0.5 0;... %tan/army
@@ -206,7 +206,7 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-2 2]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
-title('Historic fished 1951-2000 log10 mean benthic biomass (g m^-^2)')
+title('Historic fished 1990-1994 log10 mean benthic biomass (g m^-^2)')
 stamp(cfile)
 print('-dpng',[ppath 'Hist9095_',harv,'_global_BENT.png'])
 
@@ -223,7 +223,7 @@ print('-dpng',[ppath 'Hist9095_',harv,'_global_BENT.png'])
 % hcb = colorbar('h');
 % ylim(hcb,[-0.8 2.3])                   %Set color axis if needed
 % set(gcf,'renderer','painters')
-% title('Historic fished 1951-2000 log10 mean benthic biomass (mg C m^-^2)')
+% title('Historic fished 1990-1994 log10 mean benthic biomass (mg C m^-^2)')
 % stamp(cfile)
 % print('-dpng',[ppath 'Hist_',harv,'_global_BENT_mgC.png'])
 
@@ -231,7 +231,7 @@ print('-dpng',[ppath 'Hist9095_',harv,'_global_BENT.png'])
 % figure(6)
 % surf(geolon_t,geolat_t,log10(Zsp)); view(2); hold on;
 % shading flat
-% title('Historic fished 1951-2000 log10 mean Larval P biomass (g m^-^2)')
+% title('Historic fished 1990-1994 log10 mean Larval P biomass (g m^-^2)')
 % colormap('jet')
 % colorbar('h')
 % caxis([-2 1])
@@ -242,7 +242,7 @@ print('-dpng',[ppath 'Hist9095_',harv,'_global_BENT.png'])
 % figure(7)
 % surf(geolon_t,geolat_t,log10(Zsf)); view(2); hold on;
 % shading flat
-% title('Historic fished 1951-2000 log10 mean Larval F biomass (g m^-^2)')
+% title('Historic fished 1990-1994 log10 mean Larval F biomass (g m^-^2)')
 % colormap('jet')
 % colorbar('h')
 % caxis([-2 1])
@@ -253,7 +253,7 @@ print('-dpng',[ppath 'Hist9095_',harv,'_global_BENT.png'])
 % figure(8)
 % surf(geolon_t,geolat_t,log10(Zsd)); view(2); hold on;
 % shading flat
-% title('Historic fished 1951-2000 log10 mean Larval D biomass (g m^-^2)')
+% title('Historic fished 1990-1994 log10 mean Larval D biomass (g m^-^2)')
 % colormap('jet')
 % colorbar('h')
 % caxis([-2 1])
@@ -264,7 +264,7 @@ print('-dpng',[ppath 'Hist9095_',harv,'_global_BENT.png'])
 % figure(9)
 % surf(geolon_t,geolat_t,log10(Zmp)); view(2); hold on;
 % shading flat
-% title('Historic fished 1951-2000 log10 mean Juvenile P biomass (g m^-^2)')
+% title('Historic fished 1990-1994 log10 mean Juvenile P biomass (g m^-^2)')
 % colormap('jet')
 % colorbar('h')
 % caxis([-2 1])
@@ -275,7 +275,7 @@ print('-dpng',[ppath 'Hist9095_',harv,'_global_BENT.png'])
 % figure(10)
 % surf(geolon_t,geolat_t,log10(Zmf)); view(2); hold on;
 % shading flat
-% title('Historic fished 1951-2000 log10 mean Adult F biomass (g m^-^2)')
+% title('Historic fished 1990-1994 log10 mean Adult F biomass (g m^-^2)')
 % colormap('jet')
 % colorbar('h')
 % caxis([-2 1])
@@ -286,7 +286,7 @@ print('-dpng',[ppath 'Hist9095_',harv,'_global_BENT.png'])
 % figure(11)
 % surf(geolon_t,geolat_t,log10(Zmd)); view(2); hold on;
 % shading flat
-% title('Historic fished 1951-2000 log10 mean Juvenile D biomass (g m^-^2)')
+% title('Historic fished 1990-1994 log10 mean Juvenile D biomass (g m^-^2)')
 % colormap('jet')
 % colorbar('h')
 % caxis([-2 1])
@@ -297,7 +297,7 @@ print('-dpng',[ppath 'Hist9095_',harv,'_global_BENT.png'])
 % figure(12)
 % surf(geolon_t,geolat_t,log10(Zlp)); view(2); hold on;
 % shading flat
-% title('Historic fished 1951-2000 log10 mean Adult P biomass (g m^-^2)')
+% title('Historic fished 1990-1994 log10 mean Adult P biomass (g m^-^2)')
 % colormap('jet')
 % colorbar('h')
 % caxis([-2 1])
@@ -308,7 +308,7 @@ print('-dpng',[ppath 'Hist9095_',harv,'_global_BENT.png'])
 % figure(13)
 % surf(geolon_t,geolat_t,log10(Zld)); view(2); hold on;
 % shading flat
-% title('Historic fished 1951-2000 log10 mean Adult D biomass (g m^-^2)')
+% title('Historic fished 1990-1994 log10 mean Adult D biomass (g m^-^2)')
 % colormap('jet')
 % colorbar('h')
 % caxis([-2 1])
@@ -338,9 +338,9 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-2 2]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
-title('Historic fished 1951-2000 log10 mean biomass All Fishes (g m^-^2)')
+title('Historic fished 1990-1994 log10 mean biomass All Fishes (g m^-^2)')
 stamp(cfile)
-print('-dpng',[ppath 'Hist_',harv,'_global_All.png'])
+print('-dpng',[ppath 'Hist9095_',harv,'_global_All.png'])
 
 % all F
 figure(15)
@@ -354,9 +354,9 @@ caxis([-2 2]);
 hcb = colorbar('h');
 ylim(hcb,[-2 2])                   %Set color axis if needed
 set(gcf,'renderer','painters')
-title('Historic fished 1951-2000 log10 mean biomass All F (g m^-^2)')
+title('Historic fished 1990-1994 log10 mean biomass All F (g m^-^2)')
 stamp(cfile)
-print('-dpng',[ppath 'Hist_',harv,'_global_AllF.png'])
+print('-dpng',[ppath 'Hist9095_',harv,'_global_AllF.png'])
 
 % all D
 figure(16)
@@ -370,9 +370,9 @@ caxis([-2 2]);
 hcb = colorbar('h');
 ylim(hcb,[-2 2])                   %Set color axis if needed
 set(gcf,'renderer','painters')
-title('Historic fished 1951-2000 log10 mean biomass All D (g m^-^2)')
+title('Historic fished 1990-1994 log10 mean biomass All D (g m^-^2)')
 stamp(cfile)
-print('-dpng',[ppath 'Hist_',harv,'_global_AllD.png'])
+print('-dpng',[ppath 'Hist9095_',harv,'_global_AllD.png'])
 
 % All P
 figure(17)
@@ -386,9 +386,9 @@ caxis([-2 2]);
 hcb = colorbar('h');
 ylim(hcb,[-2 2])                   %Set color axis if needed
 set(gcf,'renderer','painters')
-title('Historic fished 1951-2000 log10 mean biomass All P (g m^-^2)')
+title('Historic fished 1990-1994 log10 mean biomass All P (g m^-^2)')
 stamp(cfile)
-print('-dpng',[ppath 'Hist_',harv,'_global_AllP.png'])
+print('-dpng',[ppath 'Hist9095_',harv,'_global_AllP.png'])
 
 %% All 4 on subplots
 figure(18)
@@ -440,8 +440,8 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
-%stamp(cfile)
-print('-dpng',[ppath 'Hist_',harv,'_global_All_subplot.png'])
+stamp(cfile)
+print('-dpng',[ppath 'Hist9095_',harv,'_global_All_subplot.png'])
 
 %% Ratios on subplots red-white-blue
 % 3 figure subplot P:D, P:F, M:L
@@ -483,73 +483,5 @@ colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('Fraction Large vs. Medium')
 stamp(cfile)
-print('-dpng',[ppath 'Hist_',harv,'_global_ratios_subplot.png'])
-
-%% Fish-MIP color
-cmS=cbrewer('div','Spectral',11);
-cmS2=cmS(6:end,:);
-cmS2=flipud(cmS2);
-
-cmRB=cbrewer('div','RdYlBu',40);
-cmRB=flipud(cmRB);
-cmPO=cbrewer('div','PuOr',40);
-cmPO=flipud(cmPO);
-
-load('cmap_ppt_angles.mat')
-cmPR = mycmap;
-
-% All 4 on subplots
-figure(20)
-% all F
-subplot('Position',[0 0.51 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(AllF))
-colormap(cmPR)
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
-colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
-set(gcf,'renderer','painters')
-title('log10 mean All F (g m^-^2)')
-
-% all D
-subplot('Position',[0 0 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(AllD))
-colormap(cmPR)
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
-set(gcf,'renderer','painters')
-title('log10 mean All D (g m^-^2)')
-
-% All P
-subplot('Position',[0.5 0.51 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(AllP))
-colormap(cmPR)
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
-set(gcf,'renderer','painters')
-title('log10 mean All P (g m^-^2)')
-
-% All
-subplot('Position',[0.5 0 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(All))
-colormap(cmPR)
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
-set(gcf,'renderer','painters')
-title('log10 mean All fishes (g m^-^2)')
-print('-dpng',[ppath 'Hist_',harv,'_global_All_subplot_FishMIPcolor.png'])
-
-
-
+print('-dpng',[ppath 'Hist9095_',harv,'_global_ratios_subplot.png'])
 

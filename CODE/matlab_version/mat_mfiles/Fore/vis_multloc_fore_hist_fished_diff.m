@@ -9,23 +9,26 @@ cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
 bpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/cobalt_data/';
 
 %% NPP and zoop
-load([bpath 'cobalt_npp_means.mat']);
-load([bpath 'cobalt_zoop_biom_means.mat']);
-load([bpath 'cobalt_det_biom_means.mat']);
+load([bpath 'cobalt_det_temp_zoop_npp_means.mat']);
 
 % molN/m2/s --> g/m2/d
 mzloss_hist = mzloss_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 lzloss_hist = lzloss_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 npp_hist = npp_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 det_hist = det_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+ptemp_hist = ptemp_mean_hist - 273;
 
 mzloss_fore = mzloss_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 lzloss_fore = lzloss_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 npp_fore = npp_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 det_fore = det_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+ptemp_fore = ptemp_mean_fore - 273;
 
 zloss_hist = mzloss_hist + lzloss_hist;
 zloss_fore = mzloss_fore + lzloss_fore;
+
+ZlDet_hist = log10(zloss_hist./det_hist);
+ZlDet_fore = log10(zloss_fore./det_fore);
 
 %% Hindcast grid
 load([cpath 'hindcast_gridspec.mat'],'geolon_t','geolat_t'); %geolon_t,geolat_t
@@ -134,6 +137,10 @@ diffDet = (det_fore-det_hist) ./ det_hist;
 diffMZ = (mzloss_fore-mzloss_hist) ./ mzloss_hist;
 diffLZ = (lzloss_fore-lzloss_hist) ./ lzloss_hist;
 diffZ = (zloss_fore-zloss_hist) ./ zloss_hist;
+diffZD = (ZlDet_fore-ZlDet_hist) ./ ZlDet_hist;
+diffPT = (ptemp_fore-ptemp_hist) ./ ptemp_hist;
+dPT = (ptemp_fore-ptemp_hist);
+
 diffL = (cL-hL) ./ hL;
 diffM = (cM-hM) ./ hM;
 diffF = (cF-hF) ./ hF;
@@ -423,7 +430,7 @@ load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-0.5 0.5]);
 set(gcf,'renderer','painters')
-title('Fraction Large Pelagics vs. Demersals')
+title('Large Pelagics vs. Demersals')
 
 %P:F
 subplot('Position',[0.5 0.53 0.5 0.5])
@@ -435,7 +442,7 @@ load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-0.5 0.5]);
 set(gcf,'renderer','painters')
-title('Fraction Large Pelagics vs. Forage Fishes')
+title('Large Pelagics vs. Forage Fishes')
 
 %L:M
 subplot('Position',[0.25 0.0 0.5 0.5])
@@ -448,9 +455,115 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-0.5 0.5]);
 colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
-title('Fraction Large vs. Medium')
-stamp(cfile)
+title('Large vs. Medium')
+%stamp(cfile)
 print('-dpng',[pp 'Hist_Fore_',harv,'_global_ratios_diff_subplot.png'])
+
+%% Ratios on subplots with ZlDet
+figure(21)
+% all F
+subplot('Position',[0 0.51 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,(diffPD))
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-0.5 0.5]);
+colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
+set(gcf,'renderer','painters')
+title('Large Pelagics vs. Demersals')
+
+% all ZD
+subplot('Position',[0 0 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,(diffZD))
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-0.5 0.5]);
+set(gcf,'renderer','painters')
+title('log_1_0 Zooplankton to Detritus')
+
+% All PF
+subplot('Position',[0.5 0.51 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,(diffPF))
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-0.5 0.5]);
+set(gcf,'renderer','painters')
+title('Large Pelagics vs. Forage Fishes')
+
+% LM
+subplot('Position',[0.5 0 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,(diffLM))
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-0.5 0.5]);
+set(gcf,'renderer','painters')
+title('Large vs. Medium Fishes')
+%stamp(cfile)
+print('-dpng',[pp 'Hist_Fore_',harv,'_global_ratios_subplot_ZlDet.png'])
+
+%% Ratios on subplots with temp
+figure(22)
+% all F
+subplot('Position',[0 0.51 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,(diffPD))
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-0.5 0.5]);
+colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
+set(gcf,'renderer','painters')
+title('Large Pelagics vs. Demersals')
+
+% all PT
+subplot('Position',[0 0 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,(dPT))
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-5 5]);
+set(gcf,'renderer','painters')
+title('Pelagic Temperature')
+
+% All PF
+subplot('Position',[0.5 0.51 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,(diffPF))
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-0.5 0.5]);
+set(gcf,'renderer','painters')
+title('Large Pelagics vs. Forage Fishes')
+
+% LM
+subplot('Position',[0.5 0 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,(diffLM))
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-0.5 0.5]);
+set(gcf,'renderer','painters')
+title('Large vs. Medium Fishes')
+%stamp(cfile)
+print('-dpng',[pp 'Hist_Fore_',harv,'_global_ratios_subplot_temp.png'])
 
 %%
 %M

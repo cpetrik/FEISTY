@@ -318,5 +318,32 @@ save([fpath 'Means_fore_',harv,'_' cfile '.mat'],...
 
 %save([fpath 'Means_fore_',harv,'_' cfile '.mat']);
 
+%%
+load([fpath 'Means_fore_' harv '_' cfile '.mat']);
+
+ForeFish(1,:)=sf_tmean;
+ForeFish(2,:)=sp_tmean;
+ForeFish(3,:)=sd_tmean;
+ForeFish(4,:)=mf_tmean;
+ForeFish(5,:)=mp_tmean;
+ForeFish(6,:)=md_tmean;
+ForeFish(7,:)=lp_tmean;
+ForeFish(8,:)=ld_tmean;
+ForeFish(9,:)=b_tmean;
+
+ForeProdT(1,:)=sf_tprod;
+ForeProdT(2,:)=sp_tprod;
+ForeProdT(3,:)=sd_tprod;
+ForeProdT(4,:)=mf_tprod;
+ForeProdT(5,:)=mp_tprod;
+ForeProdT(6,:)=md_tprod;
+ForeProdT(7,:)=lp_tprod;
+ForeProdT(8,:)=ld_tprod;
+ForeProdT(9,:)=b_tmean;
+
+save([fpath 'Means_fore_',harv,'_' cfile '.mat'],'ForeFish',...
+    'ForeProdT','-append');
+
+
 
 
