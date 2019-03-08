@@ -21,7 +21,7 @@ library("corrplot")
 source(file = "/Users/cpetrik/Dropbox/UCSC/CVC-LCM/CVC_data/outmigration_model/HighstatLibV6.r")
 cfile = "Dc_enc50-b210_m4-b210-k060_c50-b210_D075_J075_A075_Sm025_nmort1_BE08_noCC_RE00100"
 setwd(paste0("/Volumes/GFDL/NC/Matlab_new_size/", cfile, "/param_sens/"))
-fpath <- paste0("/Users/cpetrik/Dropbox/Princeton/POEM_2.0/CODE/Figs/PNG/Matlab_New_sizes/", cfile, "/param_sens/")
+fpath <- paste0("/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/", cfile, "/param_sens/")
 
 # load data
 vec <- read.csv("Climatol_All_fish03_param_sens_10p_vecs_log10.csv",sep=",",header = T)
@@ -37,40 +37,31 @@ names(rvec) <- vec$Row[2:39]
 
 
 ## -------------------------------- correlations ----------------------------------------
-### Check that parameter changes in opposite directions have r = -1
-obs1 <- names(rvec)[1:8]
-obs2 <- names(rvec)[9:16]
-obs3 <- names(rvec)[17:24]
-obs4 <- names(rvec)[25:32]
-obs5 <- names(rvec)[33:38]
-
-pdf(paste0(fpath,"Climatol_All_fish03_param_sens10p_log10_pairplot_response1.pdf"))
-pairs((rvec[1:5,obs1]), lower.panel = panel.cor)
-dev.off()
-pdf(paste0(fpath,"Climatol_All_fish03_param_sens10p_log10_pairplot_response2.pdf"))
-pairs((rvec[1:5,obs2]), lower.panel = panel.cor)
-dev.off()
-pdf(paste0(fpath,"Climatol_All_fish03_param_sens10p_log10_pairplot_response3.pdf"))
-pairs((rvec[1:5,obs3]), lower.panel = panel.cor)
-dev.off()
-pdf(paste0(fpath,"Climatol_All_fish03_param_sens10p_log10_pairplot_response4.pdf"))
-pairs((rvec[1:5,obs4]), lower.panel = panel.cor)
-dev.off()
-pdf(paste0(fpath,"Climatol_All_fish03_param_sens10p_log10_pairplot_response5.pdf"))
-pairs((rvec[1:5,obs5]), lower.panel = panel.cor)
-dev.off()
-
-# All correlated = -1
 
 # Get rid of params with small response (mag < 1st Q)
 high <- which(rvec[6,]>=0.0078)
-bvec <- rvec[,c(high,20,36)]
+shi <- c(high,20,36)
+shi <- sort(shi)
+bvec <- rvec[,shi]
+
+### Look for strong pos and neg corrs
+obs1 <- names(bvec)[seq(from = 1, to = 30, by = 2)]
+obs2 <- names(bvec)[seq(from = 2, to = 30, by = 2)]
+
+
+pdf(paste0(fpath,"Climatol_All_fish03_param_sens10p_log10_pairplot_response_decr.pdf"))
+pairs((bvec[1:5,obs1]), lower.panel = panel.cor)
+dev.off()
+pdf(paste0(fpath,"Climatol_All_fish03_param_sens10p_log10_pairplot_response_incr.pdf"))
+pairs((bvec[1:5,obs2]), lower.panel = panel.cor)
+dev.off()
+
 
 # Multiply params with corr by -1 so both changes incr F
 newn <- c("ac-10","ac+10","ae-10","ae+10","am-10","am+10","alp-10","alp+10",
-          "bc-10","bc+10","be-10","be+10","bm-10","bm+10","bet-10","bet+10",
-          "f-10","kc-10","kc+10","ke-10","ke+10","km-10","km+10","kap-10",
-          "kap+10","A-10","A+10","J-10","f+10","J+10")
+          "bc-10","bc+10","be-10","be+10","bm-10","bm+10","BE-10","BE+10",
+          "f-10","f+10","kc-10","kc+10","ke-10","ke+10","km-10","km+10","kap-10",
+          "kap+10","A-10","A+10","J-10","J+10")
 names(bvec) <- newn
 
 posF <- which(bvec[1,]>0)
@@ -80,7 +71,7 @@ mult <- names(bvec)[negF]
 
 bvec[,30:44] <- -1*bvec[,negF]
 names(bvec)[30:44] <- c("-ac+10","-ae+10","-am-10","-alp+10","-bc-10","-be-10",
-                        "-bm+10","-bet-10","-f-10","-kc+10","-ke-10","-km+10",
+                        "-bm+10","-BE-10","-f-10","-kc+10","-ke-10","-km+10",
                         "-kap-10","-A+10","-J+10")
 params <- c(posF,30:44)
 tvec <- bvec[1:5,params]

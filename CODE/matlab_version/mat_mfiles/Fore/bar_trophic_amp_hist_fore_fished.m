@@ -179,6 +179,9 @@ pbar(9) = (nansum(cPel(:))-nansum(hPel(:))) ./ nansum(hPel(:));
 pbar(10) = (nansum(cAll(:))-nansum(hAll(:))) ./ nansum(hAll(:));
 pnames = {'NPP','Z','Det','M','L','F','P','D','Pel','All'};
 
+delB = (nansum(Cb_area(:))-nansum(Hb_area(:))) ./ nansum(Hb_area(:)); 
+%change in B is -10.16%, but change in Det is -12.3%
+
 %% bar graphs
 figure(1)
 bar(100*pbar)
