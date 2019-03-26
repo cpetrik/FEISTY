@@ -1,4 +1,4 @@
-function [r,rmse] = lme_saup_corr_stock_ensem(lme_mcatch)
+function [r,rmse,ss] = lme_saup_corr_stock_ensem(lme_mcatch)
 
 %FEISTY catch vs. SAUP catch by LME
 %Use same methods as Stock et al. 2017 to reduce SAUP dataset
@@ -58,29 +58,34 @@ p=l10p(keep);
 n = length(o);
 num=nansum((p-o).^2);
 rmse(1) = sqrt(num/n);
+ss(1) = num;
 
 o=l10sF(keep);
 p=l10pF(keep);
 n = length(o);
 num=nansum((p-o).^2);
 rmse(2) = sqrt(num/n);
+ss(2) = num;
 
 o=l10sP(keep);
 p=l10pP(keep);
 n = length(o);
 num=nansum((p-o).^2);
 rmse(3) = sqrt(num/n);
+ss(3) = num;
 
 o=l10sD(keep);
 p=l10pD(keep);
 n = length(o);
 num=nansum((p-o).^2);
 rmse(4) = sqrt(num/n);
+ss(4) = num;
 
 o=sFracPD(keep);
 p=pFracPD(keep);
 n = length(o);
 num=nansum((p-o).^2);
 rmse(5) = sqrt(num/n);
+ss(5) = num;
 
 end

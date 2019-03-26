@@ -43,18 +43,20 @@ MPc = SF;
 MDc = SF;
 LPc = SF;
 LDc = SF;
+lme_Fmcatch = NaN*ones(66,length(fx));
 lme_Pmcatch = NaN*ones(66,length(fx));
 lme_Dmcatch = NaN*ones(66,length(fx));
 lme_AllF = NaN*ones(66,length(fx));
 lme_AllP = NaN*ones(66,length(fx));
 r_all = NaN*ones(5,length(fx));
+ss_all = NaN*ones(5,length(fx));
 rmse_all = NaN*ones(5,length(fx));
 
 %%
-for M=1:5; %length(fx)
+for M=1:length(fx)
     sfile = sim{M};
     sname = sfile(83:end);
-    load(sfile);
+    load([sfile '.mat']);
     
     %% Last year means
     [id,nt] = size(Spinup_Bent.bio);
@@ -100,6 +102,7 @@ for M=1:5; %length(fx)
     [lme_mcatch,lme_mbio,lme_area] = lme_clim_ensem(sf_mean,sp_mean,sd_mean,...
     mf_mean,mp_mean,md_mean,b_mean,lp_mean,ld_mean,mf_my,mp_my,md_my,lp_my,ld_my);
     
+    lme_Fmcatch(:,M) = lme_mcatch(:,1);
     lme_Pmcatch(:,M) = (lme_mcatch(:,2)+lme_mcatch(:,4));
     lme_Dmcatch(:,M) = (lme_mcatch(:,3)+lme_mcatch(:,5));
     
@@ -108,34 +111,23 @@ for M=1:5; %length(fx)
     
     %% SAU comparison
     % ADD CALC OF RESIDUALS
-    [r,rmse] = lme_saup_corr_stock_ensem(lme_mcatch);
+    [r,rmse,ss] = lme_saup_corr_stock_ensem(lme_mcatch);
     r_all(:,M) = r;
     rmse_all(:,M) = rmse;
+    ss_all(:,M) = ss;
     
     %% Save
-    save(sfile,...
+    save([sfile '_means.mat'],...
         'sf_mean','sp_mean','sd_mean','mf_mean','mp_mean','md_mean','b_mean',...
         'lp_mean','ld_mean','time','lyr',...
         'mf_my','mp_my','md_my','lp_my','ld_my',...
-        'lme_mcatch','lme_mbio','lme_area',...
-        '-append');
+        'lme_mcatch','lme_mbio','lme_area');
     
 end
 
 %%
 save([dp 'Climatol_ensemble_LHS100.mat'],'SF','SP','SD',...
     'MF','MP','MD','BI','LP','LD','MFc','MPc','MDc','LPc','LDc',...
-    'lme_Pmcatch','lme_Dmcatch','lme_AllF','lme_AllP','r_all','rmse_all',...
-    'sim')
-
-%% Outputs
-% Relative biomass of each group
-rPF_biom = lme_AllP ./ (lme_AllP+lme_AllF);
-rPD_catch = lme_Pmcatch ./ (lme_Pmcatch+lme_Dmcatch);
-
-% Max like ratio test
-
-
-
-
+    'lme_Fmcatch','lme_Pmcatch','lme_Dmcatch','lme_AllF','lme_AllP',...
+    'r_all','rmse_all','ss_all','sim')
 
