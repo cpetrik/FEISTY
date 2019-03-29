@@ -39,7 +39,7 @@ nfile = ['/Volumes/GFDL/NC/Matlab_new_size/param_ensemble/'];
 load([nfile 'LHS_param15_100vals_redux.mat']);
 
 % PARAMETER SENSITIVITY TEST
-for j = 1:length(fx)
+for j = 63:length(fx)
     
     %! Change individual parameters
     pset = fx(j,:);

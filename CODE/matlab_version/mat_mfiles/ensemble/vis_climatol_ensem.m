@@ -132,44 +132,44 @@ stamp(simname)
 print('-dpng',[pp 'global_All_subplot_',simname,'.png'])
 
 %% 3 figure subplot P:D, P:F, M:L
-figure(3)
-subplot('Position',[0 0.53 0.5 0.5])
-%P:D
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,FracPD)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([0 1]);
-set(gcf,'renderer','painters')
-title('Fraction Large Pelagics vs. Demersals')
-
-%P:F
-subplot('Position',[0.5 0.53 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,FracPF)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([0 1]);
-set(gcf,'renderer','painters')
-title('Fraction Large Pelagics vs. Forage Fishes')
-
-%L:M
-subplot('Position',[0.25 0.0 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,FracLM)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([0 1]);
-colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
-set(gcf,'renderer','painters')
-title('Fraction Large vs. Medium')
-stamp(simname)
-print('-dpng',[pp 'global_ratios_subplot_',simname,'.png'])
+% figure(3)
+% subplot('Position',[0 0.53 0.5 0.5])
+% %P:D
+% axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+%     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+% surfm(geolat_t,geolon_t,FracPD)
+% cmocean('balance')
+% load coast;                     %decent looking coastlines
+% h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+% caxis([0 1]);
+% set(gcf,'renderer','painters')
+% title('Fraction Large Pelagics vs. Demersals')
+% 
+% %P:F
+% subplot('Position',[0.5 0.53 0.5 0.5])
+% axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+%     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+% surfm(geolat_t,geolon_t,FracPF)
+% cmocean('balance')
+% load coast;                     %decent looking coastlines
+% h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+% caxis([0 1]);
+% set(gcf,'renderer','painters')
+% title('Fraction Large Pelagics vs. Forage Fishes')
+% 
+% %L:M
+% subplot('Position',[0.25 0.0 0.5 0.5])
+% axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+%     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+% surfm(geolat_t,geolon_t,FracLM)
+% cmocean('balance')
+% load coast;                     %decent looking coastlines
+% h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+% caxis([0 1]);
+% colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
+% set(gcf,'renderer','painters')
+% title('Fraction Large vs. Medium')
+% stamp(simname)
+% print('-dpng',[pp 'global_ratios_subplot_',simname,'.png'])
 
 end

@@ -51,6 +51,7 @@ lme_AllP = NaN*ones(66,length(fx));
 r_all = NaN*ones(5,length(fx));
 ss_all = NaN*ones(5,length(fx));
 rmse_all = NaN*ones(5,length(fx));
+mis_all = NaN*ones(length(fx),45,5);
 
 %%
 for M=1:length(fx)
@@ -111,10 +112,11 @@ for M=1:length(fx)
     
     %% SAU comparison
     % ADD CALC OF RESIDUALS
-    [r,rmse,ss] = lme_saup_corr_stock_ensem(lme_mcatch);
+    [r,rmse,ss,mis] = lme_saup_corr_stock_ensem(lme_mcatch);
     r_all(:,M) = r;
     rmse_all(:,M) = rmse;
     ss_all(:,M) = ss;
+    mis_all(M,:,:) = mis;
     
     %% Save
     save([sfile '_means.mat'],...
@@ -129,5 +131,5 @@ end
 save([dp 'Climatol_ensemble_LHS100.mat'],'SF','SP','SD',...
     'MF','MP','MD','BI','LP','LD','MFc','MPc','MDc','LPc','LDc',...
     'lme_Fmcatch','lme_Pmcatch','lme_Dmcatch','lme_AllF','lme_AllP',...
-    'r_all','rmse_all','ss_all','sim')
+    'r_all','rmse_all','ss_all','mis_all','sim')
 

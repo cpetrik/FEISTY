@@ -68,6 +68,27 @@ title('D')      % model has a few low values
 %xlim([-2 2])
 print('-dpng',[pp 'Ensemble_clim_SAUP_misfit.png'])
 
+mis_combo_fn = reshape(mis_combo(:,2:4),4500*3,1);
+
+figure(12)
+subplot(2,2,1)
+hist(mis_combo(:,2));
+title('F')      % model has many very low values
+%xlim([-4 4])
+subplot(2,2,2)
+hist(mis_combo(:,3));
+title('P')      % model has a few very low values
+%xlim([-3 3])
+subplot(2,2,3)
+hist(mis_combo(:,4));
+title('D')      % model has a few low values
+%xlim([-2 2])
+subplot(2,2,4)
+hist(mis_combo_fn);
+title('F, P, & D')      % model has a few low values
+%xlim([-2 2])
+print('-dpng',[pp 'Ensemble_clim_SAUP_misfit2.png'])
+
 %% Plot in 3d space
 %x=P,y=D,z=F
 %Sum of squares
@@ -146,10 +167,10 @@ ylabel('F RMSE')
 
 %% low RMSEs
 fid = find(rmse_all(2,:) < 5);
-pid = find(rmse_all(3,:) < 0.9);
+pid = find(rmse_all(3,:) < 0.9); %could go up to 1.1 to get lower Fs
 did = find(rmse_all(4,:) < 0.6);
-id1 = intersect(fid,pid);
-id2 = intersect(did,id1);
+id1 = intersect(fid,did);
+id2 = intersect(pid,id1);
 
 pset = fx(id2,:);
 
@@ -157,37 +178,41 @@ pset = fx(id2,:);
 figure(4)
 subplot(2,2,1)
 scatter3(rmse_all(3,:),rmse_all(4,:),rmse_all(2,:)); hold on;
-scatter3(rmse_all(3,id2),rmse_all(4,id2),rmse_all(2,id2),'filled'); hold on;
+scatter3(rmse_all(3,id1),rmse_all(4,id1),rmse_all(2,id1),'b','filled'); hold on;
+scatter3(rmse_all(3,id2),rmse_all(4,id2),rmse_all(2,id2),'r','filled'); hold on;
 scatter3(rmse(3),rmse(4),rmse(2),'k','filled');
 xlabel('P RMSE')
 ylabel('D RMSE')
 zlabel('F RMSE')
-xlim([0 1])
-ylim([0 1])
+xlim([0.25 1.25])
+ylim([0.25 1.25])
 zlim([0 6])
 subplot(2,2,2)
 scatter(rmse_all(3,:),rmse_all(4,:)); hold on;
-scatter(rmse_all(3,id2),rmse_all(4,id2),'filled'); hold on;
+scatter(rmse_all(3,id1),rmse_all(4,id1),'b','filled'); hold on;
+scatter(rmse_all(3,id2),rmse_all(4,id2),'r','filled'); hold on;
 scatter(rmse(3),rmse(4),'k','filled');
 xlabel('P RMSE')
 ylabel('D RMSE')
-xlim([0 1])
-ylim([0 1])
+xlim([0.25 1.25])
+ylim([0.25 1.25])
 subplot(2,2,3)
 scatter(rmse_all(3,:),rmse_all(2,:)); hold on;
-scatter(rmse_all(3,id2),rmse_all(2,id2),'filled'); hold on;
+scatter(rmse_all(3,id1),rmse_all(2,id1),'b','filled'); hold on;
+scatter(rmse_all(3,id2),rmse_all(2,id2),'r','filled'); hold on;
 scatter(rmse(3),rmse(2),'k','filled');
 xlabel('P RMSE')
 ylabel('F RMSE')
-xlim([0 1])
+xlim([0.25 1.25])
 ylim([0 6])
 subplot(2,2,4)
 scatter(rmse_all(4,:),rmse_all(2,:)); hold on;
-scatter(rmse_all(4,id2),rmse_all(2,id2),'filled'); hold on;
+scatter(rmse_all(4,id1),rmse_all(2,id1),'b','filled'); hold on;
+scatter(rmse_all(4,id2),rmse_all(2,id2),'r','filled'); hold on;
 scatter(rmse(4),rmse(2),'k','filled');
 xlabel('D RMSE')
 ylabel('F RMSE')
-xlim([0 1])
+xlim([0.25 1.25])
 ylim([0 6])
 print('-dpng',[pp 'RMSE_SAUP_type_best.png'])
 
