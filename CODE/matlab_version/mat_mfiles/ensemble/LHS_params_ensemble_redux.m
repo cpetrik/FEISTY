@@ -37,6 +37,13 @@ fx = ((pH-pL) .* X) + pL;
 fmin = min(fx);
 fmax = max(fx);
 
+figure
+for i=1:15
+    subplot(4,4,i)
+    hist(fx(:,i))
+    title(ptext{i})
+end
+
 %% Save
 nfile = ['/Volumes/GFDL/NC/Matlab_new_size/param_ensemble/'];
 save([nfile 'LHS_param15_100vals_redux.mat'],'fx','ptext','plow','phi');
