@@ -1,4 +1,4 @@
-% All correlations
+% All correlations between Hist and Clim
 clear all
 close all
 
