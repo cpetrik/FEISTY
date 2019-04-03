@@ -63,7 +63,7 @@ tbenc = num2str(1000+int64(1000*benc));
 tbcmx = num2str(1000+int64(1000*bcmx));
 tka = num2str(1000+int64(100*K_a));
 
-simname = [coup,'_enc-k',tke(2:end),tbenc(2:end),'_met-k',tkfn(2:end),'_cmax',tcfn,'-b',tbcmx(2:end),'-k',tkc(2:end),'_D',td(2:end),'_J',tj(2:end),'_A',ta(2:end),'_Sm',tsm(2:end),'_nmort',tmort,'_BE',tbe(2:end),'_noCC_RE',tre(2:end),'_Ka',tka];
+simname = [coup,'_enc-k',tke(2:end),'_met-k',tkfn(2:end),'_cmax',tcfn,'-b',tbcmx(2:end),'-k',tkc(2:end),'_D',td(2:end),'_J',tj(2:end),'_A',ta(2:end),'_Sm',tsm(2:end),'_nmort',tmort,'_BE',tbe(2:end),'_noCC_RE',tre(2:end),'_Ka',tka(2:end)];
 ptext = ['Lam',tlam(2:end),'_enc',tefn,'-b',tbenc(2:end),...
         '_met',tmfn(2:end),'-b',tbfn(2:end)];
 

@@ -76,8 +76,8 @@ function const_params5()
     ke = 0.063;     % coeff on enc T-dep fn 
     kt = 0.0855;    % coeff on met T-dep fn (orig 0.063)
     %bpow = 0.175;   % power on metab fn (orig 0.25)
-    benc = 0.20;    % power on enc fn (orig 0.20)
-    %bcmx = 0.25;    % power on cmax fn (orig 0.25)
+    %benc = 0.20;    % power on enc fn (orig 0.20)
+    bcmx = 0.25;    % power on cmax fn (orig 0.25)
     
     %%%! Transfer efficiency of detritus to benthic prey
     bent_eff = 0.075;

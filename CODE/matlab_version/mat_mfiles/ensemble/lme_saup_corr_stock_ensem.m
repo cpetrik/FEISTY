@@ -3,8 +3,7 @@ function [r,rmse,ss,mis] = lme_saup_corr_stock_ensem(lme_mcatch)
 %FEISTY catch vs. SAUP catch by LME
 %Use same methods as Stock et al. 2017 to reduce SAUP dataset
 
-dp = '/Volumes/GFDL/NC/Matlab_new_size/param_ensemble/Dc_D075_Sm025_nmort1_noCC_RE00100/';
-load([dp 'SAUP_Stock_top10.mat']);
+load('/Users/cpetrik/Dropbox/Princeton/POEM_other/SAUP/SAUP_Stock_top10.mat');
 
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 harv = 'All_fish03';
