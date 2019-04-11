@@ -11,7 +11,7 @@ dp = '/Volumes/GFDL/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_met-k086_cmax2
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/param_ensemble/Dc_enc-k063_met-k086_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/';
 
 % param ensemble results
-load([dp 'Climatol_ensemble_param5_hi_low_mid_upwell.mat'],'rmse_all','mis_all','sim',...
+load([dp 'Climatol_ensemble_param5_hi_low_mid_upwell0.mat'],'rmse_all','mis_all','sim',...
     'lme_Fmcatch','lme_Pmcatch','lme_Dmcatch');
 
 % climatol parameter set
@@ -36,7 +36,7 @@ fx = [fx5;fx3];
 % sname = sfile(83:end);
 
 %% SAU comparison
-[r,rmse,ss,mis] = lme_saup_corr_stock_ensem_upwell(lme_mcatch);
+[r,rmse,ss,mis] = lme_saup_corr_stock_ensem_upwell0(lme_mcatch);
 
 % SAUP data
 load('/Users/cpetrik/Dropbox/Princeton/POEM_other/SAUP/SAUP_Stock_top10.mat');
@@ -45,12 +45,14 @@ load(['/Users/cpetrik/Dropbox/Princeton/POEM_other/poem_ms/',...
 keep = notLELC;
 up = [3;11;13;27;28;29];
 [uboth,uid,kid]=intersect(up,keep);
+[udif,did] = setdiff(keep,up);
 
 l10sF=log10(Flme_mcatch10+eps);
 l10sP=log10(Plme_mcatch10+eps);
 l10sD=log10(Dlme_mcatch10+eps);
 
-l10all = [l10sF(up);l10sP(keep);l10sD(keep)];
+% l10all = [l10sF(up);l10sP(keep);l10sD(keep)];
+l10all = [l10sF(keep);l10sP(keep);l10sD(keep)];
 %variance of catch observations
 sig = var(l10all);
 %num of observations
@@ -62,14 +64,15 @@ mse_all = rmse_all.^2;
 mse = rmse.^2;
 
 %put residuals of all fn types in one vector
-mis_all_F = mis_all(:,kid,2);
+mis_all_F = mis_all(:,:,2);
+%mis_all_F(isnan(mis_all_F)) = 0;
 mis_all_PD = mis_all(:,:,3:4);
 mis_PD = reshape(mis_all_PD,length(fx),45*2);
 mis_combo = [mis_all_F,mis_PD];
 
 mis_fn = mis(:,2:4);
 mis_fn = reshape(mis_fn,45*3,1);
-mis_fn = mis_fn(~isnan(mis_fn));
+%mis_fn = mis_fn(~isnan(mis_fn));
 
 %% Classic AIC 
 % AIC = -2*log(L) + 2*K
@@ -104,7 +107,7 @@ caicv(:,2) = caic_srt2;
 caicv(:,3) = cdel;
 caicv(:,4) = cw;
 cT = array2table(caicv,'VariableNames',{'ParamSet','AIC','delta','weight'});
-writetable(cT,[dp 'LHS_param5_hi_low_mid_AIC_classic_upwell.csv'])
+writetable(cT,[dp 'LHS_param5_hi_low_mid_AIC_classic_upwell0.csv'])
 
 %% Built in Fn
 %logLike LL_all 
@@ -124,7 +127,7 @@ baicv(:,2) = baic_srt2;
 baicv(:,3) = bdel;
 baicv(:,4) = bw;
 bT = array2table(baicv,'VariableNames',{'ParamSet','AIC','delta','weight'});
-writetable(bT,[dp 'LHS_param5_hi_low_mid_AIC_builtin_upwell.csv'])
+writetable(bT,[dp 'LHS_param5_hi_low_mid_AIC_builtin_upwell0.csv'])
 
 
 %% AICs <= AIC(orig) + 2
@@ -137,7 +140,7 @@ pset(:,7) = baic_all(pid);
 
 pT = array2table(pset,'VariableNames',{'ParamSet','Lambda','bMet','bEnc',...
     'aMet','aEnc','AIC'});
-writetable(pT,[dp 'LHS_param5_hi_low_mid_bestAIC_params_upwell.csv'])
+writetable(pT,[dp 'LHS_param5_hi_low_mid_bestAIC_params_upwell0.csv'])
 
 id1 = pid;
 
@@ -177,7 +180,7 @@ xlabel('D RMSE')
 ylabel('F RMSE')
 % xlim([0.25 1])
 % ylim([0 6])
-print('-dpng',[pp 'RMSE_SAUP_type_best_AIC_param5_hi_low_mid_upwell.png'])
+print('-dpng',[pp 'RMSE_SAUP_type_best_AIC_param5_hi_low_mid_upwell0.png'])
 
 
 %% realized param distr
@@ -188,9 +191,10 @@ for n=1:5
     xlim([plow(n) phi(n)])
     title(ptext{n})
 end
-print('-dpng',[pp 'param5_hi_lo_mid_distr_best_AIC_upwell.png'])
+print('-dpng',[pp 'param5_hi_lo_mid_distr_best_AIC_upwell0.png'])
 
-% Assim = 0.75; amet = 3; gamma = 100 more often
+% bpow=0.15; amet = 3; gamma = higher with lower benc
+% still get a lot of assim=0.75
 
 %% vis best maps
 for j=1:length(id1)
@@ -266,14 +270,14 @@ egrid(1:3,1:3,1:3) = zq;
 cgrid(1:3,1:3,1:3) = vq;
 
 %%
-figure(4)
+figure(6)
 subplot(2,3,1)
 scatter3(test(:,1),test(:,3),test(:,5),100,test(:,6),'filled'); hold on;
 xlabel('Assim')
 ylabel('b_E')
 zlabel('a_E')
 colormap('jet')
-caxis([180 205])
+caxis([285 295])
 colorbar('northoutside')
 %%
 subplot(2,3,4)
@@ -286,8 +290,8 @@ hold on;
 surf(squeeze(agrid(:,3,:)),squeeze(bgrid(:,3,:)),squeeze(egrid(:,3,:)),...
     squeeze(cgrid(:,3,:)),'FaceColor','interp');
 colormap('jet')
-caxis([180 205])
-%%
+caxis([285 295])
+%
 subplot(2,3,5)
 surf(squeeze(agrid(1,:,:)),squeeze(bgrid(1,:,:)),squeeze(egrid(1,:,:)),...
     squeeze(cgrid(1,:,:)),'FaceColor','interp');
@@ -298,8 +302,8 @@ hold on;
 surf(squeeze(agrid(3,:,:)),squeeze(bgrid(3,:,:)),squeeze(egrid(3,:,:)),...
     squeeze(cgrid(3,:,:)),'FaceColor','interp');
 colormap('jet')
-caxis([180 205])
-%%
+caxis([285 295])
+%
 subplot(2,3,6)
 surf(squeeze(agrid(:,:,1)),squeeze(bgrid(:,:,1)),squeeze(egrid(:,:,1)),...
     squeeze(cgrid(:,:,1)),'FaceColor','interp');
@@ -310,9 +314,9 @@ hold on;
 surf(squeeze(agrid(:,:,3)),squeeze(bgrid(:,:,3)),squeeze(egrid(:,:,3)),...
     squeeze(cgrid(:,:,3)),'FaceColor','interp');
 colormap('jet')
-caxis([180 205])
+caxis([285 295])
 
-%%
+%
 subplot(2,3,2)
 surf(squeeze(agrid(:,1,:)),squeeze(bgrid(:,1,:)),squeeze(egrid(:,1,:)),...
     squeeze(cgrid(:,1,:)),'FaceColor','interp');
@@ -325,10 +329,10 @@ hold on;
 surf(squeeze(agrid(:,:,3)),squeeze(bgrid(:,:,3)),squeeze(egrid(:,:,3)),...
     squeeze(cgrid(:,:,3)),'FaceColor','interp');
 colormap('jet')
-caxis([180 205])
+caxis([285 295])
 title('AIC when b_M = 0.15 and a_M = 3')
 
-%%
+%
 subplot(2,3,3)
 surf(squeeze(agrid(:,3,:)),squeeze(bgrid(:,3,:)),squeeze(egrid(:,3,:)),...
     squeeze(cgrid(:,3,:)),'FaceColor','interp');
@@ -342,8 +346,8 @@ surf(squeeze(agrid(:,:,1)),squeeze(bgrid(:,:,1)),squeeze(egrid(:,:,1)),...
     squeeze(cgrid(:,:,1)),'FaceColor','interp');
 hold on;
 colormap('jet')
-caxis([180 205])
-print('-dpng',[pp 'param5_hi_lo_mid_AIC_best_met_upwell.png'])
+caxis([285 295])
+print('-dpng',[pp 'param5_hi_lo_mid_AIC_best_met_upwell0.png'])
 
 
 

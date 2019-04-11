@@ -1,6 +1,6 @@
-% FEISTY 100 LHS parameter sets
+% FEISTY 32 full parameter sets of 5 most sensitive params
 % Only last 12 months of 150 years saved 
-% Reduced parameter space based on results of 5 param hi/low runs
+% Only high or low values
 
 clear all
 close all
@@ -8,24 +8,32 @@ close all
 cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
 Pdir = '/Volumes/GFDL/POEM_JLD/esm26_hist/';
 load([Pdir 'ESM26_1deg_5yr_clim_191_195_gridspec.mat']);
-dp = '/Volumes/GFDL/NC/Matlab_new_size/param_ensemble/Dc_D075_J100_Sm025_nmort1_noCC_RE00100/';
+dp = '/Volumes/GFDL/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_met-k086_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/';
 
 %%
 nfile = '/Volumes/GFDL/NC/Matlab_new_size/param_ensemble/';
-load([dp 'LHS_param13_100vals.mat']);
+load([dp 'LHS_param5_hi_low.mat']);
+fx5 = fx;
+clear fx 
 
-sim = cell(100,1);
-for j = 1:100
+load([dp 'LHS_param5_hi_low_mid.mat'],'fx');
+fx3 = fx;
+clear fx 
+
+fx = [fx5;fx3];
+
+sim = cell(length(fx),1);
+for j = 1:length(fx)
     %! Change individual parameters
     pset = fx(j,:);
-    pset=round(pset,3);
-    set_params13(pset)
+    %pset=round(pset,3);
+    set_params5(pset)
     
     %! Make core parameters/constants (global)
-    const_params13()
+    const_params5()
 
     %! Create a directory for output
-    fname = sub_fname_ensemble13();
+    fname = sub_fname_ensemble5();
     sim{j} = fname;
 end
 
@@ -113,23 +121,17 @@ for M=1:length(fx)
     
     %% SAU comparison
     % ADD CALC OF RESIDUALS
-    [r,rmse,ss,mis] = lme_saup_corr_stock_ensem(lme_mcatch);
+    [r,rmse,ss,mis] = lme_saup_corr_stock_ensem_upwell0(lme_mcatch);
     r_all(:,M) = r;
     rmse_all(:,M) = rmse;
     ss_all(:,M) = ss;
     mis_all(M,:,:) = mis;
     
-    %% Save
-    save([sfile '_means.mat'],...
-        'sf_mean','sp_mean','sd_mean','mf_mean','mp_mean','md_mean','b_mean',...
-        'lp_mean','ld_mean','time','lyr',...
-        'mf_my','mp_my','md_my','lp_my','ld_my',...
-        'lme_mcatch','lme_mbio','lme_area');
     
 end
 
 %%
-save([dp 'Climatol_ensemble_param13_LHS100.mat'],'SF','SP','SD',...
+save([dp 'Climatol_ensemble_param5_hi_low_mid_upwell0.mat'],'SF','SP','SD',...
     'MF','MP','MD','BI','LP','LD','MFc','MPc','MDc','LPc','LDc',...
     'lme_Fmcatch','lme_Pmcatch','lme_Dmcatch','lme_AllF','lme_AllP',...
     'r_all','rmse_all','ss_all','mis_all','sim')
