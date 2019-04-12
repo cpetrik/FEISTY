@@ -22,7 +22,7 @@ load([dpath 'LME_clim_fished_',harv,'_' cfile '.mat']);
 
 %%
 nfile = '/Volumes/GFDL/NC/Matlab_new_size/param_ensemble/';
-load([nfile 'LHS_param13_100vals.mat']);
+load([dp 'LHS_param13_100vals.mat']);
 
 % sfile = sim{M};
 % sname = sfile(83:end);
@@ -66,13 +66,22 @@ xlabel('D RMSE')
 ylabel('F RMSE')
 
 %% low RMSEs
-fid = find(rmse_all(2,:) < 3);
-pid = find(rmse_all(3,:) < 2); 
+fid = find(rmse_all(2,:) < 2);
+pid = find(rmse_all(3,:) < 1); 
 did = find(rmse_all(4,:) < 1);
 id1 = intersect(fid,did);
 id2 = intersect(pid,id1);
 
 pset = fx(id2,:);
+
+pset2 = pset;
+pset2(:,14) = rmse_all(2,id2)';
+pset2(:,15) = rmse_all(3,id2)';
+pset2(:,16) = rmse_all(4,id2)';
+
+pT = array2table(pset2,'VariableNames',{'Lambda','K_a','amet','h','gam','kc',...
+    'ke','kt','bpow','benc','bcmx','bent_eff','A','rmseF','rmseP','rmseD'});
+writetable(pT,[nfile 'LHS_param13_bestRMSE_params.csv'])
 
 %% RMSE
 figure(4)
@@ -114,7 +123,7 @@ xlabel('D RMSE')
 ylabel('F RMSE')
 xlim([0.25 1])
 ylim([0 6])
-%print('-dpng',[pp 'RMSE_SAUP_type_best_parm13.png'])
+print('-dpng',[pp 'RMSE_SAUP_type_best_parm13.png'])
 
 
 %% realized param distr
@@ -125,20 +134,20 @@ for n=1:13
     xlim([plow(n) phi(n)])
     title(ptext{n})
 end
-%print('-dpng',[pp 'param_distr_best_param13.png'])
+print('-dpng',[pp 'param_distr_bestRMSE_param13.png'])
 
 %% vis best maps
-% for k=1:length(id2)
-%     M=id2(k);
-%     sfile = sim{M};
-%     sname = sfile(83:end);
-%     load([sfile '_means.mat']);
-%     
-%     %% Maps
-%     vis_climatol_ensem(sname,sf_mean,sp_mean,sd_mean,...
-%     mf_mean,mp_mean,md_mean,b_mean,lp_mean,ld_mean);
-%     
-% end
+for k=1:length(id2)
+    M=id2(k);
+    sfile = sim{M};
+    sname = sfile(88:end);
+    load([sfile '_means.mat']);
+    
+    %% Maps
+    vis_climatol_ensem13(sname,sf_mean,sp_mean,sd_mean,...
+    mf_mean,mp_mean,md_mean,b_mean,lp_mean,ld_mean,pp);
+    
+end
 
 %% vis maps w/ good F & D, but not P
 id3 = setdiff(id1,id2);

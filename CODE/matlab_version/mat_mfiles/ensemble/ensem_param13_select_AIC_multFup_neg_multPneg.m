@@ -213,7 +213,7 @@ print('-dpng',[pp 'param13_distr_best_AIC_multFup_neg_multPneg.png'])
 for j=1:length(id1)
     M=id1(j);
     sfile = sim{M};
-    sname = sfile(140:end);
+    sname = sfile(88:end);
     load([sfile '_means.mat']);
     
     %% Maps
@@ -228,7 +228,7 @@ end
 for j=1:length(id1)
     M=id1(j);
     sfile = sim{M};
-    sname = sfile(140:end);
+    sname = sfile(88:end);
     
     %% Comp
     vis_clim_lme_saup_corr_stock(lme_Fmcatch(:,M),lme_Pmcatch(:,M),...

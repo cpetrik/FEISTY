@@ -22,7 +22,7 @@ load([dpath 'LME_clim_fished_',harv,'_' cfile '.mat']);
 
 %%
 nfile = '/Volumes/GFDL/NC/Matlab_new_size/param_ensemble/';
-load([nfile 'LHS_param13_100vals.mat']);
+load([dp 'LHS_param13_100vals.mat']);
 
 % sfile = sim{M};
 % sname = sfile(83:end);
@@ -136,11 +136,11 @@ besti = find(baicv(:,2) <= baic+2);
 pid = baicv(besti,1);
 pid = pid(pid>0);
 pset(:,1) = pid;
-pset(:,2:6) = fx(pid,:);
-pset(:,7) = baic_all(pid);
+pset(:,2:14) = fx(pid,:);
+pset(:,15) = baic_all(pid);
 
-pT = array2table(pset,'VariableNames',{'ParamSet','Lambda','bMet','bEnc',...
-    'aMet','aEnc','AIC'});
+pT = array2table(pset,'VariableNames',{'ParamSet','Lambda','K_a','amet','h',...
+    'gam','kc','ke','kt','bpow','benc','bcmx','bent_eff','A','AIC'});
 writetable(pT,[nfile 'LHS_param13_bestAIC_params.csv'])
 
 id1 = pid;
@@ -200,7 +200,7 @@ print('-dpng',[pp 'param13_distr_best_AIC.png'])
 for j=1:length(id1)
     M=id1(j);
     sfile = sim{M};
-    sname = sfile(140:end);
+    sname = sfile(88:end);
     load([sfile '_means.mat']);
     
     %% Maps
@@ -215,7 +215,7 @@ end
 for j=1:length(id1)
     M=id1(j);
     sfile = sim{M};
-    sname = sfile(140:end);
+    sname = sfile(88:end);
     
     %% Comp
     vis_clim_lme_saup_corr_stock(lme_Fmcatch(:,M),lme_Pmcatch(:,M),...
