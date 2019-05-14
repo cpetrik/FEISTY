@@ -78,7 +78,7 @@ cmocean('thermal');
 % xlabel('log10 ZoopLoss:Det')
 % ylabel('L / (L+M)')
 axis([-1 0.75 0 1])
-print('-dpng',[ppath 'lme_scatter_ZlDet_GAMfit_colorT_colorbar.png'])
+%print('-dpng',[ppath 'lme_scatter_ZlDet_GAMfit_colorT_colorbar.png'])
 
 
 %% Just P:D
@@ -103,7 +103,7 @@ cmocean('thermal');
 % xlabel('log10 ZoopLoss:Det')
 % ylabel('P / (P+D)')
 axis([-1 0.75 0 1])
-print('-dpng',[ppath 'lme_scatter_ZlDet_GAMfit_PD.png'])
+%print('-dpng',[ppath 'lme_scatter_ZlDet_GAMfit_PD.png'])
 
 %% Just fits
 figure(3)
@@ -130,7 +130,7 @@ plot(ZlDet(:,1),ZlDet(:,6)-2*ZlDet(:,7),'--k'); hold on;
 % xlabel('log10 ZoopLoss:Det')
 % ylabel('L / (L+M)')
 axis([-1 0.75 0 1])
-print('-dpng',[ppath 'lme_scatter_ZlDet_GAMfit_noData.png'])
+%print('-dpng',[ppath 'lme_scatter_ZlDet_GAMfit_noData.png'])
 
 
 %% WITH OTHER GAMS
@@ -216,7 +216,7 @@ plot(npp(:,1),npp(:,6)-2*npp(:,7),'--k'); hold on;
 % xlabel('log10 NPP')
 %ylabel('L / (L+M)')
 axis([-0.5 1 0 1])
-print('-dpng',[ppath 'lme_scatter_ZlDet_pelT_NPP_colorT.png'])
+%print('-dpng',[ppath 'lme_scatter_ZlDet_pelT_NPP_colorT.png'])
 
 %%
 figure(5)
@@ -303,7 +303,7 @@ plot(npp(:,1),npp(:,6)-2*npp(:,7),'--k'); hold on;
 % xlabel('log10 NPP')
 %ylabel('L / (L+M)')
 axis([-0.5 1 0 1])
-print('-dpng',[ppath 'lme_scatter_ZlDet_pelT_NPP_BW_points.png'])
+%print('-dpng',[ppath 'lme_scatter_ZlDet_pelT_NPP_BW_points.png'])
 
 %% B&W just fits
 figure(6)
@@ -381,7 +381,7 @@ plot(npp(:,1),npp(:,6)-2*npp(:,7),'--k'); hold on;
 %ylabel('L / (L+M)')
 axis([-0.5 1 0 1])
 %text(-0.4,0.9,'L')
-print('-dpng',[ppath 'lme_scatter_ZlDet_pelT_NPP_BW_fits.png'])
+%print('-dpng',[ppath 'lme_scatter_ZlDet_pelT_NPP_BW_fits.png'])
 
 
 

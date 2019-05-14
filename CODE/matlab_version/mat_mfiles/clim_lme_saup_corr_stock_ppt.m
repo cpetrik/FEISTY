@@ -7,7 +7,7 @@ close all
 spath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/SAUP/';
 cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
 dp = '/Volumes/GFDL/NC/Matlab_new_size/';
-pp = '/Users/cpetrik/Dropbox/Princeton/POEM_2.0/CODE/Figs/PNG/Matlab_New_sizes/';
+pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
 
 Pdir = '/Volumes/GFDL/POEM_JLD/esm26_hist/';
 load([Pdir 'ESM26_1deg_5yr_clim_191_195_gridspec.mat']);

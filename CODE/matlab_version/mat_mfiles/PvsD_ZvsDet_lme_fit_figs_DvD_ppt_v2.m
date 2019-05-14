@@ -32,10 +32,45 @@ end
 load([fpath 'LME_ZBratios_clim_fished_',harv,'_' cfile '.mat']);
 load([fpath 'All_gam_fits_DvD.mat']);
 
-%% Scatter plot
-% Plot GAM fit
+%% Assign a color to each LME based on temp
+%tmap=colormap(jet(66));
+tmap=cmocean('thermal',66);
+lme_ptemp(:,2)=1:length(lme_ptemp);
+[B,I] = sort(lme_ptemp(:,1));
+I(:,2)=1:length(lme_ptemp);
+[B2,I2] = sort(I(:,1));
+tid = I(I2,:);
+close all
+
+%% Scatter plot black
+%
 figure(1)
-subplot(3,2,1)
+subplot(3,3,1)
+scatter(log10(RatZlDet),FracPD,10,'k','filled'); hold on;
+plot(ZlDet(:,1),ZlDet(:,2),'k'); hold on;
+plot(ZlDet(:,1),ZlDet(:,2)+2*ZlDet(:,3),'--k'); hold on;
+plot(ZlDet(:,1),ZlDet(:,2)-2*ZlDet(:,3),'--k'); hold on;
+axis([-1 0.75 0 1])
+
+subplot(3,3,4)
+scatter(log10(RatZlDet),FracPF,10,'k','filled'); hold on;
+plot(ZlDet(:,1),ZlDet(:,4),'k'); hold on;
+plot(ZlDet(:,1),ZlDet(:,4)+2*ZlDet(:,5),'--k'); hold on;
+plot(ZlDet(:,1),ZlDet(:,4)-2*ZlDet(:,5),'--k'); hold on;
+axis([-1 0.75 0 1])
+
+subplot(3,3,7)
+scatter(log10(RatZlDet),FracLM,10,'k','filled'); hold on;
+plot(ZlDet(:,1),ZlDet(:,6),'k'); hold on;
+plot(ZlDet(:,1),ZlDet(:,6)+2*ZlDet(:,7),'--k'); hold on;
+plot(ZlDet(:,1),ZlDet(:,6)-2*ZlDet(:,7),'--k'); hold on;
+axis([-1 0.75 0 1])
+print('-dpng',[ppath 'lme_scatter_ZlDet_GAMfit_black.png'])
+
+%% Scatter plot with temp color
+%
+figure(2)
+subplot(3,3,1)
 scatter(log10(RatZlDet),FracPD,10,lme_ptemp(:,1),'filled'); hold on;
 plot(ZlDet(:,1),ZlDet(:,2),'k'); hold on;
 plot(ZlDet(:,1),ZlDet(:,2)+2*ZlDet(:,3),'--k'); hold on;
@@ -43,160 +78,130 @@ plot(ZlDet(:,1),ZlDet(:,2)-2*ZlDet(:,3),'--k'); hold on;
 %title('Color = LME mean temp')
 cmocean('thermal');
 %colorbar
-xlabel('log_1_0 ZLoss:Det')
-ylabel('P / (P+D)')
+% xlabel('log10 ZoopLoss:Det')
+% ylabel('P / (P+D)')
 axis([-1 0.75 0 1])
-text(-0.9,0.9,'A')
 
-subplot(3,2,3)
+subplot(3,3,4)
 scatter(log10(RatZlDet),FracPF,10,lme_ptemp(:,1),'filled'); hold on;
 plot(ZlDet(:,1),ZlDet(:,4),'k'); hold on;
 plot(ZlDet(:,1),ZlDet(:,4)+2*ZlDet(:,5),'--k'); hold on;
 plot(ZlDet(:,1),ZlDet(:,4)-2*ZlDet(:,5),'--k'); hold on;
 cmocean('thermal');
-colorbar('Position',[0.475 0.38 0.02 0.3])
-xlabel('log_1_0 ZLoss:Det')
-ylabel('P / (P+F)')
+colorbar('Position',[0.375 0.4 0.02 0.25])
+% xlabel('log10 ZoopLoss:Det')
+% ylabel('P / (P+F)')
 axis([-1 0.75 0 1])
-text(-0.9,0.9,'B')
 
-subplot(3,2,5)
+subplot(3,3,7)
 scatter(log10(RatZlDet),FracLM,10,lme_ptemp(:,1),'filled'); hold on;
 plot(ZlDet(:,1),ZlDet(:,6),'k'); hold on;
 plot(ZlDet(:,1),ZlDet(:,6)+2*ZlDet(:,7),'--k'); hold on;
 plot(ZlDet(:,1),ZlDet(:,6)-2*ZlDet(:,7),'--k'); hold on;
 cmocean('thermal');
 %colorbar
-xlabel('log_1_0 ZLoss:Det')
-ylabel('L / (L+M)')
+% xlabel('log10 ZoopLoss:Det')
+% ylabel('L / (L+M)')
 axis([-1 0.75 0 1])
-text(-0.9,0.9,'C')
-print('-dpng',[ppath 'lme_scatter_ZlDet_GAMfit_colorT_ms.png'])
+print('-dpng',[ppath 'lme_scatter_ZlDet_GAMfit_colorT_colorbar.png'])
+
+
+%% Just P:D
+figure(3)
+plot(ZlDet(:,1),ZlDet(:,2),'LineWidth',2,'color',[0 0.5 0.75]); hold on;
+plot(ZlDet(:,1),ZlDet(:,2)+2*ZlDet(:,3),'--k'); hold on;
+plot(ZlDet(:,1),ZlDet(:,2)-2*ZlDet(:,3),'--k'); hold on;
+plot(log10(RatZlDet),FracPD,'k.','MarkerSize',25); hold on;
+axis([-1 0.75 0 1])
+set(gca,'FontSize',18,'XTick',-0.9:0.3:0.6,'XTickLabel',-0.9:0.3:0.6,...
+    'YTick',0:0.5:1,'YTickLabel',0:0.5:1)
+print('-dpng',[ppath 'lme_scatter_ZlDet_GAMfit_PD.png'])
+
 
 %% WITH OTHER GAMS
-figure(2)
-subplot(3,4,1)
-plot(log10(RatZlDet),FracPD,'.k','MarkerSize',10); hold on;
+figure(4)
+subplot(3,3,1)
+scatter(log10(RatZlDet),FracPD,10,'k','filled'); hold on;
 plot(ZlDet(:,1),ZlDet(:,2),'k'); hold on;
 plot(ZlDet(:,1),ZlDet(:,2)+2*ZlDet(:,3),'--k'); hold on;
 plot(ZlDet(:,1),ZlDet(:,2)-2*ZlDet(:,3),'--k'); hold on;
 %title('Color = LME mean temp')
-%xlabel('log_1_0 ZLoss:Det')
-ylabel('P / (P+D)')
+%xlabel('log10 ZoopLoss:Det')
+% ylabel('P / (P+D)')
 axis([-1 0.75 0 1])
-text(-0.9,0.9,'A')
 
-subplot(3,4,5)
-plot(log10(RatZlDet),FracPF,'.k','MarkerSize',10); hold on;
+subplot(3,3,4)
+scatter(log10(RatZlDet),FracPF,10,'k','filled'); hold on;
 plot(ZlDet(:,1),ZlDet(:,4),'k'); hold on;
 plot(ZlDet(:,1),ZlDet(:,4)+2*ZlDet(:,5),'--k'); hold on;
 plot(ZlDet(:,1),ZlDet(:,4)-2*ZlDet(:,5),'--k'); hold on;
-%xlabel('log_1_0 ZLoss:Det')
-ylabel('P / (P+F)')
+%xlabel('log10 ZoopLoss:Det')
+% ylabel('P / (P+F)')
 axis([-1 0.75 0 1])
-text(-0.9,0.9,'E')
 
-subplot(3,4,9)
-plot(log10(RatZlDet),FracLM,'.k','MarkerSize',10); hold on;
+subplot(3,3,7)
+scatter(log10(RatZlDet),FracLM,10,'k','filled'); hold on;
 plot(ZlDet(:,1),ZlDet(:,6),'k'); hold on;
 plot(ZlDet(:,1),ZlDet(:,6)+2*ZlDet(:,7),'--k'); hold on;
 plot(ZlDet(:,1),ZlDet(:,6)-2*ZlDet(:,7),'--k'); hold on;
-xlabel('log_1_0 ZLoss:Det')
-ylabel('L / (L+M)')
+% xlabel('log10 ZoopLoss:Det')
+% ylabel('L / (L+M)')
 axis([-1 0.75 0 1])
-text(-0.9,0.9,'I')
 
 %ptemp
-subplot(3,4,2)
-plot(lme_ptemp(:,1),FracPD,'.k','MarkerSize',10); hold on;
+subplot(3,3,2)
+scatter(lme_ptemp(:,1),FracPD,10,'k','filled'); hold on;
 plot(ptemp(:,1),ptemp(:,2),'k'); hold on;
 plot(ptemp(:,1),ptemp(:,2)+2*ptemp(:,3),'--k'); hold on;
 plot(ptemp(:,1),ptemp(:,2)-2*ptemp(:,3),'--k'); hold on;
 %xlabel('Tpel (^oC)')
 %ylabel('P / (P+D)')
 axis([-2 30 0 1])
-text(-1,0.9,'B')
 
-subplot(3,4,6)
-plot(lme_ptemp(:,1),FracPF,'.k','MarkerSize',10); hold on;
+subplot(3,3,5)
+scatter(lme_ptemp(:,1),FracPF,10,'k','filled'); hold on;
 plot(ptemp(:,1),ptemp(:,4),'k'); hold on;
 plot(ptemp(:,1),ptemp(:,4)+2*ptemp(:,5),'--k'); hold on;
 plot(ptemp(:,1),ptemp(:,4)-2*ptemp(:,5),'--k'); hold on;
 %xlabel('Tpel (^oC)')
 %ylabel('P / (P+F)')
 axis([-2 30 0 1])
-text(-1,0.9,'F')
 
-subplot(3,4,10)
-plot(lme_ptemp(:,1),FracLM,'.k','MarkerSize',10); hold on;
+subplot(3,3,8)
+scatter(lme_ptemp(:,1),FracLM,10,'k','filled'); hold on;
 plot(ptemp(:,1),ptemp(:,6),'k'); hold on;
 plot(ptemp(:,1),ptemp(:,6)+2*ptemp(:,7),'--k'); hold on;
 plot(ptemp(:,1),ptemp(:,6)-2*ptemp(:,7),'--k'); hold on;
-xlabel('PelT (^oC)')
+% xlabel('Tpel (^oC)')
 %ylabel('L / (L+M)')
 axis([-2 30 0 1])
-text(-1,0.9,'J')
 
-%Frac200
-subplot(3,4,3)
-plot(lme_shal_frac(:,1),FracPD,'.k','MarkerSize',10); hold on;
-plot(Frac200(:,1),Frac200(:,2),'k'); hold on;
-plot(Frac200(:,1),Frac200(:,2)+2*Frac200(:,3),'--k'); hold on;
-plot(Frac200(:,1),Frac200(:,2)-2*Frac200(:,3),'--k'); hold on;
-%title('Color = LME mean temp')
-%xlabel('Frac<200m')
-%ylabel('P / (P+D)')
-axis([0 1 0 1])
-text(0.1,0.9,'C')
-
-subplot(3,4,7)
-plot(lme_shal_frac(:,1),FracPF,'.k','MarkerSize',10); hold on;
-plot(Frac200(:,1),Frac200(:,4),'k'); hold on;
-plot(Frac200(:,1),Frac200(:,4)+2*Frac200(:,5),'--k'); hold on;
-plot(Frac200(:,1),Frac200(:,4)-2*Frac200(:,5),'--k'); hold on;
-%xlabel('Frac<200m')
-%ylabel('P / (P+F)')
-axis([0 1 0 1])
-text(0.1,0.9,'G')
-
-subplot(3,4,11)
-plot(lme_shal_frac(:,1),FracLM,'.k','MarkerSize',10); hold on;
-plot(Frac200(:,1),Frac200(:,6),'k'); hold on;
-plot(Frac200(:,1),Frac200(:,6)+2*Frac200(:,7),'--k'); hold on;
-plot(Frac200(:,1),Frac200(:,6)-2*Frac200(:,7),'--k'); hold on;
-xlabel('Frac<200m')
-%ylabel('L / (L+M)')
-axis([0 1 0 1])
-text(0.1,0.9,'K')
 
 %npp
-subplot(3,4,4)
-plot(log10(lme_npp/365),FracPD,'.k','MarkerSize',10); hold on;
+subplot(3,3,3)
+scatter(log10(lme_npp/365),FracPD,10,'k','filled'); hold on;
 plot(npp(:,1),npp(:,2),'k'); hold on;
 plot(npp(:,1),npp(:,2)+2*npp(:,3),'--k'); hold on;
 plot(npp(:,1),npp(:,2)-2*npp(:,3),'--k'); hold on;
 %title('Color = LME mean temp')
 %ylabel('P / (P+D)')
 axis([-0.5 1 0 1])
-text(-0.4,0.9,'D')
 
-subplot(3,4,8)
-plot(log10(lme_npp/365),FracPF,'.k','MarkerSize',10); hold on;
+subplot(3,3,6)
+scatter(log10(lme_npp/365),FracPF,10,'k','filled'); hold on;
 plot(npp(:,1),npp(:,4),'k'); hold on;
 plot(npp(:,1),npp(:,4)+2*npp(:,5),'--k'); hold on;
 plot(npp(:,1),npp(:,4)-2*npp(:,5),'--k'); hold on;
 %ylabel('P / (P+F)')
 axis([-0.5 1 0 1])
-text(-0.4,0.9,'H')
 
-subplot(3,4,12)
-plot(log10(lme_npp/365),FracLM,'.k','MarkerSize',10); hold on;
+subplot(3,3,9)
+scatter(log10(lme_npp/365),FracLM,10,'k','filled'); hold on;
 plot(npp(:,1),npp(:,6),'k'); hold on;
 plot(npp(:,1),npp(:,6)+2*npp(:,7),'--k'); hold on;
 plot(npp(:,1),npp(:,6)-2*npp(:,7),'--k'); hold on;
-xlabel('log_1_0 NPP')
+% xlabel('log10 NPP')
 %ylabel('L / (L+M)')
 axis([-0.5 1 0 1])
-text(-0.4,0.9,'L')
-%print('-dpng',[ppath 'FigS3_lme_scatter_ZlDet_allGAMfit_BW_points_ms.png'])
+print('-dpng',[ppath 'lme_scatter_ZlDet_pelT_NPP_BW_points.png'])
 
