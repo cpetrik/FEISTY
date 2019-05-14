@@ -46,7 +46,7 @@ if climatol_param
     Climatol_param_sens_v3()
 end
 if climatol_ens
-    Climatol_param_ensemble13()
+    Climatol_param_ensemble5()
 end
 if climatol
     Climatol_pristine()

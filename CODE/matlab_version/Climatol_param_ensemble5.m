@@ -36,10 +36,10 @@ efn=nan;
 mfn=nan;
 
 nfile = ['/Volumes/GFDL/NC/Matlab_new_size/param_ensemble/'];
-load([nfile 'LHS_param5_hi_low_mid.mat']);
+load([nfile 'LHS_param5_hi_low_mid_v2.mat']);
 
 % PARAMETER SENSITIVITY TEST
-for j = 8:length(fx)
+for j = 1:length(fx)
     
     %! Change individual parameters
     pset = fx(j,:);
