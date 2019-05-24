@@ -1,6 +1,7 @@
 % Save output of POEM Climatology at single locations
 % for foodweb diagram
 % 150 years, monthly means saved
+% Uses NPP - Det for flux to zoop
 
 clear all
 close all
@@ -123,7 +124,7 @@ bios(:,4) = P(red);
 bios(:,5) = B(red);
 bios(:,6) = D(red);
 
-flux(:,1) = z_loss_locs(red);
+flux(:,1) = npp_locs(red) - det_locs(red); %z_loss_locs(red);
 flux(:,2) = conZ(red,1);
 flux(:,3) = conF(red,2);
 flux(:,4) = det_locs(red);
@@ -133,7 +134,7 @@ flux(:,7) = conF(red,3);
 
 %% save
 rsites = sites(red);
-save([dpath sname harv '_red_locs_biom_flux_KKfoodweb.mat'],'rsites',...
+save([dpath sname harv '_red_locs_biom_flux_KKfoodweb_alt.mat'],'rsites',...
     'bios','flux');
 
 

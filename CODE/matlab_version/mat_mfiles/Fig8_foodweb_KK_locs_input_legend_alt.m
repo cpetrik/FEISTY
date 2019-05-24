@@ -1,4 +1,5 @@
 % Create digraph objects for the food webs
+% Uses NPP - Det for flux to zoop
 
 clear all
 close all
@@ -16,7 +17,7 @@ if (~isdir([figp char(dp)]))
     mkdir([figp char(dp)])
 end
 cfile = char(dp);
-load([dpath sname harv '_red_locs_biom_flux_KKfoodweb.mat']);
+load([dpath sname harv '_red_locs_biom_flux_KKfoodweb_alt.mat']);
 
 % Fluxes (consumption rates)
 %rows 1:Npp->zoop, 2:zoop->F, 3:F->P, 4:NPP->det, 5:B->D, 6:P->D, 7:F->D 
@@ -140,4 +141,4 @@ colormap(cmap);
 
 set(gcf, 'color', 'w');
 stamp(cfile)
-print(gcf, '-dpng',[fpath 'foodweb_cbrt_eg_names_v4']);
+print(gcf, '-dpng',[fpath 'foodweb_cbrt_eg_names_alt']);
