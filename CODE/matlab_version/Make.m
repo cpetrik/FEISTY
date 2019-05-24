@@ -12,7 +12,7 @@ oneloc_fore_pristine = false;
 spinup_pristine = false;
 climatol_loop = false;
 climatol_param = false;
-climatol_ens = true;
+climatol_ens = false;
 climatol = false;
 climatol_crr = false;
 climatol_con = false;
@@ -20,6 +20,7 @@ climatol_ngdc = false;
 pre_industrial = false;
 historic_pristine = false;
 historic_fished = false;
+historic_fished_ens = true;
 forecast_pristine = false;
 forecast_fished = false;
 
@@ -68,6 +69,9 @@ if historic_pristine
 end
 if historic_fished
     Historic_fished()
+end
+if historic_fished_ens
+    Historic_fished_ensemble()
 end
 if forecast_pristine
     Forecast_pristine()
