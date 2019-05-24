@@ -11,32 +11,8 @@ dp = '/Volumes/GFDL/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_met-k086_cmax2
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/param_ensemble/Dc_enc-k063_met-k086_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/';
 
 % param ensemble results
-load([dp 'Climatol_ensemble_param5__amet4_bpow175.mat'],'rmse_all','mis_all','sim',...
+load([dp 'Climatol_ensemble_param5_amet4_bpow175.mat'],'rmse_all','mis_all','sim',...
     'lme_Fmcatch','lme_Pmcatch','lme_Dmcatch');
-rmse_all5 = rmse_all;
-mis_all5 = mis_all;
-sim5 = sim;
-lme_Fmcatch5 = lme_Fmcatch;
-lme_Pmcatch5 = lme_Pmcatch;
-lme_Dmcatch5 = lme_Dmcatch;
-clear rmse_all mis_all sim lme_Fmcatch lme_Pmcatch lme_Dmcatch
-
-load([dp 'Climatol_ensemble_param5_hi_low_mid.mat'],'rmse_all','mis_all','sim',...
-    'lme_Fmcatch','lme_Pmcatch','lme_Dmcatch');
-rmse_all3 = rmse_all;
-mis_all3 = mis_all;
-sim3 = sim;
-lme_Fmcatch3 = lme_Fmcatch;
-lme_Pmcatch3 = lme_Pmcatch;
-lme_Dmcatch3 = lme_Dmcatch;
-clear rmse_all mis_all sim lme_Fmcatch lme_Pmcatch lme_Dmcatch
-
-rmse_all = [rmse_all5,rmse_all3];
-mis_all = cat(1,mis_all5,mis_all3);
-sim=[sim5;sim3];
-lme_Fmcatch = [lme_Fmcatch5,lme_Fmcatch3];
-lme_Pmcatch = [lme_Pmcatch5,lme_Pmcatch3];
-lme_Dmcatch = [lme_Dmcatch5,lme_Dmcatch3];
 
 % climatol parameter set
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
@@ -46,15 +22,7 @@ load([dpath 'LME_clim_fished_',harv,'_' cfile '.mat']);
 
 %%
 nfile = '/Volumes/GFDL/NC/Matlab_new_size/param_ensemble/';
-load([nfile 'LHS_param5_hi_low.mat']);
-fx5 = fx;
-clear fx 
-
-load([nfile 'LHS_param5_hi_low_mid.mat'],'fx');
-fx3 = fx;
-clear fx 
-
-fx = [fx5;fx3];
+load([nfile 'LHS_param5_hi_low_mid_v2.mat']);
 
 % sfile = sim{M};
 % sname = sfile(83:end);
@@ -83,29 +51,43 @@ n = length(l10all);
 mse_all = rmse_all.^2;
 mse = rmse.^2;
 
-%put residuals of all fn types in one vector
-mis_all_fn = mis_all(:,:,2:4);
-mis_combo = reshape(mis_all_fn,length(fx),45*3);
+%% Multiply the neg F upwelling LME misfits so they weigh more
+up = [3;11;13;27;28;29];
+[uboth,uid,kid]=intersect(up,keep);
+mis_all_F = mis_all(:,:,2);
+negF = mis_all_F(:,kid) < 0;
+negF2 = mis_all_F;
+negF3 = double(negF);
+negF3(negF3==1) = 10;
+negF3(negF3==0) = 1;
+mis_all_F2 = mis_all_F;
+mis_all_F2(:,kid) = mis_all_F(:,kid) .* negF3;
 
+%% Multiply the P misfits < - log10(5) so they weigh more
+mis_all_P = mis_all(:,:,3);
+negP = mis_all_P < (-1*log10(5));
+negP2 = mis_all_P;
+negP3 = double(negP);
+negP3(negP3==1) = 3;
+negP3(negP3==0) = 1;
+mis_all_P2 = mis_all_P .* negP3;
+
+%%
+mis_all_D = mis_all(:,:,4);
+%put residuals of all fn types in one vector
+mis_combo = [mis_all_F2,mis_all_P2,mis_all_D];
+
+%%
 mis_fn = mis(:,2:4);
+nid = find(mis_fn(:,1) < 0);
+unid = intersect(kid,nid);
+mis_fn(unid,1) = mis_fn(unid,1) .* 10;
+
+pid = find(mis_fn(:,2) < (-1*log10(5)));
+mis_fn(pid,2) = mis_fn(pid,2) .* 3;
+
 mis_fn = reshape(mis_fn,45*3,1);
 
-%% AIC if all models have normally distributed errors
-% AIC = n*log(sum(resid?2)/n) + 2*K
-aic_all = n * log( sum(mis_combo.^2,2) / n);
-aic = n * log( sum(mis_fn.^2) / n);
-
-[aic_srt,idx] = sort(aic_all);
-aic_srt2 = [aic;aic_srt];
-del = aic_srt2 - aic_srt2(1);
-w = exp(-0.5*del) ./ sum( exp(-0.5*del) );
-
-aicv(:,1) = [0;idx];
-aicv(:,2) = aic_srt2;
-aicv(:,3) = del;
-aicv(:,4) = w;
-T = array2table(aicv,'VariableNames',{'ParamSet','AIC','delta','weight'});
-%writetable(T,[nfile 'LHS_param5_hi_low_mid_AIC.csv'])
 
 %% Classic AIC 
 % AIC = -2*log(L) + 2*K
@@ -140,7 +122,7 @@ caicv(:,2) = caic_srt2;
 caicv(:,3) = cdel;
 caicv(:,4) = cw;
 cT = array2table(caicv,'VariableNames',{'ParamSet','AIC','delta','weight'});
-writetable(cT,[nfile 'LHS_param5_hi_low_mid_AIC_classic.csv'])
+writetable(cT,[dp 'LHS_param5_amet4_bpow175_AIC_multFup_neg_multPneg.csv'])
 
 %% Built in Fn
 %logLike LL_all 
@@ -160,7 +142,7 @@ baicv(:,2) = baic_srt2;
 baicv(:,3) = bdel;
 baicv(:,4) = bw;
 bT = array2table(baicv,'VariableNames',{'ParamSet','AIC','delta','weight'});
-writetable(bT,[nfile 'LHS_param5_hi_low_mid_AIC_builtin.csv'])
+writetable(bT,[dp 'LHS_param5_amet4_bpow175_AIC_builtin_multFup_neg_multPneg.csv'])
 
 
 %% AICs <= AIC(orig) + 2
@@ -173,60 +155,9 @@ pset(:,7) = baic_all(pid);
 
 pT = array2table(pset,'VariableNames',{'ParamSet','Lambda','bMet','bEnc',...
     'aMet','aEnc','AIC'});
-writetable(pT,[nfile 'LHS_param5_hi_low_mid_bestAIC_params.csv'])
+writetable(pT,[dp 'LHS_param5_amet4_bpow175_bestAIC_params_multFup_neg_multPneg.csv'])
 
 id1 = pid;
-
-%% Plot RMSE in 3D space
-figure(4)
-subplot(2,2,1)
-scatter3(rmse_all(3,:),rmse_all(4,:),rmse_all(2,:)); hold on;
-scatter3(rmse_all(3,id1),rmse_all(4,id1),rmse_all(2,id1),'b','filled'); hold on;
-scatter3(rmse(3),rmse(4),rmse(2),'k','filled');
-xlabel('P RMSE')
-ylabel('D RMSE')
-zlabel('F RMSE')
-% xlim([0.25 8])
-% ylim([0.25 1])
-% zlim([0 6])
-subplot(2,2,2)
-scatter(rmse_all(3,:),rmse_all(4,:)); hold on;
-scatter(rmse_all(3,id1),rmse_all(4,id1),'b','filled'); hold on;
-scatter(rmse(3),rmse(4),'k','filled');
-xlabel('P RMSE')
-ylabel('D RMSE')
-% xlim([0.25 8])
-% ylim([0.25 1])
-subplot(2,2,3)
-scatter(rmse_all(3,:),rmse_all(2,:)); hold on;
-scatter(rmse_all(3,id1),rmse_all(2,id1),'b','filled'); hold on;
-scatter(rmse(3),rmse(2),'k','filled');
-xlabel('P RMSE')
-ylabel('F RMSE')
-% xlim([0.25 8])
-% ylim([0 6])
-subplot(2,2,4)
-scatter(rmse_all(4,:),rmse_all(2,:)); hold on;
-scatter(rmse_all(4,id1),rmse_all(2,id1),'b','filled'); hold on;
-scatter(rmse(4),rmse(2),'k','filled');
-xlabel('D RMSE')
-ylabel('F RMSE')
-% xlim([0.25 1])
-% ylim([0 6])
-print('-dpng',[pp 'RMSE_SAUP_type_best_AIC_param5_hi_low_mid.png'])
-
-
-%% realized param distr
-figure(5)
-for n=1:5
-    subplot(3,2,n)
-    hist(pset(:,n+1))
-    xlim([plow(n) phi(n)])
-    title(ptext{n})
-end
-print('-dpng',[pp 'param5_hi_lo_mid_distr_best_AIC.png'])
-
-% Assim = 0.75; amet = 3; gamma = 100 more often
 
 %% vis best maps
 for j=1:length(id1)
@@ -255,41 +186,10 @@ for j=1:length(id1)
     
 end
 
-%% vis good and bad F SAUP comp
-bad = [32,28,13];
-good = [2,46,42,38,43,39,40];
-Fbg = [bad,good];
-for j=1:length(Fbg)
-    M=Fbg(j);
-    sfile = sim{M};
-    sname = sfile(140:end);
-    
-    %% Comp
-    clim_catch_lme_saup_Fcorr_stock_LMEid(lme_Fmcatch(:,M),pp,sname);
-    
-end
-
-%% reduced realized param distr
-bid = find(pset(:,3)==0.15);
-red_pset=pset(bid,:); 
-%bpow=0.15 so F good
-
-figure(6)
-for n=1:5
-    subplot(3,2,n)
-    hist(red_pset(:,n+1))
-    xlim([plow(n) phi(n)])
-    title(ptext{n})
-end
-print('-dpng',[pp 'param5_hi_lo_mid_distr_best_AIC_redF.png'])
-
-% Assim = 0.75; amet = 3; 
-% benc = 0.15 & gamma = 100 more often
-
 %% Plot ACI in 3D space
 % reduce param to bpow=0.15 and amet=3
-idb = find(fx(:,2)==0.15);
-ida = find(fx(:,4)==3);
+idb = find(fx(:,2)==0.175);
+ida = find(fx(:,4)==4);
 idbot = intersect(ida,idb);
 test = fx(idbot,:);
 test(:,6) = baic_all(idbot);
@@ -306,7 +206,7 @@ ae = [50,75,100];
 % Interpolate the scattered data on the grid. Plot the results.
 vq = griddata(x,y,z,v,xq,yq,zq);
 
-%%
+%
 agrid = NaN(4,4,4);
 bgrid = NaN(4,4,4);
 cgrid = NaN(4,4,4);
@@ -318,94 +218,14 @@ egrid(1:3,1:3,1:3) = zq;
 cgrid(1:3,1:3,1:3) = vq;
 
 %%
-figure(4)
+figure(7)
 subplot(2,3,1)
 scatter3(test(:,1),test(:,3),test(:,5),100,test(:,6),'filled'); hold on;
 xlabel('Assim')
 ylabel('b_E')
 zlabel('a_E')
 colormap('jet')
-caxis([360 400])
-colorbar('northoutside')
-%%
-subplot(2,3,4)
-surf(squeeze(agrid(:,1,:)),squeeze(bgrid(:,1,:)),squeeze(egrid(:,1,:)),...
-    squeeze(cgrid(:,1,:)),'FaceColor','interp');
-hold on;
-surf(squeeze(agrid(:,2,:)),squeeze(bgrid(:,2,:)),squeeze(egrid(:,2,:)),...
-    squeeze(cgrid(:,2,:)),'FaceColor','interp');
-hold on;
-surf(squeeze(agrid(:,3,:)),squeeze(bgrid(:,3,:)),squeeze(egrid(:,3,:)),...
-    squeeze(cgrid(:,3,:)),'FaceColor','interp');
-colormap('jet')
-caxis([360 400])
-%%
-subplot(2,3,5)
-surf(squeeze(agrid(1,:,:)),squeeze(bgrid(1,:,:)),squeeze(egrid(1,:,:)),...
-    squeeze(cgrid(1,:,:)),'FaceColor','interp');
-hold on;
-surf(squeeze(agrid(2,:,:)),squeeze(bgrid(2,:,:)),squeeze(egrid(2,:,:)),...
-    squeeze(cgrid(2,:,:)),'FaceColor','interp');
-hold on;
-surf(squeeze(agrid(3,:,:)),squeeze(bgrid(3,:,:)),squeeze(egrid(3,:,:)),...
-    squeeze(cgrid(3,:,:)),'FaceColor','interp');
-colormap('jet')
-caxis([360 400])
-%%
-subplot(2,3,6)
-surf(squeeze(agrid(:,:,1)),squeeze(bgrid(:,:,1)),squeeze(egrid(:,:,1)),...
-    squeeze(cgrid(:,:,1)),'FaceColor','interp');
-hold on;
-surf(squeeze(agrid(:,:,2)),squeeze(bgrid(:,:,2)),squeeze(egrid(:,:,2)),...
-    squeeze(cgrid(:,:,2)),'FaceColor','interp');
-hold on;
-surf(squeeze(agrid(:,:,3)),squeeze(bgrid(:,:,3)),squeeze(egrid(:,:,3)),...
-    squeeze(cgrid(:,:,3)),'FaceColor','interp');
-colormap('jet')
-caxis([360 400])
-
-%%
-subplot(2,3,2)
-surf(squeeze(agrid(:,1,:)),squeeze(bgrid(:,1,:)),squeeze(egrid(:,1,:)),...
-    squeeze(cgrid(:,1,:)),'FaceColor','interp');
-hold on;
-
-surf(squeeze(agrid(1,:,:)),squeeze(bgrid(1,:,:)),squeeze(egrid(1,:,:)),...
-    squeeze(cgrid(1,:,:)),'FaceColor','interp');
-hold on;
-
-surf(squeeze(agrid(:,:,3)),squeeze(bgrid(:,:,3)),squeeze(egrid(:,:,3)),...
-    squeeze(cgrid(:,:,3)),'FaceColor','interp');
-colormap('jet')
-caxis([360 400])
-title('AIC when b_M = 0.15 and a_M = 3')
-
-%%
-subplot(2,3,3)
-surf(squeeze(agrid(:,3,:)),squeeze(bgrid(:,3,:)),squeeze(egrid(:,3,:)),...
-    squeeze(cgrid(:,3,:)),'FaceColor','interp');
-hold on;
-
-surf(squeeze(agrid(3,:,:)),squeeze(bgrid(3,:,:)),squeeze(egrid(3,:,:)),...
-    squeeze(cgrid(3,:,:)),'FaceColor','interp');
-hold on;
-
-surf(squeeze(agrid(:,:,1)),squeeze(bgrid(:,:,1)),squeeze(egrid(:,:,1)),...
-    squeeze(cgrid(:,:,1)),'FaceColor','interp');
-hold on;
-colormap('jet')
-caxis([360 400])
-print('-dpng',[pp 'param5_hi_lo_mid_AIC_best_met.png'])
-
-%% Cut off at AIC orig + 2
-figure(5)
-subplot(2,3,1)
-scatter3(test(:,1),test(:,3),test(:,5),100,test(:,6),'filled'); hold on;
-xlabel('Assim')
-ylabel('b_E')
-zlabel('a_E')
-colormap('jet')
-caxis([363 389])
+caxis([590 635])
 colorbar('northoutside')
 %
 subplot(2,3,4)
@@ -418,7 +238,7 @@ hold on;
 surf(squeeze(agrid(:,3,:)),squeeze(bgrid(:,3,:)),squeeze(egrid(:,3,:)),...
     squeeze(cgrid(:,3,:)),'FaceColor','interp');
 colormap('jet')
-caxis([363 389])
+caxis([590 635])
 %
 subplot(2,3,5)
 surf(squeeze(agrid(1,:,:)),squeeze(bgrid(1,:,:)),squeeze(egrid(1,:,:)),...
@@ -430,7 +250,7 @@ hold on;
 surf(squeeze(agrid(3,:,:)),squeeze(bgrid(3,:,:)),squeeze(egrid(3,:,:)),...
     squeeze(cgrid(3,:,:)),'FaceColor','interp');
 colormap('jet')
-caxis([363 389])
+caxis([590 635])
 %
 subplot(2,3,6)
 surf(squeeze(agrid(:,:,1)),squeeze(bgrid(:,:,1)),squeeze(egrid(:,:,1)),...
@@ -442,7 +262,7 @@ hold on;
 surf(squeeze(agrid(:,:,3)),squeeze(bgrid(:,:,3)),squeeze(egrid(:,:,3)),...
     squeeze(cgrid(:,:,3)),'FaceColor','interp');
 colormap('jet')
-caxis([363 389])
+caxis([590 635])
 
 %
 subplot(2,3,2)
@@ -457,8 +277,8 @@ hold on;
 surf(squeeze(agrid(:,:,3)),squeeze(bgrid(:,:,3)),squeeze(egrid(:,:,3)),...
     squeeze(cgrid(:,:,3)),'FaceColor','interp');
 colormap('jet')
-caxis([363 389])
-title('AIC when b_M = 0.15 and a_M = 3')
+caxis([590 635])
+title('AIC when b_M = 0.175 and a_M = 4')
 
 %
 subplot(2,3,3)
@@ -474,11 +294,6 @@ surf(squeeze(agrid(:,:,1)),squeeze(bgrid(:,:,1)),squeeze(egrid(:,:,1)),...
     squeeze(cgrid(:,:,1)),'FaceColor','interp');
 hold on;
 colormap('jet')
-caxis([363 389])
-print('-dpng',[pp 'param5_hi_lo_mid_AIC_max_best_met.png'])
-
-
-
-
-
+caxis([590 635])
+print('-dpng',[pp 'param5_amet4_bpow175_AIC_best_met_multFup_neg_multPneg.png'])
 
