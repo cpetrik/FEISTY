@@ -20,10 +20,10 @@ climatol_ngdc = false;
 pre_industrial = false;
 historic_pristine = false;
 historic_fished = false;
-historic_fished_ens = false;
+historic_fished_ens = true;
 forecast_pristine = false;
 forecast_fished = false;
-forecast_fished_ens = true;
+forecast_fished_ens = false;
 
 tic
 if testoneloc
@@ -72,7 +72,7 @@ if historic_fished
     Historic_fished()
 end
 if historic_fished_ens
-    Historic_fished_ensemble()
+    Historic_fished_prod_ensemble()
 end
 if forecast_pristine
     Forecast_pristine()
