@@ -181,10 +181,38 @@ plot(y,100*q(6,:),'k','Linewidth',2); hold on;
 title('TE ATL')
 xlim([1900 2095])
 xlabel('Year')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_TE_sub.png'])
+print('-dpng',[ppath 'Hist_Fore_',harv,'_TE_sub3.png'])
+
+%% subplot of TEs
+figure(4)
+subplot(2,2,1)
+plot(y,100*q(4,:),'color',[0.5 0 1],'Linewidth',2); hold on;
+title('TE LTL')
+ylim([9 10])
+xlim([1900 2095])
+xlabel('Year')
+subplot(2,2,2)
+plot(y,100*q(5,:),'color',[0 0.5 0.75],'Linewidth',2); hold on;
+title('TE HTL')
+xlim([1900 2095])
+xlabel('Year')
+subplot(2,2,3)
+plot(y,100*q(6,:),'k','Linewidth',2); hold on;
+title('TE ATL')
+xlim([1900 2095])
+xlabel('Year')
+subplot(2,2,4)
+plot(y,100*q(4,:),'color',[0.5 0 1],'Linewidth',2); hold on;
+plot(y,100*q(5,:),'color',[0 0.5 0.75],'Linewidth',2); hold on;
+plot(y,100*q(6,:),'k','Linewidth',2); hold on;
+%legend('LTL','HTL','ATL')
+%legend('location','northeast')
+xlim([1900 2095])
+xlabel('Year')
+print('-dpng',[ppath 'Hist_Fore_',harv,'_TE_sub4.png'])
 
 %% subplot of TEeffs
-figure(4)
+figure(5)
 subplot(2,2,1)
 plot(y,q(1,:),'k','Linewidth',2); hold on;
 title('TEeff LTL')
@@ -203,7 +231,7 @@ xlabel('Year')
 print('-dpng',[ppath 'Hist_Fore_',harv,'_TEeff_sub.png'])
 
 %% Prey to NPP
-figure(5)
+figure(6)
 plot(y,(cob(2,:)./cob(1,:)),'k','Linewidth',2); hold on;
 plot(y,(cob(3,:)./cob(1,:)),'r','Linewidth',2); hold on;
 plot(y,(cob(4,:)./cob(1,:)),'b','Linewidth',2); hold on;
@@ -218,7 +246,7 @@ print('-dpng',[ppath 'Hist_Fore_',harv,'_prod_NPP_ratio.png'])
 mz = mz_loss + lz_loss;
 ZD = nanmean(mz ./ det);
 
-figure(6)
+figure(7)
 plot(y,ZD,'k','Linewidth',2); hold on;
 xlim([1900 2095])
 title('Z / Det')
@@ -227,7 +255,7 @@ print('-dpng',[ppath 'Hist_Fore_',harv,'_ZlDet_ratio.png'])
 
 
 %%
-figure(10)
+figure(8)
 subplot(2,2,1)
 hist(log10(npp(:)))
 title('NPP')
@@ -241,7 +269,7 @@ subplot(2,2,4)
 hist(log10(L(:)))
 title('Large')
 
-figure(11)
+figure(9)
 subplot(2,2,1)
 plot(y,log10(cob(1,:)))
 xlim([1900 2100])
