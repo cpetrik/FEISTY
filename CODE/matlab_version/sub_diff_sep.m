@@ -1,4 +1,6 @@
 function bio = sub_diff_sep(GRD,bio,K,ni,nj,tstep)
+    % GRD = structure with GCM gridfile info
+    % bio = biomass in g/m2, vectorized for only ocean grid cells
     % K = diffusivity in m2/s
 	% tstep = time step in hours
 	% nt = time steps in a day
@@ -29,7 +31,7 @@ function bio = sub_diff_sep(GRD,bio,K,ni,nj,tstep)
     gradTj = zeros(ni,nj);
     dupwind = zeros(ni,nj);
 
-    %% Advection loop
+    %% Diffusion loop
     for n = 1:nt
         % Calculate biomass gradient
         %Gradient i

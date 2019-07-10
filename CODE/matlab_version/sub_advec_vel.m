@@ -1,6 +1,9 @@
 function bio = sub_advec_vel(GRD,bio,U,V,ni,nj,tstep)
+    % GRD = structure with GCM gridfile info
+    % bio = biomass in g/m2, vectorized for only ocean grid cells
     % K = diffusivity in m2/s
-	% U & V = velocities in m/s
+	% U & V = velocities in m/s, vectorized for only ocean grid cells
+	% ni & nj = grid size
 	% tstep = time step in hours
 	% nt = time steps in a day
 	% dt = # seconds in nt
