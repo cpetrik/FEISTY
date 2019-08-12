@@ -4,10 +4,11 @@ clear all
 close all
 
 dpath = '/Volumes/GFDL/CSV/advect_tests/';
-fpath = '/Users/cpetrik/Dropbox/Princeton/POEM_2.0/CODE/Figs/PNG/advect_tests/';
+%fpath = '/Users/cpetrik/Dropbox/Princeton/POEM_2.0/CODE/Figs/PNG/advect_tests/';
+fpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/Advec-Diff/figs_tests/';
 
 %biov = csvread([dpath 'Matlab_adv_Global_even_dt1hr_esm2m2000_vel_b100_area.csv']);
-cname = 'Global_even_dt1hr_esm2m2000_vel_b100_area';
+cname = 'Eq_even_dt1hr_esm2m2000_vel_b100_area';
 load([dpath 'Matlab_adv_' cname '.mat']);
 
 grid = csvread('/Users/cpetrik/Dropbox/Princeton/POEM_2.0/CODE/Data/grid_csv.csv');
@@ -60,6 +61,9 @@ t = 1:72.75:nd;
 %t = 1:3:15;
 t = round(t);
 
+% colors
+cmB=cbrewer('seq','Blues',50);
+
 %% Global flat
 for n=1:length(t)
     B1 = bio2(:,:,t(n));
@@ -69,8 +73,9 @@ for n=1:length(t)
     view(2);
     shading interp;
     colorbar;
-    caxis([0 1e2]);
-    colormap('jet')
+    caxis([0 150]);
+    %colormap('jet')
+    colormap(cmB)
     title(['Day ' num2str(t(n)) ' Year 1'])
     print('-dpng',[fpath 'advec_test_' cname '_' num2str(t(n)) '.png'])
 end
@@ -85,8 +90,9 @@ for n=1:length(t)
     m_pcolor(geolon_t,geolat_t,B1);
     shading interp
     colorbar
-    colormap('jet')
-    caxis([0 1e2])
+    %colormap('jet')
+    colormap(cmB)
+    caxis([0 150])
     m_grid('xtick',6,'tickdir','out','ytick',[70 80],'linest','-');
     m_coast('patch',[.7 .7 .7],'edgecolor','k');
     title(['Day ' num2str(t(n)) ' Year 1'])
@@ -102,8 +108,9 @@ for n=1:length(t)
     m_pcolor(geolon_t,geolat_t,B1);
     shading interp
     colorbar
-    colormap('jet')
-    caxis([0 1e2])
+    %colormap('jet')
+    colormap(cmB)
+    caxis([0 150])
     m_grid('xtick',12,'tickdir','out','ytick',[-50 -60 -70],'linest','-');
     m_coast('patch',[.7 .7 .7],'edgecolor','k');
     title(['Day ' num2str(t(n)) ' Year 1'])
