@@ -13,3 +13,5 @@
 *.so
 *.out
 *.dylib
+*.avi
+*.mov
