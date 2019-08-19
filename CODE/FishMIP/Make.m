@@ -1,80 +1,49 @@
-%% POEM Make file
+%% FEISTY Make file
 
 clear all
 close all
 
 %%%%!! EXPERIMENTS
-testoneloc = false;
-testlocs = false;
-histlocs = false;
-climlocs = false;
-oneloc_fishing = false;
-oneloc_hind_pristine = false;
-oneloc_fore_pristine = false;
-spinup_pristine = false;
-climatol_loop = false;
-climatol_IC_day = false;
-climatol_IC_biom = false;
-climatol = false;
-climatol_crr = false;
-climatol_con = false;
-climatol_ngdc = false;
-pre_industrial = false;
-historic_pristine = false;
-historic_fished = false;
-forecast_pristine = false;
-forecast_fished = true;
+pre_industrial_cesm = true;
+pre_industrial_gfdl = false;
+historic_cesm = false;
+historic_gfdl = false;
+forecast_cesm = false;
+forecast_gfdl = true;
+temp_cont_cesm = false;
+temp_cont_gfdl = false;
+npp_cont_cesm = false;
+npp_cont_gfdl = false;
 
 tic
-if testoneloc
-    Testoneloc()
+if pre_industrial_cesm
+    Pre_industrial_cesm()
 end
-if testlocs
-    Testlocs()
+if pre_industrial_gfdl
+    Pre_industrial_gfdl()
 end
-if histlocs
-    Locs_hist()
+if historic_cesm
+    Historic_cesm()
 end
-if climlocs
-    Locs_clim()
+if historic_gfdl
+    Historic_gfdl()
 end
-if spinup_pristine
-    Spinup_pristine()
+if forecast_cesm
+    Forecast_cesm()
 end
-if climatol_loop
-    Climatol_pristine_search()
+if forecast_gfdl
+    Forecast_gfdl()
 end
-if climatol_IC_day
-    Climatol_ICday_loop()
+if temp_cont_cesm
+    Temp_cont_cesm()
 end
-if climatol_IC_biom
-    Climatol_ICbiom_loop()
+if temp_cont_gfdl
+    Temp_cont_gfdl()
 end
-if climatol
-    Climatol_pristine()
+if npp_cont_cesm
+    NPP_cont_cesm()
 end
-if climatol_con
-    Climatol_con_types()
-end
-if climatol_crr
-    Climatol_con_rec_rep()
-end
-if climatol_ngdc
-    Climatol_nu_gam_die_clev()
-end
-if pre_industrial
-    Pre_industrial()
-end
-if historic_pristine
-    Historic_pristine()
-end
-if historic_fished
-    Historic_fished()
-end
-if forecast_pristine
-    Forecast_pristine()
-end
-if forecast_fished
-    Forecast_fished()
+if npp_cont_gfdl
+    NPP_cont_gfdl()
 end
 toc
