@@ -40,7 +40,7 @@ load([fpath 'cesm_hist_det_btm_monthly_',num2str(tstart(1)),'-',...
         num2str(tend(end)),'.mat'],'poc_btm');
     
 %%
-for y = 1%:length(yrs)
+for y = 2:length(yrs)
     yr = yrs(y)
     
     Tp = tp_100(:,:,mstart(y):mend(y));

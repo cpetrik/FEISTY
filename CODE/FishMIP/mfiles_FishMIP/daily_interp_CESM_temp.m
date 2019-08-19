@@ -63,7 +63,7 @@ poc_btm = cat(3, hist_poc_btm, rcp_poc_btm);
 clear hist_nsmz_100 hist_nlgz_100 rcp_nsmz_100 rcp_nlgz_100 hist_poc_btm rcp_poc_btm
 
 %%
-for y = 1%:length(yrs)
+for y = 1:length(yrs)
     yr = yrs(y)
     
     Tp = tp_100(:,:,mstart(y):mend(y));
