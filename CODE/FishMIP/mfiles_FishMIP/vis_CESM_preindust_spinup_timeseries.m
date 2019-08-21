@@ -1,23 +1,21 @@
-% Visualize output of POEM
-% Historic 1988-2010 with 3km model
+% Visualize output of FEISTY
+% Preindustrial 1800-2100 with spinup biomass
 % Time series plots and maps
 
 clear all
 close all
 
 % Fish data
-pp = '/Users/cpetrik/Dropbox/Princeton/POEM_2.0/CODE/Figs/PNG/Matlab_New_sizes/';
+pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP_CESM/';
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
-%harv = 'pristine';
-%tharv = 'F=0';
-harv = 'All_fish05';
-tharv = 'All fish F=0.5';
-fpath=['/Volumes/GFDL/NC/Matlab_new_size/' cfile '/CalCurr/'];
-ppath = [pp cfile '/CC/'];
+harv = 'pristine';
+tharv = 'F=0';
+fpath=['/Volumes/GFDL/NC/FishMIP/CESM1-BEC/' cfile '/CalCurr/'];
+ppath = [pp cfile];
 if (~isdir(ppath))
     mkdir(ppath)
 end
-load([fpath 'Means_Historic3km_' harv '_' cfile '.mat']);
+load([fpath 'Means_Preindustrial_' cfile '.mat']);
 
 % Map data
 cpath = '/Volumes/GFDL/NEMURO/3km/';
@@ -69,7 +67,7 @@ set(groot,'defaultAxesColorOrder',cm10);
 
 %% Plots in time
 t = 1:length(sp_tmean); %time;
-y = 1988 + (t-1)/12;
+y = 1850 + (t-1)/12;
 
 % % Large Pelagics
 % figure(1)
@@ -192,7 +190,7 @@ ylabel('Biomass (g m^-^2)')
 title(['Historic 3km ' tharv])
 stamp(harv)
 %print('-dpng',[ppath 'Historic3km_',harv,'_all_sizes.png'])
-
+%%
 figure(6)
 subplot(2,1,2)
 plot(y,(sf_tmean),'Linewidth',1,'color',cm10(1,:)); hold on;
