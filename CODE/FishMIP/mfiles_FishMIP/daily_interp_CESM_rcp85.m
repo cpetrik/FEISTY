@@ -83,15 +83,15 @@ for y = 76:length(yrs)
         % 1e-3 mol in 1 mmol
         % 12.01 g C in 1 mol C
         % 1 g dry W in 9 g wet W (Pauly & Christiansen)
-        % divide by 100 m depth
+        % mult by 10 m depth interval for m-3 to m-2
         Y = squeeze(Zm(m,n,:));
         yi = interp1(Time(1:12), Y, 1:365,'linear','extrap');
-        D_Zm(j,:) = yi * 1e-3 * 12.01 * 9.0 * 1e-2;
+        D_Zm(j,:) = yi * 1e-3 * 12.01 * 9.0 * 10;
         
         % large zoo: from mmolC m-3 to g(WW) m-2
         Y = squeeze(Zl(m,n,:));
         yi = interp1(Time(1:12), Y, 1:365,'linear','extrap');
-        D_Zl(j,:) = yi * 1e-3  * 12.01 * 9.0 * 1e-2;
+        D_Zl(j,:) = yi * 1e-3  * 12.01 * 9.0 * 10;
         
         % detrital flux to benthos: from mmolC m-3 cm s-1 to g(WW) m-2 d-1
         %poc flux: mmol C/m^3 cm/s
