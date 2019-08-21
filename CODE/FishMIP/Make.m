@@ -4,15 +4,15 @@ clear all
 close all
 
 %%%%!! EXPERIMENTS
-pre_industrial_cesm = true;
+pre_industrial_cesm = false;
 pre_industrial_gfdl = false;
 historic_cesm = false;
 historic_gfdl = false;
 forecast_cesm = false;
-forecast_gfdl = true;
+forecast_gfdl = false;
 temp_cont_cesm = false;
 temp_cont_gfdl = false;
-npp_cont_cesm = false;
+npp_cont_cesm = true;
 npp_cont_gfdl = false;
 
 tic
