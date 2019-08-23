@@ -203,20 +203,36 @@ ld_tot=sum(LD.bio(:,yr1).*MNTH,2);
 b_tot=sum(Bent.bio(:,yr1).*MNTH,2);
 
 %% Every 5 years
-st=1:60:length(time);
-en=60:60:length(time);
+% st=1:60:length(time);
+% en=60:60:length(time);
+% 
+% for n=1:length(st)
+%     sp_mean5y(:,n)=nanmean(SP.bio(:,st(n):en(n)),2);
+%     sf_mean5y(:,n)=nanmean(SF.bio(:,st(n):en(n)),2);
+%     sd_mean5y(:,n)=nanmean(SD.bio(:,st(n):en(n)),2);
+%     mp_mean5y(:,n)=nanmean(MP.bio(:,st(n):en(n)),2);
+%     mf_mean5y(:,n)=nanmean(MF.bio(:,st(n):en(n)),2);
+%     md_mean5y(:,n)=nanmean(MD.bio(:,st(n):en(n)),2);
+%     lp_mean5y(:,n)=nanmean(LP.bio(:,st(n):en(n)),2);
+%     ld_mean5y(:,n)=nanmean(LD.bio(:,st(n):en(n)),2);
+%     b_mean5y(:,n)=nanmean(Bent.bio(:,st(n):en(n)),2);
+%     
+% end
 
-for n=1:length(st)
-    sp_mean(:,n)=nanmean(SP.bio(:,st(n):en(n)),2);
-    sf_mean(:,n)=nanmean(SF.bio(:,st(n):en(n)),2);
-    sd_mean(:,n)=nanmean(SD.bio(:,st(n):en(n)),2);
-    mp_mean(:,n)=nanmean(MP.bio(:,st(n):en(n)),2);
-    mf_mean(:,n)=nanmean(MF.bio(:,st(n):en(n)),2);
-    md_mean(:,n)=nanmean(MD.bio(:,st(n):en(n)),2);
-    lp_mean(:,n)=nanmean(LP.bio(:,st(n):en(n)),2);
-    ld_mean(:,n)=nanmean(LD.bio(:,st(n):en(n)),2);
-    b_mean(:,n)=nanmean(Bent.bio(:,st(n):en(n)),2);
-    
+%% Every year
+st=1:12:length(time);
+en=12:12:length(time);
+for m=1:length(en)
+    yr1 = st(m):en(m);
+    sp_mean(:,m)=mean(SP.bio(:,yr1),2);
+    sf_mean(:,m)=mean(SF.bio(:,yr1),2);
+    sd_mean(:,m)=mean(SD.bio(:,yr1),2);
+    mp_mean(:,m)=mean(MP.bio(:,yr1),2);
+    mf_mean(:,m)=mean(MF.bio(:,yr1),2);
+    md_mean(:,m)=mean(MD.bio(:,yr1),2);
+    lp_mean(:,m)=mean(LP.bio(:,yr1),2);
+    ld_mean(:,m)=mean(LD.bio(:,yr1),2);
+    b_mean(:,m)=mean(Bent.bio(:,yr1),2);
 end
 
 
@@ -235,8 +251,9 @@ save([fpath 'Means_Historic_pristine_' cfile '.mat'],'time','y','yr50','yr1','ly
     'mf_tot','mp_tot','md_tot',...
     'lp_tot','ld_tot','b_tot',...
     'all_median1','all_median2','all_mean1','all_mean2',...
-    'sf_mean','sp_mean','sd_mean','mf_mean','mp_mean','md_mean','b_mean',...
-    'lp_mean','ld_mean');
+    'sf_mean','sp_mean','sd_mean',...
+    'mf_mean','mp_mean','md_mean',...
+    'b_mean','lp_mean','ld_mean');
 
 
 % Save last year for initializing forecast runs
