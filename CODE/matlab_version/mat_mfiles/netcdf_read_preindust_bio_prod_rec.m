@@ -202,48 +202,80 @@ md_trec=mean(MD.rec,1);
 lp_trec=mean(LP.rec,1);
 ld_trec=mean(LD.rec,1);
 
-% Last 50 years
-yr50=time((end-(50*12)+1):end);
-sp_mean=mean(SP.bio(:,yr50),2);
-sf_mean=mean(SF.bio(:,yr50),2);
-sd_mean=mean(SD.bio(:,yr50),2);
-mp_mean=mean(MP.bio(:,yr50),2);
-mf_mean=mean(MF.bio(:,yr50),2);
-md_mean=mean(MD.bio(:,yr50),2);
-lp_mean=mean(LP.bio(:,yr50),2);
-ld_mean=mean(LD.bio(:,yr50),2);
-b_mean=mean(Bent.bio(:,yr50),2);
+% First 50 years of century
+y = 1760+(1/12):(1/12):1860;
+yr50=find(y>=1801 & y<1851);
+%yr50=time((end-(50*12)+1):end);
 
-sp_prod=nanmean(SP.prod(:,yr50),2);
-sf_prod=nanmean(SF.prod(:,yr50),2);
-sd_prod=nanmean(SD.prod(:,yr50),2);
-mp_prod=nanmean(MP.prod(:,yr50),2);
-mf_prod=nanmean(MF.prod(:,yr50),2);
-md_prod=nanmean(MD.prod(:,yr50),2);
-lp_prod=nanmean(LP.prod(:,yr50),2);
-ld_prod=nanmean(LD.prod(:,yr50),2);
+sp_mean50=mean(SP.bio(:,yr50),2);
+sf_mean50=mean(SF.bio(:,yr50),2);
+sd_mean50=mean(SD.bio(:,yr50),2);
+mp_mean50=mean(MP.bio(:,yr50),2);
+mf_mean50=mean(MF.bio(:,yr50),2);
+md_mean50=mean(MD.bio(:,yr50),2);
+lp_mean50=mean(LP.bio(:,yr50),2);
+ld_mean50=mean(LD.bio(:,yr50),2);
+b_mean50=mean(Bent.bio(:,yr50),2);
 
-sp_rec=nanmean(SP.rec(:,yr50),2);
-sf_rec=nanmean(SF.rec(:,yr50),2);
-sd_rec=nanmean(SD.rec(:,yr50),2);
-mp_rec=nanmean(MP.rec(:,yr50),2);
-mf_rec=nanmean(MF.rec(:,yr50),2);
-md_rec=nanmean(MD.rec(:,yr50),2);
-lp_rec=nanmean(LP.rec(:,yr50),2);
-ld_rec=nanmean(LD.rec(:,yr50),2);
+sp_prod50=nanmean(SP.prod(:,yr50),2);
+sf_prod50=nanmean(SF.prod(:,yr50),2);
+sd_prod50=nanmean(SD.prod(:,yr50),2);
+mp_prod50=nanmean(MP.prod(:,yr50),2);
+mf_prod50=nanmean(MF.prod(:,yr50),2);
+md_prod50=nanmean(MD.prod(:,yr50),2);
+lp_prod50=nanmean(LP.prod(:,yr50),2);
+ld_prod50=nanmean(LD.prod(:,yr50),2);
+
+sp_rec50=nanmean(SP.rec(:,yr50),2);
+sf_rec50=nanmean(SF.rec(:,yr50),2);
+sd_rec50=nanmean(SD.rec(:,yr50),2);
+mp_rec50=nanmean(MP.rec(:,yr50),2);
+mf_rec50=nanmean(MF.rec(:,yr50),2);
+md_rec50=nanmean(MD.rec(:,yr50),2);
+lp_rec50=nanmean(LP.rec(:,yr50),2);
+ld_rec50=nanmean(LD.rec(:,yr50),2);
+
+%% Every year
+st=1:12:length(time);
+en=12:12:length(time);
+for m=1:length(en)
+    yr1 = st(m):en(m);
+    sp_mean(:,m)=mean(SP.bio(:,yr1),2);
+    sf_mean(:,m)=mean(SF.bio(:,yr1),2);
+    sd_mean(:,m)=mean(SD.bio(:,yr1),2);
+    mp_mean(:,m)=mean(MP.bio(:,yr1),2);
+    mf_mean(:,m)=mean(MF.bio(:,yr1),2);
+    md_mean(:,m)=mean(MD.bio(:,yr1),2);
+    lp_mean(:,m)=mean(LP.bio(:,yr1),2);
+    ld_mean(:,m)=mean(LD.bio(:,yr1),2);
+    b_mean(:,m)=mean(Bent.bio(:,yr1),2);
+end
+
 
 %% Save means
-save([fpath 'Means_preindust_' cfile '.mat'],...
-    'sf_mean','sp_mean','sd_mean','mf_mean','mp_mean','md_mean','b_mean',...
-    'lp_mean','ld_mean','sf_tmean','sp_tmean','sd_tmean','mf_tmean','mp_tmean',...
-    'md_tmean','b_tmean','lp_tmean','ld_tmean','time','yr50',...
-    'sf_prod','sp_prod','sd_prod','mf_prod','mp_prod',...
-    'md_prod','lp_prod','ld_prod','sf_rec','sp_rec','sd_rec','mf_rec',...
-    'mp_rec','md_rec','lp_rec','ld_rec',...
-    'sf_tprod','sp_tprod','sd_tprod','mf_tprod','mp_tprod',...
-    'md_tprod','lp_tprod','ld_tprod','sf_trec','sp_trec','sd_trec','mf_trec',...
-    'mp_trec','md_trec','lp_trec','ld_trec');
-
+save([fpath 'Means_preindust_' cfile '.mat'],'time','yr50','y',...
+    'sf_mean','sp_mean','sd_mean',...
+    'mf_mean','mp_mean','md_mean',...
+    'b_mean','lp_mean','ld_mean',...
+    'sf_tmean','sp_tmean','sd_tmean',...
+    'mf_tmean','mp_tmean','md_tmean',...
+    'b_tmean','lp_tmean','ld_tmean',...
+    'sf_tprod','sp_tprod','sd_tprod',...
+    'mf_tprod','mp_tprod','md_tprod',...
+    'lp_tprod','ld_tprod',...
+    'sf_trec','sp_trec','sd_trec',...
+    'mf_trec','mp_trec','md_trec',...
+    'lp_trec','ld_trec',...
+    'sf_mean50','sp_mean50','sd_mean50',...
+    'mf_mean50','mp_mean50','md_mean50',...
+    'b_mean50','lp_mean50','ld_mean50',...
+    'sf_prod50','sp_prod50','sd_prod50',...
+    'mf_prod50','mp_prod50','md_prod50',...
+    'lp_prod50','ld_prod50',...
+    'sf_rec50','sp_rec50','sd_rec50',...
+    'mf_rec50','mp_rec50','md_rec50',...
+    'lp_rec50','ld_rec50');
+    
 % Save last year for initializing historical runs
 save([fpath 'Last_mo_preindust_' cfile '.mat'],'Sml_f','Sml_p','Sml_d',... 
     'Med_f','Med_p','Med_d','Lrg_p','Lrg_d','BENT')

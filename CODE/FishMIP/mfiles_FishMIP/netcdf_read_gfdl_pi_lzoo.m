@@ -1,5 +1,5 @@
-% Read Fish-MIP PreIndustrial netcdfs
-% Concatenate column-integrated zooplankton
+% Read Fish-MIP netcdfs
+% Integrate over top 100 m for large zooplankton
 
 clear all
 close all
@@ -21,7 +21,7 @@ mend = 10:10:mos;
 
 %%
 for t=1:length(tstart)
-ncid = netcdf.open([fpath 'gfdl-esm2m_pi_zoo_zint_annual_',num2str(tstart(t)),'-',...
+ncid = netcdf.open([fpath 'gfdl-esm2m_pi_lzoo_zall_annual_',num2str(tstart(t)),'-',...
     num2str(tend(t)),'.nc'],'NC_NOWRITE');
 
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
@@ -34,21 +34,26 @@ end
 netcdf.close(ncid);
 
 %NaNs on land cells
-zoo(zoo>=1e+19)=nan;
-zint = zoo;
+lzoo(lzoo>=1e+19)=nan;
+%top 100 m
+lz100 = lzoo(:,:,1:10,:);
+%integrated over top 100m
+ilz100 = squeeze(nansum(lz100,3));
 
 %concatenate
 mod_time(mstart(t):mend(t)) = time;
 tbnds(:,mstart(t):mend(t)) = time_bnds;
-nz_int(:,:,mstart(t):mend(t)) = zint;
+nlgz_100(:,:,mstart(t):mend(t)) = ilz100;
 
-clear zoo zint time time_bnds 
+clear lzoo time time_bnds 
 
 end
 
-save([fpath 'gfdl-esm2m_pi_zoo_zint_annual_',num2str(tstart(1)),'-',...
-    num2str(tend(end)),'.mat'],'nz_int','mod_time','tbnds');
-save([cpath 'gfdl-esm2m_pi_zoo_zint_annual_',num2str(tstart(1)),'-',...
-    num2str(tend(end)),'.mat'],'nz_int','mod_time','tbnds');
+save([fpath 'gfdl-esm2m_pi_lzoo_100_monthly_',num2str(tstart(1)),'-',...
+    num2str(tend(end)),'.mat'],'nlgz_100','mod_time','tbnds');
+save([cpath 'gfdl-esm2m_pi_lzoo_100_monthly_',num2str(tstart(1)),'-',...
+    num2str(tend(end)),'.mat'],'nlgz_100','mod_time','tbnds');
+
+
 
 

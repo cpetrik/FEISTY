@@ -1,5 +1,5 @@
 % Calc Fish-MIP outputs saved as NetCDF
-% NPP control simulation, Historical time period
+% Temp cont simulation, Historic timeperiod
 
 clear all
 close all
@@ -20,14 +20,24 @@ fpath=['/Volumes/GFDL/NC/FishMIP/CESM1-BEC/' cfile '/'];
 %b10cm = M + L + (0.1)*B
 %b30cm = L
 
-load([fpath 'FishMIP_output_NPP_cont_' cfile '.mat']);
-[ni,nj,nt] = size(tsb);
+load([fpath 'FishMIP_output_Temp_cont_' cfile '.mat']);
 
 %NaN fills
 tsb(isnan(tsb))=1e36;
 tcb(isnan(tcb))=1e36;
 b10cm(isnan(b10cm))=1e36;
 b30cm(isnan(b30cm))=1e36;
+
+%% Subset historical years
+hyrs = 1850:2005;
+[iyr,yid] = intersect(Years,hyrs);
+allYears = Years;
+
+tsb = tsb(:,:,yid);
+tcb = tcb(:,:,yid);
+b10cm = b10cm(:,:,yid);
+b30cm = b30cm(:,:,yid);
+Years = Years(yid);
 
 %% Output data naming conventions
 % For Runs 1,2 and 3 (preindustrial, historical and rcp85)
@@ -66,13 +76,15 @@ b30cm(isnan(b30cm))=1e36;
 % ? Don?t omit your default values of specifiers; always give a value
 
 %% Setup netcdf path to store to
-fname1 = 'feisty_cesm1-bgc_nobc_npp-control_nosoc_co2_';
-fname2 = '_global_annual_1850-2100.nc4';
+fname1 = 'feisty_cesm1-bgc_nobc_temperature-control_nosoc_co2_';
+fname2 = '_global_annual_1850-2005.nc4';
 
 file_tsb = [fpath fname1 'tsb' fname2];
 file_tcb = [fpath fname1 'tcb' fname2];
 file_b10 = [fpath fname1 'b10cm' fname2];
 file_b30 = [fpath fname1 'b30cm' fname2];
+
+[ni,nj,nt] = size(tsb);
 
 %% tsb
 ncidSB = netcdf.create(file_tsb,'NETCDF4');
