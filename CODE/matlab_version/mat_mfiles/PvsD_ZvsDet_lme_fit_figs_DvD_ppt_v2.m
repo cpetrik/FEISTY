@@ -205,3 +205,50 @@ plot(npp(:,1),npp(:,6)-2*npp(:,7),'--k'); hold on;
 axis([-0.5 1 0 1])
 print('-dpng',[ppath 'lme_scatter_ZlDet_pelT_NPP_BW_points.png'])
 
+%% Just P:D, vary font size
+figure(5)
+plot(ZlDet(:,1),ZlDet(:,2),'LineWidth',3,'color',[0 0.5 0.75]); hold on;
+plot(ZlDet(:,1),ZlDet(:,2)+2*ZlDet(:,3),'--k','LineWidth',2); hold on;
+plot(ZlDet(:,1),ZlDet(:,2)-2*ZlDet(:,3),'--k','LineWidth',2); hold on;
+%plot(log10(RatZlDet),FracPD,'k.','MarkerSize',25); hold on;
+scatter(log10(RatZlDet),FracPD,50,'k','filled'); hold on;
+axis([-1 0.75 0 1])
+set(gca,'FontSize',30,'XTick',[-1,-0.5,0,0.5],'XTickLabel',...
+    {'-1.0','-0.5','0.0','0.5'},...
+    'YTick',0:0.5:1,'YTickLabel',0:0.5:1)
+print('-dpng',[ppath 'lme_scatter_ZlDet_GAMfit_PD_font30.png'])
+%%
+figure(6)
+subplot(2,2,1)
+scatter(log10(RatZlDet),FracPD,20,'k','filled'); hold on;
+plot(ZlDet(:,1),ZlDet(:,2),'k'); hold on;
+plot(ZlDet(:,1),ZlDet(:,2)+2*ZlDet(:,3),'--k'); hold on;
+plot(ZlDet(:,1),ZlDet(:,2)-2*ZlDet(:,3),'--k'); hold on;
+axis([-1 0.75 0 1])
+set(gca,'FontSize',14)
+
+subplot(2,2,2)
+scatter(log10(RatZlDet),FracPD,20,'k','filled'); hold on;
+plot(ZlDet(:,1),ZlDet(:,2),'k'); hold on;
+plot(ZlDet(:,1),ZlDet(:,2)+2*ZlDet(:,3),'--k'); hold on;
+plot(ZlDet(:,1),ZlDet(:,2)-2*ZlDet(:,3),'--k'); hold on;
+axis([-1 0.75 0 1])
+set(gca,'FontSize',14)
+
+subplot(2,2,3)
+scatter(log10(RatZlDet),FracPD,20,'k','filled'); hold on;
+plot(ZlDet(:,1),ZlDet(:,2),'k'); hold on;
+plot(ZlDet(:,1),ZlDet(:,2)+2*ZlDet(:,3),'--k'); hold on;
+plot(ZlDet(:,1),ZlDet(:,2)-2*ZlDet(:,3),'--k'); hold on;
+axis([-1 0.75 0 1])
+set(gca,'FontSize',14)
+
+subplot(2,2,4)
+scatter(log10(RatZlDet),FracPD,20,'k','filled'); hold on;
+plot(ZlDet(:,1),ZlDet(:,2),'k'); hold on;
+plot(ZlDet(:,1),ZlDet(:,2)+2*ZlDet(:,3),'--k'); hold on;
+plot(ZlDet(:,1),ZlDet(:,2)-2*ZlDet(:,3),'--k'); hold on;
+axis([-1 0.75 0 1])
+set(gca,'FontSize',14)
+print('-dpng',[ppath 'lme_scatter_ZlDet_GAMfit_PD_sub4.png'])
+
