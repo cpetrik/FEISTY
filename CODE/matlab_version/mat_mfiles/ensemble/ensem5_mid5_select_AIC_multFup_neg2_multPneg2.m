@@ -63,12 +63,13 @@ negF3(negF3==0) = 1;
 mis_all_F2 = mis_all_F;
 mis_all_F2(:,kid) = mis_all_F(:,kid) .* negF3;
 
-%% Multiply the P misfits < - log10(5) so they weigh more
+%% Multiply the P misfits < - log10(2) so they weigh more
+% used to be log10(5) so they weigh more
 mis_all_P = mis_all(:,:,3);
-negP = mis_all_P < (-1*log10(5));
+negP = mis_all_P < (-1*log10(2));
 negP2 = mis_all_P;
 negP3 = double(negP);
-negP3(negP3==1) = 3;
+negP3(negP3==1) = 2;
 negP3(negP3==0) = 1;
 mis_all_P2 = mis_all_P .* negP3;
 
@@ -83,8 +84,8 @@ nid = find(mis_fn(:,1) < 0);
 unid = intersect(kid,nid);
 mis_fn(unid,1) = mis_fn(unid,1) .* 10;
 
-pid = find(mis_fn(:,2) < (-1*log10(5)));
-mis_fn(pid,2) = mis_fn(pid,2) .* 3;
+pid = find(mis_fn(:,2) < (-1*log10(2)));
+mis_fn(pid,2) = mis_fn(pid,2) .* 2;
 
 mis_fn = reshape(mis_fn,45*3,1);
 
@@ -122,7 +123,7 @@ caicv(:,2) = caic_srt2;
 caicv(:,3) = cdel;
 caicv(:,4) = cw;
 cT = array2table(caicv,'VariableNames',{'ParamSet','AIC','delta','weight'});
-writetable(cT,[dp 'LHS_param5_mid5_AIC_multFup_neg_multPneg.csv'])
+writetable(cT,[dp 'LHS_param5_mid5_AIC_multFup_neg2_multPneg2.csv'])
 
 %% Built in Fn
 %logLike LL_all 
@@ -142,7 +143,7 @@ baicv(:,2) = baic_srt2;
 baicv(:,3) = bdel;
 baicv(:,4) = bw;
 bT = array2table(baicv,'VariableNames',{'ParamSet','AIC','delta','weight'});
-writetable(bT,[dp 'LHS_param5_mid5_AIC_builtin_multFup_neg_multPneg.csv'])
+writetable(bT,[dp 'LHS_param5_mid5_AIC_builtin_multFup_neg2_multPneg2.csv'])
 
 
 %% AICs <= AIC(orig) + 2
@@ -155,13 +156,15 @@ pset(:,7) = baic_all(pid);
 
 pT = array2table(pset,'VariableNames',{'ParamSet','Lambda','bMet','bEnc',...
     'aMet','aEnc','AIC'});
-writetable(pT,[dp 'LHS_param5_mid5_bestAIC_params_multFup_neg_multPneg.csv'])
+writetable(pT,[dp 'LHS_param5_mid5_bestAIC_params_multFup_neg2_multPneg2.csv'])
 
 id1 = pid;
 
 params = fx_all(pid,:);
-save([dp 'LHS_param5_mid5_bestAIC_params_multFup_neg_multPneg.mat'],...
+save([dp 'LHS_param5_mid5_bestAIC_params_multFup_neg2_multPneg2.mat'],...
     'params','ptext','pid')
+
+% 20 Sets
 
 %% vis best maps
 for j=1:length(id1)

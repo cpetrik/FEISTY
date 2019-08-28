@@ -122,7 +122,7 @@ caicv(:,2) = caic_srt2;
 caicv(:,3) = cdel;
 caicv(:,4) = cw;
 cT = array2table(caicv,'VariableNames',{'ParamSet','AIC','delta','weight'});
-writetable(cT,[dp 'LHS_param5_mid5_AIC_multFup_neg_multPneg.csv'])
+writetable(cT,[dp 'LHS_param5_mid5_AIC_multFup_neg_multPneg3.csv'])
 
 %% Built in Fn
 %logLike LL_all 
@@ -142,7 +142,7 @@ baicv(:,2) = baic_srt2;
 baicv(:,3) = bdel;
 baicv(:,4) = bw;
 bT = array2table(baicv,'VariableNames',{'ParamSet','AIC','delta','weight'});
-writetable(bT,[dp 'LHS_param5_mid5_AIC_builtin_multFup_neg_multPneg.csv'])
+writetable(bT,[dp 'LHS_param5_mid5_AIC_builtin_multFup_neg_multPneg3.csv'])
 
 
 %% AICs <= AIC(orig) + 2
@@ -155,13 +155,13 @@ pset(:,7) = baic_all(pid);
 
 pT = array2table(pset,'VariableNames',{'ParamSet','Lambda','bMet','bEnc',...
     'aMet','aEnc','AIC'});
-writetable(pT,[dp 'LHS_param5_mid5_bestAIC_params_multFup_neg_multPneg.csv'])
+writetable(pT,[dp 'LHS_param5_mid5_bestAIC_params_multFup_neg_multPneg3.csv'])
 
 id1 = pid;
 
 params = fx_all(pid,:);
-save([dp 'LHS_param5_mid5_bestAIC_params_multFup_neg_multPneg.mat'],...
-    'params','ptext','pid')
+save([dp 'LHS_param5_mid5_bestAIC_params_multFup_neg_multPneg3.mat'],...
+    'params','ptext')
 
 %% vis best maps
 for j=1:length(id1)
