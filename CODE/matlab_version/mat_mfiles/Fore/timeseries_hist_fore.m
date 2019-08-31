@@ -106,5 +106,27 @@ test = movmean(FA,61);
 hold on
 plot(y,log10(test),'c','LineWidth',2);
 
+%% Save for plotting with ensemble
+HForig = HFF; 
+HPorig = HFP;
+HDorig = HFD;
+HAorig = HFA;
+
+FForig = FFF;
+FPorig = FFP;
+FDorig = FFD;
+FAorig = FFA;
+
+tForig = FF;
+tPorig = FP;
+tDorig = FD;
+tAorig = FA;
+
+save([fpath 'Time_Means_Historic_Forecast_',harv,'_' cfile '.mat'],...
+    'HForig','HPorig','HDorig','HAorig',...
+    'FForig','FPorig','FDorig','FAorig',...
+    'tForig','tPorig','tDorig','tAorig','y1','y2','y')
+
+
 
 

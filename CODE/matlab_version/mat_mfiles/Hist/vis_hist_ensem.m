@@ -6,11 +6,15 @@ function vis_hist_ensem(simname,sf_smean,sp_smean,sd_smean,...
 % 145 years
 % Saved as mat files
 
+close all
+
+cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
 load('/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/hindcast_gridspec.mat',...
     'geolon_t','geolat_t');
 grid = csvread([cpath 'grid_csv.csv']);
 
 %% colors
+warning off
 cmBP=cbrewer('seq','BuPu',50);
 
 %% Plot info
@@ -66,8 +70,8 @@ caxis([-2 2]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('Forecast fished 2051-2100 log10 mean benthic biomass (g m^-^2)')
-stamp(cfile)
-print('-dpng',[pp 'Hist_BENT_',simname,'.png'])
+stamp(simname)
+print('-dpng',[pp 'Hist_Bent_',simname,'.png'])
 
 %% All 4 on subplots
 figure(2)
@@ -119,49 +123,49 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
-%stamp(cfile)
+stamp(simname)
 print('-dpng',[pp 'Hist_All_subplot_',simname,'.png'])
 
 %% Ratios on subplots red-white-blue
-% % 3 figure subplot P:D, P:F, M:L
-% figure(3)
-% subplot('Position',[0 0.53 0.5 0.5])
-% %P:D
-% axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-%     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-% surfm(geolat_t,geolon_t,FracPD)
-% cmocean('balance')
-% load coast;                     %decent looking coastlines
-% h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-% caxis([0 1]);
-% set(gcf,'renderer','painters')
-% title('Fraction Large Pelagics vs. Demersals')
-% 
-% %P:F
-% subplot('Position',[0.5 0.53 0.5 0.5])
-% axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-%     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-% surfm(geolat_t,geolon_t,FracPF)
-% cmocean('balance')
-% load coast;                     %decent looking coastlines
-% h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-% caxis([0 1]);
-% set(gcf,'renderer','painters')
-% title('Fraction Large Pelagics vs. Forage Fishes')
-% 
-% %L:M
-% subplot('Position',[0.25 0.0 0.5 0.5])
-% axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-%     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-% surfm(geolat_t,geolon_t,FracLM)
-% cmocean('balance')
-% load coast;                     %decent looking coastlines
-% h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-% caxis([0 1]);
-% colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
-% set(gcf,'renderer','painters')
-% title('Fraction Large vs. Medium')
-% stamp(cfile)
-% print('-dpng',[pp 'Hist_ratios_subplot_',simname,'.png'])
+% 3 figure subplot P:D, P:F, M:L
+figure(3)
+subplot('Position',[0 0.53 0.5 0.5])
+%P:D
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,FracPD)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([0 1]);
+set(gcf,'renderer','painters')
+title('Fraction Large Pelagics vs. Demersals')
+
+%P:F
+subplot('Position',[0.5 0.53 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,FracPF)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([0 1]);
+set(gcf,'renderer','painters')
+title('Fraction Large Pelagics vs. Forage Fishes')
+
+%L:M
+subplot('Position',[0.25 0.0 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,FracLM)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([0 1]);
+colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
+set(gcf,'renderer','painters')
+title('Fraction Large vs. Medium')
+stamp(simname)
+print('-dpng',[pp 'Hist_ratios_subplot_',simname,'.png'])
 
 end

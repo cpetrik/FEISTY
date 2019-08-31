@@ -1,8 +1,8 @@
 function netcdf_read_hist_fished_bio_ens(fname,simname)
 
-% POEM output at all locations
+% FEISTY output at all locations
 
-% SP
+%% SP
 ncid = netcdf.open([fname '_sml_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
@@ -16,7 +16,7 @@ netcdf.close(ncid);
 %%
 SP.bio = biomass;
 Sml_p.bio = biomass(:,nt);
-clear biomass prod
+clear biomass 
 
 % SF
 ncid = netcdf.open([fname '_sml_f.nc'],'NC_NOWRITE');
@@ -30,7 +30,7 @@ netcdf.close(ncid);
 
 SF.bio = biomass(:,1:nt);
 Sml_f.bio = biomass(:,nt);
-clear biomass prod
+clear biomass 
 
 % SD
 ncid = netcdf.open([fname '_sml_d.nc'],'NC_NOWRITE');
@@ -44,7 +44,7 @@ netcdf.close(ncid);
 
 SD.bio = biomass;
 Sml_d.bio = biomass(:,nt);
-clear biomass prod
+clear biomass 
 
 % MP
 ncid = netcdf.open([fname '_med_p.nc'],'NC_NOWRITE');

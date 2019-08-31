@@ -19,41 +19,37 @@ efn=nan;
 mfn=nan;
 
 cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
+Pdir = '/Volumes/GFDL/POEM_JLD/esm26_hist/';
+load([Pdir 'ESM26_1deg_5yr_clim_191_195_gridspec.mat']);
+
 pp = ['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/' ...
     'param_ensemble/Dc_enc-k063_met-k086_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/'...
-    'Fore_param5_mid5_best/'];
+    '/full_runs/Fore_param5_mid5_best/'];
+if (~isfolder(pp))
+    mkdir(pp)
+end
 
 %% LTL info for TEeffs
 gpath='/Users/cpetrik/Dropbox/Princeton/POEM_other/cobalt_data/';
-load([cpath 'hindcast_gridspec.mat'],'geolon_t','geolat_t'); 
-grid = csvread([cpath 'grid_csv.csv']);
-ID = grid(:,1);
-
-% Zoop and det and npp 
-load([gpath 'cobalt_det_temp_zoop_npp_means.mat']); 
-BE = 0.075;
+load([gpath 'cobalt_det_temp_zoop_npp_means.mat'],'mzloss_mean_fore',...
+    'lzloss_mean_fore','det_mean_fore','npp_mean_fore'); 
 
 %ESM2M in mmol N m-2 or mmol N m-2 d-1
+% molN/m2/s --> g/m2/d
 % 106/16 mol C in 1 mol N
 % 12.01 g C in 1 mol C
 % 1 g dry W in 9 g wet W
-% molN/m2/s --> g/m2/d
-mzloss_mean_fore = mzloss_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
-lzloss_mean_fore = lzloss_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
-det_mean_fore = det_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
-npp_mean_fore = npp_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
-
-mmz_loss = mzloss_mean_fore;
-mlz_loss = lzloss_mean_fore;
-mdet = det_mean_fore;
-mnpp = npp_mean_fore;
+mmz_loss = mzloss_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+mlz_loss = lzloss_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+mdet = det_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+mnpp = npp_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 
 %%
 nfile = ['/Volumes/GFDL/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_met-k086_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/'];
 load([nfile 'LHS_param5_mid5_bestAIC_params_multFup_neg_multPneg.mat'],'params');
 nparam = length(params);
 
-fTsF = NaN*ones(nparam,1140);
+fTsF = NaN*ones(nparam,95*12);
 fTsP = fTsF;
 fTsD = fTsF;
 fTmF = fTsF;
@@ -95,11 +91,17 @@ for j = 1:length(params)
     
     cfile = ['/Volumes/GFDL/NC/Matlab_new_size/' simname];
     
-    %% Last year means
-    [sf_tmean,sp_tmean,sd_tmean,mf_tmean,mp_tmean,md_tmean,...
-    lp_tmean,ld_tmean,b_tmean,sf_mean50,sp_mean50,sd_mean50,...
-    mf_mean50,mp_mean50,md_mean50,lp_mean50,ld_mean50,b_mean50,...
-    mf_my50,mp_my50,md_my50,lp_my50,ld_my50] = netcdf_read_fore_fished_bio_ens(fname,simname);
+    %% Last 50 year means
+    netcdf_read_fore_fished_bio_prod_ens(fname,simname);
+    
+    load([fname '_Means_' simname '.mat'],'yr50',...
+        'sf_tmean','sp_tmean','sd_tmean',...
+        'mf_tmean','mp_tmean','md_tmean',...
+        'lp_tmean','ld_tmean','b_tmean',...
+        'sf_mean50','sp_mean50','sd_mean50',...
+        'mf_mean50','mp_mean50','md_mean50',...
+        'lp_mean50','ld_mean50','b_mean50',...
+        'mf_my50','mp_my50','md_my50','lp_my50','ld_my50');
     
     %% Time series
     fTsF(j,:) = sf_tmean;
@@ -124,29 +126,35 @@ for j = 1:length(params)
     fSB(:,j)  = b_mean50;
     
     %% Maps
-        vis_fore_ensem(simname,sf_mean50,sp_mean50,sd_mean50,...
+    vis_fore_ensem(simname,sf_mean50,sp_mean50,sd_mean50,...
         mf_mean50,mp_mean50,md_mean50,b_mean50,lp_mean50,ld_mean50,pp);
     
     %% LME
-        [lme_mcatch,lme_mbio,lme_area] = lme_fore_ensem(sf_mean50,...
-            sp_mean50,sd_mean50,mf_mean50,mp_mean50,md_mean50,b_mean50,...
-            lp_mean50,ld_mean50,mf_my50,mp_my50,md_my50,lp_my50,ld_my50);
+    [lme_mcatch,lme_mbio,lme_area] = lme_fore_ensem(sf_mean50,...
+        sp_mean50,sd_mean50,mf_mean50,mp_mean50,md_mean50,b_mean50,...
+        lp_mean50,ld_mean50,mf_my50,mp_my50,md_my50,lp_my50,ld_my50,fname,simname);
     Flme_mcatch(:,:,j) = lme_mcatch;
     Flme_mbio(:,:,j)   = lme_mbio;
 
-    %% netcdf read prod results for TEs
+    %% Prod results for TEs
+    load([fname '_Means_prod_' simname '.mat'],...
+        'sf_prod50','sp_prod50','sd_prod50',...
+        'mf_prod50','mp_prod50','md_prod50',...
+        'lp_prod50','ld_prod50');
     
     %% TE Effs
-%     [TEeffM,TEeff_ATL,TEeff_LTLd,TEeff_HTLd] = fore_fished_effTEs_useDet_ensem(BE,mnpp,mdet,mmz_loss,mlz_loss,...
-%     mf_prod50,mp_prod50,md_prod50,lp_prod50,ld_prod50)
-%     fTEeffM(:,j) = TEeffM;
-%     fTEeff_ATL(:,j) = TEeff_ATL;
-%     fTEeff_LTL(:,j) = TEeff_LTLd;
-%     fTEeff_HTL(:,j) = TEeff_HTLd;
+    [TEeffM,TEeff_ATL,TEeff_LTLd,TEeff_HTLd] = ...
+        fore_fished_effTEs_useDet_ensem(bent_eff,mnpp,mdet,mmz_loss,mlz_loss,...
+        mf_prod50,mp_prod50,md_prod50,lp_prod50,ld_prod50,fname,simname);
+    fTEeffM(:,j) = TEeffM;
+    fTEeff_ATL(:,j) = TEeff_ATL;
+    fTEeff_LTL(:,j) = TEeff_LTLd;
+    fTEeff_HTL(:,j) = TEeff_HTLd;
     
 end
-save([nfile 'Fore_param5_mid5_bestAIC_params_summary.mat'],...
+epath = '/Volumes/GFDL/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_met-k086_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/';
+save([epath 'Forecast_All_fish03_ensem5_mid5_bestAIC_multFup_multPneg.mat'],...
     'fTsF','fTsP','fTsD','fTmF','fTmP','fTmD','fTlP','fTlD','fTB',...
     'fSsF','fSsP','fSsD','fSmF','fSmP','fSmD','fSlP','fSlD','fSB',...
-    'Flme_mcatch','Flme_mbio','lme_area'); %,...
-    %'fTEeffM','fTEeff_ATL','fTEeff_LTL','fTEeff_HTL')
+    'Flme_mcatch','Flme_mbio','lme_area',...
+    'fTEeffM','fTEeff_ATL','fTEeff_LTL','fTEeff_HTL')

@@ -1,6 +1,6 @@
-function netcdf_read_fore_fished_bio_ens(fname,simname)
+function netcdf_read_fore_fished_bio_prod_ens(fname,simname)
 
-% POEM output at all locations
+% FEISTY output at all locations
 
 %% SP
 prod=[];
@@ -12,9 +12,10 @@ for i = 1:nvars
     eval([ varname '(' varname ' == 99999) = NaN;']);
 end
 netcdf.close(ncid);
-%%
+
 [ni,nt] = size(biomass);
 SP.bio = biomass;
+SP.prod = prod;
 clear biomass prod
 
 % SF
@@ -29,6 +30,7 @@ end
 netcdf.close(ncid);
 
 SF.bio = biomass(:,1:nt);
+SF.prod = prod;
 clear biomass prod
 
 % SD
@@ -43,6 +45,7 @@ end
 netcdf.close(ncid);
 
 SD.bio = biomass;
+SD.prod = prod;
 clear biomass prod
 
 % MP
@@ -58,7 +61,8 @@ netcdf.close(ncid);
 
 MP.bio = biomass;
 MP.yield = yield;
-clear biomass yield
+MP.prod = prod;
+clear biomass yield prod
 
 % MF
 prod=[];
@@ -73,7 +77,8 @@ netcdf.close(ncid);
 
 MF.bio = biomass;
 MF.yield = yield;
-clear biomass yield
+MF.prod = prod;
+clear biomass yield prod
 
 % MD
 prod=[];
@@ -88,7 +93,8 @@ netcdf.close(ncid);
 
 MD.bio = biomass;
 MD.yield = yield;
-clear biomass yield
+MD.prod = prod;
+clear biomass yield prod
 
 % LP
 prod=[];
@@ -103,7 +109,8 @@ netcdf.close(ncid);
 
 LP.bio = biomass;
 LP.yield = yield;
-clear biomass yield
+LP.prod = prod;
+clear biomass yield prod
 
 % LD
 prod=[];
@@ -118,7 +125,8 @@ netcdf.close(ncid);
 
 LD.bio = biomass;
 LD.yield = yield;
-clear biomass yield
+LD.prod = prod;
+clear biomass yield prod
 
 % Benthic material
 ncid = netcdf.open([fname '_bent.nc'],'NC_NOWRITE');
@@ -153,6 +161,15 @@ md_tmy=mean(MD.yield,1);
 lp_tmy=mean(LP.yield,1);
 ld_tmy=mean(LD.yield,1);
 
+sp_tprod=mean(SP.prod,1);
+sf_tprod=mean(SF.prod,1);
+sd_tprod=mean(SD.prod,1);
+mp_tprod=mean(MP.prod,1);
+mf_tprod=mean(MF.prod,1);
+md_tprod=mean(MD.prod,1);
+lp_tprod=mean(LP.prod,1);
+ld_tprod=mean(LD.prod,1);
+
 %% Last 50 years
 yr50=time((end-(50*12)+1):end);
 sp_mean50=mean(SP.bio(:,yr50),2);
@@ -170,6 +187,15 @@ mp_my50=mean(MP.yield(:,yr50),2);
 md_my50=mean(MD.yield(:,yr50),2);
 lp_my50=mean(LP.yield(:,yr50),2);
 ld_my50=mean(LD.yield(:,yr50),2);
+
+sp_prod50=nanmean(SP.prod(:,yr50),2);
+sf_prod50=nanmean(SF.prod(:,yr50),2);
+sd_prod50=nanmean(SD.prod(:,yr50),2);
+mp_prod50=nanmean(MP.prod(:,yr50),2);
+mf_prod50=nanmean(MF.prod(:,yr50),2);
+md_prod50=nanmean(MD.prod(:,yr50),2);
+lp_prod50=nanmean(LP.prod(:,yr50),2);
+ld_prod50=nanmean(LD.prod(:,yr50),2);
 
 %Means & medians
 lyr=yr50;
@@ -206,6 +232,15 @@ for n=1:length(st)
     md_my(:,n)=nanmean(MD.yield(:,st(n):en(n)),2);
     lp_my(:,n)=nanmean(LP.yield(:,st(n):en(n)),2);
     ld_my(:,n)=nanmean(LD.yield(:,st(n):en(n)),2);
+    
+    sp_prod(:,n)=nanmean(SP.prod(:,st(n):en(n)),2);
+    sf_prod(:,n)=nanmean(SF.prod(:,st(n):en(n)),2);
+    sd_prod(:,n)=nanmean(SD.prod(:,st(n):en(n)),2);
+    mp_prod(:,n)=nanmean(MP.prod(:,st(n):en(n)),2);
+    mf_prod(:,n)=nanmean(MF.prod(:,st(n):en(n)),2);
+    md_prod(:,n)=nanmean(MD.prod(:,st(n):en(n)),2);
+    lp_prod(:,n)=nanmean(LP.prod(:,st(n):en(n)),2);
+    ld_prod(:,n)=nanmean(LD.prod(:,st(n):en(n)),2);
 end
 
 %%
@@ -224,7 +259,16 @@ save([fname '_Means_' simname '.mat'],'time','yr50','lyr',...
     'mf_my','mp_my','md_my','lp_my','ld_my',...
     'mf_my50','mp_my50','md_my50','lp_my50','ld_my50');
 
-%save([fpath 'Means_fore_' harv '_' cfile '.mat']);
+save([fname '_Means_prod_' simname '.mat'],'time','yr50',...
+    'sf_tprod','sp_tprod','sd_tprod',...
+    'mf_tprod','mp_tprod','md_tprod',...
+    'lp_tprod','ld_tprod',...
+    'sf_prod50','sp_prod50','sd_prod50',...
+    'mf_prod50','mp_prod50','md_prod50',...
+    'lp_prod50','ld_prod50',...
+    'sf_prod','sp_prod','sd_prod',...
+    'mf_prod','mp_prod','md_prod',...
+    'lp_prod','ld_prod');
 
 end
 

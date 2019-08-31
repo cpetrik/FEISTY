@@ -1,5 +1,6 @@
 function [lme_mcatch,lme_mbio,lme_area] = lme_hist_ensem(sf_mean,sp_mean,sd_mean,...
-    mf_mean,mp_mean,md_mean,b_mean,lp_mean,ld_mean,mf_my,mp_my,md_my,lp_my,ld_my)
+    mf_mean,mp_mean,md_mean,b_mean,lp_mean,ld_mean,mf_my,mp_my,md_my,lp_my,ld_my,...
+    fname,simname)
 
 
 % Calc LME biomass of FEISTY
@@ -97,7 +98,7 @@ for L=1:66
 end
 
 %%
-% save([dpath 'LME_hist_',harv,'_' cfile '.mat'],...
-%     'lme_mcatch','lme_mbio','lme_area');
+save([fname '_LME_' simname '.mat'],...
+    'lme_mcatch','lme_mbio','lme_area');
 
 end
