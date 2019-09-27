@@ -86,10 +86,10 @@ fmdet = det_5yr_fore;
 fmnpp = npp_5yr_fore;
 
 %% Hindcast
-%load([fpath 'Means_Historic_',harv,'_' cfile '.mat'],'sp_mean','sd_mean',...
-%    'mp_mean','md_mean','lp_mean','ld_mean','sf_mean','mf_mean');
-load(['Means_Historic_',harv,'_' cfile '.mat'],'sp_mean','sd_mean',...
-    'mp_mean','md_mean','lp_mean','ld_mean','sf_mean','mf_mean');
+load([fpath 'Means_Historic_',harv,'_' cfile '.mat'],'sp_mean','sd_mean',...
+   'mp_mean','md_mean','lp_mean','ld_mean','sf_mean','mf_mean');
+% load(['Means_Historic_',harv,'_' cfile '.mat'],'sp_mean','sd_mean',...
+%     'mp_mean','md_mean','lp_mean','ld_mean','sf_mean','mf_mean');
 
 HM = mf_mean+mp_mean+md_mean;
 HL = lp_mean+ld_mean;
@@ -100,10 +100,10 @@ HD = sd_mean+md_mean+ld_mean;
 clear sp_mean sd_mean mp_mean md_mean lp_mean ld_mean sf_mean mf_mean
 
 %% RCP 8.5
-%load([fpath 'Means_fore_',harv,'_' cfile '.mat'],'sp_mean','sd_mean',...
-%    'mp_mean','md_mean','lp_mean','ld_mean','sf_mean','mf_mean');
-load(['Means_fore_',harv,'_' cfile '.mat'],'sp_mean','sd_mean',...
-    'mp_mean','md_mean','lp_mean','ld_mean','sf_mean','mf_mean');
+load([fpath 'Means_fore_',harv,'_' cfile '.mat'],'sp_mean','sd_mean',...
+   'mp_mean','md_mean','lp_mean','ld_mean','sf_mean','mf_mean');
+% load(['Means_fore_',harv,'_' cfile '.mat'],'sp_mean','sd_mean',...
+%     'mp_mean','md_mean','lp_mean','ld_mean','sf_mean','mf_mean');
 
 FM = mf_mean+mp_mean+md_mean;
 FL = lp_mean+ld_mean;
@@ -135,6 +135,7 @@ ZD = nanmean(mz ./ det);
 lZD = nanmean(log10(mz ./ det)); 
 PD = nanmean(P ./ (P+D));
 PF = nanmean(P ./ (P+F));
+FD = nanmean(F ./ (F+D));
 PelD = nanmean((P+F) ./ (P+F+D));
 LM = nanmean(L ./ (L+M));
 
@@ -147,6 +148,8 @@ tZD = nansum(mz.*area_mat) ./ nansum(det.*area_mat);
 tlZD = log10( nansum(mz.*area_mat) ./ nansum(det.*area_mat) ); 
 tPD = nansum(P.*area_mat) ./ nansum((P.*area_mat)+(D.*area_mat));
 tPF = nansum(P.*area_mat) ./ nansum((P.*area_mat)+(F.*area_mat));
+tFD = nansum(F.*area_mat) ./ nansum((F.*area_mat)+(D.*area_mat));
+tFP = nansum(F.*area_mat) ./ nansum((F.*area_mat)+(P.*area_mat));
 tPelD = nansum((P.*area_mat)+(F.*area_mat)) ./ ...
     nansum((P.*area_mat)+(F.*area_mat)+(D.*area_mat));
 tLM = nansum(L.*area_mat) ./ nansum((L.*area_mat)+(M.*area_mat));
@@ -181,21 +184,48 @@ h3 = axes('Units','pixels','Position',axesPosition+yWidth.*[-2 0 2 0],...
 xlabel(h1,'Year');
 %ylabel(h3,'values');
 
-line(y(8:47),tLM(8:47),'color',cmap_ppt(1,:),'Linewidth',2,'Parent',h1); hold on;
-line(y(8:47),tPF(8:47),'color',cmap_ppt(3,:),'Linewidth',2,'Parent',h1); hold on;
+line(y(8:47),tLM(8:47),'color',cmap_ppt(2,:),'Linewidth',2,'Parent',h1); hold on;
+line(y(8:47),tPF(8:47),'color',cmap_ppt(1,:),'Linewidth',2,'Parent',h1); hold on;
 line(y(8:47),tPD(8:47),'color',cmap_ppt(5,:),'Linewidth',2,'Parent',h1); hold on;
-line(y(8:47),tPelD(8:47),'color',cmap_ppt(2,:),'Linewidth',2,'Parent',h1); hold on;
+line(y(8:47),tFD(8:47),'color',cmap_ppt(3,:),'Linewidth',2,'Parent',h1); hold on;
+line(y(8:47),tPelD(8:47),'color',[0 0.5 0.75],'Linewidth',2,'Parent',h1); hold on;
 line(y(8:47),tlZD(8:47),'color',cm{6},'Linewidth',2,'Parent',h2); hold on;
 line(y(8:47),mtemp(8:47),'color','k','Linewidth',2,'Parent',h3); hold on;
 % xlim([1895 2095])
 %xlabel('Year')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_tot_fracs_logZlDet_temp.png'])
+print('-dpng',[ppath 'Hist_Fore_',harv,'_tot_fracs_logZlDet_temp_all.png'])
+
+%% no Pel:D
+figure('Units','pixels','Position',[200 200 330 260]);
+h1 = axes('Units','pixels','Position',axesPosition,...
+          'Color','w','XColor','k','YColor',[0.5 0.5 0.5],...
+          'XLim',xLimit,'YLim',[0.3 0.7],'NextPlot','add');
+h2 = axes('Units','pixels','Position',axesPosition+yWidth.*[-1 0 1 0],...
+          'Color','none','XColor','k','YColor',[0.5 0 1.0],...
+          'XLim',xLimit+[xOffset 0],'YLim',[0.4 0.45],...
+          'XTick',[],'XTickLabel',[],'NextPlot','add');
+h3 = axes('Units','pixels','Position',axesPosition+yWidth.*[-2 0 2 0],...
+          'Color','none','XColor','k','YColor','k',...
+          'XLim',xLimit+[2*xOffset 0],'YLim',[14 18],...
+          'XTick',[],'XTickLabel',[],'NextPlot','add');
+xlabel(h1,'Year');
+%ylabel(h3,'values');
+
+line(y(8:47),tLM(8:47),'color',cmap_ppt(2,:),'Linewidth',2,'Parent',h1); hold on;
+line(y(8:47),tPF(8:47),'color',cmap_ppt(1,:),'Linewidth',2,'Parent',h1); hold on;
+line(y(8:47),tPD(8:47),'color',cmap_ppt(5,:),'Linewidth',2,'Parent',h1); hold on;
+line(y(8:47),tFD(8:47),'color',cmap_ppt(3,:),'Linewidth',2,'Parent',h1); hold on;
+line(y(8:47),tlZD(8:47),'color',cm{6},'Linewidth',2,'Parent',h2); hold on;
+line(y(8:47),mtemp(8:47),'color','k','Linewidth',2,'Parent',h3); hold on;
+% xlim([1895 2095])
+%xlabel('Year')
+print('-dpng',[ppath 'Hist_Fore_',harv,'_tot_fracs_logZlDet_temp_noPelD.png'])
 
 %%
 figure('Units','pixels','Position',[200 200 330 260]);
 h1 = axes('Units','pixels','Position',axesPosition,...
           'Color','w','XColor','k','YColor',[0.5 0.5 0.5],...
-          'XLim',xLimit,'YLim',[0.35 0.6],'NextPlot','add');
+          'XLim',xLimit,'YLim',[0.35 0.65],'NextPlot','add');
 h2 = axes('Units','pixels','Position',axesPosition+yWidth.*[-1 0 1 0],...
           'Color','none','XColor','k','YColor',[0.5 0 1.0],...
           'XLim',xLimit+[xOffset 0],'YLim',[0.4 0.45],...
@@ -207,8 +237,8 @@ h2 = axes('Units','pixels','Position',axesPosition+yWidth.*[-1 0 1 0],...
 xlabel(h1,'Year');
 %ylabel(h3,'values');
 
-line(y(8:47),tLM(8:47),'color',cmap_ppt(1,:),'Linewidth',2,'Parent',h1); hold on;
-line(y(8:47),tPF(8:47),'color',cmap_ppt(3,:),'Linewidth',2,'Parent',h1); hold on;
+line(y(8:47),tLM(8:47),'color',cmap_ppt(2,:),'Linewidth',2,'Parent',h1); hold on;
+line(y(8:47),tPF(8:47),'color',cmap_ppt(1,:),'Linewidth',2,'Parent',h1); hold on;
 line(y(8:47),tPD(8:47),'color',cmap_ppt(5,:),'Linewidth',2,'Parent',h1); hold on;
 line(y(8:47),tlZD(8:47),'color',cm{6},'Linewidth',2,'Parent',h2); hold on;
 %line(y(8:47),mtemp(8:47),'color','k','Linewidth',2,'Parent',h3); hold on;
@@ -232,8 +262,8 @@ h3 = axes('Units','pixels','Position',axesPosition+yWidth.*[-2 0 2 0],...
 xlabel(h1,'Year');
 %ylabel(h3,'values');
 
-line(y(8:47),tLM(8:47),'color',cmap_ppt(1,:),'Linewidth',2,'Parent',h1); hold on;
-line(y(8:47),tPF(8:47),'color',cmap_ppt(3,:),'Linewidth',2,'Parent',h1); hold on;
+line(y(8:47),tLM(8:47),'color',cmap_ppt(2,:),'Linewidth',2,'Parent',h1); hold on;
+line(y(8:47),tPF(8:47),'color',cmap_ppt(1,:),'Linewidth',2,'Parent',h1); hold on;
 line(y(8:47),tPD(8:47),'color',cmap_ppt(5,:),'Linewidth',2,'Parent',h1); hold on;
 line(y(8:47),tlZD(8:47),'color',cm{6},'Linewidth',2,'Parent',h2); hold on;
 line(y(8:47),mtemp(8:47),'color','k','Linewidth',2,'Parent',h3); hold on;
@@ -241,7 +271,7 @@ line(y(8:47),mtemp(8:47),'color','k','Linewidth',2,'Parent',h3); hold on;
 %xlabel('Year')
 print('-dpng',[ppath 'Hist_Fore_',harv,'_tot_fracs_size_logZlDet_temp.png'])
 
-%%
+%% Just Pel:Dem
 figure('Units','pixels','Position',[200 200 330 260]);
 h1 = axes('Units','pixels','Position',axesPosition,...
           'Color','w','XColor','k','YColor',[0.5 0.5 0.5],...
@@ -281,6 +311,47 @@ line(y(8:47),tlZD(8:47),'color',cm{6},'Linewidth',2,'Parent',h2); hold on;
 %xlabel('Year')
 print('-dpng',[ppath 'Hist_Fore_',harv,'_tot_fracs_PelDem_logZlDet.png'])
 
+%% just F:D
+figure('Units','pixels','Position',[200 200 330 260]);
+h1 = axes('Units','pixels','Position',axesPosition,...
+          'Color','w','XColor','k','YColor',[0.5 0.5 0.5],...
+          'XLim',xLimit,'YLim',[0.65 0.7],'NextPlot','add');
+h2 = axes('Units','pixels','Position',axesPosition+yWidth.*[-1 0 1 0],...
+          'Color','none','XColor','k','YColor',[0.5 0 1.0],...
+          'XLim',xLimit+[xOffset 0],'YLim',[0.4 0.45],...
+          'XTick',[],'XTickLabel',[],'NextPlot','add');
+h3 = axes('Units','pixels','Position',axesPosition+yWidth.*[-2 0 2 0],...
+          'Color','none','XColor','k','YColor','k',...
+          'XLim',xLimit+[2*xOffset 0],'YLim',[14 18],...
+          'XTick',[],'XTickLabel',[],'NextPlot','add');
+xlabel(h1,'Year');
+%ylabel(h3,'values');
+
+line(y(8:47),tFD(8:47),'color',cmap_ppt(3,:),'Linewidth',2,'Parent',h1); hold on;
+line(y(8:47),tlZD(8:47),'color',cm{6},'Linewidth',2,'Parent',h2); hold on;
+line(y(8:47),mtemp(8:47),'color','k','Linewidth',2,'Parent',h3); hold on;
+% xlim([1895 2095])
+%xlabel('Year')
+print('-dpng',[ppath 'Hist_Fore_',harv,'_tot_fracs_FD_logZlDet_temp.png'])
+
+%% just F:D
+figure('Units','pixels','Position',[200 200 330 260]);
+h1 = axes('Units','pixels','Position',axesPosition,...
+          'Color','w','XColor','k','YColor',[0.5 0.5 0.5],...
+          'XLim',xLimit,'YLim',[0.65 0.7],'NextPlot','add');
+h2 = axes('Units','pixels','Position',axesPosition+yWidth.*[-1 0 1 0],...
+          'Color','none','XColor','k','YColor',[0.5 0 1.0],...
+          'XLim',xLimit+[xOffset 0],'YLim',[0.4 0.45],...
+          'XTick',[],'XTickLabel',[],'NextPlot','add');
+xlabel(h1,'Year');
+%ylabel(h3,'values');
+
+line(y(8:47),tFD(8:47),'color',cmap_ppt(3,:),'Linewidth',2,'Parent',h1); hold on;
+line(y(8:47),tlZD(8:47),'color',cm{6},'Linewidth',2,'Parent',h2); hold on;
+% xlim([1895 2095])
+%xlabel('Year')
+print('-dpng',[ppath 'Hist_Fore_',harv,'_tot_fracs_FD_logZlDet.png'])
+
 %% Total global then divide; raw Zl:Det
 
 figure('Units','pixels','Position',[200 200 330 260]);
@@ -298,15 +369,42 @@ h3 = axes('Units','pixels','Position',axesPosition+yWidth.*[-2 0 2 0],...
 xlabel(h1,'Year');
 %ylabel(h3,'values');
 
-line(y(8:47),tLM(8:47),'color',cmap_ppt(1,:),'Linewidth',2,'Parent',h1); hold on;
-line(y(8:47),tPF(8:47),'color',cmap_ppt(3,:),'Linewidth',2,'Parent',h1); hold on;
+line(y(8:47),tLM(8:47),'color',cmap_ppt(2,:),'Linewidth',2,'Parent',h1); hold on;
+line(y(8:47),tPF(8:47),'color',cmap_ppt(1,:),'Linewidth',2,'Parent',h1); hold on;
 line(y(8:47),tPD(8:47),'color',cmap_ppt(5,:),'Linewidth',2,'Parent',h1); hold on;
+line(y(8:47),tFD(8:47),'color',cmap_ppt(3,:),'Linewidth',2,'Parent',h1); hold on;
 line(y(8:47),tPelD(8:47),'color',[0 0.5 0.75],'Linewidth',2,'Parent',h1); hold on;
 line(y(8:47),tZD(8:47),'color',cm{6},'Linewidth',2,'Parent',h2); hold on;
 line(y(8:47),mtemp(8:47),'color','k','Linewidth',2,'Parent',h3); hold on;
 % xlim([1895 2095])
 %xlabel('Year')
 print('-dpng',[ppath 'Hist_Fore_',harv,'_tot_fracs_ZlDet_temp.png'])
+
+%%
+figure('Units','pixels','Position',[200 200 330 260]);
+h1 = axes('Units','pixels','Position',axesPosition,...
+          'Color','w','XColor','k','YColor',[0.5 0.5 0.5],...
+          'XLim',xLimit,'YLim',[0.35 0.7],'NextPlot','add');
+h2 = axes('Units','pixels','Position',axesPosition+yWidth.*[-1 0 1 0],...
+          'Color','none','XColor','k','YColor',[0.5 0 1.0],...
+          'XLim',xLimit+[xOffset 0],'YLim',[2.5 2.9],...
+          'XTick',[],'XTickLabel',[],'NextPlot','add');
+h3 = axes('Units','pixels','Position',axesPosition+yWidth.*[-2 0 2 0],...
+          'Color','none','XColor','k','YColor','k',...
+          'XLim',xLimit+[2*xOffset 0],'YLim',[14 18],...
+          'XTick',[],'XTickLabel',[],'NextPlot','add');
+xlabel(h1,'Year');
+%ylabel(h3,'values');
+
+line(y(8:47),tLM(8:47),'color',cmap_ppt(2,:),'Linewidth',2,'Parent',h1); hold on;
+line(y(8:47),tPF(8:47),'color',cmap_ppt(1,:),'Linewidth',2,'Parent',h1); hold on;
+line(y(8:47),tPD(8:47),'color',cmap_ppt(5,:),'Linewidth',2,'Parent',h1); hold on;
+line(y(8:47),tFD(8:47),'color',cmap_ppt(3,:),'Linewidth',2,'Parent',h1); hold on;
+line(y(8:47),tZD(8:47),'color',cm{6},'Linewidth',2,'Parent',h2); hold on;
+line(y(8:47),mtemp(8:47),'color','k','Linewidth',2,'Parent',h3); hold on;
+% xlim([1895 2095])
+%xlabel('Year')
+print('-dpng',[ppath 'Hist_Fore_',harv,'_tot_fracs_ZlDet_temp_noPelDem.png'])
 
 %%
 figure('Units','pixels','Position',[200 200 330 260]);
@@ -324,8 +422,8 @@ h2 = axes('Units','pixels','Position',axesPosition+yWidth.*[-1 0 1 0],...
 xlabel(h1,'Year');
 %ylabel(h3,'values');
 
-line(y(8:47),tLM(8:47),'color',cmap_ppt(1,:),'Linewidth',2,'Parent',h1); hold on;
-line(y(8:47),tPF(8:47),'color',cmap_ppt(3,:),'Linewidth',2,'Parent',h1); hold on;
+line(y(8:47),tLM(8:47),'color',cmap_ppt(2,:),'Linewidth',2,'Parent',h1); hold on;
+line(y(8:47),tPF(8:47),'color',cmap_ppt(1,:),'Linewidth',2,'Parent',h1); hold on;
 line(y(8:47),tPD(8:47),'color',cmap_ppt(5,:),'Linewidth',2,'Parent',h1); hold on;
 line(y(8:47),tZD(8:47),'color',cm{6},'Linewidth',2,'Parent',h2); hold on;
 %line(y(8:47),mtemp(8:47),'color','k','Linewidth',2,'Parent',h3); hold on;
@@ -349,8 +447,8 @@ h3 = axes('Units','pixels','Position',axesPosition+yWidth.*[-2 0 2 0],...
 xlabel(h1,'Year');
 %ylabel(h3,'values');
 
-line(y(8:47),tLM(8:47),'color',cmap_ppt(1,:),'Linewidth',2,'Parent',h1); hold on;
-line(y(8:47),tPF(8:47),'color',cmap_ppt(3,:),'Linewidth',2,'Parent',h1); hold on;
+line(y(8:47),tLM(8:47),'color',cmap_ppt(2,:),'Linewidth',2,'Parent',h1); hold on;
+line(y(8:47),tPF(8:47),'color',cmap_ppt(1,:),'Linewidth',2,'Parent',h1); hold on;
 line(y(8:47),tPD(8:47),'color',cmap_ppt(5,:),'Linewidth',2,'Parent',h1); hold on;
 line(y(8:47),tZD(8:47),'color',cm{6},'Linewidth',2,'Parent',h2); hold on;
 line(y(8:47),mtemp(8:47),'color','k','Linewidth',2,'Parent',h3); hold on;
@@ -398,7 +496,93 @@ line(y(8:47),tZD(8:47),'color',cm{6},'Linewidth',2,'Parent',h2); hold on;
 %xlabel('Year')
 print('-dpng',[ppath 'Hist_Fore_',harv,'_tot_fracs_PelDem_ZlDet.png'])
 
+%% F:D
+figure('Units','pixels','Position',[200 200 330 260]);
+h1 = axes('Units','pixels','Position',axesPosition,...
+          'Color','w','XColor','k','YColor',[0.5 0.5 0.5],...
+          'XLim',xLimit,'YLim',[0.65 0.7],'NextPlot','add');
+h2 = axes('Units','pixels','Position',axesPosition+yWidth.*[-1 0 1 0],...
+          'Color','none','XColor','k','YColor',[0.5 0 1.0],...
+          'XLim',xLimit+[xOffset 0],'YLim',[2.5 2.9],...
+          'XTick',[],'XTickLabel',[],'NextPlot','add');
+h3 = axes('Units','pixels','Position',axesPosition+yWidth.*[-2 0 2 0],...
+          'Color','none','XColor','k','YColor','k',...
+          'XLim',xLimit+[2*xOffset 0],'YLim',[14 18],...
+          'XTick',[],'XTickLabel',[],'NextPlot','add');
+xlabel(h1,'Year');
+%ylabel(h3,'values');
 
+line(y(8:47),tFD(8:47),'color',cmap_ppt(3,:),'Linewidth',2,'Parent',h1); hold on;
+line(y(8:47),tZD(8:47),'color',cm{6},'Linewidth',2,'Parent',h2); hold on;
+line(y(8:47),mtemp(8:47),'color','k','Linewidth',2,'Parent',h3); hold on;
+% xlim([1895 2095])
+%xlabel('Year')
+print('-dpng',[ppath 'Hist_Fore_',harv,'_tot_fracs_FD_ZlDet_temp.png'])
 
+%% F:D vs Z:Det
+figure('Units','pixels','Position',[200 200 330 260]);
+h1 = axes('Units','pixels','Position',axesPosition,...
+          'Color','w','XColor','k','YColor',[0.5 0.5 0.5],...
+          'XLim',xLimit,'YLim',[0.65 0.7],'NextPlot','add');
+h2 = axes('Units','pixels','Position',axesPosition+yWidth.*[-1 0 1 0],...
+          'Color','none','XColor','k','YColor',[0.5 0 1.0],...
+          'XLim',xLimit+[xOffset 0],'YLim',[2.5 2.9],...
+          'XTick',[],'XTickLabel',[],'NextPlot','add');
+xlabel(h1,'Year');
+
+line(y(8:47),tFD(8:47),'color',cmap_ppt(3,:),'Linewidth',2,'Parent',h1); hold on;
+line(y(8:47),tZD(8:47),'color',cm{6},'Linewidth',2,'Parent',h2); hold on;
+% xlim([1895 2095])
+%xlabel('Year')
+print('-dpng',[ppath 'Hist_Fore_',harv,'_tot_fracs_FD_ZlDet.png'])
+
+%% F:P
+figure('Units','pixels','Position',[200 200 330 260]);
+h1 = axes('Units','pixels','Position',axesPosition,...
+          'Color','w','XColor','k','YColor',[0.5 0.5 0.5],...
+          'XLim',xLimit,'YLim',[0.54 0.64],'NextPlot','add');
+h2 = axes('Units','pixels','Position',axesPosition+yWidth.*[-1 0 1 0],...
+          'Color','none','XColor','k','YColor',[0.5 0 1.0],...
+          'XLim',xLimit+[xOffset 0],'YLim',[2.5 2.9],...
+          'XTick',[],'XTickLabel',[],'NextPlot','add');
+h3 = axes('Units','pixels','Position',axesPosition+yWidth.*[-2 0 2 0],...
+          'Color','none','XColor','k','YColor','k',...
+          'XLim',xLimit+[2*xOffset 0],'YLim',[14 18],...
+          'XTick',[],'XTickLabel',[],'NextPlot','add');
+xlabel(h1,'Year');
+%ylabel(h3,'values');
+
+line(y(8:47),tFP(8:47),'color','r','Linewidth',2,'Parent',h1); hold on;
+line(y(8:47),tZD(8:47),'color',cm{6},'Linewidth',2,'Parent',h2); hold on;
+line(y(8:47),mtemp(8:47),'color','k','Linewidth',2,'Parent',h3); hold on;
+% xlim([1895 2095])
+%xlabel('Year')
+print('-dpng',[ppath 'Hist_Fore_',harv,'_tot_fracs_FP_ZlDet_temp.png'])
+
+%% Fake lines of expected trends
+fakeLM = tLM(8)+ linspace(0.1,0,40);
+fakePF = linspace(0.45,0.5,40);
+fakePD = linspace(0.5,0.65,40);
+
+figure('Units','pixels','Position',[200 200 330 260]);
+h1 = axes('Units','pixels','Position',axesPosition,...
+          'Color','w','XColor','k','YColor',[0.5 0.5 0.5],...
+          'XLim',xLimit,'YLim',[0.35 0.65],'NextPlot','add');
+h2 = axes('Units','pixels','Position',axesPosition+yWidth.*[-1 0 1 0],...
+          'Color','none','XColor','k','YColor',[0.5 0 1.0],...
+          'XLim',xLimit+[xOffset 0],'YLim',[2.5 2.9],...
+          'XTick',[],'XTickLabel',[],'NextPlot','add');
+% h3 = axes('Units','pixels','Position',axesPosition+yWidth.*[-2 0 2 0],...
+%           'Color','none','XColor','k','YColor','k',...
+%           'XLim',xLimit+[2*xOffset 0],'YLim',[14 18],...
+%           'XTick',[],'XTickLabel',[],'NextPlot','add');
+xlabel(h1,'Year');
+%ylabel(h3,'values');
+
+line(y(8:47),fakeLM,'color',cmap_ppt(2,:),'Linewidth',2,'LineStyle','--','Parent',h1); hold on;
+line(y(8:47),fakePF,'color',cmap_ppt(1,:),'Linewidth',2,'LineStyle','--','Parent',h1); hold on;
+line(y(8:47),fakePD,'color',cmap_ppt(5,:),'Linewidth',2,'LineStyle','--','Parent',h1); hold on;
+line(y(8:47),tZD(8:47),'color',cm{6},'Linewidth',2,'Parent',h2); hold on;
+print('-dpng',[ppath 'Hist_Fore_',harv,'_tot_fracs_size_ZlDet_Fake.png'])
 
 

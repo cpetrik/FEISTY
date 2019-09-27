@@ -604,9 +604,50 @@ title('Fish')
 %stamp(cfile)
 print('-dpng',[pp 'Hist_Fore_',harv,'_prod_diff_food_fish_subplot3_100.png'])
 
+%% 3 figure subplot NPP, Z, Fish 100%
+figure(13)
+subplot('Position',[0 0.53 0.5 0.5])
+%NPP
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*diffN)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+set(gcf,'renderer','painters')
+title('NPP')
+
+%Z
+subplot('Position',[0.5 0.53 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*diffZ)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+set(gcf,'renderer','painters')
+title('Mesozoo')
+
+%Fish
+subplot('Position',[0.25 0.0 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*diffAll)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
+set(gcf,'renderer','painters')
+title('Fish')
+%stamp(cfile)
+print('-dpng',[pp 'Hist_Fore_',harv,'_prod_diff_food_fish_subplot3_100p.png'])
+
 %%
 % log10 ZD
-figure(13)
+figure(14)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,(diffLZD))
