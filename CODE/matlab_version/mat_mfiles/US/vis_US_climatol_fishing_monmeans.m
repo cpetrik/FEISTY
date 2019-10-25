@@ -1,4 +1,4 @@
-% Visualize output of FEISTY in US Atl LMEs
+% Visualize output of FEISTY in US LMEs
 % ESM2.6 Climatology of 5 yrs
 % 150 years
 % Saved as nc files
@@ -22,7 +22,7 @@ harv = 'All_fish03';
 tharv = 'Harvest all fish 0.3 yr^-^1';
 
 fpath=['/Volumes/GFDL/NC/Matlab_new_size/' cfile '/'];
-ppath = [pp cfile '/AtlGoM/'];
+ppath = [pp cfile '/US/'];
 if (~isdir(ppath))
     mkdir(ppath)
 end
@@ -37,9 +37,9 @@ close all
 [ni,nj]=size(lon);
 geolon_t = double(lon);
 geolat_t = double(lat);
-plotminlat=15; %Set these bounds for your data
-plotmaxlat=50;
-plotminlon=-100;
+plotminlat=10; %Set these bounds for your data
+plotmaxlat=75;
+plotminlon=-180;
 plotmaxlon=-50;
 latlim=[plotminlat plotmaxlat];
 lonlim=[plotminlon plotmaxlon]; %[-255 -60] = Pac
@@ -100,7 +100,7 @@ set(gcf,'renderer','painters')
 title('Climatology log10 mean Benthic inverts (g m^-^2)')
 set(gca,'XColor','none','YColor','none')
 stamp([harv '_' cfile])
-print('-dpng',[ppath 'Climatol_' harv '_AtlGoM_BENT.png'])
+print('-dpng',[ppath 'Climatol_' harv '_US_BENT.png'])
 
 %% Diff maps of all fish
 All = Zsp+Zsf+Zsd+Zmp+Zmf+Zmd+Zlp+Zld;
@@ -136,7 +136,7 @@ FracPFvDm = (Zmp+Zmf) ./ (Zmp+Zmf+Zmd);
 % set(gcf,'renderer','painters')
 % title('Climatology log10 mean All fishes (g m^-^2)')
 % stamp([harv '_' cfile])
-% print('-dpng',[ppath 'Climatol_' harv '_AtlGoM_All.png'])
+% print('-dpng',[ppath 'Climatol_' harv '_US_All.png'])
 % 
 % % all F
 % figure(22)
@@ -152,7 +152,7 @@ FracPFvDm = (Zmp+Zmf) ./ (Zmp+Zmf+Zmd);
 % set(gcf,'renderer','painters')
 % title('Climatology log10 mean All F (g m^-^2)')
 % stamp([harv '_' cfile])
-% print('-dpng',[ppath 'Climatol_' harv '_AtlGoM_AllF.png'])
+% print('-dpng',[ppath 'Climatol_' harv '_US_AllF.png'])
 % 
 % % all D
 % figure(23)
@@ -168,7 +168,7 @@ FracPFvDm = (Zmp+Zmf) ./ (Zmp+Zmf+Zmd);
 % set(gcf,'renderer','painters')
 % title('Climatology log10 mean All D (g m^-^2)')
 % stamp([harv '_' cfile])
-% print('-dpng',[ppath 'Climatol_' harv '_AtlGoM_AllD.png'])
+% print('-dpng',[ppath 'Climatol_' harv '_US_AllD.png'])
 % 
 % % All P
 % figure(24)
@@ -184,7 +184,7 @@ FracPFvDm = (Zmp+Zmf) ./ (Zmp+Zmf+Zmd);
 % set(gcf,'renderer','painters')
 % title('Climatology log10 mean All P (g m^-^2)')
 % stamp([harv '_' cfile])
-% print('-dpng',[ppath 'Climatol_' harv '_AtlGoM_AllP.png'])
+% print('-dpng',[ppath 'Climatol_' harv '_US_AllP.png'])
 
 
 %% All 4 on subplots
@@ -199,12 +199,10 @@ load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-2 2]);
 %     hcb = colorbar('h');
-colorbar('Position',[0.475 0.25 0.025 0.5],'orientation','vertical')
-%c.Label.String = 'log_1_0 mean biomass (g m^-^2)';
 set(gcf,'renderer','painters')
-set(gca,'XColor','none','YColor','none')
 %title('log10 mean All F (g m^-^2)')
-text(-0.4,0.95,'A','FontSize',14)
+text(-1.3,1.85,'A','FontSize',14)
+set(gca,'XColor','none','YColor','none')
 
 % All P
 subplot('Position',[0.5 0.51 0.5 0.5])
@@ -217,9 +215,9 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-2 2]);
 %     hcb = colorbar('h');
 set(gcf,'renderer','painters')
-set(gca,'XColor','none','YColor','none')
 %title('log10 mean All P (g m^-^2)')
-text(-0.4,0.95,'B','FontSize',14)
+text(-1.3,1.85,'B','FontSize',14)
+set(gca,'XColor','none','YColor','none')
 
 % all D
 subplot('Position',[0 0 0.5 0.5])
@@ -232,9 +230,9 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-2 2]);
 %     hcb = colorbar('h');
 set(gcf,'renderer','painters')
-set(gca,'XColor','none','YColor','none')
 %title('log10 mean All D (g m^-^2)')
-text(-0.4,0.95,'C','FontSize',14)
+text(-1.3,1.85,'C','FontSize',14)
+set(gca,'XColor','none','YColor','none')
 
 % All
 subplot('Position',[0.5 0 0.5 0.5])
@@ -247,11 +245,12 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-2 2]);
 %     hcb = colorbar('h');
 set(gcf,'renderer','painters')
-set(gca,'XColor','none','YColor','none')
+colorbar('Position',[0.25 0.5 0.5 0.0255],'orientation','horizontal')
 %title('log10 mean All fishes (g m^-^2)')
-text(-0.4,0.95,'D','FontSize',14)
+text(-1.3,1.85,'D','FontSize',14)
 %     stamp([harv '_' cfile])
-print('-dpng',[ppath 'Climatol_' harv '_AtlGoM_All_subplot.png'])
+set(gca,'XColor','none','YColor','none')
+print('-dpng',[ppath 'Climatol_' harv '_US_All_subplot.png'])
 
 
 %% Ratios on subplots red-white-blue
@@ -285,7 +284,7 @@ caxis([0 1]);
 set(gcf,'renderer','painters')
 title('B. Large Pelagics : Demersals')
 %     stamp([harv '_' cfile])
-%print('-dpng',[ppath 'Climatol_' harv '_AtlGoM_ratios_subplot_v2.png'])
+%print('-dpng',[ppath 'Climatol_' harv '_US_ratios_subplot_v2.png'])
 
 %% 3 figure subplot P:D, P:F, M:L
 figure(30)
@@ -322,10 +321,10 @@ cmocean('balance')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([0 1]);
-colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
+colorbar('Position',[0.2 0.485 0.6 0.025],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('Fraction Large vs. Medium')
 %stamp([harv '_' cfile])
-print('-dpng',[ppath 'Climatol_' harv '_AtlGoM_ratios_subplot_v3.png'])
+print('-dpng',[ppath 'Climatol_' harv '_US_ratios_subplot_v3.png'])
 
 
