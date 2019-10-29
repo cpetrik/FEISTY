@@ -1,5 +1,5 @@
 % Calc Fish-MIP outputs saved as NetCDF
-% Historic simulation
+% RCP8.5 simulation
 
 clear all
 close all

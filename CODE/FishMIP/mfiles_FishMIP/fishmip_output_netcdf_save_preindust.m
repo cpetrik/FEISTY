@@ -1,5 +1,5 @@
 % Calc Fish-MIP outputs saved as NetCDF
-% Historic simulation
+% Preindustrial simulation
 
 clear all
 close all

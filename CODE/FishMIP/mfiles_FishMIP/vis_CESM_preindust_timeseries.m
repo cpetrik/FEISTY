@@ -248,4 +248,11 @@ xlabel('Time (y)')
 title(['Preindustrial ' harv])
 stamp(cfile)
 %print('-dpng',[ppath 'Preindust_',harv,'_FvP.png'])
- 
+
+%% Save for plotting together
+PF = F;
+PP = P;
+PD = D;
+PB = B;
+Py = y;
+save([fpath 'Ts_Means_Preindust_' cfile '.mat'],'PF','PP','PD','PB','Py');

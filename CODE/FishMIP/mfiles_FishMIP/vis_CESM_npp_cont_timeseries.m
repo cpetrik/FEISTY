@@ -248,4 +248,14 @@ xlabel('Time (y)')
 title(['NPP control ' harv])
 stamp(cfile)
 print('-dpng',[ppath 'NPP_cont_',harv,'_FvP.png'])
+
+%% Save for plotting together
+NF = F;
+NP = P;
+ND = D;
+NB = B;
+Ny = y;
+save([fpath 'Ts_Means_NPP_cont_' cfile '.mat'],'NF','NP','ND','NB','Ny');
+
+
  

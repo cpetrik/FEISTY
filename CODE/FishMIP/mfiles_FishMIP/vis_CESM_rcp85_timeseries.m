@@ -55,7 +55,7 @@ set(groot,'defaultAxesColorOrder',cm10);
 
 %% Plots in time
 t = 1:length(sp_tmean); %time;
-y = 1850 + (t-1)/12;
+y = 2006 + (t-1)/12;
 %y = 1850 + (t)/12;
 
 % % Large Pelagics
@@ -248,4 +248,13 @@ xlabel('Time (y)')
 title(['Forecast ' harv])
 stamp(cfile)
 %print('-dpng',[ppath 'Forecast_',harv,'_FvP.png'])
+
+%% Save for plotting together
+RF = F;
+RP = P;
+RD = D;
+RB = B;
+Ry = y;
+save([fpath 'Ts_Means_Forecast_' cfile '.mat'],'RF','RP','RD','RB','Ry');
+
  

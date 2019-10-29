@@ -249,3 +249,11 @@ title(['Temp control ' harv])
 stamp(cfile)
 print('-dpng',[ppath 'Temp_cont_',harv,'_FvP.png'])
  
+%% Save for plotting together
+TF = F;
+TP = P;
+TD = D;
+TB = B;
+Ty = y;
+save([fpath 'Ts_Means_Temp_cont_' cfile '.mat'],'TF','TP','TD','TB','Ty');
+

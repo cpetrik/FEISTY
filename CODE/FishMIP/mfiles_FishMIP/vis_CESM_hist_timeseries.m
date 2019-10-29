@@ -248,4 +248,13 @@ xlabel('Time (y)')
 title(['Historic ' harv])
 stamp(cfile)
 %print('-dpng',[ppath 'Historic_',harv,'_FvP.png'])
+
+%% Save for plotting together
+HF = F;
+HP = P;
+HD = D;
+HB = B;
+Hy = y;
+save([fpath 'Ts_Means_Historic_' cfile '.mat'],'HF','HP','HD','HB','Hy');
+
  
