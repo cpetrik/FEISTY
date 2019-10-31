@@ -86,13 +86,14 @@ end
 %Carbon biomass density of consumers > 30cm, b30cm, gCm-2 If asymptotic length (Linf) is > 30cm, include in > 30cm class
 %Monthly or annual
 
+% Ryan H said to change to only outputs from my model, so no phyto or zoop
 %tsb = phy + zoo + F + P + D + B
 %tcb = zoo + F + P + D + B
 %b10cm = M + L + (0.1-0.25)*B
 %b30cm = L
 
-vtsb = phy_mean + zoo_mean + All + b_mean;
-vtcb = zoo_mean + All + b_mean;
+vtsb = All + b_mean;
+vtcb = All + b_mean;
 vb10cm = AllM + AllL + (0.1)*b_mean;
 vb30cm = AllL;
 
@@ -138,24 +139,28 @@ b30 = b30cm(:,:,150);
 figure(1)
 pcolor(log10(sb'))
 shading flat
+colormap('jet')
 colorbar
-caxis([1 3])
+caxis([-2 2])
 
 figure(2)
 pcolor(log10(cb'))
 shading flat
+colormap('jet')
 colorbar
-caxis([0 3])
+caxis([-2 2])
 
 figure(3)
 pcolor(log10(b10'))
 shading flat
+colormap('jet')
 colorbar
 caxis([-2 2])
 
 figure(4)
 pcolor(log10(b30'))
 shading flat
+colormap('jet')
 colorbar
 caxis([-2 2])
 
