@@ -15,8 +15,9 @@ fpath=['/Volumes/GFDL/NC/FishMIP/CESM1-BEC/' cfile '/'];
 %Carbon biomass density of consumers > 30cm, b30cm, gCm-2 If asymptotic length (Linf) is > 30cm, include in > 30cm class
 %Monthly or annual
 
-%tsb = phy + zoo + F + P + D + B
-%tcb = zoo + F + P + D + B
+% Ryan H said to change to only outputs from my model, so no phyto or zoop
+%tsb = F + P + D + B
+%tcb = F + P + D + B
 %b10cm = M + L + (0.1)*B
 %b30cm = L
 
