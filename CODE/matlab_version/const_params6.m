@@ -1,6 +1,6 @@
 %============== Parameters of the model =============%
 %============= PARAMETER TYPE ==========%
-function const_params5()
+function const_params6()
     global DT PI_be_cutoff pdc L_s L_m L_l M_s M_m M_l L_zm L_zl 
     global Z_s Z_m Z_l Lambda K_l K_j K_a h gam kt bpow
     global bent_eff rfrac D J Sm A benc bcmx amet 
@@ -74,7 +74,7 @@ function const_params5()
     %gam = 70;       % coeff on search area
     kc = 0.063;     % coeff on cmax T-dep fn 
     ke = 0.063;     % coeff on enc T-dep fn 
-    kt = 0.0855;    % coeff on met T-dep fn (orig 0.063)
+    %kt = 0.0855;    % coeff on met T-dep fn (orig 0.063)
     %bpow = 0.175;   % power on metab fn (orig 0.25)
     %benc = 0.20;    % power on enc fn (orig 0.20)
     bcmx = 0.25;    % power on cmax fn (orig 0.25)
