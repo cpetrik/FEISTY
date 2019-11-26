@@ -40,15 +40,13 @@ cfn=nan;
 efn=nan;
 mfn=nan;
 
-kays = [0.0405,0.0555,0.0705,0.1005,0.1155,0.1305];
-%kays = [0.025,0.05,0.1,0.125];
+%kays = [0.0405,0.0555,0.0705,0.1005,0.1155,0.1305];
+kays = [0.063, 0.0730, 0.0755, 0.0955, 0.0980, 0.1080];
 
 for M=1:length(kays)
-    kt = kays(M);
-    %bent_eff = kays(M);
-    
     %! Make core parameters/constants (global)
     make_parameters()
+    kt = kays(M);
     
     %! Create a directory for output
     fname = sub_fname(frate);

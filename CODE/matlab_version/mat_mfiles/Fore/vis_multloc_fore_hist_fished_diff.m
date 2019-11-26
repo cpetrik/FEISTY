@@ -327,7 +327,7 @@ surfm(geolat_t,geolon_t,ZlDet_hist)
 colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([0 15]);
+caxis([0 20]);
 colorbar
 set(gcf,'renderer','painters')
 title('Hindcast Zl:Det');
@@ -339,7 +339,7 @@ surfm(geolat_t,geolon_t,ZlDet_fore)
 colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([0 15]);
+caxis([0 20]);
 colorbar
 set(gcf,'renderer','painters')
 title('Forecast Zl:Det');
@@ -674,7 +674,7 @@ colorbar('Position',[0.2 0.05 0.6 0.025],'orientation','horizontal')
 print('-dpng',[pp 'Hist_Fore_',harv,'_global_Fratios_diff_subplot_ZlDet.png'])
 
 %% Ratios on subplots with ZlDet
-% 3 figure subplot P:D, P:F, L:M, Zl:Det
+% 4 figure subplot P:D, P:F, L:M, Zl:Det
 figure(15)
 % PD
 subplot('Position',[0 0.51 0.5 0.5])
@@ -729,7 +729,7 @@ title('Large vs. Medium Fishes')
 print('-dpng',[pp 'Hist_Fore_',harv,'_global_ratios_subplot_ZlDet.png'])
 
 %% F Ratios on subplots with ZlDet
-% 3 figure subplot F:D, F:P, M:L, Zl:Det
+% 4 figure subplot F:D, F:P, M:L, Zl:Det
 figure(25)
 % FD
 subplot('Position',[0 0.51 0.5 0.5])
