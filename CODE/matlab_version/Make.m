@@ -42,7 +42,7 @@ if spinup_pristine
     Spinup_pristine()
 end
 if climatol_loop
-    Climatol_param_search_name()
+    Climatol_pristine_search()
 end
 if climatol_param
     Climatol_param_sens_v3()

@@ -1,4 +1,4 @@
-% Calc AIC of diff k_t values
+% Calc metrics needed for AIC of diff k_t values
 % ESM2.6 Climatology of 5 yrs
 % 150 years
 % Saved as nc files
@@ -16,8 +16,8 @@ pp = [Pdrpbx 'Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/param_ensemble/'];
 %% Loop over kts
 % POEM file info
 harv = 'All_fish03';
-kays = [0.0405,0.0555,0.0705,0.0855,0.1005,0.1155,0.1305];
-skays={'.04','.0555','.07','.0855','.10','.1155','.13'};
+kays = [0.0405,0.0555,0.0705,0.0855,0.1005,0.1155,0.1305,0.063,0.0730,0.0755,0.0955,0.0980,0.1080];
+%skays={'.04','.0555','.07','.0855','.10','.1155','.13'};
 
 fish = NaN*ones(66,length(kays));
 lme_Fmcatch = fish;

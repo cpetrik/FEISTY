@@ -13,8 +13,8 @@ load([nfile 'LHS_param5_mid5.mat']);
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/param_ensemble/Dc_D075_Sm025_nmort1_noCC_RE00100/';
 
 ptext2 = {'Lambda','bpow','benc','amet','gam','kt'};
-plow2  = [0.6,     0.15,   0.15,  3,   50, 0.0730];
-phi2   = [0.75,    0.20,   0.25,  5,   100, 0.0980];
+plow2  = [0.6,     0.15,   0.15,  3,   50, 0.0655];
+phi2   = [0.75,    0.20,   0.25,  5,   100, 0.0855];
 
 
 %% set actual parameter values using ranges
@@ -35,9 +35,7 @@ end
 %print('-dpng',[pp 'LHS_coverage_all.png'])
 
 %%
-id1 = find(fz(:,6)<0.08);
-id2 = find(fz(:,6)>0.09);
-id = [id1;id2];
+id = find(fz(:,6)<0.08);
 fx_all = fz;
 fx = fz(id,:);
 
