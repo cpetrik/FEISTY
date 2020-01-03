@@ -42,10 +42,10 @@ for j = 15:length(params)
     %! Change individual parameters
     pset = params(j,:);
     %pset=round(pset,3);
-    set_params5(pset)
+    set_params6(pset)
     
     %! Make core parameters/constants (global)
-    const_params5()
+    const_params6()
     
     %! Create a directory for output
     fname = sub_fname_hist_ens(frate);

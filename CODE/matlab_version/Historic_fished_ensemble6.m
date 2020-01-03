@@ -38,7 +38,7 @@ load([nfile 'LHS_param5_mid5_bestAIC_params_multFup_neg_multPneg.mat'],...
 params = red_params;
 
 %% PARAMETER ENSEMBLE
-for j = 15:length(params)
+for j = 21%1:length(params)
     
     %! Change individual parameters
     pset = params(j,:);

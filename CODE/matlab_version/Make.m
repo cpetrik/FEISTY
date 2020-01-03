@@ -20,10 +20,10 @@ climatol_ngdc = false;
 pre_industrial = false;
 historic_pristine = false;
 historic_fished = false;
-historic_fished_ens = true;
+historic_fished_ens = false;
 forecast_pristine = false;
 forecast_fished = false;
-forecast_fished_ens = false;
+forecast_fished_ens = true;
 
 tic
 if testoneloc
@@ -81,6 +81,6 @@ if forecast_fished
     Forecast_fished()
 end
 if forecast_fished_ens
-    Forecast_fished_ens()
+    Forecast_fished_ensem6()
 end
 toc

@@ -18,7 +18,7 @@ SP.bio = biomass;
 Sml_p.bio = biomass(:,nt);
 clear biomass 
 
-% SF
+%% SF
 ncid = netcdf.open([fname '_sml_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
@@ -32,7 +32,7 @@ SF.bio = biomass(:,1:nt);
 Sml_f.bio = biomass(:,nt);
 clear biomass 
 
-% SD
+%% SD
 ncid = netcdf.open([fname '_sml_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
@@ -46,7 +46,7 @@ SD.bio = biomass;
 Sml_d.bio = biomass(:,nt);
 clear biomass 
 
-% MP
+%% MP
 ncid = netcdf.open([fname '_med_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
@@ -61,7 +61,7 @@ MP.yield = yield;
 Med_p.bio = biomass(:,nt);
 clear biomass yield
 
-% MF
+%% MF
 ncid = netcdf.open([fname '_med_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
@@ -76,7 +76,7 @@ MF.yield = yield;
 Med_f.bio = biomass(:,nt);
 clear biomass yield
 
-% MD
+%% MD
 ncid = netcdf.open([fname '_med_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
@@ -91,7 +91,7 @@ MD.yield = yield;
 Med_d.bio = biomass(:,nt);
 clear biomass yield
 
-% LP
+%% LP
 ncid = netcdf.open([fname '_lrg_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
@@ -106,7 +106,7 @@ LP.yield = yield;
 Lrg_p.bio = biomass(:,nt);
 clear biomass yield
 
-% LD
+%% LD
 ncid = netcdf.open([fname '_lrg_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
@@ -121,7 +121,7 @@ LD.yield = yield;
 Lrg_d.bio = biomass(:,nt);
 clear biomass yield
 
-% Benthic material
+%% Benthic material
 ncid = netcdf.open([fname '_bent.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
