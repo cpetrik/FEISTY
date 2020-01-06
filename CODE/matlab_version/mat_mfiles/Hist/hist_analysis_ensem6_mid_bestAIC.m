@@ -19,7 +19,7 @@ efn=nan;
 mfn=nan;
 
 cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
-Pdir = '/Volumes/GFDL/POEM_JLD/esm26_hist/';
+Pdir = '/Volumes/FEISTY/POEM_JLD/esm26_hist/';
 load([Pdir 'ESM26_1deg_5yr_clim_191_195_gridspec.mat']);
 
 pp = ['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/'...
@@ -46,7 +46,7 @@ mnpp = npp_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 
 
 %%
-nfile = ['/Volumes/GFDL/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_met-k086_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/'];
+nfile = ['/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_met-k086_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/'];
 load([nfile 'LHS_param6_mid6_kt2_bestAIC_params_Fupneg_mult10_Pneg2_mult3_reduced.mat'],...
     'red_params');
 params = red_params;
@@ -92,12 +92,12 @@ for j = 1:length(params)
     %! Create a directory for output
     [fname,simname] = sub_fname_hist_ens(frate);
     
-    cfile = ['/Volumes/GFDL/NC/Matlab_new_size/' simname];
+    cfile = ['/Volumes/FEISTY/NC/Matlab_new_size/' simname];
     
     %% Last 50 year means
-    if (j>=21)
-        netcdf_read_hist_fished_bio_ens(fname,simname)
-    end
+%     if (j>=21)
+%         netcdf_read_hist_fished_bio_ens(fname,simname)
+%     end
     
     load([fname '_Means_' simname '.mat'],'y','yr50',...
         'sf_tmean','sp_tmean','sd_tmean',...
@@ -143,25 +143,27 @@ for j = 1:length(params)
     Hlme_mbio(:,:,j)   = lme_mbio;
     
     %% netcdf read prod results for TEs
-%     netcdf_read_hist_fished_prod_ens(fname,simname)
-%     
-%     load([fname '_Means_prod_' simname '.mat'],...
-%     'sf_prod50','sp_prod50','sd_prod50',...
-%     'mf_prod50','mp_prod50','md_prod50',...
-%     'lp_prod50','ld_prod50');
-%     
-%     %% TE Effs
-%     [TEeffM,TEeff_ATL,TEeff_LTLd,TEeff_HTLd] = ...
-%         hist_fished_effTEs_useDet_ensem(bent_eff,mnpp,mdet,mmz_loss,mlz_loss,...
-%         mf_prod50,mp_prod50,md_prod50,lp_prod50,ld_prod50,fname,simname);
-%     hTEeffM(:,j) = TEeffM;
-%     hTEeff_ATL(:,j) = TEeff_ATL;
-%     hTEeff_LTL(:,j) = TEeff_LTLd;
-%     hTEeff_HTL(:,j) = TEeff_HTLd;
+    if (j>=15)
+        netcdf_read_hist_fished_prod_ens(fname,simname)
+    end
+    
+    load([fname '_Means_prod_' simname '.mat'],...
+    'sf_prod50','sp_prod50','sd_prod50',...
+    'mf_prod50','mp_prod50','md_prod50',...
+    'lp_prod50','ld_prod50');
+    
+    %% TE Effs
+    [TEeffM,TEeff_ATL,TEeff_LTLd,TEeff_HTLd] = ...
+        hist_fished_effTEs_useDet_ensem(bent_eff,mnpp,mdet,mmz_loss,mlz_loss,...
+        mf_prod50,mp_prod50,md_prod50,lp_prod50,ld_prod50,fname,simname);
+    hTEeffM(:,j) = TEeffM;
+    hTEeff_ATL(:,j) = TEeff_ATL;
+    hTEeff_LTL(:,j) = TEeff_LTLd;
+    hTEeff_HTL(:,j) = TEeff_HTLd;
     
 end
 %%
-epath = '/Volumes/GFDL/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/';
+epath = '/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/';
 save([epath 'Historic_All_fish03_ensem6_mid_bestAIC_multFup_multPneg.mat'],...
     'hTsF','hTsP','hTsD','hTmF','hTmP','hTmD','hTlP','hTlD','hTB',...
     'hSsF','hSsP','hSsD','hSmF','hSmP','hSmD','hSlP','hSlD','hSB',...

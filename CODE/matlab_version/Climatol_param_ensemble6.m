@@ -12,7 +12,7 @@ global MFsel MPsel MDsel LPsel LDsel Jsel efn cfn mfn
 global tstep K CGRD ni nj frate dfrate kc ke
 
 %! Setup Climatol (loop 5-year climatology of ESM2.6-COBALT)
-load('/Volumes/GFDL/POEM_JLD/esm26_hist/ESM26_1deg_5yr_clim_191_195_daily.mat');
+load('/Volumes/FEISTY/POEM_JLD/esm26_hist/ESM26_1deg_5yr_clim_191_195_daily.mat');
 
 %! How long to run the model
 YEARS = 150;
@@ -20,7 +20,7 @@ DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! choose where and when to run the model
-load('/Volumes/GFDL/POEM_JLD/esm26_hist/ESM26_1deg_5yr_clim_191_195_grid.mat');
+load('/Volumes/FEISTY/POEM_JLD/esm26_hist/ESM26_1deg_5yr_clim_191_195_grid.mat');
 NX = length(GRD.Z);
 ID = 1:NX;
 %2D Grid for advect-diff
@@ -35,11 +35,11 @@ cfn=nan;
 efn=nan;
 mfn=nan;
 
-nfile = ['/Volumes/GFDL/NC/Matlab_new_size/param_ensemble/'];
-load([nfile 'LHS_param6_mid6_temp2.mat']);
+nfile = ['/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/'];
+load([nfile 'LHS_param6_mid6_temp3.mat'],'fx');
 
 % PARAMETER SENSITIVITY TEST
-for j = 338:length(fx)
+for j = 1:length(fx)
     
     %! Change individual parameters
     pset = fx(j,:);

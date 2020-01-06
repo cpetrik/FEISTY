@@ -67,16 +67,16 @@ simname = [coup,'_enc-k',tke(2:end),'_cmax',tcfn,'-b',tbcmx(2:end),'-k',tkc(2:en
 ptext = ['Lam',tlam(2:end),'_enc',tefn,'-b',tbenc(2:end),...
         '_met',tmfn(2:end),'-b',tbfn(2:end),'-k',tkfn(2:end)];
 
-if (~isdir(['/Volumes/GFDL/NC/Matlab_new_size/param_ensemble/',simname]))
-    mkdir(['/Volumes/GFDL/NC/Matlab_new_size/param_ensemble/',simname])
+if (~isdir(['/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/',simname]))
+    mkdir(['/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/',simname])
 end
 
 
 %! Setup netcdf path to store to
 if (frate==0)
-    fname = ['/Volumes/GFDL/NC/Matlab_new_size/param_ensemble/',simname, '/Climatol_pristine_' ptext];
+    fname = ['/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/',simname, '/Climatol_pristine_' ptext];
 else
-    fname  = ['/Volumes/GFDL/NC/Matlab_new_size/param_ensemble/',simname, '/Climatol_', sel,'_fish',tfish(2:end),'_' ptext];
+    fname  = ['/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/',simname, '/Climatol_', sel,'_fish',tfish(2:end),'_' ptext];
 end
 
 

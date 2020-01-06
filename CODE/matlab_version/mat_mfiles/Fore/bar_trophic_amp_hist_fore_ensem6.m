@@ -1,18 +1,20 @@
 % Bar plot of trophic amplification
+% with std dev from ensemble sims
 
 clear all
 close all
 
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
-ppath = ['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/',...
+pp = ['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/',...
     'Matlab_New_sizes/param_ensemble/',...
     'Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/full_runs/'];
 
-epath = ['/Volumes/GFDL/NC/Matlab_new_size/param_ensemble/',...
+epath = ['/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/',...
     'Dc_enc-k063_met-k086_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/'];
-load([epath 'Prod_diff_50yr_ensem5_mid5_bestAIC_multFup_multPneg.mat'])
+load([epath 'Prod_diff_50yr_ensem6_mid_kt2_bestAIC_multFup_multPneg.mat'])
 
 %% take mean and error bars
+%means of global means, should they be means of all cells???
 fmean = mean(fbar);
 fstd = std(fbar);
 fmax = max(fbar);
@@ -20,12 +22,13 @@ fmin = min(fbar);
 
 %% bar graphs
 figure(1)
-bar(100*pbar)
+bar(100*pbar,'k')
 set(gca,'XTickLabel',pnames)
 
 %% 1 st dev
 figure(2)
-bar(100*fmean); hold on;
+b=bar(100*fmean); hold on;
+b.FaceColor = [0 0.5 0.75];
 er = errorbar(1:7,100*fmean,100*fstd);    
 er.Color = [0 0 0];                            
 er.LineStyle = 'none'; 
@@ -35,7 +38,8 @@ print('-dpng',[pp 'Hist_Fore_All_fish03_troph_amp_all_types_ensem_1std.png'])
 
 %% 2 st dev
 figure(3)
-bar(100*fmean); hold on;
+b=bar(100*fmean); hold on;
+b.FaceColor = [0 0.5 0.75];
 er = errorbar(1:7,100*fmean,200*fstd);    
 er.Color = [0 0 0];                            
 er.LineStyle = 'none'; 
@@ -45,7 +49,8 @@ print('-dpng',[pp 'Hist_Fore_All_fish03_troph_amp_all_types_ensem_2std.png'])
 
 %% min max
 figure(4)
-bar(100*fmean); hold on;
+b=bar(100*fmean); hold on;
+b.FaceColor = [0 0.5 0.75];
 er = errorbar(1:7,100*fmean,100*(fmean-fmin),100*(fmax-fmean));    
 er.Color = [0 0 0];                            
 er.LineStyle = 'none'; 
@@ -147,7 +152,7 @@ tstats(:,3) = fmin';
 tstats(:,4) = fmax';
 Stab = array2table(tstats,'VariableNames',{'mean','std','min','max'},...
     'RowNames',names);
-writetable(Stab,[epath 'Hist_Fore_All_fish03_ensem_pdiff_MeanStd.csv'],...
+writetable(Stab,[epath 'Hist_Fore_All_fish03_ensem6_mid_kt2_pdiff_MeanStd.csv'],...
     'Delimiter',',','WriteRowNames',true)
 
 
