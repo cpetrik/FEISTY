@@ -5,10 +5,7 @@ function [r,rmse,ss,mis] = lme_saup_corr_stock_ensem(lme_mcatch)
 
 load('/Users/cpetrik/Dropbox/Princeton/POEM_other/SAUP/SAUP_Stock_top10.mat');
 
-cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
-harv = 'All_fish03';
-dpath = ['/Volumes/GFDL/NC/Matlab_new_size/' cfile '/'];
-load([dpath 'LME_clim_fished_',harv,'_' cfile '.mat'],'lme_area');
+load('/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/Clim_lme_area.mat','lme_area');
 lme_area_km2 = lme_area * 1e-6;
 
 load(['/Users/cpetrik/Dropbox/Princeton/POEM_other/poem_ms/',...

@@ -28,17 +28,15 @@ cfn=nan;
 efn=nan;
 mfn=nan;
 
-nfile = ['/Volumes/GFDL/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_met-k086_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/'];
-load([nfile 'LHS_param6_mid6_kt2_bestAIC_params_Fupneg_mult10_Pneg2_mult3_reduced.mat'],...
-    'red_params','id1');
-load([nfile 'LHS_param5_mid5_bestAIC_params_multFup_neg_multPneg.mat'],...
-    'pid');
+nfile = ['/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_met-k086_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/'];
+load([nfile 'LHS_param6_mid6_kt3_bestAIC_params_Fupneg_mult10_Pneg2_mult3_reduced.mat'],...
+    'red_params');
 
-[newp,idp] = setdiff(id1,pid);
-params = red_params;
+newp = find(red_params(:,6)==0.0955);
+params = red_params(newp,:);
 
 %% PARAMETER ENSEMBLE
-for j = 21%1:length(params)
+for j = 1:length(params)
     
     %! Change individual parameters
     pset = params(j,:);
