@@ -36,7 +36,7 @@ newp = find(red_params(:,6)==0.0955);
 params = red_params(newp,:);
 
 %% PARAMETER ENSEMBLE
-for j = 1:length(params)
+for j = 15:length(params)
     
     %! Change individual parameters
     pset = params(j,:);
@@ -137,7 +137,7 @@ for j = 1:length(params)
     %% ! Initialize
     %init_sim = simname;
     init_sim = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
-    load(['/Volumes/GFDL/NC/Matlab_new_size/',init_sim '/Last_mo_preindust_' init_sim '.mat']);
+    load(['/Volumes/FEISTY/NC/Matlab_new_size/',init_sim '/Last_mo_preindust_' init_sim '.mat']);
     BENT.mass = BENT.bio;
     [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_hist(ID,DAYS,Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT);
     Med_d.td(1:NX) = 0.0;
@@ -288,7 +288,7 @@ for j = 1:length(params)
     for YR = 1:YEARS % years
         %! Load a year's COBALT data
         ti = num2str(YR+1860);
-        load(['/Volumes/GFDL/POEM_JLD/esm2m_hist/Data_ESM2Mhist_',ti,'.mat']);
+        load(['/Volumes/FEISTY/POEM_JLD/esm2m_hist/Data_ESM2Mhist_',ti,'.mat']);
         
         for DAY = 1:DT:DAYS % days
             
