@@ -79,6 +79,14 @@ fTEeff_ATL = fTEeffM;
 fTEeff_LTL = fTEeffM;
 fTEeff_HTL = fTEeffM;
 
+ftTEeff_LTL = NaN*ones(1,95/5);
+ftTEeffM = NaN*ones(nparam,95/5);
+ftTEeff_ATL = ftTEeffM;
+ftTEeff_HTL = ftTEeffM;
+
+ftTE_ATL = ftTEeffM;
+ftTE_HTL = ftTEeffM;
+
 %%
 for j = 1:length(params)
     %! Change individual parameters
@@ -94,9 +102,9 @@ for j = 1:length(params)
     cfile = ['/Volumes/FEISTY/NC/Matlab_new_size/' simname];
     
     %% Last 50 year means
-    if (j>=15)
-    netcdf_read_fore_fished_bio_prod_ens(fname,simname);
-    end
+%     if (j>=15)
+%     netcdf_read_fore_fished_bio_prod_ens(fname,simname);
+%     end
     
     load([fname '_Means_' simname '.mat'],'yr50',...
         'sf_tmean','sp_tmean','sd_tmean',...
@@ -130,8 +138,8 @@ for j = 1:length(params)
     fSB(:,j)  = b_mean50;
     
     %% Maps
-    vis_fore_ensem(simname,sf_mean50,sp_mean50,sd_mean50,...
-        mf_mean50,mp_mean50,md_mean50,b_mean50,lp_mean50,ld_mean50,pp);
+%     vis_fore_ensem(simname,sf_mean50,sp_mean50,sd_mean50,...
+%         mf_mean50,mp_mean50,md_mean50,b_mean50,lp_mean50,ld_mean50,pp);
     
     %% LME
     [lme_mcatch,lme_mbio,lme_area] = lme_fore_ensem(sf_mean50,...
@@ -142,11 +150,13 @@ for j = 1:length(params)
 
     %% Prod results for TEs
     load([fname '_Means_prod_' simname '.mat'],...
-        'sf_prod50','sp_prod50','sd_prod50',...
-        'mf_prod50','mp_prod50','md_prod50',...
-        'lp_prod50','ld_prod50');
+    'mf_prod50','mp_prod50','md_prod50',...
+    'lp_prod50','ld_prod50',...
+    'mf_prod','mp_prod','md_prod',...
+    'lp_prod','ld_prod');
     
     %% TE Effs
+    % Mean of last 50 yrs, all locations
     [TEeffM,TEeff_ATL,TEeff_LTLd,TEeff_HTLd] = ...
         fore_fished_effTEs_useDet_ensem(bent_eff,mnpp,mdet,mmz_loss,mlz_loss,...
         mf_prod50,mp_prod50,md_prod50,lp_prod50,ld_prod50,fname,simname);
@@ -155,10 +165,24 @@ for j = 1:length(params)
     fTEeff_LTL(:,j) = TEeff_LTLd;
     fTEeff_HTL(:,j) = TEeff_HTLd;
     
+    % 5 yr Means, all locations
+    [TEeffM,TEeff_A,TEeff_LTL,TEeff_H] = ...
+        fore_fished_effTEs_useDet_ensem(bent_eff,mnpp,mdet,mmz_loss,mlz_loss,...
+        mf_prod,mp_prod,md_prod,lp_prod,ld_prod,fname,simname);
+    ftTEeffM(j,:)    = mean(TEeffM);
+    ftTEeff_LTL      = mean(TEeff_LTL);
+    ftTEeff_ATL(j,:) = mean(TEeff_A);
+    ftTEeff_HTL(j,:) = mean(TEeff_H);
+    
+    ftTE_ATL(j,:) = mean(TEeff_A.^(1/4));
+    ftTE_HTL(j,:) = mean(TEeff_H.^(1/3));
+    
 end
 epath = '/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/';
 save([epath 'Forecast_All_fish03_ensem6_mid_bestAIC_multFup_multPneg.mat'],...
     'fTsF','fTsP','fTsD','fTmF','fTmP','fTmD','fTlP','fTlD','fTB',...
     'fSsF','fSsP','fSsD','fSmF','fSmP','fSmD','fSlP','fSlD','fSB',...
     'Flme_mcatch','Flme_mbio','lme_area',...
-    'fTEeffM','fTEeff_ATL','fTEeff_LTL','fTEeff_HTL')
+    'fTEeffM','fTEeff_ATL','fTEeff_LTL','fTEeff_HTL',...
+    'ftTEeffM','ftTEeff_ATL','ftTEeff_LTL','ftTEeff_HTL',...
+    'ftTE_ATL','ftTE_HTL')

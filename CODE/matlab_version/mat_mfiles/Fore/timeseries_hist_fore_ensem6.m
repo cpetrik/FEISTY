@@ -130,17 +130,18 @@ cm21=[1 0.5 0;...   %orange
 set(groot,'defaultAxesColorOrder',cm21);
 
 %% moving means
-mmtF = movmean(tF,61,2);
-mmtP = movmean(tP,61,2);
-mmtD = movmean(tD,61,2);
-mmtA = movmean(tA,61,2);
+mmtF = movmean(tF,31,2);
+mmtP = movmean(tP,31,2);
+mmtD = movmean(tD,31,2);
+mmtA = movmean(tA,31,2);
 
-mmoF = movmean(tForig,61);
-mmoP = movmean(tPorig,61);
-mmoD = movmean(tDorig,61);
-mmoA = movmean(tAorig,61);
+mmoF = movmean(tForig,31);
+mmoP = movmean(tPorig,31);
+mmoD = movmean(tDorig,31);
+mmoA = movmean(tAorig,31);
 
-%%
+%% Individual Plots 
+% All
 figure(1)
 plot(y,log10(mmtA)); hold on;
 plot(y,log10(mmoA),'color',[0 0.5 0.75],'LineWidth',2);
@@ -154,7 +155,7 @@ legend('1','2','3','4','5','6','7','8','9','10','11','12','13','14','15',...
 legend('location','eastoutside')
 print('-dpng',[ppath 'Hist_Fore_',harv,'_all_types_ensem.png'])
 
-%%
+%% F
 figure(2)
 plot(y,log10(mmtF)); hold on;
 plot(y,log10(mmoF),'color',[0 0.5 0.75],'LineWidth',2);
@@ -168,7 +169,7 @@ legend('1','2','3','4','5','6','7','8','9','10','11','12','13','14','15',...
 legend('location','eastoutside')
 print('-dpng',[ppath 'Hist_Fore_',harv,'_forage_ensem.png'])
 
-%%
+%% P
 figure(3)
 plot(y,log10(mmtP)); hold on;
 plot(y,log10(mmoP),'color',[0 0.5 0.75],'LineWidth',2);
@@ -182,7 +183,7 @@ legend('1','2','3','4','5','6','7','8','9','10','11','12','13','14','15',...
 legend('location','eastoutside')
 print('-dpng',[ppath 'Hist_Fore_',harv,'_pel_ensem.png'])
 
-%%
+%% D
 figure(4)
 plot(y,log10(mmtD)); hold on;
 plot(y,log10(mmoD),'color',[0 0.5 0.75],'LineWidth',2);
@@ -195,6 +196,69 @@ legend('1','2','3','4','5','6','7','8','9','10','11','12','13','14','15',...
     '16','17','18','19','20','21','22','23','24','25','26','orig')
 legend('location','eastoutside')
 print('-dpng',[ppath 'Hist_Fore_',harv,'_dem_ensem.png'])
+
+%% All together on one
+figure(5)
+% plot(y,log10(mmtA),'k'); hold on;
+% plot(y,log10(mmoA),'k','LineWidth',2); hold on;
+
+plot(y,log10(mmtF),'color',[1 80/255 0]); hold on;
+plot(y,log10(mmoF),'color',[1 80/255 0],'LineWidth',2); hold on;
+
+plot(y,log10(mmtP),'color',[0 0.5 0.75]); hold on;
+plot(y,log10(mmoP),'color',[0 0.5 0.75],'LineWidth',2); hold on;
+
+plot(y,log10(mmtD),'color',[0 0.7 0]); hold on;
+plot(y,log10(mmoD),'color',[0 0.7 0],'LineWidth',2); hold on;
+
+xlim([1900 2100])
+ylim([-0.3 0.35])
+%title('Demersal fish')
+xlabel('Year')
+ylabel('log10 Biomass (g m^-^2)')
+print('-dpng',[ppath 'Hist_Fore_',harv,'_all_together_ensem.png'])
+
+%% CONE OF UNCERTAINTY
+mF = mean(mmtF);
+mP = mean(mmtP);
+mD = mean(mmtD);
+mA = mean(mmtA);
+
+%create continuous x value array for plotting
+X=[y fliplr(y)]; 
+%create y values for out and then back
+%replace with sims with min and max values
+Ya=[mmtA(25,:) fliplr(mmtA(12,:))]; 
+Yf=[mmtF(24,:) fliplr(mmtF(17,:))]; 
+Yp=[mmtP(6,:)  fliplr(mmtP(3,:))]; 
+Yd=[mmtD(10,:) fliplr(mmtD(17,:))]; 
+
+%%
+figure(6)
+f=fill(X,log10(Ya),'k','FaceAlpha',0.25,'EdgeAlpha',0.25);  %plot filled area
+hold on
+plot(y,log10(mA),'k','LineWidth',2);
+xlim([1900 2100])
+% ylim([0.425 0.675])
+title('All fish')
+xlabel('Year')
+ylabel('log10 Biomass (g m^-^2)')
+print('-dpng',[ppath 'Hist_Fore_',harv,'_all_types_ensem_cone.png'])
+
+%%
+figure(7)
+fill(X,log10(Yf),'r','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
+plot(y,log10(mF),'color',[1 80/255 0],'LineWidth',2); hold on;
+fill(X,log10(Yp),'b','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
+plot(y,log10(mP),'color',[0 0.35 0.75],'LineWidth',2); hold on;
+fill(X,log10(Yd),'g','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
+plot(y,log10(mD),'color',[0 0.7 0],'LineWidth',2); hold on;
+xlim([1900 2100])
+ylim([-0.3 0.35])
+title('All functional types')
+xlabel('Year')
+ylabel('log10 Biomass (g m^-^2)')
+print('-dpng',[ppath 'Hist_Fore_',harv,'_types_ensem_cone.png'])
 
 
 
