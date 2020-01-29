@@ -69,7 +69,7 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-2 2]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
-title('Forecast fished 2051-2100 log10 mean benthic biomass (g m^-^2)')
+title('Historic fished 1951-2000 log10 mean benthic biomass (g m^-^2)')
 stamp(simname)
 print('-dpng',[pp 'Hist_Bent_',simname,'.png'])
 

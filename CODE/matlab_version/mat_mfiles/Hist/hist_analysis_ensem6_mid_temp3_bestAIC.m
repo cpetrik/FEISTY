@@ -52,8 +52,9 @@ nfile = ['/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_met-k086
 % params = red_params;
 load([nfile 'LHS_param6_mid6_kt3_bestAIC_params_Fupneg_mult10_Pneg2_mult3_reduced.mat'],...
     'red_params');
-newp = find(red_params(:,6)==0.0955);
-params = red_params(newp,:);
+% newp = find(red_params(:,6)==0.0955);
+% params = red_params(newp,:);
+params = red_params;
 
 nparam = length(params);
 
@@ -109,7 +110,7 @@ for j = 1:length(params)
     
     %% Last 50 year means
 %     if (j>=21)
-         netcdf_read_hist_fished_bio_ens(fname,simname)
+%          netcdf_read_hist_fished_bio_ens(fname,simname)
 %     end
     
     load([fname '_Means_' simname '.mat'],'y','yr50',...
@@ -123,26 +124,26 @@ for j = 1:length(params)
     
     
     %% Time series
-%     hTsF(j,:) = sf_tmean;
-%     hTsP(j,:) = sp_tmean;
-%     hTsD(j,:) = sd_tmean;
-%     hTmF(j,:) = mf_tmean;
-%     hTmP(j,:) = mp_tmean;
-%     hTmD(j,:) = md_tmean;
-%     hTlP(j,:) = lp_tmean;
-%     hTlD(j,:) = ld_tmean;
-%     hTB(j,:)  = b_tmean;
-%     
-%     %% Last 50 years (2051-2100)
-%     hSsF(:,j) = sf_mean50;
-%     hSsP(:,j) = sp_mean50;
-%     hSsD(:,j) = sd_mean50;
-%     hSmF(:,j) = mf_mean50;
-%     hSmP(:,j) = mp_mean50;
-%     hSmD(:,j) = md_mean50;
-%     hSlP(:,j) = lp_mean50;
-%     hSlD(:,j) = ld_mean50;
-%     hSB(:,j)  = b_mean50;
+    hTsF(j,:) = sf_tmean;
+    hTsP(j,:) = sp_tmean;
+    hTsD(j,:) = sd_tmean;
+    hTmF(j,:) = mf_tmean;
+    hTmP(j,:) = mp_tmean;
+    hTmD(j,:) = md_tmean;
+    hTlP(j,:) = lp_tmean;
+    hTlD(j,:) = ld_tmean;
+    hTB(j,:)  = b_tmean;
+    
+    %% Last 50 years (2051-2100)
+    hSsF(:,j) = sf_mean50;
+    hSsP(:,j) = sp_mean50;
+    hSsD(:,j) = sd_mean50;
+    hSmF(:,j) = mf_mean50;
+    hSmP(:,j) = mp_mean50;
+    hSmD(:,j) = md_mean50;
+    hSlP(:,j) = lp_mean50;
+    hSlD(:,j) = ld_mean50;
+    hSB(:,j)  = b_mean50;
     
     %% Maps
     vis_hist_ensem(simname,sf_mean50,sp_mean50,sd_mean50,...
@@ -152,12 +153,12 @@ for j = 1:length(params)
     [lme_mcatch,lme_mbio,lme_area] = lme_hist_ensem(sf_mean50,sp_mean50,...
         sd_mean50,mf_mean50,mp_mean50,md_mean50,b_mean50,lp_mean50,ld_mean50,...
         mf_my50,mp_my50,md_my50,lp_my50,ld_my50,fname,simname);
-%     Hlme_mcatch(:,:,j) = lme_mcatch;
-%     Hlme_mbio(:,:,j)   = lme_mbio;
+    Hlme_mcatch(:,:,j) = lme_mcatch;
+    Hlme_mbio(:,:,j)   = lme_mbio;
     
     %% netcdf read prod results for TEs
 %     if (j>=15)
-         netcdf_read_hist_fished_prod_ens(fname,simname)
+%          netcdf_read_hist_fished_prod_ens(fname,simname)
 %     end
     
     load([fname '_Means_prod_' simname '.mat'],...
@@ -171,31 +172,31 @@ for j = 1:length(params)
     [TEeffM,TEeff_ATL,TEeff_LTLd,TEeff_HTLd] = ...
         hist_fished_effTEs_useDet_ensem(bent_eff,mnpp,mdet,mmz_loss,mlz_loss,...
         mf_prod50,mp_prod50,md_prod50,lp_prod50,ld_prod50,fname,simname);
-%     hTEeffM(:,j) = TEeffM;
-%     hTEeff_ATL(:,j) = TEeff_ATL;
-%     hTEeff_LTL(:,j) = TEeff_LTLd;
-%     hTEeff_HTL(:,j) = TEeff_HTLd;
+    hTEeffM(:,j) = TEeffM;
+    hTEeff_ATL(:,j) = TEeff_ATL;
+    hTEeff_LTL(:,j) = TEeff_LTLd;
+    hTEeff_HTL(:,j) = TEeff_HTLd;
     
     % 5 yr Means, all locations
     [TEeffM,TEeff_A,TEeff_LTL,TEeff_H] = ...
         hist_fished_effTEs_useDet_ensem(bent_eff,mnpp,mdet,mmz_loss,mlz_loss,...
         mf_prod,mp_prod,md_prod,lp_prod,ld_prod,fname,simname);
-%     htTEeffM(j,:)    = mean(TEeffM);
-%     htTEeff_LTL      = mean(TEeff_LTL);
-%     htTEeff_ATL(j,:) = mean(TEeff_A);
-%     htTEeff_HTL(j,:) = mean(TEeff_H);
-%     
-%     htTE_ATL(j,:) = mean(TEeff_A.^(1/4));
-%     htTE_HTL(j,:) = mean(TEeff_H.^(1/3));
+    htTEeffM(j,:)    = mean(TEeffM);
+    htTEeff_LTL      = mean(TEeff_LTL);
+    htTEeff_ATL(j,:) = mean(TEeff_A);
+    htTEeff_HTL(j,:) = mean(TEeff_H);
+    
+    htTE_ATL(j,:) = mean(TEeff_A.^(1/4));
+    htTE_HTL(j,:) = mean(TEeff_H.^(1/3));
     
 end
 %%
-% epath = '/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/';
-% save([epath 'Historic_All_fish03_ensem6_mid_bestAIC_multFup_multPneg.mat'],...
-%     'hTsF','hTsP','hTsD','hTmF','hTmP','hTmD','hTlP','hTlD','hTB',...
-%     'hSsF','hSsP','hSsD','hSmF','hSmP','hSmD','hSlP','hSlD','hSB',...
-%     'Hlme_mcatch','Hlme_mbio','lme_area',...
-%     'hTEeffM','hTEeff_ATL','hTEeff_LTL','hTEeff_HTL',...
-%     'htTEeffM','htTEeff_ATL','htTEeff_LTL','htTEeff_HTL',...
-%     'htTE_ATL','htTE_HTL')
+epath = '/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/';
+save([epath 'Historic_All_fish03_ensem6_mid_temp3_bestAIC_multFup_multPneg.mat'],...
+    'hTsF','hTsP','hTsD','hTmF','hTmP','hTmD','hTlP','hTlD','hTB',...
+    'hSsF','hSsP','hSsD','hSmF','hSmP','hSmD','hSlP','hSlD','hSB',...
+    'Hlme_mcatch','Hlme_mbio','lme_area',...
+    'hTEeffM','hTEeff_ATL','hTEeff_LTL','hTEeff_HTL',...
+    'htTEeffM','htTEeff_ATL','htTEeff_LTL','htTEeff_HTL',...
+    'htTE_ATL','htTE_HTL')
 
