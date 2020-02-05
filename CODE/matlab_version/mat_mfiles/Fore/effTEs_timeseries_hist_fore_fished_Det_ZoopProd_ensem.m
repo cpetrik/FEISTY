@@ -1,5 +1,5 @@
 % Time series of TEeff
-% Need: AllL mdet  mmz_loss  mlz_loss mnpp
+% Need: AllL mdet  mmz_prod  mlz_prod mnpp
 % Ensemble results mid6, temp3
 
 clear all
@@ -38,23 +38,23 @@ end
 % 106/16 mol C in 1 mol N
 % 12.01 g C in 1 mol C
 % 1 g dry W in 9 g wet W
-mzloss_5yr_hist = mzloss_5yr_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
-lzloss_5yr_hist = lzloss_5yr_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+mzprod_5yr_hist = mzprod_5yr_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+lzprod_5yr_hist = lzprod_5yr_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 det_5yr_hist = det_5yr_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 npp_5yr_hist = npp_5yr_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 
-hmmz_loss = mzloss_5yr_hist;
-hmlz_loss = lzloss_5yr_hist;
+hmmz_prod = mzprod_5yr_hist;
+hmlz_prod = lzprod_5yr_hist;
 hmdet = det_5yr_hist;
 hmnpp = npp_5yr_hist;
 
-mzloss_5yr_fore = mzloss_5yr_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
-lzloss_5yr_fore = lzloss_5yr_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+mzprod_5yr_fore = mzprod_5yr_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+lzprod_5yr_fore = lzprod_5yr_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 det_5yr_fore = det_5yr_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 npp_5yr_fore = npp_5yr_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 
-fmmz_loss = mzloss_5yr_fore;
-fmlz_loss = lzloss_5yr_fore;
+fmmz_prod = mzprod_5yr_fore;
+fmlz_prod = lzprod_5yr_fore;
 fmdet = det_5yr_fore;
 fmnpp = npp_5yr_fore;
 
@@ -86,31 +86,32 @@ L = [HL FL];
 L(L<0) = 0;
 npp = [hmnpp fmnpp];
 det = [hmdet fmdet];
-mz_loss = [hmmz_loss fmmz_loss];
-lz_loss = [hmlz_loss fmlz_loss];
+mz_prod = [hmmz_prod fmmz_prod];
+lz_prod = [hmlz_prod fmlz_prod];
 
 mnpp = nanmean(npp);
 mdet = nanmean(det);
-mmz_loss = nanmean(mz_loss);
-mlz_loss = nanmean(lz_loss);
+mmz_prod = nanmean(mz_prod);
+mlz_prod = nanmean(lz_prod);
 mL = nanmean(L);
 
 %% Effective TEs
 % With BE*det instead of Bent
+% With Zprod instead of Zloss
 %TEeff_ATL = production_L/NPP
 TEeff_ATL = L./npp;
 TEeff_ATL(TEeff_ATL==-Inf) = NaN;
 TEeff_ATL(TEeff_ATL==Inf) = NaN;
 TEeff_ATL(TEeff_ATL<0) = NaN;
 TEeff_ATL(TEeff_ATL>1) = NaN;
-%TEeff_LTL = (production_benthic_invert+mesozoo_prod_to_fish)/NPP
-TEeff_LTL = (BE*det + mz_loss + lz_loss)./npp;
+%TEeff_LTL = (production_benthic_invert+mesozoo_prod)/NPP
+TEeff_LTL = (BE*det + mz_prod + lz_prod)./npp;
 TEeff_LTL(TEeff_LTL==-Inf) = NaN;
 TEeff_LTL(TEeff_LTL==Inf) = NaN;
 TEeff_LTL(TEeff_LTL<0) = NaN;
 TEeff_LTL(TEeff_LTL>1) = NaN;
-%TEeff_HTL = production_L/(production_benthic_invert+mesozoo_prod_to_fish)
-TEeff_HTL = L./(BE*det + mz_loss + lz_loss); 
+%TEeff_HTL = production_L/(production_benthic_invert+mesozoo_prod)
+TEeff_HTL = L./(BE*det + mz_prod + lz_prod); 
 TEeff_HTL(TEeff_HTL<0) = NaN;
 TEeff_HTL(TEeff_HTL>1) = NaN;
 
@@ -134,8 +135,8 @@ eTE_ATL = [htTE_ATL ftTE_ATL];
 eTE_HTL = [htTE_HTL ftTE_HTL];
 
 %% save
-save([epath 'TEeffDet_5yr_means_Hist_Fore_All_fish03_ensem6_mid_temp3_bestAIC_multFup_multPneg.mat'],...
-    'L','mdet','mmz_loss','mlz_loss','mnpp','y',...
+save([epath 'TEeff_Det_Zprod_5yr_means_Hist_Fore_All_fish03_ensem6_mid_temp3_bestAIC_multFup_multPneg.mat'],...
+    'L','mdet','mmz_prod','mlz_prod','mnpp','y',...
     'TEeff_ATL','TEeff_LTL','TEeff_HTL','eTE_ATL','eTE_HTL',...
     'eTEeff_ATL','eTEeff_HTL');
 
@@ -144,16 +145,16 @@ figure(1)
 subplot(2,2,1)
 plot(y,q(4,:),'k','Linewidth',2); hold on;
 title('TEeff LTL')
-ylim([9e-2 1e-1])
-xlim([1900 2095])
+ylim([0.14 0.155])
+xlim([1951 2095])
 xlabel('Year')
 
 subplot(2,2,2)
 plot(y,eTEeff_HTL); hold on;
 plot(y,q(2,:),'k','Linewidth',2); hold on;
 title('TEeff HTL')
-ylim([5e-3 25e-3])
-xlim([1900 2095])
+ylim([3e-3 14e-3])
+xlim([1951 2095])
 xlabel('Year')
 
 subplot(2,2,3)
@@ -161,59 +162,59 @@ plot(y,eTEeff_ATL); hold on;
 plot(y,q(3,:),'k','Linewidth',2); hold on;
 title('TEeff ATL')
 ylim([3e-4 14e-4])
-xlim([1900 2095])
+xlim([1951 2095])
 xlabel('Year')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_TEeff_sub_ensem.png'])
+print('-dpng',[ppath 'Hist_Fore_',harv,'_TEeff_Det_Zprod_sub_ensem.png'])
 
 %% subplot of TEs
 figure(2)
 subplot(2,2,1)
 plot(y,100*q(4,:),'k','Linewidth',2); hold on;
 title('TE LTL')
-ylim([9 10])
-xlim([1900 2095])
+ylim([14 15.5])
+xlim([1951 2095])
 xlabel('Year')
 
 subplot(2,2,2)
 plot(y,100*eTE_HTL); hold on;
 plot(y,100*q(5,:),'k','Linewidth',2); hold on;
 title('TE HTL')
-ylim([11 26])
-xlim([1900 2095])
+ylim([9 21])
+xlim([1951 2095])
 xlabel('Year')
 
 subplot(2,2,3)
 plot(y,100*eTE_ATL); hold on;
 plot(y,100*q(6,:),'k','Linewidth',2); hold on;
 title('TE ATL')
-ylim([8 17])
-xlim([1900 2095])
+ylim([9 16])
+xlim([1951 2095])
 xlabel('Year')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_TE_sub_ensem.png'])
+print('-dpng',[ppath 'Hist_Fore_',harv,'_TE_Det_Zprod_sub_ensem.png'])
 
 %% subplot of TEs
 figure(3)
 subplot(2,2,1)
 plot(y,100*q(4,:),'color',[0.5 0 1],'Linewidth',2); hold on;
 title('TE LTL')
-ylim([9 10])
-xlim([1900 2095])
+ylim([14 15.5])
+xlim([1951 2095])
 xlabel('Year')
 
 subplot(2,2,2)
 plot(y,100*eTE_HTL,'color',[0 0.5 0.75]); hold on;
 plot(y,100*q(5,:),'color',[0 0.5 0.75],'Linewidth',2); hold on;
 title('TE HTL')
-ylim([11 26])
-xlim([1900 2095])
+ylim([9 21])
+xlim([1951 2095])
 xlabel('Year')
 
 subplot(2,2,3)
 plot(y,100*eTE_ATL,'k'); hold on;
 plot(y,100*q(6,:),'k','Linewidth',2); hold on;
 title('TE ATL')
-ylim([8 17])
-xlim([1900 2095])
+ylim([9 16])
+xlim([1951 2095])
 xlabel('Year')
 
 subplot(2,2,4)
@@ -224,9 +225,10 @@ plot(y,100*eTE_ATL,'k'); hold on;
 plot(y,100*q(6,:),'k','Linewidth',2); hold on;
 %legend('LTL','HTL','ATL')
 %legend('location','northeast')
-xlim([1900 2095])
+ylim([8 21])
+xlim([1951 2095])
 xlabel('Year')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_TE_sub2_ensem.png'])
+print('-dpng',[ppath 'Hist_Fore_',harv,'_TE_Det_Zprod_sub2_ensem.png'])
 
 %% CONE OF UNCERTAINTY
 mHTL = mean([eTE_HTL; q(5,:)]);
@@ -250,50 +252,50 @@ figure(4)
 subplot(2,2,1)
 plot(y,100*q(4,:),'k','Linewidth',2); hold on;
 title('TE LTL')
-ylim([9 10])
-xlim([1900 2095])
+ylim([14 15.5])
+xlim([1951 2095])
 xlabel('Year')
 
 subplot(2,2,2)
 fill(X,100*Yh,'k','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
 plot(y,100*mHTL,'k','Linewidth',2); hold on;
 title('TE HTL')
-ylim([11 26])
-xlim([1900 2095])
+ylim([9 21])
+xlim([1951 2095])
 xlabel('Year')
 
 subplot(2,2,3)
 fill(X,100*Ya,'k','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
 plot(y,100*mATL,'k','Linewidth',2); hold on;
 title('TE ATL')
-ylim([8 17])
-xlim([1900 2095])
+ylim([9 16])
+xlim([1951 2095])
 xlabel('Year')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_TE_sub_cone_ensem.png'])
+print('-dpng',[ppath 'Hist_Fore_',harv,'_TE_Det_Zprod_sub_cone_ensem.png'])
 
 %% subplot of TEs with cone, 4th all together
 figure(5)
 subplot(2,2,1)
 plot(y,100*q(4,:),'color',[0.5 0 1],'Linewidth',2); hold on;
 title('TE LTL')
-ylim([9 10])
-xlim([1900 2095])
+ylim([14 15.5])
+xlim([1951 2095])
 xlabel('Year')
 
 subplot(2,2,2)
 fill(X,100*Yh,'c','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
 plot(y,100*mHTL,'color',[0 0.5 0.75],'Linewidth',2); hold on;
 title('TE HTL')
-ylim([11 26])
-xlim([1900 2095])
+ylim([9 21])
+xlim([1951 2095])
 xlabel('Year')
 
 subplot(2,2,3)
 fill(X,100*Ya,'k','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
 plot(y,100*mATL,'k','Linewidth',2); hold on;
 title('TE ATL')
-ylim([8 17])
-xlim([1900 2095])
+ylim([9 16])
+xlim([1951 2095])
 xlabel('Year')
 
 subplot(2,2,4)
@@ -304,6 +306,7 @@ fill(X,100*Ya,'k','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
 plot(y,100*mATL,'k','Linewidth',2); hold on;
 %legend('LTL','HTL','ATL')
 %legend('location','northeast')
-xlim([1900 2095])
+ylim([8 21])
+xlim([1951 2095])
 xlabel('Year')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_TE_sub2_cone_ensem.png'])
+print('-dpng',[ppath 'Hist_Fore_',harv,'_TE_Det_Zprod_sub2_cone_ensem.png'])

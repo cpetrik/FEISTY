@@ -59,62 +59,6 @@ tP = [HP FP];
 tD = [HD FD];
 tA = [HA FA];
 
-%% Calc variability at 1900, 2000, and 2100
-
-%Table with most & least fish
-tabML(1,1) = find(FA(:,1140)==max(FA(:,1140)));
-tabML(1,2) = find(FA(:,1140)==min(FA(:,1140)));
-tabML(2,1) = find(FF(:,1140)==max(FF(:,1140)));
-tabML(2,2) = find(FF(:,1140)==min(FF(:,1140)));
-tabML(3,1) = find(FP(:,1140)==max(FP(:,1140)));
-tabML(3,2) = find(FP(:,1140)==min(FP(:,1140)));
-tabML(4,1) = find(FD(:,1140)==max(FD(:,1140)));
-tabML(4,2) = find(FD(:,1140)==min(FD(:,1140)));
-
-Ftab = array2table(tabML,'VariableNames',{'Most','Least'},...
-    'RowNames',{'All Fish','F','P','D'});
-writetable(Ftab,[epath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_MostLeast.csv'],...
-    'Delimiter',',','WriteRowNames',true)
-
-%Variability and difference
-tstats(1,1) = var(tA(:,480));
-tstats(2,1) = var(tA(:,1680));
-tstats(3,1) = var(tA(:,2880));
-
-tstats(1,2) = max(tA(:,480)) - min(tA(:,480));
-tstats(2,2) = max(tA(:,1680)) - min(tA(:,1680));
-tstats(3,2) = max(tA(:,2880)) - min(tA(:,2880));
-
-tstats(1,3) = var(tF(:,480));
-tstats(2,3) = var(tF(:,1680));
-tstats(3,3) = var(tF(:,2880));
-
-tstats(1,4) = max(tF(:,480)) - min(tF(:,480));
-tstats(2,4) = max(tF(:,1680)) - min(tF(:,1680));
-tstats(3,4) = max(tF(:,2880)) - min(tF(:,2880));
-
-tstats(1,5) = var(tP(:,480));
-tstats(2,5) = var(tP(:,1680));
-tstats(3,5) = var(tP(:,2880));
-
-tstats(1,6) = max(tP(:,480)) - min(tP(:,480));
-tstats(2,6) = max(tP(:,1680)) - min(tP(:,1680));
-tstats(3,6) = max(tP(:,2880)) - min(tP(:,2880));
-
-tstats(1,7) = var(tD(:,480));
-tstats(2,7) = var(tD(:,1680));
-tstats(3,7) = var(tD(:,2880));
-
-tstats(1,8) = max(tD(:,480)) - min(tD(:,480));
-tstats(2,8) = max(tD(:,1680)) - min(tD(:,1680));
-tstats(3,8) = max(tD(:,2880)) - min(tD(:,2880));
-
-Stab = array2table(tstats,'VariableNames',{'varAll','diffAll','varF','diffF',...
-    'varP','diffP','varD','diffD'},...
-    'RowNames',{'1900','2000','2100'});
-writetable(Stab,[epath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_VarDiff.csv'],...
-    'Delimiter',',','WriteRowNames',true)
-
 %% Line color order
 cm21=[1 0.5 0;...   %orange
     0.5 0.5 0;... %tan/army
@@ -139,6 +83,8 @@ cm21=[1 0.5 0;...   %orange
     255/255 160/255 122/255]; %peach
 
 set(groot,'defaultAxesColorOrder',cm21);
+% set(groot,'defaultFontName','TimesNewRoman');
+% set(groot,'defaultFontSize',16);
 
 %% moving means
 mmtF = movmean(tF,31,2); %[1081,28]=1.94e+35
@@ -151,93 +97,88 @@ mmoP = movmean(tPorig,31);
 mmoD = movmean(tDorig,31);
 mmoA = movmean(tAorig,31);
 
-%% Individual Plots 
+%% SubPlots of ensemble of all types
 % All
 figure(1)
+subplot(2,2,4)
 plot(y,log10(mmtA)); hold on;
 plot(y,log10(mmoA),'color',[0 0.5 0.75],'LineWidth',2);
-xlim([1900 2100])
+xlim([1951 2100])
 ylim([0.425 0.725])
 title('All fish')
 xlabel('Year')
-ylabel('log10 Biomass (g m^-^2)')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_all_types_ensem_mid6_temp3.png'])
 
-%% F
-figure(2)
+% F
+subplot(2,2,1)
 plot(y,log10(mmtF)); hold on;
 plot(y,log10(mmoF),'color',[0 0.5 0.75],'LineWidth',2);
-xlim([1900 2100])
+xlim([1951 2100])
 ylim([0.025 0.325])
 title('Forage fish')
-xlabel('Year')
 ylabel('log10 Biomass (g m^-^2)')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_forage_ensem_mid6_temp3.png'])
 
-%% P
-figure(3)
+% P
+subplot(2,2,2)
 plot(y,log10(mmtP)); hold on;
 plot(y,log10(mmoP),'color',[0 0.5 0.75],'LineWidth',2);
-xlim([1900 2100])
+xlim([1951 2100])
 ylim([-0.275 0.375])
 title('Large pelagic fish')
-xlabel('Year')
-ylabel('log10 Biomass (g m^-^2)')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_pel_ensem_mid6_temp3.png'])
 
-%% D
-figure(4)
+% D
+subplot(2,2,3)
 plot(y,log10(mmtD)); hold on;
 plot(y,log10(mmoD),'color',[0 0.5 0.75],'LineWidth',2);
-xlim([1900 2100])
+xlim([1951 2100])
 ylim([-0.15 0.1])
 title('Demersal fish')
 xlabel('Year')
 ylabel('log10 Biomass (g m^-^2)')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_dem_ensem_mid6_temp3.png'])
+print('-dpng',[ppath 'Hist_Fore_',harv,'_subplot_all_ensem_mid6_temp3.png'])
 
-%% All together on one
-figure(5)
-% plot(y,log10(mmtA),'k'); hold on;
-% plot(y,log10(mmoA),'k','LineWidth',2); hold on;
-
-plot(y,log10(mmtF),'color',[1 80/255 0]); hold on;
-plot(y,log10(mmoF),'color',[1 80/255 0],'LineWidth',2); hold on;
-
-plot(y,log10(mmtP),'color',[0 0.5 0.75]); hold on;
-plot(y,log10(mmoP),'color',[0 0.5 0.75],'LineWidth',2); hold on;
-
-plot(y,log10(mmtD),'color',[0 0.7 0]); hold on;
-plot(y,log10(mmoD),'color',[0 0.7 0],'LineWidth',2); hold on;
-
-xlim([1900 2100])
-ylim([-0.3 0.4])
-%title('Demersal fish')
+%% Orig params All together on one
+figure(2)
+plot(y,log10(tForig),'r','LineWidth',2); hold on;
+plot(y,log10(tDorig),'color',[0 0.7 0],'LineWidth',2); hold on;
+plot(y,log10(tPorig),'b','LineWidth',2); hold on;
+legend('Forage','Demersal','Large Pelagic')
+xlim([1951 2100])
+ylim([-0.15 0.3])
 xlabel('Year')
 ylabel('log10 Biomass (g m^-^2)')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_all_together_ensem_mid6_temp3.png'])
+print('-dpng',[ppath 'Hist_Fore_',harv,'_all_together_orig_param_legend.png'])
+
+figure(3)
+plot(y,log10(tForig),'r','LineWidth',2); hold on;
+plot(y,log10(tDorig),'color',[0 0.7 0],'LineWidth',2); hold on;
+plot(y,log10(tPorig),'b','LineWidth',2); hold on;
+xlim([1951 2100])
+ylim([-0.15 0.3])
+xlabel('Year')
+ylabel('log10 Biomass (g m^-^2)')
+print('-dpng',[ppath 'Hist_Fore_',harv,'_all_together_orig_param_noleg.png'])
 
 %% CONE OF UNCERTAINTY
-mF = mean(mmtF);
-mP = mean(mmtP);
-mD = mean(mmtD);
-mA = mean(mmtA);
+mF = mean(tF);
+mP = mean(tP);
+mD = mean(tD);
+mA = mean(tA);
 
 %create continuous x value array for plotting
 X=[y fliplr(y)]; 
 %create y values for out and then back
 %replace with sims with min and max values
-Ya=[mmtA(25,:) fliplr(mmtA(12,:))]; 
-Yf=[mmtF(24,:) fliplr(mmtF(17,:))]; 
-Yp=[mmtP(6,:)  fliplr(mmtP(3,:))]; 
-Yd=[mmtD(10,:) fliplr(mmtD(17,:))]; 
+Ya=[tA(25,:) fliplr(tA(12,:))]; 
+Yf=[tF(24,:) fliplr(tF(17,:))]; 
+Yp=[tP(6,:)  fliplr(tP(3,:))]; 
+Yd=[tD(10,:) fliplr(tD(17,:))]; 
 
 %%
-figure(6)
+figure(4)
 f=fill(X,log10(Ya),'k','FaceAlpha',0.25,'EdgeAlpha',0.25);  %plot filled area
 hold on
 plot(y,log10(mA),'k','LineWidth',2);
-xlim([1900 2100])
+xlim([1951 2100])
 % ylim([0.425 0.675])
 title('All fish')
 xlabel('Year')
@@ -245,16 +186,16 @@ ylabel('log10 Biomass (g m^-^2)')
 print('-dpng',[ppath 'Hist_Fore_',harv,'_all_types_ensem_mid6_temp3_cone.png'])
 
 %%
-figure(7)
+figure(5)
 fill(X,log10(Yf),'r','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
 fill(X,log10(Yp),'c','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
 fill(X,log10(Yd),'g','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
-plot(y,log10(mF),'color',[1 80/255 0],'LineWidth',2); hold on;
-plot(y,log10(mP),'color',[0 0.35 0.75],'LineWidth',2); hold on;
+plot(y,log10(mF),'r','LineWidth',2); hold on;
+plot(y,log10(mP),'b','LineWidth',2); hold on;
 plot(y,log10(mD),'color',[0 0.7 0],'LineWidth',2); hold on;
-xlim([1900 2100])
+xlim([1951 2100])
 ylim([-0.3 0.35])
-title('All functional types')
+%title('All functional types')
 xlabel('Year')
 ylabel('log10 Biomass (g m^-^2)')
 print('-dpng',[ppath 'Hist_Fore_',harv,'_types_ensem_mid6_temp3_cone.png'])

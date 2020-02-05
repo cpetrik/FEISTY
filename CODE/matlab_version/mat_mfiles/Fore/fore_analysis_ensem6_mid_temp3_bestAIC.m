@@ -32,7 +32,8 @@ end
 %% LTL info for TEeffs
 gpath='/Users/cpetrik/Dropbox/Princeton/POEM_other/cobalt_data/';
 load([gpath 'cobalt_det_temp_zoop_npp_means.mat'],'mzloss_mean_fore',...
-    'lzloss_mean_fore','det_mean_fore','npp_mean_fore'); 
+    'lzloss_mean_fore','det_mean_fore','npp_mean_fore','mzprod_mean_fore',...
+    'lzprod_mean_fore'); 
 
 %ESM2M in mmol N m-2 or mmol N m-2 d-1
 % molN/m2/s --> g/m2/d
@@ -41,6 +42,8 @@ load([gpath 'cobalt_det_temp_zoop_npp_means.mat'],'mzloss_mean_fore',...
 % 1 g dry W in 9 g wet W
 mmz_loss = mzloss_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 mlz_loss = lzloss_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+mmz_prod = mzprod_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+mlz_prod = lzprod_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 mdet = det_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 mnpp = npp_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 
@@ -160,8 +163,11 @@ for j = 1:length(params)
     
     %% TE Effs
     % Mean of last 50 yrs, all locations
+%     [TEeffM,TEeff_ATL,TEeff_LTLd,TEeff_HTLd] = ...
+%         fore_fished_effTEs_useDet_ensem(bent_eff,mnpp,mdet,mmz_loss,mlz_loss,...
+%         mf_prod50,mp_prod50,md_prod50,lp_prod50,ld_prod50,fname,simname);
     [TEeffM,TEeff_ATL,TEeff_LTLd,TEeff_HTLd] = ...
-        fore_fished_effTEs_useDet_ensem(bent_eff,mnpp,mdet,mmz_loss,mlz_loss,...
+        fore_fished_effTEs_Det_Zprod_ensem(bent_eff,mnpp,mdet,mmz_prod,mlz_prod,...
         mf_prod50,mp_prod50,md_prod50,lp_prod50,ld_prod50,fname,simname);
     fTEeffM(:,j) = TEeffM;
     fTEeff_ATL(:,j) = TEeff_ATL;
@@ -169,8 +175,11 @@ for j = 1:length(params)
     fTEeff_HTL(:,j) = TEeff_HTLd;
     
     % 5 yr Means, all locations
+%     [TEeffM,TEeff_A,TEeff_LTL,TEeff_H] = ...
+%         fore_fished_effTEs_useDet_ensem(bent_eff,mnpp,mdet,mmz_loss,mlz_loss,...
+%         mf_prod,mp_prod,md_prod,lp_prod,ld_prod,fname,simname);
     [TEeffM,TEeff_A,TEeff_LTL,TEeff_H] = ...
-        fore_fished_effTEs_useDet_ensem(bent_eff,mnpp,mdet,mmz_loss,mlz_loss,...
+        fore_fished_effTEs_Det_Zprod_ensem(bent_eff,mnpp,mdet,mmz_prod,mlz_prod,...
         mf_prod,mp_prod,md_prod,lp_prod,ld_prod,fname,simname);
     ftTEeffM(j,:)    = mean(TEeffM);
     ftTEeff_LTL      = mean(TEeff_LTL);

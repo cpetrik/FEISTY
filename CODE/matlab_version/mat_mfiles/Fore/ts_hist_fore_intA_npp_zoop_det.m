@@ -4,7 +4,7 @@
 clear all
 close all
 
-Pdir = '/Volumes/GFDL/POEM_JLD/esm26_hist/';
+Pdir = '/Volumes/FEISTY/POEM_JLD/esm26_hist/';
 cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
 gpath='/Users/cpetrik/Dropbox/Princeton/POEM_other/cobalt_data/';
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
@@ -24,15 +24,15 @@ cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_no
 BE = 0.075;
 harv = 'All_fish03';
 tharv = 'Harvest all fish 0.3 yr^-^1';
-fpath=['/Volumes/GFDL/NC/Matlab_new_size/' cfile '/'];
+fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
 ppath = [pp cfile '/'];
 if (~isdir(ppath))
     mkdir(ppath)
 end
 
-cmYOR=cbrewer('seq','YlOrRd',50);
-cmRP=cbrewer('seq','RdPu',50);
-cmPR=cbrewer('seq','PuRd',50);
+cmYOR=cbrewer('seq','YlOrRd',50,'PCHIP');
+cmRP=cbrewer('seq','RdPu',50,'PCHIP');
+cmPR=cbrewer('seq','PuRd',50,'PCHIP');
 load('cmap_ppt_angles.mat')
 cmap3=cmap_ppt([1,3,5,4],:);
 

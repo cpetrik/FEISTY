@@ -1,5 +1,5 @@
 % Calc changes from bar plot of trophic amplification
-% Ensemble 6 and orig
+% Ensemble 6, temp3 and orig
 
 clear all
 close all
@@ -44,9 +44,11 @@ Anpp_fore = 365 * npp_fore .* AREA_OCN;
 
 
 %% Ensemble psets
-epath = ['/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/',...
-    'Dc_enc-k063_met-k086_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/'];
-load([epath 'simnames_ensem6_mid_kt2_bestAIC_multFup_multPneg.mat'])
+% epath = ['/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/',...
+%     'Dc_enc-k063_met-k086_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/'];
+% load([epath 'simnames_ensem6_mid_kt2_bestAIC_multFup_multPneg.mat'])
+nfile = '/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_met-k086_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/';
+load([nfile 'simnames_ensem6_mid_kt3_bestAIC_multFup_multPneg.mat'])
 
 cF = nan(length(snames)+1 , 1);
 cP = nan(length(snames)+1 , 1);
@@ -54,6 +56,7 @@ cD = nan(length(snames)+1 , 1);
 cS = nan(length(snames)+1 , 1);
 cM = nan(length(snames)+1 , 1);
 cL = nan(length(snames)+1 , 1);
+cB = nan(length(snames)+1 , 1);
 
 hF = nan(length(snames)+1 , 1);
 hP = nan(length(snames)+1 , 1);
@@ -61,6 +64,7 @@ hD = nan(length(snames)+1 , 1);
 hS = nan(length(snames)+1 , 1);
 hM = nan(length(snames)+1 , 1);
 hL = nan(length(snames)+1 , 1);
+hB = nan(length(snames)+1 , 1);
 
 %%
 for j = 1:length(snames)
@@ -72,6 +76,8 @@ for j = 1:length(snames)
         'sf_prod50','sp_prod50','sd_prod50',...
         'mf_prod50','mp_prod50','md_prod50',...
         'lp_prod50','ld_prod50');
+    load([fname '/Historic_All_fish03_Means_' simname '.mat'],...
+        'b_mean50');
     
     Hsf=sf_prod50;
     Hsp=sp_prod50;
@@ -81,6 +87,7 @@ for j = 1:length(snames)
     Hmd=md_prod50;
     Hlp=lp_prod50;
     Hld=ld_prod50;
+    Hb= b_mean50;
     
     Hsf(Hsf(:)<0)=0;
     Hsp(Hsp(:)<0)=0;
@@ -90,6 +97,7 @@ for j = 1:length(snames)
     Hmd(Hmd(:)<0)=0;
     Hlp(Hlp(:)<0)=0;
     Hld(Hld(:)<0)=0;
+    Hb(Hb(:)<0)  =0;
     
     Hsf_area = nansum(Hsf .* AREA_OCN(ID));
     Hsp_area = nansum(Hsp .* AREA_OCN(ID));
@@ -99,15 +107,18 @@ for j = 1:length(snames)
     Hmd_area = nansum(Hmd .* AREA_OCN(ID));
     Hlp_area = nansum(Hlp .* AREA_OCN(ID));
     Hld_area = nansum(Hld .* AREA_OCN(ID));
+    Hb_area  = nansum(Hb  .* AREA_OCN(ID));
     
     clear sf_prod50 sp_prod50 sd_prod50 mf_prod50 mp_prod50 md_prod50 lp_prod50 ld_prod50 b_mean50
-    clear Hsf Hsp Hsd Hmf Hmp Hmd Hlp Hld
+    clear Hsf Hsp Hsd Hmf Hmp Hmd Hlp Hld Hb
     
     %% Forecast Last 50 year means
     load([fname '/Forecast_All_fish03_Means_prod_' simname '.mat'],...
         'sf_prod50','sp_prod50','sd_prod50',...
         'mf_prod50','mp_prod50','md_prod50',...
         'lp_prod50','ld_prod50');
+    load([fname '/Forecast_All_fish03_Means_' simname '.mat'],...
+        'b_mean50');
     
     Csf=sf_prod50;
     Csp=sp_prod50;
@@ -117,6 +128,7 @@ for j = 1:length(snames)
     Cmd=md_prod50;
     Clp=lp_prod50;
     Cld=ld_prod50;
+    Cb= b_mean50;
     
     Csf(Csf(:)<0)=0;
     Csp(Csp(:)<0)=0;
@@ -126,6 +138,7 @@ for j = 1:length(snames)
     Cmd(Cmd(:)<0)=0;
     Clp(Clp(:)<0)=0;
     Cld(Cld(:)<0)=0;
+    Cb(Cb(:)<0)  =0;
     
     Csf_area = nansum(Csf .* AREA_OCN(ID));
     Csp_area = nansum(Csp .* AREA_OCN(ID));
@@ -135,9 +148,10 @@ for j = 1:length(snames)
     Cmd_area = nansum(Cmd .* AREA_OCN(ID));
     Clp_area = nansum(Clp .* AREA_OCN(ID));
     Cld_area = nansum(Cld .* AREA_OCN(ID));
+    Cb_area  = nansum(Cb  .* AREA_OCN(ID));
     
     clear sf_prod50 sp_prod50 sd_prod50 mf_prod50 mp_prod50 md_prod50 lp_prod50 ld_prod50 b_mean50
-    clear Csf Csp Csd Cmf Cmp Cmd Clp Cld
+    clear Csf Csp Csd Cmf Cmp Cmd Clp Cld Cb
     
     %% Groups
     cF(j) = Csf_area + Cmf_area;
@@ -146,6 +160,7 @@ for j = 1:length(snames)
     cS(j) = Csp_area + Csf_area + Csd_area;
     cM(j) = Cmp_area + Cmf_area + Cmd_area;
     cL(j) = Clp_area + Cld_area;
+    cB(j) = Cb_area;
     
     hF(j) = Hsf_area + Hmf_area;
     hP(j) = Hsp_area + Hmp_area + Hlp_area ;
@@ -153,6 +168,7 @@ for j = 1:length(snames)
     hS(j) = Hsp_area + Hsf_area + Hsd_area ;
     hM(j) = Hmp_area + Hmf_area + Hmd_area ;
     hL(j) = Hlp_area + Hld_area;
+    hB(j) = Hb_area;
     
 end
 
@@ -175,6 +191,7 @@ Hmp=mp_prod50;
 Hmd=md_prod50;
 Hlp=lp_prod50;
 Hld=ld_prod50;
+Hb = b_mean50;
 
 Hsf(Hsf(:)<0)=0;
 Hsp(Hsp(:)<0)=0;
@@ -184,6 +201,7 @@ Hmp(Hmp(:)<0)=0;
 Hmd(Hmd(:)<0)=0;
 Hlp(Hlp(:)<0)=0;
 Hld(Hld(:)<0)=0;
+Hb(Hb(:)<0)  =0;
 
 Hsf_area = nansum(Hsf .* AREA_OCN(ID));
 Hsp_area = nansum(Hsp .* AREA_OCN(ID));
@@ -193,9 +211,10 @@ Hmp_area = nansum(Hmp .* AREA_OCN(ID));
 Hmd_area = nansum(Hmd .* AREA_OCN(ID));
 Hlp_area = nansum(Hlp .* AREA_OCN(ID));
 Hld_area = nansum(Hld .* AREA_OCN(ID));
+Hb_area  = nansum(Hb  .* AREA_OCN(ID));
 
 clear sf_prod50 sp_prod50 sd_prod50 mf_prod50 mp_prod50 md_prod50 lp_prod50 ld_prod50 b_mean50
-clear Hsf Hsp Hsd Hmf Hmp Hmd Hlp Hld
+clear Hsf Hsp Hsd Hmf Hmp Hmd Hlp Hld Hb
     
 % Forecast
 load([fpath 'Means_fore_',harv,'_' cfile '.mat'],...
@@ -211,6 +230,7 @@ Cmp=mp_prod50;
 Cmd=md_prod50;
 Clp=lp_prod50;
 Cld=ld_prod50;
+Cb = b_mean50;
 
 Csf(Csf(:)<0)=0;
 Csp(Csp(:)<0)=0;
@@ -220,6 +240,7 @@ Cmp(Cmp(:)<0)=0;
 Cmd(Cmd(:)<0)=0;
 Clp(Clp(:)<0)=0;
 Cld(Cld(:)<0)=0;
+Cb(Cb(:)<0)  =0;
 
 Csf_area = nansum(Csf .* AREA_OCN(ID));
 Csp_area = nansum(Csp .* AREA_OCN(ID));
@@ -229,9 +250,10 @@ Cmp_area = nansum(Cmp .* AREA_OCN(ID));
 Cmd_area = nansum(Cmd .* AREA_OCN(ID));
 Clp_area = nansum(Clp .* AREA_OCN(ID));
 Cld_area = nansum(Cld .* AREA_OCN(ID));
+Cb_area  = nansum(Cb  .* AREA_OCN(ID));
 
 clear sf_prod50 sp_prod50 sd_prod50 mf_prod50 mp_prod50 md_prod50 lp_prod50 ld_prod50 b_mean50
-clear Csf Csp Csd Cmf Cmp Cmd Clp Cld
+clear Csf Csp Csd Cmf Cmp Cmd Clp Cld Cb
     
 % Groups
 np=length(snames)+1;
@@ -241,6 +263,7 @@ cD(np) = Csd_area + Cmd_area + Cld_area;
 cS(np) = Csp_area + Csf_area + Csd_area;
 cM(np) = Cmp_area + Cmf_area + Cmd_area;
 cL(np) = Clp_area + Cld_area;
+cB(np) = Cb_area;
 
 hF(np) = Hsf_area + Hmf_area;
 hP(np) = Hsp_area + Hmp_area + Hlp_area ;
@@ -248,6 +271,7 @@ hD(np) = Hsd_area + Hmd_area + Hld_area ;
 hS(np) = Hsp_area + Hsf_area + Hsd_area ;
 hM(np) = Hmp_area + Hmf_area + Hmd_area ;
 hL(np) = Hlp_area + Hld_area;
+hB(np) = Hb_area;
 
 %% Percent differences
 hAll = hF+hP+hD;
@@ -267,11 +291,12 @@ fbar(:,4) = ((cP(:))-(hP(:))) ./ (hP(:));
 fbar(:,5) = ((cD(:))-(hD(:))) ./ (hD(:));
 fbar(:,6) = ((cPel(:))-(hPel(:))) ./ (hPel(:));
 fbar(:,7) = ((cAll(:))-(hAll(:))) ./ (hAll(:));
-names = {'M','L','F','P','D','Pel','All'};
+fbar(:,8) = ((cB(:))-(hB(:))) ./ (hB(:));
+names = {'M','L','F','P','D','Pel','All','B'};
 
-save([epath 'Prod_diff_50yr_ensem6_mid_kt2_bestAIC_multFup_multPneg.mat'],...
-    'hF','hP','hD','hS','hM','hL','hAll','hPel',...
-    'cF','cP','cD','cS','cM','cL','cAll','cPel',...
+save([nfile 'Prod_diff_50yr_ensem6_mid_kt3_bestAIC_multFup_multPneg.mat'],...
+    'hF','hP','hD','hS','hM','hL','hAll','hPel','hB',...
+    'cF','cP','cD','cS','cM','cL','cAll','cPel','cB',...
     'pbar','fbar','pnames','names');
 
 
