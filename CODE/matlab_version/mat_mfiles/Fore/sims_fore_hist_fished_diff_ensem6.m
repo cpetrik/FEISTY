@@ -23,25 +23,50 @@ params = red_params;
 
 
 %% which sims have biggest changes
-big = NaN*ones(7,2);
-for i=1:7
-    id = find(fbar(:,i)==min(fbar(:,i)));
+%fbar = % diffs
+%col = {'M','L','F','P','D','Pel','All','B'};
+big = NaN*ones(8,2);
+for i=1:8
+    id = find(abs(fbar(:,i))==max(abs(fbar(:,i))));
     big(i,1) = id;
-    big(i,2) = min(fbar(:,i));
+    big(i,2) = fbar(id,i);
+end
+
+sml = NaN*ones(8,2);
+for i=1:8
+    id2 = find(abs(fbar(:,i))==min(abs(fbar(:,i))));
+    sml(i,1) = id2;
+    sml(i,2) = fbar(id2,i);
 end
 
 %% tables
-Stab = array2table(big,'VariableNames',{'sim','decr'},...
+Stab = array2table(big,'VariableNames',{'sim','pdiff'},...
     'RowNames',names);
-writetable(Stab,[nfile 'Hist_Fore_All_fish03_ensem_max_pdiff_sims.csv'],...
+writetable(Stab,[nfile 'Hist_Fore_All_fish03_ensem6_mid_kt3_max_pdiff_sims.csv'],...
     'Delimiter',',','WriteRowNames',true)
 
 big2 = big;
 big2(:,3:8) = params(big(:,1),:);
-tab = array2table(big2,'VariableNames',{'sim','decr','assim','bM','bE','aM','aE','kt'},...
+tab = array2table(big2,'VariableNames',{'sim','pdiff','assim','bM','bE','aM','aE','kt'},...
     'RowNames',names);
 writetable(tab,[nfile 'Hist_Fore_All_fish03_ensem6_mid_kt3_max_pdiff_sims_params.csv'],...
     'Delimiter',',','WriteRowNames',true)
+
+
+Mtab = array2table(sml,'VariableNames',{'sim','pdiff'},...
+    'RowNames',names);
+writetable(Mtab,[nfile 'Hist_Fore_All_fish03_ensem6_mid_kt3_min_pdiff_sims.csv'],...
+    'Delimiter',',','WriteRowNames',true)
+
+sml2 = sml;
+sml2(:,3:8) = params(sml(:,1),:);
+tsm = array2table(sml2,'VariableNames',{'sim','pdiff','assim','bM','bE','aM','aE','kt'},...
+    'RowNames',names);
+writetable(tsm,[nfile 'Hist_Fore_All_fish03_ensem6_mid_kt3_min_pdiff_sims_params.csv'],...
+    'Delimiter',',','WriteRowNames',true)
+
+save([nfile 'Hist_Fore_All_fish03_ensem6_mid_kt3_maxmin_pdiffs.mat'],...
+    'big2','sml2','tab','tsm','names','pnames','snames')
 
 
 

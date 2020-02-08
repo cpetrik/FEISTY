@@ -2,6 +2,7 @@
 % 1990-1995, monthly means saved
 % Transfer efficiency ("effective") 
 % Use BE*det
+% Use Zoop Prod instead of Loss
 
 clear all
 close all
@@ -15,6 +16,9 @@ load([cpath 'hindcast_gridspec.mat'],'geolon_t','geolat_t'); %geolon_t,geolat_t
 grid = csvread([cpath 'grid_csv.csv']);
 ID = grid(:,1);
 
+% Zoop and det and npp 
+load([gpath 'cobalt_hist9095_det_temp_zoop_npp_means.mat']) 
+
 % POEM
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 BE = 0.075;
@@ -25,11 +29,42 @@ ppath = [pp cfile '/'];
 if (~isdir(ppath))
     mkdir(ppath)
 end
-load([fpath 'TEeffDet_Historic9095_All_fish03_' cfile '.mat']);
+%load([fpath 'Means_bio_prod_fish_Historic_' harv '_' cfile '.mat']);
+load([fpath 'Means_Historic_' harv '_prod_' cfile '.mat']);
 
 cmYOR=cbrewer('seq','YlOrRd',50,'PCHIP');
 cmRP=cbrewer('seq','RdPu',50,'PCHIP');
 cmPR=cbrewer('seq','PuRd',50,'PCHIP');
+
+
+%% Zoop and det and npp 
+%ESM2M in mmol N m-2 or mmol N m-2 d-1
+% molN/m2 --> g/m2
+% 106/16 mol C in 1 mol N
+% 12.01 g C in 1 mol C
+% 1 g dry W in 9 g wet W
+mz_mean_hist9095 = mz_mean_hist9095 * (106.0/16.0) * 12.01 * 9.0;
+lz_mean_hist9095 = lz_mean_hist9095 * (106.0/16.0) * 12.01 * 9.0;
+% molN/m2/s --> g/m2/d
+mzprod_mean_hist9095 = mzprod_mean_hist9095 * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+lzprod_mean_hist9095 = lzprod_mean_hist9095 * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+det_mean_hist9095 = det_mean_hist9095 * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+npp_mean_hist9095 = npp_mean_hist9095 * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+
+
+mmz_mean = mz_mean_hist9095;
+mlz_mean = lz_mean_hist9095;
+mmz_prod = mzprod_mean_hist9095;
+mlz_prod = lzprod_mean_hist9095;
+mdet = det_mean_hist9095;
+mnpp = npp_mean_hist9095;
+
+% tmz_mean = mz_tot_hist * 1e-3 * 9.0;
+% tlz_mean = lz_tot_hist * 1e-3 * 9.0;
+% tmz_prod = mzl_tot_hist * 1e-3 * 9.0;
+% tlz_prod = lzl_tot_hist * 1e-3 * 9.0;
+% tdet = det_tot_hist * 1e-3 * 9.0;
+% tnpp = npp_tot_hist * 1e-3 * 9.0;
 
 %% plot info
 
@@ -46,60 +81,90 @@ lonlim=[plotminlon plotmaxlon]; %[-255 -60] = Pac
 land=-999*ones(ni,nj);
 land(ID)=NaN*ones(size(ID));
 
+Psf=NaN*ones(ni,nj);
+Psp=NaN*ones(ni,nj);
+Psd=NaN*ones(ni,nj);
+Pmf=NaN*ones(ni,nj);
+Pmp=NaN*ones(ni,nj);
+Pmd=NaN*ones(ni,nj);
+Plp=NaN*ones(ni,nj);
+Pld=NaN*ones(ni,nj);
+Plb=NaN*ones(ni,nj);
+
+Psf(ID)=sf_prod5;
+Psp(ID)=sp_prod5;
+Psd(ID)=sd_prod5;
+Pmf(ID)=mf_prod5;
+Pmp(ID)=mp_prod5;
+Pmd(ID)=md_prod5;
+Plp(ID)=lp_prod5;
+Pld(ID)=ld_prod5;
+Plb(ID)=b_mean5;
+
+All = Psp+Psf+Psd+Pmp+Pmf+Pmd+Plp+Pld;
+AllF = Psf+Pmf;
+AllP = Psp+Pmp+Plp;
+AllD = Psd+Pmd+Pld;
+AllS = Psp+Psf+Psd;
+AllM = Pmp+Pmf+Pmd;
+AllL = Plp+Pld;
+
+%%
+figure
+subplot(2,2,1)
+hist(log10(mnpp(:)))
+title('NPP')
+subplot(2,2,2)
+hist(log10(mdet(:)))
+title('Det')
+subplot(2,2,3)
+hist(log10(mmz_prod(:) + mlz_prod(:)))
+title('Zoop')
+subplot(2,2,4)
+hist(log10(AllL(:)))
+title('Large')
+
 %% Effective TEs
 % With BE*det instead of Bent
+TEeffM = AllM./(BE*mdet + mmz_prod + mlz_prod); 
+%TEeff_L = production_L/NPP
+TEeff_L = AllL./mnpp;
+TEeff_L(TEeff_L==-Inf) = NaN;
+TEeff_L(TEeff_L==Inf) = NaN;
+TEeff_L(TEeff_L<0) = NaN;
+%TEeff_LTL = (production_benthic_invert+mesozoo_prod_to_fish)/NPP
+TEeff_LTLd = (BE*mdet + mmz_prod + mlz_prod)./mnpp;
+TEeff_LTLd(TEeff_LTLd==-Inf) = NaN;
+TEeff_LTLd(TEeff_LTLd==Inf) = NaN;
+TEeff_LTLd(TEeff_LTLd<0) = NaN;
+%TEeff_HTL = production_L/(production_benthic_invert+mesozoo_prod_to_fish)
+TEeff_HTLd = AllL./(BE*mdet + mmz_prod + mlz_prod); 
+TEeff_HTLd(TEeff_HTLd<0) = NaN;
 
-% Take means over biomes
-load([gpath 'COBALT_biomes_ESM2M_9095.mat'])
-tlme = biome_hist;
+TELTLd1 = real(TEeff_LTLd.^(1/1.25));
+TELTLd2 = real(TEeff_LTLd.^(1/1.5));
 
-biome_te = NaN*ones(3,4);
-for L=1:3
-    lid = find(tlme==L);
-    %TEeff
-    biome_te(L,1) = nanmean(TEeffM(lid));
-    biome_te(L,2) = nanmean(TEeff_L(lid));
-    biome_te(L,3) = nanmean(TEeff_HTLd(lid));
-    biome_te(L,4) = nanmean(TEeff_LTLd(lid));
-    
-end
+TEM = real(TEeffM.^(1/2));          %should this be 1/1?
+TEL = real(TEeff_L.^(1/4));         %should this be 1/3?
+TEHTLd = real(TEeff_HTLd.^(1/3));   %should this be 1/2?
 
-biome_m = NaN*ones(ni,nj);
-biome_l = biome_m;
-biome_htlD = biome_m;
-biome_ltlD = biome_m;
-for L=1:3
-    lid = find(tlme==L);
+q(:,1) = [0.01 0.05 0.25 0.5 0.75 0.95 0.99]';
+q(:,2) = quantile((TEeff_LTLd(:)),[0.01 0.05 0.25 0.5 0.75 0.95 0.99])';
+q(:,3) = quantile((TEeff_HTLd(:)),[0.01 0.05 0.25 0.5 0.75 0.95 0.99]);
+q(:,4) = quantile((TEeff_L(:)),[0.01 0.05 0.25 0.5 0.75 0.95 0.99]);
+q(:,5) = quantile((TEHTLd(:)),[0.01 0.05 0.25 0.5 0.75 0.95 0.99]);
+q(:,6) = quantile((TEL(:)),[0.01 0.05 0.25 0.5 0.75 0.95 0.99]);
 
-    biome_m(lid)      = biome_te(L,1);
-    biome_l(lid)      = biome_te(L,2);
-    biome_htlD(lid)   = biome_te(L,3);
-    biome_ltlD(lid)   = biome_te(L,4);
-end
 
-%% Conversions to TE and save
-TELTLd1 = real(biome_te(:,4).^(1/1.25));
-TELTLd2 = real(biome_te(:,4).^(1/1.5));
-TEM = real(biome_te(:,1).^(1/2));          %should this be 1/1?
-TEL = real(biome_te(:,2).^(1/4));         %should this be 1/3?
-TEHTLd = real(biome_te(:,3).^(1/3));   %should this be 1/2?
-
-q(:,1) = TEM;
-q(:,2) = TELTLd1;
-q(:,3) = TELTLd2;
-q(:,4) = TEHTLd;
-q(:,5) = TEL;
-
-Q = array2table(q,'VariableNames',{'TEM','TELTL1','TELTL2','TEHTL','TEATL'},...
-    'RowNames',{'LC','ECCS','ECSS'});
-
-B = array2table(biome_te,'VariableNames',{'TEM','TEATL','TEHTL','TELTL'},...
-    'RowNames',{'LC','ECCS','ECSS'});
+Q = array2table(q,'VariableNames',{'Quantile','TEeff_LTLd','TEeff_HTLd',...
+    'TEeff_L','TEHTLd','TEL'});
 
 %% save
-writetable(Q,[fpath 'TE_biomes_Historic9095_All_fish03_' cfile '.csv'],'Delimiter',',');
-writetable(B,[fpath 'TEeff_biomes_Historic9095_All_fish03_' cfile '.csv'],'Delimiter',',');
+writetable(Q,[fpath 'TEeff_Zprod_quant_Historic9095_All_fish03_' cfile '.csv'],'Delimiter',',');
 
+save([fpath 'TEeffDetZprod_Historic9095_All_fish03_' cfile '.mat'],'TEeffM',...
+    'Pmf','Pmp','Pmd','Plp','Pld','Plb','mmz_prod','mlz_prod','mnpp',...
+    'TEeff_L','TEeff_LTLd','TEeff_HTLd');
 
 %% Figures
 % All 3 on subplots
@@ -113,7 +178,7 @@ surfm(geolat_t,geolon_t,log10(TEeff_LTLd))
 colormap(cmYOR);
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 -0.6]);
+caxis([-1.75 -0.25]);
 colorbar('Position',[0.025 0.555 0.45 0.05],'orientation','horizontal')                   
 set(gcf,'renderer','painters')
 title('log_1_0 TEeff LTL')
@@ -127,7 +192,7 @@ surfm(geolat_t,geolon_t,log10(TEeff_HTLd))
 colormap(cmYOR);
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-3.5 -1]);
+caxis([-3.5 -0.5]);
 colorbar('Position',[0.525 0.555 0.45 0.05],'orientation','horizontal')                   
 set(gcf,'renderer','painters')
 title('log_1_0 TEeff HTL')
@@ -141,13 +206,13 @@ surfm(geolat_t,geolon_t,log10(TEeff_L))
 colormap(cmYOR);
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-5.5 -1.5]);
+caxis([-5.5 -1]);
 colorbar('Position',[0.275 0.05 0.45 0.05],'orientation','horizontal')                   
 set(gcf,'renderer','painters')
-title('log_1_0 TEeff L')
+title('log_1_0 TEeff ATL')
 text(-2.75,1.25,'C')
 %stamp([harv '_' cfile])
-print('-dpng',[ppath 'Historic9095_' harv '_global_DeffTEs_subplot.png'])
+print('-dpng',[ppath 'Historic9095_' harv '_global_DZPeffTEs_subplot.png'])
 
 %% All 3 converted on subplots
 %Detritus----------------------
@@ -160,7 +225,7 @@ surfm(geolat_t,geolon_t,(TEeff_LTLd))
 colormap(cmYOR);
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([0.03 0.15]);
+caxis([0.0 0.2]);
 colorbar('Position',[0.025 0.555 0.45 0.05],'orientation','horizontal')                   
 set(gcf,'renderer','painters')
 title('A. TE LTL')
@@ -176,7 +241,7 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([0.05 0.3]);
 colorbar('Position',[0.275 0.05 0.45 0.05],'orientation','horizontal')                   
 set(gcf,'renderer','painters')
-title('C. TE L')
+title('C. TE ATL')
 
 subplot('Position',[0.5 0.53 0.5 0.5])
 %HTL
@@ -191,6 +256,6 @@ colorbar('Position',[0.525 0.555 0.45 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('B. TE HTL')
 %stamp([harv '_' cfile])
-print('-dpng',[ppath 'Historic9095_' harv '_global_DTEs_subplot.png'])
+print('-dpng',[ppath 'Historic9095_' harv '_global_DZPTEs_subplot.png'])
 
 
