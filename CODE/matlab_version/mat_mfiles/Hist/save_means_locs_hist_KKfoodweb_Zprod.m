@@ -1,6 +1,7 @@
 % Save output of POEM Historic at single locations
 % for foodweb diagram
 % 145 years, monthly 
+% Use Zprod instead of Zloss
 
 clear all
 close all
@@ -62,13 +63,13 @@ load('/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/hindcast_gridspec.
 mz_mean_hist = mz_mean_hist * (106.0/16.0) * 12.01 * 9.0;
 lz_mean_hist = lz_mean_hist * (106.0/16.0) * 12.01 * 9.0;
 % molN/m2/s --> g/m2/d
-mzloss_mean_hist = mzloss_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
-lzloss_mean_hist = lzloss_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+mzprod_mean_hist = mzprod_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+lzprod_mean_hist = lzprod_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 det_mean_hist = det_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 npp_mean_hist = npp_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 
 z_mean = mz_mean_hist + lz_mean_hist;
-z_loss = mzloss_mean_hist + lzloss_mean_hist;
+z_prod = mzprod_mean_hist + lzprod_mean_hist;
 
 %AREA_OCN = max(AREA_OCN,1); Not sure what units area is in ~10^-5 vs. 10^9
 AREA_OCN = AREA_OCN*510072000*1e6;
@@ -77,12 +78,12 @@ AREA_OCN = max(AREA_OCN,1);
 ID = grid(:,1);
 
 z_mean_grid = z_mean(ID);
-z_loss_grid = z_loss(ID);
+z_prod_grid = z_prod(ID);
 det_grid = det_mean_hist(ID);
 mnpp = npp_mean_hist(ID);
 
 z_mean_locs = z_mean_grid(ids);
-z_loss_locs = z_loss_grid(ids);
+z_prod_locs = z_prod_grid(ids);
 det_locs = det_grid(ids);
 npp_locs = mnpp(ids);
 
@@ -94,7 +95,7 @@ bios(:,4) = P(red);
 bios(:,5) = B(red);
 bios(:,6) = D(red);
 
-flux(:,1) = z_loss_locs(red);
+flux(:,1) = z_prod_locs(red);
 flux(:,2) = conZ(red,1);
 flux(:,3) = conF(red,2);
 flux(:,4) = det_locs(red);
@@ -104,7 +105,7 @@ flux(:,7) = conF(red,3);
 
 %% save
 rsites = spots;
-save([dpath sname harv '_red_locs_biom_flux_KKfoodweb.mat'],'rsites',...
+save([dpath sname harv '_red_locs_biom_flux_KKfoodweb_Zprod.mat'],'rsites',...
     'bios','flux');
 
 

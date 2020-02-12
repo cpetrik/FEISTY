@@ -1,13 +1,17 @@
-% Save output of POEM Historic at single locations
+% Save output of Hist at single locations
 % for foodweb diagram
-% 145 years, monthly 
+% 145 years, mean of 1951-2000
+% Calculates export flux (EP) from det_btm and bottom depth
+% Uses NPP - EP for flux to zoop
+% Could use zoop prod for flux to zoop
 
 clear all
 close all
 
 datap = '/Volumes/FEISTY/NC/Matlab_new_size/';
-figp = '/Users/cpetrik/Dropbox/Princeton/POEM_2.0/CODE/Figs/PNG/Matlab_New_sizes/';
+figp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
 
+%load('/Volumes/GFDL/Data/Data_grid_hindcast_NOTflipped.mat');
 load('/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/Data_grid_hindcast_NOTflipped.mat');
 load('/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/hist_grid_360x200_id_locs_area_dep.mat','ids','abbrev');
 spots = abbrev;
@@ -33,9 +37,6 @@ end
 cfile = char(dp);
 load([dpath sname harv '_locs.mat'])
 load([dpath sname 'locs_' harv '_lastyr_sum_mean_biom.mat']);
-  
-
-stages={'SF','MF','SP','MP','LP','SD','MD','LD'};
 
 %% POEM means
 
@@ -47,10 +48,11 @@ B = squeeze(nansum(all_mean(:,4,:)));
 conZ = conZm + conZl;
 
 %% Zoop, det, bent
-cpath = ['/Users/cpetrik/Dropbox/Princeton/POEM_other/cobalt_data/'];
+cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/cobalt_data/';
 gpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
 load([cpath 'cobalt_det_temp_zoop_npp_means.mat']);
 grid = csvread([gpath 'grid_csv.csv']);
+ID = grid(:,1);
 
 load('/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/hindcast_gridspec.mat',...
     'geolon_t','geolat_t','AREA_OCN');
@@ -62,29 +64,32 @@ load('/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/hindcast_gridspec.
 mz_mean_hist = mz_mean_hist * (106.0/16.0) * 12.01 * 9.0;
 lz_mean_hist = lz_mean_hist * (106.0/16.0) * 12.01 * 9.0;
 % molN/m2/s --> g/m2/d
-mzloss_mean_hist = mzloss_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
-lzloss_mean_hist = lzloss_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+mzprod_mean_hist = mzprod_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+lzprod_mean_hist = lzprod_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 det_mean_hist = det_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 npp_mean_hist = npp_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 
 z_mean = mz_mean_hist + lz_mean_hist;
-z_loss = mzloss_mean_hist + lzloss_mean_hist;
-
-%AREA_OCN = max(AREA_OCN,1); Not sure what units area is in ~10^-5 vs. 10^9
-AREA_OCN = AREA_OCN*510072000*1e6;
-AREA_OCN = max(AREA_OCN,1);
-
-ID = grid(:,1);
+z_prod = mzprod_mean_hist + lzprod_mean_hist;
 
 z_mean_grid = z_mean(ID);
-z_loss_grid = z_loss(ID);
+z_prod_grid = z_prod(ID);
+
 det_grid = det_mean_hist(ID);
+
 mnpp = npp_mean_hist(ID);
 
+depth_grid = GRD.Z;
+
+%% Estimate EP from Martin curve equation
+EP_grid = det_grid ./ ((depth_grid./100).^-0.858);
+
+%%
 z_mean_locs = z_mean_grid(ids);
-z_loss_locs = z_loss_grid(ids);
+z_prod_locs = z_prod_grid(ids);
 det_locs = det_grid(ids);
 npp_locs = mnpp(ids);
+ep_locs = EP_grid(ids);
 
 %% Table
 bios(:,1) = npp_locs(red);
@@ -94,7 +99,7 @@ bios(:,4) = P(red);
 bios(:,5) = B(red);
 bios(:,6) = D(red);
 
-flux(:,1) = z_loss_locs(red);
+flux(:,1) = npp_locs(red) - ep_locs(red); %z_prod_locs(red);
 flux(:,2) = conZ(red,1);
 flux(:,3) = conF(red,2);
 flux(:,4) = det_locs(red);
@@ -104,7 +109,7 @@ flux(:,7) = conF(red,3);
 
 %% save
 rsites = spots;
-save([dpath sname harv '_red_locs_biom_flux_KKfoodweb.mat'],'rsites',...
+save([dpath sname harv '_red_locs_biom_flux_KKfoodweb_EP.mat'],'rsites',...
     'bios','flux');
 
 

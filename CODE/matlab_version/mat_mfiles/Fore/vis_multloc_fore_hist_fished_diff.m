@@ -14,12 +14,16 @@ load([bpath 'cobalt_det_temp_zoop_npp_means.mat']);
 % molN/m2/s --> g/m2/d
 mzloss_hist = mzloss_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 lzloss_hist = lzloss_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+mzprod_hist = mzprod_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+lzprod_hist = lzprod_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 npp_hist = npp_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 det_hist = det_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 ptemp_hist = ptemp_mean_hist - 273;
 
 mzloss_fore = mzloss_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 lzloss_fore = lzloss_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+mzprod_fore = mzprod_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+lzprod_fore = lzprod_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 npp_fore = npp_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 det_fore = det_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 ptemp_fore = ptemp_mean_fore - 273;
@@ -40,7 +44,8 @@ ID = grid(:,1);
 
 %% FEISTY Output
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
-fpath=['/Volumes/GFDL/NC/Matlab_new_size/' cfile '/'];
+%fpath=['/Volumes/GFDL/NC/Matlab_new_size/' cfile '/'];
+fpath=['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/' cfile '/'];
 pp = ['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/' cfile '/'];
 
 harv = 'All_fish03';
@@ -115,6 +120,13 @@ hD = Hsd+Hmd+Hld;
 hS = Hsp+Hsf+Hsd;
 hM = Hmp+Hmf+Hmd;
 hL = Hlp+Hld;
+
+%% save hist and fore together
+save([fpath 'Means_hist_fore_',harv,'_cobalt_' cfile '.mat'],'mzloss_hist',...
+    'mzprod_hist','lzloss_hist','lzprod_hist','npp_hist','det_hist',...
+    'ptemp_hist','mzloss_fore','mzprod_fore','lzloss_fore','lzprod_fore',...
+    'npp_fore','det_fore','ptemp_fore','cF','cP','cD','cS','cM','cL','hF',...
+    'hP','hD','hS','hM','hL');
 
 %% plot info
 plotminlat=-90; %Set these bounds for your data

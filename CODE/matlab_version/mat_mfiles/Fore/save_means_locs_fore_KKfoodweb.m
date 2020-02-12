@@ -1,6 +1,6 @@
-% Save output of POEM Historic at single locations
+% Save output of FEISTY Forecast at single locations
 % for foodweb diagram
-% 145 years, monthly 
+% 95 years, monthly 
 
 clear all
 close all
@@ -23,7 +23,7 @@ upw = 6:7;
 fave = [2;7;4];
 
 dp = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
-sname = 'Historic_';
+sname = 'Forecast_';
 harv = 'All_fish03';
 dpath = [datap char(dp) '/'];
 fpath = [figp char(dp) '/'];
@@ -59,16 +59,16 @@ load('/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/hindcast_gridspec.
 % 106/16 mol C in 1 mol N
 % 12.01 g C in 1 mol C
 % 1 g dry W in 9 g wet W
-mz_mean_hist = mz_mean_hist * (106.0/16.0) * 12.01 * 9.0;
-lz_mean_hist = lz_mean_hist * (106.0/16.0) * 12.01 * 9.0;
+mz_mean_fore = mz_mean_fore * (106.0/16.0) * 12.01 * 9.0;
+lz_mean_fore = lz_mean_fore * (106.0/16.0) * 12.01 * 9.0;
 % molN/m2/s --> g/m2/d
-mzloss_mean_hist = mzloss_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
-lzloss_mean_hist = lzloss_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
-det_mean_hist = det_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
-npp_mean_hist = npp_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+mzloss_mean_fore = mzloss_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+lzloss_mean_fore = lzloss_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+det_mean_fore = det_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+npp_mean_fore = npp_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 
-z_mean = mz_mean_hist + lz_mean_hist;
-z_loss = mzloss_mean_hist + lzloss_mean_hist;
+z_mean = mz_mean_fore + lz_mean_fore;
+z_loss = mzloss_mean_fore + lzloss_mean_fore;
 
 %AREA_OCN = max(AREA_OCN,1); Not sure what units area is in ~10^-5 vs. 10^9
 AREA_OCN = AREA_OCN*510072000*1e6;
@@ -78,8 +78,8 @@ ID = grid(:,1);
 
 z_mean_grid = z_mean(ID);
 z_loss_grid = z_loss(ID);
-det_grid = det_mean_hist(ID);
-mnpp = npp_mean_hist(ID);
+det_grid = det_mean_fore(ID);
+mnpp = npp_mean_fore(ID);
 
 z_mean_locs = z_mean_grid(ids);
 z_loss_locs = z_loss_grid(ids);

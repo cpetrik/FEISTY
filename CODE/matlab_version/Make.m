@@ -7,6 +7,7 @@ close all
 testoneloc = false;
 testlocs = false;
 histlocs = false;
+forelocs = true;
 climlocs = false;
 oneloc_fore_pristine = false;
 spinup_pristine = false;
@@ -23,7 +24,7 @@ historic_fished = false;
 historic_fished_ens = false;
 forecast_pristine = false;
 forecast_fished = false;
-forecast_fished_ens = true;
+forecast_fished_ens = false;
 
 tic
 if testoneloc
@@ -31,6 +32,9 @@ if testoneloc
 end
 if testlocs
     Locs_clim_param_acmax_aenc_search()
+end
+if forelocs
+    Locs_fore()
 end
 if histlocs
     Locs_hist()
