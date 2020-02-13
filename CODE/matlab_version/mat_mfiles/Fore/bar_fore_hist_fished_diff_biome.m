@@ -34,6 +34,14 @@ cmap3(1,:)=cmap_ppt(3,:);
 cmap3(2,:)=cmap_ppt(1,:);
 cmap3(3,:)=cmap_ppt(5,:);
 
+cmG=cbrewer('seq','Greens',50,'PCHIP');
+cmB=cbrewer('seq','Blues',50,'PCHIP');
+cmR=cbrewer('seq','Reds',50,'PCHIP');
+cmapD = cmR(35,:);
+cmapD(2,:) = cmB(35,:);
+cmapD(3,:) = cmG(35,:);
+cmapD(4,:)=[0 0 0];
+
 %% Hindcast grid
 grid = csvread([cpath 'grid_csv.csv']); %grid
 ID = grid(:,1);
@@ -387,15 +395,15 @@ print('-dpng',[pp 'Hist_Fore_All_fish03_area_biome_pchange_biomass.png'])
 %% percent change in biomass and area-integrated biomass
 figure(7)
 b=bar(gbar(:,[2,4])'); hold on;
-b(1).FaceColor = cmap4(2,:);
-b(2).FaceColor = cmap4(1,:);
-b(3).FaceColor = cmap4(3,:);
-b(4).FaceColor = cmap4(4,:);
+b(1).FaceColor = cmapD(1,:);
+b(2).FaceColor = cmapD(2,:);
+b(3).FaceColor = cmapD(3,:);
+b(4).FaceColor = cmapD(4,:);
 %colormap(cmap4)
 %ylim([-12e13 2e13])
 set(gca,'XTickLabel',{'Biomass','Area-integrated Biomass'})
 ylabel('%Change in Biomass')
-title('%Change in Biomass')
+title('Global %Change in Biomass')
 print('-dpng',[pp 'Hist_Fore_All_fish03_mass_AImass_global_pchange.png'])
 
 
@@ -417,10 +425,10 @@ print('-dpng',[pp 'Hist_Fore_All_fish03_change_AIbiomass_byType.png'])
 figure(9)
 % subplot(2,2,1)
 b=bar(tbar(3:6,:)','FaceColor',cmap_ppt(3,:)); hold on;
-b(1).FaceColor = cmap4(2,:);
-b(2).FaceColor = cmap4(1,:);
-b(3).FaceColor = cmap4(3,:);
-b(4).FaceColor = cmap4(4,:);
+b(1).FaceColor = cmapD(1,:);
+b(2).FaceColor = cmapD(2,:);
+b(3).FaceColor = cmapD(3,:);
+b(4).FaceColor = cmapD(4,:);
 legend(grows)
 legend('location','southwest')
 set(gca,'XTickLabel',tcols)
@@ -446,10 +454,10 @@ print('-dpng',[pp 'Hist_Fore_All_fish03_pchange_AIbiomass_byType.png'])
 figure(11)
 % subplot(2,2,1)
 b=bar(tbar(7:10,:)','FaceColor',cmap_ppt(3,:)); hold on;
-b(1).FaceColor = cmap4(2,:);
-b(2).FaceColor = cmap4(1,:);
-b(3).FaceColor = cmap4(3,:);
-b(4).FaceColor = cmap4(4,:);
+b(1).FaceColor = cmapD(1,:);
+b(2).FaceColor = cmapD(2,:);
+b(3).FaceColor = cmapD(3,:);
+b(4).FaceColor = cmapD(4,:);
 legend(grows)
 legend('location','southwest')
 set(gca,'XTickLabel',tcols)
@@ -476,10 +484,10 @@ print('-dpng',[pp 'Hist_Fore_All_fish03_change_biomass_byType.png'])
 figure(13)
 % subplot(2,2,1)
 b=bar(tbar(11:14,:)','FaceColor',cmap_ppt(3,:)); hold on;
-b(1).FaceColor = cmap4(2,:);
-b(2).FaceColor = cmap4(1,:);
-b(3).FaceColor = cmap4(3,:);
-b(4).FaceColor = cmap4(4,:);
+b(1).FaceColor = cmapD(1,:);
+b(2).FaceColor = cmapD(2,:);
+b(3).FaceColor = cmapD(3,:);
+b(4).FaceColor = cmapD(4,:);
 legend(grows)
 legend('location','southwest')
 set(gca,'XTickLabel',tcols)
@@ -505,10 +513,10 @@ print('-dpng',[pp 'Hist_Fore_All_fish03_pchange_biomass_byType.png'])
 figure(15)
 % subplot(2,2,1)
 b=bar(tbar(7:10,:)','FaceColor',cmap_ppt(3,:)); hold on;
-b(1).FaceColor = cmap4(2,:);
-b(2).FaceColor = cmap4(1,:);
-b(3).FaceColor = cmap4(3,:);
-b(4).FaceColor = cmap4(4,:);
+b(1).FaceColor = cmapD(1,:);
+b(2).FaceColor = cmapD(2,:);
+b(3).FaceColor = cmapD(3,:);
+b(4).FaceColor = cmapD(4,:);
 legend(grows)
 legend('location','southwest')
 set(gca,'XTickLabel',tcols)

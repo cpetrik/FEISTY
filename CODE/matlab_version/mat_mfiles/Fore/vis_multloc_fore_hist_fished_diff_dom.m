@@ -659,3 +659,306 @@ set(gca,'XColor','none','YColor','none')
 
 print('-dpng',[pp 'Hist_Fore_',harv,'_global_domchange_regions.png'])
 
+
+%% Diff Fracs Arctic and Antarctic
+figure(8)
+subplot('Position',[0 0.65 0.5 0.3])
+axesm ('ortho','MapLatLimit',[60 90],'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,diffFf)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1 1]);
+colorbar
+set(gcf,'renderer','painters')
+title('\Delta  F / All');
+
+subplot('Position',[0 0.325 0.5 0.3])
+axesm ('ortho','MapLatLimit',[60 90],'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,diffPf)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1 1]);
+colorbar
+set(gcf,'renderer','painters')
+title('\Delta  P / All');
+
+% Diff
+subplot('Position',[0 0.0 0.5 0.3])
+axesm ('ortho','MapLatLimit',[60 90],'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) 
+surfm(geolat_t,geolon_t,diffDf)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1 1]);
+colorbar
+set(gcf,'renderer','painters')
+title('\Delta D / All');
+
+
+subplot('Position',[0.5 0.65 0.5 0.3])
+axesm ('ortho','MapLatLimit',[-90 -60],'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,diffFf)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1 1]);
+colorbar
+set(gcf,'renderer','painters')
+title('\Delta  F / All');
+
+subplot('Position',[0.5 0.325 0.5 0.3])
+axesm ('ortho','MapLatLimit',[-90 -60],'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,diffPf)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1 1]);
+colorbar
+set(gcf,'renderer','painters')
+title('\Delta  P / All');
+
+subplot('Position',[0.5 0.0 0.5 0.3])
+axesm ('ortho','MapLatLimit',[-90 -60],'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) 
+surfm(geolat_t,geolon_t,diffDf)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1 1]);
+colorbar
+set(gcf,'renderer','painters')
+title('\Delta D / All');
+print('-dpng',[pp 'Hist_Fore_',harv,'_arctic_fracs.png'])
+
+
+%% Diff Fracs Arctic and Antarctic
+figure(9)
+subplot('Position',[0 0.65 0.5 0.3])
+axesm ('ortho','MapLatLimit',[60 90],'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,ZpDet_hist)
+colormap(cmP)
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([0 50]);
+colorbar
+set(gcf,'renderer','painters')
+title('Hindcast Zp:Det');
+
+subplot('Position',[0 0.325 0.5 0.3])
+axesm ('ortho','MapLatLimit',[60 90],'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,ZpDet_fore)
+colormap(cmP)
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([0 50]);
+colorbar
+set(gcf,'renderer','painters')
+title('Forecast Zp:Det');
+
+subplot('Position',[0.5 0.65 0.5 0.3])
+axesm ('ortho','MapLatLimit',[-90 -60],'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,ZpDet_hist)
+colormap(cmP)
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([0 50]);
+colorbar
+set(gcf,'renderer','painters')
+%title('\Delta  F / All');
+
+subplot('Position',[0.5 0.325 0.5 0.3])
+axesm ('ortho','MapLatLimit',[-90 -60],'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,ZpDet_fore)
+colormap(cmP)
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([0 50]);
+colorbar
+set(gcf,'renderer','painters')
+%title('\Delta  P / All');
+
+% Diff
+subplot('Position',[0 0.0 0.5 0.3])
+axesm ('ortho','MapLatLimit',[60 90],'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) 
+surfm(geolat_t,geolon_t,diffZDp)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-20 20]);
+colorbar
+set(gcf,'renderer','painters')
+title('\Delta Zp:Det');
+
+
+subplot('Position',[0.5 0.0 0.5 0.3])
+axesm ('ortho','MapLatLimit',[-90 -60],'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) 
+surfm(geolat_t,geolon_t,diffZDp)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-20 20]);
+colorbar
+set(gcf,'renderer','painters')
+%title('\Delta D / All');
+print('-dpng',[pp 'Hist_Fore_',harv,'_arctic_ZpDet.png'])
+
+
+%% Dominance Arctic
+figure(10)
+subplot('Position',[0 0.55 0.5 0.4])
+axesm ('ortho','MapLatLimit',[60 90],'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,hdom)
+colormap(cmapD)
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([1 3]);
+%colorbar('southoutside','Ticks',[1 2 3],'TickLabels',{'F','P','D'})
+colorbar('Position',[0.05 0.5 0.4 0.025],'orientation','horizontal','Ticks',[1 2 3],'TickLabels',{'F','P','D'})
+set(gcf,'renderer','painters')
+set(gca,'XColor','none','YColor','none')
+title('Hindcast');
+
+subplot('Position',[0 0.025 0.5 0.4])
+axesm ('ortho','MapLatLimit',[60 90],'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,cdom)
+colormap(cmapD)
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([1 3]);
+% colorbar
+set(gcf,'renderer','painters')
+set(gca,'XColor','none','YColor','none')
+title('Forecast');
+
+% Types
+subplot('Position',[0.5 0.66 0.48 0.33])
+axesm ('ortho','MapLatLimit',[60 90],'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) 
+surfm(geolat_t,geolon_t,cdomF-hdomF)
+cmocean('balance')
+%colormap(cmR)
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1.25 1.25]);
+%colorbar
+set(gcf,'renderer','painters')
+set(gca,'XColor','none','YColor','none')
+text(-0.5,0.5,'Forage fish','FontWeight','bold','HorizontalAlignment','center');
+
+subplot('Position',[0.5 0.33 0.475 0.33])
+axesm ('ortho','MapLatLimit',[60 90],'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) 
+surfm(geolat_t,geolon_t,cdomP-hdomP)
+cmocean('balance')
+%colormap(cmR)
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1.25 1.25]);
+colorbar('Position',[0.9 0.3 0.02 0.4],'orientation','vertical','Ticks',[-1 0 1])
+set(gcf,'renderer','painters')
+set(gca,'XColor','none','YColor','none')
+text(-0.5,0.5,'Large pelagics','FontWeight','bold','HorizontalAlignment','center');
+
+subplot('Position',[0.5 0.0 0.475 0.33])
+axesm ('ortho','MapLatLimit',[60 90],'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) 
+surfm(geolat_t,geolon_t,cdomD-hdomD)
+cmocean('balance')
+%colormap(cmR)
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1.25 1.25]);
+%colorbar
+set(gcf,'renderer','painters')
+set(gca,'XColor','none','YColor','none')
+text(-0.5,0.5,'Demersals','FontWeight','bold','HorizontalAlignment','center');
+print('-dpng',[pp 'Hist_Fore_',harv,'_arctic_dominance.png'])
+
+%% Dominance Antarctic
+figure(11)
+subplot('Position',[0 0.55 0.5 0.4])
+axesm ('ortho','MapLatLimit',[-90 -60],'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,hdom)
+colormap(cmapD)
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([1 3]);
+%colorbar('southoutside','Ticks',[1 2 3],'TickLabels',{'F','P','D'})
+colorbar('Position',[0.05 0.5 0.4 0.025],'orientation','horizontal','Ticks',[1 2 3],'TickLabels',{'F','P','D'})
+set(gcf,'renderer','painters')
+set(gca,'XColor','none','YColor','none')
+title('Hindcast');
+
+subplot('Position',[0 0.025 0.5 0.4])
+axesm ('ortho','MapLatLimit',[-90 -60],'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,cdom)
+colormap(cmapD)
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([1 3]);
+% colorbar
+set(gcf,'renderer','painters')
+set(gca,'XColor','none','YColor','none')
+title('Forecast');
+
+% Types
+subplot('Position',[0.5 0.66 0.48 0.33])
+axesm ('ortho','MapLatLimit',[-90 -60],'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) 
+surfm(geolat_t,geolon_t,cdomF-hdomF)
+cmocean('balance')
+%colormap(cmR)
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1.25 1.25]);
+%colorbar
+set(gcf,'renderer','painters')
+set(gca,'XColor','none','YColor','none')
+text(-0.5,0.5,'Forage fish','FontWeight','bold','HorizontalAlignment','center');
+
+subplot('Position',[0.5 0.33 0.475 0.33])
+axesm ('ortho','MapLatLimit',[-90 -60],'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) 
+surfm(geolat_t,geolon_t,cdomP-hdomP)
+cmocean('balance')
+%colormap(cmR)
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1.25 1.25]);
+colorbar('Position',[0.9 0.3 0.02 0.4],'orientation','vertical','Ticks',[-1 0 1])
+set(gcf,'renderer','painters')
+set(gca,'XColor','none','YColor','none')
+text(-0.5,0.5,'Large pelagics','FontWeight','bold','HorizontalAlignment','center');
+
+subplot('Position',[0.5 0.0 0.475 0.33])
+axesm ('ortho','MapLatLimit',[-90 -60],'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) 
+surfm(geolat_t,geolon_t,cdomD-hdomD)
+cmocean('balance')
+%colormap(cmR)
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1.25 1.25]);
+%colorbar
+set(gcf,'renderer','painters')
+set(gca,'XColor','none','YColor','none')
+text(-0.5,0.5,'Demersals','FontWeight','bold','HorizontalAlignment','center');
+print('-dpng',[pp 'Hist_Fore_',harv,'_antarctic_dominance.png'])
+
