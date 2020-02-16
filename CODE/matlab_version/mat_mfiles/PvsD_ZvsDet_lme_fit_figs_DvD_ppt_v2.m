@@ -7,7 +7,7 @@ close all
 
 Pdrpbx = '/Users/cpetrik/Dropbox/';
 Fdrpbx = '/Users/Colleen/Dropbox/';
-Pdir = '/Volumes/GFDL/POEM_JLD/esm26_hist/';
+Pdir = '/Volumes/FEISTY/POEM_JLD/esm26_hist/';
 
 gpath = [Pdrpbx 'Princeton/POEM_other/grid_cobalt/'];
 cpath = [Pdrpbx 'Princeton/POEM_other/cobalt_data/'];
@@ -24,7 +24,7 @@ tfish = num2str(100+int64(10*frate));
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 harv = ['All_fish',tfish(2:end)];
 tharv = ['Harvest all fish ' num2str(frate)];
-fpath=['/Volumes/GFDL/NC/Matlab_new_size/' cfile '/'];
+fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
 ppath = [pp cfile '/'];
 if (~isdir(ppath))
     mkdir(ppath)

@@ -358,36 +358,52 @@ npdiffL = (ncL-nhL) ./ nhL;
 
 
 %% Med
-%Max
+%Distr
 figure(1)
-% Hist
+% Max
 subplot('Position',[0 0.53 0.5 0.4])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(xhM))
-colormap(cmBW)
+surfm(geolat_t,geolon_t,log10(xcM))
+colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-2 2]);
 colorbar
 set(gcf,'renderer','painters')
-title('Hindcast M');
-% Fore
+title('log_1_0 biomass max \DeltaM');
+% Min
 subplot('Position',[0 0.09 0.5 0.4])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(xcM))
-colormap(cmBW)
+surfm(geolat_t,geolon_t,log10(ncM))
+colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-2 2]);
 colorbar
 set(gcf,'renderer','painters')
-title('Forecast M');
+title('log_1_0 biomass min \DeltaM');
 % Diff
 subplot('Position',[0.5 0.3 0.5 0.4])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
+surfm(geolat_t,geolon_t,(log10(xcM)-log10(ncM)))
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1 1]);
+colorbar
+set(gcf,'renderer','painters')
+title('difference max-min \DeltaM');
+print('-dpng',[pp 'Hist_Fore_' harv '_global_distr_maxminM_3plot.png'])
+
+%% Pdiff M
+figure(2)
+% Max
+subplot('Position',[0 0.53 0.5 0.4])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,100*xpdiffM)
 cmocean('balance')
 load coast;                     %decent looking coastlines
@@ -395,38 +411,11 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 colorbar
 set(gcf,'renderer','painters')
-title('maximum Forecast - Hindcast M');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_maxM_3plot.png'])
-%Min
-figure(2)
-% Hist
-subplot('Position',[0 0.53 0.5 0.4])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(nhM))
-colormap(cmBW)
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
-colorbar
-set(gcf,'renderer','painters')
-title('Hindcast M');
-% Fore
+title('%change max \DeltaM');
+% Min
 subplot('Position',[0 0.09 0.5 0.4])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(ncM))
-colormap(cmBW)
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
-colorbar
-set(gcf,'renderer','painters')
-title('Forecast M');
-% Diff
-subplot('Position',[0.5 0.3 0.5 0.4])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1)
 surfm(geolat_t,geolon_t,100*npdiffM)
 cmocean('balance')
 load coast;                     %decent looking coastlines
@@ -434,698 +423,310 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 colorbar
 set(gcf,'renderer','painters')
-title('minimum Forecast - Hindcast M');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_minM_3plot.png'])
-
-%% Large
-%Max
-figure(3)
-% Hist
-subplot('Position',[0 0.53 0.5 0.4])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(xhL))
-colormap(cmBW)
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
-colorbar
-set(gcf,'renderer','painters')
-title('Hindcast L');
-% Fore
-subplot('Position',[0 0.09 0.5 0.4])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(xcL))
-colormap(cmBW)
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
-colorbar
-set(gcf,'renderer','painters')
-title('Forecast L');
+title('%change min \DeltaM');
 % Diff
 subplot('Position',[0.5 0.3 0.5 0.4])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
-surfm(geolat_t,geolon_t,100*xpdiffL)
+surfm(geolat_t,geolon_t,100*(xpdiffM-npdiffM))
 cmocean('balance')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 colorbar
 set(gcf,'renderer','painters')
-title('maximum Forecast - Hindcast L');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_maxL_3plot.png'])
-%Min
-figure(4)
-% Hist
+title('difference max-min \DeltaM');
+print('-dpng',[pp 'Hist_Fore_' harv '_global_pdiff_maxminM_3plot.png'])
+
+%% Large
+%Distr
+figure(3)
+% Max
 subplot('Position',[0 0.53 0.5 0.4])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(nhL))
-colormap(cmBW)
+surfm(geolat_t,geolon_t,log10(xcL))
+colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-2 2]);
 colorbar
 set(gcf,'renderer','painters')
-title('Hindcast L');
-% Fore
+title('log_1_0 biomass max \DeltaL');
+% Min
 subplot('Position',[0 0.09 0.5 0.4])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,log10(ncL))
-colormap(cmBW)
+colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-2 2]);
 colorbar
 set(gcf,'renderer','painters')
-title('Forecast L');
+title('log_1_0 biomass min \DeltaL');
 % Diff
 subplot('Position',[0.5 0.3 0.5 0.4])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
-surfm(geolat_t,geolon_t,100*npdiffL)
+surfm(geolat_t,geolon_t,(log10(xcL)-log10(ncL)))
 cmocean('balance')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
+caxis([-1 1]);
 colorbar
 set(gcf,'renderer','painters')
-title('minimum Forecast - Hindcast L');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_minL_3plot.png'])
+title('difference max-min \DeltaL');
+print('-dpng',[pp 'Hist_Fore_' harv '_global_distr_maxminL_3plot.png'])
 
 %% Forage
-%Max
-figure(5)
-% Hist
+%Distr
+figure(4)
+% Max
 subplot('Position',[0 0.53 0.5 0.4])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(xhF))
-colormap(cmR)
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
-colorbar
-set(gcf,'renderer','painters')
-title('Hindcast F');
-% Fore
-subplot('Position',[0 0.09 0.5 0.4])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,log10(xcF))
-colormap(cmR)
+colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-2 2]);
 colorbar
 set(gcf,'renderer','painters')
-title('Forecast F');
-% Diff
-subplot('Position',[0.5 0.3 0.5 0.4])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1)
-surfm(geolat_t,geolon_t,100*xpdiffF)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
-colorbar
-set(gcf,'renderer','painters')
-title('maximum Forecast - Hindcast F');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_maxF_3plot.png'])
-%Min
-figure(6)
-% Hist
-subplot('Position',[0 0.53 0.5 0.4])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(nhF))
-colormap(cmR)
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
-colorbar
-set(gcf,'renderer','painters')
-title('Hindcast F');
-% Fore
+title('log_1_0 biomass max \DeltaF');
+% Min
 subplot('Position',[0 0.09 0.5 0.4])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,log10(ncF))
-colormap(cmR)
+colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-2 2]);
 colorbar
 set(gcf,'renderer','painters')
-title('Forecast F');
+title('log_1_0 biomass min \DeltaF');
 % Diff
 subplot('Position',[0.5 0.3 0.5 0.4])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
-surfm(geolat_t,geolon_t,100*npdiffF)
+surfm(geolat_t,geolon_t,(log10(xcF)-log10(ncF)))
 cmocean('balance')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
+caxis([-1 1]);
 colorbar
 set(gcf,'renderer','painters')
-title('minimum Forecast - Hindcast F');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_minF_3plot.png'])
+title('difference max-min \DeltaF');
+print('-dpng',[pp 'Hist_Fore_' harv '_global_distr_maxminF_3plot.png'])
 
-%% Large Pel
-%Max
-figure(7)
-% Hist
+%% All Pel
+%Distr
+figure(5)
+% Max
 subplot('Position',[0 0.53 0.5 0.4])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(xhP))
-colormap(cmB)
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
-colorbar
-set(gcf,'renderer','painters')
-title('Hindcast P');
-% Fore
-subplot('Position',[0 0.09 0.5 0.4])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(xcP))
-colormap(cmB)
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
-colorbar
-set(gcf,'renderer','painters')
-title('Forecast P');
-% Diff
-subplot('Position',[0.5 0.3 0.5 0.4])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1)
-surfm(geolat_t,geolon_t,100*xpdiffP)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
-colorbar
-set(gcf,'renderer','painters')
-title('maximum Forecast - Hindcast P');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_maxP_3plot.png'])
-%Min
-figure(8)
-% Hist
-subplot('Position',[0 0.53 0.5 0.4])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(nhP))
-colormap(cmB)
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
-colorbar
-set(gcf,'renderer','painters')
-title('Hindcast P');
-% Fore
-subplot('Position',[0 0.09 0.5 0.4])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(ncP))
-colormap(cmB)
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
-colorbar
-set(gcf,'renderer','painters')
-title('Forecast P');
-% Diff
-subplot('Position',[0.5 0.3 0.5 0.4])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1)
-surfm(geolat_t,geolon_t,100*npdiffP)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
-colorbar
-set(gcf,'renderer','painters')
-title('minimum Forecast - Hindcast P');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_minP_3plot.png'])
-
-%% Dem
-%Max
-figure(9)
-% Hist
-subplot('Position',[0 0.53 0.5 0.4])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(xhD))
-colormap(cmG)
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
-colorbar
-set(gcf,'renderer','painters')
-title('Hindcast D');
-% Fore
-subplot('Position',[0 0.09 0.5 0.4])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(xcD))
-colormap(cmG)
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
-colorbar
-set(gcf,'renderer','painters')
-title('Forecast D');
-% Diff
-subplot('Position',[0.5 0.3 0.5 0.4])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1)
-surfm(geolat_t,geolon_t,100*xpdiffD)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
-colorbar
-set(gcf,'renderer','painters')
-title('maximum Forecast - Hindcast D');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_maxD_3plot.png'])
-%Min
-figure(10)
-% Hist
-subplot('Position',[0 0.53 0.5 0.4])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(nhD))
-colormap(cmG)
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
-colorbar
-set(gcf,'renderer','painters')
-title('Hindcast D');
-% Fore
-subplot('Position',[0 0.09 0.5 0.4])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(ncD))
-colormap(cmG)
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
-colorbar
-set(gcf,'renderer','painters')
-title('Forecast D');
-% Diff
-subplot('Position',[0.5 0.3 0.5 0.4])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1)
-surfm(geolat_t,geolon_t,100*npdiffD)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
-colorbar
-set(gcf,'renderer','painters')
-title('minimum Forecast - Hindcast D');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_minD_3plot.png'])
-
-%% all Pel
-%Max
-figure(11)
-% Hist
-subplot('Position',[0 0.53 0.5 0.4])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(xhPel))
-colormap(cmBW)
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
-colorbar
-set(gcf,'renderer','painters')
-title('Hindcast Pel');
-% Fore
-subplot('Position',[0 0.09 0.5 0.4])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,log10(xcPel))
-colormap(cmBW)
+colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-2 2]);
 colorbar
 set(gcf,'renderer','painters')
-title('Forecast Pel');
-% Diff
-subplot('Position',[0.5 0.3 0.5 0.4])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1)
-surfm(geolat_t,geolon_t,100*xpdiffPel)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
-colorbar
-set(gcf,'renderer','painters')
-title('maximum Forecast - Hindcast Pel');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_maxPel_3plot.png'])
-%Min
-figure(12)
-% Hist
-subplot('Position',[0 0.53 0.5 0.4])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(nhPel))
-colormap(cmBW)
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
-colorbar
-set(gcf,'renderer','painters')
-title('Hindcast Pel');
-% Fore
+title('log_1_0 biomass max \DeltaPel');
+% Min
 subplot('Position',[0 0.09 0.5 0.4])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,log10(ncPel))
-colormap(cmBW)
+colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-2 2]);
 colorbar
 set(gcf,'renderer','painters')
-title('Forecast Pel');
+title('log_1_0 biomass min \DeltaPel');
 % Diff
 subplot('Position',[0.5 0.3 0.5 0.4])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
-surfm(geolat_t,geolon_t,100*npdiffPel)
+surfm(geolat_t,geolon_t,(log10(xcPel)-log10(ncPel)))
 cmocean('balance')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
+caxis([-1 1]);
 colorbar
 set(gcf,'renderer','painters')
-title('minimum Forecast - Hindcast Pel');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_minPel_3plot.png'])
+title('difference max-min \DeltaPel');
+print('-dpng',[pp 'Hist_Fore_' harv '_global_distr_maxminPel_3plot.png'])
 
-%% All
-%Max
-figure(13)
-% Hist
+%% Dem
+%Distr
+figure(6)
+% Max
 subplot('Position',[0 0.53 0.5 0.4])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(xhAll))
-colormap(cmBW)
+surfm(geolat_t,geolon_t,log10(xcD))
+colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-2 2]);
 colorbar
 set(gcf,'renderer','painters')
-title('Hindcast All');
-% Fore
+title('log_1_0 biomass max \DeltaD');
+% Min
 subplot('Position',[0 0.09 0.5 0.4])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(xcAll))
-colormap(cmBW)
+surfm(geolat_t,geolon_t,log10(ncD))
+colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-2 2]);
 colorbar
 set(gcf,'renderer','painters')
-title('Forecast All');
+title('log_1_0 biomass min \DeltaD');
 % Diff
 subplot('Position',[0.5 0.3 0.5 0.4])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
-surfm(geolat_t,geolon_t,100*xpdiffAll)
+surfm(geolat_t,geolon_t,(log10(xcD)-log10(ncD)))
 cmocean('balance')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
+caxis([-1 1]);
 colorbar
 set(gcf,'renderer','painters')
-title('maximum Forecast - Hindcast All');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_maxAll_3plot.png'])
-%Min
-figure(14)
-% Hist
+title('difference max-min \DeltaD');
+print('-dpng',[pp 'Hist_Fore_' harv '_global_distr_maxminD_3plot.png'])
+
+%% Large Pel
+%Distr
+figure(7)
+% Max
 subplot('Position',[0 0.53 0.5 0.4])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(nhAll))
-colormap(cmBW)
+surfm(geolat_t,geolon_t,log10(xcP))
+colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-2 2]);
 colorbar
 set(gcf,'renderer','painters')
-title('Hindcast All');
-% Fore
+title('log_1_0 biomass max \DeltaP');
+% Min
+subplot('Position',[0 0.09 0.5 0.4])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,log10(ncP))
+colormap('jet')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-2 2]);
+colorbar
+set(gcf,'renderer','painters')
+title('log_1_0 biomass min \DeltaP');
+% Diff
+subplot('Position',[0.5 0.3 0.5 0.4])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1)
+surfm(geolat_t,geolon_t,(log10(xcP)-log10(ncP)))
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1 1]);
+colorbar
+set(gcf,'renderer','painters')
+title('difference max-min \DeltaP');
+print('-dpng',[pp 'Hist_Fore_' harv '_global_distr_maxminP_3plot.png'])
+
+%% All
+%Distr
+figure(8)
+% Max
+subplot('Position',[0 0.53 0.5 0.4])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,log10(xcAll))
+colormap('jet')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-2 2]);
+colorbar
+set(gcf,'renderer','painters')
+title('log_1_0 biomass max \DeltaAll');
+% Min
 subplot('Position',[0 0.09 0.5 0.4])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,log10(ncAll))
-colormap(cmBW)
+colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-2 2]);
 colorbar
 set(gcf,'renderer','painters')
-title('Forecast All');
+title('log_1_0 biomass min \DeltaAll');
 % Diff
 subplot('Position',[0.5 0.3 0.5 0.4])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
-surfm(geolat_t,geolon_t,100*npdiffAll)
+surfm(geolat_t,geolon_t,(log10(xcAll)-log10(ncAll)))
 cmocean('balance')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
+caxis([-1 1]);
 colorbar
 set(gcf,'renderer','painters')
-title('minimum Forecast - Hindcast All');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_minAll_3plot.png'])
+title('difference max-min \DeltaAll');
+print('-dpng',[pp 'Hist_Fore_' harv '_global_distr_maxminAll_3plot.png'])
 
 %% Bent
-%Max
-figure(15)
-% Hist
+%Distr
+figure(9)
+% Max
 subplot('Position',[0 0.53 0.5 0.4])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(xhB))
-colormap(cmP)
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
-colorbar
-set(gcf,'renderer','painters')
-title('Hindcast B');
-% Fore
-subplot('Position',[0 0.09 0.5 0.4])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,log10(xcB))
-colormap(cmP)
+colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-2 2]);
 colorbar
 set(gcf,'renderer','painters')
-title('Forecast B');
-% Diff
-subplot('Position',[0.5 0.3 0.5 0.4])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1)
-surfm(geolat_t,geolon_t,100*xpdiffB)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
-colorbar
-set(gcf,'renderer','painters')
-title('maximum Forecast - Hindcast B');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_maxB_3plot.png'])
-%Min
-figure(16)
-% Hist
-subplot('Position',[0 0.53 0.5 0.4])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(nhB))
-colormap(cmP)
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
-colorbar
-set(gcf,'renderer','painters')
-title('Hindcast B');
-% Fore
+title('log_1_0 biomass max \DeltaB');
+% Min
 subplot('Position',[0 0.09 0.5 0.4])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,log10(ncB))
-colormap(cmP)
+colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-2 2]);
 colorbar
 set(gcf,'renderer','painters')
-title('Forecast B');
+title('log_1_0 biomass min \DeltaB');
 % Diff
 subplot('Position',[0.5 0.3 0.5 0.4])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
-surfm(geolat_t,geolon_t,100*npdiffB)
+surfm(geolat_t,geolon_t,(log10(xcB)-log10(ncB)))
 cmocean('balance')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
+caxis([-1 1]);
 colorbar
 set(gcf,'renderer','painters')
-title('minimum Forecast - Hindcast B');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_minB_3plot.png'])
+title('difference max-min \DeltaB');
+print('-dpng',[pp 'Hist_Fore_' harv '_global_distr_maxminB_3plot.png'])
 
 %% Subplots of types together ----------------------------------------------------
-figure(17)
-subplot(5,2,1)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1)
-surfm(geolat_t,geolon_t,100*xpdiffF)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
-colorbar
-set(gcf,'renderer','painters')
-title('maximum Forecast - Hindcast F');
-
-subplot(5,2,2)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1)
-surfm(geolat_t,geolon_t,100*npdiffF)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
-colorbar
-set(gcf,'renderer','painters')
-title('minimum Forecast - Hindcast F');
-
-
-subplot(5,2,3)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1)
-surfm(geolat_t,geolon_t,100*xpdiffP)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
-colorbar
-set(gcf,'renderer','painters')
-title('maximum Forecast - Hindcast P');
-
-subplot(5,2,4)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1)
-surfm(geolat_t,geolon_t,100*npdiffP)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
-colorbar
-set(gcf,'renderer','painters')
-title('minimum Forecast - Hindcast P');
-
-
-subplot(5,2,5)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1)
-surfm(geolat_t,geolon_t,100*xpdiffD)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
-colorbar
-set(gcf,'renderer','painters')
-title('maximum Forecast - Hindcast D');
-
-subplot(5,2,6)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1)
-surfm(geolat_t,geolon_t,100*npdiffD)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
-colorbar
-set(gcf,'renderer','painters')
-title('minimum Forecast - Hindcast D');
-
-
-subplot(5,2,7)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1)
-surfm(geolat_t,geolon_t,100*xpdiffAll)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
-colorbar
-set(gcf,'renderer','painters')
-title('maximum Forecast - Hindcast All');
-
-subplot(5,2,8)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1)
-surfm(geolat_t,geolon_t,100*npdiffAll)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
-colorbar
-set(gcf,'renderer','painters')
-title('minimum Forecast - Hindcast All');
-
-
-subplot(5,2,9)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1)
-surfm(geolat_t,geolon_t,100*xpdiffB)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
-colorbar
-set(gcf,'renderer','painters')
-title('maximum Forecast - Hindcast B');
-
-subplot(5,2,10)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1)
-surfm(geolat_t,geolon_t,100*npdiffB)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
-colorbar
-set(gcf,'renderer','painters')
-title('minimum Forecast - Hindcast B');
-
-print('-dpng',[pp 'Hist_Fore_' harv '_global_maxmin_10plot.png'])
-
-%% Just 3 functional types
+% Just 3 functional types
 figure(18)
 %1
 subplot('Position',[0.01 0.68 0.4 0.3])
@@ -1136,9 +737,7 @@ cmocean('balance')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
-colorbar
 set(gcf,'renderer','painters')
-%title('maximum Forecast - Hindcast F');
 text(-0.75,1.75,'max \DeltaF')
 %text(-2.75,1.75,'A')
 %2
@@ -1150,7 +749,6 @@ cmocean('balance')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
-colorbar
 set(gcf,'renderer','painters')
 %title('minimum Forecast - Hindcast F');
 text(-0.75,1.75,'min \DeltaF')
@@ -1164,7 +762,6 @@ cmocean('balance')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
-colorbar
 set(gcf,'renderer','painters')
 %title('maximum Forecast - Hindcast P');
 text(-0.75,1.75,'max \DeltaP')
@@ -1178,7 +775,6 @@ cmocean('balance')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
-colorbar
 set(gcf,'renderer','painters')
 %title('minimum Forecast - Hindcast P');
 text(-0.75,1.75,'min \DeltaP')
@@ -1192,9 +788,8 @@ cmocean('balance')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
-colorbar
 set(gcf,'renderer','painters')
-%colorbar('Position',[0.4375 0.32 0.34 0.025],'orientation','horizontal','AxisLocation','in')
+colorbar('Position',[0.8 0.3 0.02 0.5],'AxisLocation','out')
 %title('maximum Forecast - Hindcast D');
 text(-0.75,1.75,'max \DeltaD')
 %text(-2.75,1.75,'E')
@@ -1207,7 +802,6 @@ cmocean('balance')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
-colorbar
 set(gcf,'renderer','painters')
 %title('minimum Forecast - Hindcast D');
 text(-0.75,1.75,'min \DeltaD')
@@ -1226,7 +820,6 @@ cmocean('balance')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
-colorbar
 set(gcf,'renderer','painters')
 %title('maximum Forecast - Hindcast F');
 text(-0.75,1.75,'max \DeltaM')
@@ -1240,7 +833,6 @@ cmocean('balance')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
-colorbar
 set(gcf,'renderer','painters')
 %title('minimum Forecast - Hindcast F');
 text(-0.75,1.75,'min \DeltaM')
@@ -1254,7 +846,6 @@ cmocean('balance')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
-colorbar
 set(gcf,'renderer','painters')
 %title('maximum Forecast - Hindcast P');
 text(-0.75,1.75,'max \DeltaL')
@@ -1268,7 +859,6 @@ cmocean('balance')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
-colorbar
 set(gcf,'renderer','painters')
 %title('minimum Forecast - Hindcast P');
 text(-0.75,1.75,'min \DeltaL')
@@ -1282,9 +872,8 @@ cmocean('balance')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
-colorbar
 set(gcf,'renderer','painters')
-%colorbar('Position',[0.4375 0.32 0.34 0.025],'orientation','horizontal','AxisLocation','in')
+colorbar('Position',[0.8 0.3 0.02 0.5],'AxisLocation','out')
 %title('maximum Forecast - Hindcast D');
 text(-0.75,1.75,'max \DeltaB')
 %text(-2.75,1.75,'E')
@@ -1297,12 +886,51 @@ cmocean('balance')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
-colorbar
 set(gcf,'renderer','painters')
 %title('minimum Forecast - Hindcast D');
 text(-0.75,1.75,'min \DeltaB')
 %text(-2.75,1.75,'F')
 
 print('-dpng',[pp 'Hist_Fore_' harv '_global_maxmin_size_6plot.png'])
+
+%% Pdiff All
+figure(20)
+% Max
+subplot('Position',[0 0.53 0.5 0.4])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*xpdiffAll)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+%colorbar
+set(gcf,'renderer','painters')
+title('%change max \DeltaAll');
+% Min
+subplot('Position',[0 0.09 0.5 0.4])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*npdiffAll)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+%colorbar
+set(gcf,'renderer','painters')
+title('%change min \DeltaAll');
+% Diff
+subplot('Position',[0.5 0.3 0.5 0.4])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1)
+surfm(geolat_t,geolon_t,100*(xpdiffAll-npdiffAll))
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+colorbar
+set(gcf,'renderer','painters')
+title('difference max-min \DeltaAll');
+print('-dpng',[pp 'Hist_Fore_' harv '_global_pdiff_maxminAll_3plot.png'])
 
 

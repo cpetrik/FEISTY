@@ -1,8 +1,7 @@
-% Visualize output of FEISTY Historic globally
+% Visualize output of FEISTY RCP8.5 globally
 % last 50 years, monthly means saved
 % Transfer efficiency ("effective") 
-% Use BE*det
-% Use Zoop Prod instead of Loss
+% Use BE*det & Z prod
 % LTL = TEeff^(1/1.333)
 
 clear all
@@ -13,15 +12,12 @@ cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
 gpath='/Users/cpetrik/Dropbox/Princeton/POEM_other/cobalt_data/';
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
 
-load([cpath 'hindcast_gridspec.mat'],'geolon_t','geolat_t'); 
+load([cpath 'hindcast_gridspec.mat'],'geolon_t','geolat_t'); %geolon_t,geolat_t
 grid = csvread([cpath 'grid_csv.csv']);
 ID = grid(:,1);
 
 % Zoop and det and npp 
-load([gpath 'cobalt_det_biom_means.mat']);
-load([gpath 'cobalt_npp_means.mat']);
-load([gpath 'cobalt_temp_means.mat']);
-load([gpath 'cobalt_zoop_biom_means.mat']); 
+load([gpath 'cobalt_det_temp_zoop_npp_means.mat']); 
 
 % POEM
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
@@ -33,7 +29,7 @@ ppath = [pp cfile '/'];
 if (~isdir(ppath))
     mkdir(ppath)
 end
-load([fpath 'Means_Historic_' harv '_prod_' cfile '.mat']);
+load([fpath 'Means_fore_' harv '_' cfile '.mat']);
 
 cmYOR=cbrewer('seq','YlOrRd',50,'PCHIP');
 cmRP=cbrewer('seq','RdPu',50,'PCHIP');
@@ -47,28 +43,20 @@ cmPR=cbrewer('seq','PuRd',50,'PCHIP');
 % 106/16 mol C in 1 mol N
 % 12.01 g C in 1 mol C
 % 1 g dry W in 9 g wet W
-mz_mean_hist = mz_mean_hist * (106.0/16.0) * 12.01 * 9.0;
-lz_mean_hist = lz_mean_hist * (106.0/16.0) * 12.01 * 9.0;
+mz_mean_fore = mz_mean_fore * (106.0/16.0) * 12.01 * 9.0;
+lz_mean_fore = lz_mean_fore * (106.0/16.0) * 12.01 * 9.0;
 % molN/m2/s --> g/m2/d
-mzprod_mean_hist = mzprod_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
-lzprod_mean_hist = lzprod_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
-det_mean_hist = det_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
-npp_mean_hist = npp_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+mzprod_mean_fore = mzprod_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+lzprod_mean_fore = lzprod_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+det_mean_fore = det_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+npp_mean_fore = npp_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 
-
-mmz_mean = mz_mean_hist;
-mlz_mean = lz_mean_hist;
-mmz_prod = mzprod_mean_hist;
-mlz_prod = lzprod_mean_hist;
-mdet = det_mean_hist;
-mnpp = npp_mean_hist;
-
-% tmz_mean = mz_tot_hist * 1e-3 * 9.0;
-% tlz_mean = lz_tot_hist * 1e-3 * 9.0;
-% tmz_prod = mzl_tot_hist * 1e-3 * 9.0;
-% tlz_prod = lzl_tot_hist * 1e-3 * 9.0;
-% tdet = det_tot_hist * 1e-3 * 9.0;
-% tnpp = npp_tot_hist * 1e-3 * 9.0;
+mmz_mean = mz_mean_fore;
+mlz_mean = lz_mean_fore;
+mmz_prod = mzprod_mean_fore;
+mlz_prod = lzprod_mean_fore;
+mdet = det_mean_fore;
+mnpp = npp_mean_fore;
 
 %% plot info
 
@@ -139,9 +127,9 @@ hist(log10(AllL(:)))
 title('Large')
 
 %% Effective TEs
-% With BE*det instead of Bent
+% With BE*det instead of Bent, Zprod instead of Zloss
 TEeffM = AllM./(BE*mdet + mmz_prod + mlz_prod); 
-%TEeff_ATL = production_L/NPP
+%TEeff_L = production_L/NPP
 TEeff_ATL = AllL./mnpp;
 TEeff_ATL(TEeff_ATL==-Inf) = NaN;
 TEeff_ATL(TEeff_ATL==Inf) = NaN;
@@ -168,14 +156,13 @@ q(:,5) = quantile((TELTL(:)),[0.01 0.05 0.25 0.5 0.75 0.95 0.99]);
 q(:,6) = quantile((TEHTL(:)),[0.01 0.05 0.25 0.5 0.75 0.95 0.99]);
 q(:,7) = quantile((TEATL(:)),[0.01 0.05 0.25 0.5 0.75 0.95 0.99]);
 
-
 Q = array2table(q,'VariableNames',{'Quantile','TEeff_LTL','TEeff_HTL',...
     'TEeff_ATL','TELTL','TEHTL','TEATL'});
 
 %% save
-writetable(Q,[fpath 'TEeffZprod_quant_Historic_All_fish03_' cfile '.csv'],'Delimiter',',');
+writetable(Q,[fpath 'TEeffZprod_quant_Forecast_All_fish03_' cfile '.csv'],'Delimiter',',');
 
-save([fpath 'TEeffDetZprod_Historic_All_fish03_' cfile '.mat'],'TEeffM',...
+save([fpath 'TEeffDetZprod_Forecast_All_fish03_' cfile '.mat'],'TEeffM',...
     'Pmf','Pmp','Pmd','Plp','Pld','Pb','mmz_prod','mlz_prod','mnpp',...
     'TEeff_ATL','TEeff_LTL','TEeff_HTL');
 
@@ -191,7 +178,7 @@ surfm(geolat_t,geolon_t,log10(TEeff_LTL))
 colormap(cmYOR);
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-1.6 -0.4]);
+caxis([-2 -0.6]);
 colorbar('Position',[0.025 0.555 0.45 0.05],'orientation','horizontal')                   
 set(gcf,'renderer','painters')
 title('log_1_0 TEeff LTL')
@@ -219,13 +206,13 @@ surfm(geolat_t,geolon_t,log10(TEeff_ATL))
 colormap(cmYOR);
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-5.5 -1]);
+caxis([-5.5 -1.5]);
 colorbar('Position',[0.275 0.05 0.45 0.05],'orientation','horizontal')                   
 set(gcf,'renderer','painters')
-title('log_1_0 TEeff ATL')
+title('log_1_0 TEeff L')
 text(-2.75,1.25,'C')
 %stamp([harv '_' cfile])
-print('-dpng',[ppath 'Historic_' harv '_global_DZPeffTEs_subplot.png'])
+print('-dpng',[ppath 'Forecast_' harv '_global_DZPeffTEs_subplot.png'])
 
 %% All 3 converted on subplots
 %Detritus----------------------
@@ -269,8 +256,7 @@ colorbar('Position',[0.525 0.555 0.45 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('B. TE HTL')
 %stamp([harv '_' cfile])
-print('-dpng',[ppath 'Historic_' harv '_global_DZPTEs_subplot.png'])
-
+print('-dpng',[ppath 'Forecast_' harv '_global_DZPTEs_subplot.png'])
 
 %% All 3 converted on subplots jet color, same caxis
 %Detritus----------------------
@@ -312,6 +298,4 @@ caxis([0.05 0.35]);
 set(gcf,'renderer','painters')
 title('TE HTL')
 %stamp([harv '_' cfile])
-print('-dpng',[ppath 'Historic_' harv '_global_DZPTEs_subplot_jet.png'])
-
-
+print('-dpng',[ppath 'Forecast_' harv '_global_DZPTEs_subplot_jet.png'])

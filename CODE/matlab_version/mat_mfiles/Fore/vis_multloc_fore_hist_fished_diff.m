@@ -28,14 +28,14 @@ npp_fore = npp_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 det_fore = det_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 ptemp_fore = ptemp_mean_fore - 273;
 
-zloss_hist = mzloss_hist + lzloss_hist;
-zloss_fore = mzloss_fore + lzloss_fore;
+zprod_hist = mzprod_hist + lzprod_hist;
+zprod_fore = mzprod_fore + lzprod_fore;
 
-l10ZlDet_hist = log10(zloss_hist./det_hist);
-l10ZlDet_fore = log10(zloss_fore./det_fore);
+l10ZpDet_hist = log10(zprod_hist./det_hist);
+l10ZpDet_fore = log10(zprod_fore./det_fore);
 
-ZlDet_hist = (zloss_hist./det_hist);
-ZlDet_fore = (zloss_fore./det_fore);
+ZpDet_hist = (zprod_hist./det_hist);
+ZpDet_fore = (zprod_fore./det_fore);
 
 %% Hindcast grid
 load([cpath 'hindcast_gridspec.mat'],'geolon_t','geolat_t'); %geolon_t,geolat_t
@@ -137,7 +137,7 @@ latlim=[plotminlat plotmaxlat];
 lonlim=[plotminlon plotmaxlon]; %[-255 -60] = Pac
 
 %%
-diffZD = (ZlDet_fore-ZlDet_hist);
+diffZD = (ZpDet_fore-ZpDet_hist);
 
 cAll = cF+cP+cD;
 cFracPD = cP ./ (cP+cD);
@@ -159,10 +159,10 @@ hFracML = hM ./ (hM+hL);
 
 pdiffN = (npp_fore-npp_hist) ./ npp_hist;
 pdiffDet = (det_fore-det_hist) ./ det_hist;
-pdiffMZ = (mzloss_fore-mzloss_hist) ./ mzloss_hist;
-pdiffLZ = (lzloss_fore-lzloss_hist) ./ lzloss_hist;
-pdiffZ = (zloss_fore-zloss_hist) ./ zloss_hist;
-pdiffZD = (l10ZlDet_fore-l10ZlDet_hist) ./ l10ZlDet_hist;
+pdiffMZ = (mzprod_fore-mzprod_hist) ./ mzprod_hist;
+pdiffLZ = (lzprod_fore-lzprod_hist) ./ lzprod_hist;
+pdiffZ = (zprod_fore-zprod_hist) ./ zprod_hist;
+pdiffZD = (l10ZpDet_fore-l10ZpDet_hist) ./ l10ZpDet_hist;
 pdiffPT = (ptemp_fore-ptemp_hist) ./ ptemp_hist;
 dPT = (ptemp_fore-ptemp_hist);
 
@@ -330,32 +330,32 @@ set(gcf,'renderer','painters')
 title('Forecast Benthos');
 print('-dpng',[pp 'Hist_Fore_' harv '_global_Bent.png'])
 
-%% Zl:Det
+%% Zp:Det
 figure(6)
 subplot(2,1,1)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,ZlDet_hist)
+surfm(geolat_t,geolon_t,ZpDet_hist)
 colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([0 20]);
 colorbar
 set(gcf,'renderer','painters')
-title('Hindcast Zl:Det');
+title('Hindcast Zp:Det');
 
 subplot(2,1,2)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,ZlDet_fore)
+surfm(geolat_t,geolon_t,ZpDet_fore)
 colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([0 20]);
 colorbar
 set(gcf,'renderer','painters')
-title('Forecast Zl:Det');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_ZlDet.png'])
+title('Forecast Zp:Det');
+print('-dpng',[pp 'Hist_Fore_' harv '_global_ZpDet.png'])
 
 %% pdiffs individual
 %F
@@ -428,7 +428,7 @@ set(gcf,'renderer','painters')
 title('Forecast - Hindcast B');
 print('-dpng',[pp 'Hist_Fore_' harv '_global_pdiffB.png'])
 
-%% Zl:Det diff
+%% Zp:Det diff
 figure(12)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) 
@@ -436,11 +436,11 @@ surfm(geolat_t,geolon_t,diffZD)
 cmocean('balance')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-10 10]);
+caxis([-25 25]);
 colorbar
 set(gcf,'renderer','painters')
-title('Forecast - Hindcast Zl:Det');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_diffZlDet.png'])
+title('Forecast - Hindcast Zp:Det');
+print('-dpng',[pp 'Hist_Fore_' harv '_global_diffZpDet.png'])
 
 %% All 4 on subplots 0.5
 figure(13)
@@ -643,7 +643,7 @@ title('Large vs. Medium')
 %stamp(cfile)
 print('-dpng',[pp 'Hist_Fore_',harv,'_global_ratios_diff_subplot.png'])
 
-%% F Ratios on subplots red-white-blue w/ZlDet
+%% F Ratios on subplots red-white-blue w/ZpDet
 % 3 figure subplot F:D, F:P, Z:Det
 figure(24)
 subplot('Position',[0 0.53 0.5 0.5])
@@ -683,10 +683,10 @@ caxis([-10 10]);
 set(gcf,'renderer','painters')
 title('Zooplankton to Detritus')
 colorbar('Position',[0.2 0.05 0.6 0.025],'orientation','horizontal')
-print('-dpng',[pp 'Hist_Fore_',harv,'_global_Fratios_diff_subplot_ZlDet.png'])
+print('-dpng',[pp 'Hist_Fore_',harv,'_global_Fratios_diff_subplot_ZpDet.png'])
 
-%% Ratios on subplots with ZlDet
-% 4 figure subplot P:D, P:F, L:M, Zl:Det
+%% Ratios on subplots with ZpDet
+% 4 figure subplot P:D, P:F, L:M, Zp:Det
 figure(15)
 % PD
 subplot('Position',[0 0.51 0.5 0.5])
@@ -738,10 +738,10 @@ caxis([-0.5 0.5]);
 set(gcf,'renderer','painters')
 title('Large vs. Medium Fishes')
 %stamp(cfile)
-print('-dpng',[pp 'Hist_Fore_',harv,'_global_ratios_subplot_ZlDet.png'])
+print('-dpng',[pp 'Hist_Fore_',harv,'_global_ratios_subplot_ZpDet.png'])
 
-%% F Ratios on subplots with ZlDet
-% 4 figure subplot F:D, F:P, M:L, Zl:Det
+%% F Ratios on subplots with ZpDet
+% 4 figure subplot F:D, F:P, M:L, Zp:Det
 figure(25)
 % FD
 subplot('Position',[0 0.51 0.5 0.5])
@@ -793,7 +793,7 @@ caxis([-0.5 0.5]);
 set(gcf,'renderer','painters')
 title('Medium vs. Large Fishes')
 %stamp(cfile)
-print('-dpng',[pp 'Hist_Fore_',harv,'_global_FMLratios_subplot_ZlDet.png'])
+print('-dpng',[pp 'Hist_Fore_',harv,'_global_FMLratios_subplot_ZpDet.png'])
 
 %% Ratios on subplots with temp
 figure(16)
@@ -850,9 +850,9 @@ title('Medium vs. Large Fishes')
 %stamp(cfile)
 print('-dpng',[pp 'Hist_Fore_',harv,'_global_FMLratios_subplot_PelT.png'])
 
-%% F Ratios on subplots with temp & Zl:Det
+%% F Ratios on subplots with temp & Zp:Det
 figure(26)
-% Zl:Det
+% Zp:Det
 subplot('Position',[0 0 0.5 0.5])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
@@ -902,7 +902,7 @@ caxis([-5 5]);
 set(gcf,'renderer','painters')
 title('Pelagic Temperature')
 colorbar('Position',[0.535 0.05 0.425 0.025],'orientation','horizontal')
-print('-dpng',[pp 'Hist_Fore_',harv,'_global_Fratios_subplot_ZlDet_PelT.png'])
+print('-dpng',[pp 'Hist_Fore_',harv,'_global_Fratios_subplot_ZpDet_PelT.png'])
 
 %% Size
 %M

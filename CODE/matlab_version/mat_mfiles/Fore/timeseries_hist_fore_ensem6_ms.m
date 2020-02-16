@@ -59,6 +59,11 @@ tP = [HP FP];
 tD = [HD FD];
 tA = [HA FA];
 
+tF = [tF; tForig];
+tP = [tP; tPorig];
+tD = [tD; tDorig];
+tA = [tA; tAorig];
+
 %% Line color order
 cm21=[1 0.5 0;...   %orange
     0.5 0.5 0;... %tan/army
@@ -164,6 +169,11 @@ mP = mean(tP);
 mD = mean(tD);
 mA = mean(tA);
 
+sF = std(mmtF);
+sP = std(mmtP);
+sD = std(mmtD);
+sA = std(mmtA);
+
 %create continuous x value array for plotting
 X=[y fliplr(y)]; 
 %create y values for out and then back
@@ -172,6 +182,12 @@ Ya=[tA(25,:) fliplr(tA(12,:))];
 Yf=[tF(24,:) fliplr(tF(17,:))]; 
 Yp=[tP(6,:)  fliplr(tP(3,:))]; 
 Yd=[tD(10,:) fliplr(tD(17,:))]; 
+
+%+/- 1 stdev
+Sa=[mA+sA fliplr(mA-sA)]; 
+Sf=[mF+sF fliplr(mF-sF)]; 
+Sp=[mP+sP fliplr(mP-sP)]; 
+Sd=[mD+sD fliplr(mD-sD)]; 
 
 %%
 figure(4)
@@ -183,7 +199,7 @@ xlim([1951 2100])
 title('All fish')
 xlabel('Year')
 ylabel('log10 Biomass (g m^-^2)')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_all_types_ensem_mid6_temp3_cone.png'])
+print('-dpng',[ppath 'Hist_Fore_',harv,'_all_types_ensem_mid6_temp3_cone_minmax_ms.png'])
 
 %%
 figure(5)
@@ -192,13 +208,40 @@ fill(X,log10(Yp),'c','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled a
 fill(X,log10(Yd),'g','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
 plot(y,log10(mF),'r','LineWidth',2); hold on;
 plot(y,log10(mP),'b','LineWidth',2); hold on;
-plot(y,log10(mD),'color',[0 0.7 0],'LineWidth',2); hold on;
+plot(y,log10(mD),'color',[0 0.6 0],'LineWidth',2); hold on;
 xlim([1951 2100])
 ylim([-0.3 0.35])
 %title('All functional types')
 xlabel('Year')
 ylabel('log10 Biomass (g m^-^2)')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_types_ensem_mid6_temp3_cone.png'])
+print('-dpng',[ppath 'Hist_Fore_',harv,'_types_ensem_mid6_temp3_cone_minmax_ms.png'])
+
+%%
+figure(6)
+f=fill(X,log10(Sa),'k','FaceAlpha',0.25,'EdgeAlpha',0.25);  %plot filled area
+hold on
+plot(y,log10(mA),'k','LineWidth',2);
+xlim([1951 2100])
+% ylim([0.425 0.675])
+title('All fish')
+xlabel('Year')
+ylabel('log10 Biomass (g m^-^2)')
+print('-dpng',[ppath 'Hist_Fore_',harv,'_all_types_ensem_mid6_temp3_cone_1std_ms.png'])
+
+%%
+figure(7)
+fill(X,log10(Sf),'r','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
+fill(X,log10(Sp),'c','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
+fill(X,log10(Sd),'g','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
+plot(y,log10(mF),'r','LineWidth',2); hold on;
+plot(y,log10(mP),'b','LineWidth',2); hold on;
+plot(y,log10(mD),'color',[0 0.6 0],'LineWidth',2); hold on;
+xlim([1951 2100])
+ylim([-0.2 0.3])
+%title('All functional types')
+xlabel('Year')
+ylabel('log10 Biomass (g m^-^2)')
+print('-dpng',[ppath 'Hist_Fore_',harv,'_types_ensem_mid6_temp3_cone_1std_ms.png'])
 
 
 

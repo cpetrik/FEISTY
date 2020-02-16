@@ -135,10 +135,19 @@ eTE_ATL = [htTE_ATL ftTE_ATL];
 eTE_HTL = [htTE_HTL ftTE_HTL];
 
 %% save
+lpath = ['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/',...
+    'Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/'];
+
 save([epath 'TEeff_Det_Zprod_5yr_means_Hist_Fore_All_fish03_ensem6_mid_temp3_bestAIC_multFup_multPneg.mat'],...
     'L','mdet','mmz_prod','mlz_prod','mnpp','y',...
     'TEeff_ATL','TEeff_LTL','TEeff_HTL','eTE_ATL','eTE_HTL',...
     'eTEeff_ATL','eTEeff_HTL');
+save([lpath 'TEeff_Det_Zprod_5yr_means_Hist_Fore_All_fish03_ensem6_mid_temp3_bestAIC_multFup_multPneg.mat'],...
+    'L','mdet','mmz_prod','mlz_prod','mnpp','y',...
+    'TEeff_ATL','TEeff_LTL','TEeff_HTL','eTE_ATL','eTE_HTL',...
+    'eTEeff_ATL','eTEeff_HTL');
+
+load([lpath 'TEeff_Det_Zprod_5yr_means_Hist_Fore_All_fish03_ensem6_mid_temp3_bestAIC_multFup_multPneg.mat']);
 
 %% subplot of TE effs
 figure(1)
@@ -233,6 +242,8 @@ print('-dpng',[ppath 'Hist_Fore_',harv,'_TE_Det_Zprod_sub2_ensem.png'])
 %% CONE OF UNCERTAINTY
 mHTL = mean([eTE_HTL; q(5,:)]);
 mATL = mean([eTE_ATL; q(6,:)]);
+sHTL = std([eTE_HTL; q(5,:)]);
+sATL = std([eTE_ATL; q(6,:)]);
 
 %find sims with min and max values
 hmax = find(eTE_HTL(:,1) == max(eTE_HTL(:,1)));
@@ -245,9 +256,13 @@ X=[y fliplr(y)];
 %create y values for out and then back
 %replace with sims with min and max values
 Ya=[eTE_ATL(amax,:) fliplr(eTE_ATL(amin,:))]; 
-Yh=[eTE_HTL(hmax,:) fliplr(eTE_HTL(hmin,:))]; 
+Yh=[eTE_HTL(hmax,:) fliplr(eTE_HTL(hmin,:))];
+
+%+/- 1 stdev
+Sa=[mATL+sATL fliplr(mATL-sATL)]; 
+Sh=[mHTL+sATL fliplr(mHTL-sATL)]; 
  
-%% subplot of TEs with cone
+%% subplot of TEs with cone grey
 figure(4)
 subplot(2,2,1)
 plot(y,100*q(4,:),'k','Linewidth',2); hold on;
@@ -271,9 +286,9 @@ title('TE ATL')
 ylim([9 16])
 xlim([1951 2095])
 xlabel('Year')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_TE_Det_Zprod_sub_cone_ensem.png'])
+print('-dpng',[ppath 'Hist_Fore_',harv,'_TE_Det_Zprod_sub_cone_minmax_ensem.png'])
 
-%% subplot of TEs with cone, 4th all together
+%% subplot of TEs with cone, 4th all together color
 figure(5)
 subplot(2,2,1)
 plot(y,100*q(4,:),'color',[0.5 0 1],'Linewidth',2); hold on;
@@ -309,4 +324,68 @@ plot(y,100*mATL,'k','Linewidth',2); hold on;
 ylim([8 21])
 xlim([1951 2095])
 xlabel('Year')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_TE_Det_Zprod_sub2_cone_ensem.png'])
+print('-dpng',[ppath 'Hist_Fore_',harv,'_TE_Det_Zprod_sub2_cone_minmax_ensem.png'])
+
+%% subplot of TEs with cone 1 stdev grey
+figure(6)
+subplot(2,2,1)
+plot(y,100*q(4,:),'k','Linewidth',2); hold on;
+title('TE LTL')
+ylim([14 15.5])
+xlim([1951 2095])
+xlabel('Year')
+
+subplot(2,2,2)
+fill(X,100*Sh,'k','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
+plot(y,100*mHTL,'k','Linewidth',2); hold on;
+title('TE HTL')
+ylim([10 18])
+xlim([1951 2095])
+xlabel('Year')
+
+subplot(2,2,3)
+fill(X,100*Sa,'k','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
+plot(y,100*mATL,'k','Linewidth',2); hold on;
+title('TE ATL')
+ylim([9 15])
+xlim([1951 2095])
+xlabel('Year')
+print('-dpng',[ppath 'Hist_Fore_',harv,'_TE_Det_Zprod_sub_cone_1std_ensem.png'])
+
+%% subplot of TEs with cone stdev, 4th all together color
+figure(7)
+subplot(2,2,1)
+plot(y,100*q(4,:),'color',[0.5 0 1],'Linewidth',2); hold on;
+title('TE LTL')
+ylim([14 15.5])
+xlim([1951 2095])
+xlabel('Year')
+
+subplot(2,2,2)
+fill(X,100*Sh,'c','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
+plot(y,100*mHTL,'color',[0 0.5 0.75],'Linewidth',2); hold on;
+title('TE HTL')
+ylim([10 18])
+xlim([1951 2095])
+xlabel('Year')
+
+subplot(2,2,3)
+fill(X,100*Sa,'k','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
+plot(y,100*mATL,'k','Linewidth',2); hold on;
+title('TE ATL')
+ylim([9 15])
+xlim([1951 2095])
+xlabel('Year')
+
+subplot(2,2,4)
+fill(X,100*Sh,'c','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
+plot(y,100*mHTL,'color',[0 0.5 0.75],'Linewidth',2); hold on;
+fill(X,100*Sa,'k','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
+plot(y,100*mATL,'k','Linewidth',2); hold on;
+plot(y,100*q(4,:),'color',[0.5 0 1],'Linewidth',2); hold on;
+%legend('LTL','HTL','ATL')
+%legend('location','northeast')
+ylim([9 18])
+xlim([1951 2095])
+xlabel('Year')
+print('-dpng',[ppath 'Hist_Fore_',harv,'_TE_Det_Zprod_sub2_cone_1std_ensem.png'])
