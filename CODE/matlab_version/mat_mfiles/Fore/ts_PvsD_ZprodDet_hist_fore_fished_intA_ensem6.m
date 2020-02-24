@@ -8,7 +8,9 @@ close all
 Pdir = '/Volumes/FEISTY/POEM_JLD/esm26_hist/';
 cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
 gpath='/Users/cpetrik/Dropbox/Princeton/POEM_other/cobalt_data/';
-pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
+ppath = ['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/',...
+    'Matlab_New_sizes/param_ensemble/',...
+    'Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/full_runs/'];
 
 % GCM grid
 load([cpath 'hindcast_gridspec.mat'],'geolon_t','geolat_t','AREA_OCN'); %geolon_t,geolat_t
@@ -19,17 +21,6 @@ AREA_OCN = max(AREA_OCN,1);
 
 % Zoop and det and npp 
 load([gpath 'cobalt_det_temp_zoop_npp_means.mat']);
-
-% FEISTY
-cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
-BE = 0.075;
-harv = 'All_fish03';
-tharv = 'Harvest all fish 0.3 yr^-^1';
-fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
-ppath = [pp cfile '/'];
-if (~isdir(ppath))
-    mkdir(ppath)
-end
 
 cmYOR=cbrewer('seq','YlOrRd',50,'PCHIP');
 cmRP=cbrewer('seq','RdPu',50,'PCHIP');
@@ -86,44 +77,59 @@ fmlz_prod = lzprod_5yr_fore;
 fmdet = det_5yr_fore;
 fmnpp = npp_5yr_fore;
 
-%% Hindcast
-load([fpath 'Means_Historic_',harv,'_' cfile '.mat'],'sp_mean','sd_mean',...
-   'mp_mean','md_mean','lp_mean','ld_mean','sf_mean','mf_mean');
-% load(['Means_Historic_',harv,'_' cfile '.mat'],'sp_mean','sd_mean',...
-%     'mp_mean','md_mean','lp_mean','ld_mean','sf_mean','mf_mean');
+%% Original parameters
+lpath = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/';
 
-HM = mf_mean+mp_mean+md_mean;
-HL = lp_mean+ld_mean;
-HF = sf_mean+mf_mean;
-HP = sp_mean+mp_mean+lp_mean;
-HD = sd_mean+md_mean+ld_mean;
+cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
+harv = 'All_fish03';
+%fpath = ['/Volumes/FEISTY/NC/Matlab_new_size/',cfile '/'];
+fpath = [lpath,cfile '/'];
+load([fpath 'Time_Means_Historic_Forecast_',harv,'_' cfile '.mat']);
 
-clear sp_mean sd_mean mp_mean md_mean lp_mean ld_mean sf_mean mf_mean
-
-%% RCP 8.5
-load([fpath 'Means_fore_',harv,'_' cfile '.mat'],'sp_mean','sd_mean',...
-   'mp_mean','md_mean','lp_mean','ld_mean','sf_mean','mf_mean');
-% load(['Means_fore_',harv,'_' cfile '.mat'],'sp_mean','sd_mean',...
-%     'mp_mean','md_mean','lp_mean','ld_mean','sf_mean','mf_mean');
-
-FM = mf_mean+mp_mean+md_mean;
-FL = lp_mean+ld_mean;
-FF = sf_mean+mf_mean;
-FP = sp_mean+mp_mean+lp_mean;
-FD = sd_mean+md_mean+ld_mean;
-
-clear sp_mean sd_mean mp_mean md_mean lp_mean ld_mean sf_mean mf_mean
+%% Ensemble parameter sets
+% epath = ['/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/',...
+%     'Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/'];
+epath = [lpath,...
+    'Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/'];
+load([epath 'Historic_All_fish03_ensem6_mid_temp3_bestAIC_multFup_multPneg.mat']);
+load([epath 'Forecast_All_fish03_ensem6_mid_temp3_bestAIC_multFup_multPneg.mat']);
 
 %% ts
-y1 = 1860+(1/12):5:2005;
-y2 = 2005+(1/12):5:2100;
-y = [y1 y2];
+%In original saved file
+% y1 = 1860+(1/12):(1/12):2005;
+% y2 = 2005+(1/12):(1/12):2100;
+% y = [y1 y2];
 
-M = [HM FM];
-L = [HL FL];
-F = [HF FF];
-P = [HP FP];
-D = [HD FD];
+% SOMETHING WRONG WITH MOVING MEAN OF #28 AROUND 1949
+% FIX TS OF SMALL FISH AT T=1080
+%tF[1081,28]=1.94e+35
+%tP[1081,28]=1.94e+35
+%tD[1081,28]=1.94e+35
+%tA[1081,28]=5.83e+35
+hTsF(28,1081) = (hTsF(28,1080) + hTsF(28,1082))/2;
+hTsP(28,1081) = (hTsP(28,1080) + hTsP(28,1082))/2;
+hTsD(28,1081) = (hTsD(28,1080) + hTsD(28,1082))/2;
+
+HF = hTsF + hTmF;
+HP = hTsP + hTmP + hTlP;
+HD = hTsD + hTmD + hTlD;
+HA = HF + HP + HD;
+
+FF = fTsF + fTmF;
+FP = fTsP + fTmP + fTlP;
+FD = fTsD + fTmD + fTlD;
+FA = FF + FP + FD;
+
+tF = [HF FF];
+tP = [HP FP];
+tD = [HD FD];
+tA = [HA FA];
+
+tF = [tF; tForig];
+tP = [tP; tPorig];
+tD = [tD; tDorig];
+tA = [tA; tAorig];
+
 npp = [hmnpp fmnpp];
 det = [hmdet fmdet];
 mz_prod = [hmmz_prod fmmz_prod];
@@ -132,12 +138,6 @@ ptemp = [ptemp_5yr_hist ptemp_5yr_fore] - 273;
 
 %% ratios and fractions
 mz = mz_prod + lz_prod;
-ZD = nanmean(mz ./ det);
-PD = nanmean(P ./ (P+D));
-PF = nanmean(P ./ (P+F));
-FD = nanmean(F ./ (F+D));
-PelD = nanmean((P+F) ./ (P+F+D));
-LM = nanmean(L ./ (L+M));
 
 %change to integrated total each year
 % DO I NEED AREA INTEGRATED??? YES
@@ -146,20 +146,29 @@ area_mat = repmat(area,1,length(y));
 
 tZD = nansum(mz.*area_mat) ./ nansum(det.*area_mat);
 tPD = nansum(P.*area_mat) ./ nansum((P.*area_mat)+(D.*area_mat));
-tPF = nansum(P.*area_mat) ./ nansum((P.*area_mat)+(F.*area_mat));
 tFD = nansum(F.*area_mat) ./ nansum((F.*area_mat)+(D.*area_mat));
-tFP = nansum(F.*area_mat) ./ nansum((F.*area_mat)+(P.*area_mat));
 tPelD = nansum((P.*area_mat)+(F.*area_mat)) ./ ...
     nansum((P.*area_mat)+(F.*area_mat)+(D.*area_mat));
-tLM = nansum(L.*area_mat) ./ nansum((L.*area_mat)+(M.*area_mat));
 
-%% means
+%% CONE OF UNCERTAINTY
+% means
 mtemp = nanmean(ptemp);
 mnpp = nanmean(npp);
 mdet = nanmean(det);
 mmz_prod = nanmean(mz_prod);
 mlz_prod = nanmean(lz_prod);
 mL = nanmean(L);
+mHTL = mean([eTE_HTL; q(5,:)]);
+mATL = mean([eTE_ATL; q(6,:)]);
+sHTL = std([eTE_HTL; q(5,:)]);
+sATL = std([eTE_ATL; q(6,:)]);
+
+%create continuous x value array for plotting
+X=[y fliplr(y)]; 
+%create y values for out and then back
+%+/- 1 stdev
+Sa=[mATL+sATL fliplr(mATL-sATL)]; 
+Sh=[mHTL+sATL fliplr(mHTL-sATL)]; 
 
 %% figure info
 axesPosition = [110 40 200 200];  %# Axes position, in pixels
