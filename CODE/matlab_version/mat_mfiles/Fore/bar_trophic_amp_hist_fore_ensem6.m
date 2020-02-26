@@ -53,7 +53,8 @@ print('-dpng',[pp 'Hist_Fore_All_fish03_troph_amp_all_types_ensem_2std.png'])
 figure(4)
 b=bar(100*fmean); hold on;
 b.FaceColor = [0 0.5 0.75];
-er = errorbar(1:8,100*fmean,100*(fmean-fmin),100*(fmax-fmean));    
+er = errorbar(1:8,100*fmean,100*(fmean-fmin),100*(fmax-fmean)); 
+%er = errorbar(1:8,100*fmean,100*(fmin),100*(fmax)); 
 er.Color = [0 0 0];                            
 er.LineStyle = 'none'; 
 set(gca,'XTickLabel',names)
@@ -78,7 +79,7 @@ er.LineStyle = 'none';
 set(gca,'XTickLabel',{'NPP','Mesozoo','M Fishes','L Fishes'})
 ylabel('Percent change')
 title('Global change in productivity')
-print('-dpng',[pp 'Hist_Fore_All_fish03_troph_amp_size_ensem_1std.png'])
+print('-dpng',[pp 'Hist_Fore_All_fish03_troph_amp_size_ensem_1std_color.png'])
 
 figure(6)
 bar(sbar*100,'k'); hold on;
@@ -104,6 +105,18 @@ ylabel('Percent change')
 title('Global change in productivity')
 print('-dpng',[pp 'Hist_Fore_All_fish03_troph_amp_size_ensem_minmax.png'])
 
+%% BW
+figure(15)
+b=bar(sbar*100,'k'); hold on;
+b.FaceColor = [0.65 0.65 0.65];
+ylim([-25 0])
+er = errorbar(3:4,100*sbar(3:4),100*sstd,'LineWidth',2);    
+er.Color = [0 0 0];                            
+er.LineStyle = 'none';
+set(gca,'XTickLabel',{'NPP','Mesozoo','M Fishes','L Fishes'})
+ylabel('Percent change')
+%title('Global change in productivity')
+print('-dpng',[pp 'Hist_Fore_All_fish03_troph_amp_size_ensem_1std.png'])
 
 %% type
 tbar = fmean(3:5);

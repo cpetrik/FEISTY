@@ -161,6 +161,9 @@ mmz_prod = nanmean(mz_prod);
 mlz_prod = nanmean(lz_prod);
 mL = nanmean(L);
 
+save([fpath 'Hist_Fore_',harv,'_FPDfracs_5yr_ts.mat'],'tPD','tPF','tFD','tFP',...
+    'tPelD','tLM','y','tZD','mtemp')
+
 %% figure info
 axesPosition = [110 40 200 200];  %# Axes position, in pixels
 yWidth = 30;                      %# y axes spacing, in pixels

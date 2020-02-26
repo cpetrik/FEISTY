@@ -109,6 +109,7 @@ cD = Csd+Cmd+Cld;
 cS = Csp+Csf+Csd;
 cM = Cmp+Cmf+Cmd;
 cL = Clp+Cld;
+c2 = Cb+zprod_fore;
 
 hF = Hsf+Hmf;
 hP = Hsp+Hmp+Hlp;
@@ -116,6 +117,7 @@ hD = Hsd+Hmd+Hld;
 hS = Hsp+Hsf+Hsd;
 hM = Hmp+Hmf+Hmd;
 hL = Hlp+Hld;
+h2 = Hb+zprod_hist;
 
 %% plot info
 plotminlat=-90; %Set these bounds for your data
@@ -154,6 +156,8 @@ pdiffZ = (zprod_fore-zprod_hist) ./ zprod_hist;
 pdiffZD = (l10ZpDet_fore-l10ZpDet_hist) ./ l10ZpDet_hist;
 pdiffPT = (ptemp_fore-ptemp_hist) ./ ptemp_hist;
 dPT = (ptemp_fore-ptemp_hist);
+
+pdiff2 = (c2-h2) ./ h2;
 
 pdiffL = (cL-hL) ./ hL;
 pdiffM = (cM-hM) ./ hM;
@@ -196,7 +200,7 @@ load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
-title('NPP')
+text(0,1.75,'Net primary production','HorizontalAlignment','center')
 text(-2.75,1.75,'A')
 
 % M
@@ -209,7 +213,7 @@ load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
-title('M Fish production')
+text(0,1.75,'M Fish production','HorizontalAlignment','center')
 text(-2.75,1.75,'C')
 
 % Z
@@ -223,7 +227,7 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 colorbar('Position',[0.25 0.5 0.5 0.03],'orientation','horizontal')
 set(gcf,'renderer','painters')
-title('ZP')
+text(0,1.75,'Mesozooplankton production','HorizontalAlignment','center')
 text(-2.75,1.75,'B')
 
 % L
@@ -236,8 +240,123 @@ load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
-title('L Fish production')
+text(0,1.75,'L Fish production','HorizontalAlignment','center')
 text(-2.75,1.75,'D')
 %stamp(cfile)
 print('-dpng',[pp 'Hist_Fore_',harv,'_global_pdiff_plankton_fish_prod_subplot.png'])
+
+
+%%
+figure(2)
+% ZP
+subplot('Position',[0.01 0.52 0.45 0.45])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*(pdiffZ))
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+set(gcf,'renderer','painters')
+text(0,1.75,'Mesozooplankton production','HorizontalAlignment','center')
+text(-2.75,1.75,'A')
+
+% P
+subplot('Position',[0.01 0 0.45 0.45])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*(pdiffP))
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+set(gcf,'renderer','painters')
+text(0,1.75,'Large pelagic production','HorizontalAlignment','center')
+text(-2.75,1.75,'C')
+
+% F
+subplot('Position',[0.51 0.52 0.45 0.45])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*(pdiffF))
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+colorbar('Position',[0.25 0.5 0.5 0.03],'orientation','horizontal')
+set(gcf,'renderer','painters')
+text(0,1.75,'Forage production','HorizontalAlignment','center')
+text(-2.75,1.75,'B')
+
+% D
+subplot('Position',[0.51 0 0.45 0.45])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*(pdiffD))
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+set(gcf,'renderer','painters')
+text(0,1.75,'Demersal production','HorizontalAlignment','center')
+text(-2.75,1.75,'D')
+%stamp(cfile)
+print('-dpng',[pp 'Hist_Fore_',harv,'_global_pdiff_plankton_types_prod_subplot.png'])
+
+%% all 2ndary prod
+figure(3)
+% 2ndary prod
+subplot('Position',[0.01 0.52 0.45 0.45])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*(pdiff2))
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+set(gcf,'renderer','painters')
+text(0,1.75,'Secondary production','HorizontalAlignment','center')
+text(-2.75,1.75,'A')
+
+% P
+subplot('Position',[0.01 0 0.45 0.45])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*(pdiffP))
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+set(gcf,'renderer','painters')
+text(0,1.75,'Large pelagic production','HorizontalAlignment','center')
+text(-2.75,1.75,'C')
+
+% F
+subplot('Position',[0.51 0.52 0.45 0.45])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*(pdiffF))
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+colorbar('Position',[0.25 0.5 0.5 0.03],'orientation','horizontal')
+set(gcf,'renderer','painters')
+text(0,1.75,'Forage production','HorizontalAlignment','center')
+text(-2.75,1.75,'B')
+
+% D
+subplot('Position',[0.51 0 0.45 0.45])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*(pdiffD))
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+set(gcf,'renderer','painters')
+text(0,1.75,'Demersal production','HorizontalAlignment','center')
+text(-2.75,1.75,'D')
+%stamp(cfile)
+print('-dpng',[pp 'Hist_Fore_',harv,'_global_pdiff_secondary_types_prod_subplot.png'])
 

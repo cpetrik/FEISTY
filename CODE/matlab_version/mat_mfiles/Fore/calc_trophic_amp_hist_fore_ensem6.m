@@ -18,24 +18,24 @@ AREA_OCN = max(AREA_OCN,1);
 load([bpath 'cobalt_det_temp_zoop_npp_means.mat']);
 
 % molN/m2/s --> g/m2/d
-mzloss_hist = mzloss_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
-lzloss_hist = lzloss_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+mzprod_hist = mzprod_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+lzprod_hist = lzprod_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 npp_hist = npp_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 det_hist = det_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 ptemp_hist = ptemp_mean_hist - 273;
 
-mzloss_fore = mzloss_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
-lzloss_fore = lzloss_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+mzprod_fore = mzprod_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+lzprod_fore = lzprod_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 npp_fore = npp_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 det_fore = det_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 ptemp_fore = ptemp_mean_fore - 273;
 
-zloss_hist = mzloss_hist + lzloss_hist;
-zloss_fore = mzloss_fore + lzloss_fore;
+zprod_hist = mzprod_hist + lzprod_hist;
+zprod_fore = mzprod_fore + lzprod_fore;
 
 % g/m2/d --> total g; Mult flux by 365 - YES
-Azloss_hist = 365 * zloss_hist .* AREA_OCN;
-Azloss_fore = 365 * zloss_fore .* AREA_OCN;
+Azprod_hist = 365 * zprod_hist .* AREA_OCN;
+Azprod_fore = 365 * zprod_fore .* AREA_OCN;
 Adet_hist = 365 * det_hist .* AREA_OCN;
 Adet_fore = 365 * det_fore .* AREA_OCN;
 Anpp_hist = 365 * npp_hist .* AREA_OCN;
@@ -280,7 +280,7 @@ cAll = cF+cP+cD;
 cPel = cF+cP;
 
 pbar(1) = (nansum(Anpp_fore(:))-nansum(Anpp_hist(:))) ./ nansum(Anpp_hist(:));
-pbar(2) = -0.079; %(nansum(Azloss_fore(:))-nansum(Azloss_hist(:))) ./ nansum(Azloss_hist(:));
+pbar(2) = (nansum(Azprod_fore(:))-nansum(Azprod_hist(:))) ./ nansum(Azprod_hist(:)); %-0.079
 pbar(3) = (nansum(Adet_fore(:))-nansum(Adet_hist(:))) ./ nansum(Adet_hist(:));
 pnames = {'NPP','Z','Det'};
 

@@ -1,4 +1,4 @@
-function netcdf_ts_areaint_fore_fished_bio_prod_ens(fname,simname,area)
+function netcdf_ts_areaint_hist_fished_bio_prod_ens(fname,simname,area)
 
 % FEISTY output at all locations
 

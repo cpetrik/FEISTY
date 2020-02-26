@@ -182,3 +182,6 @@ text(1937,2.83,'Z:D','color',cm{6});
 text(1917,2.83,'Z','color',cmap_ppt(1,:));
 text(1897,2.83,'D','color',cmap_ppt(2,:));
 print('-dpng',[ppath 'Hist_Fore_Zp_D_ZpDet.png'])
+
+save([fpath 'ts_Hist_Fore_Zp_D_ZpDet_intA.mat'],'tZD','tlZD','tPZ','tPD',...
+    'tNPP','tZ','tD','y');
