@@ -123,8 +123,8 @@ mmdA = mmtA - mmtA(:,yid);
 figure(1)
 subplot(2,2,4)
 plot(y,(mmdA)); hold on;
-plot(y,(mmdA(end,:)),'color',[0 0.5 0.75],'LineWidth',2);
-xlim([1951 2100])
+%plot(y,(mmdA(end,:)),'color',[0 0.5 0.75],'LineWidth',2);
+xlim([y(yid) y(end)])
 %ylim([0.425 0.725])
 title('All fish')
 xlabel('Year')
@@ -132,8 +132,8 @@ xlabel('Year')
 % F
 subplot(2,2,1)
 plot(y,(mmdF)); hold on;
-plot(y,(mmdF(end,:)),'color',[0 0.5 0.75],'LineWidth',2);
-xlim([1951 2100])
+%plot(y,(mmdF(end,:)),'color',[0 0.5 0.75],'LineWidth',2);
+xlim([y(yid) y(end)])
 %ylim([0.025 0.325])
 title('Forage fish')
 ylabel(' Biomass (g m^-^2)')
@@ -141,16 +141,16 @@ ylabel(' Biomass (g m^-^2)')
 % P
 subplot(2,2,2)
 plot(y,(mmdP)); hold on;
-plot(y,(mmdP(end,:)),'color',[0 0.5 0.75],'LineWidth',2);
-xlim([1951 2100])
+%plot(y,(mmdP(end,:)),'color',[0 0.5 0.75],'LineWidth',2);
+xlim([y(yid) y(end)])
 %ylim([-0.275 0.375])
 title('Large pelagic fish')
 
 % D
 subplot(2,2,3)
 plot(y,(mmdD)); hold on;
-plot(y,(mmdD(end,:)),'color',[0 0.5 0.75],'LineWidth',2);
-xlim([1951 2100])
+%plot(y,(mmdD(end,:)),'color',[0 0.5 0.75],'LineWidth',2);
+xlim([y(yid) y(end)])
 %ylim([-0.15 0.1])
 title('Demersal fish')
 xlabel('Year')

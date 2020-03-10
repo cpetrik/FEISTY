@@ -69,7 +69,7 @@ pdiffM = (cM-hM) ./ hM;
 pdiffF = (cF-hF) ./ hF;
 pdiffP = (cP-hP) ./ hP;
 pdiffD = (cD-hD) ./ hD;
-pdiffB = (cB-hB) ./ hB;
+%pdiffB = (cB-hB) ./ hB;
 pdiffAll = (cAll-hAll) ./ hAll;
 pdiffPD = (cFracPD-hFracPD) ./ hFracPD;
 pdiffPF = (cFracPF-hFracPF) ./ hFracPF;
@@ -90,17 +90,36 @@ hFracPelD = hPel ./ (hPel+hD);
 cFracPelD = cPel ./ (cPel+cD);
 diffPelD = (cFracPelD-hFracPelD);
 
+hFracPel = hPel ./ (hAll);
+cFracPel = cPel ./ (cAll);
+diffPel = (cFracPel-hFracPel);
+
+hFracF = hF ./ (hAll);
+cFracF = cF ./ (cAll);
+diffF = (cFracF-hFracF);
+
+hFracP = hP ./ (hAll);
+cFracP = cP ./ (cAll);
+diffP = (cFracP-hFracP);
+
 %% time series of 5-yr means as difference from 1951
 %'tPD','tPF','tFD','tFP','tPelD','tLM','y','tZD','mtemp')
 dtFD = tFD - tFD(19);
 dtPD = tPD - tPD(19);
 dtPelD = tPelD - tPelD(19);
+dtF = tF - tF(19);
+dtP = tP - tP(19);
+dtPel = tPel - tPel(19);
 dtZD = tZD - tZD(19);
 dtemp = mtemp - mtemp(19);
 
 pdtFD = (tFD - tFD(19)) / tFD(19);
 pdtPD = (tPD - tPD(19)) / tPD(19);
 pdtPelD = (tPelD - tPelD(19)) / tPelD(19);
+
+pdtF = (tF - tF(19)) / tF(19);
+pdtP = (tP - tP(19)) / tP(19);
+pdtPel = (tPel - tPel(19)) / tPel(19);
 
 %% ts colors
 cm = [...
@@ -175,5 +194,59 @@ legend('location','northwest')
 xlabel('Year')
 ylabel('Change in fractions');
 text(1918,0.03,'D')
+print('-dpng',[pp 'Hist_Fore_' harv '_global_diff_Dfracs_4plot.png'])
+
+%%
+figure(2)
+subplot('Position',[0 0.575 0.5 0.4])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,diffP)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1 1]);
+colorbar('Position',[0.25 0.55 0.5 0.03],'orientation','horizontal')
+set(gcf,'renderer','painters')
+title('Change P/All');
+text(-2.75,1.75,'A')
+
+subplot('Position',[0 0.05 0.5 0.4])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,diffPel)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1 1]);
+set(gcf,'renderer','painters')
+title('Change Pel/All');
+text(-2.75,2,'B')
+
+% Zp:Det diff
+subplot('Position',[0.5 0.575 0.5 0.4])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) 
+surfm(geolat_t,geolon_t,diffF)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1 1]);
+%colorbar('Position',[0.55 0.57 0.4 0.03],'orientation','horizontal')
+set(gcf,'renderer','painters')
+title('Change in F/All');
+text(-2.75,1.75,'C')
+
+%ts 
+subplot('Position',[0.6 0.075 0.375 0.4])
+line(y(19:end),dtP(19:end),'Linewidth',2); hold on;
+line(y(19:end),dtF(19:end),'color',[0.97647 0.19 0],'Linewidth',2); hold on;
+line(y(19:end),dtPel(19:end),'color',[0.1 0.65 0.10196],'Linewidth',2); hold on;
+ylim([-0.05 0.05])
+legend('P','F','Pel')
+legend('location','northwest')
+xlabel('Year')
+ylabel('Change in fractions');
+text(1918,0.048,'D')
 print('-dpng',[pp 'Hist_Fore_' harv '_global_diff_fracs_4plot.png'])
 

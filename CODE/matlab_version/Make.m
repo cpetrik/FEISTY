@@ -7,7 +7,7 @@ close all
 testoneloc = false;
 testlocs = false;
 histlocs = false;
-forelocs = true;
+forelocs = false;
 climlocs = false;
 oneloc_fore_pristine = false;
 spinup_pristine = false;
@@ -21,7 +21,7 @@ climatol_ngdc = false;
 pre_industrial = false;
 historic_pristine = false;
 historic_fished = false;
-historic_fished_ens = false;
+historic_fished_ens = true;
 forecast_pristine = false;
 forecast_fished = false;
 forecast_fished_ens = false;

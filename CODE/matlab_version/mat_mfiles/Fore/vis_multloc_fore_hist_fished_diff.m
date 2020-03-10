@@ -601,6 +601,36 @@ title('All fishes')
 %stamp(cfile)
 print('-dpng',[pp 'Hist_Fore_',harv,'_global_pdiff_subplot100p.png'])
 
+
+%% All 4 on subplots 100%
+figure(43)
+% all M
+subplot('Position',[0 0.51 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*(pdiffM))
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
+set(gcf,'renderer','painters')
+title('Med')
+
+% all L
+subplot('Position',[0.5 0.51 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*(pdiffL))
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+set(gcf,'renderer','painters')
+title('Lrg')
+%stamp(cfile)
+print('-dpng',[pp 'Hist_Fore_',harv,'_global_sizes_pdiff_subplot100p.png'])
+
 %% Ratios on subplots red-white-blue
 % 3 figure subplot P:D, P:F, L:M
 figure(14)

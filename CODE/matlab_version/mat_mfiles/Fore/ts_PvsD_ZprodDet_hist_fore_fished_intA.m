@@ -26,6 +26,7 @@ BE = 0.075;
 harv = 'All_fish03';
 tharv = 'Harvest all fish 0.3 yr^-^1';
 fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
+epath=['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/' cfile '/'];
 ppath = [pp cfile '/'];
 if (~isdir(ppath))
     mkdir(ppath)
@@ -132,6 +133,7 @@ ptemp = [ptemp_5yr_hist ptemp_5yr_fore] - 273;
 
 %% ratios and fractions
 mz = mz_prod + lz_prod;
+All = F + P + D;
 ZD = nanmean(mz ./ det);
 PD = nanmean(P ./ (P+D));
 PF = nanmean(P ./ (P+F));
@@ -153,6 +155,10 @@ tPelD = nansum((P.*area_mat)+(F.*area_mat)) ./ ...
     nansum((P.*area_mat)+(F.*area_mat)+(D.*area_mat));
 tLM = nansum(L.*area_mat) ./ nansum((L.*area_mat)+(M.*area_mat));
 
+tP = nansum(P.*area_mat) ./ nansum(All.*area_mat);
+tF = nansum(F.*area_mat) ./ nansum(All.*area_mat);
+tPel = nansum((P.*area_mat)+(F.*area_mat)) ./ nansum(All.*area_mat);
+
 %% means
 mtemp = nanmean(ptemp);
 mnpp = nanmean(npp);
@@ -162,7 +168,9 @@ mlz_prod = nanmean(lz_prod);
 mL = nanmean(L);
 
 save([fpath 'Hist_Fore_',harv,'_FPDfracs_5yr_ts.mat'],'tPD','tPF','tFD','tFP',...
-    'tPelD','tLM','y','tZD','mtemp')
+    'tPelD','tLM','y','tZD','mtemp','tP','tF','tPel')
+save([epath 'Hist_Fore_',harv,'_FPDfracs_5yr_ts.mat'],'tPD','tPF','tFD','tFP',...
+    'tPelD','tLM','y','tZD','mtemp','tP','tF','tPel')
 
 %% figure info
 axesPosition = [110 40 200 200];  %# Axes position, in pixels

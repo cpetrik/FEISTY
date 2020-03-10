@@ -32,11 +32,13 @@ nfile = ['/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_met-k086
 load([nfile 'LHS_param6_mid6_kt3_bestAIC_params_Fupneg_mult10_Pneg2_mult3_reduced.mat'],...
     'red_params');
 
-newp = find(red_params(:,6)==0.0955);
-params = red_params(newp,:);
+% newp = find(red_params(:,6)==0.0955);
+% params = red_params(newp,:);
+
+params = red_params;
 
 %% PARAMETER ENSEMBLE
-for j = 1:length(params)
+for j = 4 %1:length(params)
     
     %! Change individual parameters
     pset = params(j,:);

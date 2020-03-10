@@ -41,7 +41,8 @@ ID = grid(:,1);
 
 %% FEISTY Output
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
-fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
+%fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
+fpath=['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/' cfile '/'];
 pp = ['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/' cfile '/'];
 
 harv = 'All_fish03';
@@ -359,4 +360,90 @@ text(0,1.75,'Demersal production','HorizontalAlignment','center')
 text(-2.75,1.75,'D')
 %stamp(cfile)
 print('-dpng',[pp 'Hist_Fore_',harv,'_global_pdiff_secondary_types_prod_subplot.png'])
+
+
+%% 6 plot Historic distr subplot for ms
+figure(4)
+%A - npp
+subplot('Position',[0.01 0.68 0.4 0.3])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*pdiffN)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+%colorbar('Position',[0.385 0.695 0.025 0.275],'orientation','vertical','AxisLocation','out')
+set(gcf,'renderer','painters')
+text(0,1.75,'Net primary','HorizontalAlignment','center')
+text(-2.75,1.75,'A')
+%B - forage
+subplot('Position',[0.41 0.68 0.4 0.3])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*pdiffF)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+%colorbar('Position',[0.825 0.695 0.025 0.275],'orientation','vertical','AxisLocation','out')
+set(gcf,'renderer','painters')
+text(0,1.75,'Forage','HorizontalAlignment','center')
+text(-2.75,1.75,'B')
+%C - mesozoo
+subplot('Position',[0.01 0.37 0.4 0.3])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*pdiffZ)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+%colorbar('Position',[0.385 0.385 0.025 0.275],'orientation','vertical','AxisLocation','out')
+set(gcf,'renderer','painters')
+text(0,1.75,'Mesozoo','HorizontalAlignment','center')
+text(-2.75,1.75,'C')
+%D - LP
+subplot('Position',[0.41 0.37 0.4 0.3])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*pdiffP)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+colorbar('Position',[0.8 0.25 0.025 0.5],'orientation','vertical','AxisLocation','out')
+set(gcf,'renderer','painters')
+text(0,1.75,'Large pelagic','HorizontalAlignment','center')
+text(-2.75,1.75,'D')
+%E - det
+subplot('Position',[0.01 0.06 0.4 0.3])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*pdiffDet)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+%colorbar('Position',[0.385 0.075 0.025 0.275],'orientation','vertical','AxisLocation','out')
+set(gcf,'renderer','painters')
+text(0,1.75,'Detritus','HorizontalAlignment','center')
+text(-2.75,1.75,'E')
+%F - dem
+subplot('Position',[0.41 0.06 0.4 0.3])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*pdiffD)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+%colorbar('Position',[0.825 0.075 0.025 0.275],'orientation','vertical','AxisLocation','out')
+set(gcf,'renderer','painters')
+text(0,1.75,'Demersal','HorizontalAlignment','center')
+text(-2.75,1.75,'F')
+print('-dpng',[pp 'Hist_Fore_',harv,'_global_pdiff_prod_6plot.png'])
+
+
+
 
