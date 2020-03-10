@@ -10,7 +10,7 @@ pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP_CESM/';
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 harv = 'pristine';
 tharv = 'F=0';
-fpath=['/Volumes/GFDL/NC/FishMIP/CESM1-BEC/' cfile '/'];
+fpath=['/Volumes/FEISTY/NC/FishMIP/CESM1-BEC/' cfile '/'];
 ppath = [pp cfile '/'];
 if (~isdir(ppath))
     mkdir(ppath)

@@ -5,7 +5,7 @@ close all
 
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 
-fpath=['/Volumes/GFDL/NC/FishMIP/CESM1-BEC/' cfile '/'];
+fpath=['/Volumes/FEISTY/NC/FishMIP/CESM1-BEC/' cfile '/'];
 
 %% SP
 ncid = netcdf.open([fpath 'Temp_cont_sml_p.nc'],'NC_NOWRITE');
@@ -141,6 +141,10 @@ yr18=find(mo>=1851 & mo<1901);  %1851-1900
 yr19=find(mo>=1951 & mo<2001);  %1951-2000
 yr20=find(mo>=2051 & mo<2101);  %2051-2100
 
+% Ryan comparing 2090-2100 to 1860-1870
+yrP=find(mo>=1860 & mo<1870);  
+yrF=find(mo>=2090 & mo<2100);  
+
 %Time
 sp_tmean=mean(SP.bio,1);
 sf_tmean=mean(SF.bio,1);
@@ -183,6 +187,26 @@ md_mean20=mean(MD.bio(:,yr20),2);
 lp_mean20=mean(LP.bio(:,yr20),2);
 ld_mean20=mean(LD.bio(:,yr20),2);
 b_mean20 =mean(Bent.bio(:,yr20),2);
+
+sp_meanP=mean(SP.bio(:,yrP),2);
+sf_meanP=mean(SF.bio(:,yrP),2);
+sd_meanP=mean(SD.bio(:,yrP),2);
+mp_meanP=mean(MP.bio(:,yrP),2);
+mf_meanP=mean(MF.bio(:,yrP),2);
+md_meanP=mean(MD.bio(:,yrP),2);
+lp_meanP=mean(LP.bio(:,yrP),2);
+ld_meanP=mean(LD.bio(:,yrP),2);
+b_meanP =mean(Bent.bio(:,yrP),2);
+
+sp_meanF=mean(SP.bio(:,yrF),2);
+sf_meanF=mean(SF.bio(:,yrF),2);
+sd_meanF=mean(SD.bio(:,yrF),2);
+mp_meanF=mean(MP.bio(:,yrF),2);
+mf_meanF=mean(MF.bio(:,yrF),2);
+md_meanF=mean(MD.bio(:,yrF),2);
+lp_meanF=mean(LP.bio(:,yrF),2);
+ld_meanF=mean(LD.bio(:,yrF),2);
+b_meanF =mean(Bent.bio(:,yrF),2);
 
 %% Annual totals
 st=1:12:length(time);
@@ -229,7 +253,13 @@ save([fpath 'Means_Temp_cont_' cfile '.mat'],'time','mo',...
     'lp_mean19','ld_mean19','b_mean19',...
     'sf_mean20','sp_mean20','sd_mean20',...
     'mf_mean20','mp_mean20','md_mean20',...
-    'lp_mean20','ld_mean20','b_mean20');
+    'lp_mean20','ld_mean20','b_mean20',...
+    'sf_meanP','sp_meanP','sd_meanP',...
+    'mf_meanP','mp_meanP','md_meanP',...
+    'lp_meanP','ld_meanP','b_meanP',...
+    'sf_meanF','sp_meanF','sd_meanF',...
+    'mf_meanF','mp_meanF','md_meanF',...
+    'lp_meanF','ld_meanF','b_meanF');
 
 
 
