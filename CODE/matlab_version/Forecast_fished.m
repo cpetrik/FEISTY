@@ -125,7 +125,7 @@ S_Lrg_p_fish = zeros(NX,DAYS);
 S_Lrg_d_fish = zeros(NX,DAYS);
 
 %% ! Initialize
-load(['/Volumes/GFDL/NC/Matlab_new_size/',simname '/Last_mo_hist_All_fish03_' simname '.mat']);
+load(['/Volumes/FEISTY/NC/Matlab_new_size/',simname '/Last_mo_hist_All_fish03_' simname '.mat']);
 BENT.mass = BENT.bio;
 [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_hist(ID,DAYS,Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT);
 Med_d.td(1:NX) = 0.0;
@@ -276,7 +276,7 @@ MNT = 0;
 for YR = 1:YEARS % years
     %! Load a year's COBALT data
     ti = num2str(YR+2005);
-    load(['/Volumes/GFDL/POEM_JLD/rcp85/Data_rcp85_',ti,'.mat']);
+    load(['/Volumes/FEISTY/POEM_JLD/rcp85/Data_rcp85_',ti,'.mat']);
     
     for DAY = 1:DT:DAYS % days
         

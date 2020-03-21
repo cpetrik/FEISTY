@@ -6,7 +6,7 @@ spath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/SAUP/';
 gpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
 cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/cobalt_data/';
 
-dp = '/Volumes/GFDL/NC/Matlab_new_size/';
+dp = '/Volumes/FEISTY/NC/Matlab_new_size/';
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
 
 load(['/Users/cpetrik/Dropbox/Princeton/POEM_other/poem_ms/',...
@@ -20,8 +20,8 @@ fpath = [dp cfile '/'];
 ppath = [pp cfile '/'];
 
 %% Climatol grid
-Pdir = '/Volumes/GFDL/POEM_JLD/esm26_hist/';
-cdir='/Volumes/GFDL/GCM_DATA/ESM26_hist/';
+Pdir = '/Volumes/FEISTY/POEM_JLD/esm26_hist/';
+cdir='/Volumes/FEISTY/GCM_DATA/ESM26_hist/';
 load([gpath 'ESM26_1deg_5yr_clim_191_195_gridspec.mat']);
 load([gpath 'esm26_lme_mask_onedeg_SAU_66.mat']);
 load([gpath 'LME_clim_temp_zoop_det.mat']);
@@ -478,7 +478,7 @@ text(-4.75,-1.5,['RMSE = ' sprintf('%2.2f',rmseL)])
 axis([-5 -1 -5 -1])
 xlabel('Hist')
 ylabel('Clim')
-title('log_1_0 TEeff L')
+title('log_1_0 TEeff ATL')
 
 subplot(2,2,2)
 plot(x,x,'--k'); hold on;

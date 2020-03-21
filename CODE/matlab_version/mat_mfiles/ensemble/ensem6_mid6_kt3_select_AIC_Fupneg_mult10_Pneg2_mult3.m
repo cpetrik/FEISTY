@@ -11,7 +11,7 @@ dp  = '/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_met-k086_cm
 dp2 = '/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/';
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/param_ensemble/Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/';
 
-% param ensemble results with kt=0.0885
+%% param ensemble results with kt=0.0885
 load([dp 'Climatol_ensemble_param5_mid5.mat'],'rmse_all','mis_all','sim',...
     'lme_Fmcatch','lme_Pmcatch','lme_Dmcatch','r_all');
 r_all1 = r_all;
@@ -254,6 +254,9 @@ end
 red_params = fx_all(id1,:);
 save([dp 'LHS_param6_mid6_kt3_bestAIC_params_Fupneg_mult10_Pneg2_mult3_reduced.mat'],...
     'red_params','ptext','id1')
+
+pT = array2table(red_params,'VariableNames',ptext);
+writetable(pT,[dp 'LHS_param6_mid6_kt3_bestAIC_params_Fupneg_mult10_Pneg2_mult3_reduced.csv'])
 
 %% vis best SAUP comp
 for j=1:length(id1)

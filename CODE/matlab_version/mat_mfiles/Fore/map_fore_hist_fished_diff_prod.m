@@ -362,7 +362,7 @@ text(-2.75,1.75,'D')
 print('-dpng',[pp 'Hist_Fore_',harv,'_global_pdiff_secondary_types_prod_subplot.png'])
 
 
-%% 6 plot Historic distr subplot for ms
+%% 6 plot pdiff prod subplot for ms
 figure(4)
 %A - npp
 subplot('Position',[0.01 0.68 0.4 0.3])
@@ -443,6 +443,21 @@ set(gcf,'renderer','painters')
 text(0,1.75,'Demersal','HorizontalAlignment','center')
 text(-2.75,1.75,'F')
 print('-dpng',[pp 'Hist_Fore_',harv,'_global_pdiff_prod_6plot.png'])
+
+%% 6 plot pdiff prod subplot for ms
+figure(5)
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,diffZD)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-20 20]);
+colorbar
+set(gcf,'renderer','painters')
+%text(0,1.75,'Net primary','HorizontalAlignment','center')
+title('Zooplankton : Detritus production')
+print('-dpng',[pp 'Hist_Fore_',harv,'_global_diff_ZprodDet.png'])
 
 
 

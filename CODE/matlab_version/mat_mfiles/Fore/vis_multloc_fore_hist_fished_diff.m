@@ -129,7 +129,7 @@ save([fpath 'Means_hist_fore_',harv,'_cobalt_' cfile '.mat'],'mzloss_hist',...
     'hP','hD','hS','hM','hL');
 
 %% plot info
-plotminlat=-90; %Set these bounds for your data
+plotminlat=60; %Set these bounds for your data
 plotmaxlat=90;
 plotminlon=-280;
 plotmaxlon=80;
@@ -140,635 +140,31 @@ lonlim=[plotminlon plotmaxlon]; %[-255 -60] = Pac
 diffZD = (ZpDet_fore-ZpDet_hist);
 
 cAll = cF+cP+cD;
-cFracPD = cP ./ (cP+cD);
-cFracPF = cP ./ (cP+cF);
+cFracD = cD ./ cAll;
+cFracDP = cD ./ (cP+cD);
 cFracDF = cD ./ (cD+cF);
-cFracFD = cF ./ (cF+cD);
-cFracFP = cF ./ (cF+cP);
-cFracLM = cL ./ (cL+cM);
-cFracML = cM ./ (cM+cL);
 
 hAll = hF+hP+hD;
-hFracPD = hP ./ (hP+hD);
-hFracPF = hP ./ (hP+hF);
+hFracD = hD ./ hAll;
+hFracDP = hD ./ (hP+hD);
 hFracDF = hD ./ (hD+hF);
-hFracFD = hF ./ (hF+hD);
-hFracFP = hF ./ (hF+hP);
-hFracLM = hL ./ (hL+hM);
-hFracML = hM ./ (hM+hL);
 
-pdiffN = (npp_fore-npp_hist) ./ npp_hist;
 pdiffDet = (det_fore-det_hist) ./ det_hist;
-pdiffMZ = (mzprod_fore-mzprod_hist) ./ mzprod_hist;
-pdiffLZ = (lzprod_fore-lzprod_hist) ./ lzprod_hist;
 pdiffZ = (zprod_fore-zprod_hist) ./ zprod_hist;
-pdiffZD = (l10ZpDet_fore-l10ZpDet_hist) ./ l10ZpDet_hist;
-pdiffPT = (ptemp_fore-ptemp_hist) ./ ptemp_hist;
-dPT = (ptemp_fore-ptemp_hist);
+pdiffZD = (ZpDet_fore-ZpDet_hist) ./ ZpDet_hist;
 
-pdiffL = (cL-hL) ./ hL;
-pdiffM = (cM-hM) ./ hM;
 pdiffF = (cF-hF) ./ hF;
 pdiffP = (cP-hP) ./ hP;
 pdiffD = (cD-hD) ./ hD;
 pdiffB = (Cb-Hb) ./ Hb;
 pdiffAll = (cAll-hAll) ./ hAll;
-pdiffPD = (cFracPD-hFracPD) ./ hFracPD;
-pdiffPF = (cFracPF-hFracPF) ./ hFracPF;
-pdiffDF = (cFracDF-hFracDF) ./ hFracDF;
-pdiffFD = (cFracFD-hFracFD) ./ hFracFD;
-pdiffFP = (cFracFP-hFracFP) ./ hFracFP;
-pdiffLM = (cFracLM-hFracLM) ./ hFracLM;
 
-diffPD = (cFracPD-hFracPD);
-diffPF = (cFracPF-hFracPF);
+diffD = (cFracD-hFracD);
+diffDP = (cFracDP-hFracDP);
 diffDF = (cFracDF-hFracDF);
-diffFD = (cFracFD-hFracFD);
-diffFP = (cFracFP-hFracFP);
-diffLM = (cFracLM-hFracLM);
-diffML = (cFracML-hFracML);
-
-% diffF(hF(:)<1e-6) = nan;
-% diffP(hP(:)<1e-6) = nan;
-% diffD(hD(:)<1e-6) = nan;
-% diffB(Hb(:)<1e-6) = nan;
-% diffAll(hAll(:)<1e-6) = nan;
+diffZD = (ZpDet_fore-ZpDet_hist);
 
 %% Maps
-% Individual Hist vs Fore
-figure(1)
-subplot(2,1,1)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,real(log10(hF)))
-colormap('jet')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
-colorbar
-set(gcf,'renderer','painters')
-title('Hindcast F');
-
-subplot(2,1,2)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,real(log10(cF)))
-colormap('jet')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
-colorbar
-set(gcf,'renderer','painters')
-title('Forecast F');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_F.png'])
-
-%P
-figure(2)
-subplot(2,1,1)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,real(log10(hP)))
-colormap('jet')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
-colorbar
-set(gcf,'renderer','painters')
-title('Hindcast P');
-
-subplot(2,1,2)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,real(log10(cP)))
-colormap('jet')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
-colorbar
-set(gcf,'renderer','painters')
-title('Forecast P');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_P.png'])
-
-% D
-figure(3)
-subplot(2,1,1)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,real(log10(hD)))
-colormap('jet')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
-colorbar
-set(gcf,'renderer','painters')
-title('Hindcast D');
-
-subplot(2,1,2)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,real(log10(cD)))
-colormap('jet')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
-colorbar
-set(gcf,'renderer','painters')
-title('Forecast D');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_D.png'])
-
-%4
-figure(4)
-subplot(2,1,1)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,real(log10(hAll)))
-colormap('jet')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-1 2]);
-colorbar
-set(gcf,'renderer','painters')
-title('Hindcast All');
-
-subplot(2,1,2)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,real(log10(cAll)))
-colormap('jet')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-1 2]);
-colorbar
-set(gcf,'renderer','painters')
-title('Forecast All');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_All.png'])
-
-%% B
-figure(5)
-subplot(2,1,1)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,real(log10(Hb)))
-colormap('jet')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
-colorbar
-set(gcf,'renderer','painters')
-title('Hindcast Benthos');
-
-subplot(2,1,2)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,real(log10(Cb)))
-colormap('jet')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
-colorbar
-set(gcf,'renderer','painters')
-title('Forecast Benthos');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_Bent.png'])
-
-%% Zp:Det
-figure(6)
-subplot(2,1,1)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,ZpDet_hist)
-colormap('jet')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([0 20]);
-colorbar
-set(gcf,'renderer','painters')
-title('Hindcast Zp:Det');
-
-subplot(2,1,2)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,ZpDet_fore)
-colormap('jet')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([0 20]);
-colorbar
-set(gcf,'renderer','painters')
-title('Forecast Zp:Det');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_ZpDet.png'])
-
-%% pdiffs individual
-%F
-figure(7)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) 
-surfm(geolat_t,geolon_t,pdiffF)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-0.5 0.5]);
-colorbar
-set(gcf,'renderer','painters')
-title('Forecast - Hindcast F');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_pdiffF.png'])
-
-% P
-figure(8)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) 
-surfm(geolat_t,geolon_t,pdiffP)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-0.5 0.5]);
-colorbar
-set(gcf,'renderer','painters')
-title('Forecast - Hindcast P');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_pdiffP.png'])
-
-figure(9)
-%D
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) 
-surfm(geolat_t,geolon_t,pdiffD)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-0.5 0.5]);
-colorbar
-set(gcf,'renderer','painters')
-title('Forecast - Hindcast D');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_pdiffD.png'])
-
-%pdiff all
-figure(10)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) 
-surfm(geolat_t,geolon_t,pdiffAll)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-0.5 0.5]);
-colorbar
-set(gcf,'renderer','painters')
-title('Forecast - Hindcast All');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_pdiffAll.png'])
-
-%% B pdiff
-figure(11)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) 
-surfm(geolat_t,geolon_t,pdiffB)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-0.5 0.5]);
-colorbar
-set(gcf,'renderer','painters')
-title('Forecast - Hindcast B');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_pdiffB.png'])
-
-%% Zp:Det diff
-figure(12)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) 
-surfm(geolat_t,geolon_t,diffZD)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-25 25]);
-colorbar
-set(gcf,'renderer','painters')
-title('Forecast - Hindcast Zp:Det');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_diffZpDet.png'])
-
-%% All 4 on subplots 0.5
-figure(13)
-% all F
-subplot('Position',[0 0.51 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,(pdiffF))
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-0.5 0.5]);
-colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
-set(gcf,'renderer','painters')
-title('F')
-
-% all D
-subplot('Position',[0 0 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,(pdiffD))
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-0.5 0.5]);
-set(gcf,'renderer','painters')
-title('D')
-
-% All P
-subplot('Position',[0.5 0.51 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,(pdiffP))
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-0.5 0.5]);
-set(gcf,'renderer','painters')
-title('P')
-
-% All
-subplot('Position',[0.5 0 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,(pdiffAll))
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-0.5 0.5]);
-set(gcf,'renderer','painters')
-title('All fishes')
-%stamp(cfile)
-print('-dpng',[pp 'Hist_Fore_',harv,'_global_pdiff_subplot50.png'])
-
-%% All 4 on subplots 1
-figure(23)
-% all F
-subplot('Position',[0 0.51 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,(pdiffF))
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-1 1]);
-colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
-set(gcf,'renderer','painters')
-title('F')
-
-% all D
-subplot('Position',[0 0 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,(pdiffD))
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-1 1]);
-set(gcf,'renderer','painters')
-title('D')
-
-% All P
-subplot('Position',[0.5 0.51 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,(pdiffP))
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-1 1]);
-set(gcf,'renderer','painters')
-title('P')
-
-% All
-subplot('Position',[0.5 0 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,(pdiffAll))
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-1 1]);
-set(gcf,'renderer','painters')
-title('All fishes')
-%stamp(cfile)
-print('-dpng',[pp 'Hist_Fore_',harv,'_global_pdiff_subplot100.png'])
-
-%% All 4 on subplots 100%
-figure(33)
-% all F
-subplot('Position',[0 0.51 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,100*(pdiffF))
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
-colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
-set(gcf,'renderer','painters')
-title('F')
-
-% all D
-subplot('Position',[0 0 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,100*(pdiffD))
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
-set(gcf,'renderer','painters')
-title('D')
-
-% All P
-subplot('Position',[0.5 0.51 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,100*(pdiffP))
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
-set(gcf,'renderer','painters')
-title('P')
-
-% All
-subplot('Position',[0.5 0 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,100*(pdiffAll))
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
-set(gcf,'renderer','painters')
-title('All fishes')
-%stamp(cfile)
-print('-dpng',[pp 'Hist_Fore_',harv,'_global_pdiff_subplot100p.png'])
-
-
-%% All 4 on subplots 100%
-figure(43)
-% all M
-subplot('Position',[0 0.51 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,100*(pdiffM))
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
-colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
-set(gcf,'renderer','painters')
-title('Med')
-
-% all L
-subplot('Position',[0.5 0.51 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,100*(pdiffL))
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
-set(gcf,'renderer','painters')
-title('Lrg')
-%stamp(cfile)
-print('-dpng',[pp 'Hist_Fore_',harv,'_global_sizes_pdiff_subplot100p.png'])
-
-%% Ratios on subplots red-white-blue
-% 3 figure subplot P:D, P:F, L:M
-figure(14)
-subplot('Position',[0 0.53 0.5 0.5])
-%P:D
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,diffPD)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-0.5 0.5]);
-set(gcf,'renderer','painters')
-title('Large Pelagics vs. Demersals')
-
-%P:F
-subplot('Position',[0.5 0.53 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,diffPF)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-0.5 0.5]);
-set(gcf,'renderer','painters')
-title('Large Pelagics vs. Forage Fishes')
-
-%L:M
-subplot('Position',[0.25 0.0 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,diffLM)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-0.5 0.5]);
-colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
-set(gcf,'renderer','painters')
-title('Large vs. Medium')
-%stamp(cfile)
-print('-dpng',[pp 'Hist_Fore_',harv,'_global_ratios_diff_subplot.png'])
-
-%% F Ratios on subplots red-white-blue w/ZpDet
-% 3 figure subplot F:D, F:P, Z:Det
-figure(24)
-subplot('Position',[0 0.53 0.5 0.5])
-%F:D
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,diffFD)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-0.5 0.5]);
-set(gcf,'renderer','painters')
-title('Forage Fishes vs. Demersals')
-
-%F:P
-subplot('Position',[0.5 0.53 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,diffFP)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-0.5 0.5]);
-set(gcf,'renderer','painters')
-colorbar('Position',[0.2 0.56 0.6 0.025],'orientation','horizontal')
-title('Forage Fishes vs. Large Pelagics')
-
-%Zoo:Det
-subplot('Position',[0.25 0.02 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,(diffZD))
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-10 10]);
-set(gcf,'renderer','painters')
-title('Zooplankton to Detritus')
-colorbar('Position',[0.2 0.05 0.6 0.025],'orientation','horizontal')
-print('-dpng',[pp 'Hist_Fore_',harv,'_global_Fratios_diff_subplot_ZpDet.png'])
-
-%% Ratios on subplots with ZpDet
-% 4 figure subplot P:D, P:F, L:M, Zp:Det
-figure(15)
-% PD
-subplot('Position',[0 0.51 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,(diffPD))
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-0.5 0.5]);
-colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
-set(gcf,'renderer','painters')
-title('Large Pelagics vs. Demersals')
-
-% all ZD
-subplot('Position',[0 0 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,(diffZD))
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-10 10]);
-set(gcf,'renderer','painters')
-title('Zooplankton to Detritus')
-colorbar('Position',[0.035 0.05 0.425 0.025],'orientation','horizontal')
-
-% PF
-subplot('Position',[0.5 0.51 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,(diffPF))
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-0.5 0.5]);
-set(gcf,'renderer','painters')
-title('Large Pelagics vs. Forage Fishes')
-
-% LM
-subplot('Position',[0.5 0 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,(diffLM))
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-0.5 0.5]);
-set(gcf,'renderer','painters')
-title('Large vs. Medium Fishes')
-%stamp(cfile)
-print('-dpng',[pp 'Hist_Fore_',harv,'_global_ratios_subplot_ZpDet.png'])
 
 %% F Ratios on subplots with ZpDet
 % 4 figure subplot F:D, F:P, M:L, Zp:Det
@@ -1122,6 +518,121 @@ set(gcf,'renderer','painters')
 title('Forecast - Hindcast Fish')
 %stamp(cfile)
 print('-dpng',[pp 'Hist_Fore_',harv,'_global_pdiff_food_fish_subplot.png'])
+
+%% 6 plot pdiff bio subplot for ms Supp
+figure(50)
+%A - F
+subplot('Position',[0.01 0.68 0.4 0.3])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*pdiffF)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+%colorbar('Position',[0.385 0.695 0.025 0.275],'orientation','vertical','AxisLocation','out')
+set(gcf,'renderer','painters')
+text(0,1.75,'Forage','HorizontalAlignment','center')
+text(-2.75,1.75,'A')
+%B - B
+subplot('Position',[0.41 0.68 0.4 0.3])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*pdiffB)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+%colorbar('Position',[0.825 0.695 0.025 0.275],'orientation','vertical','AxisLocation','out')
+set(gcf,'renderer','painters')
+text(0,1.75,'Benthos','HorizontalAlignment','center')
+text(-2.75,1.75,'B')
+%C - P
+subplot('Position',[0.01 0.37 0.4 0.3])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*pdiffP)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+%colorbar('Position',[0.385 0.385 0.025 0.275],'orientation','vertical','AxisLocation','out')
+set(gcf,'renderer','painters')
+text(0,1.75,'Large pelagic','HorizontalAlignment','center')
+text(-2.75,1.75,'C')
+%D - D
+subplot('Position',[0.41 0.37 0.4 0.3])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*pdiffD)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+colorbar('Position',[0.8 0.25 0.025 0.5],'orientation','vertical','AxisLocation','out')
+set(gcf,'renderer','painters')
+text(0,1.75,'Demersal','HorizontalAlignment','center')
+text(-2.75,1.75,'D')
+%E - Pel
+subplot('Position',[0.01 0.06 0.4 0.3])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*pdiffPel)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+%colorbar('Position',[0.385 0.075 0.025 0.275],'orientation','vertical','AxisLocation','out')
+set(gcf,'renderer','painters')
+text(0,1.75,'All pelagic','HorizontalAlignment','center')
+text(-2.75,1.75,'E')
+%F - All
+subplot('Position',[0.41 0.06 0.4 0.3])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*pdiffAll)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+%colorbar('Position',[0.825 0.075 0.025 0.275],'orientation','vertical','AxisLocation','out')
+set(gcf,'renderer','painters')
+text(0,1.75,'All fish','HorizontalAlignment','center')
+text(-2.75,1.75,'F')
+print('-dpng',[pp 'Hist_Fore_',harv,'_global_pdiff_biom_6plot.png'])
+
+%% Just Bent and All on subplot
+figure(51)
+% 
+subplot('Position',[0 0.51 0.49 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*(pdiffB))
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-50 50]);
+colorbar('Position',[0.025 0.55 0.45 0.025],'orientation','horizontal')
+%colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
+set(gcf,'renderer','painters')
+text(0,1.75,'Benthos','HorizontalAlignment','center')
+text(-2.75,1.75,'A')
+
+% 
+%subplot('Position',[0 0 0.5 0.5])
+subplot('Position',[0.5 0.51 0.49 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*(pdiffAll))
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+colorbar('Position',[0.525 0.55 0.45 0.025],'orientation','horizontal')
+set(gcf,'renderer','painters')
+text(0,1.75,'All fish','HorizontalAlignment','center')
+text(-2.75,1.75,'B')
+print('-dpng',[pp 'Hist_Fore_',harv,'_global_pdiff_biom_Bent_All.png'])
 
 
 

@@ -1,11 +1,12 @@
-% FEISTY Historic runs of best parameter sets
-% varying 6 most sensitive params (added kt)
+% FEISTY Hindcast runs of best parameter sets
+% varying 6 most sensitive params
+% calc ts of area-int fractions
 
 clear all
 close all
 
-global GRD
-global PI_be_cutoff pdc L_s L_m L_l M_s M_m M_l L_zm L_zl
+global DAYS GRD NX ID
+global DT PI_be_cutoff pdc L_s L_m L_l M_s M_m M_l L_zm L_zl
 global Z_s Z_m Z_l Lambda K_l K_j K_a h gam kt bpow
 global bent_eff rfrac D J Sm A benc bcmx amet
 global Tu_s Tu_m Tu_l Nat_mrt MORT
@@ -26,11 +27,10 @@ area_mat = repmat(area,1,145*12);
 
 pp = ['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/'...
     'param_ensemble/Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/'...
-    '/full_runs/Hist_param6_mid_best/'];
+    '/full_runs/Fore_param6_mid_best/'];
 if (~isfolder(pp))
     mkdir(pp)
 end
-
 
 %%
 nfile = ['/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_met-k086_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/'];
@@ -39,10 +39,7 @@ nfile = ['/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_met-k086
 % params = red_params;
 load([nfile 'LHS_param6_mid6_kt3_bestAIC_params_Fupneg_mult10_Pneg2_mult3_reduced.mat'],...
     'red_params');
-% newp = find(red_params(:,6)==0.0955);
-% params = red_params(newp,:);
 params = red_params;
-
 nparam = length(params);
 
 haTsF = NaN*ones(nparam,145*12);
@@ -63,6 +60,9 @@ hatDP   = hatPD;
 hatDF   = hatPD;
 hatFP   = hatPD;
 hatPF   = hatPD;
+hatF    = hatPD;
+hatP    = hatPD;
+hatPel  = hatPD;
 
 %%
 for j = 1:length(params)
@@ -79,13 +79,13 @@ for j = 1:length(params)
     cfile = ['/Volumes/FEISTY/NC/Matlab_new_size/' simname];
     
     %% timeseries with area
-    netcdf_ts_areaint_hist_fished_bio_prod_ens(fname,simname,area_mat);
+    netcdf_ts_areaint_hist_fished_prod_ens(fname,simname,area_mat);
     
-    load([fname '_Means_' simname '.mat'],...
+    load([fname '_Means_prod_' simname '.mat'],...
         'sf_tamean','sp_tamean','sd_tamean',...
         'mf_tamean','mp_tamean','md_tamean',...
         'lp_tamean','ld_tamean','b_tamean',...
-    'tPD','tFD','tPelD','tDPel','tDP','tDF','tFP','tPF');
+    'tPD','tFD','tPelD','tDPel','tDP','tDF','tFP','tPF','tF','tP','tPel');
     
     %% Time series
     haTsF(j,:) = sf_tamean;
@@ -106,11 +106,19 @@ for j = 1:length(params)
     hatDF(j,:) = tDF;
     hatFP(j,:) = tFP;
     hatPF(j,:) = tPF;
+    hatF(j,:)  = tF;
+    hatP(j,:)  = tP;
+    hatPel(j,:)= tPel;
+    
     
 end
-%%
-epath = '/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/';
+epath = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/';
+fpath = '/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/';
 save([epath 'Historic_All_fish03_ensem6_mid_temp3_bestAIC_multFup_multPneg.mat'],...
     'haTsF','haTsP','haTsD','haTmF','haTmP','haTmD','haTB','haTlP','haTlD',...
-    'hatPD','hatFD','hatPelD','hatDPel','hatDP','hatDF','hatFP','hatPF','-append')
-
+    'hatPD','hatFD','hatPelD','hatDPel','hatDP','hatDF','hatFP','hatPF',...
+    'hatF','hatP','hatPel','-append')
+save([fpath 'Historic_All_fish03_ensem6_mid_temp3_bestAIC_multFup_multPneg.mat'],...
+    'haTsF','haTsP','haTsD','haTmF','haTmP','haTmD','haTB','haTlP','haTlD',...
+    'hatPD','hatFD','hatPelD','hatDPel','hatDP','hatDF','hatFP','hatPF',...
+    'hatF','hatP','hatPel','-append')

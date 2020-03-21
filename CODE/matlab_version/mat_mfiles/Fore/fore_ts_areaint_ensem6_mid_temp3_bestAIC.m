@@ -60,6 +60,9 @@ fatDP   = fatPD;
 fatDF   = fatPD;
 fatFP   = fatPD;
 fatPF   = fatPD;
+fatF    = fatPD;
+fatP    = fatPD;
+fatPel  = fatPD;
 
 %%
 for j = 1:length(params)
@@ -82,7 +85,7 @@ for j = 1:length(params)
         'sf_tamean','sp_tamean','sd_tamean',...
         'mf_tamean','mp_tamean','md_tamean',...
         'lp_tamean','ld_tamean','b_tamean',...
-    'tPD','tFD','tPelD','tDPel','tDP','tDF','tFP','tPF');
+    'tPD','tFD','tPelD','tDPel','tDP','tDF','tFP','tPF','tF','tP','tPel');
     
     %% Time series
     faTsF(j,:) = sf_tamean;
@@ -103,10 +106,19 @@ for j = 1:length(params)
     fatDF(j,:) = tDF;
     fatFP(j,:) = tFP;
     fatPF(j,:) = tPF;
+    fatF(j,:)  = tF;
+    fatP(j,:)  = tP;
+    fatPel(j,:)= tPel;
     
     
 end
-epath = '/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/';
+epath = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/';
+fpath = '/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/';
 save([epath 'Forecast_All_fish03_ensem6_mid_temp3_bestAIC_multFup_multPneg.mat'],...
     'faTsF','faTsP','faTsD','faTmF','faTmP','faTmD','faTB','faTlP','faTlD',...
-    'fatPD','fatFD','fatPelD','fatDPel','fatDP','fatDF','fatFP','fatPF','-append')
+    'fatPD','fatFD','fatPelD','fatDPel','fatDP','fatDF','fatFP','fatPF',...
+    'fatF','fatP','fatPel','-append')
+save([fpath 'Forecast_All_fish03_ensem6_mid_temp3_bestAIC_multFup_multPneg.mat'],...
+    'faTsF','faTsP','faTsD','faTmF','faTmP','faTmD','faTB','faTlP','faTlD',...
+    'fatPD','fatFD','fatPelD','fatDPel','fatDP','fatDF','fatFP','fatPF',...
+    'fatF','fatP','fatPel','-append')

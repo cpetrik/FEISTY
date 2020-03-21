@@ -1,132 +1,120 @@
-function netcdf_ts_areaint_fore_fished_bio_prod_ens(fname,simname,area)
+function netcdf_ts_areaint_hist_fished_prod_ens(fname,simname,area)
 
 % FEISTY output at all locations
 
 %% SP
 prod=[];
-ncid = netcdf.open([fname '_sml_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fname '_prod_sml_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
     eval([ varname ' = netcdf.getVar(ncid,i-1);']);
-    eval([ varname '(' varname ' == 99999) = NaN;']);
+    eval([ varname '(' varname ' >= 9.9692e+36) = NaN;']);
 end
 netcdf.close(ncid);
 
-[ni,nt] = size(biomass);
-SP.bio = biomass;
+[ni,nt] = size(prod);
+
 SP.prod = prod;
-clear biomass prod
+clear prod
 
-% SF
+%% SF
 prod=[];
-ncid = netcdf.open([fname '_sml_f.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fname '_prod_sml_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
     eval([ varname ' = netcdf.getVar(ncid,i-1);']);
-    eval([ varname '(' varname ' == 99999) = NaN;']);
+    eval([ varname '(' varname ' >= 9.9692e+36) = NaN;']);
 end
 netcdf.close(ncid);
 
-SF.bio = biomass(:,1:nt);
 SF.prod = prod(:,1:nt);
-clear biomass prod
+clear prod
 
 % SD
 prod=[];
-ncid = netcdf.open([fname '_sml_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fname '_prod_sml_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
     eval([ varname ' = netcdf.getVar(ncid,i-1);']);
-    eval([ varname '(' varname ' == 99999) = NaN;']);
+    eval([ varname '(' varname ' >= 9.9692e+36) = NaN;']);
 end
 netcdf.close(ncid);
 
-SD.bio = biomass;
 SD.prod = prod;
-clear biomass prod
+clear prod
 
-% MP
+%% MP
 prod=[];
-ncid = netcdf.open([fname '_med_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fname '_prod_med_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
     eval([ varname ' = netcdf.getVar(ncid,i-1);']);
-    eval([ varname '(' varname ' == 99999) = NaN;']);
+    eval([ varname '(' varname ' >= 9.9692e+36) = NaN;']);
 end
 netcdf.close(ncid);
 
-MP.bio = biomass;
-MP.yield = yield;
 MP.prod = prod;
-clear biomass yield prod
+clear prod yield
 
 % MF
 prod=[];
-ncid = netcdf.open([fname '_med_f.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fname '_prod_med_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
     eval([ varname ' = netcdf.getVar(ncid,i-1);']);
-    eval([ varname '(' varname ' == 99999) = NaN;']);
+    eval([ varname '(' varname ' >= 9.9692e+36) = NaN;']);
 end
 netcdf.close(ncid);
 
-MF.bio = biomass;
-MF.yield = yield;
 MF.prod = prod;
-clear biomass yield prod
+clear prod yield
 
 % MD
 prod=[];
-ncid = netcdf.open([fname '_med_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fname '_prod_med_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
     eval([ varname ' = netcdf.getVar(ncid,i-1);']);
-    eval([ varname '(' varname ' == 99999) = NaN;']);
+    eval([ varname '(' varname ' >= 9.9692e+36) = NaN;']);
 end
 netcdf.close(ncid);
 
-MD.bio = biomass;
-MD.yield = yield;
 MD.prod = prod;
-clear biomass yield prod
+clear prod yield
 
 % LP
 prod=[];
-ncid = netcdf.open([fname '_lrg_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fname '_prod_lrg_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
     eval([ varname ' = netcdf.getVar(ncid,i-1);']);
-    eval([ varname '(' varname ' == 99999) = NaN;']);
+    eval([ varname '(' varname ' >= 9.9692e+36) = NaN;']);
 end
 netcdf.close(ncid);
 
-LP.bio = biomass;
-LP.yield = yield;
 LP.prod = prod;
-clear biomass yield prod
+clear prod yield
 
 % LD
 prod=[];
-ncid = netcdf.open([fname '_lrg_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fname '_prod_lrg_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
     eval([ varname ' = netcdf.getVar(ncid,i-1);']);
-    eval([ varname '(' varname ' == 99999) = NaN;']);
+    eval([ varname '(' varname ' >= 9.9692e+36) = NaN;']);
 end
 netcdf.close(ncid);
 
-LD.bio = biomass;
-LD.yield = yield;
 LD.prod = prod;
-clear biomass yield prod
+clear prod yield
 
 % Benthic material
 ncid = netcdf.open([fname '_bent.nc'],'NC_NOWRITE');
@@ -184,7 +172,7 @@ tF = nansum(F.*area) ./ nansum(All.*area);
 tPel = nansum((P.*area)+(F.*area)) ./ nansum(All.*area);
 
 %%
-save([fname '_Means_' simname '.mat'],...
+save([fname '_Means_prod_' simname '.mat'],...
     'sf_tamean','sp_tamean','sd_tamean',...
     'mf_tamean','mp_tamean','md_tamean',...
     'lp_tamean','ld_tamean','b_tamean',...

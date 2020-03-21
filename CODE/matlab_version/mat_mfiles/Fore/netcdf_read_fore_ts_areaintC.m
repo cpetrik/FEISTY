@@ -8,6 +8,7 @@ cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_no
 harv = 'All_fish03';
 
 fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
+epath=['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/' cfile '/'];
 
 cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
 load('/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/hindcast_gridspec.mat','AREA_OCN');
@@ -210,20 +211,31 @@ Bent.bio = biomass;
 clear biomass 
 
 %% Take means and totals
-%Time
-sp_tamean=mean(SP.bio.*area,1);
-sf_tamean=mean(SF.bio.*area,1);
-sd_tamean=mean(SD.bio.*area,1);
-mp_tamean=mean(MP.bio.*area,1);
-mf_tamean=mean(MF.bio.*area,1);
-md_tamean=mean(MD.bio.*area,1);
-lp_tamean=mean(LP.bio.*area,1);
-ld_tamean=mean(LD.bio.*area,1);
-b_tamean=mean(Bent.bio.*area,1);
 
-F = SF.bio + MF.bio;
-P = SP.bio + MP.bio + LP.bio;
-D = SD.bio + MD.bio + LD.bio;
+SF.prod(SF.prod(:)<0)=0;
+SP.prod(SP.prod(:)<0)=0;
+SD.prod(SD.prod(:)<0)=0;
+MF.prod(MF.prod(:)<0)=0;
+MP.prod(MP.prod(:)<0)=0;
+MD.prod(MD.prod(:)<0)=0;
+LP.prod(LP.prod(:)<0)=0;
+LD.prod(LD.prod(:)<0)=0;
+
+%Time
+sp_tamean=nansum(SP.prod.*area,1);
+sf_tamean=nansum(SF.prod.*area,1);
+sd_tamean=nansum(SD.prod.*area,1);
+mp_tamean=nansum(MP.prod.*area,1);
+mf_tamean=nansum(MF.prod.*area,1);
+md_tamean=nansum(MD.prod.*area,1);
+lp_tamean=nansum(LP.prod.*area,1);
+ld_tamean=nansum(LD.prod.*area,1);
+b_tamean=nansum(Bent.bio.*area,1);
+
+F = SF.prod + MF.prod;
+P = SP.prod + MP.prod + LP.prod;
+D = SD.prod + MD.prod + LD.prod;
+All = F+P+D;
 
 tPD = nansum(P.*area) ./ nansum((P.*area)+(D.*area));
 tFD = nansum(F.*area) ./ nansum((F.*area)+(D.*area));
@@ -235,12 +247,24 @@ tDF = nansum(D.*area) ./ nansum((D.*area)+(F.*area));
 tFP = nansum(F.*area) ./ nansum((F.*area)+(P.*area));
 tPF = nansum(P.*area) ./ nansum((P.*area)+(F.*area));
 
+tP = nansum(P.*area) ./ nansum(All.*area);
+tF = nansum(F.*area) ./ nansum(All.*area);
+tPel = nansum((P.*area)+(F.*area)) ./ nansum(All.*area);
+
 %%
 save([fpath 'Means_fore_',harv,'_' cfile '.mat'],...
     'sf_tamean','sp_tamean','sd_tamean',...
     'mf_tamean','mp_tamean','md_tamean',...
     'lp_tamean','ld_tamean','b_tamean',...
-    'tPD','tFD','tPelD','tDPel','tDP','tDF','tFP','tPF','-append');
+    'tPD','tFD','tPelD','tDPel','tDP','tDF','tFP','tPF',...
+    'tP','tF','tPel','-append');
+
+save([epath 'Means_fore_',harv,'_' cfile '.mat'],...
+    'sf_tamean','sp_tamean','sd_tamean',...
+    'mf_tamean','mp_tamean','md_tamean',...
+    'lp_tamean','ld_tamean','b_tamean',...
+    'tPD','tFD','tPelD','tDPel','tDP','tDF','tFP','tPF',...
+    'tP','tF','tPel','-append');
 
 
 

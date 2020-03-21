@@ -20,10 +20,10 @@ climatol_con = false;
 climatol_ngdc = false;
 pre_industrial = false;
 historic_pristine = false;
-historic_fished = false;
-historic_fished_ens = true;
+historic_fished = true;
+historic_fished_ens = false;
 forecast_pristine = false;
-forecast_fished = false;
+forecast_fished = true;
 forecast_fished_ens = false;
 
 tic
@@ -73,7 +73,8 @@ if historic_pristine
     Historic_pristine()
 end
 if historic_fished
-    Historic_fished()
+    %Historic_fished()
+    Historic_fished_prod()
 end
 if historic_fished_ens
     Historic_fished_ensemble6()

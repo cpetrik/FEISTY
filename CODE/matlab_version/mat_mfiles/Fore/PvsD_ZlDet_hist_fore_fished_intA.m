@@ -585,4 +585,29 @@ line(y(8:47),fakePD,'color',cmap_ppt(5,:),'Linewidth',2,'LineStyle','--','Parent
 line(y(8:47),tZD(8:47),'color',cm{6},'Linewidth',2,'Parent',h2); hold on;
 print('-dpng',[ppath 'Hist_Fore_',harv,'_tot_fracs_size_ZlDet_Fake.png'])
 
+%% Fake lines of expected trends
+fakeLM = tLM(8)+ linspace(0.1,0,40);
+fakePF = linspace(0.45,0.5,40);
+fakePD = linspace(0.5,0.65,40);
+
+figure('Units','pixels','Position',[200 200 330 260]);
+h1 = axes('Units','pixels','Position',axesPosition,...
+          'Color','w','XColor','k','YColor',[0.5 0.5 0.5],...
+          'XLim',xLimit,'YLim',[0.35 0.65],'NextPlot','add');
+h2 = axes('Units','pixels','Position',axesPosition+yWidth.*[-1 0 1 0],...
+          'Color','none','XColor','k','YColor',[0.5 0 1.0],...
+          'XLim',xLimit+[xOffset 0],'YLim',[2.5 2.9],...
+          'XTick',[],'XTickLabel',[],'NextPlot','add');
+% h3 = axes('Units','pixels','Position',axesPosition+yWidth.*[-2 0 2 0],...
+%           'Color','none','XColor','k','YColor','k',...
+%           'XLim',xLimit+[2*xOffset 0],'YLim',[14 18],...
+%           'XTick',[],'XTickLabel',[],'NextPlot','add');
+xlabel(h1,'Year');
+%ylabel(h3,'values');
+
+line(y(8:47),fakePF,'color',cmap_ppt(1,:),'Linewidth',2,'LineStyle','--','Parent',h1); hold on;
+line(y(8:47),fakePD,'color',cmap_ppt(5,:),'Linewidth',2,'LineStyle','--','Parent',h1); hold on;
+line(y(8:47),tZD(8:47),'color',cm{6},'Linewidth',2,'Parent',h2); hold on;
+print('-dpng',[ppath 'Hist_Fore_',harv,'_tot_fracs_size_ZlDet_Fakev2.png'])
+
 

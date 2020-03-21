@@ -197,6 +197,26 @@ set(gca,'XTickLabel',{'F','P','D'})
 %ylabel('Percent change')
 print('-dpng',[pp 'Hist_Fore_All_fish03_troph_amp_size_type_ensem_1std.png'])
 
+%%
+figure(13)
+subplot(2,2,1)
+b=bar(pbar*100,'k'); hold on;
+b.FaceColor = [0.65 0.65 0.65];
+ylim([-25 0])
+set(gca,'XTickLabel',{'NPP','MesoZ','Det'})
+ylabel('Percent change')
+
+subplot(2,2,2)
+b=bar(bbar*100,'k'); hold on;
+b.FaceColor = [0.65 0.65 0.65];
+ylim([-25 0])
+er = errorbar(1:4,100*bbar,100*bstd,'LineWidth',1.5);    
+er.Color = [0 0 0];                            
+er.LineStyle = 'none';
+set(gca,'XTickLabel',{'F','P','D','B'})
+%ylabel('Percent change')
+print('-dpng',[pp 'Hist_Fore_All_fish03_troph_amp_bgc_type_ensem_1std.png'])
+
 %% tables
 tstats(:,1) = fmean';
 tstats(:,2) = fstd';
