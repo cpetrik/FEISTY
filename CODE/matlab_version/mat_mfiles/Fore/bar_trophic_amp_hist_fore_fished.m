@@ -41,6 +41,11 @@ Adet_fore = 365 * det_fore .* AREA_OCN;
 Anpp_hist = 365 * npp_hist .* AREA_OCN; 
 Anpp_fore = 365 * npp_fore .* AREA_OCN; 
 %nansum(Anpp_mean(:))/9 ~ 50 PgC (1PgC = 1e15gC)
+%nansum(Anpp_hist(:))/9 = 5.4743e+16
+
+%grams to tons
+%1e-6*5e16 = 5.0000e+10
+%1.10231e-6*5e16 = 5.5116e+10
 
 %% FEISTY Output
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
