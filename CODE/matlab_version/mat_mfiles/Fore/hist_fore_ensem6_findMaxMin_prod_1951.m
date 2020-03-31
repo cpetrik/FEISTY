@@ -2,8 +2,8 @@
 % Historic (1860-2005) and Forecast time period (2006-2100) at all locations
 % Saved as mat files
 % Ensemble mid6, temp3
-% Find ensemble end members with max and min change relative to their 1951
-% value
+% Find ensemble end members with max and min change in production relative 
+% to their 1951 value
 
 clear all
 close all
@@ -20,53 +20,54 @@ grid = csvread([cpath 'grid_csv.csv']);
 %% Original parameters
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 harv = 'All_fish03';
-fpath = ['/Volumes/FEISTY/NC/Matlab_new_size/',...
-    'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100/'];
-load([fpath 'Time_Means_Historic_Forecast_',harv,'_' cfile '.mat']);
+fpath = ['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
+load([fpath 'Time_Means_Historic_Forecast_',harv,'_' cfile '.mat'],...
+    'HF_tamean','HP_tamean','HD_tamean','HB_tamean',...
+    'FF_tamean','FP_tamean','FD_tamean','FB_tamean',...
+    'HA_tamean','FA_tamean');
 
 %% Ensemble parameter sets
-epath = ['/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/',...
-    'Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/'];
-load([epath 'Historic_All_fish03_ensem6_mid_temp3_bestAIC_multFup_multPneg.mat']);
-load([epath 'Forecast_All_fish03_ensem6_mid_temp3_bestAIC_multFup_multPneg.mat']);
+dpath = ['/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/',...
+    'Dc_enc-k063_met-k086_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/'];
+epath = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/';
+load([epath 'Historic_All_fish03_ensem6_mid_temp3_bestAIC_multFup_multPneg.mat'],...
+    'haTsF','haTsP','haTsD','haTmF','haTmP','haTmD','haTB','haTlP','haTlD');
+load([epath 'Forecast_All_fish03_ensem6_mid_temp3_bestAIC_multFup_multPneg.mat'],...
+    'faTsF','faTsP','faTsD','faTmF','faTmP','faTmD','faTB','faTlP','faTlD');
 
-lpath = ['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/',...
-    'Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/'];
+%aT=tamean=nansum(prod.*area,1);
 
-load([lpath 'LHS_param6_mid6_kt3_bestAIC_params_Fupneg_mult10_Pneg2_mult3_reduced.mat'],...
+% lpath = ['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/',...
+%     'Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/'];
+load([epath 'LHS_param6_mid6_kt3_bestAIC_params_Fupneg_mult10_Pneg2_mult3_reduced.mat'],...
     'red_params','ptext');
 
 %% ts
 %In original saved file
-% y1 = 1860+(1/12):(1/12):2005;
-% y2 = 2005+(1/12):(1/12):2100;
-% y = [y1 y2];
+y1 = 1860+(1/12):(1/12):2005;
+y2 = 2005+(1/12):(1/12):2100;
+y = [y1 y2];
 
-% SOMETHING WRONG WITH MOVING MEAN OF #28 AROUND 1949
-% FIX TS OF SMALL FISH AT T=1081
-%tF[1081,28]=1.94e+35
-%tP[1081,28]=1.94e+35
-%tD[1081,28]=1.94e+35
-%tA[1081,28]=5.83e+35
-hTsF(28,1081) = (hTsF(28,1080) + hTsF(28,1082))/2;
-hTsP(28,1081) = (hTsP(28,1080) + hTsP(28,1082))/2;
-hTsD(28,1081) = (hTsD(28,1080) + hTsD(28,1082))/2;
-
-HF = hTsF + hTmF;
-HP = hTsP + hTmP + hTlP;
-HD = hTsD + hTmD + hTlD;
+HF = haTsF + haTmF;
+HP = haTsP + haTmP + haTlP;
+HD = haTsD + haTmD + haTlD;
 HA = HF + HP + HD;
 
-FF = fTsF + fTmF;
-FP = fTsP + fTmP + fTlP;
-FD = fTsD + fTmD + fTlD;
+FF = faTsF + faTmF;
+FP = faTsP + faTmP + faTlP;
+FD = faTsD + faTmD + faTlD;
 FA = FF + FP + FD;
+
+tForig = [HF_tamean FF_tamean];
+tPorig = [HP_tamean FP_tamean];
+tDorig = [HD_tamean FD_tamean];
+tAorig = [HA_tamean FA_tamean];
 
 tF = [HF FF];
 tP = [HP FP];
 tD = [HD FD];
 tA = [HA FA];
-tB = [hTB fTB];
+tB = [haTB faTB];
 
 tF = [tF; tForig];
 tP = [tP; tPorig];
@@ -107,9 +108,9 @@ vstats(5,4) = var(mtB(:,fyr));
 
 Stab = array2table(vstats,'VariableNames',{'HvarAll','FvarAll','HvarMean','FvarMean'},...
     'RowNames',{'All','F','P','D','B'});
-writetable(Stab,[epath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_Var.csv'],...
+writetable(Stab,[epath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_Var_prod.csv'],...
     'Delimiter',',','WriteRowNames',true)
-writetable(Stab,[lpath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_Var.csv'],...
+writetable(Stab,[dpath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_Var_prod.csv'],...
     'Delimiter',',','WriteRowNames',true)
 
 %% Difference
@@ -164,21 +165,90 @@ Ptab = array2table(pstats,'VariableNames',['sim',ptext],...
     'RowNames',{'maxAll','minAll','maxF','minF','maxP','minP','maxD','minD',...
     'maxB','minB'});
 
-writetable(Ttab,[epath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_MaxMinDiffs.csv'],...
+writetable(Ttab,[epath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_MaxMinDiffs_prod.csv'],...
     'Delimiter',',','WriteRowNames',true)
-writetable(Ttab,[lpath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_MaxMinDiffs.csv'],...
+writetable(Ttab,[dpath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_MaxMinDiffs_prod.csv'],...
     'Delimiter',',','WriteRowNames',true)
 
-writetable(Ptab,[epath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_MaxMinDiffSims.csv'],...
+writetable(Ptab,[epath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_MaxMinDiffSims_prod.csv'],...
     'Delimiter',',','WriteRowNames',true)
-writetable(Ptab,[lpath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_MaxMinDiffSims.csv'],...
+writetable(Ptab,[dpath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_MaxMinDiffSims_prod.csv'],...
     'Delimiter',',','WriteRowNames',true)
 
 %% save
-save([epath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_VarMaxMinDiffSims.mat'],...
+save([epath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_VarMaxMinDiffSims_prod.mat'],...
     'Stab','vstats','Ttab','tstats','Ptab','pstats');
-save([lpath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_VarMaxMinDiffSims.mat'],...
+save([dpath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_VarMaxMinDiffSims_prod.mat'],...
     'Stab','vstats','Ttab','tstats','Ptab','pstats');
+
+%% Percent Difference
+% percent difference from 1951?
+pdF = (tF(:,hyr(1)) - tF(:,end)) ./ tF(:,hyr(1)); 
+pdP = (tP(:,hyr(1)) - tP(:,end)) ./ tP(:,hyr(1));
+pdD = (tD(:,hyr(1)) - tD(:,end)) ./ tD(:,hyr(1)); 
+pdA = (tA(:,hyr(1)) - tA(:,end)) ./ tA(:,hyr(1));
+pdB = (tB(:,hyr(1)) - tB(:,end)) ./ tB(:,hyr(1));
+
+mmstat(1,1) = max(pdA);
+mmstat(1,2) = mean(pdA);
+mmstat(1,3) = min(pdA);
+mmstat(2,1) = max(pdF);
+mmstat(2,2) = mean(pdF);
+mmstat(2,3) = min(pdF);
+mmstat(3,1) = max(pdP);
+mmstat(3,2) = mean(pdP);
+mmstat(3,3) = min(pdP);
+mmstat(4,1) = max(pdD);
+mmstat(4,2) = mean(pdD);
+mmstat(4,3) = min(pdD);
+mmstat(5,1) = max(pdB);
+mmstat(5,2) = mean(pdB);
+mmstat(5,3) = min(pdB);
+
+pdstat(1,1) = find(pdA==max(pdA));
+pdstat(2,1) = find(pdA==min(pdA));
+pdstat(3,1) = find(pdF==max(pdF));
+pdstat(4,1) = find(pdF==min(pdF));
+pdstat(5,1) = find(pdP==max(pdP));
+pdstat(6,1) = find(pdP==min(pdP));
+pdstat(7,1) = find(pdD==max(pdD));
+pdstat(8,1) = find(pdD==min(pdD));
+pdstat(9,1)  = find(pdB==max(pdB));
+pdstat(10,1) = find(pdB==min(pdB));
+
+pdstat(1,2:7) = red_params(pdstat(1,1),:);
+pdstat(2,2:7) = red_params(pdstat(2,1),:);
+pdstat(3,2:7) = red_params(pdstat(3,1),:);
+pdstat(4,2:7) = red_params(pdstat(4,1),:);
+pdstat(5,2:7) = red_params(pdstat(5,1),:);
+pdstat(6,2:7) = red_params(pdstat(6,1),:);
+pdstat(7,2:7) = red_params(pdstat(7,1),:);
+pdstat(8,2:7) = red_params(pdstat(8,1),:);
+pdstat(9,2:7)  = red_params(pdstat(9,1),:);
+pdstat(10,2:7) = red_params(pdstat(10,1),:);
+
+Mtab = array2table(mmstat,'VariableNames',{'max','mean','min'},...
+    'RowNames',{'All','F','P','D','B'});
+
+Dtab = array2table(pdstat,'VariableNames',['sim',ptext],...
+    'RowNames',{'maxAll','minAll','maxF','minF','maxP','minP','maxD','minD',...
+    'maxB','minB'});
+
+writetable(Mtab,[epath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_MaxMinpPdiffs_prod.csv'],...
+    'Delimiter',',','WriteRowNames',true)
+writetable(Mtab,[dpath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_MaxMinPdiffs_prod.csv'],...
+    'Delimiter',',','WriteRowNames',true)
+
+writetable(Dtab,[epath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_MaxMinPdiffSims_prod.csv'],...
+    'Delimiter',',','WriteRowNames',true)
+writetable(Dtab,[dpath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_MaxMinPdiffSims_prod.csv'],...
+    'Delimiter',',','WriteRowNames',true)
+
+%% save
+save([epath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_VarMaxMinDiffSims_prod.mat'],...
+    'Mtab','mmstat','Dtab','pdstat','-append');
+save([dpath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_VarMaxMinDiffSims_prod.mat'],...
+    'Mtab','mmstat','Dtab','pdstat','-append');
 
 %% Line color order
 cm21=[1 0 0;...    %r
@@ -236,9 +306,9 @@ xlim([1950 2100])
 %ylim([0.425 0.725])
 legend('max','mean','min')
 legend('location','southwest')
-ylabel('Change in biomass (g m^-^2) relative to 1951')
+ylabel('Change in production (g d^-^1) relative to 1951')
 title('All')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_ensem_mid6_temp3_MaxMinAll.png'])
+print('-dpng',[ppath 'Hist_Fore_',harv,'_ensem_mid6_temp3_MaxMinAll_prod.png'])
 
 %% F
 figure(2)
@@ -249,9 +319,9 @@ xlim([1950 2100])
 %ylim([0.425 0.725])
 legend('max','mean','min')
 legend('location','southwest')
-ylabel('Change in biomass (g m^-^2) relative to 1951')
+ylabel('Change in production (g d^-^1) relative to 1951')
 title('Forage fish')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_ensem_mid6_temp3_MaxMinF.png'])
+print('-dpng',[ppath 'Hist_Fore_',harv,'_ensem_mid6_temp3_MaxMinF_prod.png'])
 
 %% P
 figure(3)
@@ -262,9 +332,9 @@ xlim([1950 2100])
 %ylim([0.425 0.725])
 legend('max','mean','min')
 legend('location','southwest')
-ylabel('Change in biomass (g m^-^2) relative to 1951')
+ylabel('Change in production (g d^-^1) relative to 1951')
 title('Large pelagic fish')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_ensem_mid6_temp3_MaxMinP.png'])
+print('-dpng',[ppath 'Hist_Fore_',harv,'_ensem_mid6_temp3_MaxMinP_prod.png'])
 
 %% D
 figure(4)
@@ -275,9 +345,9 @@ xlim([1950 2100])
 %ylim([0.425 0.725])
 legend('max','mean','min')
 legend('location','southwest')
-ylabel('Change in biomass (g m^-^2) relative to 1951')
+ylabel('Change in production (g d^-^1) relative to 1951')
 title('Demersal fish')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_ensem_mid6_temp3_MaxMinD.png'])
+print('-dpng',[ppath 'Hist_Fore_',harv,'_ensem_mid6_temp3_MaxMinD_prod.png'])
 
 %% B
 figure(10)
@@ -288,9 +358,9 @@ xlim([1950 2100])
 %ylim([0.425 0.725])
 legend('max','mean','min')
 legend('location','southwest')
-ylabel('Change in biomass (g m^-^2) relative to 1951')
+ylabel('Change in production (g d^-^1) relative to 1951')
 title('Benthos')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_ensem_mid6_temp3_MaxMinB.png'])
+print('-dpng',[ppath 'Hist_Fore_',harv,'_ensem_mid6_temp3_MaxMinB_prod.png'])
 
 %%
 % Line color order
@@ -304,20 +374,20 @@ cm5=[0.5 0 1;...   %purple
 set(groot,'defaultAxesColorOrder',cm5);
 
 %% Max
-xspec = [39;33;35;36;26];
+xspec = pstats(1:2:end,1);
 xtext = {'max \DeltaAll','max \DeltaF','max \DeltaP','max \DeltaD','max \DeltaB'};
 
 figure(5)
 subplot(3,2,5)
 plot(y,dtA(xspec,:)); hold on;
 xlim([1950 2100])
-ylim([-1 0.4])
+ylim([-7e-3 3e-3])
 title('All')
 
 subplot(3,2,1)
 plot(y,dtF(xspec,:)); hold on;
 xlim([1950 2100])
-ylim([-0.3 0.3])
+ylim([-3e-3 2e-3])
 % legend(num2str(spec))
 % legend('location','southwest')
 title('Forage')
@@ -325,13 +395,13 @@ title('Forage')
 subplot(3,2,2)
 plot(y,dtP(xspec,:)); hold on;
 xlim([1950 2100])
-ylim([-0.7 0.1])
+ylim([-4e-3 1e-3])
 title('Large pelagics')
 
 subplot(3,2,3)
 plot(y,dtD(xspec,:)); hold on;
 xlim([1950 2100])
-ylim([-0.25 0.05])
+ylim([-5.5e-4 1e-4])
 title('Demersals')
 legend(xtext)
 legend('location','southwest')
@@ -339,26 +409,26 @@ legend('location','southwest')
 subplot(3,2,4)
 plot(y,dtB(xspec,:)); hold on;
 xlim([1950 2100])
-ylim([-0.2 0.2])
+ylim([-0.1 0.025])
 title('Benthos')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_ensem_mid6_temp3_max_ts.png'])
+print('-dpng',[ppath 'Hist_Fore_',harv,'_ensem_mid6_temp3_max_ts_prod.png'])
 
 
 %% Min
-nspec = [2;35;3;17;33];
+nspec = pstats(2:2:end,1);
 ntext = {'min \DeltaAll','min \DeltaF','min \DeltaP','min \DeltaD','min \DeltaB'};
 
 figure(6)
 subplot(3,2,5)
 plot(y,dtA(nspec,:)); hold on;
 xlim([1950 2100])
-ylim([-1 0.3])
+ylim([-6e-3 2e-3])
 title('All')
 
 subplot(3,2,1)
 plot(y,dtF(nspec,:)); hold on;
 xlim([1950 2100])
-ylim([-0.3 0.3])
+ylim([-3e-3 2e-3])
 % legend(num2str(spec))
 % legend('location','southwest')
 title('Forage')
@@ -366,157 +436,137 @@ title('Forage')
 subplot(3,2,2)
 plot(y,dtP(nspec,:)); hold on;
 xlim([1950 2100])
-ylim([-0.7 0.1])
-legend(ntext)
-legend('location','southwest')
+ylim([-1.5e-3 0.5e-3])
 title('Large pelagics')
 
 subplot(3,2,3)
 plot(y,dtD(nspec,:)); hold on;
 xlim([1950 2100])
-ylim([-0.25 0.05])
+ylim([-5e-4 1e-4])
+legend(ntext)
+legend('location','southwest')
 title('Demersals')
 
 subplot(3,2,4)
 plot(y,dtB(nspec,:)); hold on;
 xlim([1950 2100])
-ylim([-0.2 0.2])
+ylim([-0.1 0.1])
 title('Benthos')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_ensem_mid6_temp3_min_ts.png'])
+print('-dpng',[ppath 'Hist_Fore_',harv,'_ensem_mid6_temp3_min_ts_prod.png'])
 
-%% all types together
-figure(7)
+%% ------------------- P Diffs ------------------------------------------
+% moving means
+% mmtF = movmean(tF,12,2); 
+% mmtP = movmean(tP,12,2); 
+% mmtD = movmean(tD,12,2); 
+% mmtA = movmean(tA,12,2); 
+% mmtB = movmean(tB,12,2);
+
+%dtF = mmtF - mmtF(:,hyr(1));
+%percent difference from 1951
+mpdF = (-mmtF(:,hyr(1)) + mmtF) ./ mmtF(:,hyr(1)); 
+mpdP = (-mmtP(:,hyr(1)) + mmtP) ./ mmtP(:,hyr(1));
+mpdD = (-mmtD(:,hyr(1)) + mmtD) ./ mmtD(:,hyr(1)); 
+mpdA = (-mmtA(:,hyr(1)) + mmtA) ./ mmtA(:,hyr(1));
+mpdB = (-mmtB(:,hyr(1)) + mmtB) ./ mmtB(:,hyr(1));
+
+
+%% Max
+xspec = pdstat(1:2:end,1);
+xtext = {'max %\DeltaAll','max %\DeltaF','max %\DeltaP','max %\DeltaD',...
+    'max %\DeltaB'};
+
+figure(11)
 subplot(3,2,5)
-plot(y,dtA(xspec(1),:)); hold on;
-plot(y,dtF(xspec(1),:)); hold on;
-plot(y,dtP(xspec(1),:)); hold on;
-plot(y,dtD(xspec(1),:)); hold on;
-plot(y,dtB(xspec(1),:)); hold on;
+plot(y,mpdA(xspec,:)); hold on;
 xlim([1950 2100])
-ylim([-1 0.4])
-title('max \DeltaAll')
+ylim([-0.2 0.1])
+title('All')
 
 subplot(3,2,1)
-plot(y,dtA(xspec(2),:)); hold on;
-plot(y,dtF(xspec(2),:)); hold on;
-plot(y,dtP(xspec(2),:)); hold on;
-plot(y,dtD(xspec(2),:)); hold on;
-plot(y,dtB(xspec(2),:)); hold on;
+plot(y,mpdF(xspec,:)); hold on;
 xlim([1950 2100])
-ylim([-1 0.4])
-title('max \DeltaF')
+ylim([-0.2 0.1])
+% legend(num2str(spec))
+% legend('location','southwest')
+title('Forage')
 
 subplot(3,2,2)
-plot(y,dtA(xspec(3),:)); hold on;
-plot(y,dtF(xspec(3),:)); hold on;
-plot(y,dtP(xspec(3),:)); hold on;
-plot(y,dtD(xspec(3),:)); hold on;
-plot(y,dtB(xspec(3),:)); hold on;
+plot(y,mpdP(xspec,:)); hold on;
 xlim([1950 2100])
-ylim([-1 0.4])
-title('max \DeltaP')
+ylim([-0.4 0.1])
+title('Large pelagics')
 
 subplot(3,2,3)
-plot(y,dtA(xspec(4),:)); hold on;
-plot(y,dtF(xspec(4),:)); hold on;
-plot(y,dtP(xspec(4),:)); hold on;
-plot(y,dtD(xspec(4),:)); hold on;
-plot(y,dtB(xspec(4),:)); hold on;
+plot(y,mpdD(xspec,:)); hold on;
 xlim([1950 2100])
-ylim([-1 0.4])
-title('max \DeltaD')
-xlim([1950 2100])
+ylim([-0.25 0.05])
+title('Demersals')
+% legend(xtext)
+% legend('location','southwest')
 
 subplot(3,2,4)
-plot(y,dtA(xspec(5),:)); hold on;
-plot(y,dtF(xspec(5),:)); hold on;
-plot(y,dtP(xspec(5),:)); hold on;
-plot(y,dtD(xspec(5),:)); hold on;
-plot(y,dtB(xspec(5),:)); hold on;
+plot(y,mpdB(xspec,:)); hold on;
 xlim([1950 2100])
-ylim([-1 0.4])
-title('max \DeltaB')
-xlim([1950 2100])
+ylim([-0.25 0.25])
+title('Benthos')
 
 subplot(3,2,6)
-plot(y,dtA(xspec(5),:)); hold on;
-plot(y,dtF(xspec(5),:)); hold on;
-plot(y,dtP(xspec(5),:)); hold on;
-plot(y,dtD(xspec(5),:)); hold on;
-plot(y,dtB(xspec(5),:)); hold on;
+plot(y,mpdD(xspec,:)); hold on;
 xlim([1950 2100])
 ylim([1 2])
-xlim([1950 2100])
-legend('All','F','P','D','B')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_ensem_mid6_temp3_max_ts_v2.png'])
+legend(xtext)
+legend('location','southwest')
+print('-dpng',[ppath 'Hist_Fore_',harv,'_ensem_mid6_temp3_max_ts_prod_pdiff.png'])
 
-%%
-figure(8)
+
+%% Min
+nspec = pdstat(2:2:end,1);
+ntext = {'min %\DeltaAll','min %\DeltaF','min %\DeltaP','min %\DeltaD',...
+    'min %\DeltaB'};
+
+figure(12)
 subplot(3,2,5)
-plot(y,dtA(nspec(1),:)); hold on;
-plot(y,dtF(nspec(1),:)); hold on;
-plot(y,dtP(nspec(1),:)); hold on;
-plot(y,dtD(nspec(1),:)); hold on;
-plot(y,dtB(nspec(1),:)); hold on;
+plot(y,mpdA(nspec,:)); hold on;
 xlim([1950 2100])
-ylim([-1 0.4])
-title('min \DeltaAll')
+ylim([-0.2 0.1])
+title('All')
 
 subplot(3,2,1)
-plot(y,dtA(nspec(2),:)); hold on;
-plot(y,dtF(nspec(2),:)); hold on;
-plot(y,dtP(nspec(2),:)); hold on;
-plot(y,dtD(nspec(2),:)); hold on;
-plot(y,dtB(nspec(2),:)); hold on;
+plot(y,mpdF(nspec,:)); hold on;
 xlim([1950 2100])
-ylim([-1 0.4])
-title('min \DeltaF')
+ylim([-0.15 0.1])
+% legend(num2str(spec))
+% legend('location','southwest')
+title('Forage')
 
 subplot(3,2,2)
-plot(y,dtA(nspec(3),:)); hold on;
-plot(y,dtF(nspec(3),:)); hold on;
-plot(y,dtP(nspec(3),:)); hold on;
-plot(y,dtD(nspec(3),:)); hold on;
-plot(y,dtB(nspec(3),:)); hold on;
+plot(y,mpdP(nspec,:)); hold on;
 xlim([1950 2100])
-ylim([-1 0.4])
-title('min \DeltaP')
+ylim([-0.35 0.1])
+title('Large pelagics')
 
 subplot(3,2,3)
-plot(y,dtA(nspec(4),:)); hold on;
-plot(y,dtF(nspec(4),:)); hold on;
-plot(y,dtP(nspec(4),:)); hold on;
-plot(y,dtD(nspec(4),:)); hold on;
-plot(y,dtB(nspec(4),:)); hold on;
+plot(y,mpdD(nspec,:)); hold on;
 xlim([1950 2100])
-ylim([-1 0.4])
-title('min \DeltaD')
-xlim([1950 2100])
+ylim([-0.25 0.05])
+% legend(ntext)
+% legend('location','southwest')
+title('Demersals')
 
 subplot(3,2,4)
-plot(y,dtA(nspec(5),:)); hold on;
-plot(y,dtF(nspec(5),:)); hold on;
-plot(y,dtP(nspec(5),:)); hold on;
-plot(y,dtD(nspec(5),:)); hold on;
-plot(y,dtB(nspec(5),:)); hold on;
+plot(y,mpdB(nspec,:)); hold on;
 xlim([1950 2100])
-ylim([-1 0.4])
-title('min \DeltaB')
-xlim([1950 2100])
+ylim([-0.25 0.25])
+title('Benthos')
 
 subplot(3,2,6)
-plot(y,dtA(xspec(5),:)); hold on;
-plot(y,dtF(xspec(5),:)); hold on;
-plot(y,dtP(xspec(5),:)); hold on;
-plot(y,dtD(xspec(5),:)); hold on;
-plot(y,dtB(xspec(5),:)); hold on;
+plot(y,mpdD(xspec,:)); hold on;
 xlim([1950 2100])
 ylim([1 2])
-xlim([1950 2100])
-legend('All','F','P','D','B')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_ensem_mid6_temp3_min_ts_v2.png'])
-
-
+legend(ntext)
+legend('location','southwest')
+print('-dpng',[ppath 'Hist_Fore_',harv,'_ensem_mid6_temp3_min_ts_prod_pdiff.png'])
 
 
 

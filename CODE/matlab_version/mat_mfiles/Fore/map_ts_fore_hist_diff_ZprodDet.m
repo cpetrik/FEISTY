@@ -122,10 +122,14 @@ pdtZD = (tZD - tZD(19)) / tZD(19);
 
 %% ts colors
 % USE RED AND BLUE
-cmap = [...
-     0            0         0.65   %blue
-           0       0            0   %black
-     0.97647         0.19            0]; %red
+% cmap = [...
+%     0            0         0.65   %blue
+%     0       0            0   %black
+%     0.97647         0.19            0]; %red
+
+ cmap = [...
+     0.5            0.5         0.5   %blue
+           0       0            0]; %black
 
 set(groot,'defaultAxesColorOrder',cmap);
 
@@ -149,7 +153,7 @@ text(-2.9,1.75,'A')
 subplot('Position',[0.46 0.075 0.385 0.4])
 yyaxis left
 line(y(19:end),100*pdtD(19:end),'Linewidth',2); hold on;
-line(y(19:end),100*pdtZ(19:end),'color',[0.65 0 0],'Linewidth',2); hold on;
+line(y(19:end),100*pdtZ(19:end),'LineStyle','-.','Linewidth',2); hold on;
 ylabel('Percent change in production');
 
 yyaxis right

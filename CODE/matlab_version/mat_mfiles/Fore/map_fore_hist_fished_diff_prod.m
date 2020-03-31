@@ -188,6 +188,14 @@ diffML = (cFracML-hFracML);
 % diffB(Hb(:)<1e-6) = nan;
 % diffAll(hAll(:)<1e-6) = nan;
 
+%% Save for correlation analysis
+fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
+dpath=['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/' cfile '/'];
+save([dpath 'Prod_pdiffs_hist_fore_',harv,'_' cfile '.mat'],'pdiffL','pdiffM','pdiffF','pdiffP','pdiffD','pdiffB','pdiffAll',...
+    'pdiffN','pdiffDet','pdiffMZ','pdiffLZ','pdiffZ','diffZD')
+save([fpath 'Prod_pdiffs_hist_fore_',harv,'_' cfile '.mat'],'pdiffL','pdiffM','pdiffF','pdiffP','pdiffD','pdiffB','pdiffAll',...
+    'pdiffN','pdiffDet','pdiffMZ','pdiffLZ','pdiffZ','diffZD')
+
 %% Maps
 % All 4 on subplots - USE PRODUCTION
 figure(1)
@@ -377,7 +385,7 @@ caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'Net primary','HorizontalAlignment','center')
 text(-2.75,1.75,'A')
-%B - forage
+% - forage
 subplot('Position',[0.41 0.68 0.4 0.3])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
@@ -389,8 +397,8 @@ caxis([-100 100]);
 %colorbar('Position',[0.825 0.695 0.025 0.275],'orientation','vertical','AxisLocation','out')
 set(gcf,'renderer','painters')
 text(0,1.75,'Forage','HorizontalAlignment','center')
-text(-2.75,1.75,'B')
-%C - mesozoo
+text(-2.75,1.75,'D')
+% - mesozoo
 subplot('Position',[0.01 0.37 0.4 0.3])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
@@ -402,8 +410,8 @@ caxis([-100 100]);
 %colorbar('Position',[0.385 0.385 0.025 0.275],'orientation','vertical','AxisLocation','out')
 set(gcf,'renderer','painters')
 text(0,1.75,'Mesozoo','HorizontalAlignment','center')
-text(-2.75,1.75,'C')
-%D - LP
+text(-2.75,1.75,'B')
+% - LP
 subplot('Position',[0.41 0.37 0.4 0.3])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
@@ -415,8 +423,8 @@ caxis([-100 100]);
 colorbar('Position',[0.8 0.25 0.025 0.5],'orientation','vertical','AxisLocation','out')
 set(gcf,'renderer','painters')
 text(0,1.75,'Large pelagic','HorizontalAlignment','center')
-text(-2.75,1.75,'D')
-%E - det
+text(-2.75,1.75,'E')
+% - det
 subplot('Position',[0.01 0.06 0.4 0.3])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
@@ -428,7 +436,7 @@ caxis([-100 100]);
 %colorbar('Position',[0.385 0.075 0.025 0.275],'orientation','vertical','AxisLocation','out')
 set(gcf,'renderer','painters')
 text(0,1.75,'Detritus','HorizontalAlignment','center')
-text(-2.75,1.75,'E')
+text(-2.75,1.75,'C')
 %F - dem
 subplot('Position',[0.41 0.06 0.4 0.3])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
@@ -444,7 +452,7 @@ text(0,1.75,'Demersal','HorizontalAlignment','center')
 text(-2.75,1.75,'F')
 print('-dpng',[pp 'Hist_Fore_',harv,'_global_pdiff_prod_6plot.png'])
 
-%% 6 plot pdiff prod subplot for ms
+%% just Z:Det
 figure(5)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])

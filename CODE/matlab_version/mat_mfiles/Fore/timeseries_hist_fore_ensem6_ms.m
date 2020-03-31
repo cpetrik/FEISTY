@@ -24,8 +24,8 @@ fpath = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/Dc_enc70-b200_m4-b175
 load([fpath 'Time_Means_Historic_Forecast_',harv,'_' cfile '.mat']);
 
 %% Ensemble parameter sets
-% epath = ['/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/',...
-%     'Dc_enc-k063_met-k086_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/'];
+fpath = ['/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/',...
+    'Dc_enc-k063_met-k086_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/'];
 epath = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/';
 load([epath 'Historic_All_fish03_ensem6_mid_temp3_bestAIC_multFup_multPneg.mat']);
 load([epath 'Forecast_All_fish03_ensem6_mid_temp3_bestAIC_multFup_multPneg.mat']);
@@ -67,7 +67,7 @@ tD = [tD; tDorig];
 tA = [tA; tAorig];
 
 % difference from 1951
-test=find(y>=1951);
+test=find(y>1950);
 yid=test(1);
 dtF = tF - tF(:,yid);
 dtP = tP - tP(:,yid);
@@ -118,6 +118,12 @@ mmdP = mmtP - mmtP(:,yid); %[1081,28]=1.94e+35
 mmdD = mmtD - mmtD(:,yid); %[1081,28]=1.94e+35
 mmdA = mmtA - mmtA(:,yid);
 
+% percent difference from 1951
+mpdF = (mmtF - mmtF(:,yid)) ./ mmtF(:,yid); 
+mpdP = (mmtP - mmtP(:,yid)) ./ mmtP(:,yid);
+mpdD = (mmtD - mmtD(:,yid)) ./ mmtD(:,yid); 
+mpdA = (mmtA - mmtA(:,yid)) ./ mmtA(:,yid);
+
 %% SubPlots of ensemble of all types
 % All
 figure(1)
@@ -163,7 +169,7 @@ plot(y,(dtF(end,:)),'r','LineWidth',2); hold on;
 plot(y,(dtD(end,:)),'color',[0 0.7 0],'LineWidth',2); hold on;
 plot(y,(dtP(end,:)),'b','LineWidth',2); hold on;
 legend('Forage','Demersal','Large Pelagic')
-xlim([1951 2100])
+xlim([y(yid) y(end)])
 %ylim([-0.15 0.3])
 xlabel('Year')
 ylabel('Biomass (g m^-^2)')
@@ -173,7 +179,7 @@ figure(3)
 plot(y,(dtF(end,:)),'r','LineWidth',2); hold on;
 plot(y,(dtD(end,:)),'color',[0 0.7 0],'LineWidth',2); hold on;
 plot(y,(dtP(end,:)),'b','LineWidth',2); hold on;
-xlim([1951 2100])
+xlim([y(yid) y(end)])
 %ylim([-0.15 0.3])
 xlabel('Year')
 ylabel('Biomass (g m^-^2)')
@@ -204,7 +210,7 @@ figure(4)
 f=fill(X,(Sa),'k','FaceAlpha',0.25,'EdgeAlpha',0.25);  %plot filled area
 hold on
 plot(y,(mA),'k','LineWidth',2);
-xlim([1951 2100])
+xlim([y(yid) y(end)])
 % ylim([0.425 0.675])
 title('All fish')
 xlabel('Year')
@@ -219,7 +225,7 @@ fill(X,(Sd),'g','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
 plot(y,(mF),'r','LineWidth',2); hold on;
 plot(y,(mP),'b','LineWidth',2); hold on;
 plot(y,(mD),'color',[0 0.6 0],'LineWidth',2); hold on;
-xlim([1951 2100])
+xlim([y(yid) y(end)])
 %ylim([-0.2 0.3])
 %title('All functional types')
 xlabel('Year')
@@ -233,26 +239,30 @@ mP = mean(mmdP);
 mD = mean(mmdD);
 mA = mean(mmdA);
 
-sF = std(mmdF);
-sP = std(mmdP);
-sD = std(mmdD);
-sA = std(mmdA);
+% msF = std(mmdF);
+% msP = std(mmdP);
+% msD = std(mmdD);
+% msA = std(mmdA);
+msF = movmean(sF,12,2); 
+msP = movmean(sP,12,2); 
+msD = movmean(sD,12,2); 
+msA = movmean(sA,12,2);
 
 %create continuous x value array for plotting
 X=[y fliplr(y)]; 
 %create y values for out and then back
 %+/- 1 stdev
-Sa=[mA+sA fliplr(mA-sA)]; 
-Sf=[mF+sF fliplr(mF-sF)]; 
-Sp=[mP+sP fliplr(mP-sP)]; 
-Sd=[mD+sD fliplr(mD-sD)]; 
+Sa=[mA+msA fliplr(mA-msA)]; 
+Sf=[mF+msF fliplr(mF-msF)]; 
+Sp=[mP+msP fliplr(mP-msP)]; 
+Sd=[mD+msD fliplr(mD-msD)]; 
 
 %% all
 figure(6)
 f=fill(X,(Sa),'k','FaceAlpha',0.25,'EdgeAlpha',0.25);  %plot filled area
 hold on
 plot(y,(mA),'k','LineWidth',2);
-xlim([1951 2100])
+xlim([y(yid) y(end)])
 % ylim([0.425 0.675])
 title('All fish')
 xlabel('Year')
@@ -267,12 +277,52 @@ fill(X,(Sd),'g','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
 plot(y,(mF),'r','LineWidth',2); hold on;
 plot(y,(mP),'b','LineWidth',2); hold on;
 plot(y,(mD),'color',[0 0.6 0],'LineWidth',2); hold on;
-xlim([1951 2100])
+xlim([y(yid) y(end)])
 %ylim([-0.2 0.3])
 %title('All functional types')
 xlabel('Year')
 ylabel('Biomass (g m^-^2) relative to 1951')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_diff1951_types_ensem_mid6_temp3_cone_1std_yr.png'])
+print('-dpng',[ppath 'Hist_Fore_',harv,'_diff1951_types_ensem_mid6_temp3_cone_1std_yr_v2.png'])
+
+%% Cone moving means pdiff
+mpF = mean(mpdF);
+mpP = mean(mpdP);
+mpD = mean(mpdD);
+mpA = mean(mpdA);
+
+spF = std(mpdF);
+spP = std(mpdP);
+spD = std(mpdD);
+spA = std(mpdA);
+
+%create y values for out and then back
+%+/- 1 stdev
+Va=[mpA+spA fliplr(mpA-spA)]; 
+Vf=[mpF+spF fliplr(mpF-spF)]; 
+Vp=[mpP+spP fliplr(mpP-spP)]; 
+Vd=[mpD+spD fliplr(mpD-spD)]; 
+
+%% types - pdiff
+figure(8)
+fill(X,(Vf),'r','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
+fill(X,(Vp),'c','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
+fill(X,(Vd),'g','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
+plot(y,(mpF),'r','LineWidth',2); hold on;
+plot(y,(mpP),'b','LineWidth',2); hold on;
+plot(y,(mpD),'color',[0 0.6 0],'LineWidth',2); hold on;
+xlim([y(yid) y(end)])
+%ylim([-0.2 0.3])
+%title('All functional types')
+xlabel('Year')
+ylabel('Percent change in biomass relative to 1951')
+print('-dpng',[ppath 'Hist_Fore_',harv,'_pdiff1951_biom_types_ensem_mid6_temp3_cone_1std_yr_v2.png'])
 
 
+%% save for multipanel plot w/prod changes
+save([epath 'Hist_Fore_All_fish03_ensem6_mid_temp3_ts_biomass.mat'],...
+    'Sf','Sp','Sd','Sa','mF','mP','mD','mA','dtF','dtP','dtD','dtA',...
+    'Vf','Vp','Vd','Va','mpF','mpP','mpD','mpA');
+save([fpath 'Hist_Fore_All_fish03_ensem6_mid_temp3_ts_biomass.mat'],...
+    'Sf','Sp','Sd','Sa','mF','mP','mD','mA','dtF','dtP','dtD','dtA',...
+    'Vf','Vp','Vd','Va','mpF','mpP','mpD','mpA');
 

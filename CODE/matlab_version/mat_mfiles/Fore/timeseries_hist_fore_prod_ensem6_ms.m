@@ -116,6 +116,12 @@ dtA = tA - tA(:,yid);
 % dtD = tDorig - tDorig(:,yid);
 % dtA = tAorig - tAorig(:,yid);
 
+% percent difference from 1951
+pdF = (tF - tF(:,yid)) ./ tF(:,yid); 
+pdP = (tP - tP(:,yid)) ./ tP(:,yid);
+pdD = (tD - tD(:,yid)) ./ tD(:,yid); 
+pdA = (tA - tA(:,yid)) ./ tA(:,yid);
+
 %% moving means
 mmtF = movmean(tF,12,2); 
 mmtP = movmean(tP,12,2); 
@@ -143,6 +149,10 @@ mpdF = (mmtF - mmtF(:,yid)) ./ mmtF(:,yid);
 mpdP = (mmtP - mmtP(:,yid)) ./ mmtP(:,yid);
 mpdD = (mmtD - mmtD(:,yid)) ./ mmtD(:,yid); 
 mpdA = (mmtA - mmtA(:,yid)) ./ mmtA(:,yid);
+% mpdF = movmean(pdF,12,2); 
+% mpdP = movmean(pdP,12,2); 
+% mpdD = movmean(pdD,12,2); 
+% mpdA = movmean(pdA,12,2); 
 
 %% Cone of uncert raw diff
 rmF = mean(dtF);
@@ -168,10 +178,14 @@ mP = mean(mmdP);
 mD = mean(mmdD);
 mA = mean(mmdA);
 
-sF = std(mmdF);
-sP = std(mmdP);
-sD = std(mmdD);
-sA = std(mmdA);
+% sF = std(mmdF);
+% sP = std(mmdP);
+% sD = std(mmdD);
+% sA = std(mmdA);
+sF = movmean(rsF,12,2); 
+sP = movmean(rsP,12,2); 
+sD = movmean(rsD,12,2); 
+sA = movmean(rsA,12,2); 
 
 %create continuous x value array for plotting
 X=[y fliplr(y)]; 
@@ -240,7 +254,7 @@ figure(1)
 plot(y,(moF),'r','LineWidth',2); hold on;
 plot(y,(moP),'b','LineWidth',2); hold on;
 plot(y,(moD),'color',[0 0.6 0],'LineWidth',2); hold on;
-xlim([1950 2100])
+xlim([y(yid) y(end)])
 %ylim([-0.2 0.3])
 %title('All functional types')
 xlabel('Year')
@@ -252,7 +266,7 @@ figure(2)
 plot(y,(mpdF(end,:)),'r','LineWidth',2); hold on;
 plot(y,(mpdP(end,:)),'b','LineWidth',2); hold on;
 plot(y,(mpdD(end,:)),'color',[0 0.6 0],'LineWidth',2); hold on;
-xlim([1950 2100])
+xlim([y(yid) y(end)])
 %ylim([-0.2 0.3])
 %title('All functional types')
 xlabel('Year')
@@ -264,7 +278,7 @@ figure(3)
 f=fill(X,(Sa),'k','FaceAlpha',0.25,'EdgeAlpha',0.25);  %plot filled area
 hold on
 plot(y,(mA),'k','LineWidth',2);
-xlim([1950 2100])
+xlim([y(yid) y(end)])
 % ylim([0.425 0.675])
 title('All fish')
 xlabel('Year')
@@ -276,7 +290,7 @@ figure(4)
 f=fill(X,(Va),'k','FaceAlpha',0.25,'EdgeAlpha',0.25);  %plot filled area
 hold on
 plot(y,(mpA),'k','LineWidth',2);
-xlim([1950 2100])
+xlim([y(yid) y(end)])
 % ylim([0.425 0.675])
 title('All fish')
 xlabel('Year')
@@ -291,12 +305,12 @@ fill(X,(Sd),'g','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
 plot(y,(mF),'r','LineWidth',2); hold on;
 plot(y,(mP),'b','LineWidth',2); hold on;
 plot(y,(mD),'color',[0 0.6 0],'LineWidth',2); hold on;
-xlim([1950 2100])
+xlim([y(yid) y(end)])
 %ylim([-0.2 0.3])
 %title('All functional types')
 xlabel('Year')
 ylabel('Production (g d^-^1) relative to 1951')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_diff1951_prod_types_ensem_mid6_temp3_cone_1std_yr.png'])
+print('-dpng',[ppath 'Hist_Fore_',harv,'_diff1951_prod_types_ensem_mid6_temp3_cone_1std_yr_v2.png'])
 
 %% types - pdiff
 figure(6)
@@ -306,13 +320,22 @@ fill(X,(Vd),'g','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
 plot(y,(mpF),'r','LineWidth',2); hold on;
 plot(y,(mpP),'b','LineWidth',2); hold on;
 plot(y,(mpD),'color',[0 0.6 0],'LineWidth',2); hold on;
-xlim([1950 2100])
+xlim([y(yid) y(end)])
 %ylim([-0.2 0.3])
 %title('All functional types')
 xlabel('Year')
 ylabel('Percent change in production relative to 1951')
 print('-dpng',[ppath 'Hist_Fore_',harv,'_pdiff1951_prod_types_ensem_mid6_temp3_cone_1std_yr.png'])
 
+%% save for multipanel plot w/biom changes
+dpath = ['/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/',...
+    'Dc_enc-k063_met-k086_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/'];
+save([epath 'Hist_Fore_All_fish03_ensem6_mid_temp3_ts_prod.mat'],...
+    'Sf','Sp','Sd','Sa','mF','mP','mD','mA','dtF','dtP','dtD','dtA',...
+    'Vf','Vp','Vd','Va','mpF','mpP','mpD','mpA','X','y');
+save([dpath 'Hist_Fore_All_fish03_ensem6_mid_temp3_ts_prod.mat'],...
+    'Sf','Sp','Sd','Sa','mF','mP','mD','mA','dtF','dtP','dtD','dtA',...
+    'Vf','Vp','Vd','Va','mpF','mpP','mpD','mpA','X','y');
 
 
 

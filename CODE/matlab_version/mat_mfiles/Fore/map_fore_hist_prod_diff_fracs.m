@@ -217,9 +217,9 @@ text(-2.75,1.75,'C')
 
 %ts 
 subplot('Position',[0.6 0.075 0.375 0.4])
-line(yr(yid:end),dtP(yid:end),'color',[0 0 0.65],'Linewidth',2); hold on;
+line(yr(yid:end),dtP(yid:end),'color',[0 0.1 0.9],'Linewidth',2); hold on;
 line(yr(yid:end),dtF(yid:end),'color',[0.97647 0.19 0],'Linewidth',2); hold on;
-line(yr(yid:end),dtPel(yid:end),'color',[0.1 0.65 0.10196],'Linewidth',2); hold on;
+line(yr(yid:end),dtPel(yid:end),'color',[0 0 0],'Linewidth',2); hold on;
 ylim([-0.05 0.05])
 legend('P','F','Pel')
 legend('location','northwest')

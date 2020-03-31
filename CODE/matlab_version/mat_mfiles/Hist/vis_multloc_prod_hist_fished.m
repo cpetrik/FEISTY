@@ -135,8 +135,8 @@ caxis([-4 0]);
 colorbar('Position',[0.825 0.695 0.025 0.275],'orientation','vertical','AxisLocation','out')
 set(gcf,'renderer','painters')
 text(0,1.75,'Forage','HorizontalAlignment','center')
-text(-2.75,1.75,'B')
-%C - mesozoo
+text(-2.75,1.75,'D')
+%B - mesozoo
 subplot('Position',[0.01 0.37 0.4 0.3])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
@@ -148,7 +148,7 @@ caxis([-1 1]);
 colorbar('Position',[0.385 0.385 0.025 0.275],'orientation','vertical','AxisLocation','out')
 set(gcf,'renderer','painters')
 text(0,1.75,'Mesozoo','HorizontalAlignment','center')
-text(-2.75,1.75,'C')
+text(-2.75,1.75,'B')
 %D - LP
 subplot('Position',[0.45 0.37 0.4 0.3])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
@@ -161,8 +161,8 @@ caxis([-4 0]);
 colorbar('Position',[0.825 0.385 0.025 0.275],'orientation','vertical','AxisLocation','out')
 set(gcf,'renderer','painters')
 text(0,1.75,'Large pelagic','HorizontalAlignment','center')
-text(-2.75,1.75,'D')
-%E - det
+text(-2.75,1.75,'E')
+%C - det
 subplot('Position',[0.01 0.06 0.4 0.3])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
@@ -170,11 +170,11 @@ surfm(geolat_t,geolon_t,log10(mdet))
 colormap(cmBP)
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-1.5 0.5]);
+caxis([-2.0 0.5]); %caxis([-1.5 0.5]);
 colorbar('Position',[0.385 0.075 0.025 0.275],'orientation','vertical','AxisLocation','out')
 set(gcf,'renderer','painters')
 text(0,1.75,'Detritus','HorizontalAlignment','center')
-text(-2.75,1.75,'E')
+text(-2.75,1.75,'C')
 %F - dem
 subplot('Position',[0.45 0.06 0.4 0.3])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
