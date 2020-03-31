@@ -14,16 +14,16 @@ spinup_pristine = false;
 climatol_loop = false;
 climatol_param = false;
 climatol_ens = false;
-climatol = false;
+climatol = true;
 climatol_crr = false;
 climatol_con = false;
 climatol_ngdc = false;
 pre_industrial = false;
 historic_pristine = false;
-historic_fished = true;
+historic_fished = false;
 historic_fished_ens = false;
 forecast_pristine = false;
-forecast_fished = true;
+forecast_fished = false;
 forecast_fished_ens = false;
 
 tic

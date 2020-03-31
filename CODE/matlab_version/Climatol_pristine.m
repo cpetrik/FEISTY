@@ -9,7 +9,7 @@ global Tu_s Tu_m Tu_l Nat_mrt MORT
 global MF_phi_MZ MF_phi_LZ MF_phi_S MP_phi_MZ MP_phi_LZ MP_phi_S MD_phi_BE
 global LP_phi_MF LP_phi_MP LP_phi_MD LD_phi_MF LD_phi_MP LD_phi_MD LD_phi_BE
 global MFsel MPsel MDsel LPsel LDsel Jsel efn cfn mfn
-global tstep K CGRD ni nj
+global tstep K CGRD ni nj kc
 
 %%%%%%%%%%%%%%% Initialize Model Variables
 %! Set fishing rate
@@ -29,7 +29,7 @@ mfn=nan;
 make_parameters()
 
 %! Setup Climatol (loop 5-year climatology of ESM2.6-COBALT)
-load('/Volumes/GFDL/POEM_JLD/esm26_hist/ESM26_1deg_5yr_clim_191_195_daily.mat');
+load('/Volumes/FEISTY/POEM_JLD/esm26_hist/ESM26_1deg_5yr_clim_191_195_daily.mat');
 
 %! How long to run the model
 YEARS = 150;
@@ -38,7 +38,7 @@ MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Grid; choose where and when to run the model
 Pdrpbx = '/Users/cpetrik/Dropbox/';
-load('/Volumes/GFDL/POEM_JLD/esm26_hist/ESM26_1deg_5yr_clim_191_195_grid.mat');
+load('/Volumes/FEISTY/POEM_JLD/esm26_hist/ESM26_1deg_5yr_clim_191_195_grid.mat');
 NX = length(GRD.Z);
 ID = 1:NX;
 %2D Grid for advect-diff
