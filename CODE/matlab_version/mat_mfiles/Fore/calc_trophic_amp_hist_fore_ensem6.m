@@ -1,5 +1,6 @@
 % Calc changes from bar plot of trophic amplification
 % Ensemble 6, temp3 and orig
+% calculate benthic production = benthic biomass * detritus flux * benthic efficiency
 
 clear all
 close all
@@ -87,7 +88,8 @@ for j = 1:length(snames)
     Hmd=md_prod50;
     Hlp=lp_prod50;
     Hld=ld_prod50;
-    Hb= b_mean50;
+    % calculate benthic production = benthic biomass * detritus flux * benthic efficiency
+    Hb= b_mean50 .* det_hist(ID) .* 0.75;
     
     Hsf(Hsf(:)<0)=0;
     Hsp(Hsp(:)<0)=0;
@@ -128,7 +130,8 @@ for j = 1:length(snames)
     Cmd=md_prod50;
     Clp=lp_prod50;
     Cld=ld_prod50;
-    Cb= b_mean50;
+    % calculate benthic production = benthic biomass * detritus flux * benthic efficiency
+    Cb= b_mean50 .* det_fore(ID) .* 0.75;
     
     Csf(Csf(:)<0)=0;
     Csp(Csp(:)<0)=0;
@@ -191,7 +194,7 @@ Hmp=mp_prod50;
 Hmd=md_prod50;
 Hlp=lp_prod50;
 Hld=ld_prod50;
-Hb = b_mean50;
+Hb = b_mean50 .* det_hist(ID) .* 0.75;
 
 Hsf(Hsf(:)<0)=0;
 Hsp(Hsp(:)<0)=0;
@@ -230,7 +233,7 @@ Cmp=mp_prod50;
 Cmd=md_prod50;
 Clp=lp_prod50;
 Cld=ld_prod50;
-Cb = b_mean50;
+Cb = b_mean50 .* det_fore(ID) .* 0.75;
 
 Csf(Csf(:)<0)=0;
 Csp(Csp(:)<0)=0;

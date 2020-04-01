@@ -42,6 +42,19 @@ load([epath 'Forecast_All_fish03_ensem6_mid_temp3_bestAIC_multFup_multPneg.mat']
 load([epath 'LHS_param6_mid6_kt3_bestAIC_params_Fupneg_mult10_Pneg2_mult3_reduced.mat'],...
     'red_params','ptext');
 
+%% calculate: 
+%benthic production = benthic biomass * detritus flux * benthic efficiency
+bpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/cobalt_data/';
+load([bpath 'cobalt_det_ts.mat'],'det_mean_hist','det_mean_fore',...
+    'mo_hist','mo_fore');
+det_hist = det_mean_hist' * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+det_fore = det_mean_fore' * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
+
+HB = haTB .* repmat(det_hist,43,1) .* 0.75;
+FB = faTB .* repmat(det_fore,43,1) .* 0.75;
+HB_tam = HB_tamean .* det_hist .* 0.75;
+FB_tam = FB_tamean .* det_fore .* 0.75;
+
 %% ts
 %In original saved file
 y1 = 1860+(1/12):(1/12):2005;
@@ -62,17 +75,20 @@ tForig = [HF_tamean FF_tamean];
 tPorig = [HP_tamean FP_tamean];
 tDorig = [HD_tamean FD_tamean];
 tAorig = [HA_tamean FA_tamean];
+tBorig = [HB_tam FB_tam];
 
 tF = [HF FF];
 tP = [HP FP];
 tD = [HD FD];
 tA = [HA FA];
-tB = [haTB faTB];
+tB = [HB FB];
+%tB = [haTB faTB];
 
 tF = [tF; tForig];
 tP = [tP; tPorig];
 tD = [tD; tDorig];
 tA = [tA; tAorig];
+tB = [tB; tBorig];
 
 mtF = mean(tF);
 mtP = mean(tP);
@@ -409,7 +425,7 @@ legend('location','southwest')
 subplot(3,2,4)
 plot(y,dtB(xspec,:)); hold on;
 xlim([1950 2100])
-ylim([-0.1 0.025])
+ylim([-5e-3 1e-3])
 title('Benthos')
 print('-dpng',[ppath 'Hist_Fore_',harv,'_ensem_mid6_temp3_max_ts_prod.png'])
 
@@ -450,7 +466,7 @@ title('Demersals')
 subplot(3,2,4)
 plot(y,dtB(nspec,:)); hold on;
 xlim([1950 2100])
-ylim([-0.1 0.1])
+ylim([-5e-3 2e-3])
 title('Benthos')
 print('-dpng',[ppath 'Hist_Fore_',harv,'_ensem_mid6_temp3_min_ts_prod.png'])
 
@@ -508,7 +524,7 @@ title('Demersals')
 subplot(3,2,4)
 plot(y,mpdB(xspec,:)); hold on;
 xlim([1950 2100])
-ylim([-0.25 0.25])
+ylim([-0.4 0.2])
 title('Benthos')
 
 subplot(3,2,6)
@@ -557,7 +573,7 @@ title('Demersals')
 subplot(3,2,4)
 plot(y,mpdB(nspec,:)); hold on;
 xlim([1950 2100])
-ylim([-0.25 0.25])
+ylim([-0.4 0.2])
 title('Benthos')
 
 subplot(3,2,6)

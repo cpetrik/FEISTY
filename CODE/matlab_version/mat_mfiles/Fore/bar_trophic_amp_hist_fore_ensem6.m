@@ -1,5 +1,6 @@
 % Bar plot of trophic amplification
 % with std dev from ensemble sims
+% benthic production = benthic biomass * detritus flux * benthic efficiency
 
 clear all
 close all
@@ -167,7 +168,7 @@ bstd = fstd([3:5 8]);
 figure(11)
 bar(bbar*100,'k'); hold on;
 %colormap('gray')
-ylim([-25 0])
+ylim([-25 10])
 er = errorbar(1:4,100*bbar,100*bstd,'LineWidth',2);    
 er.Color = [0 0.5 1];                            
 er.LineStyle = 'none';
@@ -202,14 +203,14 @@ figure(13)
 subplot(2,2,1)
 b=bar(pbar*100,'k'); hold on;
 b.FaceColor = [0.65 0.65 0.65];
-ylim([-25 0])
+ylim([-25 10])
 set(gca,'XTickLabel',{'NPP','MesoZ','Det'})
 ylabel('Percent change')
 
 subplot(2,2,2)
 b=bar(bbar*100,'k'); hold on;
 b.FaceColor = [0.65 0.65 0.65];
-ylim([-25 0])
+ylim([-25 10])
 er = errorbar(1:4,100*bbar,100*bstd,'LineWidth',1.5);    
 er.Color = [0 0 0];                            
 er.LineStyle = 'none';

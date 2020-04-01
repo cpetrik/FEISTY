@@ -128,6 +128,11 @@ plotmaxlon=80;
 latlim=[plotminlat plotmaxlat];
 lonlim=[plotminlon plotmaxlon]; %[-255 -60] = Pac
 
+%% calculate: 
+%benthic production = benthic biomass * detritus flux * benthic efficiency
+hB = Hb .* det_hist .* 0.75;
+cB = Cb .* det_fore .* 0.75;
+
 %%
 diffZD = (ZpDet_fore-ZpDet_hist);
 
@@ -165,7 +170,8 @@ pdiffM = (cM-hM) ./ hM;
 pdiffF = (cF-hF) ./ hF;
 pdiffP = (cP-hP) ./ hP;
 pdiffD = (cD-hD) ./ hD;
-pdiffB = (Cb-Hb) ./ Hb;
+pdiffB = (cB-hB) ./ hB;
+%pdiffB = (Cb-Hb) ./ Hb;
 pdiffAll = (cAll-hAll) ./ hAll;
 pdiffPD = (cFracPD-hFracPD) ./ hFracPD;
 pdiffPF = (cFracPF-hFracPF) ./ hFracPF;
@@ -191,9 +197,11 @@ diffML = (cFracML-hFracML);
 %% Save for correlation analysis
 fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
 dpath=['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/' cfile '/'];
-save([dpath 'Prod_pdiffs_hist_fore_',harv,'_' cfile '.mat'],'pdiffL','pdiffM','pdiffF','pdiffP','pdiffD','pdiffB','pdiffAll',...
+save([dpath 'Prod_pdiffs_hist_fore_',harv,'_' cfile '.mat'],'pdiffL','pdiffM',...
+    'pdiffF','pdiffP','pdiffD','pdiffB','pdiffAll',...
     'pdiffN','pdiffDet','pdiffMZ','pdiffLZ','pdiffZ','diffZD')
-save([fpath 'Prod_pdiffs_hist_fore_',harv,'_' cfile '.mat'],'pdiffL','pdiffM','pdiffF','pdiffP','pdiffD','pdiffB','pdiffAll',...
+save([fpath 'Prod_pdiffs_hist_fore_',harv,'_' cfile '.mat'],'pdiffL','pdiffM',...
+    'pdiffF','pdiffP','pdiffD','pdiffB','pdiffAll',...
     'pdiffN','pdiffDet','pdiffMZ','pdiffLZ','pdiffZ','diffZD')
 
 %% Maps
@@ -466,6 +474,21 @@ set(gcf,'renderer','painters')
 %text(0,1.75,'Net primary','HorizontalAlignment','center')
 title('Zooplankton : Detritus production')
 print('-dpng',[pp 'Hist_Fore_',harv,'_global_diff_ZprodDet.png'])
+
+%% just Bprod
+figure(6)
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*pdiffB)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+colorbar
+set(gcf,'renderer','painters')
+%text(0,1.75,'Net primary','HorizontalAlignment','center')
+title('Benthos production')
+print('-dpng',[pp 'Hist_Fore_',harv,'_global_pdiff_Bprod.png'])
 
 
 
