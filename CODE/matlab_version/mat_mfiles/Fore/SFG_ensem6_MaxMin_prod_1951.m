@@ -79,7 +79,11 @@ title('L')
 
 %% Construct temp & prey combinations for M and L fishes only
 Temps = 0:5:35;
-Preys = 0.2:0.2:5;
+%Preys = 0.2:0.2:5;
+
+spath=['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/' cfile '/'];
+load([spath 'Prey_quant_Fore_Hist_All_fish03_' cfile '.mat'])
+Preys = q(:,12);
 
 % assim = repmat(pstats(:,2),1,length(Preys));
 % bpow  = repmat(pstats(:,3),1,length(Preys));
@@ -101,8 +105,10 @@ T = repmat(Temps,10,1);
 %P = repmat(Preys,10,1);
 
 %% loop prey conc
-Msfg = nan*ones(length(kt),length(Temps),length(Preys));
-Lsfg = nan*ones(length(kt),length(Temps),length(Preys));
+nT = length(Temps);
+nP = length(Preys);
+Msfg = nan*ones(length(kt),length(Temps)+1,length(Preys)+1);
+Lsfg = nan*ones(length(kt),length(Temps)+1,length(Preys)+1);
 for i=1:length(Preys)
     P = Preys(i);
     
@@ -123,7 +129,7 @@ for i=1:length(Preys)
     Mmet = (exp(kt.*(T-10.0)) .* amet .* M_m.^(-bpow)) ./365.0;
     
     % scope for growth
-    Msfg(:,:,i) = Ming - Mmet;
+    Msfg(:,1:nT,i) = Ming - Mmet;
     
     
     % Encounter rate
@@ -143,10 +149,12 @@ for i=1:length(Preys)
     Lmet = (exp(kt.*(T-10.0)) .* amet .* M_l.^(-bpow)) ./365.0;
     
     % scope for growth
-    Lsfg(:,:,i) = Ling - Lmet;
+    Lsfg(:,1:nT,i) = Ling - Lmet;
 end
 
 %% Pcolor plots
+ptext = {'0.15','0.34','1.6','3.4','7.0'};
+
 % All
 figure(1)
 subplot(2,2,1)
@@ -155,7 +163,7 @@ shading flat
 colorbar
 xlabel('prey')
 ylabel('temp')
-set(gca,'YTickLabel',Temps,'XTick',5:5:25,'XTickLabel',Preys(5:5:25))
+set(gca,'YTick',1:8,'YTickLabel',Temps,'XTickLabel',ptext)
 caxis([0 0.04])
 title('M max All')
 
@@ -165,7 +173,7 @@ shading flat
 colorbar
 xlabel('prey')
 ylabel('temp')
-set(gca,'YTickLabel',Temps,'XTick',5:5:25,'XTickLabel',Preys(5:5:25))
+set(gca,'YTick',1:8,'YTickLabel',Temps,'XTickLabel',ptext)
 caxis([0 0.04])
 title('M min All')
 
@@ -175,7 +183,7 @@ shading flat
 colorbar
 xlabel('prey')
 ylabel('temp')
-set(gca,'YTickLabel',Temps,'XTick',5:5:25,'XTickLabel',Preys(5:5:25))
+set(gca,'YTick',1:8,'YTickLabel',Temps,'XTickLabel',ptext)
 caxis([0 0.004])
 title('L max All')
 
@@ -185,10 +193,10 @@ shading flat
 colorbar
 xlabel('prey')
 ylabel('temp')
-set(gca,'YTickLabel',Temps,'XTick',5:5:25,'XTickLabel',Preys(5:5:25))
+set(gca,'YTick',1:8,'YTickLabel',Temps,'XTickLabel',ptext)
 caxis([0 0.004])
 title('L min All')
-
+print('-dpng',[ppath 'SFG_MaxMinDiffSims_prod_All.png'])
 
 %% Forage
 figure(2)
@@ -198,7 +206,7 @@ shading flat
 colorbar
 xlabel('prey')
 ylabel('temp')
-set(gca,'YTickLabel',Temps,'XTick',5:5:25,'XTickLabel',Preys(5:5:25))
+set(gca,'YTick',1:8,'YTickLabel',Temps,'XTickLabel',ptext)
 caxis([0 0.04])
 title('M max F')
 
@@ -208,7 +216,7 @@ shading flat
 colorbar
 xlabel('prey')
 ylabel('temp')
-set(gca,'YTickLabel',Temps,'XTick',5:5:25,'XTickLabel',Preys(5:5:25))
+set(gca,'YTick',1:8,'YTickLabel',Temps,'XTickLabel',ptext)
 caxis([0 0.04])
 title('M min F')
 
@@ -218,7 +226,7 @@ shading flat
 colorbar
 xlabel('prey')
 ylabel('temp')
-set(gca,'YTickLabel',Temps,'XTick',5:5:25,'XTickLabel',Preys(5:5:25))
+set(gca,'YTick',1:8,'YTickLabel',Temps,'XTickLabel',ptext)
 caxis([0 0.004])
 title('L max F')
 
@@ -228,10 +236,10 @@ shading flat
 colorbar
 xlabel('prey')
 ylabel('temp')
-set(gca,'YTickLabel',Temps,'XTick',5:5:25,'XTickLabel',Preys(5:5:25))
+set(gca,'YTick',1:8,'YTickLabel',Temps,'XTickLabel',ptext)
 caxis([0 0.004])
 title('L min F')
-
+print('-dpng',[ppath 'SFG_MaxMinDiffSims_prod_F.png'])
 
 %% Large pelagic
 figure(3)
@@ -241,7 +249,7 @@ shading flat
 colorbar
 xlabel('prey')
 ylabel('temp')
-set(gca,'YTickLabel',Temps,'XTick',5:5:25,'XTickLabel',Preys(5:5:25))
+set(gca,'YTick',1:8,'YTickLabel',Temps,'XTickLabel',ptext)
 caxis([0 0.04])
 title('M max P')
 
@@ -251,7 +259,7 @@ shading flat
 colorbar
 xlabel('prey')
 ylabel('temp')
-set(gca,'YTickLabel',Temps,'XTick',5:5:25,'XTickLabel',Preys(5:5:25))
+set(gca,'YTick',1:8,'YTickLabel',Temps,'XTickLabel',ptext)
 caxis([0 0.04])
 title('M min P')
 
@@ -261,7 +269,7 @@ shading flat
 colorbar
 xlabel('prey')
 ylabel('temp')
-set(gca,'YTickLabel',Temps,'XTick',5:5:25,'XTickLabel',Preys(5:5:25))
+set(gca,'YTick',1:8,'YTickLabel',Temps,'XTickLabel',ptext)
 caxis([0 0.004])
 title('L max P')
 
@@ -271,10 +279,10 @@ shading flat
 colorbar
 xlabel('prey')
 ylabel('temp')
-set(gca,'YTickLabel',Temps,'XTick',5:5:25,'XTickLabel',Preys(5:5:25))
+set(gca,'YTick',1:8,'YTickLabel',Temps,'XTickLabel',ptext)
 caxis([0 0.004])
 title('L min P')
-
+print('-dpng',[ppath 'SFG_MaxMinDiffSims_prod_P.png'])
 
 %% Demersal
 figure(4)
@@ -284,7 +292,7 @@ shading flat
 colorbar
 xlabel('prey')
 ylabel('temp')
-set(gca,'YTickLabel',Temps,'XTick',5:5:25,'XTickLabel',Preys(5:5:25))
+set(gca,'YTick',1:8,'YTickLabel',Temps,'XTickLabel',ptext)
 caxis([0 0.04])
 title('M max D')
 
@@ -294,7 +302,7 @@ shading flat
 colorbar
 xlabel('prey')
 ylabel('temp')
-set(gca,'YTickLabel',Temps,'XTick',5:5:25,'XTickLabel',Preys(5:5:25))
+set(gca,'YTick',1:8,'YTickLabel',Temps,'XTickLabel',ptext)
 caxis([0 0.04])
 title('M min D')
 
@@ -304,7 +312,7 @@ shading flat
 colorbar
 xlabel('prey')
 ylabel('temp')
-set(gca,'YTickLabel',Temps,'XTick',5:5:25,'XTickLabel',Preys(5:5:25))
+set(gca,'YTick',1:8,'YTickLabel',Temps,'XTickLabel',ptext)
 caxis([0 0.004])
 title('L max D')
 
@@ -314,10 +322,10 @@ shading flat
 colorbar
 xlabel('prey')
 ylabel('temp')
-set(gca,'YTickLabel',Temps,'XTick',5:5:25,'XTickLabel',Preys(5:5:25))
+set(gca,'YTick',1:8,'YTickLabel',Temps,'XTickLabel',ptext)
 caxis([0 0.004])
 title('L min D')
-
+print('-dpng',[ppath 'SFG_MaxMinDiffSims_prod_D.png'])
 
 %% Benthos
 figure(5)
@@ -327,7 +335,7 @@ shading flat
 colorbar
 xlabel('prey')
 ylabel('temp')
-set(gca,'YTickLabel',Temps,'XTick',5:5:25,'XTickLabel',Preys(5:5:25))
+set(gca,'YTick',1:8,'YTickLabel',Temps,'XTickLabel',ptext)
 caxis([0 0.04])
 title('M max B')
 
@@ -337,7 +345,7 @@ shading flat
 colorbar
 xlabel('prey')
 ylabel('temp')
-set(gca,'YTickLabel',Temps,'XTick',5:5:25,'XTickLabel',Preys(5:5:25))
+set(gca,'YTick',1:8,'YTickLabel',Temps,'XTickLabel',ptext)
 caxis([0 0.04])
 title('M min B')
 
@@ -347,7 +355,7 @@ shading flat
 colorbar
 xlabel('prey')
 ylabel('temp')
-set(gca,'YTickLabel',Temps,'XTick',5:5:25,'XTickLabel',Preys(5:5:25))
+set(gca,'YTick',1:8,'YTickLabel',Temps,'XTickLabel',ptext)
 caxis([0 0.004])
 title('L max B')
 
@@ -357,8 +365,8 @@ shading flat
 colorbar
 xlabel('prey')
 ylabel('temp')
-set(gca,'YTickLabel',Temps,'XTick',5:5:25,'XTickLabel',Preys(5:5:25))
+set(gca,'YTick',1:8,'YTickLabel',Temps,'XTickLabel',ptext)
 caxis([0 0.004])
 title('L min B')
-
+print('-dpng',[ppath 'SFG_MaxMinDiffSims_prod_B.png'])
 

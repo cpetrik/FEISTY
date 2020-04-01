@@ -1,4 +1,4 @@
-% Visualize output of POEM
+% Visualize output of FEISTY
 % ESM2.6 Climatology of 5 yrs
 % 150 years
 % Saved as nc files
@@ -8,21 +8,21 @@ close all
 
 Pdrpbx = '/Users/cpetrik/Dropbox/';
 Fdrpbx = '/Users/Colleen/Dropbox/';
-Pdir = '/Volumes/GFDL/POEM_JLD/esm26_hist/';
+Pdir = '/Volumes/FEISTY/POEM_JLD/esm26_hist/';
 
 cpath = [Pdrpbx 'Princeton/POEM_other/grid_cobalt/'];
-pp = [Pdrpbx 'Princeton/POEM_2.0/CODE/Figs/PNG/Matlab_New_sizes/'];
+pp = [Pdrpbx 'Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/'];
 
 load([Pdir 'ESM26_1deg_5yr_clim_191_195_gridspec.mat']);
 
-%
-%cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
-cfile = 'Dc_enc50-b210_m4-b175-k060_c50-b250_D075_J075_A050_Sm025_nmort1_BE08_noCC_RE00100';
+%Orig: 
+cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
+%cfile='Dc_enc70-b200-k063_m4-b175-k063_c20-b250-k063_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100_kappaA50';
 harv = 'All_fish03';
 %harv = 'fish_F030_P060_D060';
 tharv = 'Harvest all fish 0.3 yr^-^1';
 
-fpath=['/Volumes/GFDL/NC/Matlab_new_size/' cfile '/'];
+fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
 ppath = [pp cfile '/'];
 if (~isdir(ppath))
     mkdir(ppath)
@@ -446,7 +446,7 @@ print('-dpng',[ppath 'Climatol_' harv '_global_BENT_mgC.png'])
 % stamp([harv '_' cfile])
 % print('-dpng',[ppath 'Climatol_' harv '_global_LD.png'])
 
-% Diff maps of all fish
+%% Diff maps of all fish
 All = Zsp+Zsf+Zsd+Zmp+Zmf+Zmd+Zlp+Zld;
 AllF = Zsf+Zmf;
 AllP = Zsp+Zmp+Zlp;
@@ -466,7 +466,7 @@ FracPFm = Zmp ./ (Zmp+Zmf);
 FracPFvDs = (Zsp+Zsf) ./ (Zsp+Zsf+Zsd);
 FracPFvDm = (Zmp+Zmf) ./ (Zmp+Zmf+Zmd);
 
-% ALL
+%% ALL
 figure(21)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
@@ -587,9 +587,9 @@ surfm(geolat_t,geolon_t,log10(AllF))
 colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-1 1]);
+caxis([-2 2]);
 %     hcb = colorbar('h');
-%     ylim(hcb,[-1 1])                   %Set color axis if needed
+%     ylim(hcb,[-2 2])                   %Set color axis if needed
 colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('log10 mean All F (g m^-^2)')
@@ -602,9 +602,9 @@ surfm(geolat_t,geolon_t,log10(AllD))
 colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-1 1]);
+caxis([-2 2]);
 %     hcb = colorbar('h');
-%     ylim(hcb,[-1 1])                   %Set color axis if needed
+%     ylim(hcb,[-2 2])                   %Set color axis if needed
 set(gcf,'renderer','painters')
 title('log10 mean All D (g m^-^2)')
 
@@ -616,9 +616,9 @@ surfm(geolat_t,geolon_t,log10(AllP))
 colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-1 1]);
+caxis([-2 2]);
 %     hcb = colorbar('h');
-%     ylim(hcb,[-1 1])
+%     ylim(hcb,[-2 2])
 set(gcf,'renderer','painters')
 title('log10 mean All P (g m^-^2)')
 
@@ -630,9 +630,9 @@ surfm(geolat_t,geolon_t,log10(All))
 colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-1 1]);
+caxis([-2 2]);
 %     hcb = colorbar('h');
-%     ylim(hcb,[-1 1])                   %Set color axis if needed
+%     ylim(hcb,[-2 2])                   %Set color axis if needed
 set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
 %     stamp([harv '_' cfile])
