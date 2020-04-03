@@ -1,5 +1,5 @@
 %%%% File naming system
-function fname = sub_fname_ensemble6()
+function fname = sub_fname_ensemble6_samek()
 
 global DAYS GRD NX ID
 global DT PI_be_cutoff pdc L_s L_m L_l M_s M_m M_l L_zm L_zl
@@ -63,10 +63,10 @@ tbenc = num2str(1000+int64(1000*benc));
 tbcmx = num2str(1000+int64(1000*bcmx));
 tka = num2str(1000+int64(100*K_a));
 
-simname = [coup,'_enc-k',tke(2:end),'_cmax',tcfn,'-b',tbcmx(2:end),'-k',tkc(2:end),'_D',td(2:end),'_J',tj(2:end),'_A',ta(2:end),'_Sm',tsm(2:end),'_nmort',tmort,'_BE',tbe(2:end),'_noCC_RE',tre(2:end),'_Ka',tka(2:end)];
-ptext = ['Lam',tlam(2:end),'_enc',tefn,'-b',tbenc(2:end),...
-        '_met',tmfn(2:end),'-b',tbfn(2:end),'-k',tkfn(2:end)];
-    
+simname = [coup,'_cmax',tcfn,'-b',tbcmx(2:end),'_D',td(2:end),'_J',tj(2:end),'_A',ta(2:end),'_Sm',tsm(2:end),'_nmort',tmort,'_BE',tbe(2:end),'_noCC_RE',tre(2:end),'_Ka',tka(2:end)];
+ptext = ['Lam',tlam(2:end),'_enc',tefn,'-b',tbenc(2:end),'-k',tke(2:end),...
+        '_cmax-k',tkc(2:end),'_met',tmfn(2:end),'-b',tbfn(2:end),'-k',tkfn(2:end)];
+
 if (~isdir(['/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/',simname]))
     mkdir(['/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/',simname])
 end
