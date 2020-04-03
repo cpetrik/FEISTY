@@ -173,7 +173,7 @@ for k = 1:length(psets)
     %% ! Def vars of netcdf file
     ['Defining netcdfs, takes ~5 minutes ... ']
     xy_dim      = netcdf.defDim(ncidSF,'nid',NX);
-    time_dim    = netcdf.defDim(ncidSF,'ntime',nt+1);
+    time_dim    = netcdf.defDim(ncidSF,'ntime',nt);
 %     vidbioSF    = netcdf.defVar(ncidSF,'biomass','double',[xy_dim,time_dim]);
 %     vidprodSF   = netcdf.defVar(ncidSF,'prod','double',[xy_dim,time_dim]);
 %     % vidrecSF    = netcdf.defVar(ncidSF,'rec','double',[xy_dim,time_dim]);
