@@ -123,7 +123,7 @@ colorbar('Position',[0.385 0.695 0.025 0.275],'orientation','vertical','AxisLoca
 set(gcf,'renderer','painters')
 text(0,1.75,'Net primary','HorizontalAlignment','center')
 text(-2.75,1.75,'A')
-%B - forage
+%D - forage
 subplot('Position',[0.45 0.68 0.4 0.3])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
@@ -149,7 +149,7 @@ colorbar('Position',[0.385 0.385 0.025 0.275],'orientation','vertical','AxisLoca
 set(gcf,'renderer','painters')
 text(0,1.75,'Mesozoo','HorizontalAlignment','center')
 text(-2.75,1.75,'B')
-%D - LP
+%E - LP
 subplot('Position',[0.45 0.37 0.4 0.3])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
