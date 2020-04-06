@@ -6,7 +6,7 @@ spath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/SAUP/';
 gpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
 cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/cobalt_data/';
 
-dp = '/Volumes/GFDL/NC/Matlab_new_size/';
+dp = '/Volumes/FEISTY/NC/Matlab_new_size/';
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
 
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
