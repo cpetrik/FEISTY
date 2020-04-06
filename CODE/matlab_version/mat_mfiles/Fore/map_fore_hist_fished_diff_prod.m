@@ -130,8 +130,8 @@ lonlim=[plotminlon plotmaxlon]; %[-255 -60] = Pac
 
 %% calculate: 
 %benthic production = benthic biomass * detritus flux * benthic efficiency
-hB = Hb .* det_hist .* 0.75;
-cB = Cb .* det_fore .* 0.75;
+hB = Hb .* det_hist .* 0.075;
+cB = Cb .* det_fore .* 0.075;
 
 %%
 diffZD = (ZpDet_fore-ZpDet_hist);

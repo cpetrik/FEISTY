@@ -50,10 +50,10 @@ load([bpath 'cobalt_det_ts.mat'],'det_mean_hist','det_mean_fore',...
 det_hist = det_mean_hist' * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 det_fore = det_mean_fore' * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 
-HB = haTB .* repmat(det_hist,43,1) .* 0.75;
-FB = faTB .* repmat(det_fore,43,1) .* 0.75;
-HB_tam = HB_tamean .* det_hist .* 0.75;
-FB_tam = FB_tamean .* det_fore .* 0.75;
+HB = haTB .* repmat(det_hist,43,1) .* 0.075;
+FB = faTB .* repmat(det_fore,43,1) .* 0.075;
+HB_tam = HB_tamean .* det_hist .* 0.075;
+FB_tam = FB_tamean .* det_fore .* 0.075;
 
 %% ts
 %In original saved file
@@ -425,7 +425,7 @@ legend('location','southwest')
 subplot(3,2,4)
 plot(y,dtB(xspec,:)); hold on;
 xlim([1950 2100])
-ylim([-5e-3 1e-3])
+ylim([-6e-4 1e-4])
 title('Benthos')
 print('-dpng',[ppath 'Hist_Fore_',harv,'_ensem_mid6_temp3_max_ts_prod.png'])
 
@@ -466,7 +466,7 @@ title('Demersals')
 subplot(3,2,4)
 plot(y,dtB(nspec,:)); hold on;
 xlim([1950 2100])
-ylim([-5e-3 2e-3])
+ylim([-5e-4 2e-4])
 title('Benthos')
 print('-dpng',[ppath 'Hist_Fore_',harv,'_ensem_mid6_temp3_min_ts_prod.png'])
 
