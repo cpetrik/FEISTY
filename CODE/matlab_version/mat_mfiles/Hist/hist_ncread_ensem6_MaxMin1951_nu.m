@@ -109,8 +109,8 @@ for j = 1:nparam
     hNSlD(:,j) = ld_nu50;
     
     %% Maps
-    map_hist_nu_ensem(simname,sf_nu50,sp_nu50,sd_nu50,...
-        mf_nu50,mp_nu50,md_nu50,lp_nu50,ld_nu50,pp);
+%     map_hist_nu_ensem(simname,sf_nu50,sp_nu50,sd_nu50,...
+%         mf_nu50,mp_nu50,md_nu50,lp_nu50,ld_nu50,pp);
     
 end
 %%

@@ -39,7 +39,7 @@ nfile = ['/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/'];
 load([nfile 'LHS_param6_mid6_samek.mat'],'fx');
 
 % PARAMETER SENSITIVITY TEST
-for j = 1:length(fx)
+for j = 255:length(fx)
     
     %! Change individual parameters
     pset = fx(j,:);

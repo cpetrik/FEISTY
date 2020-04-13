@@ -17,7 +17,6 @@ nfile = '/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_met-k086_
 load([nfile 'Prod_diff_50yr_ensem6_mid_kt3_bestAIC_multFup_multPneg.mat'])
 
 %% take mean and error bars
-%means of global means, should they be means of all cells???
 fmean = mean(fbar);
 fstd = std(fbar);
 fmax = max(fbar);

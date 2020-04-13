@@ -108,6 +108,14 @@ fbar(:,6) = ((mean(tLD(:,f50),2))-(mean(tLD(:,h50),2))) ./ (mean(tLD(:,h50),2));
 fbar(:,7) = ((mean(tAA(:,f50),2))-(mean(tAA(:,h50),2))) ./ (mean(tAA(:,h50),2));
 names = {'F','P','D','All','LP','LD','Adults'};
 
+dbar(:,1) = ((mean(tF(:,f50),2))-(mean(tF(:,h50),2))) ;
+dbar(:,2) = ((mean(tP(:,f50),2))-(mean(tP(:,h50),2))) ;
+dbar(:,3) = ((mean(tD(:,f50),2))-(mean(tD(:,h50),2))) ;
+dbar(:,4) = ((mean(tA(:,f50),2))-(mean(tA(:,h50),2))) ;
+dbar(:,5) = ((mean(tLP(:,f50),2))-(mean(tLP(:,h50),2))) ;
+dbar(:,6) = ((mean(tLD(:,f50),2))-(mean(tLD(:,h50),2))) ;
+dbar(:,7) = ((mean(tAA(:,f50),2))-(mean(tAA(:,h50),2))) ;
+
 %% take mean and error bars
 %means of global means, should they be means of all cells???
 fmean = mean(fbar);
@@ -169,6 +177,11 @@ writetable(Stab,[epath 'Hist_Fore_All_fish03_ensem6_mid_kt3_yield_pdiff_MeanStd.
     'Delimiter',',','WriteRowNames',true)
 writetable(Stab,[epath2 'Hist_Fore_All_fish03_ensem6_mid_kt3_yield_pdiff_MeanStd.csv'],...
     'Delimiter',',','WriteRowNames',true)
+
+save([epath 'Hist_Fore_All_fish03_ensem6_mid_kt3_yield_diff_pdiff.mat'],...
+    'fbar','dbar','names')
+save([epath2 'Hist_Fore_All_fish03_ensem6_mid_kt3_yield_diff_pdiff.mat'],...
+    'fbar','dbar','names')
 
 
 

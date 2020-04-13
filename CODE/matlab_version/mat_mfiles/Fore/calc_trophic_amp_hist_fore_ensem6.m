@@ -297,9 +297,23 @@ fbar(:,7) = ((cAll(:))-(hAll(:))) ./ (hAll(:));
 fbar(:,8) = ((cB(:))-(hB(:))) ./ (hB(:));
 names = {'M','L','F','P','D','Pel','All','B'};
 
+dbar(:,1) = ((cM(:))-(hM(:))) ;
+dbar(:,2) = ((cL(:))-(hL(:))) ;
+dbar(:,3) = ((cF(:))-(hF(:))) ;
+dbar(:,4) = ((cP(:))-(hP(:))) ;
+dbar(:,5) = ((cD(:))-(hD(:))) ;
+dbar(:,6) = ((cPel(:))-(hPel(:))) ;
+dbar(:,7) = ((cAll(:))-(hAll(:))) ;
+dbar(:,8) = ((cB(:))-(hB(:))) ;
+
+%%
 save([nfile 'Prod_diff_50yr_ensem6_mid_kt3_bestAIC_multFup_multPneg.mat'],...
     'hF','hP','hD','hS','hM','hL','hAll','hPel','hB',...
     'cF','cP','cD','cS','cM','cL','cAll','cPel','cB',...
-    'pbar','fbar','pnames','names');
-
+    'pbar','fbar','dbar','pnames','names');
+efile = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100/';
+save([efile 'Prod_diff_50yr_ensem6_mid_kt3_bestAIC_multFup_multPneg.mat'],...
+    'hF','hP','hD','hS','hM','hL','hAll','hPel','hB',...
+    'cF','cP','cD','cS','cM','cL','cAll','cPel','cB',...
+    'pbar','fbar','dbar','pnames','names');
 

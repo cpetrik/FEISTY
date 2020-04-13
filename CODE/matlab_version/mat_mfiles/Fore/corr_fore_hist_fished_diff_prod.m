@@ -1,6 +1,11 @@
 % Correlation analysis of pdiff in PRODUCTION
 % of diff fn groups / trophic levels
 
+%Kwia et al
+%The coefficient and r2 of global phytoplankton?zooplankton linear 
+%regressions. All regressions are based on global annual biomass anomalies and 
+%are significant at the p < 0.05 level
+
 clear all
 close all
 

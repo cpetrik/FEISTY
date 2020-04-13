@@ -74,8 +74,8 @@ for j = 1:nparam
     
     %! Create a directory for output
     [fname,simname] = sub_fname_fore_ens(frate);
-    fnms{1} = fname;
-    snms{1} = simname;
+    fnms{j} = fname;
+    snms{j} = simname;
     
     cfile = ['/Volumes/FEISTY/NC/Matlab_new_size/' simname];
     
@@ -111,8 +111,8 @@ for j = 1:nparam
     fNSlD(:,j) = ld_nu50;
     
     %% Maps
-    map_fore_nu_ensem(simname,sf_nu50,sp_nu50,sd_nu50,...
-        mf_nu50,mp_nu50,md_nu50,lp_nu50,ld_nu50,pp);
+%     map_fore_nu_ensem(simname,sf_nu50,sp_nu50,sd_nu50,...
+%         mf_nu50,mp_nu50,md_nu50,lp_nu50,ld_nu50,pp);
     
 end
 epath = '/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/';

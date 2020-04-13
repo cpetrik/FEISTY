@@ -30,32 +30,36 @@ yid=test(1);
 % types - diff
 figure(1)
 subplot(2,2,2)
-fill(X,(Rf)*1e-6,'r','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
-fill(X,(Rp)*1e-6,'c','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
-fill(X,(Rd)*1e-6,'g','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
 plot(y,(rmF)*1e-6,'r','LineWidth',2); hold on;
 plot(y,(rmP)*1e-6,'b','LineWidth',2); hold on;
 plot(y,(rmD)*1e-6,'color',[0 0.6 0],'LineWidth',2); hold on;
+fill(X,(Rf)*1e-6,'r','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
+fill(X,(Rp)*1e-6,'c','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
+fill(X,(Rd)*1e-6,'g','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
 xlim([y(yid) y(end)])
 %ylim([-0.2 0.3])
 text(y(yid),6.5,'B')
 xlabel('Year')
 ylabel('Yield (MT km^-^2 y^-^1) relative to 1951')
+legend('F','P','D')
+legend('location','southwest')
 
 % adults - diff
 figure(2)
 subplot(2,2,2)
-fill(X,(Rf)*1e-6,'r','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
-fill(X,(Rlp)*1e-6,'c','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
-fill(X,(Rld)*1e-6,'g','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
 plot(y,(rmF)*1e-6,'r','LineWidth',2); hold on;
 plot(y,(rmLP)*1e-6,'b','LineWidth',2); hold on;
 plot(y,(rmLD)*1e-6,'color',[0 0.6 0],'LineWidth',2); hold on;
+fill(X,(Rf)*1e-6,'r','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
+fill(X,(Rlp)*1e-6,'c','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
+fill(X,(Rld)*1e-6,'g','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
 xlim([y(yid) y(end)])
 %ylim([-0.2 0.3])
 text(y(yid),6.5,'B')
 xlabel('Year')
 ylabel('Yield (MT km^-^2 y^-^1) relative to 1951')
+legend('F','P','D')
+legend('location','southwest')
 
 %% Production
 load([epath2 'Hist_Fore_All_fish03_ensem6_mid_temp3_ts_prod.mat'])

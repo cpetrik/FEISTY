@@ -18,7 +18,7 @@ mzprod_hist = mzprod_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 lzprod_hist = lzprod_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 npp_hist = npp_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 det_hist = det_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
-ptemp_hist = ptemp_mean_hist - 273;
+ptemp_hist = ptemp_mean_hist;
 
 mzloss_fore = mzloss_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 lzloss_fore = lzloss_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
@@ -26,7 +26,7 @@ mzprod_fore = mzprod_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 lzprod_fore = lzprod_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 npp_fore = npp_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 det_fore = det_mean_fore * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
-ptemp_fore = ptemp_mean_fore - 273;
+ptemp_fore = ptemp_mean_fore;
 
 zprod_hist = mzprod_hist + lzprod_hist;
 zprod_fore = mzprod_fore + lzprod_fore;
@@ -126,7 +126,7 @@ save([fpath 'Means_hist_fore_',harv,'_cobalt_' cfile '.mat'],'mzloss_hist',...
     'mzprod_hist','lzloss_hist','lzprod_hist','npp_hist','det_hist',...
     'ptemp_hist','mzloss_fore','mzprod_fore','lzloss_fore','lzprod_fore',...
     'npp_fore','det_fore','ptemp_fore','cF','cP','cD','cS','cM','cL','hF',...
-    'hP','hD','hS','hM','hL');
+    'hP','hD','hS','hM','hL','Hb','Cb');
 
 %% plot info
 plotminlat=60; %Set these bounds for your data
