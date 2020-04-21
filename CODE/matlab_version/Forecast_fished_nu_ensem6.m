@@ -12,7 +12,7 @@ global MFsel MPsel MDsel LPsel LDsel Jsel efn cfn mfn
 global tstep K CGRD ni nj dfrate frate
 
 %! Grid
-load('/Users/cpetrik/Dropbox/Princeton/POEM_2.0/CODE/Data/Data_grid_hindcast_NOTflipped.mat');
+load('/Users/cpetrik/Dropbox/Princeton/POEM_2.0/CODE/Data/Data_grid_hindcast_NOTflipped.mat','GRD');
 NX = 48111;
 ID = 1:NX;
 
@@ -31,10 +31,15 @@ mfn=nan;
 nfile = ['/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_met-k086_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/'];
 load([nfile 'LHS_param6_mid6_kt3_bestAIC_params_Fupneg_mult10_Pneg2_mult3_reduced.mat'],...
     'red_params');
-load([nfile 'Hist_Fore_All_fish03_ensem_mid6_temp3_pset_VarMaxMinDiffSims_prod.mat'],'pstats');
+load([nfile 'Hist_Fore_All_fish03_ensem_mid6_temp3_pset_VarMaxMinDiffSims_prod.mat'],...
+    'pdstat','pstats');
+% Pure difference: tstats, pstats, Ttab, Ptab
+% Percent difference: mmstat, pdstat, Mtab, Dtab
 
 params = red_params;
-psets = unique(pstats(:,1));
+pset1 = unique(pdstat(:,1));
+pset2 = unique(pstats(:,1)); %already ran these
+psets = setdiff(pset1,pset2);
 
 %% PARAMETER ENSEMBLE
 for k = 1:length(psets)

@@ -5,9 +5,9 @@ close all
 
 %%%%!! EXPERIMENTS
 historic_fished = false;
-historic_fished_ens = false;
+historic_fished_ens = true;
 forecast_fished = false;
-forecast_fished_ens = false;
+forecast_fished_ens = true;
 
 tic
 if historic_fished

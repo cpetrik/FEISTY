@@ -1,6 +1,8 @@
 % Calculate production / scope for growth
 % (assim*Ingest - Metab)
 % to see if emergent pattern of best and worst psets
+% theoretical plots based on params of Max & Min change in prod
+% uses quantiles of prey
 
 clear all
 close all

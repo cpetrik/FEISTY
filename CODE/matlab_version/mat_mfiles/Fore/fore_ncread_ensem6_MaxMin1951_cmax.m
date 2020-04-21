@@ -39,23 +39,23 @@ params = red_params;
 psets = unique(pstats(:,1));
 nparam = length(psets);
 
-fNTsF = NaN*ones(nparam,95*12);
-fNTsP = fNTsF;
-fNTsD = fNTsF;
-fNTmF = fNTsF;
-fNTmP = fNTsF;
-fNTmD = fNTsF;
-fNTlP = fNTsF;
-fNTlD = fNTsF;
+fCTsF = NaN*ones(nparam,95*12);
+fCTsP = fCTsF;
+fCTsD = fCTsF;
+fCTmF = fCTsF;
+fCTmP = fCTsF;
+fCTmD = fCTsF;
+fCTlP = fCTsF;
+fCTlD = fCTsF;
 
-fNSsF = NaN*ones(48111,nparam);
-fNSsP = fNSsF;
-fNSsD = fNSsF;
-fNSmF = fNSsF;
-fNSmP = fNSsF;
-fNSmD = fNSsF;
-fNSlP = fNSsF;
-fNSlD = fNSsF;
+fCSsF = NaN*ones(48111,nparam);
+fCSsP = fCSsF;
+fCSsD = fCSsF;
+fCSmF = fCSsF;
+fCSmP = fCSsF;
+fCSmD = fCSsF;
+fCSlP = fCSsF;
+fCSlD = fCSsF;
 
 fnms = cell(nparam,1);
 snms = cell(nparam,1);
@@ -80,43 +80,43 @@ for j = 1:nparam
     cfile = ['/Volumes/FEISTY/NC/Matlab_new_size/' simname];
 
     %% Last 50 year means
-    netcdf_read_fore_fished_nu_ens(fname,simname);
+    netcdf_read_fore_fished_cmax_ens(fname,simname);
 
-    load([fname '_Means_nu_' simname '.mat'],'yr50',...
-        'sf_tnu','sp_tnu','sd_tnu',...
-        'mf_tnu','mp_tnu','md_tnu',...
-        'lp_tnu','ld_tnu',...
-        'sf_nu50','sp_nu50','sd_nu50',...
-        'mf_nu50','mp_nu50','md_nu50',...
-        'lp_nu50','ld_nu50');
+    load([fname '_Means_cmax_' simname '.mat'],'yr50',...
+        'sf_tcmax','sp_tcmax','sd_tcmax',...
+        'mf_tcmax','mp_tcmax','md_tcmax',...
+        'lp_tcmax','ld_tcmax',...
+        'sf_cmax50','sp_cmax50','sd_cmax50',...
+        'mf_cmax50','mp_cmax50','md_cmax50',...
+        'lp_cmax50','ld_cmax50');
 
     %% Time series
-    fNTsF(j,:) = sf_tnu;
-    fNTsP(j,:) = sp_tnu;
-    fNTsD(j,:) = sd_tnu;
-    fNTmF(j,:) = mf_tnu;
-    fNTmP(j,:) = mp_tnu;
-    fNTmD(j,:) = md_tnu;
-    fNTlP(j,:) = lp_tnu;
-    fNTlD(j,:) = ld_tnu;
+    fCTsF(j,:) = sf_tcmax;
+    fCTsP(j,:) = sp_tcmax;
+    fCTsD(j,:) = sd_tcmax;
+    fCTmF(j,:) = mf_tcmax;
+    fCTmP(j,:) = mp_tcmax;
+    fCTmD(j,:) = md_tcmax;
+    fCTlP(j,:) = lp_tcmax;
+    fCTlD(j,:) = ld_tcmax;
 
     %% Last 50 years (2051-2100)
-    fNSsF(:,j) = sf_nu50;
-    fNSsP(:,j) = sp_nu50;
-    fNSsD(:,j) = sd_nu50;
-    fNSmF(:,j) = mf_nu50;
-    fNSmP(:,j) = mp_nu50;
-    fNSmD(:,j) = md_nu50;
-    fNSlP(:,j) = lp_nu50;
-    fNSlD(:,j) = ld_nu50;
+    fCSsF(:,j) = sf_cmax50;
+    fCSsP(:,j) = sp_cmax50;
+    fCSsD(:,j) = sd_cmax50;
+    fCSmF(:,j) = mf_cmax50;
+    fCSmP(:,j) = mp_cmax50;
+    fCSmD(:,j) = md_cmax50;
+    fCSlP(:,j) = lp_cmax50;
+    fCSlD(:,j) = ld_cmax50;
 
     %% Maps
-%     map_fore_nu_ensem(simname,sf_nu50,sp_nu50,sd_nu50,...
-%         mf_nu50,mp_nu50,md_nu50,lp_nu50,ld_nu50,pp);
+%     map_fore_cmax_ensem(simname,sf_cmax50,sp_cmax50,sd_cmax50,...
+%         mf_cmax50,mp_cmax50,md_cmax50,lp_cmax50,ld_cmax50,pp);
 
 end
-epath = '/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_nu20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/';
-save([epath 'Forecast_All_fish03_ensem6_diffMaxMin1951_nus.mat'],...
-    'fNTsF','fNTsP','fNTsD','fNTmF','fNTmP','fNTmD','fNTlP','fNTlD',...
-    'fNSsF','fNSsP','fNSsD','fNSmF','fNSmP','fNSmD','fNSlP','fNSlD',...
+epath = '/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/';
+save([epath 'Forecast_All_fish03_ensem6_diffMaxMin1951_cmaxs.mat'],...
+    'fCTsF','fCTsP','fCTsD','fCTmF','fCTmP','fCTmD','fCTlP','fCTlD',...
+    'fCSsF','fCSsP','fCSsD','fCSmF','fCSmP','fCSmD','fCSlP','fCSlD',...
     'fnms','snms')

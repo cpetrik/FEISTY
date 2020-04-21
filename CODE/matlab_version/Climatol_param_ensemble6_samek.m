@@ -38,8 +38,17 @@ mfn=nan;
 nfile = ['/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/'];
 load([nfile 'LHS_param6_mid6_samek.mat'],'fx');
 
+s1 = 482:-1:468;
+s2 = 564:-1:550;
+s3 = 646:-1:632;
+s4 = 728:-1:714;
+
+setp = [s1;s2;s3;s4];
+setp = reshape(setp,4*15,1);
+
 % PARAMETER SENSITIVITY TEST
-for j = 255:length(fx)
+for k = 1:length(setp) %1:length(fx)
+    j = setp(k);
     
     %! Change individual parameters
     pset = fx(j,:);

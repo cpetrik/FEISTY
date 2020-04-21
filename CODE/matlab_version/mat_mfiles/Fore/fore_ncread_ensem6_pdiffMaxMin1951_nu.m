@@ -1,5 +1,5 @@
 % FEISTY Forecast runs of parameter sets
-% that produced the max and min changes in production
+% that produced the max and min percent changes in production
 
 clear all
 close all
@@ -33,10 +33,10 @@ end
 nfile = ['/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_met-k086_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/'];
 load([nfile 'LHS_param6_mid6_kt3_bestAIC_params_Fupneg_mult10_Pneg2_mult3_reduced.mat'],...
     'red_params');
-load([nfile 'Hist_Fore_All_fish03_ensem_mid6_temp3_pset_VarMaxMinDiffSims_prod.mat'],'pstats');
+load([nfile 'Hist_Fore_All_fish03_ensem_mid6_temp3_pset_VarMaxMinDiffSims_prod.mat'],'pdstat');
 
 params = red_params;
-psets = unique(pstats(:,1));
+psets = unique(pdstat(:,1));
 nparam = length(psets);
 
 fNTsF = NaN*ones(nparam,95*12);
@@ -115,8 +115,8 @@ for j = 1:nparam
 %         mf_nu50,mp_nu50,md_nu50,lp_nu50,ld_nu50,pp);
 
 end
-epath = '/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_nu20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/';
-save([epath 'Forecast_All_fish03_ensem6_diffMaxMin1951_nus.mat'],...
+epath = '/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/';
+save([epath 'Forecast_All_fish03_ensem6_pdiffMaxMin1951_nus.mat'],...
     'fNTsF','fNTsP','fNTsD','fNTmF','fNTmP','fNTmD','fNTlP','fNTlD',...
     'fNSsF','fNSsP','fNSsD','fNSmF','fNSmP','fNSmD','fNSlP','fNSlD',...
     'fnms','snms')
