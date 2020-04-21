@@ -1,5 +1,5 @@
 %%%%!! RUN Climatol FOR ALL LOCATIONS
-function Climatol_param_ensemble6_samek()
+function Climatol_param_ensemble6_samek_parallel()
 
 %! Setup Climatol (loop 5-year climatology of ESM2.6-COBALT)
 %load('/home/cpetrik/FEISTY_clim/ESM26_1deg_5yr_clim_191_195_daily.mat','COBALT');
