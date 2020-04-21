@@ -43,17 +43,23 @@ load([epath 'LHS_param6_mid6_kt3_bestAIC_params_Fupneg_mult10_Pneg2_mult3_reduce
     'red_params','ptext');
 
 %% calculate: 
-%benthic production = benthic biomass * detritus flux * benthic efficiency
+%NO benthic production = benthic biomass * detritus flux * benthic efficiency
+%benthic production = detritus flux * benthic efficiency
 bpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/cobalt_data/';
 load([bpath 'cobalt_det_ts.mat'],'det_mean_hist','det_mean_fore',...
     'mo_hist','mo_fore');
 det_hist = det_mean_hist' * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 det_fore = det_mean_fore' * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 
-HB = haTB .* repmat(det_hist,43,1) .* 0.075;
-FB = faTB .* repmat(det_fore,43,1) .* 0.075;
-HB_tam = HB_tamean .* det_hist .* 0.075;
-FB_tam = FB_tamean .* det_fore .* 0.075;
+% HB = haTB .* repmat(det_hist,43,1) .* 0.075;
+% FB = faTB .* repmat(det_fore,43,1) .* 0.075;
+% HB_tam = HB_tamean .* det_hist .* 0.075;
+% FB_tam = FB_tamean .* det_fore .* 0.075;
+
+HB = repmat(det_hist,43,1) .* 0.075;
+FB = repmat(det_fore,43,1) .* 0.075;
+HB_tam = det_hist .* 0.075;
+FB_tam = det_fore .* 0.075;
 
 %% ts
 %In original saved file
@@ -160,8 +166,8 @@ pstats(5,1) = find(diffP==max(diffP));
 pstats(6,1) = find(diffP==min(diffP));
 pstats(7,1) = find(diffD==max(diffD));
 pstats(8,1) = find(diffD==min(diffD));
-pstats(9,1)  = find(diffB==max(diffB));
-pstats(10,1) = find(diffB==min(diffB));
+% pstats(9,1)  = find(diffB==max(diffB));
+% pstats(10,1) = find(diffB==min(diffB));
 
 pstats(1,2:7) = red_params(pstats(1,1),:);
 pstats(2,2:7) = red_params(pstats(2,1),:);
@@ -171,15 +177,14 @@ pstats(5,2:7) = red_params(pstats(5,1),:);
 pstats(6,2:7) = red_params(pstats(6,1),:);
 pstats(7,2:7) = red_params(pstats(7,1),:);
 pstats(8,2:7) = red_params(pstats(8,1),:);
-pstats(9,2:7)  = red_params(pstats(9,1),:);
-pstats(10,2:7) = red_params(pstats(10,1),:);
+% pstats(9,2:7)  = red_params(pstats(9,1),:);
+% pstats(10,2:7) = red_params(pstats(10,1),:);
 
 Ttab = array2table(tstats,'VariableNames',{'max','mean','min'},...
     'RowNames',{'All','F','P','D','B'});
 
 Ptab = array2table(pstats,'VariableNames',['sim',ptext],...
-    'RowNames',{'maxAll','minAll','maxF','minF','maxP','minP','maxD','minD',...
-    'maxB','minB'});
+    'RowNames',{'maxAll','minAll','maxF','minF','maxP','minP','maxD','minD'});%,'maxB','minB'});
 
 writetable(Ttab,[epath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_MaxMinDiffs_prod.csv'],...
     'Delimiter',',','WriteRowNames',true)
@@ -229,8 +234,8 @@ pdstat(5,1) = find(pdP==max(pdP));
 pdstat(6,1) = find(pdP==min(pdP));
 pdstat(7,1) = find(pdD==max(pdD));
 pdstat(8,1) = find(pdD==min(pdD));
-pdstat(9,1)  = find(pdB==max(pdB));
-pdstat(10,1) = find(pdB==min(pdB));
+% pdstat(9,1)  = find(pdB==max(pdB));
+% pdstat(10,1) = find(pdB==min(pdB));
 
 pdstat(1,2:7) = red_params(pdstat(1,1),:);
 pdstat(2,2:7) = red_params(pdstat(2,1),:);
@@ -240,15 +245,15 @@ pdstat(5,2:7) = red_params(pdstat(5,1),:);
 pdstat(6,2:7) = red_params(pdstat(6,1),:);
 pdstat(7,2:7) = red_params(pdstat(7,1),:);
 pdstat(8,2:7) = red_params(pdstat(8,1),:);
-pdstat(9,2:7)  = red_params(pdstat(9,1),:);
-pdstat(10,2:7) = red_params(pdstat(10,1),:);
+% pdstat(9,2:7)  = red_params(pdstat(9,1),:);
+% pdstat(10,2:7) = red_params(pdstat(10,1),:);
 
 Mtab = array2table(mmstat,'VariableNames',{'max','mean','min'},...
     'RowNames',{'All','F','P','D','B'});
 
 Dtab = array2table(pdstat,'VariableNames',['sim',ptext],...
     'RowNames',{'maxAll','minAll','maxF','minF','maxP','minP','maxD','minD',...
-    'maxB','minB'});
+    });%'maxB','minB'});
 
 writetable(Mtab,[epath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_MaxMinpPdiffs_prod.csv'],...
     'Delimiter',',','WriteRowNames',true)
@@ -366,17 +371,17 @@ title('Demersal fish')
 print('-dpng',[ppath 'Hist_Fore_',harv,'_ensem_mid6_temp3_MaxMinD_prod.png'])
 
 %% B
-figure(10)
-plot(y,dtB(pstats(9,1),:),'r','LineWidth',2); hold on;
-plot(y,dmB,'k','LineWidth',2); hold on;
-plot(y,dtB(pstats(10,1),:),'b','LineWidth',2); hold on;
-xlim([1950 2100])
-%ylim([0.425 0.725])
-legend('max','mean','min')
-legend('location','southwest')
-ylabel('Change in production (g d^-^1) relative to 1951')
-title('Benthos')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_ensem_mid6_temp3_MaxMinB_prod.png'])
+% figure(10)
+% plot(y,dtB(pstats(9,1),:),'r','LineWidth',2); hold on;
+% plot(y,dmB,'k','LineWidth',2); hold on;
+% plot(y,dtB(pstats(10,1),:),'b','LineWidth',2); hold on;
+% xlim([1950 2100])
+% %ylim([0.425 0.725])
+% legend('max','mean','min')
+% legend('location','southwest')
+% ylabel('Change in production (g d^-^1) relative to 1951')
+% title('Benthos')
+% print('-dpng',[ppath 'Hist_Fore_',harv,'_ensem_mid6_temp3_MaxMinB_prod.png'])
 
 %%
 % Line color order
@@ -394,7 +399,7 @@ xspec = pstats(1:2:end,1);
 xtext = {'max \DeltaAll','max \DeltaF','max \DeltaP','max \DeltaD','max \DeltaB'};
 
 figure(5)
-subplot(3,2,5)
+subplot(3,2,4)
 plot(y,dtA(xspec,:)); hold on;
 xlim([1950 2100])
 ylim([-7e-3 3e-3])
@@ -422,7 +427,7 @@ title('Demersals')
 legend(xtext)
 legend('location','southwest')
 
-subplot(3,2,4)
+subplot(3,2,5)
 plot(y,dtB(xspec,:)); hold on;
 xlim([1950 2100])
 ylim([-6e-4 1e-4])
@@ -435,7 +440,7 @@ nspec = pstats(2:2:end,1);
 ntext = {'min \DeltaAll','min \DeltaF','min \DeltaP','min \DeltaD','min \DeltaB'};
 
 figure(6)
-subplot(3,2,5)
+subplot(3,2,4)
 plot(y,dtA(nspec,:)); hold on;
 xlim([1950 2100])
 ylim([-6e-3 2e-3])
@@ -463,7 +468,7 @@ legend(ntext)
 legend('location','southwest')
 title('Demersals')
 
-subplot(3,2,4)
+subplot(3,2,5)
 plot(y,dtB(nspec,:)); hold on;
 xlim([1950 2100])
 ylim([-5e-4 2e-4])
@@ -493,7 +498,7 @@ xtext = {'max %\DeltaAll','max %\DeltaF','max %\DeltaP','max %\DeltaD',...
     'max %\DeltaB'};
 
 figure(11)
-subplot(3,2,5)
+subplot(3,2,4)
 plot(y,mpdA(xspec,:)); hold on;
 xlim([1950 2100])
 ylim([-0.2 0.1])
@@ -521,7 +526,7 @@ title('Demersals')
 % legend(xtext)
 % legend('location','southwest')
 
-subplot(3,2,4)
+subplot(3,2,5)
 plot(y,mpdB(xspec,:)); hold on;
 xlim([1950 2100])
 ylim([-0.4 0.2])
@@ -542,7 +547,7 @@ ntext = {'min %\DeltaAll','min %\DeltaF','min %\DeltaP','min %\DeltaD',...
     'min %\DeltaB'};
 
 figure(12)
-subplot(3,2,5)
+subplot(3,2,4)
 plot(y,mpdA(nspec,:)); hold on;
 xlim([1950 2100])
 ylim([-0.2 0.1])
@@ -570,7 +575,7 @@ ylim([-0.25 0.05])
 % legend('location','southwest')
 title('Demersals')
 
-subplot(3,2,4)
+subplot(3,2,5)
 plot(y,mpdB(nspec,:)); hold on;
 xlim([1950 2100])
 ylim([-0.4 0.2])

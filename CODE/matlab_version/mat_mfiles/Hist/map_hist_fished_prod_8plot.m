@@ -108,8 +108,11 @@ npp_hist = npp_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
 zprod = mmz_prod + mlz_prod;
 
 %% calculate: 
-%benthic production = benthic biomass * detritus flux * benthic efficiency
-prodB = Pb .* det_hist .* 0.075;
+%NO benthic production = benthic biomass * detritus flux * benthic efficiency
+% prodB = Pb .* det_hist .* 0.075;
+
+%benthic production = detritus flux * benthic efficiency
+prodB = det_hist .* 0.075;
 
 %%
 edges = -5:3;
@@ -117,27 +120,35 @@ edges = -5:3;
 figure(10)
 subplot(3,3,1)
 histogram(log10(npp_hist(:)),edges)
+title('NPP')
 
 subplot(3,3,2)
 histogram(log10(zprod(:)),edges)
+title('Zoo')
 
 subplot(3,3,3)
 histogram(log10(det_hist(:)),edges)
+title('Det')
 
 subplot(3,3,4)
 histogram(log10(prodB(:)),edges)
+title('B')
 
 subplot(3,3,5)
 histogram(log10(AllF(:)),edges)
+title('F')
 
 subplot(3,3,6)
 histogram(log10(AllP(:)),edges)
+title('P')
 
 subplot(3,3,7)
 histogram(log10(AllD(:)),edges)
+title('D')
 
 subplot(3,3,8)
 histogram(log10(All(:)),edges)
+title('All')
 
 %% figure info
 f1 = figure('Units','inches','Position',[1 3 6.5 8]);
