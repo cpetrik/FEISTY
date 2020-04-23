@@ -95,6 +95,10 @@ tLP = [tLP; tLPorig];
 tLD = [tLD; tLDorig];
 tAA = [tAA; tAAorig];
 
+%by trophic level to compare to Moore et al 2018
+t3 = tF;
+t4 = tLP + tLD;
+
 %% last 50 yrs of each
 h50 = find(y>1950 & y<=2000);
 f50 = find(y>2050 & y<=2100);
@@ -106,7 +110,9 @@ fbar(:,4) = ((mean(tA(:,f50),2))-(mean(tA(:,h50),2))) ./ (mean(tA(:,h50),2));
 fbar(:,5) = ((mean(tLP(:,f50),2))-(mean(tLP(:,h50),2))) ./ (mean(tLP(:,h50),2));
 fbar(:,6) = ((mean(tLD(:,f50),2))-(mean(tLD(:,h50),2))) ./ (mean(tLD(:,h50),2));
 fbar(:,7) = ((mean(tAA(:,f50),2))-(mean(tAA(:,h50),2))) ./ (mean(tAA(:,h50),2));
-names = {'F','P','D','All','LP','LD','Adults'};
+fbar(:,8) = ((mean(t3(:,f50),2))-(mean(t3(:,h50),2))) ./ (mean(t3(:,h50),2));
+fbar(:,9) = ((mean(t4(:,f50),2))-(mean(t4(:,h50),2))) ./ (mean(t4(:,h50),2));
+names = {'F','P','D','All','LP','LD','Adults','TL3','TL4'};
 
 dbar(:,1) = ((mean(tF(:,f50),2))-(mean(tF(:,h50),2))) ;
 dbar(:,2) = ((mean(tP(:,f50),2))-(mean(tP(:,h50),2))) ;
@@ -115,6 +121,8 @@ dbar(:,4) = ((mean(tA(:,f50),2))-(mean(tA(:,h50),2))) ;
 dbar(:,5) = ((mean(tLP(:,f50),2))-(mean(tLP(:,h50),2))) ;
 dbar(:,6) = ((mean(tLD(:,f50),2))-(mean(tLD(:,h50),2))) ;
 dbar(:,7) = ((mean(tAA(:,f50),2))-(mean(tAA(:,h50),2))) ;
+dbar(:,8) = ((mean(t3(:,f50),2))-(mean(t3(:,h50),2))) ;
+dbar(:,9) = ((mean(t4(:,f50),2))-(mean(t4(:,h50),2))) ;
 
 %% take mean and error bars
 %means of global means, should they be means of all cells???
@@ -132,7 +140,7 @@ astd  = fstd([1,5:7]);
 figure(1)
 b=bar(100*fmean); hold on;
 b.FaceColor = [0 0.5 0.75];
-er = errorbar(1:7,100*fmean,100*fstd);    
+er = errorbar(1:9,100*fmean,100*fstd);    
 er.Color = [0 0 0];                            
 er.LineStyle = 'none'; 
 set(gca,'XTickLabel',names)
