@@ -1,5 +1,5 @@
-% FEISTY climatology/baseline parameter set 
-% kE = kC = kM (kt) for all
+% FEISTY parameter search using low, mid, high of 5 sens params
+% plus kE = kC = kM (kt) for all
 
 clear all
 close all
@@ -7,7 +7,7 @@ close all
 cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
 
 dp = ['/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/',...
-    'Dc_cmax20-b250_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050'];
+    'Dc_cmax20-b250_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/'];
 
 %%
 nfile = '/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/';
@@ -19,16 +19,19 @@ for j = 1:length(fx)
     %! Change individual parameters
     pset = fx(j,:);
     %pset=round(pset,3);
-    set_params6(pset)
+    set_params6_samek(pset)
     
     %! Make core parameters/constants (global)
-    const_params6()
+    const_params6_samek()
     
     %! Create a directory for output
     [fname,sname] = sub_fname_ensemble6_samek();
     fsim{j} = fname;
     sim{j} = sname;
 end
+
+save([dp 'Climatol_ensemble_param6_mid6_samek.mat'],...
+    'fsim','-append')
 
 %%
 SF = NaN*ones(45124,length(fx));
@@ -56,6 +59,7 @@ rmse_all = NaN*ones(5,length(fx));
 mis_all = NaN*ones(length(fx),45,5);
 
 %%
+
 for M=1:length(fx)
     sfile = fsim{M};
     sname = sim{M};
@@ -63,7 +67,7 @@ for M=1:length(fx)
     load([sfile '.mat']);
     
     %% Last year means
-    [id,nt] = size(Spinup_Bent.bio);
+    [id,nt] = size(Clim_Bent.bio);
     time=1:nt;
     lyr=time((end-12+1):end);
     sp_mean=mean(Clim_Sml_p.bio(:,lyr),2);

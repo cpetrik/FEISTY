@@ -6,7 +6,7 @@ function vis_climatol_ensem5(simname,sf_mean,sp_mean,sd_mean,...
 % 150 years
 % Saved as nc files
 
-Pdir = '/Volumes/GFDL/POEM_JLD/esm26_hist/';
+Pdir = '/Volumes/FEISTY/POEM_JLD/esm26_hist/';
 load([Pdir 'ESM26_1deg_5yr_clim_191_195_gridspec.mat']);
 
 % plot info

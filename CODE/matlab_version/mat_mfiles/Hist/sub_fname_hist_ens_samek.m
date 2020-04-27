@@ -1,5 +1,5 @@
 %%%% File naming system
-function [fname,simname] = sub_fname_hist_ens(frate)
+function [fname,simname] = sub_fname_hist_ens_samek(frate)
 global DAYS GRD NX ID
 global DT PI_be_cutoff pdc L_s L_m L_l M_s M_m M_l L_zm L_zl
 global Z_s Z_m Z_l Lambda K_l K_j K_a h gam kt kc ke bpow
@@ -59,11 +59,13 @@ tbfn = num2str(1000+int64(1000*bpow));
 tbenc = num2str(1000+int64(1000*benc));
 tbcmx = num2str(1000+int64(1000*bcmx));
 tlam = num2str(1000+int64(1000*Lambda));
+tke = num2str(1000+int64(1000*ke));
+tkc = num2str(1000+int64(1000*kc));
 
 if (isnan(cfn))
-    simname = [coup,'_Lam',tlam(2:end),'_enc',tefn,'-b',tbenc(2:end),'_m',tmfn,'-b',tbfn(2:end),'-k',tkfn(2:end),'_c',tcfn,'-b',tbcmx(2:end),'_D',td(2:end),'_J',tj(2:end),'_A',ta(2:end),'_Sm',tsm(2:end),'_nmort',tmort,'_BE',tbe(2:end),'_noCC_RE',tre(2:end)];
+    simname = [coup,'_Lam',tlam(2:end),'_enc',tefn,'-b',tbenc(2:end),'-k',tke(2:end),'_m',tmfn,'-b',tbfn(2:end),'-k',tkfn(2:end),'_c',tcfn,'-b',tbcmx(2:end),'-k',tkc(2:end),'_D',td(2:end),'_J',tj(2:end),'_A',ta(2:end),'_Sm',tsm(2:end),'_nmort',tmort,'_BE',tbe(2:end),'_noCC_RE',tre(2:end)];
 else
-    simname = [coup,'_Lam',tlam(2:end),'_efn',num2str(efn),'_mfn',num2str(mfn),'_cfn',num2str(cfn),'_D',td(2:end),'_J',tj(2:end),'_A',ta(2:end),'_Sm',tsm(2:end),'_nmort',tmort,'_BE',tbe(2:end),'_noCC_RE',tre(2:end)];
+    simname = [coup,'_Lam',tlam(2:end),'_efn',num2str(efn),'_mfn',num2str(mfn),'_cfn',num2str(cfn),'_D',td(2:end),'_J',tj(2:end),'_A',ta(2:end),'_Sm',tsm(2:end),'_nmort',tmort,'_BE',tbe(2:end),'_noCC_RE',tre(2:end)];   
 end
 
 if (~isdir(['/Volumes/FEISTY/NC/Matlab_new_size/',simname]))

@@ -3,7 +3,7 @@ function Historic_fished_prod_ensemble6_samek()
 
 global DAYS GRD NX ID
 global DT PI_be_cutoff pdc L_s L_m L_l M_s M_m M_l L_zm L_zl
-global Z_s Z_m Z_l Lambda K_l K_j K_a h gam kt bpow
+global Z_s Z_m Z_l Lambda K_l K_j K_a h gam kt ke kc bpow
 global bent_eff rfrac D J Sm A benc bcmx amet
 global Tu_s Tu_m Tu_l Nat_mrt MORT
 global MF_phi_MZ MF_phi_LZ MF_phi_S MP_phi_MZ MP_phi_LZ MP_phi_S MD_phi_BE
@@ -12,7 +12,7 @@ global MFsel MPsel MDsel LPsel LDsel Jsel efn cfn mfn
 global tstep K CGRD ni nj dfrate frate
 
 %! Grid
-load('/Users/cpetrik/Dropbox/Princeton/POEM_2.0/CODE/Data/Data_grid_hindcast_NOTflipped.mat');
+load('/Users/cpetrik/Dropbox/Princeton/POEM_2.0/CODE/Data/Data_grid_hindcast_NOTflipped.mat','GRD');
 NX = length(GRD.Z);
 ID = 1:NX;
 
@@ -28,27 +28,23 @@ cfn=nan;
 efn=nan;
 mfn=nan;
 
-nfile = ['/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_met-k086_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/'];
-load([nfile 'LHS_param6_mid6_kt3_bestAIC_params_Fupneg_mult10_Pneg2_mult3_reduced.mat'],...
-    'red_params');
-load([nfile 'Hist_Fore_All_fish03_ensem_mid6_temp3_pset_VarMaxMinDiffSims_prod.mat'],'pstats');
-
-params = red_params;
-psets = unique(pstats(:,1));
+nfile = ['/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/',...
+    'Dc_cmax20-b250_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/'];
+load([nfile 'LHS_param6_mid6_samek_bestAIC_params_Fupneg_mult8_Pneg2_mult3.mat'],...
+    'params');
 
 %% PARAMETER ENSEMBLE
-for j = psets
+for j = 1:length(params)
     
     %! Change individual parameters
     pset = params(j,:);
-    %pset=round(pset,3);
-    set_params6(pset)
+    set_params6_samek(pset)
     
     %! Make core parameters/constants (global)
-    const_params6()
+    const_params6_samek()
     
     %! Create a directory for output
-    fname = sub_fname_hist_ens(frate);
+    fname = sub_fname_hist_ens_samek(frate);
     
     %! Storage variables
     S_Bent_bio = zeros(NX,DAYS);
