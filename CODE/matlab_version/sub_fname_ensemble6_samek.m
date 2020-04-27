@@ -1,5 +1,5 @@
 %%%% File naming system
-function fname = sub_fname_ensemble6_samek()
+function [fname,simname] = sub_fname_ensemble6_samek()
 
 global DAYS GRD NX ID
 global DT PI_be_cutoff pdc L_s L_m L_l M_s M_m M_l L_zm L_zl
