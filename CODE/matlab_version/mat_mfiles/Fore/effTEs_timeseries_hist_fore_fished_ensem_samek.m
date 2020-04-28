@@ -340,7 +340,7 @@ fill(X,100*Sh,'c','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
 fill(X,100*Sa,'k','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
 legend('LTL','HTL','ATL')
 legend('location','northeast')
-%ylim([9 18])
+ylim([-3.5 0.5])
 xlim([1951 2095])
 xlabel('Year')
 ylabel('Percent change in TE relative to 1951')

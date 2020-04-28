@@ -37,7 +37,7 @@ fill(X,(Rf)*1e-6,'r','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled a
 fill(X,(Rp)*1e-6,'c','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
 fill(X,(Rd)*1e-6,'g','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
 xlim([y(yid) y(end)])
-%ylim([-0.2 0.3])
+ylim([-20 5])
 text(y(yid),6.5,'B')
 xlabel('Year')
 ylabel('Yield (MT km^-^2 y^-^1) relative to 1951')
@@ -54,7 +54,7 @@ fill(X,(Rf)*1e-6,'r','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled a
 fill(X,(Rlp)*1e-6,'c','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
 fill(X,(Rld)*1e-6,'g','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
 xlim([y(yid) y(end)])
-%ylim([-0.2 0.3])
+ylim([-20 5])
 text(y(yid),6.5,'B')
 xlabel('Year')
 ylabel('Yield (MT km^-^2 y^-^1) relative to 1951')
@@ -76,7 +76,7 @@ plot(y,100*(mpP),'b','LineWidth',2); hold on;
 plot(y,100*(mpD),'color',[0 0.6 0],'LineWidth',2); hold on;
 xlim([y(yid) y(end)])
 ylim([-35 15])
-text(y(yid),0.18,'A')
+text(y(yid),18,'A')
 xlabel('Year')
 ylabel('% \Delta in production relative to 1951')
 print('-dpng',[ppath 'Hist_Fore_',harv,'_yield_prod_types_all_ensem_mid6_temp3_cone_1std_yr_2plot.png'])
@@ -91,7 +91,7 @@ plot(y,100*(mpP),'b','LineWidth',2); hold on;
 plot(y,100*(mpD),'color',[0 0.6 0],'LineWidth',2); hold on;
 xlim([y(yid) y(end)])
 ylim([-35 15])
-text(y(yid),0.18,'A')
+text(y(yid),18,'A')
 xlabel('Year')
 ylabel('% \Delta in production relative to 1951')
 print('-dpng',[ppath 'Hist_Fore_',harv,'_biom_prod_types_adults_ensem_mid6_temp3_cone_1std_yr_2plot.png'])
