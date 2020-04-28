@@ -1,5 +1,5 @@
 %============== INITIAL CONDITIONS =============%
-function [Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT] = sub_init_fish_be2(ID,DAYS)
+function [Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT] = sub_init_fish_be2_orig(ID,DAYS)
 
 %===== VARIABLES =====%
     %%%! Number of spatial cells
@@ -29,7 +29,7 @@ function [Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT] = sub_init_fish_be2(ID,DAYS)
     %%%! Rates, etc.
     nzero = {'met' 'enc_f' 'enc_p' 'enc_d' 'enc_zm' 'enc_zl' 'enc_be' ...
         'con_f' 'con_p' 'con_d' 'con_zm' 'con_zl' 'con_be' 'I' 'die' 'pred' ...
-        'nmort' 'prod' 'nu' 'gamma' 'egg' 'rep' 'rec' 'clev' 'caught' 'fmort'};
+        'nmort' 'prod' 'nu' 'gamma' 'egg' 'rep' 'rec' 'clev' 'caught'};
     for i = 1 : length(nzero)
         Sf.(nzero{i}) = zeros(NX,1);
         Sp.(nzero{i}) = zeros(NX,1);

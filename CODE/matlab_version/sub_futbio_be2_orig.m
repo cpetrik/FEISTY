@@ -1,6 +1,6 @@
 %%%% THE MODEL
 %%% DEMOGRAPHIC CALCULATIONS
-function [Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT,ENVR] = sub_futbio_be2(ID,DY,COBALT,ENVR,Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT,dfrate)
+function [Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT,ENVR] = sub_futbio_be2_orig(ID,DY,COBALT,ENVR,Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT,dfrate,CC)
 
 global DAYS GRD NX
 global DT PI_be_cutoff pdc L_s L_m L_l M_s M_m M_l L_zm L_zl
@@ -10,8 +10,6 @@ global MF_phi_MZ MF_phi_LZ MF_phi_S MP_phi_MZ MP_phi_LZ MP_phi_S MD_phi_BE
 global LP_phi_MF LP_phi_MP LP_phi_MD LD_phi_MF LD_phi_MP LD_phi_MD LD_phi_BE
 global MFsel MPsel MDsel LPsel LDsel
 global tstep K CGRD ni nj
-
-%%% If biomass < individual fish mass per grid cell, set all rates to zero? %%%
 
 %%% COBALT information
 ENVR = get_COBALT(COBALT,ID,DY);
@@ -23,7 +21,7 @@ ENVR.dZl = sub_neg(ENVR.dZl);
 
 % Update benthic biomass with new detritus avail at that time step
 [BENT.sm,BENT.md,BENT.predS,BENT.predM] = ...
-    sub_update_be2(bent_eff,ENVR.det,[BENT.sm,BENT.md],[Md.con_be,Ld.con_be],[Md.bio,Ld.bio]);
+    sub_update_be(bent_eff,ENVR.det,CC,[BENT.sm,BENT.md],[Md.con_be,Ld.con_be],[Md.bio,Ld.bio]);
 BENT.sm = sub_check(BENT.sm);
 BENT.md = sub_check(BENT.md);
 
@@ -119,7 +117,7 @@ Ld.con_be = sub_cons(ENVR.Tp,ENVR.Tb,Ld.td,M_l,[Ld.enc_be,Ld.enc_f,Ld.enc_p,Ld.e
 [Mf.con_zl,Mp.con_zl,ENVR.fZl] = ...
     sub_offline_zl(Mf.con_zl,Mp.con_zl,Mf.bio,Mp.bio,ENVR.dZl);
 %Track fraction of benthic material consumed
-[ENVR.fB] = sub_offline_be2([Md.con_be,Ld.con_be],[Md.bio,Ld.bio],BENT.sm,BENT.md);
+[ENVR.fB] = sub_offline_bent([Md.con_be,Ld.con_be],[Md.bio,Ld.bio],BENT.sm,BENT.md);
 
 % Total consumption rates (could factor in handling times here; g m-2 d-1)
 Sf.I = Sf.con_zm;
@@ -193,7 +191,7 @@ Ld.gamma = sub_gamma(K_a,Z_l,Ld.nu,Ld.die,Ld.bio,Ld.nmort,dfrate,LDsel);
 [Ld.gamma,Ld.nu,Ld.rep,Ld.egg] = sub_rep(Ld.gamma,Ld.nu,K_a,Ld.S(:,DY),Ld.egg);
 
 % Recruitment (from smaller size class)
-Sf.rec = sub_rec_larv(Mf.rep,Mf.bio,rfrac);
+Sf.rec = sub_rec_larv(Mf.rep,Mf.bio,rfrac*3);
 Sp.rec = sub_rec_larv(Lp.rep,Lp.bio,rfrac);
 Sd.rec = sub_rec_larv(Ld.rep,Ld.bio,rfrac);
 Mf.rec = sub_rec(Sf.gamma,Sf.bio);
@@ -215,11 +213,23 @@ Lp.bio = sub_update_fi(Lp.bio,Lp.rec,Lp.nu,Lp.rep,Lp.gamma,Lp.die,Lp.egg,Lp.nmor
 Ld.bio = sub_update_fi(Ld.bio,Ld.rec,Ld.nu,Ld.rep,Ld.gamma,Ld.die,Ld.egg,Ld.nmort);
 
 % Fishing by rate
-[Mf.bio, Mf.caught, Mf.fmort] = sub_fishing_rate(Mf.bio,dfrate,MFsel);
-[Mp.bio, Mp.caught, Mp.fmort] = sub_fishing_rate(Mp.bio,dfrate,MPsel);
-[Md.bio, Md.caught, Md.fmort] = sub_fishing_rate(Md.bio,dfrate,MDsel);
-[Lp.bio, Lp.caught, Lp.fmort] = sub_fishing_rate(Lp.bio,dfrate,LPsel);
-[Ld.bio, Ld.caught, Ld.fmort] = sub_fishing_rate(Ld.bio,dfrate,LDsel);
+[Mf.bio, Mf.caught] = sub_fishing_rate(Mf.bio,dfrate,MFsel);
+[Mp.bio, Mp.caught] = sub_fishing_rate(Mp.bio,dfrate,MPsel);
+[Md.bio, Md.caught] = sub_fishing_rate(Md.bio,dfrate,MDsel);
+[Lp.bio, Lp.caught] = sub_fishing_rate(Lp.bio,dfrate,LPsel);
+[Ld.bio, Ld.caught] = sub_fishing_rate(Ld.bio,dfrate,LDsel);
+
+% Advection-Diffusion
+% Sf.bio = sub_diff_sep(CGRD,Sf.bio,K,ni,nj,tstep);
+% Sp.bio = sub_diff_sep(CGRD,Sp.bio,K,ni,nj,tstep);
+% Sd.bio = sub_diff_sep(CGRD,Sd.bio,K,ni,nj,tstep);
+% Mf.bio = sub_diff_sep(CGRD,Mf.bio,K,ni,nj,tstep);
+% Mp.bio = sub_diff_sep(CGRD,Mp.bio,K,ni,nj,tstep);
+% Md.bio = sub_diff_sep(CGRD,Md.bio,K,ni,nj,tstep);
+% Lp.bio = sub_diff_sep(CGRD,Lp.bio,K,ni,nj,tstep);
+% Ld.bio = sub_diff_sep(CGRD,Ld.bio,K,ni,nj,tstep);
+% [Sf.bio,Sp.bio,Sd.bio,Mf.bio,Mp.bio,Md.bio,Lp.bio,Ld.bio] = sub_diff(CGRD,K,...
+%     ni,nj,tstep,Sf.bio,Sp.bio,Sd.bio,Mf.bio,Mp.bio,Md.bio,Lp.bio,Ld.bio);
 
 % Forward Euler checks for demographics and movement
 Sf.bio=sub_check(Sf.bio);

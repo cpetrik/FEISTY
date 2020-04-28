@@ -14,7 +14,7 @@ spinup_pristine = false;
 climatol_loop = false;
 climatol_param = false;
 climatol_ens = false;
-climatol = false;
+climatol = true;
 climatol_crr = false;
 climatol_con = false;
 climatol_ngdc = false;
@@ -24,7 +24,7 @@ historic_fished = false;
 historic_fished_ens = false;
 forecast_pristine = false;
 forecast_fished = false;
-forecast_fished_ens = true;
+forecast_fished_ens = false;
 
 tic
 if testoneloc
@@ -55,7 +55,8 @@ if climatol_ens
     Climatol_param_ensemble6_samek()
 end
 if climatol
-    Climatol_pristine()
+%     Climatol_pristine()
+    Climatol_be2()
 end
 if climatol_con
     Climatol_con_types()
