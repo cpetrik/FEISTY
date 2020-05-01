@@ -1,3 +1,5 @@
+y=time;
+
 figure
 subplot(3,3,1)
 plot(y,(sf_tmean),'Linewidth',1); hold on;
