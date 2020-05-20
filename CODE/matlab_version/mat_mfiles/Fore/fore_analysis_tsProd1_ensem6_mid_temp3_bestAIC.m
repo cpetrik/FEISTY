@@ -65,27 +65,34 @@ ft1TEeff_HTL = ft1TEeff_M;
 ft1TE_ATL = ft1TEeff_M;
 ft1TE_HTL = ft1TEeff_M;
 
+cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
+grid = csvread([cpath 'grid_csv.csv']);
+ID = grid(:,1);
+fLprod1 = NaN*ones(length(ID),95,nparam);
+
 %%
 for j = 1:length(params)
     %! Change individual parameters
     pset = params(j,:);
     set_params6(pset)
-
+    
     %! Make core parameters/constants (global)
     const_params6()
-
+    
     %! Create a directory for output
     [fname,simname] = sub_fname_fore_ens(frate);
-
+    
     cfile = ['/Volumes/FEISTY/NC/Matlab_new_size/' simname];
-
+    
     %% Prod results for TEs
-    netcdf_read_fore_fished_ts_prod1_ens(fname,simname);
-
+%     netcdf_read_fore_fished_ts_prod1_ens(fname,simname);
+    
     load([fname '_Means_prod_' simname '.mat'],...
-    'mf_prod1','mp_prod1','md_prod1',...
-    'lp_prod1','ld_prod1');
-
+        'mf_prod1','mp_prod1','md_prod1',...
+        'lp_prod1','ld_prod1');
+    
+    fLprod1(:,:,j) = lp_prod1 + ld_prod1;
+    
     %% TE Effs
     % 1 yr Means, all locations
     [TEeffM,TEeff_A,TEeff_LTL,TEeff_H] = ...
@@ -95,17 +102,17 @@ for j = 1:length(params)
     ft1TEeff_LTL      = mean(TEeff_LTL);
     ft1TEeff_ATL(j,:) = mean(TEeff_A);
     ft1TEeff_HTL(j,:) = mean(TEeff_H);
-
+    
     ft1TE_ATL(j,:) = mean(TEeff_A.^(1/4));
     ft1TE_HTL(j,:) = mean(TEeff_H.^(1/3));
-
+    
 end
-efile = '/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050'
+efile = '/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/';
 epath = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/';
 save([epath 'Forecast_All_fish03_ensem6_mid_temp3_bestAIC_multFup_multPneg.mat'],...
-'ft1TEeff_M','ft1TEeff_ATL','ft1TEeff_LTL','ft1TEeff_HTL',...
-'ft1TE_ATL','ft1TE_HTL','-append')
+    'ft1TEeff_M','ft1TEeff_ATL','ft1TEeff_LTL','ft1TEeff_HTL',...
+    'ft1TE_ATL','ft1TE_HTL','fLprod1','-append')
 
 save([efile 'Forecast_All_fish03_ensem6_mid_temp3_bestAIC_multFup_multPneg.mat'],...
-'ft1TEeff_M','ft1TEeff_ATL','ft1TEeff_LTL','ft1TEeff_HTL',...
-'ft1TE_ATL','ft1TE_HTL','-append')
+    'ft1TEeff_M','ft1TEeff_ATL','ft1TEeff_LTL','ft1TEeff_HTL',...
+    'ft1TE_ATL','ft1TE_HTL','fLprod1','-append')

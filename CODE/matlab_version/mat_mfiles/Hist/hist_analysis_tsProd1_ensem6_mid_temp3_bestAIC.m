@@ -63,8 +63,8 @@ params = red_params;
 
 nparam = length(params);
 
-ht1TEeff_LTL = NaN*ones(1,95);
-ht1TEeff_M = NaN*ones(nparam,95);
+ht1TEeff_LTL = NaN*ones(1,145);
+ht1TEeff_M = NaN*ones(nparam,145);
 ht1TEeff_ATL = ht1TEeff_M;
 ht1TEeff_HTL = ht1TEeff_M;
 
@@ -107,7 +107,7 @@ for j = 1:length(params)
 
 end
 %%
-efile = '/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050'
+efile = '/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/';
 epath = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/Dc_enc-k063_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/';
 save([efile 'Historic_All_fish03_ensem6_mid_temp3_bestAIC_multFup_multPneg.mat'],...
     'ht1TEeff_M','ht1TEeff_ATL','ht1TEeff_LTL','ht1TEeff_HTL',...

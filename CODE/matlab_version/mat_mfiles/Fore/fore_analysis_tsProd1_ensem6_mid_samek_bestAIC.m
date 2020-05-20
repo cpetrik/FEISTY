@@ -66,6 +66,11 @@ ft1TEeff_HTL = ft1TEeff_M;
 ft1TE_ATL = ft1TEeff_M;
 ft1TE_HTL = ft1TEeff_M;
 
+cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
+grid = csvread([cpath 'grid_csv.csv']);
+ID = grid(:,1);
+fLprod1 = NaN*ones(length(ID),95,nparam);
+
 %%
 for j = 1:length(params)
     %! Change individual parameters
@@ -81,11 +86,13 @@ for j = 1:length(params)
     cfile = ['/Volumes/FEISTY/NC/Matlab_new_size/' simname];
     
     %% Prod results for TEs
-    netcdf_read_fore_fished_ts_prod1_ens(fname,simname);
+%     netcdf_read_fore_fished_ts_prod1_ens(fname,simname);
     
     load([fname '_Means_prod_' simname '.mat'],...
     'mf_prod1','mp_prod1','md_prod1',...
     'lp_prod1','ld_prod1');
+
+    fLprod1(:,:,j) = lp_prod1 + ld_prod1;
     
     %% TE Effs
     % 1 yr Means, all locations
@@ -105,8 +112,8 @@ lpath = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/Dc_cmax20-b250_D075_J
 
 save([nfile 'Forecast_All_fish03_ensem6_mid_samek_bestAIC_multFup_multPneg.mat'],...
     'ft1TEeff_M','ft1TEeff_ATL','ft1TEeff_LTL','ft1TEeff_HTL',...
-    'ft1TE_ATL','ft1TE_HTL','-append')
+    'ft1TE_ATL','ft1TE_HTL','fLprod1','-append')
 
 save([lpath 'Forecast_All_fish03_ensem6_mid_samek_bestAIC_multFup_multPneg.mat'],...
     'ft1TEeff_M','ft1TEeff_ATL','ft1TEeff_LTL','ft1TEeff_HTL',...
-    'ft1TE_ATL','ft1TE_HTL','-append')
+    'ft1TE_ATL','ft1TE_HTL','fLprod1','-append')

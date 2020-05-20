@@ -59,13 +59,18 @@ load([nfile 'LHS_param6_mid6_samek_bestAIC_params_Fupneg_mult8_Pneg2_mult3.mat']
 
 nparam = length(params);
 
-ht1TEeff_LTL = NaN*ones(1,95);
-ht1TEeff_M = NaN*ones(nparam,95);
+ht1TEeff_LTL = NaN*ones(1,145);
+ht1TEeff_M = NaN*ones(nparam,145);
 ht1TEeff_ATL = ht1TEeff_M;
 ht1TEeff_HTL = ht1TEeff_M;
 
 ht1TE_ATL = ht1TEeff_M;
 ht1TE_HTL = ht1TEeff_M;
+
+cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
+grid = csvread([cpath 'grid_csv.csv']);
+ID = grid(:,1);
+hLprod1 = NaN*ones(length(ID),145,nparam);
 
 %%
 for j = 1:length(params)
@@ -82,11 +87,13 @@ for j = 1:length(params)
     cfile = ['/Volumes/FEISTY/NC/Matlab_new_size/' simname];
 
     %% Prod results for TEs
-    netcdf_read_hist_fished_ts_prod1_ens(fname,simname);
+    %netcdf_read_hist_fished_ts_prod1_ens(fname,simname);
 
     load([fname '_Means_prod_' simname '.mat'],...
-    'mf_prod1','mp_prod1','md_prod1',...
-    'lp_prod1','ld_prod1');
+        'mf_prod1','mp_prod1','md_prod1',...
+        'lp_prod1','ld_prod1');
+
+    hLprod1(:,:,j) = lp_prod1 + ld_prod1;
 
     %% TE Effs
     % 1 yr Means, all locations
@@ -106,8 +113,8 @@ end
 lpath = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/Dc_cmax20-b250_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/';
 save([nfile 'Historic_All_fish03_ensem6_mid_samek_bestAIC_multFup_multPneg.mat'],...
     'ht1TEeff_M','ht1TEeff_ATL','ht1TEeff_LTL','ht1TEeff_HTL',...
-    'ht1TE_ATL','ht1TE_HTL','-append'))
+    'ht1TE_ATL','ht1TE_HTL','hLprod1','-append')
 
 save([lpath 'Historic_All_fish03_ensem6_mid_samek_bestAIC_multFup_multPneg.mat'],...
-'ht1TEeff_M','ht1TEeff_ATL','ht1TEeff_LTL','ht1TEeff_HTL',...
-'ht1TE_ATL','ht1TE_HTL','-append'))
+    'ht1TEeff_M','ht1TEeff_ATL','ht1TEeff_LTL','ht1TEeff_HTL',...
+    'ht1TE_ATL','ht1TE_HTL','hLprod1','-append')
