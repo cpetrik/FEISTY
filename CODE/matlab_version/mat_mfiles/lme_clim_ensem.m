@@ -7,7 +7,7 @@ function [lme_mcatch,lme_mbio,lme_area] = lme_clim_ensem(sf_mean,sp_mean,sd_mean
 % Saved as mat files
 
 cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
-Pdir = '/Volumes/GFDL/POEM_JLD/esm26_hist/';
+Pdir = '/Volumes/FEISTY/POEM_JLD/esm26_hist/';
 load([Pdir 'ESM26_1deg_5yr_clim_191_195_gridspec.mat']);
 load([cpath 'esm26_lme_mask_onedeg_SAU_66.mat']);
 area_ocn=load([cpath 'esm26_area_1deg.mat']);

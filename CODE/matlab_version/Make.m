@@ -11,10 +11,10 @@ forelocs = false;
 climlocs = false;
 oneloc_fore_pristine = false;
 spinup_pristine = false;
-climatol_loop = false;
+climatol_loop = true;
 climatol_param = false;
 climatol_ens = false;
-climatol = true;
+climatol = false;
 climatol_crr = false;
 climatol_con = false;
 climatol_ngdc = false;
@@ -46,7 +46,7 @@ if spinup_pristine
     Spinup_pristine()
 end
 if climatol_loop
-    Climatol_pristine_search()
+    Climatol_fishing_search()
 end
 if climatol_param
     Climatol_param_sens_v3()
