@@ -34,7 +34,7 @@ mfn=nan;
 
 Fish = [0.0:0.1:2 2.2:0.2:5];
 
-for M=1:length(Fish)
+for M=11:length(Fish)
     %! Set fishing rate
     frate = Fish(M);
     dfrate = frate/365.0;
