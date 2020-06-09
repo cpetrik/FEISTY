@@ -50,7 +50,7 @@ hID = grid(:,1);
 %% POEM Climatol
 load([fpath 'LME_clim_fished_',harv,'_' cfile '.mat'],'lme_mcatch',...
     'lme_mbio','lme_sbio','lme_area');
-load([fpath 'TEeff_Climatol_All_fish03_' cfile '.mat'],'lme_te');
+load([fpath 'TEeffDet_Climatol_All_fish03_' cfile '.mat'],'lme_te');
 clme_area_km2 = lme_area * 1e-6;
 clear lme_area
 
