@@ -1,5 +1,5 @@
 %%%%!! RUN Climatol FOR ALL LOCATIONS
-function Climatol_fishing_search()
+function Climatol_RE_search()
 
 global DAYS GRD NX ID
 global DT PI_be_cutoff pdc L_s L_m L_l M_s M_m M_l L_zm L_zl
@@ -32,15 +32,17 @@ cfn=nan;
 efn=nan;
 mfn=nan;
 
-Fish = [0.0:0.1:2 2.2:0.2:5];
+re = logspace(-4,-1,36);
+reff = [re(5) re(7:end)];
 
-for M=1:length(Fish)
+for M=1:length(reff)
     %! Set fishing rate
-    frate = Fish(M);
+    frate = 0.3;
     dfrate = frate/365.0;
     
     %! Make core parameters/constants (global)
     make_parameters()
+    rfrac = reff(M);
     
     %! Create a directory for output
     fname = sub_fname(frate);

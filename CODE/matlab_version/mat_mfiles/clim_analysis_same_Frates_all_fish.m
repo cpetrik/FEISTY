@@ -10,7 +10,7 @@ NX = length(GRD.Z);
 ID = 1:NX;
 
 dp = ['/Volumes/FEISTY/NC/Matlab_new_size/',...
-    'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100/'];
+    'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00001/'];
 
 Fish = [0.0:0.1:2 2.2:0.2:5];
 

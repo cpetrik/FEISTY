@@ -79,7 +79,7 @@ function make_parameters()
     bent_eff = 0.075;
     
     %%%! Reproductive efficiency
-    rfrac = 0.001; %0.01
+    rfrac = 0.0001; %0.01
 
     %! Fraction of time spent swimming (from Van Leeuwen)
     Tu_s = 1.0;
