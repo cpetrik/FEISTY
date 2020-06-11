@@ -9,8 +9,8 @@ cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
 bpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/cobalt_data/';
 
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
-fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
-%fpath=['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/' cfile '/'];
+ffold=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/ESM2M_Hist_Fore/'];
+%ffold=['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/' cfile '/'];
 
 % colors
 cmG=cbrewer('seq','Greens',50,'PCHIP');
@@ -21,7 +21,7 @@ cmBW=cbrewer('seq','Greys',50,'PCHIP');
 
 %% NPP and zoop
 load([bpath 'cobalt_det_temp_zoop_npp_means.mat']);
-load([fpath 'ts_Hist_Fore_Zp_D_ZpDet_intA.mat']);
+load([ffold 'ts_Hist_Fore_Zp_D_ZpDet_intA.mat']);
 
 % molN/m2/s --> g/m2/d
 mzloss_hist = mzloss_mean_hist * (106.0/16.0) * 12.01 * 9.0 * 60 * 60 * 24;
@@ -71,7 +71,7 @@ harv = 'All_fish03';
 tharv = 'Harvest all fish 0.3 yr^-^1';
 
 % Hindcast
-load([fpath 'Means_Historic_' harv '_' cfile '.mat'],...
+load([ffold 'Means_Historic_' harv '_' cfile '.mat'],...
     'b_mean50');
 
 [hi,hj]=size(geolon_t);
@@ -82,7 +82,7 @@ clear b_mean50
 
 
 % Forecast
-load([fpath 'Means_fore_',harv,'_' cfile '.mat'],...
+load([ffold 'Means_fore_',harv,'_' cfile '.mat'],...
     'b_mean50');
 
 [ni,nj]=size(geolon_t);

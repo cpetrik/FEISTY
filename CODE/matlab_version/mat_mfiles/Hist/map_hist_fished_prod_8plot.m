@@ -60,15 +60,25 @@ Plp(ID)=lp_prod50;
 Pld(ID)=ld_prod50;
 Pb(ID)=b_mean50;
 
-Psf(Psf(:)<0) = 0;
-Psp(Psp(:)<0) = 0;
-Psd(Psd(:)<0) = 0;
-Pmf(Pmf(:)<0) = 0;
-Pmp(Pmp(:)<0) = 0;
-Pmd(Pmd(:)<0) = 0;
-Plp(Plp(:)<0) = 0;
-Pld(Pld(:)<0) = 0;
-Pb(Pb(:)<0) = 0;
+% Psf(Psf(:)<0) = 0; %maybe change to NaN
+% Psp(Psp(:)<0) = 0;
+% Psd(Psd(:)<0) = 0;
+% Pmf(Pmf(:)<0) = 0;
+% Pmp(Pmp(:)<0) = 0;
+% Pmd(Pmd(:)<0) = 0;
+% Plp(Plp(:)<0) = 0;
+% Pld(Pld(:)<0) = 0;
+% Pb(Pb(:)<0) = 0;
+
+Psf(Psf(:)<0) = nan; 
+Psp(Psp(:)<0) = nan;
+Psd(Psd(:)<0) = nan;
+Pmf(Pmf(:)<0) = nan;
+Pmp(Pmp(:)<0) = nan;
+Pmd(Pmd(:)<0) = nan;
+Plp(Plp(:)<0) = nan;
+Pld(Pld(:)<0) = nan;
+Pb(Pb(:)<0) = nan;
 
 All = Psp+Psf+Psd+Pmp+Pmf+Pmd+Plp+Pld;
 AllF = Psf+Pmf;
@@ -90,9 +100,12 @@ cmBP=cbrewer('seq','BuPu',50,'PCHIP');
 
 %% COBALT
 gpath='/Users/cpetrik/Dropbox/Princeton/POEM_other/cobalt_data/';
-load([gpath 'cobalt_zoop_biom_means.mat'],'mzprod_mean_hist','lzprod_mean_hist'); 
-load([gpath 'cobalt_det_biom_means.mat'],'det_mean_hist');
-load([gpath 'cobalt_npp_means.mat'],'npp_mean_hist');
+% load([gpath 'cobalt_zoop_biom_means.mat'],'mzprod_mean_hist','lzprod_mean_hist'); 
+% load([gpath 'cobalt_det_biom_means.mat'],'det_mean_hist');
+% load([gpath 'cobalt_npp_means.mat'],'npp_mean_hist');
+
+load([gpath 'cobalt_hist_npp_zprod_det_nanmeans.mat'],'det_mean_hist','npp_mean_hist',...
+    'mzprod_mean_hist','lzprod_mean_hist')
 
 % Zoop and det and npp 
 %ESM2M in mmol N m-2 or mmol N m-2 d-1
@@ -149,6 +162,28 @@ title('D')
 subplot(3,3,8)
 histogram(log10(All(:)),edges)
 title('All')
+xlabel('log_1_0 production (g m^-^2)')
+%print('-dpng',[ppath 'Hist_',harv,'_global_prod_histogram.png'])
+
+%90 interquartile = 90% within = 0.05 to 0.95
+q(1,:) = quantile(npp_hist(:),[0.05,0.95]);
+q(2,:) = quantile(zprod(:),[0.05,0.95]);
+q(3,:) = quantile(det_hist(:),[0.05,0.95]);
+q(4,:) = quantile(prodB(:),[0.05,0.95]);
+q(5,:) = quantile(AllF(:),[0.05,0.95]);
+q(6,:) = quantile(AllP(:),[0.05,0.95]);
+q(7,:) = quantile(AllD(:),[0.05,0.95]);
+q(8,:) = quantile(All(:),[0.05,0.95]);
+
+l10q = log10(q+eps);
+l10q(:,3) = l10q(:,2) - l10q(:,1);
+
+q(:,3) = l10q(:,3);
+Qstat = array2table(q,'VariableNames',{'5th','95th','order of mag'},...
+    'RowNames',{'NPP','MesoZ','Det','Bent','F','P','D','All'});
+
+writetable(Qstat,[fpath 'Hist_',harv,'_global_prod_gm2d_quantiles.csv'],'Delimiter',',',...
+    'WriteRowNames',true)
 
 %% figure info
 f1 = figure('Units','inches','Position',[1 3 6.5 8]);
@@ -205,7 +240,7 @@ colormap(cmBP)
 colorbar('Position',[0.43 0.01 0.025 0.225],'orientation','vertical','AxisLocation','out')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-4 0]);
+caxis([-3 0]);
 set(gcf,'renderer','painters')
 text(0,1.75,'Benthos','HorizontalAlignment','center')
 text(-2.5,1.75,'D')
@@ -266,5 +301,5 @@ set(gcf,'renderer','painters')
 text(0,1.75,'All','HorizontalAlignment','center')
 text(-2.5,1.75,'H')
 
-print('-dpng',[pp 'Hist_',harv,'_global_prod_8plot.png'])
+print('-dpng',[ppath 'Hist_',harv,'_global_prod_8plot.png'])
 

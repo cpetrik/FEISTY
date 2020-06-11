@@ -115,6 +115,8 @@ area_mat = repmat(area,1,length(y));
 
 tZD = nansum(mz.*area_mat) ./ nansum(det.*area_mat);
 tlZD = log10( nansum(mz.*area_mat) ./ nansum(det.*area_mat) ); 
+test = nansum( (mz.*area_mat) ./ (det.*area_mat));
+test2 = nanmean( (mz.*area_mat) ./ (det.*area_mat));
 
 tPZ = nansum(mz.*area_mat) ./ nansum((mz.*area_mat)+(npp.*area_mat));
 tPD = nansum(det.*area_mat) ./ nansum((det.*area_mat)+(npp.*area_mat));
@@ -185,3 +187,12 @@ print('-dpng',[ppath 'Hist_Fore_Zp_D_ZpDet.png'])
 
 save([fpath 'ts_Hist_Fore_Zp_D_ZpDet_intA.mat'],'tZD','tlZD','tPZ','tPD',...
     'tNPP','tZ','tD','y');
+
+%%
+figure
+subplot(2,1,1)
+line(y(20:47),tZD(20:47)-tZD(20) ,'color','r','Linewidth',2); hold on;
+subplot(2,1,2)
+%line(y(20:47),test(20:47)-test(20),'color','k','Linewidth',2); hold on;
+line(y(20:47),test2(20:47)-test2(20),'color','b','Linewidth',2); hold on;
+

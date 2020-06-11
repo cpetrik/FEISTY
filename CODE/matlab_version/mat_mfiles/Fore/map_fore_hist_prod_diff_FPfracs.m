@@ -17,7 +17,7 @@ ID = grid(:,1);
 
 %% FEISTY Output
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
-fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
+fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/ESM2M_Hist_Fore/'];
 epath=['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/' cfile '/'];
 pp = ['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/' cfile '/'];
 
@@ -154,7 +154,7 @@ surfm(geolat_t,geolon_t,diffP)
 cmocean('balance')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-1 1]);
+caxis([-0.5 0.5]);
 colorbar('Position',[0.25 0.55 0.5 0.03],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('Change P/All');
@@ -167,7 +167,7 @@ surfm(geolat_t,geolon_t,diffPel)
 cmocean('balance')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-1 1]);
+caxis([-0.5 0.5]);
 set(gcf,'renderer','painters')
 title('Change Pel/All');
 text(-2.75,2,'B')
@@ -179,7 +179,7 @@ surfm(geolat_t,geolon_t,diffF)
 cmocean('balance')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-1 1]);
+caxis([-0.5 0.5]);
 %colorbar('Position',[0.55 0.57 0.4 0.03],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('Change in F/All');
