@@ -46,7 +46,7 @@ if spinup_pristine
     Spinup_pristine()
 end
 if climatol_loop
-    Climatol_fishing_search()
+    Climatol_fishing_RE_search()
 end
 if climatol_param
     Climatol_param_sens_v3()
