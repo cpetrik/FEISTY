@@ -36,7 +36,7 @@ Fi = logspace(-1,0.7,11);
 Fish = Fi([1,3:end]);
 reff = logspace(-3,-1,10);
 
-for k=1:length(reff)
+for k=2:length(reff)
     for M=1:length(Fish)
     %! Set fishing rate
     frate = Fish(M);
