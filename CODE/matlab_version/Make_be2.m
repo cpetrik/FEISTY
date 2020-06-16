@@ -55,7 +55,7 @@ if climatol_ens
     Climatol_param_ensemble6_samek()
 end
 if climatol
-    Climatol_be2()
+    Climatol_benthos_be2()
 end
 if climatol_con
     Climatol_con_types()

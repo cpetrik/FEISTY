@@ -29,7 +29,7 @@ mfn=nan;
 make_parameters_be2()
 
 %! Setup Climatol (loop 5-year climatology of ESM2.6-COBALT)
-load('/Volumes/FEISTY/POEM_JLD/esm26_hist/ESM26_1deg_5yr_clim_191_195_daily.mat');
+load('/Volumes/FEISTY/POEM_JLD/esm26_hist/ESM26_1deg_5yr_clim_191_195_daily.mat','COBALT');
 
 %! How long to run the model
 YEARS = 150;
@@ -38,7 +38,7 @@ MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Grid; choose where and when to run the model
 Pdrpbx = '/Users/cpetrik/Dropbox/';
-load('/Volumes/FEISTY/POEM_JLD/esm26_hist/ESM26_1deg_5yr_clim_191_195_grid.mat');
+load('/Volumes/FEISTY/POEM_JLD/esm26_hist/ESM26_1deg_5yr_clim_191_195_grid.mat','GRD');
 NX = length(GRD.Z);
 ID = 1:NX;
 
