@@ -18,7 +18,7 @@ cmBP=cbrewer('seq','BuPu',50,'PCHIP');
 %% Model bent & dem
 [ni,nj]=size(lon);
 
-cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_2B_BE08_noCC_RE00100';
+cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_2B75_BE08_noCC_RE00100';
 dpath = [datap cfile '/'];
 fpath = [figp cfile '/'];
 load([dpath 'Means_Climatol_All_fish03_' cfile '.mat'],...

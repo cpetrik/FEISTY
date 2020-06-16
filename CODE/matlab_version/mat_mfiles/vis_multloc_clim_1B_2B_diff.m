@@ -17,7 +17,7 @@ AREA_OCN = max(area,1);
 %% FEISTY Output
 cfile1 = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 fpath1=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile1 '/'];
-cfile2 = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_2B_BE08_noCC_RE00100';
+cfile2 = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_2B75_BE08_noCC_RE00100';
 fpath2=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile2 '/'];
 pp = ['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/' cfile2 '/'];
 
@@ -120,7 +120,7 @@ pdiffAll = (HAll-CAll) ./ CAll;
 
 %% Maps
 figure(1)
-subplot(2,1,1)
+subplot('Position',[0 0.51 0.45 0.45])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
 surfm(geolat,geolon,real(log10(HF)))
@@ -128,11 +128,11 @@ colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-1 1]);
-colorbar
+colorbar('Position',[0.025 0.5 0.4 0.03],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('Clim2B F');
 
-subplot(2,1,2)
+subplot('Position',[0 0 0.45 0.45])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
 surfm(geolat,geolon,real(log10(CF)))
@@ -140,14 +140,27 @@ colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-1 1]);
-colorbar
+%colorbar
 set(gcf,'renderer','painters')
 title('Clim1B F');
+
+subplot('Position',[0.5 0.25 0.45 0.45])
+% pdiff F
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) 
+surfm(geolat,geolon,pdiffF)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1 1]);
+colorbar('Position',[0.525 0.24 0.4 0.03],'orientation','horizontal')
+set(gcf,'renderer','painters')
+title('Clim2B - Clim1B F');
 print('-dpng',[pp 'Climatol_1B_2B_' harv '_global_F.png'])
 
 %% P
 figure(2)
-subplot(2,1,1)
+subplot('Position',[0 0.51 0.45 0.45])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
 surfm(geolat,geolon,real(log10(HP)))
@@ -155,11 +168,11 @@ colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-1 1]);
-colorbar
+colorbar('Position',[0.025 0.5 0.4 0.03],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('Clim2B P');
 
-subplot(2,1,2)
+subplot('Position',[0 0 0.45 0.45])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
 surfm(geolat,geolon,real(log10(CP)))
@@ -167,14 +180,26 @@ colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-1 1]);
-colorbar
+%colorbar
 set(gcf,'renderer','painters')
 title('Clim1B P');
+
+subplot('Position',[0.5 0.25 0.45 0.45])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) 
+surfm(geolat,geolon,pdiffP)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1 1]);
+colorbar('Position',[0.525 0.24 0.4 0.03],'orientation','horizontal')
+set(gcf,'renderer','painters')
+title('Clim2B - Clim1B P');
 print('-dpng',[pp 'Climatol_1B_2B_' harv '_global_P.png'])
 
-% D
+%% D
 figure(3)
-subplot(2,1,1)
+subplot('Position',[0 0.51 0.45 0.45])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
 surfm(geolat,geolon,real(log10(HD)))
@@ -182,11 +207,11 @@ colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-1 1]);
-colorbar
+colorbar('Position',[0.025 0.5 0.4 0.03],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('Clim2B D');
 
-subplot(2,1,2)
+subplot('Position',[0 0 0.45 0.45])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
 surfm(geolat,geolon,real(log10(CD)))
@@ -194,14 +219,26 @@ colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-1 1]);
-colorbar
+%colorbar
 set(gcf,'renderer','painters')
 title('Clim1B D');
+
+subplot('Position',[0.5 0.25 0.45 0.45])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) 
+surfm(geolat,geolon,pdiffD)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1 1]);
+colorbar('Position',[0.525 0.24 0.4 0.03],'orientation','horizontal')
+set(gcf,'renderer','painters')
+title('Clim2B - Clim1B D');
 print('-dpng',[pp 'Climatol_1B_2B_' harv '_global_D.png'])
 
-%4
+%% All
 figure(4)
-subplot(2,1,1)
+subplot('Position',[0 0.51 0.45 0.45])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
 surfm(geolat,geolon,real(log10(HAll)))
@@ -209,11 +246,11 @@ colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-1 2]);
-colorbar
+colorbar('Position',[0.025 0.5 0.4 0.03],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('Clim2B All');
 
-subplot(2,1,2)
+subplot('Position',[0 0 0.45 0.45])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
 surfm(geolat,geolon,real(log10(CAll)))
@@ -221,14 +258,26 @@ colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-1 2]);
-colorbar
+%colorbar
 set(gcf,'renderer','painters')
 title('Clim1B All');
+
+subplot('Position',[0.5 0.25 0.45 0.45])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) 
+surfm(geolat,geolon,pdiffAll)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1 1]);
+colorbar('Position',[0.525 0.24 0.4 0.03],'orientation','horizontal')
+set(gcf,'renderer','painters')
+title('Clim2B - Clim1B All');
 print('-dpng',[pp 'Climatol_1B_2B_' harv '_global_All.png'])
 
 %% B
 figure(5)
-subplot(2,1,1)
+subplot('Position',[0 0.51 0.45 0.45])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
 surfm(geolat,geolon,real(log10(HB)))
@@ -236,11 +285,11 @@ colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-1 1]);
-colorbar
+colorbar('Position',[0.025 0.5 0.4 0.03],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('Clim2B Benthos');
 
-subplot(2,1,2)
+subplot('Position',[0 0 0.45 0.45])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
 surfm(geolat,geolon,real(log10(CB)))
@@ -248,9 +297,21 @@ colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-1 1]);
-colorbar
+%colorbar
 set(gcf,'renderer','painters')
 title('Clim1B Benthos');
+
+subplot('Position',[0.5 0.25 0.45 0.45])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) 
+surfm(geolat,geolon,pdiffB)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1 1]);
+colorbar('Position',[0.525 0.24 0.4 0.03],'orientation','horizontal')
+set(gcf,'renderer','painters')
+title('Clim2B - Clim1B B');
 print('-dpng',[pp 'Climatol_1B_2B_' harv '_global_Bent.png'])
 
 %% 2B
@@ -262,7 +323,7 @@ surfm(geolat,geolon,real(log10(Hsb)))
 colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-1 1]);
+caxis([-1 2]);
 colorbar
 set(gcf,'renderer','painters')
 title('Clim2B S Benthos');
@@ -274,82 +335,12 @@ surfm(geolat,geolon,real(log10(Hmb)))
 colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-1 1]);
+caxis([-1 2]);
 colorbar
 set(gcf,'renderer','painters')
 title('Clim2B M Benthos');
 print('-dpng',[pp 'Climatol_2B_' harv '_global_Bent.png'])
 
-%% pdiffs
-%F
-figure(7)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) 
-surfm(geolat,geolon,pdiffF)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-1 1]);
-colorbar
-set(gcf,'renderer','painters')
-title('Clim2B - Clim1B F');
-print('-dpng',[pp 'Climatol_1B_2B_' harv '_global_pdiffF.png'])
-
-%P
-figure(8)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) 
-surfm(geolat,geolon,pdiffP)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-1 1]);
-colorbar
-set(gcf,'renderer','painters')
-title('Clim2B - Clim1B P');
-print('-dpng',[pp 'Climatol_1B_2B_' harv '_global_pdiffP.png'])
-
-figure(9)
-%D
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) 
-surfm(geolat,geolon,pdiffD)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-1 1]);
-colorbar
-set(gcf,'renderer','painters')
-title('Clim2B - Clim1B D');
-print('-dpng',[pp 'Climatol_1B_2B_' harv '_global_pdiffD.png'])
-
-%diif all
-figure(10)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) 
-surfm(geolat,geolon,pdiffAll)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-1 1]);
-colorbar
-set(gcf,'renderer','painters')
-title('Clim2B - Clim1B All');
-print('-dpng',[pp 'Climatol_1B_2B_' harv '_global_pdiffAll.png'])
-
-%% B
-figure(11)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) 
-surfm(geolat,geolon,pdiffB)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-1 1]);
-colorbar
-set(gcf,'renderer','painters')
-title('Clim2B - Clim1B B');
-print('-dpng',[pp 'Climatol_1B_2B_' harv '_global_pdiffB.png'])
 
 %% Calc differences in total biomass
 

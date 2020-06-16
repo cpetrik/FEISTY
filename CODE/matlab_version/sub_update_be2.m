@@ -1,5 +1,6 @@
 %%% Update biomass
 function [bio_sm,bio_md,predS,predM] = sub_update_be2(BE,det,bio_in,Dcon,Dbio)
+    global fracSB
     %BE = benthic efficiency
     %det = seafloor detritus flux in g/m2/d
     %bio_in = benthic biomass in g
@@ -20,8 +21,8 @@ function [bio_sm,bio_md,predS,predM] = sub_update_be2(BE,det,bio_in,Dcon,Dbio)
     %! No carrying capacity
     r = BE .* det; %Needs to be in units of per time (g/m2/d) * (g/m2)
     
-    bio_sm = bio_in(:,1) + 0.9*r - eaten(:,1);
-    bio_md = bio_in(:,2) + 0.1*r - eaten(:,2);
+    bio_sm = bio_in(:,1) + (fracSB)*r - eaten(:,1);
+    bio_md = bio_in(:,2) + (1 - fracSB)*r - eaten(:,2);
     
     predS = eaten(:,1);
     predM = eaten(:,2);

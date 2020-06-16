@@ -9,7 +9,7 @@ global bent_eff rfrac Tu_s Tu_m Tu_l Nat_mrt MORT
 global MF_phi_MZ MF_phi_LZ MF_phi_S MP_phi_MZ MP_phi_LZ MP_phi_S MD_phi_BE
 global LP_phi_MF LP_phi_MP LP_phi_MD LD_phi_MF LD_phi_MP LD_phi_MD LD_phi_BE
 global MFsel MPsel MDsel LPsel LDsel
-global tstep K CGRD ni nj
+global tstep K CGRD ni nj fracSB
 
 %%% If biomass < individual fish mass per grid cell, set all rates to zero? %%%
 

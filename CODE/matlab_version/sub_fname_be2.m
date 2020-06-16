@@ -8,13 +8,14 @@ global Tu_s Tu_m Tu_l Nat_mrt MORT
 global MF_phi_MZ MF_phi_LZ MF_phi_S MP_phi_MZ MP_phi_LZ MP_phi_S MD_phi_BE
 global LP_phi_MF LP_phi_MP LP_phi_MD LD_phi_MF LD_phi_MP LD_phi_MD LD_phi_BE
 global MFsel MPsel MDsel LPsel LDsel Jsel efn cfn mfn
-global tstep K CGRD ni nj
+global tstep K CGRD ni nj fracSB
 
 td = num2str(1000+int64(100*LD_phi_MP));
 tj = num2str(1000+int64(100*MP_phi_S));
 tsm = num2str(1000+int64(100*MF_phi_MZ));
 ta = num2str(1000+int64(100*LP_phi_MF));
 tbe = num2str(100+int64(100*bent_eff));
+tfb = num2str(int64(100*fracSB));
 tmort = num2str(MORT);
 tre = num2str(100000+int64(round(10000*rfrac)));
 if (frate >= 0.1)
@@ -61,11 +62,11 @@ tbenc = num2str(1000+int64(1000*benc));
 tbcmx = num2str(1000+int64(1000*bcmx));
 
 if (isnan(cfn))
-    simname = [coup,'_enc',tefn,'-b',tbenc(2:end),'_m',tmfn,'-b',tbfn(2:end),'-k',tkfn(2:end),'_c',tcfn,'-b',tbcmx(2:end),'_D',td(2:end),'_J',tj(2:end),'_A',ta(2:end),'_Sm',tsm(2:end),'_nmort',tmort,'_2B_BE',tbe(2:end),'_noCC_RE',tre(2:end)];
+    simname = [coup,'_enc',tefn,'-b',tbenc(2:end),'_m',tmfn,'-b',tbfn(2:end),'-k',tkfn(2:end),'_c',tcfn,'-b',tbcmx(2:end),'_D',td(2:end),'_J',tj(2:end),'_A',ta(2:end),'_Sm',tsm(2:end),'_nmort',tmort,'_2B',tfb,'_BE',tbe(2:end),'_noCC_RE',tre(2:end)];
     %simname = [coup,'_enc',tefn,'-b',tbenc(2:end),'_m',tmfn,'-b',tbfn(2:end),'-k',tkfn(2:end),'-Dac',tdact(2:end),'_c',tcfn,'-b',tbcmx(2:end),'_D',td(2:end),'_J',tj(2:end),'_A',ta(2:end),'_Sm',tsm(2:end),'_nmort',tmort,'_BE',tbe(2:end),'_noCC_RE',tre(2:end)];
     %simname = [coup,'_enc',tefn,'-b',tbenc(2:end),'_m',tmfn,'-b',tbfn(2:end),'-k',tkfn(2:end),'_c',tcfn,'-b',tbcmx(2:end),'_D',td(2:end),'_J',tj(2:end),'_A',ta(2:end),'_Sm',tsm(2:end),'_nmort',tmort,'_BEdecrT',tbe(2:end),'_noCC_RE',tre(2:end)];
 else
-    simname = [coup,'_efn',num2str(efn),'_mfn',num2str(mfn),'_cfn',num2str(cfn),'_D',td(2:end),'_J',tj(2:end),'_A',ta(2:end),'_Sm',tsm(2:end),'_nmort',tmort,'_2B_BE',tbe(2:end),'_noCC_RE',tre(2:end)];
+    simname = [coup,'_efn',num2str(efn),'_mfn',num2str(mfn),'_cfn',num2str(cfn),'_D',td(2:end),'_J',tj(2:end),'_A',ta(2:end),'_Sm',tsm(2:end),'_nmort',tmort,'_2B',tfb,'_BE',tbe(2:end),'_noCC_RE',tre(2:end)];
 end
 
 if (~isdir(['/Volumes/FEISTY/NC/Matlab_new_size/',simname]))

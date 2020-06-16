@@ -73,7 +73,7 @@ l10pLTL = log10(lme_te(:,6));
 clear lme_mcatch lme_mbio lme_te
  
 %% FEISTY 2B
-cfile2 = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_2B_BE08_noCC_RE00100';
+cfile2 = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_2B75_BE08_noCC_RE00100';
 fpath2 = [dp cfile2 '/'];
 ppath = [pp cfile2 '/'];
 
