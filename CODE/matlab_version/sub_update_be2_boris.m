@@ -16,22 +16,22 @@ function [bio_sm,bio_md,predS,predM] = sub_update_be2_boris(BE,det,bio_in,Dcon,D
     % r         = Input of detritus (POC flux) (g m-2 d-1)
     
     %! Universal optimal parameters from Andrew Y.
-    pars(1)=0.4;    % fraction of ingested material that is assimilated
-    pars(2)=0.53;   % respiration pre-factor
-    pars(3)=0.03;   % respiration scaling
-    pars(4)=0.02;   % ingestion pre-factor
-    pars(5)=-0.1;   % ingestion scaling
-    pars(7)=0.0017; % mortality pre-factor
-    pars(8)=-0.37;  % mortality scaling
+%     pars(1)=0.4;    % fraction of ingested material that is assimilated
+%     pars(2)=0.53;   % respiration pre-factor
+%     pars(3)=0.03;   % respiration scaling
+%     pars(4)=0.02;   % ingestion pre-factor
+%     pars(5)=-0.1;   % ingestion scaling
+%     pars(7)=0.0017; % mortality pre-factor
+%     pars(8)=-0.37;  % mortality scaling
 
     %! Optimized parameters in Yool et al. 2017
-%     pars(1)=0.21;    % fraction of ingested material that is assimilated
-%     pars(2)=0.61;    % respiration pre-factor
-%     pars(3)=0.46e-2; % respiration scaling
-%     pars(4)=1.76;    % ingestion pre-factor
-%     pars(5)=-0.13;   % ingestion scaling
-%     pars(7)=9.0e-4;  % mortality pre-factor
-%     pars(8)=-0.40;   % mortality scaling
+    pars(1)=0.21;    % fraction of ingested material that is assimilated
+    pars(2)=0.61;    % respiration pre-factor
+    pars(3)=0.46e-2; % respiration scaling
+    pars(4)=1.76;    % ingestion pre-factor
+    pars(5)=-0.13;   % ingestion scaling
+    pars(7)=9.0e-4;  % mortality pre-factor
+    pars(8)=-0.40;   % mortality scaling
     
     %For mass conservation at steady state, total respiration must equal 
     %the flux of detritus from the overlying water i.e. 
