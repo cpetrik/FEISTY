@@ -1,10 +1,8 @@
 %%%%!! RUN Climatol FOR ALL LOCATIONS
-function Climatol_param_ensemble6_samek()
+function Climatol_fishing_diffF_parallel()
 
 %! Setup Climatol (loop 5-year climatology of ESM2.6-COBALT)
 load('ESM26_1deg_5yr_clim_191_195_daily.mat','COBALT');
-%load('/home/cpetrik/FEISTY_clim/ESM26_1deg_5yr_clim_191_195_daily.mat','COBALT');
-%load('/Volumes/FEISTY/FEISTY_clim/ESM26_1deg_5yr_clim_191_195_daily.mat','COBALT');
 
 %! How long to run the model
 YEARS = 150;
@@ -13,27 +11,23 @@ MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! choose where and when to run the model
 load('ESM26_1deg_5yr_clim_191_195_grid.mat','GRD');
-%load('/home/cpetrik/FEISTY_clim/ESM26_1deg_5yr_clim_191_195_grid.mat','GRD');
-%load('/Volumes/FEISTY/FEISTY_clim/ESM26_1deg_5yr_clim_191_195_grid.mat','GRD');
 NX = length(GRD.Z);
 ID = 1:NX;
 param.NX = NX;
 param.ID = ID;
 
-load('LHS_param6_mid6_samek.mat','fx');
-%load('/home/cpetrik/FEISTY_clim/LHS_param6_mid6_samek.mat','fx');
-%load('/Volumes/FEISTY/FEISTY_clim/LHS_param6_mid6_samek.mat','fx');
+load('LHS_diffF.mat','X');
+%load('/Volumes/FEISTY/NC/Matlab_new_size/bio_rates/LHS_diffF.mat','X');
 
-% PARAMETER SENSITIVITY TEST
+% Search mult combinations of F on 3 functional types
 spmd
-    GRDstruct =load('ESM26_1deg_5yr_clim_191_195_grid.mat','GRD');
-    COBALTstruct =load('ESM26_1deg_5yr_clim_191_195_daily.mat','COBALT');
-    fxstruct = load('LHS_param6_mid6_samek.mat','fx');
+    GRDstruct = load('ESM26_1deg_5yr_clim_191_195_grid.mat','GRD');
+    COBALTstruct = load('ESM26_1deg_5yr_clim_191_195_daily.mat','COBALT');
+    Xstruct = load('LHS_diffF.mat','X');
     GRD=GRDstruct.GRD;
     COBALT=COBALTstruct.COBALT;
-    setp1 = [470:476, 553:559, 634:640, 716:722];
-    fx=fxstruct.fx(setp1,:);
-    adjusted=length(fx);
+    X=Xstruct.X;
+    adjusted=length(X);
     baseelems=floor(adjusted/numlabs);
     numelems=baseelems;
     remainder=mod(adjusted,numlabs);
@@ -46,17 +40,19 @@ spmd
     endoffset=startoffset+numelems-1;
     fprintf('labindex %d: offset=%d, endoffset=%d', labindex,startoffset,endoffset);
     for j=startoffset:endoffset
-        %for j = 1:length(fx)
+        %for j = 1:length(X)
         
         %! Change individual parameters
-        pset = fx(j,:);
-        param = set_params6_samek(pset,param);
+        pset = X(j,:);
+        param.MFsel = pset(1);
+        param.LPsel = pset(2);
+        param.LDsel = pset(3);
         
         %! Make core parameters/constants (global)
-        param = const_params6_samek(param);
+        param = make_parameters(param);
         
         %! Create a directory for output
-        fname = sub_fname_ensemble6_samek(param);
+        fname = sub_fname(param);
         
         %! Storage variables
         % Dims

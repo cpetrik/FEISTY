@@ -1,5 +1,7 @@
 %%%% File naming system
-function [fname,simname] = sub_fname(frate,param)
+function [fname,simname] = sub_fname(param)
+
+frate = param.frate;
 
 td = num2str(1000+int64(100 * param.LD_phi_MP));
 tj = num2str(1000+int64(100 * param.MP_phi_S));
@@ -21,6 +23,7 @@ else
     tD = num2str(1000+int64(100*frate *param.LDsel));
     tJ = num2str(1000+int64(100* param.Jsel));
 end
+sel = {};
 if (param.MFsel > 0)
     if (param.LPsel > 0 && param.LDsel > 0)
         sel='All';
@@ -54,13 +57,13 @@ tbcmx = num2str(1000+int64(1000 * param.bcmx));
 simname = [coup,'_enc',tefn,'-b',tbenc(2:end),'_m',tmfn,'-b',tbfn(2:end),'-k',tkfn(2:end),'_c',tcfn,'-b',tbcmx(2:end),'_D',td(2:end),'_J',tj(2:end),'_A',ta(2:end),'_Sm',tsm(2:end),'_nmort',tmort,'_BE',tbe(2:end),'_noCC_RE',tre(2:end)];
 
 %! Setup netcdf path to store to
-spath = '/home/cpetrik/FEISTY_clim/Output/';
+spath = '/scrath/user/cpetrik/FEISTY_output/';
 
 if (~isdir([spath,simname]))
     mkdir([spath,simname])
 end
 
-if (frate==0)
+if (isempty(sel))
     fname = [spath,simname, '/Climatol_pristine'];
 elseif (param.Jsel ~= 0.1)
     fname = [spath,simname, '/Climatol_', sel,'_fish',tfish(2:end),'_Juve',tJ(2:end)];

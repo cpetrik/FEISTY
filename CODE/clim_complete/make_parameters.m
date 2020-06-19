@@ -9,10 +9,14 @@ function param = make_parameters(param)
     % define diffusivity
     param.K = 600.0;
 
+    %! Set fishing rate
+    param.frate = 1; %Fish(F);
+    param.dfrate = param.frate/365.0;
+    
     %! Which fishes harvested
-    param.MFsel = 1;
-    param.LPsel = 1;
-    param.LDsel = 1;
+%     param.MFsel = 1;
+%     param.LPsel = 1;
+%     param.LDsel = 1;
     param.Jsel  = 0.1;
     param.MPsel = param.Jsel * param.LPsel;
     param.MDsel = param.Jsel * param.LDsel;
