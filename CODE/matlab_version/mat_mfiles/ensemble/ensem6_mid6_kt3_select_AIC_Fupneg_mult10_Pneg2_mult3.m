@@ -59,7 +59,7 @@ lme_Dmcatch = [lme_Dmcatch1, lme_Dmcatch2, lme_Dmcatch3];
 % climatol parameter set
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 harv = 'All_fish03';
-dpath = ['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
+dpath = ['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/Climatology/'];
 load([dpath 'LME_clim_fished_',harv,'_' cfile '.mat']);
 
 %%
@@ -257,6 +257,12 @@ save([dp 'LHS_param6_mid6_kt3_bestAIC_params_Fupneg_mult10_Pneg2_mult3_reduced.m
 
 pT = array2table(red_params,'VariableNames',ptext);
 writetable(pT,[dp 'LHS_param6_mid6_kt3_bestAIC_params_Fupneg_mult10_Pneg2_mult3_reduced.csv'])
+
+[blah,rid] = intersect(pset(:,1),id1);
+rpset = pset(rid,1:8);
+rT = array2table(rpset,'VariableNames',{'ParamSet','Lambda','bMet','bEnc',...
+    'aMet','aEnc','kMet','AIC'});
+writetable(rT,[dp 'LHS_param6_mid6_kt2_bestAIC_params_Fupneg_mult10_Pneg2_mult3_reduced_AIC.csv'])
 
 %% vis best SAUP comp
 for j=1:length(id1)

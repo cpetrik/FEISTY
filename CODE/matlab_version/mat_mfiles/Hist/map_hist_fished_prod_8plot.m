@@ -303,3 +303,121 @@ text(-2.5,1.75,'H')
 
 print('-dpng',[ppath 'Hist_',harv,'_global_prod_8plot.png'])
 
+%% Mollweid
+
+f2 = figure('Units','inches','Position',[1 3 6.5 8]);
+%f1.Units = 'inches';
+
+%A - npp
+subplot('Position',[0.0 0.75 0.425 0.25])
+axesm ('Mollweid','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,log10(npp_hist))
+colormap(cmBP)
+colorbar('Position',[0.43 0.76 0.025 0.225],'orientation','vertical','AxisLocation','out')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-0.5 1.5]);
+set(gcf,'renderer','painters')
+text(0,1.75,'Net primary','HorizontalAlignment','center')
+text(-2.5,1.75,'A')
+
+% - mesozoo
+subplot('Position',[0.0 0.5 0.425 0.25])
+axesm ('Mollweid','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,log10(zprod))
+colormap(cmBP)
+colorbar('Position',[0.43 0.51 0.025 0.225],'orientation','vertical','AxisLocation','out')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1 1]);
+set(gcf,'renderer','painters')
+text(0,1.75,'Mesozoo','HorizontalAlignment','center')
+text(-2.5,1.75,'B')
+
+%C - det
+subplot('Position',[0.0 0.25 0.425 0.25])
+axesm ('Mollweid','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,log10(det_hist))
+colormap(cmBP)
+colorbar('Position',[0.43 0.26 0.025 0.225],'orientation','vertical','AxisLocation','out')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-2.0 0.5]);
+set(gcf,'renderer','painters')
+text(0,1.75,'Detritus','HorizontalAlignment','center')
+text(-2.5,1.75,'C')
+
+%D - benthos
+subplot('Position',[0.0 0.0 0.425 0.25])
+axesm ('Mollweid','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,log10(prodB))
+colormap(cmBP)
+colorbar('Position',[0.43 0.01 0.025 0.225],'orientation','vertical','AxisLocation','out')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-3 0]);
+set(gcf,'renderer','painters')
+text(0,1.75,'Benthos','HorizontalAlignment','center')
+text(-2.5,1.75,'D')
+
+% - forage
+subplot('Position',[0.50 0.75 0.425 0.25])
+axesm ('Mollweid','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,log10(AllF))
+colormap(cmBP)
+colorbar('Position',[0.94 0.76 0.025 0.225],'orientation','vertical','AxisLocation','out')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-4 0]);
+set(gcf,'renderer','painters')
+text(0,1.75,'Forage','HorizontalAlignment','center')
+text(-2.5,1.75,'E')
+
+% - LP
+subplot('Position',[0.50 0.5 0.425 0.25])
+axesm ('Mollweid','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,log10(AllP))
+colormap(cmBP)
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-4 0]);
+colorbar('Position',[0.94 0.51 0.025 0.225],'orientation','vertical','AxisLocation','out')
+set(gcf,'renderer','painters')
+text(0,1.75,'Large pelagic','HorizontalAlignment','center')
+text(-2.5,1.75,'F')
+
+%F - dem
+subplot('Position',[0.50 0.25 0.425 0.25])
+axesm ('Mollweid','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,log10(AllD))
+colormap(cmBP)
+colorbar('Position',[0.94 0.26 0.025 0.225],'orientation','vertical','AxisLocation','out')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-4 0]);
+set(gcf,'renderer','painters')
+text(0,1.75,'Demersal','HorizontalAlignment','center')
+text(-2.5,1.75,'G')
+
+%- All
+subplot('Position',[0.50 0.0 0.425 0.25])
+axesm ('Mollweid','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,log10(All))
+colormap(cmBP)
+colorbar('Position',[0.94 0.01 0.025 0.225],'orientation','vertical','AxisLocation','out')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-4 0]);
+set(gcf,'renderer','painters')
+text(0,1.75,'All','HorizontalAlignment','center')
+text(-2.5,1.75,'H')
+
+print('-dpng',[ppath 'Hist_',harv,'_global_prod_8plot_mollw.png'])
