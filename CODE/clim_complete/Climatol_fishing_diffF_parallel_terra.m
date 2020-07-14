@@ -1,5 +1,5 @@
 %%%%!! RUN Climatol FOR ALL LOCATIONS
-function Climatol_fishing_diffF_parallel()
+function Climatol_fishing_diffF_parallel_terra()
 
 %! Setup Climatol (loop 5-year climatology of ESM2.6-COBALT)
 load('ESM26_1deg_5yr_clim_191_195_daily.mat','COBALT');
@@ -17,7 +17,6 @@ param.NX = NX;
 param.ID = ID;
 
 load('LHS_diffF.mat','X');
-%load('/Volumes/FEISTY/NC/Matlab_new_size/bio_rates/LHS_diffF.mat','X');
 
 % Search mult combinations of F on 3 functional types
 spmd
@@ -27,6 +26,7 @@ spmd
     GRD=GRDstruct.GRD;
     COBALT=COBALTstruct.COBALT;
     X=Xstruct.X;
+    X=X(18:end,:);
     adjusted=length(X);
     baseelems=floor(adjusted/numlabs);
     numelems=baseelems;
