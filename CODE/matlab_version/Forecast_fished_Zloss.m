@@ -45,7 +45,7 @@ S_Lzoo_frac = zeros(NX,DAYS);
 S_Bent_frac = zeros(NX,DAYS);
 
 %% ! Initialize
-load(['/Volumes/FEISTY/NC/Matlab_new_size/',simname '/Last_mo_hist_All_fish03_' simname '.mat']);
+load(['/Volumes/FEISTY/NC/Matlab_new_size/',simname '/Historic_ESM2M/Last_mo_hist_All_fish03_' simname '.mat']);
 BENT.mass = BENT.bio;
 [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_hist(ID,DAYS,Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT);
 Med_d.td(1:NX) = 0.0;
@@ -56,7 +56,7 @@ ENVR = sub_init_env(ID);
 %! Setup netcdf path to store to
 file_mzoo  = [fname,'_mzoo.nc'];
 file_lzoo  = [fname,'_lzoo.nc'];
-file_bent  = [fname,'_bent.nc'];
+file_bent  = [fname,'_bfrac.nc'];
 
 ncidMZ = netcdf.create(file_mzoo,'NC_WRITE');
 ncidLZ = netcdf.create(file_lzoo,'NC_WRITE');

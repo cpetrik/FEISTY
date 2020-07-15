@@ -9,7 +9,7 @@ function [out_1, out_2, zf] = sub_offline_zl(enc_1,enc_2,bio_1,bio_2,dZ)
     out_2 = enc_2;
     
     % Fraction of zooplankton mortality loss consumed
-    zf = (con_1 + con_2) ./ dZ;
+    zf = (con_1 + con_2) ./ (dZ+eps);
     % Which exceed mortality
     id=((con_1 + con_2) > dZ);
     
