@@ -134,40 +134,11 @@ ylabel('Change in Zoo:Det');
 text(1929,0.42,'B')
 print('-dpng',[pp 'Hist_Fore_' harv '_global_diff_ZpDet_2plot_ms.png'])
 
-%% Map Zprod:Det w/ ts as subplot - percent change map
+%% Mollweide Map Zprod:Det w/ ts as subplot 
 figure(2)
 %subplot('Position',[0 0.05 0.5 0.4])
 subplot('Position',[0.4 0.575 0.5 0.4])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) 
-surfm(geolat_t,geolon_t,100*pdiffZD)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
-colorbar('Position',[0.45 0.57 0.4 0.03],'orientation','horizontal')
-set(gcf,'renderer','painters')
-title('Percent change in Zoo:Det');
-text(-2.9,1.75,'A')
-
-%ts 
-subplot('Position',[0.46 0.075 0.385 0.4])
-yyaxis left
-line(y(19:end),100*pdtD(19:end),'Linewidth',2); hold on;
-line(y(19:end),100*pdtZ(19:end),'LineStyle','-.','Linewidth',2); hold on;
-ylabel('Percent change in production');
-
-yyaxis right
-line(y(19:end),dtZD(19:end),'Linewidth',2); hold on;
-xlabel('Year')
-ylabel('Change in Zoo:Det');
-text(1929,0.42,'B')
-print('-dpng',[pp 'Hist_Fore_' harv '_global_pdiff_ZpDet_2plot_ms.png'])
-
-%% Comp diff & pdiff
-figure(3)
-subplot('Position',[0.4 0.575 0.5 0.4])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+axesm ('Mollweid','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1) 
 surfm(geolat_t,geolon_t,diffZD)
 cmocean('balance')
@@ -177,39 +148,6 @@ caxis([-20 20]);
 colorbar('Position',[0.45 0.57 0.4 0.03],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('Change in Zoo:Det');
-
-subplot('Position',[0.4 0.075 0.5 0.4])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) 
-surfm(geolat_t,geolon_t,100*pdiffZD)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-100 100]);
-%colorbar('Position',[0.45 0.57 0.4 0.03],'orientation','horizontal')
-set(gcf,'renderer','painters')
-title('Percent change in Zoo:Det');
-print('-dpng',[pp 'Hist_Fore_' harv '_global_diff_pdiff_ZpDet_map_comp.png'])
-
-
-%% Try plot only in places with det above a threshold
-did = find(det_hist(:)>1e-2);
-ldet = nan*ones(size(det_hist));
-ldet(did) = ones;
-
-figure(4)
-%subplot('Position',[0 0.05 0.5 0.4])
-subplot('Position',[0.4 0.575 0.5 0.4])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) 
-surfm(geolat_t,geolon_t,diffZD.*ldet)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-20 20]);
-colorbar('Position',[0.45 0.57 0.4 0.03],'orientation','horizontal')
-set(gcf,'renderer','painters')
-title('Change in Zoo:Det');
 text(-2.9,1.75,'A')
 
 %ts 
@@ -224,98 +162,5 @@ line(y(19:end),dtZD(19:end),'Linewidth',2); hold on;
 xlabel('Year')
 ylabel('Change in Zoo:Det');
 text(1929,0.42,'B')
-print('-dpng',[pp 'Hist_Fore_' harv '_global_diff_ZpDet_2plot_1e-2.png'])
-
-
-%% Try plot places with Z:D below threshold
-zid = find(ZpDet_hist(:)<21.5654);
-ldet = nan*ones(size(det_hist));
-ldet(zid) = ones;
-
-figure(5)
-%subplot('Position',[0 0.05 0.5 0.4])
-subplot('Position',[0.4 0.575 0.5 0.4])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1) 
-surfm(geolat_t,geolon_t,diffZD.*ldet)
-cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-20 20]);
-colorbar('Position',[0.45 0.57 0.4 0.03],'orientation','horizontal')
-set(gcf,'renderer','painters')
-title('Change in Zoo:Det');
-text(-2.9,1.75,'A')
-
-%ts 
-subplot('Position',[0.46 0.075 0.385 0.4])
-yyaxis left
-line(y(19:end),100*pdtD(19:end),'Linewidth',2); hold on;
-line(y(19:end),100*pdtZ(19:end),'LineStyle','-.','Linewidth',2); hold on;
-ylabel('Percent change in production');
-
-yyaxis right
-line(y(19:end),dtZD(19:end),'Linewidth',2); hold on;
-xlabel('Year')
-ylabel('Change in Zoo:Det');
-text(1929,0.42,'B')
-print('-dpng',[pp 'Hist_Fore_' harv '_global_diff_ZpDet_2plot_21.png'])
-
-%% Where are big changes
-hid=find(diffZD(:)>15);
-dep = nan*ones(size(diffZD));
-dep(ID) = grid(:,4);
-
-% figure
-% subplot(2,2,1)
-% hist(det_hist(hid))
-% subplot(2,2,2)
-% hist(det_fore(hid))
-% subplot(2,2,3)
-% hist(dep(hid))
-% 
-% quantile(det_hist(hid),[0.05 0.25 0.5 0.75 0.95])
-% quantile(det_fore(hid),[0.05 0.25 0.5 0.75 0.95])
-% mean(det_hist(hid))
-% mean(det_fore(hid))
-% mean(dep(hid))
-% 
-% max(det_hist(hid))
-% max(det_fore(hid))
-% 
-% %%
-% quantile(ZpDet_hist(hid),[0.05 0.25 0.5 0.75 0.95])
-% quantile(ZpDet_fore(hid),[0.05 0.25 0.5 0.75 0.95])
-% mean(ZpDet_hist(hid))
-% mean(ZpDet_fore(hid))
-% max(ZpDet_hist(hid))
-% max(ZpDet_fore(hid))
-% 
-% %%
-% quantile(ZpDet_hist(:),[0.05 0.25 0.5 0.75 0.95])
-% quantile(ZpDet_fore(:),[0.05 0.25 0.5 0.75 0.95])
-% nanmean(ZpDet_hist(:))
-% nanmean(ZpDet_fore(:))
-% max(ZpDet_hist(:))
-% max(ZpDet_fore(:))
-
-%
-['In areas where diffZD > 15, the mean depth is '...
-num2str(mean(dep(hid))) ...
-', the mean historic ZD was ' ...
-num2str(mean(ZpDet_hist(hid))) ...
-' and det flux was '...
-num2str(mean(det_hist(hid))) ]
-
-sid=find(dep(:)<=200);
-['In shelf areas <= 200 m, the mean change in ZD is '...
-num2str(mean(diffZD(sid))) ...
-' and the projected ZD is ' ...
-num2str(mean(ZpDet_fore(sid)))]
-
-lid=find(dep(:)<=1000);
-['In areas <= 1000 m, the mean change in ZD is '...
-num2str(mean(diffZD(lid))) ...
-' and the projected ZD is ' ...
-num2str(mean(ZpDet_fore(lid)))]
+print('-dpng',[pp 'Hist_Fore_' harv '_global_diff_ZpDet_2plot_ms_mollw.png'])
 

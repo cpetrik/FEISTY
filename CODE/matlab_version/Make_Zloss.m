@@ -4,13 +4,13 @@ clear all
 close all
 
 %%%%!! EXPERIMENTS
-climatol = false;
-historic_fished = true;
-forecast_fished = true;
+climatol = true;
+historic_fished = false;
+forecast_fished = false;
 
 tic
 if climatol
-    Climatol_pristine()
+    Climatol_fished_Zloss()
 end
 if historic_fished
     Historic_fished_Zloss()

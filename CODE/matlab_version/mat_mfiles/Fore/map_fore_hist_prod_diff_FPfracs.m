@@ -201,3 +201,63 @@ ylabel('Change in fractions');
 text(1918,0.048,'D')
 print('-dpng',[pp 'Hist_Fore_' harv '_global_prod_diff_fracs_4plot_v2.png'])
 
+%% zero line, Mollweid projection
+x0=1951:2100;
+y0=zeros(size(x0));
+figure(3)
+% P
+subplot('Position',[0 0.575 0.5 0.4])
+axesm ('Mollweid','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,diffP)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-0.5 0.5]);
+colorbar('Position',[0.25 0.55 0.5 0.03],'orientation','horizontal')
+set(gcf,'renderer','painters')
+title('Change P/All');
+text(-2.75,1.75,'A')
+% Pel
+subplot('Position',[0 0.05 0.5 0.4])
+axesm ('Mollweid','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) %,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,diffPel)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-0.5 0.5]);
+set(gcf,'renderer','painters')
+title('Change Pel/All');
+text(-2.75,2,'B')
+% F
+subplot('Position',[0.5 0.575 0.5 0.4])
+axesm ('Mollweid','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) 
+surfm(geolat_t,geolon_t,diffF)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-0.5 0.5]);
+%colorbar('Position',[0.55 0.57 0.4 0.03],'orientation','horizontal')
+set(gcf,'renderer','painters')
+title('Change in F/All');
+text(-2.75,1.75,'C')
+
+%ts 
+subplot('Position',[0.6 0.075 0.375 0.4])
+line(yr(yid:end),dtP(yid:end),'color',[0 0.1 0.9],'Linewidth',2); hold on;
+line(yr(yid:end),dtF(yid:end),'color',[0.97647 0.19 0],'Linewidth',2); hold on;
+line(yr(yid:end),dtPel(yid:end),'color',[0 0 0],'Linewidth',2); hold on;
+legend('P','F','Pel')
+legend('location','northwest')
+legend('AutoUpdate','off')
+line(x0,y0,'LineStyle',':','color',[0 0 0]);
+set(gca,'Box','on')
+ylim([-0.05 0.05])
+xlabel('Year')
+ylabel('Change in fractions');
+text(1918,0.048,'D')
+print('-dpng',[pp 'Hist_Fore_' harv '_global_prod_diff_fracs_4plot_v3.png'])
+
+

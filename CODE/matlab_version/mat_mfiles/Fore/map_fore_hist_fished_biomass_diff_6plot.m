@@ -229,4 +229,86 @@ text(0,1.75,'All fish','HorizontalAlignment','center')
 text(-2.75,1.75,'F')
 print('-dpng',[pp 'Hist_Fore_',harv,'_global_pdiff_biom_6plot_v2.png'])
 
+%% Mollweid
+figure(3)
+%A - Zoop
+subplot('Position',[0.01 0.68 0.4 0.3])
+axesm ('Mollweid','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*pdiffZ)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+%colorbar('Position',[0.385 0.695 0.025 0.275],'orientation','vertical','AxisLocation','out')
+set(gcf,'renderer','painters')
+text(0,1.75,'Zooplankton','HorizontalAlignment','center')
+text(-2.75,1.75,'A')
+%D - B
+subplot('Position',[0.41 0.68 0.4 0.3])
+axesm ('Mollweid','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*pdiffB)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+%colorbar('Position',[0.825 0.695 0.025 0.275],'orientation','vertical','AxisLocation','out')
+set(gcf,'renderer','painters')
+text(0,1.75,'Benthos','HorizontalAlignment','center')
+text(-2.75,1.75,'D')
+%B - F
+subplot('Position',[0.01 0.37 0.4 0.3])
+axesm ('Mollweid','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*pdiffF)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+%colorbar('Position',[0.385 0.385 0.025 0.275],'orientation','vertical','AxisLocation','out')
+set(gcf,'renderer','painters')
+text(0,1.75,'Forage','HorizontalAlignment','center')
+text(-2.75,1.75,'B')
+%E - D
+subplot('Position',[0.41 0.37 0.4 0.3])
+axesm ('Mollweid','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*pdiffD)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+colorbar('Position',[0.8 0.25 0.025 0.5],'orientation','vertical','AxisLocation','out')
+set(gcf,'renderer','painters')
+text(0,1.75,'Demersal','HorizontalAlignment','center')
+text(-2.75,1.75,'E')
+%C - Large Pel
+subplot('Position',[0.01 0.06 0.4 0.3])
+axesm ('Mollweid','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*pdiffP)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+%colorbar('Position',[0.385 0.075 0.025 0.275],'orientation','vertical','AxisLocation','out')
+set(gcf,'renderer','painters')
+text(0,1.75,'Large pelagic','HorizontalAlignment','center')
+text(-2.75,1.75,'C')
+%F - All
+subplot('Position',[0.41 0.06 0.4 0.3])
+axesm ('Mollweid','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,100*pdiffAll)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+%colorbar('Position',[0.825 0.075 0.025 0.275],'orientation','vertical','AxisLocation','out')
+set(gcf,'renderer','painters')
+text(0,1.75,'All fish','HorizontalAlignment','center')
+text(-2.75,1.75,'F')
+print('-dpng',[pp 'Hist_Fore_',harv,'_global_pdiff_biom_6plot_v2_mollw.png'])
+
 

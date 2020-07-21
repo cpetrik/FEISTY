@@ -1,3 +1,4 @@
+% Climatology
 % FEISTY output at all locations
 % Fraction of zoop hp loss consumed
 
@@ -10,7 +11,7 @@ harv = 'All_fish03';
 fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
 
 % MZ
-ncid = netcdf.open([fpath 'Historic_' harv '_mzoo.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Climatol_' harv '_mzoo.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -23,7 +24,7 @@ MZ.frac = fraction;
 clear fraction time
 
 % LZ
-ncid = netcdf.open([fpath 'Historic_' harv '_lzoo.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Climatol_' harv '_lzoo.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -36,7 +37,7 @@ LZ.frac = fraction;
 clear fraction time
 
 % Bent
-ncid = netcdf.open([fpath 'Historic_' harv '_bfrac.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Climatol_' harv '_bfrac.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -56,39 +57,12 @@ mz_tmfrac=nanmean(MZ.frac,1);
 lz_tmfrac=nanmean(LZ.frac,1);
 b_tmfrac=nanmean(B.frac,1);
 
-%% 50 yrs (1951-2000)
-y = 1860+(1/12):(1/12):2005;
-yr50=find(y>=1951 & y<2001);
-mz_mfrac50=nanmean(MZ.frac(:,yr50),2);
-lz_mfrac50=nanmean(LZ.frac(:,yr50),2);
-b_mfrac50=nanmean(B.frac(:,yr50),2);
-
-% 1990-1995 (Climatology) Means
-lyr=find(y>=1990 & y<1995);
+%% Space
+% Last year
+lyr=time((end-12+1):end);
 mz_mfrac5=nanmean(MZ.frac(:,lyr),2);
 lz_mfrac5=nanmean(LZ.frac(:,lyr),2);
 b_mfrac5=nanmean(B.frac(:,lyr),2);
-
-% 1990 (Climatology) Means
-yr1=find(y>=1990 & y<1991);
-mz_mfrac90=nanmean(MZ.frac(:,yr1),2);
-lz_mfrac90=nanmean(LZ.frac(:,yr1),2);
-b_mfrac90=nanmean(B.frac(:,yr1),2);
-
-% Every year
-[ni,nt] = size(LZ.frac);
-nyr = nt/12;
-st=1:12:length(time);
-en=12:12:length(time);
-mz_mfrac = nan*ones(ni,nyr);
-lz_mfrac = nan*ones(ni,nyr);
-b_mfrac = nan*ones(ni,nyr);
-for n=1:length(st)
-    mz_mfrac(:,n)=nanmean(MZ.frac(:,st(n):en(n)),2);
-    lz_mfrac(:,n)=nanmean(LZ.frac(:,st(n):en(n)),2);
-    b_mfrac(:,n)=nanmean(B.frac(:,st(n):en(n)),2);
-end
-
 
 %% Total times it happens
 MZ.over = nan*ones(size(MZ.frac));
@@ -108,22 +82,14 @@ mz_ttf=nansum(MZ.over,1);
 lz_ttf=nansum(LZ.over,1);
 b_ttf=nansum(B.over,1);
 
-%50 yrs
-mz_mtf50=nansum(MZ.over(:,yr50),2);
-lz_mtf50=nansum(LZ.over(:,yr50),2);
-b_mtf50=nansum(B.over(:,yr50),2);
-
-% 1990-1995 (Climatology)
+% Space
 mz_mtf5=nansum(MZ.over(:,lyr),2);
 lz_mtf5=nansum(LZ.over(:,lyr),2);
 b_mtf5=nansum(B.over(:,lyr),2);
 
-% 1990 (Climatology)
-mz_mtf90=nansum(MZ.over(:,yr1),2);
-lz_mtf90=nansum(LZ.over(:,yr1),2);
-b_mtf90=nanmean(B.over(:,yr1),2);
-
 %% Every year
+[ni,nt] = size(LZ.frac);
+nyr = nt/12;
 st=1:12:length(time);
 en=12:12:length(time);
 mz_mtf = nan*ones(ni,nyr);
@@ -136,10 +102,10 @@ for n=1:length(st)
 end
 
 %%
-save([fpath 'Historic_ESM2M/Means_Historic_' harv '_' cfile '.mat'],'time',...
-    'mz_tmfrac','mz_mfrac50','mz_mfrac5','mz_mfrac90','mz_mfrac','mz_ttf',...
-    'mz_mtf50','mz_mtf5','mz_mtf90','mz_mtf',...
-    'lz_tmfrac','lz_mfrac50','lz_mfrac5','lz_mfrac90','lz_mfrac','lz_ttf',...
-    'lz_mtf50','lz_mtf5','lz_mtf90','lz_mtf',...
-    'b_tmfrac','b_mfrac50','b_mfrac5','b_mfrac90','b_mfrac','b_ttf',...
-    'b_mtf50','b_mtf5','b_mtf90','b_mtf','-append');
+save([fpath 'Climatology/Means_Climatol_' harv '_' cfile '.mat'],'time',...
+    'mz_tmfrac','mz_mfrac5','mz_ttf',...
+    'mz_mtf5','mz_mtf',...
+    'lz_tmfrac','lz_mfrac5','lz_ttf',...
+    'lz_mtf5','lz_mtf',...
+    'b_tmfrac','b_mfrac5','b_ttf',...
+    'b_mtf5','b_mtf','-append');

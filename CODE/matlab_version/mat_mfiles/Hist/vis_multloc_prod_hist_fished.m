@@ -1,7 +1,7 @@
 % Visualize output of FEISTY
 % Historic time period (1861-2005) at all locations
-% 145 years
-% Saved as mat files
+% Fraction of zoop hp loss consumed 
+% And number of times overconsumed
 
 clear all
 close all

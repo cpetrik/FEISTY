@@ -10,7 +10,7 @@ harv = 'All_fish03';
 fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
 
 % MZ
-ncid = netcdf.open([fpath 'Historic_' harv '_mzoo.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Forecast_' harv '_mzoo.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -23,7 +23,7 @@ MZ.frac = fraction;
 clear fraction time
 
 % LZ
-ncid = netcdf.open([fpath 'Historic_' harv '_lzoo.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Forecast_' harv '_lzoo.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -36,7 +36,7 @@ LZ.frac = fraction;
 clear fraction time
 
 % Bent
-ncid = netcdf.open([fpath 'Historic_' harv '_bfrac.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Forecast_' harv '_bfrac.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -57,8 +57,8 @@ lz_tmfrac=nanmean(LZ.frac,1);
 b_tmfrac=nanmean(B.frac,1);
 
 %% 50 yrs (1951-2000)
-y = 1860+(1/12):(1/12):2005;
-yr50=find(y>=1951 & y<2001);
+y = 2005+(1/12):(1/12):2100;
+yr50=find(y>=2051 & y<2100);
 mz_mfrac50=nanmean(MZ.frac(:,yr50),2);
 lz_mfrac50=nanmean(LZ.frac(:,yr50),2);
 b_mfrac50=nanmean(B.frac(:,yr50),2);
@@ -136,7 +136,7 @@ for n=1:length(st)
 end
 
 %%
-save([fpath 'Historic_ESM2M/Means_Historic_' harv '_' cfile '.mat'],'time',...
+save([fpath 'Forecast_RCP85_ESM2M/Means_fore_' harv '_' cfile '.mat'],'time',...
     'mz_tmfrac','mz_mfrac50','mz_mfrac5','mz_mfrac90','mz_mfrac','mz_ttf',...
     'mz_mtf50','mz_mtf5','mz_mtf90','mz_mtf',...
     'lz_tmfrac','lz_mfrac50','lz_mfrac5','lz_mfrac90','lz_mfrac','lz_ttf',...

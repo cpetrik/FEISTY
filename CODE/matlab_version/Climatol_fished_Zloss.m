@@ -1,5 +1,5 @@
-%%%%!! RUN HISTORIC WITH FISHING FOR ALL LOCATIONS
-function Historic_fished_Zloss()
+%%%%!! RUN Climatol FOR ALL LOCATIONS
+function Climatol_fished_Zloss()
 
 global DAYS GRD NX ID
 global DT PI_be_cutoff pdc L_s L_m L_l M_s M_m M_l L_zm L_zl
@@ -9,11 +9,11 @@ global Tu_s Tu_m Tu_l Nat_mrt MORT
 global MF_phi_MZ MF_phi_LZ MF_phi_S MP_phi_MZ MP_phi_LZ MP_phi_S MD_phi_BE
 global LP_phi_MF LP_phi_MP LP_phi_MD LD_phi_MF LD_phi_MP LD_phi_MD LD_phi_BE
 global MFsel MPsel MDsel LPsel LDsel Jsel efn cfn mfn
-global tstep K CGRD ni nj
+global tstep K CGRD ni nj kc
 
 %%%%%%%%%%%%%%% Initialize Model Variables
 %! Set fishing rate
-frate = 0.3;
+frate = 0.3; %Fish(F);
 dfrate = frate/365.0;
 
 %! Choose parameters from other models of my own combo
@@ -23,31 +23,33 @@ efn=nan;
 mfn=nan;
 
 %! Make core parameters/constants (global)
-make_parameters() % make core parameters/constants
+make_parameters()
 
-%! Grid
-load('/Users/cpetrik/Dropbox/Princeton/POEM_2.0/CODE/Data/Data_grid_hindcast_NOTflipped.mat','GRD');
-NX = length(GRD.Z);
-ID = 1:NX;
+%! Setup Climatol (loop 5-year climatology of ESM2.6-COBALT)
+load('/Volumes/FEISTY/POEM_JLD/esm26_hist/ESM26_1deg_5yr_clim_191_195_daily.mat','COBALT');
 
 %! How long to run the model
-YEARS = 145;
+YEARS = 150;
 DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
+%! Grid; choose where and when to run the model
+load('/Volumes/FEISTY/POEM_JLD/esm26_hist/ESM26_1deg_5yr_clim_191_195_grid.mat','GRD');
+NX = length(GRD.Z);
+ID = 1:NX;
+
 %! Create a directory for output
-[fname,simname] = sub_fname_hist(frate);
+fname = sub_fname(frate);
 
 %! Storage variables
 S_Mzoo_frac = zeros(NX,DAYS);
 S_Lzoo_frac = zeros(NX,DAYS);
 S_Bent_frac = zeros(NX,DAYS);
 
-%% ! Initialize
-init_sim = simname;
-load(['/Volumes/FEISTY/NC/Matlab_new_size/',init_sim '/Last_mo_preindust_' init_sim '.mat']);
-BENT.mass = BENT.bio;
-[Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_hist(ID,DAYS,Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT);
+
+%! Initialize
+[Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = ...
+        sub_init_fish(ID,DAYS);
 Med_d.td(1:NX) = 0.0;
 Lrg_d.td(1:NX) = 0.0;
 ENVR = sub_init_env(ID);
@@ -64,7 +66,8 @@ ncidB  = netcdf.create(file_bent,'NC_WRITE');
 
 %! Dims of netcdf file
 nt = 12*YEARS;
-netcdf.setDefaultFormat('NC_FORMAT_64BIT');
+%oldFormat = netcdf.setDefaultFormat('NC_FORMAT_64BIT');
+netcdf.setDefaultFormat('NC_FORMAT_64BIT')
 
 %% ! Def vars of netcdf file
 ['Defining netcdfs, takes ~5 minutes ... ']
@@ -86,24 +89,20 @@ vidbioB    = netcdf.defVar(ncidB,'fraction','double',[xy_dim,time_dim]);
 vidTB      = netcdf.defVar(ncidB,'time','double',time_dim);
 netcdf.endDef(ncidB);
 
-%% %%%%%%%%%%%%%%%%%%%% Run the Model
-MNT = 0;
-%! Run model with no fishing
+%% %%%%%%%%%%%%%%%%%%%% Run the Model %%%%%%%%%%%%%%%%%%%%
+%! Run model 
+MNT=0;
 for YR = 1:YEARS % years
-    %! Load a year's COBALT data
-    ti = num2str(YR+1860);
-    load(['/Volumes/FEISTY/POEM_JLD/esm2m_hist/Data_ESM2Mhist_',ti,'.mat']);
     
     for DAY = 1:DT:DAYS % days
         
         %%%! Future time step
         DY = int64(ceil(DAY));
-        [num2str(YR),' , ',num2str(mod(DY,365))]
+        [num2str(YR),' , ', num2str(mod(DY,365))]
         [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,ENVR] = ...
             sub_futbio(ID,DY,COBALT,ENVR,Sml_f,Sml_p,Sml_d,...
             Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,dfrate);
         
-        %! Store
         S_Mzoo_frac(:,DY) = ENVR.fZm;
         S_Lzoo_frac(:,DY) = ENVR.fZl;
         S_Bent_frac(:,DY) = ENVR.fB;
@@ -131,7 +130,6 @@ for YR = 1:YEARS % years
     end %Monthly mean
     
 end %Years
-
 
 %! Close save
 netcdf.close(ncidMZ);

@@ -1,5 +1,5 @@
 %%%%!! RUN Climatol FOR ALL LOCATIONS
-function Climatol_pristine()
+function Climatol_fished()
 
 global DAYS GRD NX ID
 global DT PI_be_cutoff pdc L_s L_m L_l M_s M_m M_l L_zm L_zl
@@ -13,7 +13,7 @@ global tstep K CGRD ni nj kc
 
 %%%%%%%%%%%%%%% Initialize Model Variables
 %! Set fishing rate
-frate = 0.0; %Fish(F);
+frate = 0.3; %Fish(F);
 dfrate = frate/365.0;
 
 %! Initial biomass
