@@ -4,8 +4,8 @@
 clear all
 close all
 
-Cdir = '/Volumes/GFDL/GCM_DATA/Hindcast/';
-Tdir = '/Volumes/GFDL/GCM_DATA/ESM2M_hist/';
+Cdir = '/Volumes/FEISTY/GCM_DATA/Hindcast/';
+Tdir = '/Volumes/FEISTY/GCM_DATA/ESM2M_hist/';
 
 TIME = ncread([Tdir 'ocean_cobalt_biomass_100.186101-200512.nlgz_100.nc'],'average_T1'); 
 LON  = ncread([Cdir 'grid_spec.nc'], 'geolon_t'); % lon
