@@ -8,8 +8,8 @@ spinup_cesm = false;
 pre_industrial_cesm = false;
 pre_industrial_gfdl = false;
 historic_cesm = false;
-historic_gfdl = false;
-forecast_cesm = true;
+historic_gfdl = true;
+forecast_cesm = false;
 forecast_gfdl = false;
 temp_cont_cesm = false;
 temp_cont_gfdl = false;
@@ -30,7 +30,7 @@ if historic_cesm
     Historic_cesm_noD()
 end
 if historic_gfdl
-    Historic_gfdl()
+    Historic_fished_gfdl_1zoo()
 end
 if forecast_cesm
     Forecast_cesm_noD()

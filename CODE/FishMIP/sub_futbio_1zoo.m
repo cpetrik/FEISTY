@@ -1,6 +1,6 @@
 %%%% THE MODEL
 %%% DEMOGRAPHIC CALCULATIONS
-function [Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT,ENVR] = sub_futbio(ID,DY,COBALT,ENVR,Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT,dfrate)
+function [Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT,ENVR] = sub_futbio_1zoo(ID,DY,COBALT,ENVR,Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT,dfrate)
 
 global DAYS GRD NX
 global DT PI_be_cutoff pdc L_s L_m L_l M_s M_m M_l L_zm L_zl
@@ -13,7 +13,7 @@ global MFsel MPsel MDsel LPsel LDsel
 %%% If biomass < individual fish mass per grid cell, set all rates to zero? %%%
 
 %%% COBALT information
-ENVR = get_COBALT(COBALT,ID,DY);
+ENVR = get_COBALT_1zoo(COBALT,ID,DY);
 ENVR.det = sub_neg(ENVR.det);
 ENVR.Zm  = sub_neg(ENVR.Zm);
 ENVR.Zl  = sub_neg(ENVR.Zl);
@@ -217,23 +217,6 @@ Ld.bio = sub_update_fi(Ld.bio,Ld.rec,Ld.nu,Ld.rep,Ld.gamma,Ld.die,Ld.egg,Ld.nmor
 [Md.bio, Md.caught, Md.fmort] = sub_fishing_rate(Md.bio,dfrate,MDsel);
 [Lp.bio, Lp.caught, Lp.fmort] = sub_fishing_rate(Lp.bio,dfrate,LPsel);
 [Ld.bio, Ld.caught, Ld.fmort] = sub_fishing_rate(Ld.bio,dfrate,LDsel);
-% [Mf.bio, Mf.caught, Mf.fmort] = sub_quad_fishing(Mf.bio,dfrate,MFsel,ENVR.Tp,ENVR.Tb,Mf.td);
-% [Mp.bio, Mp.caught, Mp.fmort] = sub_quad_fishing(Mp.bio,dfrate,MPsel,ENVR.Tp,ENVR.Tb,Mp.td);
-% [Md.bio, Md.caught, Md.fmort] = sub_quad_fishing(Md.bio,dfrate,MDsel,ENVR.Tp,ENVR.Tb,Md.td);
-% [Lp.bio, Lp.caught, Lp.fmort] = sub_quad_fishing(Lp.bio,dfrate,LPsel,ENVR.Tp,ENVR.Tb,Lp.td);
-% [Ld.bio, Ld.caught, Ld.fmort] = sub_quad_fishing(Ld.bio,dfrate,LDsel,ENVR.Tp,ENVR.Tb,Ld.td);
-
-% Advection-Diffusion
-% Sf.bio = sub_advec_vel(CGRD,Sf.bio,ENVR.U,ENVR.V,ni,nj,tstep);
-% Sp.bio = sub_advec_vel(CGRD,Sp.bio,ENVR.U,ENVR.V,ni,nj,tstep);
-% Sd.bio = sub_advec_vel(CGRD,Sd.bio,ENVR.U,ENVR.V,ni,nj,tstep);
-% Mf.bio = sub_diff_sep(CGRD,Mf.bio,K,ni,nj,tstep);
-% Mp.bio = sub_diff_sep(CGRD,Mp.bio,K,ni,nj,tstep);
-% Md.bio = sub_diff_sep(CGRD,Md.bio,K,ni,nj,tstep);
-% Lp.bio = sub_diff_sep(CGRD,Lp.bio,K,ni,nj,tstep);
-% Ld.bio = sub_diff_sep(CGRD,Ld.bio,K,ni,nj,tstep);
-% [Sf.bio,Sp.bio,Sd.bio,Mf.bio,Mp.bio,Md.bio,Lp.bio,Ld.bio] = sub_diff(CGRD,K,...
-%     ni,nj,tstep,Sf.bio,Sp.bio,Sd.bio,Mf.bio,Mp.bio,Md.bio,Lp.bio,Ld.bio);
 
 % Forward Euler checks for demographics and movement
 Sf.bio=sub_check(Sf.bio);
