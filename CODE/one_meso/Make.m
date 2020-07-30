@@ -6,10 +6,10 @@ close all
 %%%%!! EXPERIMENTS
 climatol = false;
 climatol_loop = false;
-climatol_ensem = true;
+climatol_ensem = false;
 pre_industrial = false;
 historic_pristine = false;
-historic_fished = false;
+historic_fished = true;
 historic_fished_ens = false;
 forecast_pristine = false;
 forecast_fished = false;
@@ -32,8 +32,8 @@ if historic_pristine
     Historic_pristine()
 end
 if historic_fished
-    Historic_fished()
-    Historic_fished_prod()
+    Historic_fished_gfdl_1meso()
+    %Historic_fished_prod()
 end
 if historic_fished_ens
     Historic_fished_ensemble6()
