@@ -33,7 +33,7 @@ function param = make_parameters_1meso(param)
     param.Z_l = 250/125000;
 
     %%%! Assimilation efficiency lambda (constant across everything)
-    param.Lambda = 0.6;
+    param.Lambda = 0.7;
 
     %%%! Kappa rule K as a function of body size
     % K = fraction of energy consumed diverted to somatic growth
@@ -84,7 +84,7 @@ function param = make_parameters_1meso(param)
     %large piscivore eats medium forage fish, medium piscivore, medium detritivore
     %large detritivore eats detritus, medium forage fish, medium piscivore, medium detrivore
 
-    param.D = 0.75;   %Demersal feeding in pelagic reduction
+    param.D = 1.0;   %Demersal feeding in pelagic reduction
     param.A = 0.5;    %Adult predation reduction %*****
 
     param.MF_phi_MZ = 1.0;
