@@ -45,7 +45,7 @@ function param = make_parameters_1meso(param)
     %%%! Metabolism constants (activity and basal)
     param.amet = 4;       % coeff on met
     param.h = 20;         % coeff on Cmax
-    param.gam = 70;       % coeff on search area
+    param.gam = 35;       % coeff on search area (70 baseline)
     param.kc = 0.063;     % coeff on cmax T-dep fn (orig 0.063)
     param.ke = 0.063;     % coeff on enc T-dep fn (orig 0.063)
     param.kt = 0.0855;    % coeff on met T-dep fn (orig 0.063) %0.0855
