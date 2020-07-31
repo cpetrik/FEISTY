@@ -54,7 +54,7 @@ function param = make_parameters_1meso(param)
     param.bcmx = 0.25;    % power on cmax fn (orig 0.25)
 
     %%%! Transfer efficiency of detritus to benthic prey
-    param.bent_eff = 0.075;
+    param.bent_eff = 0.125;
 
     %%%! Reproductive efficiency
     param.rfrac = 0.01;
@@ -84,7 +84,7 @@ function param = make_parameters_1meso(param)
     %large piscivore eats medium forage fish, medium piscivore, medium detritivore
     %large detritivore eats detritus, medium forage fish, medium piscivore, medium detrivore
 
-    param.D = 1.0;   %Demersal feeding in pelagic reduction
+    param.D = 0.75;   %Demersal feeding in pelagic reduction
     param.A = 0.5;    %Adult predation reduction %*****
 
     param.MF_phi_MZ = 1.0;
