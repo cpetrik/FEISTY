@@ -285,7 +285,7 @@ for YR = 1:YEARS % years
         
         %! Store
         S_Bent_bio(:,DY) = BENT.mass;
-        S_Mzoo_frac(:,DY) = ENVR.fZm;
+        %S_Mzoo_frac(:,DY) = ENVR.fZm;
         
         S_Sml_f(:,DY) = Sml_f.bio;
         S_Sml_p(:,DY) = Sml_p.bio;
@@ -382,8 +382,8 @@ for YR = 1:YEARS % years
         netcdf.putVar(ncidB,vidbioB,[0 MNT-1],[NX 1],mean(S_Bent_bio(:,a(i):b(i)),2));
         netcdf.putVar(ncidB,vidTB,MNT-1,1,MNT);
         
-        netcdf.putVar(ncidMZ,vidfracMZ,[0 MNT-1],[NX 1],mean(S_Mzoo_frac(:,a(i):b(i)),2));
-        netcdf.putVar(ncidMZ,vidTMZ,MNT-1,1,MNT);
+%         netcdf.putVar(ncidMZ,vidfracMZ,[0 MNT-1],[NX 1],mean(S_Mzoo_frac(:,a(i):b(i)),2));
+%         netcdf.putVar(ncidMZ,vidTMZ,MNT-1,1,MNT);
         
         netcdf.putVar(ncidSF,vidbioSF,[0 MNT-1],[NX 1],mean(S_Sml_f(:,a(i):b(i)),2));
         netcdf.putVar(ncidSP,vidbioSP,[0 MNT-1],[NX 1],mean(S_Sml_p(:,a(i):b(i)),2));

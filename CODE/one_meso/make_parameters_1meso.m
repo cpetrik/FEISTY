@@ -33,7 +33,7 @@ function param = make_parameters_1meso(param)
     param.Z_l = 250/125000;
 
     %%%! Assimilation efficiency lambda (constant across everything)
-    param.Lambda = 0.7;
+    param.Lambda = 0.6;
 
     %%%! Kappa rule K as a function of body size
     % K = fraction of energy consumed diverted to somatic growth

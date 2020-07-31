@@ -51,8 +51,9 @@ tkfn = num2str(1000+int64(1000 * param.kt));
 tbfn = num2str(1000+int64(1000 * param.bpow));
 tbenc = num2str(1000+int64(1000 * param.benc));
 tbcmx = num2str(1000+int64(1000 * param.bcmx));
+tlam = num2str(1000+int64(1000 * param.Lambda));
 
-simname = [coup,'_enc',tefn,'-b',tbenc(2:end),'_m',tmfn,'-b',tbfn(2:end),'-k',tkfn(2:end),'_c',tcfn,'-b',tbcmx(2:end),'_D',td(2:end),'_A',ta(2:end),'_nmort',tmort,'_BE',tbe(2:end),'_noCC_RE',tre(2:end)];
+simname = [coup,'_Lam',tlam(2:end),'_enc',tefn,'-b',tbenc(2:end),'_m',tmfn,'-b',tbfn(2:end),'-k',tkfn(2:end),'_c',tcfn,'-b',tbcmx(2:end),'_D',td(2:end),'_A',ta(2:end),'_nmort',tmort,'_BE',tbe(2:end),'_noCC_RE',tre(2:end)];
 
 if (~isfolder(['/Volumes/FEISTY/NC/Matlab_new_size/',simname]))
     mkdir(['/Volumes/FEISTY/NC/Matlab_new_size/',simname])
