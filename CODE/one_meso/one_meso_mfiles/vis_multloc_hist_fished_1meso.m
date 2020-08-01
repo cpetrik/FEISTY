@@ -10,7 +10,7 @@ cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
 
 %cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_A050_nmort1_BE08_noCC_RE00100_noHPloss';
-cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_A050_nmort1_BE08_noCC_RE00100';
+cfile = 'Dc_Lam700_enc70-b200_m4-b175-k086_c20-b300_D075_A050_nmort1_BE10_noCC_RE00100';
 harv = 'All_fish03';
 
 fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
@@ -103,7 +103,7 @@ plot(y,log10(ld_tmean),'Linewidth',1); hold on;
 legend('SF','MF','SP','MP','LP','SD','MD','LD')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
-ylim([-1.5 0.5])
+ylim([-1.5 1])
 xlabel('Year')
 ylabel('log10 Biomass (g m^-^2)')
 title('Historic fished')
@@ -117,7 +117,7 @@ plot(y,log10(D),'k','Linewidth',2); hold on;
 legend('F','P','D')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
-ylim([-0.2 0.4])
+ylim([-0.2 0.8])
 xlabel('Year')
 ylabel('log10 Biomass (g m^-^2)')
 title(['Historic fished'])

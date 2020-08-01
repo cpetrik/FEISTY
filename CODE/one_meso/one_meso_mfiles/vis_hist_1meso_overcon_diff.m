@@ -47,8 +47,8 @@ FishHP = Fish1meso;
 clear Fish1meso
 
 %% 1 meso without overcon
-cfile2 = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_A050_nmort1_BE08_noCC_RE00100';
-fpath2 = ['/Volumes/FEISTY/NC/Matlab_new_size/' cfile2 '_noHPloss/'];
+cfile2 = 'Dc_Lam700_enc70-b200_m4-b175-k086_c20-b300_D075_A050_nmort1_BE10_noCC_RE00100';
+fpath2 = ['/Volumes/FEISTY/NC/Matlab_new_size/' cfile2 '/'];
 pp = ['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/' cfile2 '/'];
 
 harv = 'All_fish03';
@@ -462,11 +462,27 @@ cm9=[0.5 0.5 0;... %tan/army
 set(groot,'defaultAxesColorOrder',cm9);
 
 y = 1860+(1/12):(1/12):2005;
-    
+
+HPF = FishHP(1,:) + FishHP(4,:);
+HPP = FishHP(2,:) + FishHP(5,:) + FishHP(7,:);
+HPD = FishHP(3,:) + FishHP(6,:) + FishHP(8,:);
+HPB = FishHP(9,:);
+
+nHPF = Fish1meso(1,:) + Fish1meso(4,:);
+nHPP = Fish1meso(2,:) + Fish1meso(5,:) + Fish1meso(7,:);
+nHPD = Fish1meso(3,:) + Fish1meso(6,:) + Fish1meso(8,:);
+nHPB = Fish1meso(9,:);
+
 figure(11)
-plot(y,log10(FishHP),'-'); hold on;
-plot(y,log10(Fish1meso),'-.')
-legend('SF','SP','SD','MF','MP','MD','LP','LD','B')
+plot(y,log10(HPF),'-r'); hold on;
+plot(y,log10(HPP),'-b'); hold on;
+plot(y,log10(HPD),'-g'); hold on;
+plot(y,log10(HPB),'-k'); hold on;
+plot(y,log10(nHPF),'-.r'); hold on;
+plot(y,log10(nHPP),'-.b'); hold on;
+plot(y,log10(nHPD),'-.g'); hold on;
+plot(y,log10(nHPB),'-.k'); hold on;
+legend('F','P','D','B')
 legend('location','eastoutside')
 xlim([1865 2005])
 print('-dpng',[pp 'Meso1_HPloss_noHP_' harv '_ts_stages.png'])
