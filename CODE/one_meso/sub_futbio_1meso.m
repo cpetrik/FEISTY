@@ -105,6 +105,10 @@ Ld.con_be = sub_cons(param,ENVR.Tp,ENVR.Tb,Ld.td,param.M_l,[Ld.enc_be,Ld.enc_f,L
 % %Track fraction of benthic material consumed
 % [ENVR.fB] = sub_offline_bent([Md.con_be,Ld.con_be],[Md.bio,Ld.bio],BENT.mass);
 % % [ENVR.fB] = sub_offline_bent([Md.con_be,Ld.con_be],[Md.bio,Ld.bio],BENT.mass);
+% Track zoop consump if have HPloss
+[ENVR.fZm] = ...
+    sub_hploss_zm(Sf.con_zm,Sp.con_zm,Sd.con_zm,Mf.con_zm,Mp.con_zm,Sf.bio,Sp.bio,Sd.bio,Mf.bio,Mp.bio,ENVR.dZm);
+
 
 % Total consumption rates (could factor in handling times here; g m-2 d-1)
 Sf.I = Sf.con_zm;

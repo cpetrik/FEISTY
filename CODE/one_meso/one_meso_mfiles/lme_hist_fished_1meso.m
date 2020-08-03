@@ -20,7 +20,6 @@ AREA_OCN = max(AREA_OCN,1);
 
 %% FEISTY
 %cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_A050_nmort1_BE08_noCC_RE00100_noHPloss';
-%cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_A050_nmort1_BE08_noCC_RE00100';
 cfile = 'Dc_Lam700_enc70-b200_m4-b175-k086_c20-b300_D075_A050_nmort1_BE10_noCC_RE00100';
 harv = 'All_fish03';
 

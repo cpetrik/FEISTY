@@ -44,7 +44,7 @@ elseif (param.pdc == 1)
 elseif (param.pdc == 2)
     coup = 'PDc';
 end
-tmfn = num2str(param.amet);
+tmfn = num2str(int64(100 * param.amet)); %num2str(param.amet);
 tcfn = num2str(param.h);
 tefn = num2str(round(param.gam));
 tkfn = num2str(1000+int64(1000 * param.kt));
