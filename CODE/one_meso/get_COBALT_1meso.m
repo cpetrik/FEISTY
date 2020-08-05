@@ -9,7 +9,7 @@ function ENVR = get_COBALT_1meso(COBALT,GRD,ID,DY)
     ENVR.det(:,1) = COBALT.det(ID,DY);
 %     ENVR.U(:,1)   = COBALT.U(ID,DY);
 %     ENVR.V(:,1)   = COBALT.V(ID,DY);
-    ENVR.fZm(:,1) = zeros(ID,1);
+    ENVR.fZm(:,1) = zeros(length(ID),1);
     ENVR.H(:,1)   = GRD.Z(ID);
     ENVR.A(:,1)   = GRD.AREA(ID);
 end

@@ -21,7 +21,7 @@ param.dfrate = param.frate/365.0;
 lam = 0.55:0.025:0.675;
 aM = 4.25:0.25:6;
 
-for L = 1:length(lam)
+for L = 5:length(lam)
     for m = 1:length(aM)
         
         param.Lambda = lam(L);
