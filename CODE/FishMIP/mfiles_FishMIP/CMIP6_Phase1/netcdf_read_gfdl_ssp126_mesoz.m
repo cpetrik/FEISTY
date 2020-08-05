@@ -4,13 +4,14 @@
 clear all
 close all
 
-fpath='/Users/cpetrik/Dropbox/ESM_data/Fish-MIP/CMIP6/GFDL/ssp126/';
+spath='/Users/cpetrik/Dropbox/ESM_data/Fish-MIP/CMIP6/GFDL/ssp126/';
+fpath='/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/ssp126/';
 
 %% zmeso
 ncdisp([fpath 'gfdl-esm4_r1i1p1f1_ssp126_zmeso_onedeg_global_monthly_2015_2100.nc'])
-standard_name = 'mass_concentration_of_phytoplankton_expressed_as_zmesoorophyll_in_sea_water';
-long_name     = 'Mass Concentration of Total Phytoplankton expressed as Chlorophyll in sea water';
-units         = 'kg m-3';
+standard_name = 'mole_concentration_of_mesozooplankton_expressed_as_carbon_in_sea_water';
+long_name     = 'Mole Concentration of Mesozooplankton expressed as Carbon in sea water';
+units         = 'mol m-3';
 
 %%
 ncid = netcdf.open([fpath 'gfdl-esm4_r1i1p1f1_ssp126_zmeso_onedeg_global_monthly_2015_2100.nc'],'NC_NOWRITE');
@@ -49,6 +50,8 @@ zmeso_100 = squeeze(nansum(zmeso,3));
 
 %% 
 save([fpath 'gfdl_ssp126_zmeso100_monthly_2015_2100.mat'],'zmeso_100','time',...
+    'yr','long_name','standard_name','units','lev','z100');
+save([spath 'gfdl_ssp126_zmeso100_monthly_2015_2100.mat'],'zmeso_100','time',...
     'yr','long_name','standard_name','units','lev','z100');
 
 

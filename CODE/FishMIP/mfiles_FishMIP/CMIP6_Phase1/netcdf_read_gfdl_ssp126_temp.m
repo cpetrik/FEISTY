@@ -4,13 +4,14 @@
 clear all
 close all
 
-fpath='/Users/cpetrik/Dropbox/ESM_data/Fish-MIP/CMIP6/GFDL/ssp126/';
+spath='/Users/cpetrik/Dropbox/ESM_data/Fish-MIP/CMIP6/GFDL/ssp126/';
+fpath='/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/ssp126/';
 
 %% thetao
 ncdisp([fpath 'gfdl-esm4_r1i1p1f1_ssp126_thetao_onedeg_global_monthly_2015_2100.nc'])
-standard_name = 'mass_concentration_of_phytoplankton_expressed_as_thetaoorophyll_in_sea_water';
-long_name     = 'Mass Concentration of Total Phytoplankton expressed as Chlorophyll in sea water';
-units         = 'kg m-3';
+standard_name = 'sea_water_potential_temperature';
+long_name     = 'Sea Water Potential Temperature';
+units         = 'degC';
 
 %%
 ncid = netcdf.open([fpath 'gfdl-esm4_r1i1p1f1_ssp126_thetao_onedeg_global_monthly_2015_2100.nc'],'NC_NOWRITE');
@@ -40,6 +41,8 @@ temp_100 = squeeze(nanmean(thetao(:,:,z100,:),3));
 yr = ((time)/12)+1601-1;
 
 save([fpath 'gfdl_ssp126_temp100_monthly_2015_2100.mat'],'temp_100','time',...
+    'yr','long_name','standard_name','units','lev','z100');
+save([spath 'gfdl_ssp126_temp100_monthly_2015_2100.mat'],'temp_100','time',...
     'yr','long_name','standard_name','units','lev','z100');
 
 

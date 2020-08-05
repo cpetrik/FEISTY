@@ -1,20 +1,20 @@
 % Read Fish-MIP netcdfs
-% GFDL Hist temp
+% IPSL Hist temp
 
 clear all
 close all
 
-spath='/Users/cpetrik/Dropbox/ESM_data/Fish-MIP/CMIP6/GFDL/hist/';
-fpath='/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/hist/';
+fpath='/Users/cpetrik/Dropbox/ESM_data/Fish-MIP/CMIP6/IPSL/hist/';
+spath='/Volumes/FEISTY/Fish-MIP/CMIP6/IPSL/hist/';
 
 %% temp
-ncdisp([fpath 'gfdl-esm4_r1i1p1f1_historical_thetao_onedeg_global_monthly_1850_2014.nc'])
+ncdisp([fpath 'ipsl-cm6a-lr_r1i1p1f1_historical_thetao_onedeg_global_monthly_1850_2014.nc'])
 standard_name = 'sea_water_potential_temperature';
 long_name     = 'Sea Water Potential Temperature';
 units         = 'degC';
 
 %%
-ncid = netcdf.open([fpath 'gfdl-esm4_r1i1p1f1_historical_thetao_onedeg_global_monthly_1850_2014.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'ipsl-cm6a-lr_r1i1p1f1_historical_thetao_onedeg_global_monthly_1850_2014.nc'],'NC_NOWRITE');
 
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 
@@ -29,7 +29,7 @@ end
 %lat: 180
 %lon: 360
 %lev: 35
-%thetao: 360x180x35x1980
+%thetao: 360x180x75x1980
 %time: 1980
 %NaNs = 1.0000e+20
 
@@ -38,7 +38,7 @@ end
 %yr = ((time+1)/12)+1601-1;
 yr = ((time)/12)+1601-1;
 runs = find(yr>1949 & yr<=2015);
-z100 = find(lev <= 100);
+z100 = find(olevel <= 100);
 
 for i = nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -51,10 +51,10 @@ netcdf.close(ncid);
 temp_100 = squeeze(nanmean(thetao,3));
 
 %%
-save([fpath 'gfdl_hist_temp100_monthly_1950_2014.mat'],'temp_100','time',...
-    'yr','runs','long_name','standard_name','units','lev','z100');
-save([spath 'gfdl_hist_temp100_monthly_1950_2014.mat'],'temp_100','time',...
-    'yr','runs','long_name','standard_name','units','lev','z100');
+save([fpath 'ipsl_hist_temp100_monthly_1950_2014.mat'],'temp_100','time',...
+    'yr','runs','long_name','standard_name','units','olevel','z100');
+save([spath 'ipsl_hist_temp100_monthly_1950_2014.mat'],'temp_100','time',...
+    'yr','runs','long_name','standard_name','units','olevel','z100');
 
 
 

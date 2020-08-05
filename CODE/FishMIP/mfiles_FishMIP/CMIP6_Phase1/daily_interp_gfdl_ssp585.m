@@ -4,7 +4,7 @@
 clear all
 close all
 
-fpath='/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/preindust/';
+fpath='/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/ssp585/';
 
 %% Units
 %poc flux: mmol C m-2 s-1
@@ -14,10 +14,10 @@ fpath='/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/preindust/';
 
 %I MAY NEED TO DIVIDE CONCENTRATIONS BY 100 m TO PUT INTO m^-2
 
-load([fpath 'gfdl_pi_temp100_monthly_1950_2100.mat'],'temp_100');
-load([fpath 'gfdl_pi_temp_btm_monthly_1950_2100.mat'],'temp_btm');
-load([fpath 'gfdl_pi_zmeso100_monthly_1950_2100.mat'],'zmeso_100');
-load([fpath 'gfdl_pi_det_btm_monthly_1950_2100.mat']); %,'det_btm'
+load([fpath 'gfdl_ssp585_temp100_monthly_2015_2100.mat'],'temp_100');
+load([fpath 'gfdl_ssp585_temp_btm_monthly_2015_2100.mat'],'temp_btm');
+load([fpath 'gfdl_ssp585_zmeso100_monthly_2015_2100.mat'],'zmeso_100');
+load([fpath 'gfdl_ssp585_det_btm_monthly_2015_2100.mat']); %,'det_btm'
 
 temp_100(temp_100 > 1.0e19) = nan;
 temp_btm(temp_btm > 1.0e19) = nan;
@@ -30,7 +30,7 @@ mstart = 1:12:mos;
 mend = 12:12:mos;
 
 nyrs = mos/12;
-yrs = 1950:2100;
+yrs = 2015:2100;
 Tdays=1:365;
 Time=Tdays(15:30:end);
 
@@ -103,15 +103,23 @@ for y = 1:nyrs
     D_Zm(D_Zm<0) = 0.0;
     D_det(D_det<0) = 0.0;
     
+%     ESM.Tp(:,:,y) = D_Tp;
+%     ESM.Tb(:,:,y) = D_Tb;
+%     ESM.Zm(:,:,y) = D_Zm;
+%     ESM.det(:,:,y) = D_det;
+    
     ESM.Tp = D_Tp;
     ESM.Tb = D_Tb;
     ESM.Zm = D_Zm;
     ESM.det = D_det;
     
     % save
-    save([fpath 'Data_gfdl_pi_daily_',num2str(yr),'.mat'], 'ESM');
+    save([fpath 'Data_gfdl_ssp585_daily_',num2str(yr),'.mat'], 'ESM');
     
     
 end
+
+% save
+%save([fpath 'Data_gfdl_ssp585_daily_2015_2100.mat'], 'ESM', '-v7.3');
 
 

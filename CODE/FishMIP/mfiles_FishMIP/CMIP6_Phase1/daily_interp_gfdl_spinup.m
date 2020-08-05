@@ -14,10 +14,10 @@ fpath='/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/preindust/';
 
 %I MAY NEED TO DIVIDE CONCENTRATIONS BY 100 m TO PUT INTO m^-2
 
-load([fpath 'gfdl_pi_temp100_monthly_1950_2100.mat'],'temp_100');
-load([fpath 'gfdl_pi_temp_btm_monthly_1950_2100.mat'],'temp_btm');
-load([fpath 'gfdl_pi_zmeso100_monthly_1950_2100.mat'],'zmeso_100');
-load([fpath 'gfdl_pi_det_btm_monthly_1950_2100.mat']); %,'det_btm'
+load([fpath 'gfdl_pi_temp100_monthly_1850_1949.mat'],'temp_100');
+load([fpath 'gfdl_pi_temp_btm_monthly_1850_1949.mat'],'temp_btm');
+load([fpath 'gfdl_pi_zmeso100_monthly_1850_1949.mat'],'zmeso_100');
+load([fpath 'gfdl_pi_det_btm_monthly_1850_1949.mat']); %,'det_btm'
 
 temp_100(temp_100 > 1.0e19) = nan;
 temp_btm(temp_btm > 1.0e19) = nan;
@@ -30,7 +30,7 @@ mstart = 1:12:mos;
 mend = 12:12:mos;
 
 nyrs = mos/12;
-yrs = 1950:2100;
+yrs = 1850:1949;
 Tdays=1:365;
 Time=Tdays(15:30:end);
 
@@ -40,14 +40,14 @@ Time=Tdays(15:30:end);
 WID = find(~isnan(temp_100(:,:,1)));  % spatial index of water cells
 NID = length(WID);                    % number of water cells
 
-% setup FEISTY data files
+% % setup FEISTY data files
 % ESM.Tp  = nan*zeros(NID,365,nyrs);
 % ESM.Tb  = nan*zeros(NID,365,nyrs);
 % ESM.Zm  = nan*zeros(NID,365,nyrs);
 % ESM.det = nan*zeros(NID,365,nyrs);
 
 %%
-for y = 1:nyrs
+for y = 13:nyrs
     yr = yrs(y)
     
     Tp = double(temp_100(:,:,mstart(y):mend(y)));
@@ -109,9 +109,10 @@ for y = 1:nyrs
     ESM.det = D_det;
     
     % save
-    save([fpath 'Data_gfdl_pi_daily_',num2str(yr),'.mat'], 'ESM');
-    
+    save([fpath 'Data_gfdl_spinup_daily_',num2str(yr),'.mat'], 'ESM');
     
 end
+
+
 
 
