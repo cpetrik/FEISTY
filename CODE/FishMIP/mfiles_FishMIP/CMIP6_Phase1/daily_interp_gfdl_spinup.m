@@ -1,5 +1,5 @@
 % Make mat files of interpolated time series from GFDL
-% SSP 585 2015-2100
+% Preindust spinup 1850-1949
 
 clear all
 close all
@@ -25,7 +25,7 @@ zmeso_100(zmeso_100 > 1.0e19) = nan;
 det_btm(det_btm > 1.0e19) = nan;
 
 %%
-mos = length(time);
+mos = length(spin);
 mstart = 1:12:mos;
 mend = 12:12:mos;
 
@@ -47,7 +47,7 @@ NID = length(WID);                    % number of water cells
 % ESM.det = nan*zeros(NID,365,nyrs);
 
 %%
-for y = 13:nyrs
+for y = 1:nyrs
     yr = yrs(y)
     
     Tp = double(temp_100(:,:,mstart(y):mend(y)));

@@ -1,10 +1,10 @@
-% Make mat files of interpolated time series from GFDL
+% Make mat files of interpolated time series from IPSL
 % SSP 585 2015-2100
 
 clear all
 close all
 
-fpath='/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/hist/';
+fpath='/Volumes/FEISTY/Fish-MIP/CMIP6/IPSL/hist/';
 
 %% Units
 %poc flux: mmol C m-2 s-1
@@ -14,10 +14,10 @@ fpath='/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/hist/';
 
 %I MAY NEED TO DIVIDE CONCENTRATIONS BY 100 m TO PUT INTO m^-2
 
-load([fpath 'gfdl_hist_temp100_monthly_1950_2014.mat'],'temp_100');
-load([fpath 'gfdl_hist_temp_btm_monthly_1950_2014.mat'],'temp_btm');
-load([fpath 'gfdl_hist_zmeso100_monthly_1950_2014.mat'],'zmeso_100');
-load([fpath 'gfdl_hist_det_btm_monthly_1950_2014.mat']); %,'det_btm'
+load([fpath 'ipsl_hist_temp100_monthly_1950_2014.mat'],'temp_100');
+load([fpath 'ipsl_hist_temp_btm_monthly_1950_2014.mat'],'temp_btm');
+load([fpath 'ipsl_hist_zmeso100_monthly_1950_2014.mat'],'zmeso_100');
+load([fpath 'ipsl_hist_det_btm_monthly_1950_2014.mat']); %,'det_btm'
 
 temp_100(temp_100 > 1.0e19) = nan;
 temp_btm(temp_btm > 1.0e19) = nan;
@@ -111,7 +111,7 @@ for y = 46:nyrs
     ESM.det = D_det;
     
     % save
-    save([fpath 'Data_gfdl_hist_daily_',num2str(yr),'.mat'], 'ESM');
+    save([fpath 'Data_ipsl_hist_daily_',num2str(yr),'.mat'], 'ESM');
     
     
 end

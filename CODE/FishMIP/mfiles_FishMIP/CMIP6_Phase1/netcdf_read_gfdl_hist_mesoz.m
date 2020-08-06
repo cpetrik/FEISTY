@@ -4,8 +4,8 @@
 clear all
 close all
 
-spath='/Users/cpetrik/Dropbox/ESM_data/Fish-MIP/CMIP6/GFDL/hist/';
-fpath='/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/hist/';
+fpath='/Users/cpetrik/Dropbox/ESM_data/Fish-MIP/CMIP6/GFDL/hist/';
+spath='/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/hist/';
 
 %% Meso Zoop zall
 ncdisp([fpath 'gfdl-esm4_r1i1p1f1_historical_zmeso_onedeg_global_monthly_1850_2014.nc'])

@@ -1,5 +1,5 @@
 % Make mat files of interpolated time series from GFDL
-% SSP 585 2015-2100
+% Preindust runs 1950-2100
 
 clear all
 close all
@@ -25,12 +25,14 @@ zmeso_100(zmeso_100 > 1.0e19) = nan;
 det_btm(det_btm > 1.0e19) = nan;
 
 %%
-mos = length(time);
+mos = length(runs);
 mstart = 1:12:mos;
 mend = 12:12:mos;
-
 nyrs = mos/12;
-yrs = 1950:2100;
+
+ryr = yr(runs);
+yrs = floor(ryr(1)):ryr(end);
+
 Tdays=1:365;
 Time=Tdays(15:30:end);
 

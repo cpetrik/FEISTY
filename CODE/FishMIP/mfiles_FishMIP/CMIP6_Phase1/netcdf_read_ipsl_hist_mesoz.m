@@ -1,11 +1,11 @@
 % Read Fish-MIP netcdfs
-% IPSL Hisv
+% IPSL Hist 1950-2014
 
 clear all
 close all
 
-spath='/Users/cpetrik/Dropbox/ESM_data/Fish-MIP/CMIP6/IPSL/hist/';
-fpath='/Volumes/FEISTY/Fish-MIP/CMIP6/IPSL/hist/';
+fpath='/Users/cpetrik/Dropbox/ESM_data/Fish-MIP/CMIP6/IPSL/hist/';
+spath='/Volumes/FEISTY/Fish-MIP/CMIP6/IPSL/hist/';
 
 %% Meso Zoop zall
 ncdisp([fpath 'ipsl-cm6a-lr_r1i1p1f1_historical_zmeso_onedeg_global_monthly_1850_2014.nc'])

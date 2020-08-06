@@ -1,10 +1,10 @@
-% Make mat files of interpolated time series from GFDL
+% Make mat files of interpolated time series from IPSL
 % SSP 585 2015-2100
 
 clear all
 close all
 
-fpath='/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/hist/';
+fpath='/Volumes/FEISTY/Fish-MIP/CMIP6/IPSL/ssp585/';
 
 %% Units
 %poc flux: mmol C m-2 s-1
@@ -14,10 +14,10 @@ fpath='/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/hist/';
 
 %I MAY NEED TO DIVIDE CONCENTRATIONS BY 100 m TO PUT INTO m^-2
 
-load([fpath 'gfdl_hist_temp100_monthly_1950_2014.mat'],'temp_100');
-load([fpath 'gfdl_hist_temp_btm_monthly_1950_2014.mat'],'temp_btm');
-load([fpath 'gfdl_hist_zmeso100_monthly_1950_2014.mat'],'zmeso_100');
-load([fpath 'gfdl_hist_det_btm_monthly_1950_2014.mat']); %,'det_btm'
+load([fpath 'ipsl_ssp585_temp100_monthly_2015_2100.mat'],'temp_100');
+load([fpath 'ipsl_ssp585_temp_btm_monthly_2015_2100.mat'],'temp_btm');
+load([fpath 'ipsl_ssp585_zmeso100_monthly_2015_2100.mat'],'zmeso_100');
+load([fpath 'ipsl_ssp585_det_btm_monthly_2015_2100.mat']); %,'det_btm'
 
 temp_100(temp_100 > 1.0e19) = nan;
 temp_btm(temp_btm > 1.0e19) = nan;
@@ -25,14 +25,12 @@ zmeso_100(zmeso_100 > 1.0e19) = nan;
 det_btm(det_btm > 1.0e19) = nan;
 
 %%
-mos = length(runs);
+mos = length(time);
 mstart = 1:12:mos;
 mend = 12:12:mos;
-nyrs = mos/12;
 
-ryr = yr(runs);
-%yrs = ceil(ryr(1)):round(ryr(end));
-yrs = 1950:2014;
+nyrs = mos/12;
+yrs = 2015:2100;
 Tdays=1:365;
 Time=Tdays(15:30:end);
 
@@ -49,7 +47,7 @@ NID = length(WID);                    % number of water cells
 % ESM.det = nan*zeros(NID,365,nyrs);
 
 %%
-for y = 46:nyrs
+for y = 1:nyrs
     yr = yrs(y)
     
     Tp = double(temp_100(:,:,mstart(y):mend(y)));
@@ -105,16 +103,23 @@ for y = 46:nyrs
     D_Zm(D_Zm<0) = 0.0;
     D_det(D_det<0) = 0.0;
     
+%     ESM.Tp(:,:,y) = D_Tp;
+%     ESM.Tb(:,:,y) = D_Tb;
+%     ESM.Zm(:,:,y) = D_Zm;
+%     ESM.det(:,:,y) = D_det;
+    
     ESM.Tp = D_Tp;
     ESM.Tb = D_Tb;
     ESM.Zm = D_Zm;
     ESM.det = D_det;
     
     % save
-    save([fpath 'Data_gfdl_hist_daily_',num2str(yr),'.mat'], 'ESM');
+    save([fpath 'Data_ipsl_ssp585_daily_',num2str(yr),'.mat'], 'ESM');
     
     
 end
 
+% save
+%save([fpath 'Data_ipsl_ssp585_daily_2015_2100.mat'], 'ESM', '-v7.3');
 
 

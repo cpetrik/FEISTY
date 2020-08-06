@@ -32,7 +32,7 @@ thetao(thetao >= 1.0000e+20) = NaN;
 %% Time
 %yr = ((time+1)/12)+1601-1;
 yr = ((time)/12)+1601-1;
-runs = find(yr>1950 & yr<=2014); 
+runs = find(yr>1949 & yr<=2015); 
 temp_btm = thetao(:,:,runs);
 
 save([fpath 'gfdl_hist_temp_btm_monthly_1950_2014.mat'],'temp_btm','time',...
