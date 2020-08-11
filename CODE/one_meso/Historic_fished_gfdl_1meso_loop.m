@@ -21,7 +21,7 @@ param.dfrate = param.frate/365.0;
 lam = 0.55:0.025:0.675;
 aM = 4.25:0.25:6;
 
-for L = 5:length(lam)
+for L = 1:length(lam)
     for m = 1:length(aM)
         
         param.Lambda = lam(L);
@@ -78,11 +78,13 @@ for L = 5:length(lam)
             ti = num2str(YR+1860);
             load(['/Volumes/FEISTY/POEM_JLD/esm2m_hist/Data_ESM2Mhist_',ti,'.mat'],'COBALT');
             
+            [num2str(param.Lambda),',',num2str(param.amet),',',num2str(YR),]
+                
             for DAY = 1:param.DT:DAYS % days
                 
                 %%%! Future time step
                 DY = int64(ceil(DAY));
-                [num2str(YR),' , ',num2str(mod(DY,365))]
+                %[num2str(YR),' , ',num2str(mod(DY,365))]
                 [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,ENVR] = ...
                     sub_futbio_1meso(ID,DY,COBALT,GRD,Sml_f,Sml_p,Sml_d,...
                     Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,param);
@@ -109,17 +111,17 @@ for L = 5:length(lam)
             for i = 1:12
                 MNT = MNT+1; % Update monthly ticker
                 
-                Mo_Bent.bio(:,i) = mean(S_Bent_bio(:,a(i):b(i)),2);
-                Mo_Mzoo.frac(:,i) = mean(S_Mzoo_frac(:,a(i):b(i)),2);
+                Mo_Bent.bio(:,MNT) = mean(S_Bent_bio(:,a(i):b(i)),2);
+                Mo_Mzoo.frac(:,MNT) = mean(S_Mzoo_frac(:,a(i):b(i)),2);
                 
-                Mo_Sml_f.bio(:,i) = mean(S_Sml_f(:,a(i):b(i)),2);
-                Mo_Sml_p.bio(:,i) = mean(S_Sml_p(:,a(i):b(i)),2);
-                Mo_Sml_d.bio(:,i) = mean(S_Sml_d(:,a(i):b(i)),2);
-                Mo_Med_f.bio(:,i) = mean(S_Med_f(:,a(i):b(i)),2);
-                Mo_Med_p.bio(:,i) = mean(S_Med_p(:,a(i):b(i)),2);
-                Mo_Med_d.bio(:,i) = mean(S_Med_d(:,a(i):b(i)),2);
-                Mo_Lrg_p.bio(:,i) = mean(S_Lrg_p(:,a(i):b(i)),2);
-                Mo_Lrg_d.bio(:,i) = mean(S_Lrg_d(:,a(i):b(i)),2);
+                Mo_Sml_f.bio(:,MNT) = mean(S_Sml_f(:,a(i):b(i)),2);
+                Mo_Sml_p.bio(:,MNT) = mean(S_Sml_p(:,a(i):b(i)),2);
+                Mo_Sml_d.bio(:,MNT) = mean(S_Sml_d(:,a(i):b(i)),2);
+                Mo_Med_f.bio(:,MNT) = mean(S_Med_f(:,a(i):b(i)),2);
+                Mo_Med_p.bio(:,MNT) = mean(S_Med_p(:,a(i):b(i)),2);
+                Mo_Med_d.bio(:,MNT) = mean(S_Med_d(:,a(i):b(i)),2);
+                Mo_Lrg_p.bio(:,MNT) = mean(S_Lrg_p(:,a(i):b(i)),2);
+                Mo_Lrg_d.bio(:,MNT) = mean(S_Lrg_d(:,a(i):b(i)),2);
                 
             end %Monthly mean
             
@@ -127,28 +129,28 @@ for L = 5:length(lam)
         
         %% Take mean of last 50 yrs and save
         %Time
-        sp_tmean=mean(Mo_Sml_p.bio,1);
-        sf_tmean=mean(Mo_Sml_f.bio,1);
-        sd_tmean=mean(Mo_Sml_d.bio,1);
-        mp_tmean=mean(Mo_Med_p.bio,1);
-        mf_tmean=mean(Mo_Med_f.bio,1);
-        md_tmean=mean(Mo_Med_d.bio,1);
-        lp_tmean=mean(Mo_Lrg_p.bio,1);
-        ld_tmean=mean(Mo_Lrg_d.bio,1);
-        b_tmean=mean(Mo_Bent.bio,1);
+        sp_tmean=nanmean(Mo_Sml_p.bio,1);
+        sf_tmean=nanmean(Mo_Sml_f.bio,1);
+        sd_tmean=nanmean(Mo_Sml_d.bio,1);
+        mp_tmean=nanmean(Mo_Med_p.bio,1);
+        mf_tmean=nanmean(Mo_Med_f.bio,1);
+        md_tmean=nanmean(Mo_Med_d.bio,1);
+        lp_tmean=nanmean(Mo_Lrg_p.bio,1);
+        ld_tmean=nanmean(Mo_Lrg_d.bio,1);
+        b_tmean=nanmean(Mo_Bent.bio,1);
         mz_tmfrac=nanmean(Mo_Mzoo.frac,1);
         
         y = 1860+(1/12):(1/12):2005;
         yr50=find(y>=1951 & y<2001);
-        sp_mean50=mean(Mo_Sml_p.bio(:,yr50),2);
-        sf_mean50=mean(Mo_Sml_f.bio(:,yr50),2);
-        sd_mean50=mean(Mo_Sml_d.bio(:,yr50),2);
-        mp_mean50=mean(Mo_Med_p.bio(:,yr50),2);
-        mf_mean50=mean(Mo_Med_f.bio(:,yr50),2);
-        md_mean50=mean(Mo_Med_d.bio(:,yr50),2);
-        lp_mean50=mean(Mo_Lrg_p.bio(:,yr50),2);
-        ld_mean50=mean(Mo_Lrg_d.bio(:,yr50),2);
-        b_mean50=mean(Mo_Bent.bio(:,yr50),2);
+        sp_mean50=nanmean(Mo_Sml_p.bio(:,yr50),2);
+        sf_mean50=nanmean(Mo_Sml_f.bio(:,yr50),2);
+        sd_mean50=nanmean(Mo_Sml_d.bio(:,yr50),2);
+        mp_mean50=nanmean(Mo_Med_p.bio(:,yr50),2);
+        mf_mean50=nanmean(Mo_Med_f.bio(:,yr50),2);
+        md_mean50=nanmean(Mo_Med_d.bio(:,yr50),2);
+        lp_mean50=nanmean(Mo_Lrg_p.bio(:,yr50),2);
+        ld_mean50=nanmean(Mo_Lrg_d.bio(:,yr50),2);
+        b_mean50=nanmean(Mo_Bent.bio(:,yr50),2);
         mz_mfrac50=nanmean(Mo_Mzoo.frac(:,yr50),2);
         
         MZ.over = nan*ones(size(Mo_Mzoo.frac));
