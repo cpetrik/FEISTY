@@ -38,8 +38,9 @@ mis_all_PD = mis_all(:,:,6);
 mis_all_PF = mis_all(:,:,7);
 mis_all_LM = mis_all(:,:,8);
 %put residuals of all fn types in one vector
-mis_rcombo = [mis_all_F,mis_all_P,mis_all_D,mis_all_A,mis_all_PD,...
-    mis_all_PF,mis_all_LM];
+% mis_rcombo = [mis_all_F,mis_all_P,mis_all_D,mis_all_A,mis_all_PD,...
+%     mis_all_PF,mis_all_LM];
+mis_rcombo = [mis_all_PD,mis_all_PF,mis_all_LM];
 
 %% SAUP misfits 
 mis_sau_F = mis_sau(:,:,1);
@@ -102,15 +103,16 @@ cFracPD = CP ./ (CP+CD);
 cFracPF = CP ./ (CP+CF);
 cFracLM = CL ./ (CL+CM);
 
-Call = [cFracPD;cFracPF;cFracLM];
-%variance of catch observations
-rsig = var(Call);
-%num of observations
-nr = length(Call);
-
 %% Classic AIC of ratios
 % AIC = -2*log(L) + 2*K
 % log(L) = (-n/2) * log(2*pi*var) - (1/(2*var)) * sum(resid^2)
+
+%mis_rcombo = [mis_all_PD,mis_all_PF,mis_all_LM];
+Call = [cFracPD;cFracPF;cFracLM];
+%variance of observations
+rsig = var(Call);
+%num of observations
+nr = length(Call);
 
 %logLike
 LLr = -nr/2 * log(2*pi*rsig) - (1/(2*rsig)) * sum(mis_rcombo.^2,2);
@@ -127,6 +129,84 @@ raicv(:,5:6) = params(ridc,:);
 rT = array2table(raicv,'VariableNames',{'ParamSet','AIC','delta','weight',...
     'assim','aM'});
 writetable(rT,[dp 'bio_rates/AIC_ratios_Lambda_amet_search_1meso_Dc_enc70-b200_m-b175-k086_c20-b250_D080_A050_nmort1_BE10_noCC_RE00100.csv'])
+
+%% Biomass P:D ratio
+% AIC = -2*log(L) + 2*K
+% log(L) = (-n/2) * log(2*pi*var) - (1/(2*var)) * sum(resid^2)
+
+%mis_rcombo = [mis_all_PD,mis_all_PF,mis_all_LM];
+%variance of observations
+rsig = var(cFracPD);
+%num of observations
+nr = length(cFracPD);
+
+%logLike
+LLr = -nr/2 * log(2*pi*rsig) - (1/(2*rsig)) * sum(mis_all_PD.^2,2);
+raic = -2 * LLr;
+
+[raic_srt,ridc] = sort(raic);
+rdel = raic_srt - raic_srt(1);
+rw = exp(-0.5*rdel) ./ sum( exp(-0.5*rdel) );
+raicv1(:,1) = ridc;
+raicv1(:,2) = raic_srt;
+raicv1(:,3) = rdel;
+raicv1(:,4) = rw;
+raicv1(:,5:6) = params(ridc,:);
+rTPD = array2table(raicv1,'VariableNames',{'ParamSet','AIC','delta','weight',...
+    'assim','aM'});
+writetable(rTPD,[dp 'bio_rates/AIC_PDratio_Lambda_amet_search_1meso_Dc_enc70-b200_m-b175-k086_c20-b250_D080_A050_nmort1_BE10_noCC_RE00100.csv'])
+
+%% Biomass P:F ratio
+% AIC = -2*log(L) + 2*K
+% log(L) = (-n/2) * log(2*pi*var) - (1/(2*var)) * sum(resid^2)
+
+%mis_rcombo = [mis_all_PD,mis_all_PF,mis_all_LM];
+%variance of observations
+rsig = var(cFracPF);
+%num of observations
+nr = length(cFracPF);
+
+%logLike
+LLr = -nr/2 * log(2*pi*rsig) - (1/(2*rsig)) * sum(mis_all_PF.^2,2);
+raic = -2 * LLr;
+
+[raic_srt,ridc] = sort(raic);
+rdel = raic_srt - raic_srt(1);
+rw = exp(-0.5*rdel) ./ sum( exp(-0.5*rdel) );
+raicv2(:,1) = ridc;
+raicv2(:,2) = raic_srt;
+raicv2(:,3) = rdel;
+raicv2(:,4) = rw;
+raicv2(:,5:6) = params(ridc,:);
+rTPF = array2table(raicv2,'VariableNames',{'ParamSet','AIC','delta','weight',...
+    'assim','aM'});
+writetable(rTPF,[dp 'bio_rates/AIC_PFratio_Lambda_amet_search_1meso_Dc_enc70-b200_m-b175-k086_c20-b250_D080_A050_nmort1_BE10_noCC_RE00100.csv'])
+
+%% Biomass L:M ratio
+% AIC = -2*log(L) + 2*K
+% log(L) = (-n/2) * log(2*pi*var) - (1/(2*var)) * sum(resid^2)
+
+%mis_rcombo = [mis_all_PD,mis_all_PF,mis_all_LM];
+%variance of observations
+rsig = var(cFracLM);
+%num of observations
+nr = length(cFracLM);
+
+%logLike
+LLr = -nr/2 * log(2*pi*rsig) - (1/(2*rsig)) * sum(mis_all_LM.^2,2);
+raic = -2 * LLr;
+
+[raic_srt,ridc] = sort(raic);
+rdel = raic_srt - raic_srt(1);
+rw = exp(-0.5*rdel) ./ sum( exp(-0.5*rdel) );
+raicv3(:,1) = ridc;
+raicv3(:,2) = raic_srt;
+raicv3(:,3) = rdel;
+raicv3(:,4) = rw;
+raicv3(:,5:6) = params(ridc,:);
+rTLM = array2table(raicv3,'VariableNames',{'ParamSet','AIC','delta','weight',...
+    'assim','aM'});
+writetable(rTLM,[dp 'bio_rates/AIC_LMratio_Lambda_amet_search_1meso_Dc_enc70-b200_m-b175-k086_c20-b250_D080_A050_nmort1_BE10_noCC_RE00100.csv'])
 
 %% SAUP P catch & P:D ratio
 % l10all = [l10sF(keep);l10sP(keep);l10sD(keep);l10sA(keep);sFracPD(keep)];

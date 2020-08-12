@@ -10,7 +10,7 @@ cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
 
 %cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_A050_nmort1_BE08_noCC_RE00100_noHPloss';
-cfile = 'Dc_Lam700_enc70-b200_m4-b175-k086_c20-b300_D075_A050_nmort1_BE10_noCC_RE00100';
+cfile = 'Dc_Lam579_enc70-b200_m440-b175-k086_c20-b250_D080_A050_nmort1_BE08_noCC_RE00100';
 harv = 'All_fish03';
 
 fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
@@ -100,7 +100,8 @@ plot(y,log10(lp_tmean),'Linewidth',1); hold on;
 plot(y,log10(sd_tmean),'Linewidth',1); hold on;
 plot(y,log10(md_tmean),'Linewidth',1); hold on;
 plot(y,log10(ld_tmean),'Linewidth',1); hold on;
-legend('SF','MF','SP','MP','LP','SD','MD','LD')
+plot(y,log10(b_tmean),'Linewidth',1); hold on;
+legend('SF','MF','SP','MP','LP','SD','MD','LD','B')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
 ylim([-1.5 1])
@@ -111,10 +112,11 @@ stamp(cfile)
 print('-dpng',[ppath 'Hist_1meso_',harv,'_all_sizes.png'])
 
 figure(2)
+plot(y,log10(b_tmean),'color',[0.5 0.5 0.5],'Linewidth',2); hold on;
 plot(y,log10(F),'r','Linewidth',2); hold on;
 plot(y,log10(P),'b','Linewidth',2); hold on;
 plot(y,log10(D),'k','Linewidth',2); hold on;
-legend('F','P','D')
+legend('B','F','P','D')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
 ylim([-0.2 0.8])
@@ -175,13 +177,14 @@ surfm(geolat_t,geolon_t,log10(Zb))
 colormap('jet')
 load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
+%caxis([-2 2]);
+%caxis([1 4]);
+caxis([-0.5 2.5]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('Historic fished 1951-2000 log10 mean benthic biomass (g m^-^2)')
 stamp(cfile)
 print('-dpng',[ppath 'Hist_1meso_',harv,'_global_BENT.png'])
-
 
 %% Diff maps of all fish
 All = Zsp+Zsf+Zsd+Zmp+Zmf+Zmd+Zlp+Zld;

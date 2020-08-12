@@ -3,7 +3,7 @@
 clear all
 close all
 
-cfile = 'Dc_Lam700_enc70-b200_m4-b175-k086_c20-b300_D075_A050_nmort1_BE10_noCC_RE00100';
+cfile = 'Dc_Lam579_enc70-b200_m440-b175-k086_c20-b250_D080_A050_nmort1_BE08_noCC_RE00100';
 harv = 'All_fish03';
 
 fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];

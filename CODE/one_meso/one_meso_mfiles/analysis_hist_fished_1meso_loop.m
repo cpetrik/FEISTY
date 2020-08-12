@@ -147,3 +147,18 @@ for j=1:length(nfiles)
     
 end
 
+%% Benthos time series
+y = 1860+(1/12):(1/12):2005;
+figure(10)
+for j=1:length(nfiles)
+    load([nfiles{j},'_Means.mat']);
+    dpath = [dp sfiles{j} '/'];
+    ppath = [pp sfiles{j} '/'];
+    
+    
+    %% ts
+    subplot(6,8,j)
+    plot(y,b_tmean,'k')
+    
+end
+

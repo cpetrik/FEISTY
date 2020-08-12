@@ -4,11 +4,17 @@ clear all
 close all
 
 %%%%!! EXPERIMENTS
-spinup_cesm = false;
-pre_industrial_cesm = false;
+spinup_ipsl = false;
+spinup_gfdl = true;
+pre_industrial_ipsl = false;
 pre_industrial_gfdl = false;
-historic_cesm = false;
-historic_gfdl = true;
+historic_ipsl = false;
+historic_gfdl = false;
+ssp126_ipsl = false;
+ssp126_gfdl = false;
+ssp585_ipsl = false;
+ssp585_gfdl = false;
+
 forecast_cesm = false;
 forecast_gfdl = false;
 temp_cont_cesm = false;
@@ -17,21 +23,38 @@ npp_cont_cesm = false;
 npp_cont_gfdl = false;
 
 tic
-if spinup_cesm
-    Spinup_cesm_noD()
+if spinup_ipsl
+    Spinup_pristine_ipsl()
 end
-if pre_industrial_cesm
-    Pre_industrial_cesm_noD()
+if spinup_gfdl
+    Spinup_pristine_gfdl()
+end
+if pre_industrial_ipsl
+    Pre_industrial_pristine_ipsl()
 end
 if pre_industrial_gfdl
-    Pre_industrial_gfdl()
+    Pre_industrial_pristine_gfdl()
 end
-if historic_cesm
-    Historic_cesm_noD()
+if historic_ipsl
+    Historic_pristine_ipsl()
 end
 if historic_gfdl
-    Historic_fished_gfdl_1zoo()
+    Historic_pristine_gfdl()
 end
+if ssp126_ipsl
+    SSP126_pristine_ipsl()
+end
+if ssp126_gfdl
+    SSP126_pristine_gfdl()
+end
+if ssp585_ipsl
+    SSP585_pristine_ipsl()
+end
+if ssp585_gfdl
+    SSP585_pristine_gfdl()
+end
+
+
 if forecast_cesm
     Forecast_cesm_noD()
 end
@@ -39,13 +62,13 @@ if forecast_gfdl
     Forecast_gfdl()
 end
 if temp_cont_cesm
-    Temp_cont_cesm_noD()
+    Temp_cont_ipsl_noD()
 end
 if temp_cont_gfdl
     Temp_cont_gfdl()
 end
 if npp_cont_cesm
-    NPP_cont_cesm_noD()
+    NPP_cont_ipsl_noD()
 end
 if npp_cont_gfdl
     NPP_cont_gfdl()
