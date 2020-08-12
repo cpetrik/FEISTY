@@ -33,7 +33,7 @@ function param = make_parameters_1meso(param)
     param.Z_l = 250/125000;
 
     %%%! Assimilation efficiency lambda (constant across everything)
-    %param.Lambda = 0.7;
+    param.Lambda = 0.579;   % orig 0.7
 
     %%%! Kappa rule K as a function of body size
     % K = fraction of energy consumed diverted to somatic growth
@@ -43,7 +43,7 @@ function param = make_parameters_1meso(param)
     param.K_a = 0.5;
 
     %%%! Metabolism constants (activity and basal)
-    %param.amet = 4;       % coeff on met
+    param.amet = 4.40;       % coeff on met (orig 4)
     param.h = 20;         % coeff on Cmax
     param.gam = 70;       % coeff on search area (70 baseline)
     param.kc = 0.063;     % coeff on cmax T-dep fn (orig 0.063)
@@ -54,7 +54,8 @@ function param = make_parameters_1meso(param)
     param.bcmx = 0.25;    % power on cmax fn (orig 0.25)
 
     %%%! Transfer efficiency of detritus to benthic prey
-    param.bent_eff = 0.1;
+    param.bent_eff = 0.10;
+    param.CC = 80;
 
     %%%! Reproductive efficiency
     param.rfrac = 0.01;

@@ -271,14 +271,14 @@ MNT = 0;
 %! Run model with no fishing
 for YR = 1:YEARS % years
     %! Load a year's COBALT data
-    ti = num2str(YR+1860);
+    ti = num2str(YR+1860)
     load(['/Volumes/FEISTY/POEM_JLD/esm2m_hist/Data_ESM2Mhist_',ti,'.mat'],'COBALT');
     
     for DAY = 1:param.DT:DAYS % days
         
         %%%! Future time step
         DY = int64(ceil(DAY));
-        [num2str(YR),' , ',num2str(mod(DY,365))]
+%         [num2str(YR),' , ',num2str(mod(DY,365))]
         [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,ENVR] = ...
             sub_futbio_1meso(ID,DY,COBALT,GRD,Sml_f,Sml_p,Sml_d,...
             Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,param);

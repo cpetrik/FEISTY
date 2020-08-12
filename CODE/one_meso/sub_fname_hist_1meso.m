@@ -6,6 +6,7 @@ frate = param.frate;
 td = num2str(1000+int64(100 * param.LD_phi_MP));
 ta = num2str(1000+int64(100 * param.LP_phi_MF));
 tbe = num2str(100+int64(100 * param.bent_eff));
+tcc = num2str(param.CC);
 tmort = num2str(param.MORT);
 tre = num2str(100000+int64(round(10000 * param.rfrac)));
 if (frate >= 0.1)
@@ -53,7 +54,11 @@ tbenc = num2str(1000+int64(1000 * param.benc));
 tbcmx = num2str(1000+int64(1000 * param.bcmx));
 tlam = num2str(1000+int64(1000 * param.Lambda));
 
-simname = [coup,'_Lam',tlam(2:end),'_enc',tefn,'-b',tbenc(2:end),'_m',tmfn,'-b',tbfn(2:end),'-k',tkfn(2:end),'_c',tcfn,'-b',tbcmx(2:end),'_D',td(2:end),'_A',ta(2:end),'_nmort',tmort,'_BE',tbe(2:end),'_noCC_RE',tre(2:end)];
+if (param.CC==0)
+    simname = [coup,'_Lam',tlam(2:end),'_enc',tefn,'-b',tbenc(2:end),'_m',tmfn,'-b',tbfn(2:end),'-k',tkfn(2:end),'_c',tcfn,'-b',tbcmx(2:end),'_D',td(2:end),'_A',ta(2:end),'_nmort',tmort,'_BE',tbe(2:end),'_noCC_RE',tre(2:end)];
+else
+    simname = [coup,'_Lam',tlam(2:end),'_enc',tefn,'-b',tbenc(2:end),'_m',tmfn,'-b',tbfn(2:end),'-k',tkfn(2:end),'_c',tcfn,'-b',tbcmx(2:end),'_D',td(2:end),'_A',ta(2:end),'_nmort',tmort,'_BE',tbe(2:end),'_CC',tcc,'_RE',tre(2:end)];
+end
 
 if (~isfolder(['/Volumes/FEISTY/NC/Matlab_new_size/',simname]))
     mkdir(['/Volumes/FEISTY/NC/Matlab_new_size/',simname])
