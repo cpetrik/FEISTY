@@ -12,7 +12,9 @@ param = make_parameters_1meso(param);
 %! Grid
 load('/Volumes/FEISTY/Fish-MIP/CMIP6/IPSL/Data_grid_ipsl.mat','GRD');
 param.NX = length(GRD.Z);
-param.ID = 1:NX;
+param.ID = 1:param.NX;
+NX = length(GRD.Z);
+ID = 1:param.NX;
 
 %! How long to run the model
 YEARS = length(1950:2014);
@@ -137,11 +139,8 @@ MNT = 0;
 %! Run model with no fishing
 for YR = 1:YEARS % years
     %! Load a year's CESM data
-    ti = num2str(YR+1949);
+    ti = num2str(YR+1949)
     load(['/Volumes/FEISTY/Fish-MIP/CMIP6/IPSL/hist/Data_ipsl_hist_daily_',ti,'.mat'],'ESM');
-    %ZOOP OFF BY 1E3
-%     CESM.Zm = CESM.Zm * 1e3;
-%     CESM.Zl = CESM.Zl * 1e3;
     
     for DAY = 1:DT:DAYS % days
         

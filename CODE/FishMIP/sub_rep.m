@@ -1,12 +1,10 @@
 %%% BIOMASS MADE FROM REPRODUCTION
-function [gamma, nu, rep, egg] = sub_rep(gamma,nu,K,S,egg)
+function [gamma, nu, rep, egg] = sub_rep(NX,gamma,nu,K,S,egg)
 %nu: energy for growth or spawning
 %K: proportion allocated to growth
 %S: fraction = fraction of pop spawning at that time
 %S: 0 or 1 = indicates if spawning season (1=yes)
 %egg: energy stored for later repro
-
-global NX
 
 % NOTE: Still never going to accumulate biomass as muscle tissue
 % If it is spawning season, it gets spawned

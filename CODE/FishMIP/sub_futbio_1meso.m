@@ -7,7 +7,7 @@ dfrate = param.dfrate;
 %%% If biomass < individual fish mass per grid cell, set all rates to zero? %%%
 
 %%% ESM information
-ENVR = get_ESM_1meso(ESM,GRD,ID,DY);
+ENVR = get_ESM(ESM,GRD,param,DY);
 ENVR.det = sub_neg(ENVR.det);
 ENVR.Zm  = sub_neg(ENVR.Zm);
 

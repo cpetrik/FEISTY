@@ -12,7 +12,9 @@ param = make_parameters_1meso(param);
 %! Grid
 load('/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/Data_grid_gfdl.mat','GRD');
 param.NX = length(GRD.Z);
-param.ID = 1:NX;
+param.ID = 1:param.NX;
+NX = length(GRD.Z);
+ID = 1:param.NX;
 
 %! How long to run the model
 YEARS = length(1850:1949);
@@ -36,9 +38,8 @@ S_Lrg_p = zeros(NX,DAYS);
 S_Lrg_d = zeros(NX,DAYS);
 
 %! Initialize
-[Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish(ID,DAYS);
-BENT.mass = BENT.bio;
-ENVR = sub_init_env_1meso(ID);
+[Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish(param.ID,DAYS);
+ENVR = sub_init_env_1meso(param.ID);
 
 %%%%%%%%%%%%%%% Setup NetCDF save
 %! Setup netcdf path to store to
@@ -135,17 +136,14 @@ MNT = 0;
 %! Run model with no fishing
 for YR = 1:YEARS % years
     %! Load a year's CESM data
-    ti = num2str(YR+1849);
+    ti = num2str(YR+1849)
     load(['/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/preindust/Data_gfdl_spinup_daily_',ti,'.mat'],'ESM');
-    %ZOOP OFF BY 1E3
-%     CESM.Zm = CESM.Zm * 1e3;
-%     CESM.Zl = CESM.Zl * 1e3;
     
-    for DAY = 1:DT:DAYS % days
+    for DAY = 1:DAYS % days
         
         %%%! Future time step
         DY = int64(ceil(DAY));
-        [num2str(YR),' , ', num2str(mod(DY,365))]
+        %[ti,' , ', num2str(mod(DY,365))]
         [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,ENVR] = ...
             sub_futbio_1meso(ID,DY,ESM,GRD,Sml_f,Sml_p,Sml_d,...
             Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,param);
@@ -188,7 +186,6 @@ for YR = 1:YEARS % years
         netcdf.putVar(ncidLP,vidbioLP,[0 MNT-1],[NX 1],mean(S_Lrg_p(:,a(i):b(i)),2));
         netcdf.putVar(ncidLD,vidbioLD,[0 MNT-1],[NX 1],mean(S_Lrg_d(:,a(i):b(i)),2));
        
-        
     end %Monthly mean
     
 end %Years
