@@ -10,7 +10,7 @@ cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
 
 %cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_A050_nmort1_BE08_noCC_RE00100_noHPloss';
-cfile = 'Dc_Lam579_enc70-b200_m440-b175-k086_c20-b250_D080_A050_nmort1_BE08_noCC_RE00100';
+cfile = 'Dc_Lam579_enc70-b200_m440-b175-k086_c20-b250_D080_A050_nmort1_BE08_CC80_RE00100';
 harv = 'All_fish03';
 
 fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
@@ -179,7 +179,7 @@ load coast;                     %decent looking coastlines
 h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 %caxis([-2 2]);
 %caxis([1 4]);
-caxis([-0.5 2.5]);
+caxis([-1 2]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('Historic fished 1951-2000 log10 mean benthic biomass (g m^-^2)')
@@ -295,25 +295,9 @@ print('-dpng',[ppath 'Hist_1meso_',harv,'_global_ratios_subplot.png'])
 
 
 %% Historic distr subplot for ms
-gpath='/Users/cpetrik/Dropbox/Princeton/POEM_other/cobalt_data/';
-load([gpath 'cobalt_zoop_biom_means.mat'],'mz_mean_hist','lz_mean_hist'); 
-
-% Zoop and det and npp 
-%ESM2M in mmol N m-2 or mmol N m-2 d-1
-%molN/m2 --> g/m2
-%106/16 mol C in 1 mol N
-%12.01 g C in 1 mol C
-%1 g dry W in 9 g wet W
-mz_mean_hist = mz_mean_hist * (106.0/16.0) * 12.01 * 9.0;
-lz_mean_hist = lz_mean_hist * (106.0/16.0) * 12.01 * 9.0;
-
-zmean = mz_mean_hist + lz_mean_hist;
-All2 = zmean + Zb;
-
 cmBP=cbrewer('seq','BuPu',50,'PCHIP');
 
-
-%% Fish only
+% Fish only
 figure(7)
 % All F
 subplot('Position',[0 0.51 0.5 0.5])

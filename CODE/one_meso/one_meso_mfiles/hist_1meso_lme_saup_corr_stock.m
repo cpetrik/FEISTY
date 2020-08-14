@@ -34,7 +34,7 @@ frate = 0.3;
 tfish = num2str(100+int64(10*frate));
 
 %cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_A050_nmort1_BE08_noCC_RE00100_noHPloss';
-cfile = 'Dc_Lam579_enc70-b200_m440-b175-k086_c20-b250_D080_A050_nmort1_BE08_noCC_RE00100';
+cfile = 'Dc_Lam579_enc70-b200_m440-b175-k086_c20-b250_D080_A050_nmort1_BE08_CC80_RE00100';
 harv = 'All_fish03';
 
 ppath = [pp cfile '/'];
