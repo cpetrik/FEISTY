@@ -4,8 +4,6 @@
 clear all
 close all
 
-tic
-
 fpath='/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/ssp126/';
 
 %% Units
@@ -13,8 +11,6 @@ fpath='/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/ssp126/';
 %zoo: mol C m-3
 %tp: degC
 %tb: degC
-
-%I MAY NEED TO DIVIDE CONCENTRATIONS BY 100 m TO PUT INTO m^-2
 
 load([fpath 'gfdl_ssp126_temp100_monthly_2015_2100.mat'],'temp_100');
 load([fpath 'gfdl_ssp126_temp_btm_monthly_2015_2100.mat'],'temp_btm');
@@ -38,9 +34,9 @@ Time=Tdays(15:30:end);
 
 %%
 % index of water cells
-[ni,nj,nt] = size(temp_100);
-WID = find(~isnan(temp_100(:,:,1)));  % spatial index of water cells
-NID = length(WID);                    % number of water cells
+[ni,nj,nt] = size(temp_btm);
+WID = find(~isnan(temp_btm(:,:,1)));  % spatial index of water cells
+NID = length(WID);                    % number of water cells 44564
 
 % setup FEISTY data files
 % ESM.Tp  = nan*zeros(NID,365,nyrs);
@@ -116,6 +112,6 @@ for y = 1:nyrs
     
 end
 
-toc
+
 
 

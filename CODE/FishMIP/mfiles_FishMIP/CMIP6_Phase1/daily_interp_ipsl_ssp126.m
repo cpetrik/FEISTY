@@ -4,8 +4,6 @@
 clear all
 close all
 
-tic
-
 fpath='/Volumes/FEISTY/Fish-MIP/CMIP6/IPSL/ssp126/';
 
 %% Units
@@ -38,9 +36,9 @@ Time=Tdays(15:30:end);
 
 %%
 % index of water cells
-[ni,nj,nt] = size(temp_100);
-WID = find(~isnan(temp_100(:,:,1)));  % spatial index of water cells
-NID = length(WID);                    % number of water cells
+[ni,nj,nt] = size(det_btm);
+WID = find(~isnan(det_btm(:,:,1)));  % spatial index of water cells
+NID = length(WID);                    % number of water cells 41328
 
 % setup FEISTY data files
 % ESM.Tp  = nan*zeros(NID,365,nyrs);
@@ -116,6 +114,5 @@ for y = 1:nyrs
     
 end
 
-toc
 
 

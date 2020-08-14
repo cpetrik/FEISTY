@@ -36,8 +36,8 @@ Time=Tdays(15:30:end);
 
 %%
 % index of water cells
-[ni,nj,nt] = size(temp_100);
-WID = find(~isnan(temp_100(:,:,1)));  % spatial index of water cells
+[ni,nj,nt] = size(temp_btm);
+WID = find(~isnan(temp_btm(:,:,1)));  % spatial index of water cells
 NID = length(WID);                    % number of water cells
 
 % setup FEISTY data files
