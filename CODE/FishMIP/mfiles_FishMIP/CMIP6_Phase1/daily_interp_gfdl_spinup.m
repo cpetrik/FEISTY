@@ -40,6 +40,8 @@ Time=Tdays(15:30:end);
 WID = find(~isnan(temp_100(:,:,1)));  % spatial index of water cells
 NID = length(WID);                    % number of water cells
 
+% WID NOT EQUAL TO GRD.ID!!!
+
 % % setup FEISTY data files
 % ESM.Tp  = nan*zeros(NID,365,nyrs);
 % ESM.Tb  = nan*zeros(NID,365,nyrs);
