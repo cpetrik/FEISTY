@@ -5,11 +5,11 @@ close all
 
 %%%%!! EXPERIMENTS
 spinup_ipsl = false;
-spinup_gfdl = true;
+spinup_gfdl = false;
 pre_industrial_ipsl = false;
-pre_industrial_gfdl = false;
+pre_industrial_gfdl = true;
 historic_ipsl = false;
-historic_gfdl = false;
+historic_gfdl = true;
 ssp126_ipsl = false;
 ssp126_gfdl = false;
 ssp585_ipsl = false;
@@ -30,10 +30,10 @@ if spinup_gfdl
     Spinup_pristine_gfdl()
 end
 if pre_industrial_ipsl
-    Pre_industrial_pristine_ipsl()
+    Preindust_pristine_ipsl()
 end
 if pre_industrial_gfdl
-    Pre_industrial_pristine_gfdl()
+    Preindust_pristine_gfdl()
 end
 if historic_ipsl
     Historic_pristine_ipsl()

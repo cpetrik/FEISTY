@@ -39,7 +39,7 @@ S_Lrg_d = zeros(NX,DAYS);
 
 %! Initialize
 init_sim = simname;
-load(['/Volumes/FEISTY/NC/Matlab_new_size/',init_sim '/Last_mo_spin_' init_sim '.mat']);
+load(['/Volumes/FEISTY/NC/FishMIP/GFDL_CMIP6/',init_sim '/Last_mo_spinup_' init_sim '.mat']);
 BENT.mass = BENT.bio;
 [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_hist(ID,DAYS,Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT);
 ENVR = sub_init_env_1meso(ID);
@@ -142,7 +142,7 @@ for YR = 1:YEARS % years
     ti = num2str(YR+1949)
     load(['/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/hist/Data_gfdl_hist_daily_',ti,'.mat'],'ESM');
     
-    for DAY = 1:DT:DAYS % days
+    for DAY = 1:param.DT:DAYS % days
         
         %%%! Future time step
         DY = int64(ceil(DAY));
