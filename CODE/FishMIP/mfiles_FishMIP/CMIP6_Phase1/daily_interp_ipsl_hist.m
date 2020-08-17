@@ -49,7 +49,7 @@ NID = length(WID);                    % number of water cells
 % ESM.det = nan*zeros(NID,365,nyrs);
 
 %%
-for y = 46:nyrs
+for y = 1:nyrs
     yr = yrs(y)
     
     Tp = double(temp_100(:,:,mstart(y):mend(y)));

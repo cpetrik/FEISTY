@@ -39,7 +39,7 @@ S_Lrg_d = zeros(NX,DAYS);
 
 %! Initialize
 init_sim = simname;
-load(['/Volumes/FEISTY/NC/Matlab_new_size/',init_sim '/Last_mo_spin_' init_sim '.mat']);
+load(['/Volumes/FEISTY/NC/FishMIP/IPSL_CMIP6/',init_sim '/Last_mo_spinup_' init_sim '.mat']);
 BENT.mass = BENT.bio;
 [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_hist(ID,DAYS,Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT);
 ENVR = sub_init_env_1meso(ID);
@@ -138,15 +138,15 @@ netcdf.endDef(ncidB);
 MNT = 0;
 %! Run model with no fishing
 for YR = 1:YEARS % years
-    %! Load a year's CESM data
+    %! Load a year's ESM data
     ti = num2str(YR+1949)
     load(['/Volumes/FEISTY/Fish-MIP/CMIP6/IPSL/hist/Data_ipsl_hist_daily_',ti,'.mat'],'ESM');
     
-    for DAY = 1:DT:DAYS % days
+    for DAY = 1:param.DT:DAYS % days
         
         %%%! Future time step
         DY = int64(ceil(DAY));
-        [num2str(YR),' , ', num2str(mod(DY,365))]
+%         [num2str(YR),' , ', num2str(mod(DY,365))]
         [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,ENVR] = ...
             sub_futbio_1meso(ID,DY,ESM,GRD,Sml_f,Sml_p,Sml_d,...
             Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,param);

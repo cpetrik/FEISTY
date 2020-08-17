@@ -39,7 +39,6 @@ S_Lrg_d = zeros(NX,DAYS);
 
 %! Initialize
 [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish(ID,DAYS);
-BENT.mass = BENT.bio;
 ENVR = sub_init_env_1meso(ID);
 
 %%%%%%%%%%%%%%% Setup NetCDF save
@@ -140,7 +139,7 @@ for YR = 1:YEARS % years
     ti = num2str(YR+1849)
     load(['/Volumes/FEISTY/Fish-MIP/CMIP6/IPSL/preindust/Data_ipsl_spinup_daily_',ti,'.mat'],'ESM');
     
-    for DAY = 1:DT:DAYS % days
+    for DAY = 1:param.DT:DAYS % days
         
         %%%! Future time step
         DY = int64(ceil(DAY));
