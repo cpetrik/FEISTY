@@ -127,7 +127,21 @@ netcdf.close(ncid);
 Bent.bio = biomass;
 clear biomass
 
-%% Take means 
+%% Save last year for initializing forecast runs
+Sml_f.bio = nanmean(SF.bio(:,nt-11:nt),2);
+Sml_p.bio = nanmean(SP.bio(:,nt-11:nt),2);
+Sml_d.bio = nanmean(SD.bio(:,nt-11:nt),2);
+Med_f.bio = nanmean(MF.bio(:,nt-11:nt),2);
+Med_p.bio = nanmean(MP.bio(:,nt-11:nt),2);
+Med_d.bio = nanmean(MD.bio(:,nt-11:nt),2);
+Lrg_p.bio = nanmean(LP.bio(:,nt-11:nt),2);
+Lrg_d.bio = nanmean(LD.bio(:,nt-11:nt),2);
+BENT.bio  = nanmean(Bent.bio(:,nt-11:nt),2);
+
+save([fpath 'Last_mo_hist_' cfile '.mat'],'Sml_f','Sml_p','Sml_d',... 
+    'Med_f','Med_p','Med_d','Lrg_p','Lrg_d','BENT')
+
+%% Take means for my own visualization
 
 %Time
 sp_tmean=mean(SP.bio,1);
@@ -144,7 +158,7 @@ b_tmean=mean(Bent.bio,1);
 t=time;
 mo=t/12;
 mo=mo+1950;
-yrP=find(mo>2014 & mo<=2015); 
+yrP=find(mo>2000 & mo<=2010); 
 
 sp_mean=mean(SP.bio(:,yrP),2);
 sf_mean=mean(SF.bio(:,yrP),2);
@@ -156,30 +170,12 @@ lp_mean=mean(LP.bio(:,yrP),2);
 ld_mean=mean(LD.bio(:,yrP),2);
 b_mean =mean(Bent.bio(:,yrP),2);
 
-save([fpath 'Means_Hist_' cfile '.mat'],'time','mo',...
+save([fpath 'Means_Hist_2000-2010_' cfile '.mat'],'time','mo','yrP',...
     'sf_tmean','sp_tmean','sd_tmean',...
     'mf_tmean','mp_tmean','md_tmean',...
     'lp_tmean','ld_tmean','b_tmean',...
     'sf_mean','sp_mean','sd_mean',...
     'mf_mean','mp_mean','md_mean',...
     'lp_mean','ld_mean','b_mean')
-
-
-%% Save last year for initializing forecast runs
-Sml_f.bio = nanmean(SF.bio(:,nt-11:nt),2);
-Sml_p.bio = nanmean(SP.bio(:,nt-11:nt),2);
-Sml_d.bio = nanmean(SD.bio(:,nt-11:nt),2);
-Med_f.bio = nanmean(MF.bio(:,nt-11:nt),2);
-Med_p.bio = nanmean(MP.bio(:,nt-11:nt),2);
-Med_d.bio = nanmean(MD.bio(:,nt-11:nt),2);
-Lrg_p.bio = nanmean(LP.bio(:,nt-11:nt),2);
-Lrg_d.bio = nanmean(LD.bio(:,nt-11:nt),2);
-BENT.bio  = nanmean(Bent.bio(:,nt-11:nt),2);
-
-save([fpath 'Last_mo_hist_' cfile '.mat'],'Sml_f','Sml_p','Sml_d',... 
-    'Med_f','Med_p','Med_d','Lrg_p','Lrg_d','BENT')
-
-
-
 
 

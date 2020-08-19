@@ -8,7 +8,7 @@ cfile = 'Dc_Lam579_enc70-b200_m440-b175-k086_c20-b250_D080_A050_nmort1_BE10_CC80
 fpath=['/Volumes/FEISTY/NC/FishMIP/GFDL_CMIP6/' cfile '/'];
 
 %% SP
-ncid = netcdf.open([fpath 'Hist_sml_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'PreIndust_sml_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -24,7 +24,7 @@ SP.bio = biomass;
 clear biomass
 
 %% SF
-ncid = netcdf.open([fpath 'Hist_sml_f.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'PreIndust_sml_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -37,7 +37,7 @@ SF.bio = biomass(:,1:nt);
 clear biomass 
 
 % SD
-ncid = netcdf.open([fpath 'Hist_sml_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'PreIndust_sml_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -50,7 +50,7 @@ SD.bio = biomass;
 clear biomass 
 
 % MP
-ncid = netcdf.open([fpath 'Hist_med_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'PreIndust_med_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -63,7 +63,7 @@ MP.bio = biomass;
 clear biomass
 
 % MF
-ncid = netcdf.open([fpath 'Hist_med_f.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'PreIndust_med_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -76,7 +76,7 @@ MF.bio = biomass;
 clear biomass
 
 % MD
-ncid = netcdf.open([fpath 'Hist_med_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'PreIndust_med_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -89,7 +89,7 @@ MD.bio = biomass;
 clear biomass
 
 % LP
-ncid = netcdf.open([fpath 'Hist_lrg_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'PreIndust_lrg_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -102,7 +102,7 @@ LP.bio = biomass;
 clear biomass
 
 % LD
-ncid = netcdf.open([fpath 'Hist_lrg_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'PreIndust_lrg_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -115,7 +115,7 @@ LD.bio = biomass;
 clear biomass
 
 % Benthic material
-ncid = netcdf.open([fpath 'Hist_bent.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'PreIndust_bent.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -126,21 +126,6 @@ netcdf.close(ncid);
 
 Bent.bio = biomass;
 clear biomass
-
-
-%% Save last year for initializing forecast runs
-Sml_f.bio = nanmean(SF.bio(:,nt-11:nt),2);
-Sml_p.bio = nanmean(SP.bio(:,nt-11:nt),2);
-Sml_d.bio = nanmean(SD.bio(:,nt-11:nt),2);
-Med_f.bio = nanmean(MF.bio(:,nt-11:nt),2);
-Med_p.bio = nanmean(MP.bio(:,nt-11:nt),2);
-Med_d.bio = nanmean(MD.bio(:,nt-11:nt),2);
-Lrg_p.bio = nanmean(LP.bio(:,nt-11:nt),2);
-Lrg_d.bio = nanmean(LD.bio(:,nt-11:nt),2);
-BENT.bio  = nanmean(Bent.bio(:,nt-11:nt),2);
-
-save([fpath 'Last_mo_hist_' cfile '.mat'],'Sml_f','Sml_p','Sml_d',... 
-    'Med_f','Med_p','Med_d','Lrg_p','Lrg_d','BENT')
 
 %% Take means for my own visualization
 
@@ -158,26 +143,56 @@ b_tmean=mean(Bent.bio,1);
 %% Space
 t=time;
 mo=t/12;
-mo=mo+1950;
-yrP=find(mo>2000 & mo<=2010); 
+mo=mo+1850;
 
-sp_mean=mean(SP.bio(:,yrP),2);
-sf_mean=mean(SF.bio(:,yrP),2);
-sd_mean=mean(SD.bio(:,yrP),2);
-mp_mean=mean(MP.bio(:,yrP),2);
-mf_mean=mean(MF.bio(:,yrP),2);
-md_mean=mean(MD.bio(:,yrP),2);
-lp_mean=mean(LP.bio(:,yrP),2);
-ld_mean=mean(LD.bio(:,yrP),2);
-b_mean =mean(Bent.bio(:,yrP),2);
+yr1=find(mo>1890 & mo<=1900); 
+yr2=find(mo>2000 & mo<=2010); 
+yr3=find(mo>2090 & mo<=2100); 
 
-save([fpath 'Means_Hist_2000-2010_' cfile '.mat'],'time','mo','yrP',...
+sp_mean1=mean(SP.bio(:,yr1),2);
+sf_mean1=mean(SF.bio(:,yr1),2);
+sd_mean1=mean(SD.bio(:,yr1),2);
+mp_mean1=mean(MP.bio(:,yr1),2);
+mf_mean1=mean(MF.bio(:,yr1),2);
+md_mean1=mean(MD.bio(:,yr1),2);
+lp_mean1=mean(LP.bio(:,yr1),2);
+ld_mean1=mean(LD.bio(:,yr1),2);
+b_mean1 =mean(Bent.bio(:,yr1),2);
+
+sp_mean2=mean(SP.bio(:,yr2),2);
+sf_mean2=mean(SF.bio(:,yr2),2);
+sd_mean2=mean(SD.bio(:,yr2),2);
+mp_mean2=mean(MP.bio(:,yr2),2);
+mf_mean2=mean(MF.bio(:,yr2),2);
+md_mean2=mean(MD.bio(:,yr2),2);
+lp_mean2=mean(LP.bio(:,yr2),2);
+ld_mean2=mean(LD.bio(:,yr2),2);
+b_mean2 =mean(Bent.bio(:,yr2),2);
+
+sp_mean3=mean(SP.bio(:,yr3),2);
+sf_mean3=mean(SF.bio(:,yr3),2);
+sd_mean3=mean(SD.bio(:,yr3),2);
+mp_mean3=mean(MP.bio(:,yr3),2);
+mf_mean3=mean(MF.bio(:,yr3),2);
+md_mean3=mean(MD.bio(:,yr3),2);
+lp_mean3=mean(LP.bio(:,yr3),2);
+ld_mean3=mean(LD.bio(:,yr3),2);
+b_mean3 =mean(Bent.bio(:,yr3),2);
+
+save([fpath 'Means_PreIndust_' cfile '.mat'],'time','mo',...
+    'yr1','yr2','yr3',...
     'sf_tmean','sp_tmean','sd_tmean',...
     'mf_tmean','mp_tmean','md_tmean',...
     'lp_tmean','ld_tmean','b_tmean',...
-    'sf_mean','sp_mean','sd_mean',...
-    'mf_mean','mp_mean','md_mean',...
-    'lp_mean','ld_mean','b_mean')
+    'sf_mean1','sp_mean1','sd_mean1',...
+    'mf_mean1','mp_mean1','md_mean1',...
+    'lp_mean1','ld_mean1','b_mean1',...
+    'sf_mean2','sp_mean2','sd_mean2',...
+    'mf_mean2','mp_mean2','md_mean2',...
+    'lp_mean2','ld_mean2','b_mean2',...
+    'sf_mean3','sp_mean3','sd_mean3',...
+    'mf_mean3','mp_mean3','md_mean3',...
+    'lp_mean3','ld_mean3','b_mean3')
 
 figure
 plot(mo,log10(lp_tmean),'b'); hold on;
@@ -185,65 +200,3 @@ plot(mo,log10(mf_tmean),'r'); hold on;
 plot(mo,log10(ld_tmean),'k'); hold on;
 
 %% Fish-MIP OUTPUTS =================================================
-AllF = sf_mean + mf_mean;
-AllP = sp_mean + mp_mean + lp_mean;
-AllD = sd_mean + md_mean + ld_mean;
-AllM = mp_mean + mf_mean + md_mean;
-AllL = lp_mean + ld_mean;
-All  = AllF + AllP + AllD;
-
-vtsb = All + b_mean;
-vtcb = All + b_mean;
-vb10cm = AllM + AllL + (0.1)*b_mean;
-vb30cm = AllL;
-
-% PREFERRED (all units = gWW/m2)
-
-%total consumber biomass tcb = 360x180xMOs
-vtcb = 
-
-%total consumber biomass in log10 bins tcblog10 = 360x180xMOsx6
-%(1g, 10g, 100g, 1kg, 10kg, 100kg)
-
-%total pelagic biomass tpb = 360x180xMOs
-
-%total demersal biomass tdb = 360x180xMOs
-
-%total catch tc = 360x180xMOs
-
-%total catch in log10 bins tclog10 = 360x180xMOsx6
-%(1g, 10g, 100g, 1kg, 10kg, 100kg)
-
-%total catch tpc = 360x180xMOs
-
-%total catch tdc = 360x180xMOs
-
-% SECONDARY
-
-%total pelagic (Linf <30cm) biomass bp30cm = 360x180xMOs
-
-%total pelagic (>=30 cm and <90cm) biomass bp30to90cm = 360x180xMOs
-
-%total pelagic (>=90cm) biomass bp90cm = 360x180xMOs
-
-%total demersal (Linf <30cm) biomass bd30cm = 360x180xMOs
-
-%total demersal (>=30 cm and <90cm) biomass bd30to90cm = 360x180xMOs
-
-%total demersal (>=90cm) biomass bd90cm = 360x180xMOs
-
-%total pelagic (Linf <30cm) catch cp30cm = 360x180xMOs
-
-%total pelagic (>=30 cm and <90cm) catch cp30to90cm = 360x180xMOs
-
-%total pelagic (>=90cm) catch cp90cm = 360x180xMOs
-
-%total demersal (Linf <30cm) catch cd30cm = 360x180xMOs
-
-%total demersal (>=30 cm and <90cm) catch cd30to90cm = 360x180xMOs
-
-%total demersal (>=90cm) catch cd90cm = 360x180xMOs
-
-
-
-
