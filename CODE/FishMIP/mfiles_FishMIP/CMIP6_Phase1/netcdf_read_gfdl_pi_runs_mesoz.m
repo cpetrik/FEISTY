@@ -5,6 +5,7 @@ clear all
 close all
 
 fpath='/Users/cpetrik/Dropbox/ESM_data/Fish-MIP/CMIP6/GFDL/preindust/';
+spath='/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/preindust/';
 
 %% Meso Zoop zall
 ncdisp([fpath 'gfdl-esm4_r1i1p1f1_picontrol_zmeso_onedeg_global_monthly_1601_2100.nc'])
@@ -32,22 +33,34 @@ end
 %time: 6000
 %NaNs = 1.0000e+20
 
-%% Get subset of chl
+%% Get subset 
 % Time
 yr = ((time+1)/12)+1601-1;
-runs = find(yr>1950 & yr<=2100);
+runs = find(yr>1950 & yr<=2101);
 z100 = find(lev <= 100);
 
 i = nvars;
 zmeso = netcdf.getVar(ncid,i-1, [0,0,0,runs(1)-1],[360 180 length(z100) length(runs)]);
-zmeso(zmeso >= 1.00e+20) = NaN;
+zmeso = double(zmeso);
+zmeso(zmeso > 1.00e+19) = NaN;
 netcdf.close(ncid);
 
 %% Mean top 100 m 
-zmeso_100 = squeeze(nanmean(zmeso,3));
+zmeso_100 = squeeze(nansum(zmeso,3));
+
+%%
+[ni,nj,nt] = size(zmeso_100);
+mz = reshape(zmeso_100,ni*nj,nt);
+mmz = nanmean(mz);
+
+figure
+plot(yr(runs),mmz,'k');
 
 %%
 save([fpath 'gfdl_pi_zmeso100_monthly_1950_2100.mat'],'zmeso_100','time',...
+    'yr','runs','long_name','standard_name','units','lev','z100');
+
+save([spath 'gfdl_pi_zmeso100_monthly_1950_2100.mat'],'zmeso_100','time',...
     'yr','runs','long_name','standard_name','units','lev','z100');
 
 

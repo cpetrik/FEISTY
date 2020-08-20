@@ -25,10 +25,11 @@ temp_btm = double(temp_btm);
 zmeso_100 = double(zmeso_100);
 det_btm = double(det_btm);
 
-temp_100(temp_100 > 1.0e19) = nan;
-temp_btm(temp_btm > 1.0e19) = nan;
-zmeso_100(zmeso_100 > 1.0e19) = nan;
-det_btm(det_btm > 1.0e19) = nan;
+%%
+% temp_100(temp_100 > 1.0e19) = nan;
+% temp_btm(temp_btm > 1.0e19) = nan;
+% zmeso_100(zmeso_100 > 1.0e19) = nan;
+% det_btm(det_btm > 1.0e19) = nan;
 
 %%
 ryr = yr(runs);

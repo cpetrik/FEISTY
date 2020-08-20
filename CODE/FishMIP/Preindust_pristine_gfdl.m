@@ -17,7 +17,7 @@ NX = length(GRD.Z);
 ID = 1:param.NX;
 
 %! How long to run the model
-YEARS = length(1950:2099);
+YEARS = length(1949:2099);
 DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
@@ -139,7 +139,7 @@ MNT = 0;
 %! Run model with no fishing
 for YR = 1:YEARS % years
     %! Load a year's CESM data
-    ti = num2str(YR+1949)
+    ti = num2str(YR+1948)
     load(['/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/preindust/Data_gfdl_pi_daily_',ti,'.mat'],'ESM');
     
     for DAY = 1:param.DT:DAYS % days

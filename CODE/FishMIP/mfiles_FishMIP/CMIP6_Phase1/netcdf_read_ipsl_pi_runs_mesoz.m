@@ -45,7 +45,7 @@ zmeso(zmeso >= 1.00e+20) = NaN;
 netcdf.close(ncid);
 
 %% Mean top 100 m 
-zmeso_100 = squeeze(nanmean(zmeso,3));
+zmeso_100 = squeeze(nansum(zmeso,3));
 
 %%
 save([fpath 'ipsl_pi_zmeso100_monthly_1950_2100.mat'],'zmeso_100','time',...
