@@ -1,5 +1,5 @@
 % Visualize output of FEISTY
-% Preindustrial 1849-1949 to spinup biomass
+% SSP 126 2015-2100
 % Time series plots and maps
 
 clear all
@@ -15,7 +15,7 @@ ppath = [pp cfile '/'];
 if (~isfolder(ppath))
     mkdir(ppath)
 end
-load([fpath 'Means_Spinup_' cfile '.mat']);
+load([fpath 'Means_SSP126_2090-2100_' cfile '.mat']);
 
 % Map data
 cpath = '/Volumes/FEISTY/Fish-MIP/CMIP6/IPSL/';
@@ -47,7 +47,7 @@ set(groot,'defaultAxesColorOrder',cm10);
 
 %% Plots in time
 t = 1:length(sp_tmean); %time;
-y = 1850 + (t-1)/12;
+y = 2015 + (t-1)/12;
 
 % All size classes of all
 figure(1)
@@ -66,9 +66,9 @@ xlim([y(1) y(end)])
 %ylim([-5 2])
 xlabel('Time (y)')
 ylabel('log_1_0 Biomass (g m^-^2)')
-title('Spinup')
+title('SSP126')
 stamp(mod)
-print('-dpng',[ppath 'Spinup_',mod,'_all_sizes.png'])
+print('-dpng',[ppath 'SSP126_',mod,'_all_sizes.png'])
 
 %% Types together
 F = sf_tmean+mf_tmean;
@@ -87,11 +87,14 @@ xlim([y(1) y(end)])
 %ylim([-5 2])
 xlabel('Time (y)')
 ylabel('log_1_0 Biomass (g m^-^2)')
-title('Spinup')
+title('SSP126')
 stamp(mod)
-print('-dpng',[ppath 'Spinup_',mod,'_all_types.png'])
+print('-dpng',[ppath 'SSP126_',mod,'_all_types.png'])
  
 %% Plots in space
+
+%(mo>2090 & mo<=2100)
+
 Zsf=NaN*ones(ni,nj);
 Zsp=NaN*ones(ni,nj);
 Zsd=NaN*ones(ni,nj);
@@ -136,9 +139,9 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-1 2]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
-title('Spinup 1949 log10 mean benthic biomass (g m^-^2)')
+title('SSP126 2090-2100 log10 mean benthic biomass (g m^-^2)')
 stamp(mod)
-print('-dpng',[ppath 'Spinup_',mod,'_global_BENT.png'])
+print('-dpng',[ppath 'SSP126_',mod,'_global_BENT.png'])
 
 %% All 4 on subplots
 figure(4)
@@ -191,7 +194,7 @@ caxis([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
 stamp(mod)
-print('-dpng',[ppath 'Spinup_',mod,'_global_All_subplot.png'])
+print('-dpng',[ppath 'SSP126_',mod,'_global_All_subplot.png'])
 
 %% Ratios on subplots red-white-blue
 % 3 figure subplot P:D, P:F, M:L
@@ -233,4 +236,22 @@ colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('Fraction Large vs. Medium')
 stamp(mod)
-print('-dpng',[ppath 'Spinup_',mod,'_global_ratios_subplot.png'])
+print('-dpng',[ppath 'SSP126_',mod,'_global_ratios_subplot.png'])
+
+%% Save for ts plots and spatial comparisons
+IS126Fts = F;
+IS126Pts = P;
+IS126Dts = D;
+IS126Bts = B;
+
+IS126AllF = AllF;
+IS126AllP = AllP;
+IS126AllD = AllD;
+IS126AllM = AllM;
+IS126AllL = AllL;
+IS126All = All;
+
+save([fpath 'Means_SSP126_2090-2100_' cfile '.mat'],...
+    'IS126Fts','IS126Pts','IS126Dts','IS126Bts',...
+    'IS126AllF','IS126AllP','IS126AllD','IS126AllM','IS126AllL','IS126All',...
+    '-append');

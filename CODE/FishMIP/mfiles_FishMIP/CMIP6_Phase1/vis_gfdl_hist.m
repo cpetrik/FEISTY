@@ -1,5 +1,5 @@
 % Visualize output of FEISTY
-% Preindustrial 1800-2100 with spinup biomass
+% Historic 1949-2014
 % Time series plots and maps
 
 clear all
@@ -92,6 +92,9 @@ stamp(mod)
 print('-dpng',[ppath 'Hist_',mod,'_all_types.png'])
  
 %% Plots in space
+
+%(mo>2000 & mo<=2010)
+
 Zsf=NaN*ones(ni,nj);
 Zsp=NaN*ones(ni,nj);
 Zsd=NaN*ones(ni,nj);
@@ -136,7 +139,7 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-1 2]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
-title('Hist 1949 log10 mean benthic biomass (g m^-^2)')
+title('Hist 2000-2010 log10 mean benthic biomass (g m^-^2)')
 stamp(mod)
 print('-dpng',[ppath 'Hist_',mod,'_global_BENT.png'])
 
@@ -234,3 +237,21 @@ set(gcf,'renderer','painters')
 title('Fraction Large vs. Medium')
 stamp(mod)
 print('-dpng',[ppath 'Hist_',mod,'_global_ratios_subplot.png'])
+
+%% Save for ts plots and spatial comparisons
+GHistFts = F;
+GHistPts = P;
+GHistDts = D;
+GHistBts = B;
+
+GHistAllF = AllF;
+GHistAllP = AllP;
+GHistAllD = AllD;
+GHistAllM = AllM;
+GHistAllL = AllL;
+GHistAll = All;
+
+save([fpath 'Means_Hist_' cfile '.mat'],...
+    'GHistFts','GHistPts','GHistDts','GHistBts',...
+    'GHistAllF','GHistAllP','GHistAllD','GHistAllM','GHistAllL','GHistAll',...
+    '-append');

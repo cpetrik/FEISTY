@@ -1,5 +1,5 @@
 % Visualize output of FEISTY
-% Preindustrial 1800-2100 with spinup biomass
+% Preindustrial 1849-1949 to spinup biomass
 % Time series plots and maps
 
 clear all
