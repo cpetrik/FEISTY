@@ -16,8 +16,8 @@ end
 %% FEISTY Output
 %gfdl
 gpath=['/Volumes/FEISTY/NC/FishMIP/GFDL_CMIP6/' cfile '/'];
-% load([gpath 'Means_Pre_' cfile '.mat'],...
-%     'GPreAllF','GPreAllP','GPreAllD','GPreAllM','GPreAllL','GPreAll')
+load([gpath 'Means_PreIndust_' cfile '.mat'],...
+    'GPreAllF','GPreAllP','GPreAllD','GPreAllM','GPreAllL','GPreAll')
 load([gpath 'Means_Hist_' cfile '.mat'],...
     'GHistAllF','GHistAllP','GHistAllD','GHistAllM','GHistAllL','GHistAll')
 load([gpath 'Means_SSP126_2090-2100_' cfile '.mat'],...
@@ -27,8 +27,8 @@ load([gpath 'Means_SSP585_2090-2100_' cfile '.mat'],...
 
 %ipsl
 ipath=['/Volumes/FEISTY/NC/FishMIP/IPSL_CMIP6/' cfile '/'];
-% load([ipath 'Means_Pre_' cfile '.mat'],...
-%     'IPreAllF','IPreAllP','IPreAllD','IPreAllM','IPreAllL','IPreAll')
+load([ipath 'Means_PreIndust_' cfile '.mat'],...
+    'IPreAllF','IPreAllP','IPreAllD','IPreAllM','IPreAllL','IPreAll')
 load([ipath 'Means_Hist_' cfile '.mat'],...
     'IHistAllF','IHistAllP','IHistAllD','IHistAllM','IHistAllL','IHistAll')
 load([ipath 'Means_SSP126_2090-2100_' cfile '.mat'],...
@@ -70,6 +70,24 @@ IdiffH585_D = (IS585AllD - IHistAllD) ./ IHistAllD;
 IdiffH126_A = (IS126All  - IHistAll)  ./ IHistAll;
 IdiffH585_A = (IS585All  - IHistAll)  ./ IHistAll;
 
+GdiffP126_F = (GS126AllF - GPreAllF) ./ GPreAllF;
+GdiffP585_F = (GS585AllF - GPreAllF) ./ GPreAllF;
+GdiffP126_P = (GS126AllP - GPreAllP) ./ GPreAllP;
+GdiffP585_P = (GS585AllP - GPreAllP) ./ GPreAllP;
+GdiffP126_D = (GS126AllD - GPreAllD) ./ GPreAllD;
+GdiffP585_D = (GS585AllD - GPreAllD) ./ GPreAllD;
+GdiffP126_A = (GS126All  - GPreAll)  ./ GPreAll;
+GdiffP585_A = (GS585All  - GPreAll)  ./ GPreAll;
+
+IdiffP126_F = (IS126AllF - IPreAllF) ./ IPreAllF;
+IdiffP585_F = (IS585AllF - IPreAllF) ./ IPreAllF;
+IdiffP126_P = (IS126AllP - IPreAllP) ./ IPreAllP;
+IdiffP585_P = (IS585AllP - IPreAllP) ./ IPreAllP;
+IdiffP126_D = (IS126AllD - IPreAllD) ./ IPreAllD;
+IdiffP585_D = (IS585AllD - IPreAllD) ./ IPreAllD;
+IdiffP126_A = (IS126All  - IPreAll)  ./ IPreAll;
+IdiffP585_A = (IS585All  - IPreAll)  ./ IPreAll;
+
 %% figure info
 f1 = figure('Units','inches','Position',[1 3 6.5 8]);
 %f1.Units = 'inches';
@@ -99,29 +117,29 @@ caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 585 - Hist','HorizontalAlignment','center')
 
-% %C - GFDL SSP126-Pre
-% subplot('Position',[0.025 0.25 0.4 0.25])
-% axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-%     'Grid','off','FLineWidth',1)
-% surfm(LAT,LON,100*GdiffP126_F)
-% cmocean('balance')
-% load coast;                     %decent looking coastlines
-% h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-% caxis([-100 100]);
-% set(gcf,'renderer','painters')
-% text(0,1.75,'SSP 126 - Pre','HorizontalAlignment','center')
-% 
-% %D - GFDL SSP585-Pre
-% subplot('Position',[0.025 0.0 0.4 0.25])
-% axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-%     'Grid','off','FLineWidth',1)
-% surfm(LAT,LON,100*GdiffP585_F)
-% cmocean('balance')
-% load coast;                     %decent looking coastlines
-% h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-% caxis([-100 100]);
-% set(gcf,'renderer','painters')
-% text(0,1.75,'SSP 585 - Pre','HorizontalAlignment','center')
+%C - GFDL SSP126-Pre
+subplot('Position',[0.025 0.25 0.4 0.25])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1)
+surfm(LAT,LON,100*GdiffP126_F)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+set(gcf,'renderer','painters')
+text(0,1.75,'SSP 126 - Pre','HorizontalAlignment','center')
+
+%D - GFDL SSP585-Pre
+subplot('Position',[0.025 0.0 0.4 0.25])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1)
+surfm(LAT,LON,100*GdiffP585_F)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+set(gcf,'renderer','painters')
+text(0,1.75,'SSP 585 - Pre','HorizontalAlignment','center')
 
 
 %E - IPSL SSP126-Hist
@@ -150,31 +168,31 @@ colorbar('Position',[0.9 0.25 0.025 0.5],'orientation','vertical','AxisLocation'
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 585 - Hist','HorizontalAlignment','center')
 
-% %G - IPSL SSP126-Pre
-% subplot('Position',[0.475 0.25 0.4 0.25])
-% axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-%     'Grid','off','FLineWidth',1)
-% surfm(LAT,LON,100*IdiffP126_F)
-% cmocean('balance')
-% load coast;                     %decent looking coastlines
-% h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-% caxis([-100 100]);
-% set(gcf,'renderer','painters')
-% text(0,1.75,'SSP 126 - Pre','HorizontalAlignment','center')
-% 
-% %H - IPSL SSP585-Pre
-% subplot('Position',[0.475 0.0 0.4 0.25])
-% axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-%     'Grid','off','FLineWidth',1)
-% surfm(LAT,LON,100*IdiffP585_F)
-% cmocean('balance')
-% load coast;                     %decent looking coastlines
-% h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-% caxis([-100 100]);
-% set(gcf,'renderer','painters')
-% text(0,1.75,'SSP 585 - Pre','HorizontalAlignment','center')
+%G - IPSL SSP126-Pre
+subplot('Position',[0.475 0.25 0.4 0.25])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1)
+surfm(LAT,LON,100*IdiffP126_F)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+set(gcf,'renderer','painters')
+text(0,1.75,'SSP 126 - Pre','HorizontalAlignment','center')
 
-print('-dpng',[pp '_Pre_Hist_SSPs_global_pdiff_biom_8plot_F.png'])
+%H - IPSL SSP585-Pre
+subplot('Position',[0.475 0.0 0.4 0.25])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1)
+surfm(LAT,LON,100*IdiffP585_F)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+set(gcf,'renderer','painters')
+text(0,1.75,'SSP 585 - Pre','HorizontalAlignment','center')
+
+print('-dpng',[ppath 'Pre_Hist_SSPs_global_pdiff_biom_8plot_F.png'])
 
 %% Large pel
 f2 = figure('Units','inches','Position',[1 3 6.5 8]);
@@ -205,29 +223,29 @@ caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 585 - Hist','HorizontalAlignment','center')
 
-% %C - GFDL SSP126-Pre
-% subplot('Position',[0.025 0.25 0.4 0.25])
-% axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-%     'Grid','off','FLineWidth',1)
-% surfm(LAT,LON,100*GdiffP126_P)
-% cmocean('balance')
-% load coast;                     %decent looking coastlines
-% h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-% caxis([-100 100]);
-% set(gcf,'renderer','painters')
-% text(0,1.75,'SSP 126 - Pre','HorizontalAlignment','center')
-% 
-% %D - GFDL SSP585-Pre
-% subplot('Position',[0.025 0.0 0.4 0.25])
-% axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-%     'Grid','off','FLineWidth',1)
-% surfm(LAT,LON,100*GdiffP585_P)
-% cmocean('balance')
-% load coast;                     %decent looking coastlines
-% h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-% caxis([-100 100]);
-% set(gcf,'renderer','painters')
-% text(0,1.75,'SSP 585 - Pre','HorizontalAlignment','center')
+%C - GFDL SSP126-Pre
+subplot('Position',[0.025 0.25 0.4 0.25])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1)
+surfm(LAT,LON,100*GdiffP126_P)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+set(gcf,'renderer','painters')
+text(0,1.75,'SSP 126 - Pre','HorizontalAlignment','center')
+
+%D - GFDL SSP585-Pre
+subplot('Position',[0.025 0.0 0.4 0.25])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1)
+surfm(LAT,LON,100*GdiffP585_P)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+set(gcf,'renderer','painters')
+text(0,1.75,'SSP 585 - Pre','HorizontalAlignment','center')
 
 
 %E - IPSL SSP126-Hist
@@ -256,31 +274,31 @@ colorbar('Position',[0.9 0.25 0.025 0.5],'orientation','vertical','AxisLocation'
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 585 - Hist','HorizontalAlignment','center')
 
-% %G - IPSL SSP126-Pre
-% subplot('Position',[0.475 0.25 0.4 0.25])
-% axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-%     'Grid','off','FLineWidth',1)
-% surfm(LAT,LON,100*IdiffP126_P)
-% cmocean('balance')
-% load coast;                     %decent looking coastlines
-% h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-% caxis([-100 100]);
-% set(gcf,'renderer','painters')
-% text(0,1.75,'SSP 126 - Pre','HorizontalAlignment','center')
-% 
-% %H - IPSL SSP585-Pre
-% subplot('Position',[0.475 0.0 0.4 0.25])
-% axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-%     'Grid','off','FLineWidth',1)
-% surfm(LAT,LON,100*IdiffP585_P)
-% cmocean('balance')
-% load coast;                     %decent looking coastlines
-% h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-% caxis([-100 100]);
-% set(gcf,'renderer','painters')
-% text(0,1.75,'SSP 585 - Pre','HorizontalAlignment','center')
+%G - IPSL SSP126-Pre
+subplot('Position',[0.475 0.25 0.4 0.25])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1)
+surfm(LAT,LON,100*IdiffP126_P)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+set(gcf,'renderer','painters')
+text(0,1.75,'SSP 126 - Pre','HorizontalAlignment','center')
 
-print('-dpng',[pp '_Pre_Hist_SSPs_global_pdiff_biom_8plot_P.png'])
+%H - IPSL SSP585-Pre
+subplot('Position',[0.475 0.0 0.4 0.25])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1)
+surfm(LAT,LON,100*IdiffP585_P)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+set(gcf,'renderer','painters')
+text(0,1.75,'SSP 585 - Pre','HorizontalAlignment','center')
+
+print('-dpng',[ppath 'Pre_Hist_SSPs_global_pdiff_biom_8plot_P.png'])
 
 %% Demersal
 f3 = figure('Units','inches','Position',[1 3 6.5 8]);
@@ -311,29 +329,29 @@ caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 585 - Hist','HorizontalAlignment','center')
 
-% %C - GFDL SSP126-Pre
-% subplot('Position',[0.025 0.25 0.4 0.25])
-% axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-%     'Grid','off','FLineWidth',1)
-% surfm(LAT,LON,100*GdiffP126_D)
-% cmocean('balance')
-% load coast;                     %decent looking coastlines
-% h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-% caxis([-100 100]);
-% set(gcf,'renderer','painters')
-% text(0,1.75,'SSP 126 - Pre','HorizontalAlignment','center')
-% 
-% %D - GFDL SSP585-Pre
-% subplot('Position',[0.025 0.0 0.4 0.25])
-% axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-%     'Grid','off','FLineWidth',1)
-% surfm(LAT,LON,100*GdiffP585_D)
-% cmocean('balance')
-% load coast;                     %decent looking coastlines
-% h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-% caxis([-100 100]);
-% set(gcf,'renderer','painters')
-% text(0,1.75,'SSP 585 - Pre','HorizontalAlignment','center')
+%C - GFDL SSP126-Pre
+subplot('Position',[0.025 0.25 0.4 0.25])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1)
+surfm(LAT,LON,100*GdiffP126_D)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+set(gcf,'renderer','painters')
+text(0,1.75,'SSP 126 - Pre','HorizontalAlignment','center')
+
+%D - GFDL SSP585-Pre
+subplot('Position',[0.025 0.0 0.4 0.25])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1)
+surfm(LAT,LON,100*GdiffP585_D)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+set(gcf,'renderer','painters')
+text(0,1.75,'SSP 585 - Pre','HorizontalAlignment','center')
 
 
 %E - IPSL SSP126-Hist
@@ -362,31 +380,31 @@ colorbar('Position',[0.9 0.25 0.025 0.5],'orientation','vertical','AxisLocation'
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 585 - Hist','HorizontalAlignment','center')
 
-% %G - IPSL SSP126-Pre
-% subplot('Position',[0.475 0.25 0.4 0.25])
-% axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-%     'Grid','off','FLineWidth',1)
-% surfm(LAT,LON,100*IdiffP126_D)
-% cmocean('balance')
-% load coast;                     %decent looking coastlines
-% h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-% caxis([-100 100]);
-% set(gcf,'renderer','painters')
-% text(0,1.75,'SSP 126 - Pre','HorizontalAlignment','center')
-% 
-% %H - IPSL SSP585-Pre
-% subplot('Position',[0.475 0.0 0.4 0.25])
-% axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-%     'Grid','off','FLineWidth',1)
-% surfm(LAT,LON,100*IdiffP585_D)
-% cmocean('balance')
-% load coast;                     %decent looking coastlines
-% h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-% caxis([-100 100]);
-% set(gcf,'renderer','painters')
-% text(0,1.75,'SSP 585 - Pre','HorizontalAlignment','center')
+%G - IPSL SSP126-Pre
+subplot('Position',[0.475 0.25 0.4 0.25])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1)
+surfm(LAT,LON,100*IdiffP126_D)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+set(gcf,'renderer','painters')
+text(0,1.75,'SSP 126 - Pre','HorizontalAlignment','center')
 
-print('-dpng',[pp '_Pre_Hist_SSPs_global_pdiff_biom_8plot_D.png'])
+%H - IPSL SSP585-Pre
+subplot('Position',[0.475 0.0 0.4 0.25])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1)
+surfm(LAT,LON,100*IdiffP585_D)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+set(gcf,'renderer','painters')
+text(0,1.75,'SSP 585 - Pre','HorizontalAlignment','center')
+
+print('-dpng',[ppath 'Pre_Hist_SSPs_global_pdiff_biom_8plot_D.png'])
 
 %% All fish
 f4 = figure('Units','inches','Position',[1 3 6.5 8]);
@@ -417,29 +435,29 @@ caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 585 - Hist','HorizontalAlignment','center')
 
-% %C - GFDL SSP126-Pre
-% subplot('Position',[0.025 0.25 0.4 0.25])
-% axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-%     'Grid','off','FLineWidth',1)
-% surfm(LAT,LON,100*GdiffP126_A)
-% cmocean('balance')
-% load coast;                     %decent looking coastlines
-% h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-% caxis([-100 100]);
-% set(gcf,'renderer','painters')
-% text(0,1.75,'SSP 126 - Pre','HorizontalAlignment','center')
-% 
-% %D - GFDL SSP585-Pre
-% subplot('Position',[0.025 0.0 0.4 0.25])
-% axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-%     'Grid','off','FLineWidth',1)
-% surfm(LAT,LON,100*GdiffP585_A)
-% cmocean('balance')
-% load coast;                     %decent looking coastlines
-% h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-% caxis([-100 100]);
-% set(gcf,'renderer','painters')
-% text(0,1.75,'SSP 585 - Pre','HorizontalAlignment','center')
+%C - GFDL SSP126-Pre
+subplot('Position',[0.025 0.25 0.4 0.25])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1)
+surfm(LAT,LON,100*GdiffP126_A)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+set(gcf,'renderer','painters')
+text(0,1.75,'SSP 126 - Pre','HorizontalAlignment','center')
+
+%D - GFDL SSP585-Pre
+subplot('Position',[0.025 0.0 0.4 0.25])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1)
+surfm(LAT,LON,100*GdiffP585_A)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+set(gcf,'renderer','painters')
+text(0,1.75,'SSP 585 - Pre','HorizontalAlignment','center')
 
 
 %E - IPSL SSP126-Hist
@@ -468,30 +486,30 @@ colorbar('Position',[0.9 0.25 0.025 0.5],'orientation','vertical','AxisLocation'
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 585 - Hist','HorizontalAlignment','center')
 
-% %G - IPSL SSP126-Pre
-% subplot('Position',[0.475 0.25 0.4 0.25])
-% axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-%     'Grid','off','FLineWidth',1)
-% surfm(LAT,LON,100*IdiffP126_A)
-% cmocean('balance')
-% load coast;                     %decent looking coastlines
-% h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-% caxis([-100 100]);
-% set(gcf,'renderer','painters')
-% text(0,1.75,'SSP 126 - Pre','HorizontalAlignment','center')
-% 
-% %H - IPSL SSP585-Pre
-% subplot('Position',[0.475 0.0 0.4 0.25])
-% axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-%     'Grid','off','FLineWidth',1)
-% surfm(LAT,LON,100*IdiffP585_A)
-% cmocean('balance')
-% load coast;                     %decent looking coastlines
-% h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-% caxis([-100 100]);
-% set(gcf,'renderer','painters')
-% text(0,1.75,'SSP 585 - Pre','HorizontalAlignment','center')
+%G - IPSL SSP126-Pre
+subplot('Position',[0.475 0.25 0.4 0.25])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1)
+surfm(LAT,LON,100*IdiffP126_A)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+set(gcf,'renderer','painters')
+text(0,1.75,'SSP 126 - Pre','HorizontalAlignment','center')
 
-print('-dpng',[pp '_Pre_Hist_SSPs_global_pdiff_biom_8plot_All.png'])
+%H - IPSL SSP585-Pre
+subplot('Position',[0.475 0.0 0.4 0.25])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1)
+surfm(LAT,LON,100*IdiffP585_A)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-100 100]);
+set(gcf,'renderer','painters')
+text(0,1.75,'SSP 585 - Pre','HorizontalAlignment','center')
+
+print('-dpng',[ppath 'Pre_Hist_SSPs_global_pdiff_biom_8plot_All.png'])
 
 

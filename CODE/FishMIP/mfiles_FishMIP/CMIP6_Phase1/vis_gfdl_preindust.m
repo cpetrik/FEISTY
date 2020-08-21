@@ -242,20 +242,20 @@ stamp(mod)
 print('-dpng',[ppath 'PreIndust_1890-1900_',mod,'_global_ratios_subplot.png'])
 
 %% Save for ts plots and spatial comparisons
-IPreFts = F;
-IPrePts = P;
-IPreDts = D;
-IPreBts = B;
+GPreFts = F;
+GPrePts = P;
+GPreDts = D;
+GPreBts = B;
 
-IPreAllF = AllF;
-IPreAllP = AllP;
-IPreAllD = AllD;
-IPreAllM = AllM;
-IPreAllL = AllL;
-IPreAll = All;
+GPreAllF = AllF;
+GPreAllP = AllP;
+GPreAllD = AllD;
+GPreAllM = AllM;
+GPreAllL = AllL;
+GPreAll = All;
 
 save([fpath 'Means_PreIndust_' cfile '.mat'],...
-    'IPreFts','IPrePts','IPreDts','IPreBts',...
-    'IPreAllF','IPreAllP','IPreAllD','IPreAllM','IPreAllL','IPreAll',...
+    'GPreFts','GPrePts','GPreDts','GPreBts',...
+    'GPreAllF','GPreAllP','GPreAllD','GPreAllM','GPreAllL','GPreAll',...
     '-append');
 

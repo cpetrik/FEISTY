@@ -3,7 +3,7 @@
 clear all
 close all
 
-cfile = 'Dc_Lam579_enc70-b200_m440-b175-k086_c20-b250_D080_A050_nmort1_BE10_CC80_RE00100';
+cfile = 'Dc_Lam590_enc70-b200_m432-b175-k086_c20-b250_D080_A050_nmort1_BE10_CC80_RE00100';
 
 fpath=['/Volumes/FEISTY/NC/FishMIP/GFDL_CMIP6/' cfile '/'];
 
@@ -185,22 +185,22 @@ plot(mo,log10(mf_tmean),'r'); hold on;
 plot(mo,log10(ld_tmean),'k'); hold on;
 
 %% Fish-MIP OUTPUTS =================================================
-AllF = sf_mean + mf_mean;
-AllP = sp_mean + mp_mean + lp_mean;
-AllD = sd_mean + md_mean + ld_mean;
-AllM = mp_mean + mf_mean + md_mean;
-AllL = lp_mean + ld_mean;
-All  = AllF + AllP + AllD;
-
-vtsb = All + b_mean;
-vtcb = All + b_mean;
-vb10cm = AllM + AllL + (0.1)*b_mean;
-vb30cm = AllL;
+% AllF = sf_mean + mf_mean;
+% AllP = sp_mean + mp_mean + lp_mean;
+% AllD = sd_mean + md_mean + ld_mean;
+% AllM = mp_mean + mf_mean + md_mean;
+% AllL = lp_mean + ld_mean;
+% All  = AllF + AllP + AllD;
+% 
+% vtsb = All + b_mean;
+% vtcb = All + b_mean;
+% vb10cm = AllM + AllL + (0.1)*b_mean;
+% vb30cm = AllL;
 
 % PREFERRED (all units = gWW/m2)
 
 %total consumber biomass tcb = 360x180xMOs
-vtcb = 
+% vtcb = 
 
 %total consumber biomass in log10 bins tcblog10 = 360x180xMOsx6
 %(1g, 10g, 100g, 1kg, 10kg, 100kg)

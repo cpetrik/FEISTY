@@ -33,7 +33,7 @@ function param = make_parameters_1meso(param)
     param.Z_l = 250/125000;
 
     %%%! Assimilation efficiency lambda (constant across everything)
-    param.Lambda = 0.579;
+    param.Lambda = 0.59; %0.579;
 
     %%%! Kappa rule K as a function of body size
     % K = fraction of energy consumed diverted to somatic growth
@@ -43,7 +43,7 @@ function param = make_parameters_1meso(param)
     param.K_a = 0.5;
 
     %%%! Metabolism constants (activity and basal)
-    param.amet = 4.4;       % coeff on met
+    param.amet = 4.32;       % coeff on met (4, 4.4)
     param.h = 20;         % coeff on Cmax
     param.gam = 70;       % coeff on search area (70 baseline)
     param.kc = 0.063;     % coeff on cmax T-dep fn (orig 0.063)
