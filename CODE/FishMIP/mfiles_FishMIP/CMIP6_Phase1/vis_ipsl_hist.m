@@ -6,7 +6,7 @@ clear all
 close all
 
 %% Fish data
-cfile = 'Dc_Lam579_enc70-b200_m440-b175-k086_c20-b250_D080_A050_nmort1_BE10_CC80_RE00100';
+cfile = 'Dc_Lam590_enc70-b200_m432-b175-k086_c20-b250_D080_A050_nmort1_BE10_CC80_RE00100';
 mod = 'ipsl';
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP6/';
@@ -15,7 +15,7 @@ ppath = [pp cfile '/'];
 if (~isfolder(ppath))
     mkdir(ppath)
 end
-load([fpath 'Means_Hist_' cfile '.mat']);
+load([fpath 'Means_Hist_2000-2010_' cfile '.mat']);
 
 % Map data
 cpath = '/Volumes/FEISTY/Fish-MIP/CMIP6/IPSL/';
@@ -251,7 +251,7 @@ IHistAllM = AllM;
 IHistAllL = AllL;
 IHistAll = All;
 
-save([fpath 'Means_Hist_' cfile '.mat'],...
+save([fpath 'Means_Hist_2000-2010_' cfile '.mat'],...
     'IHistFts','IHistPts','IHistDts','IHistBts',...
     'IHistAllF','IHistAllP','IHistAllD','IHistAllM','IHistAllL','IHistAll',...
     '-append');

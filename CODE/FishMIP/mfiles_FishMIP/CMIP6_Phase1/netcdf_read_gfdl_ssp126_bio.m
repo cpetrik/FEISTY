@@ -3,7 +3,7 @@
 clear all
 close all
 
-cfile = 'Dc_Lam579_enc70-b200_m440-b175-k086_c20-b250_D080_A050_nmort1_BE10_CC80_RE00100';
+cfile = 'Dc_Lam590_enc70-b200_m432-b175-k086_c20-b250_D080_A050_nmort1_BE10_CC80_RE00100';
 
 fpath=['/Volumes/FEISTY/NC/FishMIP/GFDL_CMIP6/' cfile '/'];
 
@@ -139,11 +139,6 @@ md_tmean=mean(MD.bio,1);
 lp_tmean=mean(LP.bio,1);
 ld_tmean=mean(LD.bio,1);
 b_tmean=mean(Bent.bio,1);
-
-figure
-plot(mo,log10(lp_tmean),'b'); hold on;
-plot(mo,log10(mf_tmean),'r'); hold on;
-plot(mo,log10(ld_tmean),'k'); hold on;
 
 %% Space
 t=time;
