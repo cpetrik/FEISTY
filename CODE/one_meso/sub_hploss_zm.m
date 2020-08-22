@@ -1,5 +1,5 @@
 %%% Offline coupling
-function [zf] = sub_hploss_zm(enc_1,enc_2,enc_3,enc_4,enc_5,bio_1,bio_2,bio_3,bio_4,bio_5,dZ)
+function [zl,zb] = sub_hploss_zm(enc_1,enc_2,enc_3,enc_4,enc_5,bio_1,bio_2,bio_3,bio_4,bio_5,dZ,bZ)
     % ADD FLAG FOR COUNTING HOW MANY TIMES THIS HAPPENS
     % offline switch
     con_1 = enc_1 .* bio_1;
@@ -15,7 +15,10 @@ function [zf] = sub_hploss_zm(enc_1,enc_2,enc_3,enc_4,enc_5,bio_1,bio_2,bio_3,bi
 %     out_5 = enc_5;
     
     % Fraction of zooplankton mortality loss consumed
-    zf = (con_1 + con_2 + con_3 + con_4 + con_5) ./ (dZ+eps);
+    zl = (con_1 + con_2 + con_3 + con_4 + con_5) ./ (dZ+eps);
+    % Fraction of zooplankton biomass consumed
+    zb = (con_1 + con_2 + con_3 + con_4 + con_5) ./ (bZ+eps);
+    
     % Which exceed mortality
 %     id=((con_1 + con_2 + con_3 + con_4 + con_5) > dZ);
 %     

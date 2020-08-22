@@ -26,7 +26,8 @@ MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Storage variables
 S_Bent_bio = zeros(NX,DAYS);
-S_Mzoo_frac = zeros(NX,DAYS);
+S_Mzoo_Lfrac = zeros(NX,DAYS);
+S_Mzoo_Bfrac = zeros(NX,DAYS);
 
 S_Sml_f = zeros(NX,DAYS);
 S_Sml_p = zeros(NX,DAYS);
@@ -262,7 +263,8 @@ netcdf.endDef(ncidB);
 
 xy_dim      = netcdf.defDim(ncidMZ,'nid',NX);
 time_dim    = netcdf.defDim(ncidMZ,'ntime',nt);
-vidfracMZ   = netcdf.defVar(ncidMZ,'fraction','double',[xy_dim,time_dim]);
+vidfracMZl  = netcdf.defVar(ncidMZ,'fractionLoss','double',[xy_dim,time_dim]);
+vidfracMZb  = netcdf.defVar(ncidMZ,'fractionBiom','double',[xy_dim,time_dim]);
 vidTMZ      = netcdf.defVar(ncidMZ,'time','double',time_dim);
 netcdf.endDef(ncidMZ);
 
@@ -285,7 +287,8 @@ for YR = 1:YEARS % years
         
         %! Store
         S_Bent_bio(:,DY) = BENT.mass;
-        %S_Mzoo_frac(:,DY) = ENVR.fZm;
+        S_Mzoo_Lfrac(:,DY) = ENVR.fZl;
+        S_Mzoo_Bfrac(:,DY) = ENVR.fZb;
         
         S_Sml_f(:,DY) = Sml_f.bio;
         S_Sml_p(:,DY) = Sml_p.bio;
@@ -382,8 +385,9 @@ for YR = 1:YEARS % years
         netcdf.putVar(ncidB,vidbioB,[0 MNT-1],[NX 1],mean(S_Bent_bio(:,a(i):b(i)),2));
         netcdf.putVar(ncidB,vidTB,MNT-1,1,MNT);
         
-%         netcdf.putVar(ncidMZ,vidfracMZ,[0 MNT-1],[NX 1],mean(S_Mzoo_frac(:,a(i):b(i)),2));
-%         netcdf.putVar(ncidMZ,vidTMZ,MNT-1,1,MNT);
+        netcdf.putVar(ncidMZ,vidfracMZl,[0 MNT-1],[NX 1],mean(S_Mzoo_Lfrac(:,a(i):b(i)),2));
+        netcdf.putVar(ncidMZ,vidfracMZb,[0 MNT-1],[NX 1],mean(S_Mzoo_Bfrac(:,a(i):b(i)),2));
+        netcdf.putVar(ncidMZ,vidTMZ,MNT-1,1,MNT);
         
         netcdf.putVar(ncidSF,vidbioSF,[0 MNT-1],[NX 1],mean(S_Sml_f(:,a(i):b(i)),2));
         netcdf.putVar(ncidSP,vidbioSP,[0 MNT-1],[NX 1],mean(S_Sml_p(:,a(i):b(i)),2));

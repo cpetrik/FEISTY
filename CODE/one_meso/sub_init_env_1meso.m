@@ -9,7 +9,8 @@ function ENV = sub_init_env_1meso(ID)
     ENV.det = NaN*ones(NX,1);
     ENV.U   = NaN*ones(NX,1);
     ENV.V   = NaN*ones(NX,1);
-    ENV.fZm = NaN*ones(NX,1);
+    ENV.fZl = NaN*ones(NX,1);
+    ENV.fZb = NaN*ones(NX,1);
     ENV.H  = NaN*ones(NX,1);
     ENV.A  = NaN*ones(NX,1);
 end

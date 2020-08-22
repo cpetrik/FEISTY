@@ -33,7 +33,7 @@ function param = make_parameters_1meso(param)
     param.Z_l = 250/125000;
 
     %%%! Assimilation efficiency lambda (constant across everything)
-    param.Lambda = 0.59;   % orig 0.7, 0.579; 0.59;
+    param.Lambda = 0.7; %0.7 orig; 0.579; 0.59;
 
     %%%! Kappa rule K as a function of body size
     % K = fraction of energy consumed diverted to somatic growth
@@ -43,18 +43,18 @@ function param = make_parameters_1meso(param)
     param.K_a = 0.5;
 
     %%%! Metabolism constants (activity and basal)
-    param.amet = 4.32;    % coeff on met (orig 4)
+    param.amet = 4;       % coeff on met (orig 4), 4.4, 4.32
     param.h = 20;         % coeff on Cmax
     param.gam = 70;       % coeff on search area (70 baseline)
     param.kc = 0.063;     % coeff on cmax T-dep fn (orig 0.063)
     param.ke = 0.063;     % coeff on enc T-dep fn (orig 0.063)
     param.kt = 0.0855;    % coeff on met T-dep fn (orig 0.063) %0.0855
     param.bpow = 0.175;   % power on metab fn (orig 0.25)
-    param.benc = 0.20;    % power on enc fn (orig 0.20)
+    param.benc = 0.25;    % power on enc fn (orig 0.20)
     param.bcmx = 0.25;    % power on cmax fn (orig 0.25)
 
     %%%! Transfer efficiency of detritus to benthic prey
-    param.bent_eff = 0.1;   % 0.075: orig
+    param.bent_eff = 0.075;   % 0.075 orig; 0.1
     param.CC = 80;
 
     %%%! Reproductive efficiency
@@ -86,7 +86,7 @@ function param = make_parameters_1meso(param)
     %large detritivore eats detritus, medium forage fish, medium piscivore, medium detrivore
 
     param.D = 0.8;   %Demersal feeding in pelagic reduction
-    param.A = 0.5;    %Adult predation reduction %*****
+    param.A = 0.5;   %Adult predation reduction %*****
 
     param.MF_phi_MZ = 1.0;
     param.MF_phi_S  = 1.0;
