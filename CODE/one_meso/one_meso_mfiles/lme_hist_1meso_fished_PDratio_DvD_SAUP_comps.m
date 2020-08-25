@@ -24,7 +24,7 @@ AREA_OCN = max(AREA_OCN,1);
 tlme = lme_mask_esm2m';
 
 %% FEISTY 
-cfile = 'Dc_Lam600_enc70-b200_m425-b175-k086_c20-b250_D080_A050_nmort1_BE10_CC80_RE00100';
+cfile = 'Dc_Lam700_enc70-b250_m400-b175-k086_c20-b250_D080_A050_nmort1_BE08_CC80_RE00100';
 harv = 'All_fish03';
 
 ppath = [pp cfile '/'];

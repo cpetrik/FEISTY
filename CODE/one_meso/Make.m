@@ -20,7 +20,8 @@ if climatol
     Climatol()
 end
 if climatol_loop
-    Climatol_loop()
+    %Climatol_loop()
+    Locs_clim_param_acmax_aenc_search
 end
 if climatol_ensem
     Climatol_fishing_diffF()

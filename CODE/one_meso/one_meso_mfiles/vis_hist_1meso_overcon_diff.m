@@ -47,7 +47,7 @@ FishHP = Fish1meso;
 clear Fish1meso
 
 %% 1 meso without overcon
-cfile2 = 'Dc_Lam600_enc70-b200_m425-b175-k086_c20-b250_D080_A050_nmort1_BE10_CC80_RE00100';
+cfile2 = 'Dc_Lam700_enc70-b250_m400-b175-k086_c20-b250_D080_A050_nmort1_BE08_CC80_RE00100';
 fpath2 = ['/Volumes/FEISTY/NC/Matlab_new_size/' cfile2 '/'];
 pp = ['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/' cfile2 '/'];
 

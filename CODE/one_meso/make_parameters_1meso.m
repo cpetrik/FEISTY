@@ -44,8 +44,8 @@ function param = make_parameters_1meso(param)
 
     %%%! Metabolism constants (activity and basal)
     param.amet = 4;       % coeff on met (orig 4), 4.4, 4.32
-    param.h = 20;         % coeff on Cmax
-    param.gam = 70;       % coeff on search area (70 baseline)
+    param.h = 15;         % coeff on Cmax (20 baseline)
+    param.gam = 15;       % coeff on search area (70 baseline)
     param.kc = 0.063;     % coeff on cmax T-dep fn (orig 0.063)
     param.ke = 0.063;     % coeff on enc T-dep fn (orig 0.063)
     param.kt = 0.0855;    % coeff on met T-dep fn (orig 0.063) %0.0855
@@ -55,7 +55,7 @@ function param = make_parameters_1meso(param)
 
     %%%! Transfer efficiency of detritus to benthic prey
     param.bent_eff = 0.075;   % 0.075 orig; 0.1
-    param.CC = 80;
+    param.CC = 0.0;
 
     %%%! Reproductive efficiency
     param.rfrac = 0.01;
