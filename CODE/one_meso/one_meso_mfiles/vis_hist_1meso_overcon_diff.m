@@ -22,6 +22,8 @@ load([fpath1 'Means_Historic_1meso_',harv,'_' cfile1 '.mat'],...
     'sf_mean50','sp_mean50','sd_mean50',...
     'mf_mean50','mp_mean50','md_mean50',...
     'lp_mean50','ld_mean50','b_mean50','Fish1meso');
+load([fpath1 'Hist_1meso_' harv '_ts_map_zoop_overcon.mat'],...
+    'CFmz','COmz');
 
 [ni,nj]=size(geolon_t);
 Csf=NaN*ones(ni,nj);
@@ -44,10 +46,13 @@ Cld(ID)=ld_mean50;
 Cb(ID) =b_mean50;
 
 FishHP = Fish1meso;
-clear Fish1meso
+CmzF = CFmz;
+CmzO = COmz;
+
+clear Fish1meso CFmz COmz
 
 %% 1 meso without overcon
-cfile2 = 'Dc_Lam700_enc70-b250_m400-b175-k086_c20-b250_D080_A050_nmort1_BE08_CC80_RE00100';
+cfile2 = 'Dc_Lam700_enc8-b200_m400-b175-k086_c20-b250_D080_A075_nmort1_BE08_noCC_RE00100';
 fpath2 = ['/Volumes/FEISTY/NC/Matlab_new_size/' cfile2 '/'];
 pp = ['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/' cfile2 '/'];
 
@@ -57,6 +62,8 @@ load([fpath2 'Means_Historic_1meso_',harv,'_' cfile2 '.mat'],...
     'sf_mean50','sp_mean50','sd_mean50',...
     'mf_mean50','mp_mean50','md_mean50',...
     'lp_mean50','ld_mean50','b_mean50','Fish1meso');
+load([fpath2 'Hist_1meso_' harv '_ts_map_zoop_overcon.mat'],...
+    'CFmz','COmz');
 
 [hi,hj]=size(geolon_t);
 Hsf=NaN*ones(hi,hj);
@@ -77,6 +84,11 @@ Hmd(ID)=md_mean50;
 Hlp(ID)=lp_mean50;
 Hld(ID)=ld_mean50;
 Hb(ID) =b_mean50;
+
+HmzF = CFmz;
+HmzO = COmz;
+
+clear CFmz COmz
 
 %%
 cF = Csf+Cmf;
@@ -101,6 +113,10 @@ plotmaxlon=80;
 latlim=[plotminlat plotmaxlat];
 lonlim=[plotminlon plotmaxlon]; %[-255 -60] = Pac
 
+cmBP=cbrewer('seq','BuPu',10,'PCHIP');
+cmBP2 = cmBP;
+cmBP2(11,:) = [0 0 0];
+
 %%
 cAll = cF+cP+cD;
 cFracPD = cP ./ (cP+cD);
@@ -121,6 +137,9 @@ pdiffAll = (cAll-hAll) ./ cAll;
 dFracPD = cFracPD - hFracPD;
 dFracPF = cFracPF - hFracPF;
 dFracLM = cFracLM - hFracLM;
+
+dFracMZ = CmzF - HmzF;
+dOverMZ = CmzO - HmzO;
 
 %% Maps
 figure(1)
@@ -203,7 +222,7 @@ set(gcf,'renderer','painters')
 title('HPloss D');
 print('-dpng',[pp 'Meso1_HPloss_noHP_' harv '_global_D.png'])
 
-%4
+% All
 figure(4)
 subplot(2,1,1)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
@@ -257,6 +276,62 @@ set(gcf,'renderer','painters')
 title('HPloss Benthos');
 print('-dpng',[pp 'Meso1_HPloss_noHP_' harv '_global_Bent.png'])
 
+%% Zoop
+figure(13)
+%1 - m frac
+subplot(2,1,1)
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,HmzF)
+colormap(cmBP2)
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([0 2.5]);
+colorbar
+set(gcf,'renderer','painters')
+title('no HPloss Mean frac Zhploss con')
+
+
+subplot(2,1,2)
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,CmzF)
+colormap(cmBP2)
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([0 2.5]);
+colorbar
+set(gcf,'renderer','painters')
+title('HPloss Mean frac Zhploss con')
+print('-dpng',[pp 'Meso1_HPloss_noHP_' harv '_global_zoop_fraccon.png'])
+
+%
+figure(14)
+subplot(2,1,1)
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,HmzO)
+colormap(cmBP)
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([0 1]);
+colorbar
+set(gcf,'renderer','painters')
+title('no HPloss Mean times Zhploss overcon')
+
+subplot(2,1,2)
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,CmzO)
+colormap(cmBP)
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([0 1]);
+colorbar
+set(gcf,'renderer','painters')
+title('HPloss Mean times Zhploss overcon')
+print('-dpng',[pp 'Meso1_HPloss_noHP_' harv '_global_zoop_overcon.png'])
+
 %% P:D
 figure(6)
 subplot(2,1,1)
@@ -284,7 +359,7 @@ set(gcf,'renderer','painters')
 title('HPloss P/(P+D)');
 print('-dpng',[pp 'Meso1_HPloss_noHP_' harv '_global_PD.png'])
 
-%% P:F
+% P:F
 figure(7)
 subplot(2,1,1)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
@@ -311,7 +386,7 @@ set(gcf,'renderer','painters')
 title('HPloss P/(P+F)');
 print('-dpng',[pp 'Meso1_HPloss_noHP_' harv '_global_PF.png'])
 
-%% L:M
+% L:M
 figure(8)
 subplot(2,1,1)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
@@ -393,7 +468,7 @@ set(gcf,'renderer','painters')
 title('All HPloss - no HPloss');
 print('-dpng',[pp 'Meso1_HPloss_noHP_' harv '_global_pdiff_fish.png'])
 
-%% B
+%% B & Frac diffs
 figure(10)
 %P:D
 subplot('Position',[0.01 0.5 0.45 0.45])
@@ -448,6 +523,35 @@ set(gcf,'renderer','painters')
 title('B HPloss - no HPloss');
 print('-dpng',[pp 'Meso1_HPloss_noHP_' harv '_global_pdiff_fracs.png'])
 
+%% Z
+figure(12)
+%Frac
+subplot('Position',[0.01 0.5 0.45 0.45])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) 
+surfm(geolat_t,geolon_t,dFracMZ)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-2 2]);
+colorbar
+set(gcf,'renderer','painters')
+title('diff Mean frac HPloss con');
+
+%Over
+subplot('Position',[0.475 0.5 0.45 0.45])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1) 
+surfm(geolat_t,geolon_t,dOverMZ)
+cmocean('balance')
+load coast;                     %decent looking coastlines
+h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-1 1]);
+colorbar
+set(gcf,'renderer','painters')
+title('diff Mean times HPloss overcon');
+print('-dpng',[pp 'Meso1_HPloss_noHP_' harv '_global_diff_MZcon.png'])
+
 %% Time series
 cm9=[0.5 0.5 0;... %tan/army
     0 0.7 0;...   %g
@@ -485,6 +589,7 @@ plot(y,log10(nHPB),'-.k'); hold on;
 legend('F','P','D','B')
 legend('location','eastoutside')
 xlim([1865 2005])
+ylim([-0.5 1])
 print('-dpng',[pp 'Meso1_HPloss_noHP_' harv '_ts_stages.png'])
 
 

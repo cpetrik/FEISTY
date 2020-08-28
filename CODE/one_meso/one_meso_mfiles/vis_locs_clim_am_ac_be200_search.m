@@ -6,9 +6,9 @@
 clear all
 close all
 
-pfile = 'Dc_Lam700_enc70-b250_m400-b175-k086_c20-b250_D080_A050_nmort1_BE08_CC80_RE00100';
+pfile = 'Dc_Lam700_enc70-b200_m4-b175-k086_c20-b250_D080_A050_nmort1_BE08_noCC_RE00100';
 nfile = ['/Volumes/FEISTY/NC/Matlab_new_size/',pfile,'/param_sens/'];
-load([nfile 'Locs_Climatol_1meso_All_fish03_noCC_means_aenc_acmax_search.mat'])
+load([nfile 'Locs_Climatol_1meso_All_fish03_noCC_means_aenc_acmax_be200_search.mat'])
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
 figp = [pp pfile '/param_sens/'];
@@ -26,11 +26,11 @@ cols=cols';
 spots=spots';
 spots{16} = 'PUP';
 
-pname = 'Climatol_1meso_All_fish03_means_aenc_acmax_search';
+pname = 'Climatol_1meso_All_fish03_means_aenc_acmax_be200_search';
 
 %%
-aep = 5:5:60;
-acp = 1:2:20;
+aep = 1:3:25;
+acp = 9:2:25;
 nj=length(aep);
 nk=length(acp);
 
@@ -74,8 +74,8 @@ Tgge = (gMF+gLP+gLD)/3;
 FPrat = squeeze(allF./(allF+allP));
 DPrat = squeeze(allD./(allD+allP));
 
-jays = [aep 65];
-ays = [acp 22];
+jays = [aep 28];
+ays = [acp 27];
 [agrid,jgrid]=meshgrid(ays,jays);
 
 allF2 = NaN*ones(nj+1,nk+1,16);
@@ -134,8 +134,8 @@ for s=1:length(sid)
     colorbar('Position',[0.92 0.35 0.025 0.3],'orientation','vertical')
     colormap(cmBP)
     caxis([-2 2])
-    set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
-        'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
+    set(gca,'XTick',(9:3:25)+0.5,'XTickLabel',9:3:25,...
+        'YTick',(5:5:25)+5,'YTickLabel',5:5:25)
     if (s==2)
         title({loc; 'log10 Mean F Biom (g m^-^2)'})
     else
@@ -150,8 +150,8 @@ for s=1:length(sid)
     colorbar('Position',[0.92 0.35 0.025 0.3],'orientation','vertical')
     colormap(cmBP)
     caxis([-2 2])
-    set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
-        'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
+    set(gca,'XTick',(9:3:25)+0.5,'XTickLabel',9:3:25,...
+        'YTick',(5:5:25)+5,'YTickLabel',5:5:25)
     if (s==2)
         title('log10 Mean P Biom (g m^-^2)')
     end
@@ -164,8 +164,8 @@ for s=1:length(sid)
     colorbar('Position',[0.92 0.35 0.025 0.3],'orientation','vertical')
     colormap(cmBP)
     caxis([-2 2])
-    set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
-        'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
+    set(gca,'XTick',(9:3:25)+0.5,'XTickLabel',9:3:25,...
+        'YTick',(5:5:25)+5,'YTickLabel',5:5:25)
     if (s==2)
         title('log10 Mean D Biom (g m^-^2)')
     end
@@ -181,8 +181,8 @@ for s=1:length(sid)
     pcolor(agrid,jgrid,squeeze(FP2(:,:,domain)))
     cmocean('balance')
     caxis([0 1])
-    set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
-        'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
+    set(gca,'XTick',(9:3:25)+0.5,'XTickLabel',9:3:25,...
+        'YTick',(5:5:25)+5,'YTickLabel',5:5:25)
     if (s==2)
         title({loc; 'Fraction F/(F+P)'})
     else
@@ -197,8 +197,8 @@ for s=1:length(sid)
     colorbar('Position',[0.92 0.5 0.025 0.3],'orientation','vertical')
     cmocean('balance')
     caxis([0 1])
-    set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
-        'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
+    set(gca,'XTick',(9:3:25)+0.5,'XTickLabel',9:3:25,...
+        'YTick',(5:5:25)+5,'YTickLabel',5:5:25)
     if (s==2)
         title('Fraction D/(D+P)')
     end
@@ -215,8 +215,8 @@ for s=1:length(sid)
     colorbar('Position',[0.92 0.675 0.025 0.3],'orientation','vertical')
     colormap(cmYOR)
     caxis([0 1])
-    set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
-        'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
+    set(gca,'XTick',(9:3:25)+0.5,'XTickLabel',9:3:25,...
+        'YTick',(5:5:25)+5,'YTickLabel',5:5:25)
     if (s==2)
         title({loc; 'Mean feeding level'})
     else
@@ -230,10 +230,10 @@ for s=1:length(sid)
     subplot(3,3,s+3)
     pcolor(agrid,jgrid,squeeze(Tgge2(:,:,domain)))
     colorbar('Position',[0.92 0.325 0.025 0.3],'orientation','vertical')
-    cmocean('balance')
+    colormap(cmYOR)
     caxis([-0.5 0.5])
-    set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
-        'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
+    set(gca,'XTick',(9:3:25)+0.5,'XTickLabel',9:3:25,...
+        'YTick',(5:5:25)+5,'YTickLabel',5:5:25)
     if (s==2)
         title('Mean gross growth efficiency')
     end
@@ -251,8 +251,8 @@ for s=1:length(sid)
     colorbar('Position',[0.92 0.35 0.025 0.3],'orientation','vertical')
     colormap(cmYOR)
     caxis([0 1])
-    set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
-        'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
+    set(gca,'XTick',(9:3:25)+0.5,'XTickLabel',9:3:25,...
+        'YTick',(5:5:25)+5,'YTickLabel',5:5:25)
     if (s==2)
         title({loc; 'MF mean feeding level'})
     else
@@ -268,8 +268,8 @@ for s=1:length(sid)
     colorbar('Position',[0.92 0.35 0.025 0.3],'orientation','vertical')
     colormap(cmYOR)
     caxis([0 1])
-    set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
-        'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
+    set(gca,'XTick',(9:3:25)+0.5,'XTickLabel',9:3:25,...
+        'YTick',(5:5:25)+5,'YTickLabel',5:5:25)
     if (s==2)
         title('LP mean feeding level')
     end
@@ -283,8 +283,8 @@ for s=1:length(sid)
     colorbar('Position',[0.92 0.35 0.025 0.3],'orientation','vertical')
     colormap(cmYOR)
     caxis([0 1])
-    set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
-        'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
+    set(gca,'XTick',(9:3:25)+0.5,'XTickLabel',9:3:25,...
+        'YTick',(5:5:25)+5,'YTickLabel',5:5:25)
     if (s==2)
         title('LD mean feeding level')
     end
@@ -302,8 +302,8 @@ for s=1:length(sid)
     colorbar('Position',[0.92 0.35 0.025 0.3],'orientation','vertical')
     cmocean('balance')
     caxis([-0.5 0.5])
-    set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
-        'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
+    set(gca,'XTick',(9:3:25)+0.5,'XTickLabel',9:3:25,...
+        'YTick',(5:5:25)+5,'YTickLabel',5:5:25)
     if (s==2)
         title({loc; 'MF mean gross growth efficiency'})
     else
@@ -319,8 +319,8 @@ for s=1:length(sid)
     colorbar('Position',[0.92 0.35 0.025 0.3],'orientation','vertical')
     cmocean('balance')
     caxis([-0.5 0.5])
-    set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
-        'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
+    set(gca,'XTick',(9:3:25)+0.5,'XTickLabel',9:3:25,...
+        'YTick',(5:5:25)+5,'YTickLabel',5:5:25)
     if (s==2)
         title('LP mean gross growth efficiency')
     end
@@ -334,8 +334,8 @@ for s=1:length(sid)
     colorbar('Position',[0.92 0.35 0.025 0.3],'orientation','vertical')
     cmocean('balance')
     caxis([-0.5 0.5])
-    set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
-        'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
+    set(gca,'XTick',(9:3:25)+0.5,'XTickLabel',9:3:25,...
+        'YTick',(5:5:25)+5,'YTickLabel',5:5:25)
     if (s==2)
         title('LD mean gross growth efficiency')
     end
@@ -350,9 +350,10 @@ for s=1:length(sid)
     subplot(3,3,s)
     pcolor(agrid,jgrid,squeeze(ZL2(:,:,domain)))
     colormap(cmYOR)
-    caxis([0.1 1.1])
-    set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
-        'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
+    %caxis([0.1 1.1])
+    caxis([0.5 5.5])
+    set(gca,'XTick',(9:3:25)+0.5,'XTickLabel',9:3:25,...
+        'YTick',(5:5:25)+5,'YTickLabel',5:5:25)
     if (s==2)
         title({loc; 'Frac ZL con'})
     else
@@ -366,9 +367,9 @@ for s=1:length(sid)
     pcolor(agrid,jgrid,squeeze(ZB2(:,:,domain)))
     colorbar('Position',[0.92 0.5 0.025 0.3],'orientation','vertical')
     colormap(cmYOR)
-    caxis([0.1 1.1])
-    set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
-        'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
+    caxis([0.5 5.5])
+    set(gca,'XTick',(9:3:25)+0.5,'XTickLabel',9:3:25,...
+        'YTick',(5:5:25)+5,'YTickLabel',5:5:25)
     if (s==2)
         title('Frac ZB con')
     end
@@ -403,8 +404,8 @@ for s=1:length(sid)
     colorbar('Position',[0.92 0.35 0.025 0.3],'orientation','vertical')
     colormap(cmBP)
     caxis([-2 2])
-    set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
-        'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
+    set(gca,'XTick',(9:3:25)+0.5,'XTickLabel',9:3:25,...
+        'YTick',(5:5:25)+5,'YTickLabel',5:5:25)
     if (s==2)
         title({loc; 'log10 Mean F Biom (g m^-^2)'})
     else
@@ -419,8 +420,8 @@ for s=1:length(sid)
     colorbar('Position',[0.92 0.35 0.025 0.3],'orientation','vertical')
     colormap(cmBP)
     caxis([-2 2])
-    set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
-        'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
+    set(gca,'XTick',(9:3:25)+0.5,'XTickLabel',9:3:25,...
+        'YTick',(5:5:25)+5,'YTickLabel',5:5:25)
     if (s==2)
         title('log10 Mean P Biom (g m^-^2)')
     end
@@ -433,8 +434,8 @@ for s=1:length(sid)
     colorbar('Position',[0.92 0.35 0.025 0.3],'orientation','vertical')
     colormap(cmBP)
     caxis([-2 2])
-    set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
-        'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
+    set(gca,'XTick',(9:3:25)+0.5,'XTickLabel',9:3:25,...
+        'YTick',(5:5:25)+5,'YTickLabel',5:5:25)
     if (s==2)
         title('log10 Mean D Biom (g m^-^2)')
     end
@@ -450,8 +451,8 @@ for s=1:length(sid)
     pcolor(agrid,jgrid,squeeze(FP2(:,:,domain)))
     cmocean('balance')
     caxis([0 1])
-    set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
-        'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
+    set(gca,'XTick',(9:3:25)+0.5,'XTickLabel',9:3:25,...
+        'YTick',(5:5:25)+5,'YTickLabel',5:5:25)
     if (s==2)
         title({loc; 'Fraction F/(F+P)'})
     else
@@ -466,8 +467,8 @@ for s=1:length(sid)
     colorbar('Position',[0.92 0.5 0.025 0.3],'orientation','vertical')
     cmocean('balance')
     caxis([0 1])
-    set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
-        'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
+    set(gca,'XTick',(9:3:25)+0.5,'XTickLabel',9:3:25,...
+        'YTick',(5:5:25)+5,'YTickLabel',5:5:25)
     if (s==2)
         title('Fraction D/(D+P)')
     end
@@ -484,8 +485,8 @@ for s=1:length(sid)
     colorbar('Position',[0.92 0.675 0.025 0.3],'orientation','vertical')
     colormap(cmYOR)
     caxis([0 1])
-    set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
-        'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
+    set(gca,'XTick',(9:3:25)+0.5,'XTickLabel',9:3:25,...
+        'YTick',(5:5:25)+5,'YTickLabel',5:5:25)
     if (s==2)
         title({loc; 'Mean feeding level'})
     else
@@ -499,10 +500,10 @@ for s=1:length(sid)
     subplot(3,3,s+3)
     pcolor(agrid,jgrid,squeeze(Tgge2(:,:,domain)))
     colorbar('Position',[0.92 0.325 0.025 0.3],'orientation','vertical')
-    cmocean('balance')
+    colormap(cmYOR)
     caxis([-0.5 0.5])
-    set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
-        'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
+    set(gca,'XTick',(9:3:25)+0.5,'XTickLabel',9:3:25,...
+        'YTick',(5:5:25)+5,'YTickLabel',5:5:25)
     if (s==2)
         title('Mean gross growth efficiency')
     end
@@ -520,8 +521,8 @@ for s=1:length(sid)
     colorbar('Position',[0.92 0.35 0.025 0.3],'orientation','vertical')
     colormap(cmYOR)
     caxis([0 1])
-    set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
-        'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
+    set(gca,'XTick',(9:3:25)+0.5,'XTickLabel',9:3:25,...
+        'YTick',(5:5:25)+5,'YTickLabel',5:5:25)
     if (s==2)
         title({loc; 'MF mean feeding level'})
     else
@@ -537,8 +538,8 @@ for s=1:length(sid)
     colorbar('Position',[0.92 0.35 0.025 0.3],'orientation','vertical')
     colormap(cmYOR)
     caxis([0 1])
-    set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
-        'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
+    set(gca,'XTick',(9:3:25)+0.5,'XTickLabel',9:3:25,...
+        'YTick',(5:5:25)+5,'YTickLabel',5:5:25)
     if (s==2)
         title('LP mean feeding level')
     end
@@ -552,8 +553,8 @@ for s=1:length(sid)
     colorbar('Position',[0.92 0.35 0.025 0.3],'orientation','vertical')
     colormap(cmYOR)
     caxis([0 1])
-    set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
-        'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
+    set(gca,'XTick',(9:3:25)+0.5,'XTickLabel',9:3:25,...
+        'YTick',(5:5:25)+5,'YTickLabel',5:5:25)
     if (s==2)
         title('LD mean feeding level')
     end
@@ -571,8 +572,8 @@ for s=1:length(sid)
     colorbar('Position',[0.92 0.35 0.025 0.3],'orientation','vertical')
     cmocean('balance')
     caxis([-0.5 0.5])
-    set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
-        'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
+    set(gca,'XTick',(9:3:25)+0.5,'XTickLabel',9:3:25,...
+        'YTick',(5:5:25)+5,'YTickLabel',5:5:25)
     if (s==2)
         title({loc; 'MF mean gross growth efficiency'})
     else
@@ -588,8 +589,8 @@ for s=1:length(sid)
     colorbar('Position',[0.92 0.35 0.025 0.3],'orientation','vertical')
     cmocean('balance')
     caxis([-0.5 0.5])
-    set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
-        'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
+    set(gca,'XTick',(9:3:25)+0.5,'XTickLabel',9:3:25,...
+        'YTick',(5:5:25)+5,'YTickLabel',5:5:25)
     if (s==2)
         title('LP mean gross growth efficiency')
     end
@@ -603,8 +604,8 @@ for s=1:length(sid)
     colorbar('Position',[0.92 0.35 0.025 0.3],'orientation','vertical')
     cmocean('balance')
     caxis([-0.5 0.5])
-    set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
-        'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
+    set(gca,'XTick',(9:3:25)+0.5,'XTickLabel',9:3:25,...
+        'YTick',(5:5:25)+5,'YTickLabel',5:5:25)
     if (s==2)
         title('LD mean gross growth efficiency')
     end
@@ -619,9 +620,9 @@ for s=1:length(sid)
     subplot(3,3,s)
     pcolor(agrid,jgrid,squeeze(ZL2(:,:,domain)))
     colormap(cmYOR)
-    caxis([0.1 1.1])
-    set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
-        'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
+    caxis([0.5 5.5])
+    set(gca,'XTick',(9:3:25)+0.5,'XTickLabel',9:3:25,...
+        'YTick',(5:5:25)+5,'YTickLabel',5:5:25)
     if (s==2)
         title({loc; 'Frac ZL con'})
     else
@@ -635,9 +636,9 @@ for s=1:length(sid)
     pcolor(agrid,jgrid,squeeze(ZB2(:,:,domain)))
     colorbar('Position',[0.92 0.5 0.025 0.3],'orientation','vertical')
     colormap(cmYOR)
-    caxis([0.1 1.1])
-    set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
-        'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
+    caxis([0.5 5.5])
+    set(gca,'XTick',(9:3:25)+0.5,'XTickLabel',9:3:25,...
+        'YTick',(5:5:25)+5,'YTickLabel',5:5:25)
     if (s==2)
         title('Frac ZB con')
     end

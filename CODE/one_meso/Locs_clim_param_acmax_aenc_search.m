@@ -26,10 +26,15 @@ param.dfrate = param.frate/365.0;
 %! Make core parameters/constants (global)
 param = make_parameters_1meso(param); % make core parameters/constants
 
-aep = 5:5:60;
-acp = 1:2:20;
+%bE = 0.25
+% aep = 5:5:60;
+% acp = 1:2:20;
 
-for k=1:length(acp)
+%bE = 0.2
+aep = 1:3:25;
+acp = 9:2:25;
+
+for k=length(acp)%1:length(acp)
     for j=1:length(aep)   
         param.h = acp(k);         % coeff on Cmax
         param.gam = aep(j);       % coeff on search area

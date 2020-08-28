@@ -3,8 +3,8 @@ function [fname,simname] = sub_fname_hist_1meso(param)
 
 frate = param.frate;
 
-td = num2str(1000+int64(100 * param.LD_phi_MP));
-ta = num2str(1000+int64(100 * param.LP_phi_MF));
+td = num2str(1000+int64(100 * param.D));
+ta = num2str(1000+int64(100 * param.A));
 tbe = num2str(100+int64(100 * param.bent_eff));
 tmort = num2str(param.MORT);
 tre = num2str(100000+int64(round(10000 * param.rfrac)));

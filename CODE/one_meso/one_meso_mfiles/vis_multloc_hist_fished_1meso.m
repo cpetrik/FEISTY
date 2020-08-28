@@ -10,7 +10,7 @@ cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
 
 %cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_A050_nmort1_BE08_noCC_RE00100_noHPloss';
-cfile = 'Dc_Lam700_enc70-b250_m400-b175-k086_c20-b250_D080_A050_nmort1_BE08_CC80_RE00100';
+cfile = 'Dc_Lam700_enc8-b200_m400-b175-k086_c20-b250_D080_A075_nmort1_BE08_noCC_RE00100';
 harv = 'All_fish03';
 
 fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
@@ -131,7 +131,7 @@ all_bio = sp_tmean+sf_tmean+sd_tmean+mp_tmean+mf_tmean+md_tmean+lp_tmean+ld_tmea
 
 figure(3)
 plot(y,log10(all_bio),'k','LineWidth',2)
-%ylim([0.42 0.62])
+ylim([0.5 1])
 xlim([1860 2005])
 xlabel('Year')
 ylabel('All fish mean biomass (g/m^2)')

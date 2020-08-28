@@ -8,7 +8,7 @@ close all
 
 pfile = 'Dc_Lam700_enc70-b250_m400-b175-k086_c20-b250_D080_A050_nmort1_BE08_CC80_RE00100';
 nfile = ['/Volumes/FEISTY/NC/Matlab_new_size/',pfile,'/param_sens/'];
-load([nfile 'Locs_Climatol_1meso_All_fish03_noCC_means_aenc_acmax_search.mat'])
+load([nfile 'Locs_Climatol_1meso_All_fish03_noCC_bE250_means_aenc_acmax_search.mat'])
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
 figp = [pp pfile '/param_sens/'];
@@ -26,7 +26,7 @@ cols=cols';
 spots=spots';
 spots{16} = 'PUP';
 
-pname = 'Climatol_1meso_All_fish03_means_aenc_acmax_search';
+pname = 'Climatol_1meso_All_fish03_means_aenc_acmax_bE250_search';
 
 %%
 aep = 5:5:60;
@@ -350,7 +350,7 @@ for s=1:length(sid)
     subplot(3,3,s)
     pcolor(agrid,jgrid,squeeze(ZL2(:,:,domain)))
     colormap(cmYOR)
-    caxis([0.1 1.1])
+    caxis([0.5 5.5])
     set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
         'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
     if (s==2)
@@ -366,7 +366,7 @@ for s=1:length(sid)
     pcolor(agrid,jgrid,squeeze(ZB2(:,:,domain)))
     colorbar('Position',[0.92 0.5 0.025 0.3],'orientation','vertical')
     colormap(cmYOR)
-    caxis([0.1 1.1])
+    caxis([0.5 5.5])
     set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
         'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
     if (s==2)
@@ -619,7 +619,7 @@ for s=1:length(sid)
     subplot(3,3,s)
     pcolor(agrid,jgrid,squeeze(ZL2(:,:,domain)))
     colormap(cmYOR)
-    caxis([0.1 1.1])
+    caxis([0.5 5.5])
     set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
         'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
     if (s==2)
@@ -635,7 +635,7 @@ for s=1:length(sid)
     pcolor(agrid,jgrid,squeeze(ZB2(:,:,domain)))
     colorbar('Position',[0.92 0.5 0.025 0.3],'orientation','vertical')
     colormap(cmYOR)
-    caxis([0.1 1.1])
+    caxis([0.5 5.5])
     set(gca,'XTick',(1:3:20)+0.5,'XTickLabel',1:3:20,...
         'YTick',(10:20:60)+5,'YTickLabel',10:20:60)
     if (s==2)

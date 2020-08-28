@@ -1,9 +1,9 @@
 % POEM output at all locations
 
-clear all
 close all
+clear all
 
-cfile = 'Dc_Lam700_enc70-b250_m400-b175-k086_c20-b250_D080_A050_nmort1_BE08_CC80_RE00100';
+cfile = 'Dc_Lam700_enc8-b200_m400-b175-k086_c20-b250_D080_A075_nmort1_BE08_noCC_RE00100';
 harv = 'All_fish03';
 
 fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
