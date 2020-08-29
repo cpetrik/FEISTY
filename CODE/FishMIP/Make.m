@@ -6,13 +6,13 @@ close all
 %%%%!! EXPERIMENTS
 spinup_ipsl = false;
 spinup_gfdl = false;
-pre_industrial_ipsl = false;
-pre_industrial_gfdl = false;
+pre_industrial_ipsl = true;
+pre_industrial_gfdl = true;
 historic_ipsl = false;
 historic_gfdl = false;
-ssp126_ipsl = false;
-ssp126_gfdl = false;
-ssp585_ipsl = false;
+ssp126_ipsl = true;
+ssp126_gfdl = true;
+ssp585_ipsl = true;
 ssp585_gfdl = true;
 
 forecast_cesm = false;
