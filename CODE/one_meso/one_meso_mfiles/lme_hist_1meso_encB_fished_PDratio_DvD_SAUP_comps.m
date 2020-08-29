@@ -24,7 +24,7 @@ AREA_OCN = max(AREA_OCN,1);
 tlme = lme_mask_esm2m';
 
 %% FEISTY 
-cfile = 'Dc_Lam700_enc6-b200_m400-b175-k086_c19.72-b250_D080_A067_nmort1_BE08_noCC_RE00100';
+cfile = 'Dc_Lam700_enc6-b200_m400-b175-k086_c19.72-b250_D080_A067_nmort1_BE08_CC80_RE00100';
 harv = 'All_fish03';
 
 ppath = [pp cfile '/'];
@@ -32,7 +32,7 @@ dpath = [dp cfile '/'];
 % ppath = [pp cfile '_noHPloss/'];
 % dpath = [dp cfile '_noHPloss/'];
 
-load([dpath 'LME_Hist_1meso_',harv,'_' cfile '.mat']);
+load([dpath 'LME_Hist_1meso_encBincr_',harv,'_' cfile '.mat']);
 % MAY NEED TO CHANGE TO ESM2M AREA
 
 lme_area_km2 = lme_area * 1e-6;
@@ -125,8 +125,8 @@ fish_stat(3,3) = FPD;
 
 Fstat = array2table(fish_stat,'RowNames',{'r','RMSE','Fmed'},...
     'VariableNames',{'DvDAllLMEs','DvDnoLELC','SAUnoLELC'});
-writetable(Fstat,[dpath 'Hist_1meso_LME_DvD_SAU_stats_' cfile '.csv'],'Delimiter',',','WriteRowNames',true)
-save([dpath 'Hist_1meso_LME_DvD_SAU_stats_' cfile '.mat'],'fish_stat')
+writetable(Fstat,[dpath 'Hist_1meso_encBincr_LME_DvD_SAU_stats_' cfile '.csv'],'Delimiter',',','WriteRowNames',true)
+save([dpath 'Hist_1meso_encBincr_LME_DvD_SAU_stats_' cfile '.mat'],'fish_stat')
 
 %% Plot info
 [ni,nj]=size(geolon_t);
@@ -196,6 +196,6 @@ xlabel('vanD')
 ylabel('FEISTY')
 %title('Fraction Large Pelagics')
 %stamp(cfile)
-print('-dpng',[ppath 'Hist_1meso_' harv '_LME_fracPD_catch_SAUP_DvD_comp_subplot.png'])
+print('-dpng',[ppath 'Hist_1meso_encBincr_' harv '_LME_fracPD_catch_SAUP_DvD_comp_subplot.png'])
 
 

@@ -3,13 +3,13 @@
 close all
 clear all
 
-cfile = 'Dc_Lam700_enc6-b200_m400-b175-k086_c19.72-b250_D080_A067_nmort1_BE08_noCC_RE00100';
+cfile = 'Dc_Lam700_enc6-b200_m400-b175-k086_c19.72-b250_D080_A067_nmort1_BE08_CC80_RE00100';
 harv = 'All_fish03';
 
 fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
 
 % SP
-ncid = netcdf.open([fpath 'Historic_1meso_' harv '_sml_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Historic_1meso_encBincr_' harv '_sml_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -25,7 +25,7 @@ Sml_p.bio = biomass(:,nt);
 clear biomass prod
 
 % SF
-ncid = netcdf.open([fpath 'Historic_1meso_' harv '_sml_f.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Historic_1meso_encBincr_' harv '_sml_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -39,7 +39,7 @@ Sml_f.bio = biomass(:,nt);
 clear biomass prod
 
 % SD
-ncid = netcdf.open([fpath 'Historic_1meso_' harv '_sml_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Historic_1meso_encBincr_' harv '_sml_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -53,7 +53,7 @@ Sml_d.bio = biomass(:,nt);
 clear biomass prod
 
 % MP
-ncid = netcdf.open([fpath 'Historic_1meso_' harv '_med_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Historic_1meso_encBincr_' harv '_med_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -68,7 +68,7 @@ Med_p.bio = biomass(:,nt);
 clear biomass yield
 
 % MF
-ncid = netcdf.open([fpath 'Historic_1meso_' harv '_med_f.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Historic_1meso_encBincr_' harv '_med_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -83,7 +83,7 @@ Med_f.bio = biomass(:,nt);
 clear biomass yield
 
 % MD
-ncid = netcdf.open([fpath 'Historic_1meso_' harv '_med_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Historic_1meso_encBincr_' harv '_med_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -98,7 +98,7 @@ Med_d.bio = biomass(:,nt);
 clear biomass yield
 
 % LP
-ncid = netcdf.open([fpath 'Historic_1meso_' harv '_lrg_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Historic_1meso_encBincr_' harv '_lrg_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -113,7 +113,7 @@ Lrg_p.bio = biomass(:,nt);
 clear biomass yield
 
 % LD
-ncid = netcdf.open([fpath 'Historic_1meso_' harv '_lrg_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Historic_1meso_encBincr_' harv '_lrg_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -128,7 +128,7 @@ Lrg_d.bio = biomass(:,nt);
 clear biomass yield
 
 % Benthic material
-ncid = netcdf.open([fpath 'Historic_1meso_' harv '_bent.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Historic_1meso_encBincr_' harv '_bent.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -248,7 +248,7 @@ for n=1:length(st)
 end
 
 %%
-save([fpath 'Means_Historic_1meso_' harv '_' cfile '.mat'],'time','y','yr50','yr1','lyr',...
+save([fpath 'Means_Historic_1meso_encBincr_' harv '_' cfile '.mat'],'time','y','yr50','yr1','lyr',...
     'sf_tmean','sp_tmean','sd_tmean',...
     'mf_tmean','mp_tmean','md_tmean',...
     'lp_tmean','ld_tmean','b_tmean',...
@@ -270,11 +270,11 @@ save([fpath 'Means_Historic_1meso_' harv '_' cfile '.mat'],'time','y','yr50','yr
     'mf_my5','mp_my5','md_my5','lp_my5','ld_my5',...
     'mf_my50','mp_my50','md_my50','lp_my50','ld_my50');
 
-%save([fpath 'Means_Historic_1meso_' harv '_' cfile '.mat']);
+%save([fpath 'Means_Historic_1meso_encBincr_' harv '_' cfile '.mat']);
 
 
 % Save last year for initializing forecast runs
-save([fpath 'Last_mo_hist_1meso_' harv '_' cfile '.mat'],'Sml_f','Sml_p','Sml_d',... 
+save([fpath 'Last_mo_hist_1meso_encBincr_' harv '_' cfile '.mat'],'Sml_f','Sml_p','Sml_d',... 
     'Med_f','Med_p','Med_d','Lrg_p','Lrg_d','BENT')
 
 

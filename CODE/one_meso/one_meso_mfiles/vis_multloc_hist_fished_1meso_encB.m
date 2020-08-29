@@ -10,7 +10,7 @@ cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
 
 %cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_A050_nmort1_BE08_noCC_RE00100_noHPloss';
-cfile = 'Dc_Lam700_enc6-b200_m400-b175-k086_c19.72-b250_D080_A067_nmort1_BE08_noCC_RE00100';
+cfile = 'Dc_Lam700_enc6-b200_m400-b175-k086_c19.72-b250_D080_A067_nmort1_BE08_CC80_RE00100';
 harv = 'All_fish03';
 
 fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
@@ -19,7 +19,7 @@ if (~isfolder(ppath))
     mkdir(ppath)
 end
 
-load([fpath 'Means_Historic_1meso_',harv,'_' cfile '.mat']);
+load([fpath 'Means_Historic_1meso_encBincr_',harv,'_' cfile '.mat']);
 
 load('/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/hindcast_gridspec.mat',...
     'geolon_t','geolat_t');
@@ -83,7 +83,7 @@ Fish1meso(6,:)=md_tmean;
 Fish1meso(7,:)=lp_tmean;
 Fish1meso(8,:)=ld_tmean;
 Fish1meso(9,:)=b_tmean;
-save([fpath 'Means_Historic_1meso_',harv,'_' cfile '.mat'],'Fish1meso','-append');
+save([fpath 'Means_Historic_1meso_encBincr_',harv,'_' cfile '.mat'],'Fish1meso','-append');
 
 y = 1860+(1/12):(1/12):2005;
 F = sf_tmean+mf_tmean;
@@ -109,7 +109,7 @@ xlabel('Year')
 ylabel('log10 Biomass (g m^-^2)')
 title('Historic fished')
 stamp(cfile)
-print('-dpng',[ppath 'Hist_1meso_',harv,'_all_sizes.png'])
+print('-dpng',[ppath 'Hist_1meso_encBincr_',harv,'_all_sizes.png'])
 
 figure(2)
 plot(y,log10(b_tmean),'color',[0.5 0.5 0.5],'Linewidth',2); hold on;
@@ -123,7 +123,7 @@ ylim([-0.2 0.8])
 xlabel('Year')
 ylabel('log10 Biomass (g m^-^2)')
 title(['Historic fished'])
-print('-dpng',[ppath 'Hist_1meso_',harv,'_all_types.png'])
+print('-dpng',[ppath 'Hist_1meso_encBincr_',harv,'_all_types.png'])
 
 
 %% Time series
@@ -136,7 +136,7 @@ xlim([1860 2005])
 xlabel('Year')
 ylabel('All fish mean biomass (g/m^2)')
 title('Historic fished')
-print('-dpng',[ppath 'Hist_1meso_',harv,'_ts_mbio.png'])
+print('-dpng',[ppath 'Hist_1meso_encBincr_',harv,'_ts_mbio.png'])
 
 %% Plots in space
 [ni,nj]=size(geolon_t);
@@ -184,7 +184,7 @@ hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('Historic fished 1951-2000 log10 mean benthic biomass (g m^-^2)')
 stamp(cfile)
-print('-dpng',[ppath 'Hist_1meso_',harv,'_global_BENT.png'])
+print('-dpng',[ppath 'Hist_1meso_encBincr_',harv,'_global_BENT.png'])
 
 %% Diff maps of all fish
 All = Zsp+Zsf+Zsd+Zmp+Zmf+Zmd+Zlp+Zld;
@@ -249,7 +249,7 @@ caxis([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
 %stamp(cfile)
-print('-dpng',[ppath 'Hist_1meso_',harv,'_global_All_subplot.png'])
+print('-dpng',[ppath 'Hist_1meso_encBincr_',harv,'_global_All_subplot.png'])
 
 %% Ratios on subplots red-white-blue
 % 3 figure subplot P:D, P:F, M:L
@@ -291,7 +291,7 @@ colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('Fraction Large vs. Medium')
 stamp(cfile)
-print('-dpng',[ppath 'Hist_1meso_',harv,'_global_ratios_subplot.png'])
+print('-dpng',[ppath 'Hist_1meso_encBincr_',harv,'_global_ratios_subplot.png'])
 
 
 %% Historic distr subplot for ms
@@ -352,5 +352,5 @@ set(gcf,'renderer','painters')
 title('log_1_0 All fishes (g m^-^2)')
 text(-2.75,1.25,'D')
 %     stamp([harv '_' cfile])
-print('-dpng',[ppath 'Hist_1meso_' harv '_global_fish_4plot_BP.png'])
+print('-dpng',[ppath 'Hist_1meso_encBincr_' harv '_global_fish_4plot_BP.png'])
 

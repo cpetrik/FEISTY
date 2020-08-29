@@ -20,7 +20,7 @@ AREA_OCN = max(AREA_OCN,1);
 
 %% FEISTY
 %cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_A050_nmort1_BE08_noCC_RE00100_noHPloss';
-cfile = 'Dc_Lam700_enc6-b200_m400-b175-k086_c19.72-b250_D080_A067_nmort1_BE08_noCC_RE00100';
+cfile = 'Dc_Lam700_enc6-b200_m400-b175-k086_c19.72-b250_D080_A067_nmort1_BE08_CC80_RE00100';
 harv = 'All_fish03';
 
 ppath = [pp cfile '/'];
@@ -28,7 +28,7 @@ dpath = [dp cfile '/'];
 % dpath = [dp cfile '_noHPloss/'];
 % ppath = [pp cfile '_noHPloss/'];
 
-load([dpath 'Means_Historic_1meso_',harv,'_' cfile '.mat']);
+load([dpath 'Means_Historic_1meso_encBincr_',harv,'_' cfile '.mat']);
 
 %% Plots in space
 [ni,nj]=size(geolon_t);
@@ -195,7 +195,7 @@ rPD_catch_mtkm2 = plme_AllP ./ (plme_AllP+plme_AllD);
 
 
 %%
-save([dpath 'LME_Hist_1meso_',harv,'_' cfile '.mat'],...
+save([dpath 'LME_Hist_1meso_encBincr_',harv,'_' cfile '.mat'],...
     'lme_mcatch','lme_mbio','lme_sbio','lme_area',...
     'rPD_biom','rPF_biom','rLM_biom','rPD_catch','rPD_catch_mtkm2');
 

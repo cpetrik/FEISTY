@@ -52,17 +52,17 @@ CmzO = COmz;
 clear Fish1meso CFmz COmz
 
 %% 1 meso without overcon
-cfile2 = 'Dc_Lam700_enc6-b200_m400-b175-k086_c19.72-b250_D080_A067_nmort1_BE08_noCC_RE00100';
+cfile2 = 'Dc_Lam700_enc6-b200_m400-b175-k086_c19.72-b250_D080_A067_nmort1_BE08_CC80_RE00100';
 fpath2 = ['/Volumes/FEISTY/NC/Matlab_new_size/' cfile2 '/'];
 pp = ['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/' cfile2 '/'];
 
 harv = 'All_fish03';
 
-load([fpath2 'Means_Historic_1meso_',harv,'_' cfile2 '.mat'],...
+load([fpath2 'Means_Historic_1meso_encBincr_',harv,'_' cfile2 '.mat'],...
     'sf_mean50','sp_mean50','sd_mean50',...
     'mf_mean50','mp_mean50','md_mean50',...
     'lp_mean50','ld_mean50','b_mean50','Fish1meso');
-load([fpath2 'Hist_1meso_' harv '_ts_map_zoop_overcon.mat'],...
+load([fpath2 'Hist_1meso_encBincr_' harv '_ts_map_zoop_overcon.mat'],...
     'CFmz','COmz');
 
 [hi,hj]=size(geolon_t);
@@ -166,7 +166,7 @@ caxis([-1 1]);
 colorbar
 set(gcf,'renderer','painters')
 title('HPloss F');
-print('-dpng',[pp 'Meso1_HPloss_noHP_' harv '_global_F.png'])
+print('-dpng',[pp 'Meso1_encBincr_HPloss_noHP_' harv '_global_F.png'])
 
 %P
 figure(2)
@@ -193,7 +193,7 @@ caxis([-1 1]);
 colorbar
 set(gcf,'renderer','painters')
 title('HPloss P');
-print('-dpng',[pp 'Meso1_HPloss_noHP_' harv '_global_P.png'])
+print('-dpng',[pp 'Meso1_encBincr_HPloss_noHP_' harv '_global_P.png'])
 
 % D
 figure(3)
@@ -220,7 +220,7 @@ caxis([-1 1]);
 colorbar
 set(gcf,'renderer','painters')
 title('HPloss D');
-print('-dpng',[pp 'Meso1_HPloss_noHP_' harv '_global_D.png'])
+print('-dpng',[pp 'Meso1_encBincr_HPloss_noHP_' harv '_global_D.png'])
 
 % All
 figure(4)
@@ -247,7 +247,7 @@ caxis([-1 2]);
 colorbar
 set(gcf,'renderer','painters')
 title('HPloss All');
-print('-dpng',[pp 'Meso1_HPloss_noHP_' harv '_global_All.png'])
+print('-dpng',[pp 'Meso1_encBincr_HPloss_noHP_' harv '_global_All.png'])
 
 %% B
 figure(5)
@@ -274,7 +274,7 @@ caxis([-1 1]);
 colorbar
 set(gcf,'renderer','painters')
 title('HPloss Benthos');
-print('-dpng',[pp 'Meso1_HPloss_noHP_' harv '_global_Bent.png'])
+print('-dpng',[pp 'Meso1_encBincr_HPloss_noHP_' harv '_global_Bent.png'])
 
 %% Zoop
 figure(13)
@@ -303,7 +303,7 @@ caxis([0 2.5]);
 colorbar
 set(gcf,'renderer','painters')
 title('HPloss Mean frac Zhploss con')
-print('-dpng',[pp 'Meso1_HPloss_noHP_' harv '_global_zoop_fraccon.png'])
+print('-dpng',[pp 'Meso1_encBincr_HPloss_noHP_' harv '_global_zoop_fraccon.png'])
 
 %
 figure(14)
@@ -330,7 +330,7 @@ caxis([0 1]);
 colorbar
 set(gcf,'renderer','painters')
 title('HPloss Mean times Zhploss overcon')
-print('-dpng',[pp 'Meso1_HPloss_noHP_' harv '_global_zoop_overcon.png'])
+print('-dpng',[pp 'Meso1_encBincr_HPloss_noHP_' harv '_global_zoop_overcon.png'])
 
 %% P:D
 figure(6)
@@ -357,7 +357,7 @@ caxis([0 1]);
 colorbar
 set(gcf,'renderer','painters')
 title('HPloss P/(P+D)');
-print('-dpng',[pp 'Meso1_HPloss_noHP_' harv '_global_PD.png'])
+print('-dpng',[pp 'Meso1_encBincr_HPloss_noHP_' harv '_global_PD.png'])
 
 % P:F
 figure(7)
@@ -384,7 +384,7 @@ caxis([0 1]);
 colorbar
 set(gcf,'renderer','painters')
 title('HPloss P/(P+F)');
-print('-dpng',[pp 'Meso1_HPloss_noHP_' harv '_global_PF.png'])
+print('-dpng',[pp 'Meso1_encBincr_HPloss_noHP_' harv '_global_PF.png'])
 
 % L:M
 figure(8)
@@ -411,7 +411,7 @@ caxis([0 1]);
 colorbar
 set(gcf,'renderer','painters')
 title('HPloss L/(L+M)');
-print('-dpng',[pp 'Meso1_HPloss_noHP_' harv '_global_LM.png'])
+print('-dpng',[pp 'Meso1_encBincr_HPloss_noHP_' harv '_global_LM.png'])
 
 %% diffs -------------------------------------------------------------
 %F
@@ -466,7 +466,7 @@ caxis([-1 1]);
 colorbar
 set(gcf,'renderer','painters')
 title('All HPloss - no HPloss');
-print('-dpng',[pp 'Meso1_HPloss_noHP_' harv '_global_pdiff_fish.png'])
+print('-dpng',[pp 'Meso1_encBincr_HPloss_noHP_' harv '_global_pdiff_fish.png'])
 
 %% B & Frac diffs
 figure(10)
@@ -521,7 +521,7 @@ caxis([-1 1]);
 colorbar
 set(gcf,'renderer','painters')
 title('B HPloss - no HPloss');
-print('-dpng',[pp 'Meso1_HPloss_noHP_' harv '_global_pdiff_fracs.png'])
+print('-dpng',[pp 'Meso1_encBincr_HPloss_noHP_' harv '_global_pdiff_fracs.png'])
 
 %% Z
 figure(12)
@@ -550,7 +550,7 @@ caxis([-1 1]);
 colorbar
 set(gcf,'renderer','painters')
 title('diff Mean times HPloss overcon');
-print('-dpng',[pp 'Meso1_HPloss_noHP_' harv '_global_diff_MZcon.png'])
+print('-dpng',[pp 'Meso1_encBincr_HPloss_noHP_' harv '_global_diff_MZcon.png'])
 
 %% Time series
 cm9=[0.5 0.5 0;... %tan/army
@@ -590,7 +590,7 @@ legend('F','P','D','B')
 legend('location','eastoutside')
 xlim([1865 2005])
 ylim([-0.5 1])
-print('-dpng',[pp 'Meso1_HPloss_noHP_' harv '_ts_stages.png'])
+print('-dpng',[pp 'Meso1_encBincr_HPloss_noHP_' harv '_ts_stages.png'])
 
 
 

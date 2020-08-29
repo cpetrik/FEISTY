@@ -66,13 +66,13 @@ end
 
 %! Setup netcdf path to store to
 if (frate==0)
-    fname = ['/Volumes/FEISTY/NC/Matlab_new_size/',simname, '/Historic_1meso_pristine'];
+    fname = ['/Volumes/FEISTY/NC/Matlab_new_size/',simname, '/Historic_1meso_encBincr_pristine'];
 elseif (param.Jsel~=0.1)
-    fname = ['/Volumes/FEISTY/NC/Matlab_new_size/',simname, '/Historic_1meso_', sel,'_fish',tfish(2:end),'_Juve',tJ(2:end)];
+    fname = ['/Volumes/FEISTY/NC/Matlab_new_size/',simname, '/Historic_1meso_encBincr_', sel,'_fish',tfish(2:end),'_Juve',tJ(2:end)];
 elseif (param.MFsel~=param.LPsel)
-    fname = ['/Volumes/FEISTY/NC/Matlab_new_size/',simname, '/Historic_1meso_fish_F',tF(2:end),'_P',tP(2:end),'_D',tD(2:end)];
+    fname = ['/Volumes/FEISTY/NC/Matlab_new_size/',simname, '/Historic_1meso_encBincr_fish_F',tF(2:end),'_P',tP(2:end),'_D',tD(2:end)];
 else
-    fname  = ['/Volumes/FEISTY/NC/Matlab_new_size/',simname, '/Historic_1meso_', sel,'_fish',tfish(2:end)];  
+    fname  = ['/Volumes/FEISTY/NC/Matlab_new_size/',simname, '/Historic_1meso_encBincr_', sel,'_fish',tfish(2:end)];  
 end
 
 

@@ -6,13 +6,13 @@ close all
 clear all
 
 %cfile = 'Dc_Lam700_enc70-b250_m400-b175-k086_c20-b250_D080_A050_nmort1_BE08_CC80_RE00100';
-cfile = 'Dc_Lam700_enc6-b200_m400-b175-k086_c19.72-b250_D080_A067_nmort1_BE08_noCC_RE00100';
+cfile = 'Dc_Lam700_enc6-b200_m400-b175-k086_c19.72-b250_D080_A067_nmort1_BE08_CC80_RE00100';
 harv = 'All_fish03';
 
 fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
 
 % MZ
-ncid = netcdf.open([fpath 'Historic_1meso_' harv '_mzoo.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Historic_1meso_encBincr_' harv '_mzoo.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -69,7 +69,7 @@ for n=1:length(st)
 end
 
 %%
-save([fpath 'Means_Historic_1meso_' harv '_' cfile '.mat'],'time',...
+save([fpath 'Means_Historic_1meso_encBincr_' harv '_' cfile '.mat'],'time',...
     'mz_tmfrac','mz_mfrac5','mz_ttf',...
     'mz_mtf5','mz_mtf',...
     'bz_tmfrac','bz_mfrac5','bz_ttf',...

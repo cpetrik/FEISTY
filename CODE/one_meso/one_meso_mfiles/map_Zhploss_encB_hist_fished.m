@@ -12,7 +12,7 @@ cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
 
 %cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_A050_nmort1_BE08_noCC_RE00100_noHPloss';
-cfile = 'Dc_Lam700_enc6-b200_m400-b175-k086_c19.72-b250_D080_A067_nmort1_BE08_noCC_RE00100';
+cfile = 'Dc_Lam700_enc6-b200_m400-b175-k086_c19.72-b250_D080_A067_nmort1_BE08_CC80_RE00100';
 harv = 'All_fish03';
 
 fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
@@ -21,7 +21,7 @@ if (~isfolder(ppath))
     mkdir(ppath)
 end
 
-load([fpath 'Means_Historic_1meso_',harv,'_' cfile '.mat'],...
+load([fpath 'Means_Historic_1meso_encBincr_',harv,'_' cfile '.mat'],...
     'mz_tmfrac','mz_mfrac5','mz_ttf','mz_mtf5','mz_mtf',...
     'bz_tmfrac','bz_mfrac5','bz_ttf','bz_mtf5','bz_mtf');
 
@@ -74,7 +74,7 @@ xlim([1860 2005])
 legend('HPloss','Biom')
 xlabel('Years')
 ylabel('Fraction of grid cells over-consumed')
-print('-dpng',[ppath 'Hist_1meso_' harv '_timeseries_zoop_overcon.png'])
+print('-dpng',[ppath 'Hist_1meso_encBincr_' harv '_timeseries_zoop_overcon.png'])
 
 %% Plots in space
 [ni,nj]=size(geolon_t);
@@ -91,7 +91,7 @@ CFbz(ID)=Cbz_smfrac;
 COmz(ID)=Cmz_stover5;
 CObz(ID)=Cbz_stover5;
 
-save([fpath 'Hist_1meso_' harv '_ts_map_zoop_overcon.mat'],...
+save([fpath 'Hist_1meso_encBincr_' harv '_ts_map_zoop_overcon.mat'],...
     'Cmz_ttover','Cbz_ttover','CFmz','COmz','CFbz','CObz');
 
 %% plot info
@@ -136,7 +136,7 @@ colorbar
 set(gcf,'renderer','painters')
 text(0,1.6,'Mean fraction Z biom consumed','HorizontalAlignment','center')
 %text(-2.75,1.75,'C')
-print('-dpng',[ppath 'Hist_1meso_' harv '_global_zoop_fraccon.png'])
+print('-dpng',[ppath 'Hist_1meso_encBincr_' harv '_global_zoop_fraccon.png'])
 
 %%
 figure(4)
@@ -163,7 +163,7 @@ caxis([0 3.5]);
 colorbar
 set(gcf,'renderer','painters')
 text(0,1.6,'Mean frac * Mean times','HorizontalAlignment','center')
-print('-dpng',[ppath 'Hist_1meso_' harv '_global_zoop_overcon.png'])
+print('-dpng',[ppath 'Hist_1meso_encBincr_' harv '_global_zoop_overcon.png'])
 
 
 
