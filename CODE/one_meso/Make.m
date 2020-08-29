@@ -33,7 +33,7 @@ if historic_pristine
     Historic_pristine()
 end
 if historic_fished
-    Historic_fished_gfdl_1meso()
+    Historic_fished_gfdl_1meso_empHPloss()
     %Historic_fished_prod()
 end
 if historic_fished_ens

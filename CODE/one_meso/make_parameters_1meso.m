@@ -44,8 +44,8 @@ function param = make_parameters_1meso(param)
 
     %%%! Metabolism constants (activity and basal)
     param.amet = 4;       % coeff on met (orig 4), 4.4, 4.32
-    param.h = 19.72;         % coeff on Cmax (20 baseline)
-    param.gam = 5.9;       % coeff on search area (70 baseline)
+    param.h = 20;         % coeff on Cmax (20 baseline)
+    param.gam = 70;       % coeff on search area (70 baseline)
     param.kc = 0.063;     % coeff on cmax T-dep fn (orig 0.063)
     param.ke = 0.063;     % coeff on enc T-dep fn (orig 0.063)
     param.kt = 0.0855;    % coeff on met T-dep fn (orig 0.063) %0.0855
@@ -54,7 +54,7 @@ function param = make_parameters_1meso(param)
     param.bcmx = 0.25;    % power on cmax fn (orig 0.25)
 
     %%%! Transfer efficiency of detritus to benthic prey
-    param.bent_eff = 0.08;   % 0.075 orig; 0.1
+    param.bent_eff = 0.075;   % 0.075 orig; 0.1
     param.CC = 0.0;
 
     %%%! Reproductive efficiency
@@ -85,8 +85,8 @@ function param = make_parameters_1meso(param)
     %large piscivore eats medium forage fish, medium piscivore, medium detritivore
     %large detritivore eats detritus, medium forage fish, medium piscivore, medium detrivore
 
-    param.D = 0.8;   %Demersal feeding in pelagic reduction
-    param.A = 0.67;   %Adult predation reduction %*****
+    param.D = 0.75;   %Demersal feeding in pelagic reduction
+    param.A = 0.5;   %Adult predation reduction %*****
 
     param.MF_phi_MZ = 1.0;
     param.MF_phi_S  = 1.0;
