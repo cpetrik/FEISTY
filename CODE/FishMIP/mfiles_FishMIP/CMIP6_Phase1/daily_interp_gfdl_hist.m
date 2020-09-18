@@ -1,5 +1,5 @@
 % Make mat files of interpolated time series from GFDL
-% SSP 585 2015-2100
+% Hist 1950-2014
 
 clear all
 close all

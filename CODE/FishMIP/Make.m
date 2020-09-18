@@ -4,16 +4,16 @@ clear all
 close all
 
 %%%%!! EXPERIMENTS
-spinup_ipsl = true;
-spinup_gfdl = true;
-pre_industrial_ipsl = false;
-pre_industrial_gfdl = false;
+spinup_ipsl = false;
+spinup_gfdl = false;
+pre_industrial_ipsl = true;
+pre_industrial_gfdl = true;
 historic_ipsl = false;
 historic_gfdl = false;
-ssp126_ipsl = false;
-ssp126_gfdl = false;
-ssp585_ipsl = false;
-ssp585_gfdl = false;
+ssp126_ipsl = true;
+ssp126_gfdl = true;
+ssp585_ipsl = true;
+ssp585_gfdl = true;
 
 forecast_cesm = false;
 forecast_gfdl = false;
@@ -30,14 +30,6 @@ end
 if spinup_gfdl
 %     Spinup_pristine_gfdl()
     Spinup_pristine_empHP_gfdl()
-end
-if pre_industrial_ipsl
-%     Preindust_pristine_ipsl()
-    Preindust_pristine_empHP_ipsl()
-end
-if pre_industrial_gfdl
-%     Preindust_pristine_gfdl()
-    Preindust_pristine_empHP_gfdl()
 end
 if historic_ipsl
 %     Historic_pristine_ipsl()
@@ -62,6 +54,14 @@ end
 if ssp585_gfdl
 %     SSP585_pristine_gfdl()
     SSP585_pristine_empHP_gfdl()
+end
+if pre_industrial_ipsl
+%     Preindust_pristine_ipsl()
+    Preindust_pristine_empHP_ipsl()
+end
+if pre_industrial_gfdl
+%     Preindust_pristine_gfdl()
+    Preindust_pristine_empHP_gfdl()
 end
 
 

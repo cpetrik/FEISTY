@@ -1,14 +1,14 @@
 % FEISTY output at all locations
 
-clear all
 close all
+clear all
 
-cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_noCC_RE00100';
+cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80_RE00100';
 
-fpath=['/Volumes/FEISTY/NC/FishMIP/IPSL_CMIP6/' cfile '/'];
+fpath=['/Volumes/FEISTY/NC/FishMIP/GFDL_CMIP6/' cfile '/'];
 
 %% SP
-ncid = netcdf.open([fpath 'PreIndust_sml_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'PreIndust_empHP_sml_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -24,7 +24,7 @@ SP.bio = biomass;
 clear biomass
 
 %% SF
-ncid = netcdf.open([fpath 'PreIndust_sml_f.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'PreIndust_empHP_sml_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -37,7 +37,7 @@ SF.bio = biomass(:,1:nt);
 clear biomass 
 
 % SD
-ncid = netcdf.open([fpath 'PreIndust_sml_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'PreIndust_empHP_sml_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -50,7 +50,7 @@ SD.bio = biomass;
 clear biomass 
 
 % MP
-ncid = netcdf.open([fpath 'PreIndust_med_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'PreIndust_empHP_med_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -63,7 +63,7 @@ MP.bio = biomass;
 clear biomass
 
 % MF
-ncid = netcdf.open([fpath 'PreIndust_med_f.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'PreIndust_empHP_med_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -76,7 +76,7 @@ MF.bio = biomass;
 clear biomass
 
 % MD
-ncid = netcdf.open([fpath 'PreIndust_med_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'PreIndust_empHP_med_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -89,7 +89,7 @@ MD.bio = biomass;
 clear biomass
 
 % LP
-ncid = netcdf.open([fpath 'PreIndust_lrg_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'PreIndust_empHP_lrg_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -102,7 +102,7 @@ LP.bio = biomass;
 clear biomass
 
 % LD
-ncid = netcdf.open([fpath 'PreIndust_lrg_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'PreIndust_empHP_lrg_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -115,7 +115,7 @@ LD.bio = biomass;
 clear biomass
 
 % Benthic material
-ncid = netcdf.open([fpath 'PreIndust_bent.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'PreIndust_empHP_bent.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -179,7 +179,7 @@ lp_mean3=mean(LP.bio(:,yr3),2);
 ld_mean3=mean(LD.bio(:,yr3),2);
 b_mean3 =mean(Bent.bio(:,yr3),2);
 
-save([fpath 'Means_PreIndust_' cfile '.mat'],'time','mo',...
+save([fpath 'Means_PreIndust_empHP_' cfile '.mat'],'time','mo',...
     'yr1','yr2','yr3',...
     'sf_tmean','sp_tmean','sd_tmean',...
     'mf_tmean','mp_tmean','md_tmean',...
@@ -200,3 +200,47 @@ plot(mo,log10(mf_tmean),'r'); hold on;
 plot(mo,log10(ld_tmean),'k'); hold on;
 
 %% Fish-MIP OUTPUTS =================================================
+
+% PREFERRED (all units = gWW/m2)
+
+%total pelagic biomass tpb = 360x180xMOs
+allF = SF.bio + MF.bio;
+allP = SP.bio + MP.bio + LP.bio;
+allPel = allF + allP;
+
+%total demersal biomass tdb = 360x180xMOs
+allD = SD.bio + MD.bio + LD.bio;
+
+%total consumber biomass tcb = 360x180xMOs
+allC = allF + allP + allD + Bent.bio;
+
+%total consumber biomass in log10 bins tcblog10 = 360x180xMOsx6
+%(1g, 10g, 100g, 1kg, 10kg, 100kg)
+%Small <1g      (0.001-0.5g; 0.02g mean)    (0.46-3.68cm; mean 1.3cm)
+%Med 1-100g     (0.5-250g; 11.2g mean)      (3.68-29.24cm; mean 10.4cm)
+%Lrg 1-100kg    (250-125000g; 5600g mean)   (29.24-232.08cm; mean 82.4cm)
+
+% SECONDARY
+
+%total pelagic (Linf <30cm) biomass bp30cm = 360x180xMOs
+SPel = allF;
+
+%total pelagic (>=30 cm and <90cm) biomass bp30to90cm = 360x180xMOs
+%none
+
+%total pelagic (>=90cm) biomass bp90cm = 360x180xMOs
+LPel = allP;
+
+%total demersal (Linf <30cm) biomass bd30cm = 360x180xMOs
+%none
+
+%total demersal (>=30 cm and <90cm) biomass bd30to90cm = 360x180xMOs
+%none
+
+%total demersal (>=90cm) biomass bd90cm = 360x180xMOs
+%LDem = allD;
+
+save([fpath 'PreIndust_empHP_fishMIP_outputs_monthly_' cfile '.mat'],'time','mo',...
+    'allPel','allD','allC','SPel','LPel');
+
+

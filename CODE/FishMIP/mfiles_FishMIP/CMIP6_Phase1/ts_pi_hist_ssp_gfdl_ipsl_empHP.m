@@ -4,7 +4,7 @@ clear all
 close all
 
 %% Fish data
-cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_noCC_RE00100';
+cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80_RE00100';
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP6/';
 ppath = [pp cfile '/'];
@@ -14,24 +14,24 @@ end
 
 %gfdl
 gpath=['/Volumes/FEISTY/NC/FishMIP/GFDL_CMIP6/' cfile '/'];
-load([gpath 'Means_PreIndust_' cfile '.mat'],...
+load([gpath 'Means_PreIndust_empHP_' cfile '.mat'],...
     'GPreFts','GPrePts','GPreDts','GPreBts');
-load([gpath 'Means_Hist_2000-2010_' cfile '.mat'],...
+load([gpath 'Means_Hist_empHP_2000-2010_' cfile '.mat'],...
     'GHistFts','GHistPts','GHistDts','GHistBts');
-load([gpath 'Means_SSP126_2090-2100_' cfile '.mat'],...
+load([gpath 'Means_SSP126_empHP_2090-2100_' cfile '.mat'],...
     'GS126Fts','GS126Pts','GS126Dts','GS126Bts');
-load([gpath 'Means_SSP585_2090-2100_' cfile '.mat'],...
+load([gpath 'Means_SSP585_empHP_2090-2100_' cfile '.mat'],...
     'GS585Fts','GS585Pts','GS585Dts','GS585Bts');
 
 %ipsl
 ipath=['/Volumes/FEISTY/NC/FishMIP/IPSL_CMIP6/' cfile '/'];
-load([ipath 'Means_PreIndust_' cfile '.mat'],...
+load([ipath 'Means_PreIndust_empHP_' cfile '.mat'],...
     'IPreFts','IPrePts','IPreDts','IPreBts');
-load([ipath 'Means_Hist_2000-2010_' cfile '.mat'],...
+load([ipath 'Means_Hist_empHP_2000-2010_' cfile '.mat'],...
     'IHistFts','IHistPts','IHistDts','IHistBts');
-load([ipath 'Means_SSP126_2090-2100_' cfile '.mat'],...
+load([ipath 'Means_SSP126_empHP_2090-2100_' cfile '.mat'],...
     'IS126Fts','IS126Pts','IS126Dts','IS126Bts');
-load([ipath 'Means_SSP585_2090-2100_' cfile '.mat'],...
+load([ipath 'Means_SSP585_empHP_2090-2100_' cfile '.mat'],...
     'IS585Fts','IS585Pts','IS585Dts','IS585Bts');
 
 %all fish
@@ -112,7 +112,7 @@ plot(yS,IS585Ats,'--r','LineWidth',2); hold on;
 ylabel('Biomass (g m^-^2)')
 title('All fish')
 stamp('')
-print('-dpng',[ppath 'Pre_Hist_SSP_ts_all_types_biom.png'])
+print('-dpng',[ppath 'Pre_Hist_SSP_ts_empHP_all_types_biom.png'])
 
 %% diff from 1950
 figure(2)
@@ -161,5 +161,5 @@ plot(yS,IS126Ats-IHistAts(1),'--b','LineWidth',2); hold on;
 plot(yS,IS585Ats-IHistAts(1),'--r','LineWidth',2); hold on;
 title('All fish')
 stamp('')
-print('-dpng',[ppath 'Pre_Hist_SSP_ts_all_types_biom_diff.png'])
+print('-dpng',[ppath 'Pre_Hist_SSP_ts_empHP_all_types_biom_diff.png'])
 

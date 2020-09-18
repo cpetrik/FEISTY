@@ -6,7 +6,7 @@ clear all
 close all
 
 % Fish data
-cfile = 'Dc_Lam590_enc70-b200_m432-b175-k086_c20-b250_D080_A050_nmort1_BE10_CC80_RE00100';
+cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80_RE00100';
 mod = 'gfdl';
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP6/';
@@ -68,7 +68,7 @@ xlabel('Time (y)')
 ylabel('log_1_0 Biomass (g m^-^2)')
 title('Spinup')
 stamp(mod)
-print('-dpng',[ppath 'Spinup_',mod,'_all_sizes.png'])
+print('-dpng',[ppath 'Spinup_empHP_',mod,'_all_sizes.png'])
 
 %% Types together
 F = sf_tmean+mf_tmean;
@@ -89,7 +89,7 @@ xlabel('Time (y)')
 ylabel('log_1_0 Biomass (g m^-^2)')
 title('Spinup')
 stamp(mod)
-print('-dpng',[ppath 'Spinup_',mod,'_all_types.png'])
+print('-dpng',[ppath 'Spinup_empHP_',mod,'_all_types.png'])
  
 %% Plots in space
 Zsf=NaN*ones(ni,nj);
@@ -138,7 +138,7 @@ hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('Spinup 1949 log10 mean benthic biomass (g m^-^2)')
 stamp(mod)
-print('-dpng',[ppath 'Spinup_',mod,'_global_BENT.png'])
+print('-dpng',[ppath 'Spinup_empHP_',mod,'_global_BENT.png'])
 
 %% All 4 on subplots
 figure(4)
@@ -191,7 +191,7 @@ caxis([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
 stamp(mod)
-print('-dpng',[ppath 'Spinup_',mod,'_global_All_subplot.png'])
+print('-dpng',[ppath 'Spinup_empHP_',mod,'_global_All_subplot.png'])
 
 %% Ratios on subplots red-white-blue
 % 3 figure subplot P:D, P:F, M:L
@@ -233,4 +233,4 @@ colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('Fraction Large vs. Medium')
 stamp(mod)
-print('-dpng',[ppath 'Spinup_',mod,'_global_ratios_subplot.png'])
+print('-dpng',[ppath 'Spinup_empHP_',mod,'_global_ratios_subplot.png'])

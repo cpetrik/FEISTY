@@ -5,7 +5,7 @@ clear all
 close all
 
 %% Fish data
-cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_noCC_RE00100';
+cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80_RE00100';
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP6/';
 ppath = [pp cfile '/'];
@@ -16,24 +16,24 @@ end
 %% FEISTY Output
 %gfdl
 gpath=['/Volumes/FEISTY/NC/FishMIP/GFDL_CMIP6/' cfile '/'];
-load([gpath 'Means_PreIndust_' cfile '.mat'],...
+load([gpath 'Means_PreIndust_empHP_' cfile '.mat'],...
     'GPreAllF','GPreAllP','GPreAllD','GPreAllM','GPreAllL','GPreAll')
-load([gpath 'Means_Hist_2000-2010_' cfile '.mat'],...
+load([gpath 'Means_Hist_empHP_2000-2010_' cfile '.mat'],...
     'GHistAllF','GHistAllP','GHistAllD','GHistAllM','GHistAllL','GHistAll')
-load([gpath 'Means_SSP126_2090-2100_' cfile '.mat'],...
+load([gpath 'Means_SSP126_empHP_2090-2100_' cfile '.mat'],...
     'GS126AllF','GS126AllP','GS126AllD','GS126AllM','GS126AllL','GS126All')
-load([gpath 'Means_SSP585_2090-2100_' cfile '.mat'],...
+load([gpath 'Means_SSP585_empHP_2090-2100_' cfile '.mat'],...
     'GS585AllF','GS585AllP','GS585AllD','GS585AllM','GS585AllL','GS585All');
 
 %ipsl
 ipath=['/Volumes/FEISTY/NC/FishMIP/IPSL_CMIP6/' cfile '/'];
-load([ipath 'Means_PreIndust_' cfile '.mat'],...
+load([ipath 'Means_PreIndust_empHP_' cfile '.mat'],...
     'IPreAllF','IPreAllP','IPreAllD','IPreAllM','IPreAllL','IPreAll')
-load([ipath 'Means_Hist_2000-2010_' cfile '.mat'],...
+load([ipath 'Means_Hist_empHP_2000-2010_' cfile '.mat'],...
     'IHistAllF','IHistAllP','IHistAllD','IHistAllM','IHistAllL','IHistAll')
-load([ipath 'Means_SSP126_2090-2100_' cfile '.mat'],...
+load([ipath 'Means_SSP126_empHP_2090-2100_' cfile '.mat'],...
     'IS126AllF','IS126AllP','IS126AllD','IS126AllM','IS126AllL','IS126All')
-load([ipath 'Means_SSP585_2090-2100_' cfile '.mat'],...
+load([ipath 'Means_SSP585_empHP_2090-2100_' cfile '.mat'],...
     'IS585AllF','IS585AllP','IS585AllD','IS585AllM','IS585AllL','IS585All');
 
 %% Grid info
@@ -192,7 +192,7 @@ caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 585 - Pre','HorizontalAlignment','center')
 
-print('-dpng',[ppath 'Pre_Hist_SSPs_global_pdiff_biom_8plot_F.png'])
+print('-dpng',[ppath 'Pre_Hist_SSPs_empHP_global_pdiff_biom_8plot_F.png'])
 
 %% Large pel
 f2 = figure('Units','inches','Position',[1 3 6.5 8]);
@@ -298,7 +298,7 @@ caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 585 - Pre','HorizontalAlignment','center')
 
-print('-dpng',[ppath 'Pre_Hist_SSPs_global_pdiff_biom_8plot_P.png'])
+print('-dpng',[ppath 'Pre_Hist_SSPs_empHP_global_pdiff_biom_8plot_P.png'])
 
 %% Demersal
 f3 = figure('Units','inches','Position',[1 3 6.5 8]);
@@ -404,7 +404,7 @@ caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 585 - Pre','HorizontalAlignment','center')
 
-print('-dpng',[ppath 'Pre_Hist_SSPs_global_pdiff_biom_8plot_D.png'])
+print('-dpng',[ppath 'Pre_Hist_SSPs_empHP_global_pdiff_biom_8plot_D.png'])
 
 %% All fish
 f4 = figure('Units','inches','Position',[1 3 6.5 8]);
@@ -510,6 +510,6 @@ caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 585 - Pre','HorizontalAlignment','center')
 
-print('-dpng',[ppath 'Pre_Hist_SSPs_global_pdiff_biom_8plot_All.png'])
+print('-dpng',[ppath 'Pre_Hist_SSPs_empHP_global_pdiff_biom_8plot_All.png'])
 
 
