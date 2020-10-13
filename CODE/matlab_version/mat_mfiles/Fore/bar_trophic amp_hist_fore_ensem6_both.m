@@ -127,6 +127,16 @@ text(0,2,'C')
 print('-dpng',[pp 'Hist_Fore_All_fish03_troph_amp_bgc_type_both_ensem_1std.png'])
 
 
+%% plain bar graph for ppt
+% BW
+figure(3)
+b=bar(sbar*100,'k'); hold on;
+b.FaceColor = [0 0 0];
+ylim([-25 0])
+set(gca,'XTickLabel',{'NPP','MesoZ','M Fish','L Fish'})
+ylabel('Percent change')
+
+print('-dpng',[pp 'Hist_Fore_All_fish03_troph_amp_size_solo.png'])
 
 
 

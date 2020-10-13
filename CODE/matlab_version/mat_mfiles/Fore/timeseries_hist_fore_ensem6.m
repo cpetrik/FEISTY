@@ -18,8 +18,9 @@ grid = csvread([cpath 'grid_csv.csv']);
 %% Original parameters
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 harv = 'All_fish03';
-fpath = ['/Volumes/FEISTY/NC/Matlab_new_size/',...
-    'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100/'];
+% fpath = ['/Volumes/FEISTY/NC/Matlab_new_size/',...
+%     'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100/'];
+fpath = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100/';
 load([fpath 'Time_Means_Historic_Forecast_',harv,'_' cfile '.mat']);
 
 %% Ensemble parameter sets

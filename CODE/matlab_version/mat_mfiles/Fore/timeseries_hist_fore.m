@@ -11,16 +11,17 @@ pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 harv = 'All_fish03';
 
-fpath=['/Volumes/GFDL/NC/Matlab_new_size/' cfile '/'];
+fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
 ppath = [pp cfile '/'];
-
-load([fpath 'Means_fore_',harv,'_' cfile '.mat'],'ForeFish');
-load([fpath 'Means_fore_pristine_' cfile '.mat'],'ForePris');
-load([fpath 'Means_Historic_',harv,'_' cfile '.mat'],'HistFish');
 
 load('/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/hindcast_gridspec.mat',...
     'geolon_t','geolat_t');
 grid = csvread([cpath 'grid_csv.csv']);
+
+%%
+load([fpath 'Means_fore_',harv,'_' cfile '.mat'],'ForeFish');
+load([fpath 'Means_fore_pristine_' cfile '.mat'],'ForePris');
+load([fpath 'Means_Historic_',harv,'_' cfile '.mat'],'HistFish');
 
 %% ts
 y1 = 1860+(1/12):(1/12):2005;
@@ -127,6 +128,31 @@ save([fpath 'Time_Means_Historic_Forecast_',harv,'_' cfile '.mat'],...
     'FForig','FPorig','FDorig','FAorig',...
     'tForig','tPorig','tDorig','tAorig','y1','y2','y')
 
+%%
+load([fpath 'ESM2M_Hist_Fore/Time_Means_Historic_Forecast_',harv,'_' cfile '.mat']);
 
 
+figure(3)
+plot(y,log10(tForig),'r','Linewidth',2); hold on;
+plot(y,log10(tPorig),'b','Linewidth',2); hold on;
+plot(y,log10(tDorig),'k','Linewidth',2); hold on;
+legend('F','P','D')
+legend('location','eastoutside')
+xlim([y(1) y(end)])
+ylim([-0.15 0.3])
+xlabel('Year')
+ylabel('log10 Biomass (g m^-^2)')
+title(['Fished'])
+%print('-dpng',[ppath 'Hist_Fore_',harv,'_all_types.png'])
+
+%% var
+hyr = (y>=1951 & y<2000);
+fyr = (y>=2051 & y<2100);
+
+var(tForig(hyr)) %0.0054
+var(tForig(fyr)) %0.0028 F decr
+var(tPorig(hyr)) %0.0023
+var(tPorig(fyr)) %0.0031 P incr
+var(tDorig(hyr)) %3.1792e-04
+var(tDorig(fyr)) %9.0024e-04 D incr
 

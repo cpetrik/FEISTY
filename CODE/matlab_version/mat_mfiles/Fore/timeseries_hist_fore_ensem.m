@@ -25,7 +25,7 @@ load([fpath 'Time_Means_Historic_Forecast_',harv,'_' cfile '.mat']);
 %% Ensemble parameter sets
 epath = ['/Volumes/FEISTY/NC/Matlab_new_size/param_ensemble/',...
     'Dc_enc-k063_met-k086_cmax20-b250-k063_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100_Ka050/'];
-epath = '/';
+%epath = '/';
 load([epath 'Historic_All_fish03_ensem5_mid5_bestAIC_multFup_multPneg.mat']);
 load([epath 'Forecast_All_fish03_ensem6_mid_temp3_bestAIC_multFup_multPneg.mat']);
 

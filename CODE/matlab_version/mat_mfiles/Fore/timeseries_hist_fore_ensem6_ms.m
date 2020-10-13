@@ -161,7 +161,7 @@ xlim([y(yid) y(end)])
 title('Demersal fish')
 xlabel('Year')
 ylabel('Biomass (g m^-^2)')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_subplot_diff1951_all_ensem_mid6_temp3.png'])
+%print('-dpng',[ppath 'Hist_Fore_',harv,'_subplot_diff1951_all_ensem_mid6_temp3.png'])
 
 %% Orig params All together on one
 figure(2)
@@ -173,7 +173,7 @@ xlim([y(yid) y(end)])
 %ylim([-0.15 0.3])
 xlabel('Year')
 ylabel('Biomass (g m^-^2)')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_diff1951_all_together_orig_param_legend.png'])
+%print('-dpng',[ppath 'Hist_Fore_',harv,'_diff1951_all_together_orig_param_legend.png'])
 
 figure(3)
 plot(y,(dtF(end,:)),'r','LineWidth',2); hold on;
@@ -183,7 +183,18 @@ xlim([y(yid) y(end)])
 %ylim([-0.15 0.3])
 xlabel('Year')
 ylabel('Biomass (g m^-^2)')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_diff1951_all_together_orig_param_noleg.png'])
+%print('-dpng',[ppath 'Hist_Fore_',harv,'_diff1951_all_together_orig_param_noleg.png'])
+
+%% var
+hyr = (y>=1951 & y<2000);
+fyr = (y>=2051 & y<2100);
+
+mean(var(dtF(:,hyr),0,2)) %0.0056
+mean(var(dtF(:,fyr),0,2)) %0.0030 F decr
+mean(var(dtP(:,hyr),0,2)) %0.0031
+mean(var(dtP(:,fyr),0,2)) %0.0043 P incr
+mean(var(dtD(:,hyr),0,2)) %3.4453e-04
+mean(var(dtD(:,fyr),0,2)) %9.8207e-04 D incr
 
 %% CONE OF UNCERTAINTY Raw
 mF = mean(dtF);

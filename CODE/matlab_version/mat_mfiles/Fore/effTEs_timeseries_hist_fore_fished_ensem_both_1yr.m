@@ -70,12 +70,12 @@ fmnpp = npp_1yr_fore;
 
 %% Hindcast
 % 1yr means at each grid cell
-load([fpath 'Means_Historic_',harv,'_prod_' cfile '.mat'],'lp_prod1','ld_prod1');
+load([fpath 'Historic_ESM2M/Means_Historic_',harv,'_prod_' cfile '.mat'],'lp_prod1','ld_prod1');
 HL = lp_prod1+ld_prod1;
 clear lp_prod1 ld_prod1
 
 %% RCP 8.5
-load([fpath 'Means_fore_',harv,'_' cfile '.mat'],'lp_prod1','ld_prod1');
+load([fpath 'Forecast_RCP85_ESM2M/Means_fore_',harv,'_' cfile '.mat'],'lp_prod1','ld_prod1');
 FL = lp_prod1+ld_prod1;
 clear lp_prod1 ld_prod1
 
@@ -239,3 +239,17 @@ for i=1:15
     plot(y,sTE_HTL(i,:))
     ylim([0.13 0.23])
 end
+
+%% single plot of TEs with baseline for ppt
+figure(3)
+plot(y,100*dLTL,'color',[0.5 0 1],'Linewidth',3); hold on;
+plot(y,100*meHTL,'color',[0 0.5 0.75],'Linewidth',3); hold on;
+plot(y,100*meATL,'k','Linewidth',3); hold on;
+ylim([-3 0.5])
+xlim([1951 2095])
+xlabel('Year')
+ylabel('Percent change in TE relative to 1951')
+ax=gca;
+ax.FontSize = 16;
+print('-dpng',[ppath 'Hist_Fore_',harv,'_TE_Det_Zprod_d1951_solo_color.png'])
+

@@ -54,6 +54,17 @@ xlim([y(yid) y(end)])
 xlabel('Year')
 ylabel('% \Delta in biomass relative to 1951')
 
+%% var in biom
+hyr = (y>=1951 & y<2000);
+fyr = (y>=2051 & y<2100);
+
+vt(1,1) = mean(var(mpF(:,hyr),0,2)); %0.0015
+vt(1,2) = mean(var(mpF(:,fyr),0,2)); %6.6707e-04 F decr
+vt(2,1) = mean(var(mpP(:,hyr),0,2)); %0.0012
+vt(2,2) = mean(var(mpP(:,fyr),0,2)); %0.0019 P incr
+vt(3,1) = mean(var(mpD(:,hyr),0,2)); %2.5134e-04
+vt(3,2) = mean(var(mpD(:,fyr),0,2))  %8.3842e-04 D incr
+
 %% Production
 load([epath 'Hist_Fore_All_fish03_ensem6_mid_temp3_ts_prod.mat'])
 
@@ -85,7 +96,23 @@ ylabel('% \Delta in production relative to 1951')
 
 print('-dpng',[ppath 'Hist_Fore_',harv,'_biom_prod_types_ensem_mid6_temp3_cone_1std_yr_4plot.png'])
 
+%% var
+hyr = (y>=1951 & y<2000);
+fyr = (y>=2051 & y<2100);
 
+vt(4,1) = mean(var(mpF(:,hyr),0,2)); %0.0008
+vt(4,2) = mean(var(mpF(:,fyr),0,2)); %0.0003 F decr
+vt(5,1) = mean(var(mpP(:,hyr),0,2)); %0.0027
+vt(5,2) = mean(var(mpP(:,fyr),0,2)); %0.0022 P decr
+vt(6,1) = mean(var(mpD(:,hyr),0,2)); %0.0003
+vt(6,2) = mean(var(mpD(:,fyr),0,2))  %0.0008 D incr
+
+Stab = array2table(vt,'RowNames',{'Fbiom','Pbiom','Dbiom','Fprod',...
+    'Pprod','Dprod'},'VariableNames',{'Hist','Proj'});
+writetable(Stab,[epath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_tsVar.csv'],...
+    'Delimiter',',','WriteRowNames',true)
+writetable(Stab,[fpath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_tsVar.csv'],...
+    'Delimiter',',','WriteRowNames',true)
 
 
 

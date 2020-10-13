@@ -21,7 +21,7 @@ grid = csvread([cpath 'grid_csv.csv']);
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 harv = 'All_fish03';
 fpath = ['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
-load([fpath 'Time_Means_Historic_Forecast_',harv,'_' cfile '.mat'],...
+load([fpath 'ESM2M_Hist_Fore/Time_Means_Historic_Forecast_',harv,'_' cfile '.mat'],...
     'HF_tamean','HP_tamean','HD_tamean','HB_tamean',...
     'FF_tamean','FP_tamean','FD_tamean','FB_tamean',...
     'HA_tamean','FA_tamean');
@@ -102,38 +102,38 @@ mtD = mean(tD);
 mtA = mean(tA);
 mtB = mean(tB);
 
-%% Variability 
+%% Variability - this means nothing without removing the trend first
 hyr = find(y>1950 & y<=2000);
 fyr = find(y>2050 & y<=2100);
 
-vstats(1,1) = mean(var(tA(:,hyr),0,2));
-vstats(1,2) = mean(var(tA(:,fyr),0,2));
-vstats(2,1) = mean(var(tF(:,hyr),0,2));
-vstats(2,2) = mean(var(tF(:,fyr),0,2));
-vstats(3,1) = mean(var(tP(:,hyr),0,2));
-vstats(3,2) = mean(var(tP(:,fyr),0,2));
-vstats(4,1) = mean(var(tD(:,hyr),0,2));
-vstats(4,2) = mean(var(tD(:,fyr),0,2));
-vstats(5,1) = mean(var(tB(:,hyr),0,2));
-vstats(5,2) = mean(var(tB(:,fyr),0,2));
-
-vstats(1,3) = var(mtA(:,hyr));
-vstats(1,4) = var(mtA(:,fyr));
-vstats(2,3) = var(mtF(:,hyr));
-vstats(2,4) = var(mtF(:,fyr));
-vstats(3,3) = var(mtP(:,hyr));
-vstats(3,4) = var(mtP(:,fyr));
-vstats(4,3) = var(mtD(:,hyr));
-vstats(4,4) = var(mtD(:,fyr));
-vstats(5,3) = var(mtB(:,hyr));
-vstats(5,4) = var(mtB(:,fyr));
-
-Stab = array2table(vstats,'VariableNames',{'HvarAll','FvarAll','HvarMean','FvarMean'},...
-    'RowNames',{'All','F','P','D','B'});
-writetable(Stab,[epath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_Var_prod.csv'],...
-    'Delimiter',',','WriteRowNames',true)
-writetable(Stab,[dpath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_Var_prod.csv'],...
-    'Delimiter',',','WriteRowNames',true)
+% vstats(1,1) = mean(var(tA(:,hyr),0,2));
+% vstats(1,2) = mean(var(tA(:,fyr),0,2));
+% vstats(2,1) = mean(var(tF(:,hyr),0,2));
+% vstats(2,2) = mean(var(tF(:,fyr),0,2));
+% vstats(3,1) = mean(var(tP(:,hyr),0,2));
+% vstats(3,2) = mean(var(tP(:,fyr),0,2));
+% vstats(4,1) = mean(var(tD(:,hyr),0,2));
+% vstats(4,2) = mean(var(tD(:,fyr),0,2));
+% vstats(5,1) = mean(var(tB(:,hyr),0,2));
+% vstats(5,2) = mean(var(tB(:,fyr),0,2));
+% 
+% vstats(1,3) = var(mtA(:,hyr));
+% vstats(1,4) = var(mtA(:,fyr));
+% vstats(2,3) = var(mtF(:,hyr));
+% vstats(2,4) = var(mtF(:,fyr));
+% vstats(3,3) = var(mtP(:,hyr));
+% vstats(3,4) = var(mtP(:,fyr));
+% vstats(4,3) = var(mtD(:,hyr));
+% vstats(4,4) = var(mtD(:,fyr));
+% vstats(5,3) = var(mtB(:,hyr));
+% vstats(5,4) = var(mtB(:,fyr));
+% 
+% Stab = array2table(vstats,'VariableNames',{'HvarAll','FvarAll','HvarMean','FvarMean'},...
+%     'RowNames',{'All','F','P','D','B'});
+% writetable(Stab,[epath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_Var_prod.csv'],...
+%     'Delimiter',',','WriteRowNames',true)
+% writetable(Stab,[dpath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_Var_prod.csv'],...
+%     'Delimiter',',','WriteRowNames',true)
 
 %% Difference
 diffA = tA(:,hyr(1)) - tA(:,end);

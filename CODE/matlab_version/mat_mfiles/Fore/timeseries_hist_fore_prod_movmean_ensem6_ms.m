@@ -2,7 +2,7 @@
 % Historic (1860-2005) and Forecast time period (2006-2100) at all locations
 % Saved as mat files
 % Ensemble mid6, temp3
-% Production instead of biomass
+% Production instead of biomass, moving means
 
 clear all
 close all

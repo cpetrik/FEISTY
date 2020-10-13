@@ -3,6 +3,7 @@
 % Saved as mat files
 % Ensemble mid6, temp3
 % Production & fisheries yield together on subplot
+% Annual means of prod instead of moving means
 
 clear all
 close all
@@ -65,7 +66,7 @@ legend('location','southwest')
 hyr = (y>=1951 & y<2000);
 fyr = (y>=2051 & y<2100);
 
-vt(1,1) = mean(var(dtF(:,hyr),0,2)); %2.27         All * 1e+12
+vt(1,1) = mean(var(dtF(:,hyr),0,2)); %2.15         All * 1e+12
 vt(1,2) = mean(var(dtF(:,fyr),0,2)); %1.47 F decr
 vt(2,1) = mean(var(dtLP(:,hyr),0,2)); %1.77
 vt(2,2) = mean(var(dtLP(:,fyr),0,2)); %2.67 P incr
@@ -73,57 +74,71 @@ vt(3,1) = mean(var(dtLD(:,hyr),0,2)); %0.26
 vt(3,2) = mean(var(dtLD(:,fyr),0,2))  %0.83 D incr
 
 %% Production
-load([epath2 'Hist_Fore_All_fish03_ensem6_mid_temp3_ts_prod.mat'])
+load([epath2 'Hist_Fore_All_fish03_ensem6_mid_temp3_ts_prod_annmean_pdiff.mat'])
 test=find(y>1950);
 yid=test(1);
 
 figure(1)
 subplot(2,2,1)
-fill(X,100*(Vf),'r','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
-fill(X,100*(Vp),'c','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
-fill(X,100*(Vd),'g','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
-plot(y,100*(mpF),'r','LineWidth',2); hold on;
-plot(y,100*(mpP),'b','LineWidth',2); hold on;
-plot(y,100*(mpD),'color',[0 0.6 0],'LineWidth',2); hold on;
-xlim([y(yid) y(end)])
+fill(X,100*(Sf),'r','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
+fill(X,100*(Sp),'c','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
+fill(X,100*(Sd),'g','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
+plot(yr,100*(mF),'r','LineWidth',2); hold on;
+plot(yr,100*(mP),'b','LineWidth',2); hold on;
+plot(yr,100*(mD),'color',[0 0.6 0],'LineWidth',2); hold on;
+xlim([yr(yid) yr(end)])
 ylim([-35 15])
-text(y(yid),18,'A')
+text(yr(yid),18,'A')
 xlabel('Year')
 ylabel('% \Delta in production relative to 1951')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_yield_prod_types_all_ensem_mid6_temp3_cone_1std_yr_2plot.png'])
+print('-dpng',[ppath 'Hist_Fore_',harv,'_yield_prod_annmean_types_all_ensem_mid6_temp3_cone_1std_yr_2plot.png'])
 
 figure(2)
 subplot(2,2,1)
-fill(X,100*(Vf),'r','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
-fill(X,100*(Vp),'c','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
-fill(X,100*(Vd),'g','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
-plot(y,100*(mpF),'r','LineWidth',2); hold on;
-plot(y,100*(mpP),'b','LineWidth',2); hold on;
-plot(y,100*(mpD),'color',[0 0.6 0],'LineWidth',2); hold on;
-xlim([y(yid) y(end)])
+fill(X,100*(Sf),'r','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
+fill(X,100*(Sp),'c','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
+fill(X,100*(Sd),'g','FaceAlpha',0.25,'EdgeAlpha',0.25); hold on; %plot filled area
+plot(yr,100*(mF),'r','LineWidth',2); hold on;
+plot(yr,100*(mP),'b','LineWidth',2); hold on;
+plot(yr,100*(mD),'color',[0 0.6 0],'LineWidth',2); hold on;
+xlim([yr(yid) yr(end)])
 ylim([-35 15])
-text(y(yid),18,'A')
+text(yr(yid),18,'A')
 xlabel('Year')
 ylabel('% \Delta in production relative to 1951')
-print('-dpng',[ppath 'Hist_Fore_',harv,'_yield_prod_types_adults_ensem_mid6_temp3_cone_1std_yr_2plot.png'])
+print('-dpng',[ppath 'Hist_Fore_',harv,'_yield_prod_annmean_types_adults_ensem_mid6_temp3_cone_1std_yr_2plot.png'])
 
 
 %% var in prod
-hyr = (y>=1951 & y<2000);
-fyr = (y>=2051 & y<2100);
+hyr = (yr>=1951 & yr<=2000);
+fyr = (yr>=2051 & yr<=2100);
 
-vt(4,1) = mean(var(dtF(:,hyr),0,2)); %0.21          All *1e-5
-vt(4,2) = mean(var(dtF(:,fyr),0,2)); %0.21 F same
-vt(5,1) = mean(var(dtP(:,hyr),0,2)); %0.02
-vt(5,2) = mean(var(dtP(:,fyr),0,2)); %0.01 P decr
-vt(6,1) = mean(var(dtD(:,hyr),0,2)); %0.0006
-vt(6,2) = mean(var(dtD(:,fyr),0,2))  %0.0010 D incr
+vt(4,1) = mean(var(mtF(:,hyr),0,2)); %0.47          All *1e-6
+vt(4,2) = mean(var(mtF(:,fyr),0,2)); %0.19 F decr
+vt(5,1) = mean(var(mtP(:,hyr),0,2)); %0.12
+vt(5,2) = mean(var(mtP(:,fyr),0,2)); %0.10 P decr
+vt(6,1) = mean(var(mtD(:,hyr),0,2)); %0.0012
+vt(6,2) = mean(var(mtD(:,fyr),0,2))  %0.0034 D incr
 
 Stab = array2table(vt,'RowNames',{'Fyield','Pyield','Dyield','Fprod',...
     'Pprod','Dprod'},'VariableNames',{'Hist','Proj'});
-writetable(Stab,[epath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_tsVar_prod_yield.csv'],...
+writetable(Stab,[epath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_tsVar_annmean_prod_yield.csv'],...
     'Delimiter',',','WriteRowNames',true)
-writetable(Stab,[fpath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_tsVar_prod_yield.csv'],...
+writetable(Stab,[fpath 'Hist_Fore_',harv,'_ensem_mid6_temp3_pset_tsVar_annmean_prod_yield.csv'],...
     'Delimiter',',','WriteRowNames',true)
 
+%% 
+mmdF = (mtF - mtF(:,yid)) ./ mtF(:,yid);
+mmdP = (mtP - mtP(:,yid)) ./ mtP(:,yid);
+mmdD = (mtD - mtD(:,yid)) ./ mtD(:,yid);
+mmdA = (mtA - mtA(:,yid)) ./ mtA(:,yid);
+
+figure(3)
+plot(yr,100*(mmdF),'r'); hold on;
+plot(yr,100*(mmdP),'b'); hold on;
+plot(yr,100*(mmdD),'color',[0 0.6 0]); hold on;
+xlim([yr(yid) yr(end)])
+%ylim([-35 15])
+xlabel('Year')
+ylabel('% \Delta in production relative to 1951')
 
