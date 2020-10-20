@@ -9,9 +9,12 @@ load('/Volumes/FEISTY/POEM_JLD/esm26_hist/ESM26_1deg_5yr_clim_191_195_grid.mat',
 NX = length(GRD.Z);
 ID = 1:NX;
 
+% dp = ['/Volumes/FEISTY/NC/Matlab_new_size/',...
+%     'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100',...
+%     '/Climatology/'];
 dp = ['/Volumes/FEISTY/NC/Matlab_new_size/',...
-    'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100',...
-    '/Climatology/'];
+    'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC',...
+    '_RE00050/'];
 
 load('/Volumes/FEISTY/NC/Matlab_new_size/bio_rates/LHS_diffF3.mat','X_new');
 P2 = 1:21;
@@ -48,7 +51,7 @@ mis_all = NaN*ones(length(Fish),45,5);
 
 %%
 
-for M=1:length(Fish)
+for M=14:length(Fish)
     frate = Fish(M,2);
     tfish = num2str(1000+int64(100*frate));
     sfile = [dp 'Climatol_fish_F020_P' tfish(2:end) '_D020'];

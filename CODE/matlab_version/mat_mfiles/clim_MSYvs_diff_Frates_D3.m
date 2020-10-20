@@ -6,11 +6,15 @@
 clear all
 close all
 
+% dp = ['/Volumes/FEISTY/NC/Matlab_new_size/',...
+%     'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100',...
+%     '/Climatology/'];
 dp = ['/Volumes/FEISTY/NC/Matlab_new_size/',...
-    'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100/Climatology/'];
+    'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC',...
+    '_RE00050/'];
 
 ppath=['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/',...
-    'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100/'];
+    'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00050/'];
 if (~isfolder(ppath))
     mkdir(ppath)
 end
@@ -186,7 +190,7 @@ title('Large pelagic = 0.3')
 
 subplot(2,2,3)
 plot(Fish,rmse_all(4,:),'.','color',[0 0.6 0],'MarkerSize',20)
-xlim([0.1 2])
+xlim([0.2 2])
 xlabel('F')
 ylabel('RMSE')
 title('Demersal varied')
@@ -194,7 +198,7 @@ title('Demersal varied')
 subplot(2,2,4)
 %plot(Fish,rmse_all(1,:),'.k','MarkerSize',20)
 plot(Fish,rmse_all(1,:),'.k','MarkerSize',20)
-xlim([0 2])
+xlim([0.2 2])
 xlabel('F')
 title('All')
 print('-dpng',[ppath 'Climatol_yield_diff_Frates_D3_SAUPcomp_rmse.png'])

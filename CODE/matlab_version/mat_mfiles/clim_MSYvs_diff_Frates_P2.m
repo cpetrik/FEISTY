@@ -6,11 +6,15 @@
 clear all
 close all
 
+% dp = ['/Volumes/FEISTY/NC/Matlab_new_size/',...
+%     'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100',...
+%     '/Climatology/'];
 dp = ['/Volumes/FEISTY/NC/Matlab_new_size/',...
-    'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100/Climatology/'];
+    'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC',...
+    '_RE00050/'];
 
 ppath=['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/',...
-    'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100/'];
+    'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00050/'];
 if (~isfolder(ppath))
     mkdir(ppath)
 end
@@ -144,6 +148,7 @@ end
 
 Fmsy5 = (Fmsy==2);
 sum(Fmsy5)
+mean(Fmsy)
 
 %% Plots of comp with SAUP
 %Corr
