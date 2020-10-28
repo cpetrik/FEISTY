@@ -11,8 +11,12 @@ load('/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/hist/Data_gfdl_hist_daily_2000.mat');
 load('/Volumes/FEISTY/POEM_JLD/esm2m_hist/Data_ESM2Mhist_2000.mat');
 
 %%
+%Is ESM off by 10? - NO
+test = ESM.Zm*10;
+
 hzm1=nanmean(COBALT.Zm) + nanmean(COBALT.Zl);
 hzm2=nanmean(ESM.Zm);
+hzm3=nanmean(test);
 
 hd1=nanmean(COBALT.det);
 hd2=nanmean(ESM.det);
@@ -21,13 +25,16 @@ hd2=nanmean(ESM.det);
 figure(1)
 plot(hzm1,'b'); hold on;
 plot(hzm2,'r'); hold on;
+plot(hzm3,'k'); hold on;
 title('Historic mesozoop')
+legend('COB','ESM','test')
 
 %
 figure(2)
 plot(hd1,'k'); hold on;
 plot(hd2,'color',[0.5 0.5 0.5]); hold on;
 title('Historic det')
+legend('COB','ESM')
 
 % Comp Hist
 hsperc = 100*(hzm1 - hzm2) ./ hzm1;

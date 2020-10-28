@@ -26,7 +26,7 @@ clear GRD
 % meso zoo: from molC m-3 to g(WW) m-2
 % 12.01 g C in 1 mol C
 % 1 g dry W in 9 g wet W (Pauly & Christiansen)
-% mult by 10 m depth interval for m-3 to m-2
+% mult by 10 m depth interval for m-3 to m-2 !!!(should this be 100m???)!
 %D_Zm(j,:) = yi * 12.01 * 9.0 * 10;
 
 % detrital flux to benthos: from molC m-2 s-1 to g(WW) m-2 d-1

@@ -183,7 +183,7 @@ file_bd90 = [fpath fname1 'bd90cm' fname2];
 [ni,nj,nt] = size(tpb);
 
 %% tpb
-ncidSB = netcdf.create(file_tpb,'NETCDF4');
+ncidSB = netcdf.create(file_tpb,'CLOBBER');
 
 lon_dim = netcdf.defDim(ncidSB,'longitude',ni);
 lat_dim = netcdf.defDim(ncidSB,'latitude',nj);
