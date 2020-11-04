@@ -3,21 +3,19 @@
 clear all
 close all
 
-fpath='/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/preindust/';
+fpath='/Volumes/MIP/Fish-MIP/CMIP6/GFDL/preindust/';
 
 %% Units
 %poc flux: mmol C m-2 s-1
-%zoo: mol C m-3
+%zoo: mol C m-2
 %tp: degC
 %tb: degC
-% D_Zm = yi * 12.01 * 9.0 * 10;
+% D_Zm = yi * 12.01 * 9.0;
 % D_det = yi * 12.01 * 9.0 * 60 * 60 * 24;
 
-%I MAY NEED TO DIVIDE CONCENTRATIONS BY 100 m TO PUT INTO m^-2
-
-load([fpath 'gfdl_pi_temp100_monthly_1950_2100.mat'],'temp_100');
+load([fpath 'gfdl_pi_temp_100_monthly_1950_2100.mat'],'temp_100');
 load([fpath 'gfdl_pi_temp_btm_monthly_1950_2100.mat'],'temp_btm');
-load([fpath 'gfdl_pi_zmeso100_monthly_1950_2100.mat'],'zmeso_100');
+load([fpath 'gfdl_pi_zmeso_100_monthly_1950_2100.mat'],'zmeso_100');
 load([fpath 'gfdl_pi_det_btm_monthly_1950_2100.mat']); %,'det_btm'
 
 temp_100 = double(temp_100);
@@ -53,9 +51,9 @@ pD = det_btm(WID,:);
 %% Compare to spinup
 clear temp_100 temp_btm zmeso_100 det_btm
 
-load([fpath 'gfdl_pi_temp100_monthly_1850_1949.mat'],'temp_100');
+load([fpath 'gfdl_pi_temp_100_monthly_1850_1949.mat'],'temp_100');
 load([fpath 'gfdl_pi_temp_btm_monthly_1850_1949.mat'],'temp_btm');
-load([fpath 'gfdl_pi_zmeso100_monthly_1850_1949.mat'],'zmeso_100');
+load([fpath 'gfdl_pi_zmeso_100_monthly_1850_1949.mat'],'zmeso_100');
 load([fpath 'gfdl_pi_det_btm_monthly_1850_1949.mat']); %,'det_btm'
 
 temp_100 = double(temp_100);
