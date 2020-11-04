@@ -1,22 +1,21 @@
 % Make mat files of interpolated time series from GFDL
 % Preindust runs 1950-2100
+% New vertical integrations
 
 clear all
 close all
 
-fpath='/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/preindust/';
+fpath='/Volumes/MIP/Fish-MIP/CMIP6/GFDL/preindust/';
 
 %% Units
 %poc flux: mmol C m-2 s-1
-%zoo: mol C m-3
+%zoo: mol C m-2
 %tp: degC
 %tb: degC
 
-%I MAY NEED TO DIVIDE CONCENTRATIONS BY 100 m TO PUT INTO m^-2
-
-load([fpath 'gfdl_pi_temp100_monthly_1950_2100.mat'],'temp_100');
+load([fpath 'gfdl_pi_temp_100_monthly_1950_2100.mat'],'temp_100');
 load([fpath 'gfdl_pi_temp_btm_monthly_1950_2100.mat'],'temp_btm');
-load([fpath 'gfdl_pi_zmeso100_monthly_1950_2100.mat'],'zmeso_100');
+load([fpath 'gfdl_pi_zmeso_100_monthly_1950_2100.mat'],'zmeso_100');
 load([fpath 'gfdl_pi_det_btm_monthly_1950_2100.mat']); %,'det_btm'
 
 temp_100(temp_100 > 1.0e19) = nan;
@@ -35,6 +34,25 @@ yrs = floor(ryr(1)):ryr(end);
 
 Tdays=1:365;
 Time=Tdays(15:30:end);
+
+%% test that all same orientation
+test1 = squeeze(double(temp_100(:,:,200)));
+test2 = squeeze(double(temp_btm(:,:,200)));
+test3 = squeeze(double(zmeso_100(:,:,200)));
+test4 = squeeze(double(det_btm(:,:,200)));
+
+pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP6/';
+
+figure
+subplot(2,2,1)
+pcolor(test1)
+subplot(2,2,2)
+pcolor(test2)
+subplot(2,2,3)
+pcolor(test3)
+subplot(2,2,4)
+pcolor(test4)
+print('-dpng',[pp 'gfdl_pi_runs.png'])
 
 %%
 % index of water cells
@@ -83,13 +101,12 @@ for y = 1:nyrs
         yi = interp1(Time(1:12), Y, 1:365,'linear','extrap');
         D_Tb(j,:) = yi;
         
-        % meso zoo: from molC m-3 to g(WW) m-2
+        % meso zoo: from molC m-2 to g(WW) m-2
         % 12.01 g C in 1 mol C
         % 1 g dry W in 9 g wet W (Pauly & Christiansen)
-        % mult by 10 m depth interval for m-3 to m-2
         Y = squeeze(Zm(m,n,:));
         yi = interp1(Time(1:12), Y, 1:365,'linear','extrap');
-        D_Zm(j,:) = yi * 12.01 * 9.0 * 10;
+        D_Zm(j,:) = yi * 12.01 * 9.0;
         
         % detrital flux to benthos: from molC m-2 s-1 to g(WW) m-2 d-1
         % 12.01 g C in 1 mol C

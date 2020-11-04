@@ -5,7 +5,7 @@ close all
 
 cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80_RE00100';
 
-fpath=['/Volumes/FEISTY/NC/FishMIP/GFDL_CMIP6/' cfile '/'];
+fpath=['/Volumes/MIP/NC/FishMIP/GFDL_CMIP6/' cfile '/'];
 
 %% SP
 ncid = netcdf.open([fpath 'Hist_empHP_sml_p.nc'],'NC_NOWRITE');

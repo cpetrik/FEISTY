@@ -1,22 +1,23 @@
 % Make mat files of interpolated time series from IPSL
 % SSP 126 2015-2100
+% New vertical integrations
 
 clear all
 close all
 
-fpath='/Volumes/FEISTY/Fish-MIP/CMIP6/IPSL/ssp126/';
+fpath='/Volumes/MIP/Fish-MIP/CMIP6/IPSL/ssp126/';
 
 %% Units
 %poc flux: mmol C m-2 s-1
-%zoo: mol C m-3
+%zoo: mol C m-2
 %tp: degC
 %tb: degC
 
 %I MAY NEED TO DIVIDE CONCENTRATIONS BY 100 m TO PUT INTO m^-2
 
-load([fpath 'ipsl_ssp126_temp100_monthly_2015_2100.mat'],'temp_100');
+load([fpath 'ipsl_ssp126_temp_100_monthly_2015_2100.mat'],'temp_100');
 load([fpath 'ipsl_ssp126_temp_btm_monthly_2015_2100.mat'],'temp_btm');
-load([fpath 'ipsl_ssp126_zmeso100_monthly_2015_2100.mat'],'zmeso_100');
+load([fpath 'ipsl_ssp126_zmeso_100_monthly_2015_2100.mat'],'zmeso_100');
 load([fpath 'ipsl_ssp126_det_btm_monthly_2015_2100.mat']); %,'det_btm'
 
 temp_100(temp_100 > 1.0e19) = nan;
@@ -33,6 +34,25 @@ nyrs = mos/12;
 yrs = 2015:2100;
 Tdays=1:365;
 Time=Tdays(15:30:end);
+
+%% flip vint and vavg
+zmeso_100 = fliplr(zmeso_100);
+
+%% test that all same orientation
+test1 = squeeze(double(temp_100(:,:,300)));
+test2 = squeeze(double(temp_btm(:,:,300)));
+test3 = squeeze(double(zmeso_100(:,:,300)));
+test4 = squeeze(double(det_btm(:,:,300)));
+
+figure
+subplot(2,2,1)
+pcolor(test1)
+subplot(2,2,2)
+pcolor(test2)
+subplot(2,2,3)
+pcolor(test3)
+subplot(2,2,4)
+pcolor(test4)
 
 %%
 % index of water cells
@@ -56,8 +76,8 @@ for y = 1:nyrs
     det= double(det_btm(:,:,mstart(y):mend(y)));
     
     % index of water cells
-    [ni,nj,nt] = size(Tp);
-    WID = find(~isnan(Tp(:,:,1)));  % spatial index of water cells
+    [ni,nj,nt] = size(Tb);
+    WID = find(~isnan(Tb(:,:,1)));  % spatial index of water cells
     NID = length(WID);              % number of water cells
     
     % setup FEISTY data files
@@ -81,13 +101,12 @@ for y = 1:nyrs
         yi = interp1(Time(1:12), Y, 1:365,'linear','extrap');
         D_Tb(j,:) = yi;
         
-        % meso zoo: from molC m-3 to g(WW) m-2
+        % meso zoo: from molC m-2 to g(WW) m-2
         % 12.01 g C in 1 mol C
         % 1 g dry W in 9 g wet W (Pauly & Christiansen)
-        % mult by 10 m depth interval for m-3 to m-2
         Y = squeeze(Zm(m,n,:));
         yi = interp1(Time(1:12), Y, 1:365,'linear','extrap');
-        D_Zm(j,:) = yi * 12.01 * 9.0 * 10;
+        D_Zm(j,:) = yi * 12.01 * 9.0;
         
         % detrital flux to benthos: from molC m-2 s-1 to g(WW) m-2 d-1
         % 12.01 g C in 1 mol C

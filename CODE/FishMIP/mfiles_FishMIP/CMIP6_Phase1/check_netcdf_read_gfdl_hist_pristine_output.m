@@ -5,11 +5,11 @@ close all
 
 cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80_RE00100';
 
-fpath=['/Volumes/FEISTY/NC/FishMIP/GFDL_CMIP6/' cfile '/'];
+fpath=['/Volumes/MIP/NC/FishMIP/GFDL_CMIP6/' cfile '/'];
 
 %% Setup netcdf path to store to
-fname1 = 'feisty_gfdl-esm4_nobc_historical_nat_default_';
-fname2 = '_global_monthly_1950-2014.nc';
+fname1 = 'feisty_gfdl-esm4_nobasd_historical_nat_default_';
+fname2 = '_global_monthly_1950_2014.nc';
 
 file_tpb = [fpath fname1 'tpb' fname2];
 file_tdb = [fpath fname1 'tdb' fname2];
@@ -39,7 +39,7 @@ end
 figure
 axesm ('mollweid','MapLatLimit',[-90 90],'MapLonLimit',[-270 90],'frame','on',...
     'Grid','off','FLineWidth',1)
-surfm(LAT,LON,log10(tpb(:,:,700)))
+surfm(lat,lon,log10(tcb(:,:,700)))
 colormap('jet')
 colorbar
 caxis([-1 2])

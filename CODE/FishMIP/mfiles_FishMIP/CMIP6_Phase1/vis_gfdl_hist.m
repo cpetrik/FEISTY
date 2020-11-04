@@ -10,16 +10,16 @@ cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80
 mod = 'gfdl';
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP6/';
-fpath=['/Volumes/FEISTY/NC/FishMIP/GFDL_CMIP6/' cfile '/'];
+fpath=['/Volumes/MIP/NC/FishMIP/GFDL_CMIP6/' cfile '/'];
 ppath = [pp cfile '/'];
 if (~isfolder(ppath))
     mkdir(ppath)
 end
-load([fpath 'Means_Hist_empHP_2000-2010_' cfile '.mat']);
+load([fpath 'Means_Hist_2000-2010_' cfile '.mat']);
 
 % Map data
-cpath = '/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/';
-load('/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/gridspec_gfdl_cmip6.mat');
+cpath = '/Volumes/MIP/Fish-MIP/CMIP6/GFDL/';
+load('/Volumes/MIP/Fish-MIP/CMIP6/GFDL/gridspec_gfdl_cmip6.mat');
 load([cpath 'Data_grid_gfdl.mat']);
 
 [ni,nj]=size(LON);
@@ -251,7 +251,7 @@ GHistAllM = AllM;
 GHistAllL = AllL;
 GHistAll = All;
 
-save([fpath 'Means_Hist_empHP_2000-2010_' cfile '.mat'],...
+save([fpath 'Means_Hist_2000-2010_' cfile '.mat'],...
     'GHistFts','GHistPts','GHistDts','GHistBts',...
     'GHistAllF','GHistAllP','GHistAllD','GHistAllM','GHistAllL','GHistAll',...
     '-append');

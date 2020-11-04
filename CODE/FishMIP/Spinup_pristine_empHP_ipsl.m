@@ -10,7 +10,7 @@ param.dfrate = param.frate/365.0;
 param = make_parameters_1meso(param); 
 
 %! Grid
-load('/Volumes/FEISTY/Fish-MIP/CMIP6/IPSL/Data_grid_ipsl.mat','GRD');
+load('/Volumes/MIP/Fish-MIP/CMIP6/IPSL/Data_grid_ipsl.mat','GRD');
 param.NX = length(GRD.Z);
 param.ID = 1:param.NX;
 NX = length(GRD.Z);
@@ -137,7 +137,7 @@ MNT = 0;
 for YR = 1:YEARS % years
     %! Load a year's CESM data
     ti = num2str(YR+1849)
-    load(['/Volumes/FEISTY/Fish-MIP/CMIP6/IPSL/preindust/Data_ipsl_spinup_daily_',ti,'.mat'],'ESM');
+    load(['/Volumes/MIP/Fish-MIP/CMIP6/IPSL/preindust/Data_ipsl_spinup_daily_',ti,'.mat'],'ESM');
     
     for DAY = 1:param.DT:DAYS % days
         

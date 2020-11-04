@@ -1,9 +1,9 @@
-% Make GRD file for FEISTY input from CESM 1 degree model
+% Make GRD file for FEISTY input from IPSL 1 degree model
 
 clear all
 close all
 
-Cdir = '/Volumes/FEISTY/Fish-MIP/CMIP6/';
+Cdir = '/Volumes/MIP/Fish-MIP/CMIP6/';
 
 %% Lat & Lon
 ncid = netcdf.open([Cdir 'IPSL/hist/ipsl-cm6a-lr_r1i1p1f1_historical_tob_onedeg_global_monthly_1850_2014.nc'],'NC_NOWRITE');

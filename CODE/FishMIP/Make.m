@@ -7,13 +7,13 @@ close all
 spinup_ipsl = false;
 spinup_gfdl = false;
 pre_industrial_ipsl = true;
-pre_industrial_gfdl = true;
+pre_industrial_gfdl = false;
 historic_ipsl = false;
 historic_gfdl = false;
-ssp126_ipsl = true;
-ssp126_gfdl = true;
-ssp585_ipsl = true;
-ssp585_gfdl = true;
+ssp126_ipsl = false;
+ssp126_gfdl = false;
+ssp585_ipsl = false;
+ssp585_gfdl = false;
 
 forecast_cesm = false;
 forecast_gfdl = false;

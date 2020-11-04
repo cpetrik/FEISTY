@@ -10,7 +10,7 @@ cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80
 mod = 'ipsl';
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP6/';
-fpath=['/Volumes/FEISTY/NC/FishMIP/IPSL_CMIP6/' cfile '/'];
+fpath=['/Volumes/MIP/NC/FishMIP/IPSL_CMIP6/' cfile '/'];
 ppath = [pp cfile '/'];
 if (~isfolder(ppath))
     mkdir(ppath)
@@ -18,8 +18,8 @@ end
 load([fpath 'Means_Hist_empHP_2000-2010_' cfile '.mat']);
 
 % Map data
-cpath = '/Volumes/FEISTY/Fish-MIP/CMIP6/IPSL/';
-load('/Volumes/FEISTY/Fish-MIP/CMIP6/IPSL/gridspec_ipsl_cmip6.mat');
+cpath = '/Volumes/MIP/Fish-MIP/CMIP6/IPSL/';
+load('/Volumes/MIP/Fish-MIP/CMIP6/IPSL/gridspec_ipsl_cmip6.mat');
 load([cpath 'Data_grid_ipsl.mat']);
 
 [ni,nj]=size(LON);
@@ -63,7 +63,7 @@ plot(y,log10(b_tmean),'Linewidth',1); hold on;
 legend('SF','MF','SP','MP','LP','SD','MD','LD','B')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
-%ylim([-5 2])
+ylim([-2.5 0.5])
 xlabel('Time (y)')
 ylabel('log_1_0 Biomass (g m^-^2)')
 title('Hist')
@@ -84,7 +84,7 @@ plot(y,log10(D),'k','Linewidth',2); hold on;
 legend('B','F','P','D')
 legend('location','east')
 xlim([y(1) y(end)])
-%ylim([-5 2])
+ylim([-0.5 0.3])
 xlabel('Time (y)')
 ylabel('log_1_0 Biomass (g m^-^2)')
 title('Hist')

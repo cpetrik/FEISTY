@@ -10,7 +10,7 @@ cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80
 mod = 'ipsl';
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP6/';
-fpath=['/Volumes/FEISTY/NC/FishMIP/IPSL_CMIP6/' cfile '/'];
+fpath=['/Volumes/MIP/NC/FishMIP/IPSL_CMIP6/' cfile '/'];
 ppath = [pp cfile '/'];
 if (~isfolder(ppath))
     mkdir(ppath)
@@ -18,8 +18,8 @@ end
 load([fpath 'Means_SSP585_empHP_2090-2100_' cfile '.mat']);
 
 % Map data
-cpath = '/Volumes/FEISTY/Fish-MIP/CMIP6/IPSL/';
-load('/Volumes/FEISTY/Fish-MIP/CMIP6/IPSL/gridspec_ipsl_cmip6.mat');
+cpath = '/Volumes/MIP/Fish-MIP/CMIP6/IPSL/';
+load('/Volumes/MIP/Fish-MIP/CMIP6/IPSL/gridspec_ipsl_cmip6.mat');
 load([cpath 'Data_grid_ipsl.mat']);
 
 [ni,nj]=size(LON);

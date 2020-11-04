@@ -5,7 +5,7 @@ clear all
 close all
 
 cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80_RE00100';
-fpath=['/Volumes/FEISTY/NC/FishMIP/IPSL_CMIP6/' cfile '/'];
+fpath=['/Volumes/MIP/NC/FishMIP/IPSL_CMIP6/' cfile '/'];
 harv = 'pristine';
 
 %% Fish-MIP OUTPUTS =================================================
@@ -38,8 +38,8 @@ t=(1:length(time))/12;
 t=t+1950;
 
 %% Grid
-load('/Volumes/FEISTY/Fish-MIP/CMIP6/IPSL/Data_grid_ipsl.mat','GRD');
-load('/Volumes/FEISTY/Fish-MIP/CMIP6/IPSL/gridspec_ipsl_cmip6.mat');
+load('/Volumes/MIP/Fish-MIP/CMIP6/IPSL/Data_grid_ipsl.mat','GRD');
+load('/Volumes/MIP/Fish-MIP/CMIP6/IPSL/gridspec_ipsl_cmip6.mat');
 
 [ni,nj] = size(LAT);
 

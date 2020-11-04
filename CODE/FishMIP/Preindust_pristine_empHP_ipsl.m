@@ -10,14 +10,14 @@ param.dfrate = param.frate/365.0;
 param = make_parameters_1meso(param); 
 
 %! Grid
-load('/Volumes/FEISTY/Fish-MIP/CMIP6/IPSL/Data_grid_ipsl.mat','GRD');
+load('/Volumes/MIP/Fish-MIP/CMIP6/IPSL/Data_grid_ipsl.mat','GRD');
 param.NX = length(GRD.Z);
 param.ID = 1:param.NX;
 NX = length(GRD.Z);
 ID = 1:param.NX;
 
 %! How long to run the model
-YEARS = length(1949:2099);
+YEARS = length(1950:2099);
 DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
@@ -39,7 +39,7 @@ S_Lrg_d = zeros(NX,DAYS);
 
 %! Initialize
 init_sim = simname;
-load(['/Volumes/FEISTY/NC/FishMIP/IPSL_CMIP6/',init_sim '/Last_mo_spinup_' init_sim '.mat']);
+load(['/Volumes/MIP/NC/FishMIP/IPSL_CMIP6/',init_sim '/Last_mo_spinup_' init_sim '.mat']);
 BENT.mass = BENT.bio;
 [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_hist(ID,DAYS,Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT);
 ENVR = sub_init_env_empHP(ID);
@@ -139,8 +139,8 @@ MNT = 0;
 %! Run model with no fishing
 for YR = 1:YEARS % years
     %! Load a year's ESM data
-    ti = num2str(YR+1948)
-    load(['/Volumes/FEISTY/Fish-MIP/CMIP6/IPSL/preindust/Data_ipsl_pi_daily_',ti,'.mat'],'ESM');
+    ti = num2str(YR+1949)
+    load(['/Volumes/MIP/Fish-MIP/CMIP6/IPSL/preindust/Data_ipsl_pi_daily_',ti,'.mat'],'ESM');
     
     for DAY = 1:param.DT:DAYS % days
         

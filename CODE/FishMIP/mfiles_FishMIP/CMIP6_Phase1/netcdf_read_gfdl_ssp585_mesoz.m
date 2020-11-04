@@ -5,7 +5,7 @@ clear all
 close all
 
 spath='/Users/cpetrik/Dropbox/ESM_data/Fish-MIP/CMIP6/GFDL/ssp585/';
-fpath='/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/ssp585/';
+fpath='/Volumes/MIP/Fish-MIP/CMIP6/GFDL/ssp585/';
 
 %% zmeso
 ncdisp([fpath 'gfdl-esm4_r1i1p1f1_ssp585_zmeso_onedeg_global_monthly_2015_2100.nc'])

@@ -5,29 +5,28 @@ close all
 
 %% Paths
 
-ipath = '/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/preindust/';
-hpath = '/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/hist/';
-spath = '/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/ssp126/';
-rpath = '/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/ssp585/';
+ipath = '/Volumes/MIP/Fish-MIP/CMIP6/GFDL/preindust/';
+hpath = '/Volumes/MIP/Fish-MIP/CMIP6/GFDL/hist/';
+spath = '/Volumes/MIP/Fish-MIP/CMIP6/GFDL/ssp126/';
+rpath = '/Volumes/MIP/Fish-MIP/CMIP6/GFDL/ssp585/';
 ppath = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP6/';
 
-load('/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/Data_grid_gfdl.mat','GRD');
-load('/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/gridspec_gfdl_cmip6.mat');
+load('/Volumes/MIP/Fish-MIP/CMIP6/GFDL/Data_grid_gfdl.mat','GRD');
+load('/Volumes/MIP/Fish-MIP/CMIP6/GFDL/gridspec_gfdl_cmip6.mat');
 
 CGRD = GRD;
 clear GRD
 
 %% Units
 %poc flux: mmol C m-2 s-1
-%zoo: mol C m-3
+%zoo: mol C m-2
 %tp: degC
 %tb: degC
 
-% meso zoo: from molC m-3 to g(WW) m-2
+% meso zoo: from molC m-2 to g(WW) m-2
 % 12.01 g C in 1 mol C
 % 1 g dry W in 9 g wet W (Pauly & Christiansen)
-% mult by 10 m depth interval for m-3 to m-2 !!!(should this be 100m???)!
-%D_Zm(j,:) = yi * 12.01 * 9.0 * 10;
+%D_Zm(j,:) = yi * 12.01 * 9.0;
 
 % detrital flux to benthos: from molC m-2 s-1 to g(WW) m-2 d-1
 % 12.01 g C in 1 mol C
@@ -36,9 +35,9 @@ clear GRD
 %D_det(j,:) = yi * 12.01 * 9.0 * 60 * 60 * 24;
 
 %% Preindust
-load([ipath 'gfdl_pi_temp100_monthly_1950_2100.mat'],'temp_100');
+load([ipath 'gfdl_pi_temp_100_monthly_1950_2100.mat'],'temp_100');
 load([ipath 'gfdl_pi_temp_btm_monthly_1950_2100.mat'],'temp_btm');
-load([ipath 'gfdl_pi_zmeso100_monthly_1950_2100.mat'],'zmeso_100');
+load([ipath 'gfdl_pi_zmeso_100_monthly_1950_2100.mat'],'zmeso_100');
 load([ipath 'gfdl_pi_det_btm_monthly_1950_2100.mat']); %,'det_btm'
 
 temp_100(temp_100 > 1.0e19) = nan;
@@ -48,7 +47,7 @@ det_btm(det_btm > 1.0e19) = nan;
 
 tp = double(temp_100);
 tb = double(temp_btm);
-zoo = double(zmeso_100) * 12.01 * 9.0 * 10;
+zoo = double(zmeso_100) * 12.01 * 9.0;
 det = double(det_btm) * 12.01 * 9.0 * 60 * 60 * 24;
 
 %
@@ -75,9 +74,9 @@ clear temp_100 temp_btm zmeso_100 det_btm runs
 clear tp tb zoo det
 
 %% Hist
-load([hpath 'gfdl_hist_temp100_monthly_1950_2014.mat'],'temp_100');
+load([hpath 'gfdl_hist_temp_100_monthly_1950_2014.mat'],'temp_100');
 load([hpath 'gfdl_hist_temp_btm_monthly_1950_2014.mat'],'temp_btm');
-load([hpath 'gfdl_hist_zmeso100_monthly_1950_2014.mat'],'zmeso_100');
+load([hpath 'gfdl_hist_zmeso_100_monthly_1950_2014.mat'],'zmeso_100');
 load([hpath 'gfdl_hist_det_btm_monthly_1950_2014.mat']);
 
 temp_100(temp_100 > 1.0e19) = nan;
@@ -87,7 +86,7 @@ det_btm(det_btm > 1.0e19) = nan;
 
 tp = double(temp_100);
 tb = double(temp_btm);
-zoo = double(zmeso_100) * 12.01 * 9.0 * 10;
+zoo = double(zmeso_100) * 12.01 * 9.0;
 det = double(det_btm) * 12.01 * 9.0 * 60 * 60 * 24;
 
 %
@@ -109,9 +108,9 @@ clear temp_100 temp_btm zmeso_100 det_btm
 clear tp tb zoo det
 
 %% SSP 126
-load([spath 'gfdl_ssp126_temp100_monthly_2015_2100.mat'],'temp_100');
+load([spath 'gfdl_ssp126_temp_100_monthly_2015_2100.mat'],'temp_100');
 load([spath 'gfdl_ssp126_temp_btm_monthly_2015_2100.mat'],'temp_btm');
-load([spath 'gfdl_ssp126_zmeso100_monthly_2015_2100.mat'],'zmeso_100');
+load([spath 'gfdl_ssp126_zmeso_100_monthly_2015_2100.mat'],'zmeso_100');
 load([spath 'gfdl_ssp126_det_btm_monthly_2015_2100.mat']);
 
 temp_100(temp_100 > 1.0e19) = nan;
@@ -121,7 +120,7 @@ det_btm(det_btm > 1.0e19) = nan;
 
 tp = double(temp_100);
 tb = double(temp_btm);
-zoo = double(zmeso_100) * 12.01 * 9.0 * 10;
+zoo = double(zmeso_100) * 12.01 * 9.0;
 det = double(det_btm) * 12.01 * 9.0 * 60 * 60 * 24;
 
 %
@@ -143,9 +142,9 @@ clear temp_100 temp_btm zmeso_100 det_btm
 clear tp tb zoo det
 
 %% SSP 585
-load([rpath 'gfdl_ssp585_temp100_monthly_2015_2100.mat'],'temp_100');
+load([rpath 'gfdl_ssp585_temp_100_monthly_2015_2100.mat'],'temp_100');
 load([rpath 'gfdl_ssp585_temp_btm_monthly_2015_2100.mat'],'temp_btm');
-load([rpath 'gfdl_ssp585_zmeso100_monthly_2015_2100.mat'],'zmeso_100');
+load([rpath 'gfdl_ssp585_zmeso_100_monthly_2015_2100.mat'],'zmeso_100');
 load([rpath 'gfdl_ssp585_det_btm_monthly_2015_2100.mat']);
 
 temp_100(temp_100 > 1.0e19) = nan;
@@ -155,7 +154,7 @@ det_btm(det_btm > 1.0e19) = nan;
 
 tp = double(temp_100);
 tb = double(temp_btm);
-zoo = double(zmeso_100) * 12.01 * 9.0 * 10;
+zoo = double(zmeso_100) * 12.01 * 9.0;
 det = double(det_btm) * 12.01 * 9.0 * 60 * 60 * 24;
 
 %
@@ -177,7 +176,7 @@ clear temp_100 temp_btm zmeso_100 det_btm
 clear tp tb zoo det
 
 %%
-save('/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/gfdl_cm4_input_means.mat',...
+save('/Volumes/MIP/Fish-MIP/CMIP6/GFDL/gfdl_cm4_input_means.mat',...
     'tp_pi1','tb_pi1','zoo_pi1','det_pi1',...
     'tp_pi2','tb_pi2','zoo_pi2','det_pi2',...
     'tp_hist','tb_hist','zoo_hist','det_hist',...
@@ -419,23 +418,23 @@ q_det(3,:) = quantile(det_hist(:),[0.05 0.25 0.5 0.75 0.95]);
 q_det(4,:) = quantile(det_126(:),[0.05 0.25 0.5 0.75 0.95]);
 q_det(5,:) = quantile(det_585(:),[0.05 0.25 0.5 0.75 0.95]);
 
-save('/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/gfdl_cm4_input_means.mat',...
+save('/Volumes/MIP/Fish-MIP/CMIP6/GFDL/gfdl_cm4_input_means.mat',...
     'q_tp','q_tb','q_zoo','q_det','-append')
 
 TP = array2table(q_tp,'RowNames',{'pi1','pi2','hist','ssp126','ssp585'},...
     'VariableNames',{'5th','25th','50th','75th','95th'});
-writetable(TP,'/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/Tp_quantiles.csv','Delimiter',',','WriteRowNames',true)
+writetable(TP,'/Volumes/MIP/Fish-MIP/CMIP6/GFDL/Tp_quantiles.csv','Delimiter',',','WriteRowNames',true)
 
 TB = array2table(q_tb,'RowNames',{'pi1','pi2','hist','ssp126','ssp585'},...
     'VariableNames',{'5th','25th','50th','75th','95th'});
-writetable(TB,'/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/Tb_quantiles.csv','Delimiter',',','WriteRowNames',true)
+writetable(TB,'/Volumes/MIP/Fish-MIP/CMIP6/GFDL/Tb_quantiles.csv','Delimiter',',','WriteRowNames',true)
 
 TZ = array2table(q_zoo,'RowNames',{'pi1','pi2','hist','ssp126','ssp585'},...
     'VariableNames',{'5th','25th','50th','75th','95th'});
-writetable(TZ,'/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/Zoo_quantiles.csv','Delimiter',',','WriteRowNames',true)
+writetable(TZ,'/Volumes/MIP/Fish-MIP/CMIP6/GFDL/Zoo_quantiles.csv','Delimiter',',','WriteRowNames',true)
 
 TD = array2table(q_det,'RowNames',{'pi1','pi2','hist','ssp126','ssp585'},...
     'VariableNames',{'5th','25th','50th','75th','95th'});
-writetable(TD,'/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/Det_quantiles.csv','Delimiter',',','WriteRowNames',true)
+writetable(TD,'/Volumes/MIP/Fish-MIP/CMIP6/GFDL/Det_quantiles.csv','Delimiter',',','WriteRowNames',true)
 
 

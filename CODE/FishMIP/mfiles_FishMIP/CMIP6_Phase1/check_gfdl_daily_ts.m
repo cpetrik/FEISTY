@@ -6,22 +6,22 @@ close all
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP6/';
 
 % Preindust
-load(['/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/preindust/Data_gfdl_pi_daily_2005.mat']);
+load(['/Volumes/MIP/Fish-MIP/CMIP6/GFDL/preindust/Data_gfdl_pi_daily_2005.mat']);
 PI1 = ESM;
 clear ESM
-load(['/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/preindust/Data_gfdl_pi_daily_2099.mat']);
+load(['/Volumes/MIP/Fish-MIP/CMIP6/GFDL/preindust/Data_gfdl_pi_daily_2099.mat']);
 PI2 = ESM;
 clear ESM
 % Hist
-load(['/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/hist/Data_gfdl_hist_daily_2005.mat']);
+load(['/Volumes/MIP/Fish-MIP/CMIP6/GFDL/hist/Data_gfdl_hist_daily_2005.mat']);
 HI = ESM;
 clear ESM
 % SSP 126
-load(['/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/ssp126/Data_gfdl_ssp126_daily_2099.mat']);
+load(['/Volumes/MIP/Fish-MIP/CMIP6/GFDL/ssp126/Data_gfdl_ssp126_daily_2099.mat']);
 TC = ESM;
 clear ESM
 % RCP 585
-load(['/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/ssp585/Data_gfdl_ssp585_daily_2099.mat']);
+load(['/Volumes/MIP/Fish-MIP/CMIP6/GFDL/ssp585/Data_gfdl_ssp585_daily_2099.mat']);
 RC = ESM;
 clear ESM
 

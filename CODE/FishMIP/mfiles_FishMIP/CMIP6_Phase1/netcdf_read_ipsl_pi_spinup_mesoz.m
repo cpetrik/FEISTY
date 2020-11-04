@@ -5,7 +5,7 @@ clear all
 close all
 
 fpath='/Users/cpetrik/Dropbox/ESM_data/Fish-MIP/CMIP6/IPSL/preindust/';
-spath='/Volumes/FEISTY/Fish-MIP/CMIP6/IPSL/preindust/';
+spath='/Volumes/MIP/Fish-MIP/CMIP6/IPSL/preindust/';
 
 %% Meso Zoop zall
 ncdisp([fpath 'ipsl-cm6a-lr_r1i1p1f1_picontrol_zmeso_onedeg_global_monthly_1601_2100.nc'])

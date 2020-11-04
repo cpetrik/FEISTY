@@ -4,7 +4,7 @@
 clear all
 close all
 
-fpath='/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/hist/';
+fpath='/Volumes/MIP/Fish-MIP/CMIP6/GFDL/hist/';
 
 %%
 ncdisp([fpath 'gfdl-esm4_r1i1p1f1_historical_thetao-bot_onedeg_global_monthly_1850_2014.nc'])

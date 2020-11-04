@@ -5,14 +5,14 @@ close all
 
 %% Paths
 
-cpath = '/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/preindust/';
+cpath = '/Volumes/MIP/Fish-MIP/CMIP6/GFDL/preindust/';
 ppath = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP6/';
 
 %% CM4 -----------------------------------------------------------------
 
 % Annual mean of daily values from interp
-load('/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/Data_grid_gfdl.mat','GRD');
-load('/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/gridspec_gfdl_cmip6.mat');
+load('/Volumes/MIP/Fish-MIP/CMIP6/GFDL/Data_grid_gfdl.mat','GRD');
+load('/Volumes/MIP/Fish-MIP/CMIP6/GFDL/gridspec_gfdl_cmip6.mat');
 load([cpath 'Data_gfdl_spinup_daily_1949.mat'])
 
 CGRD = GRD;
@@ -63,11 +63,11 @@ title('GFDL Tb')
 subplot('Position',[0.5 0.51 0.5 0.5])
 axesm ('Robinson','MapLatLimit',clatlim,'MapLonLimit',clonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
-surfm(LAT,LON,cZ)
+surfm(LAT,LON,log10(cZ))
 cmocean('tempo')
-caxis([0 20])
+caxis([0 2])
 colorbar('Position',[0.55 0.56 0.4 0.03],'orientation','horizontal')
-title('GFDL Zoo')
+title('GFDL log_1_0 Zoo')
 
 subplot('Position',[0.5 0 0.5 0.5])
 axesm ('Robinson','MapLatLimit',clatlim,'MapLonLimit',clonlim,'frame','on',...
