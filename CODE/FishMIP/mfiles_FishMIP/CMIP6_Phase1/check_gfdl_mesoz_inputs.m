@@ -1,15 +1,15 @@
-% check mesoz inputs, because hist fish biomass very high
+% check mesoz inputs
 
 clear all
 close all
 
-ppath='/Volumes/MIP/Fish-MIP/CMIP6/IPSL/preindust/';
-hpath='/Volumes/MIP/Fish-MIP/CMIP6/IPSL/hist/';
-fpath='/Volumes/MIP/Fish-MIP/CMIP6/IPSL/ssp126/';
-spath='/Volumes/MIP/Fish-MIP/CMIP6/IPSL/ssp585/';
+ppath='/Volumes/MIP/Fish-MIP/CMIP6/GFDL/preindust/';
+hpath='/Volumes/MIP/Fish-MIP/CMIP6/GFDL/hist/';
+fpath='/Volumes/MIP/Fish-MIP/CMIP6/GFDL/ssp126/';
+spath='/Volumes/MIP/Fish-MIP/CMIP6/GFDL/ssp585/';
 
 %% Grid
-load('/Volumes/MIP/Fish-MIP/CMIP6/IPSL/Data_grid_ipsl.mat','GRD');
+load('/Volumes/MIP/Fish-MIP/CMIP6/GFDL/Data_grid_gfdl.mat','GRD');
 NX = length(GRD.Z);
 WID = GRD.ID;
 
@@ -17,11 +17,10 @@ WID = GRD.ID;
 %zoo: mol C m-2
 % D_Zm = yi * 12.01 * 9.0;
 
-load([ppath 'ipsl_pi_zmeso_100_monthly_1950_2100.mat']); 
+load([ppath 'gfdl_pi_zmeso_100_monthly_1950_2100.mat']); 
 
 zmeso_100 = double(zmeso_100);
 zmeso_100(zmeso_100 > 1.0e19) = nan;
-zmeso_100 = fliplr(zmeso_100);
 
 pyr = yr(runs);
 
@@ -32,11 +31,10 @@ pZ = zmeso_100(WID,:);
 %% Compare to spinup
 clear zmeso_100 runs yr
 
-load([ppath 'ipsl_pi_zmeso_100_monthly_1850_1949.mat']);
+load([ppath 'gfdl_pi_zmeso_100_monthly_1850_1949.mat']);
 
 zmeso_100 = double(zmeso_100);
 zmeso_100(zmeso_100 > 1.0e19) = nan;
-zmeso_100 = fliplr(zmeso_100);
 
 syr = yr(spin);
 
@@ -47,7 +45,7 @@ sZ = zmeso_100(WID,:);
 %% Hist 100
 clear zmeso_100 spin yr
 
-load([hpath 'ipsl_hist_zmeso_100_monthly_1950_2014.mat']);
+load([hpath 'gfdl_hist_zmeso_100_monthly_1950_2014.mat']);
 
 zmeso_100 = double(zmeso_100);
 zmeso_100(zmeso_100 > 1.0e19) = nan;
@@ -61,7 +59,7 @@ hZ = zmeso_100(WID,:);
 %% Hist vint
 clear zmeso_100 yr
 
-load([hpath 'ipsl_hist_zmeso_vint_monthly_1950_2014.mat']);
+load([hpath 'gfdl_hist_zmeso_vint_monthly_1950_2014.mat']);
 
 zmeso_vint = double(zmeso_vint);
 zmeso_vint(zmeso_vint > 1.0e19) = nan;
@@ -73,11 +71,10 @@ hvZ = zmeso_vint(WID,:);
 %% SSP 126
 clear zmeso_100 runs yr
 
-load([fpath 'ipsl_ssp126_zmeso_100_monthly_2015_2100.mat']);
+load([fpath 'gfdl_ssp126_zmeso_100_monthly_2015_2100.mat']);
 
 zmeso_100 = double(zmeso_100);
 zmeso_100(zmeso_100 > 1.0e19) = nan;
-zmeso_100 = fliplr(zmeso_100);
 
 fyr = yr;
 
@@ -88,7 +85,7 @@ fZ = zmeso_100(WID,:);
 %% SSP 585
 clear zmeso_100 yr
 
-load([spath 'ipsl_ssp585_zmeso_100_monthly_2015_2100.mat']);
+load([spath 'gfdl_ssp585_zmeso_100_monthly_2015_2100.mat']);
 
 zmeso_100 = double(zmeso_100);
 zmeso_100(zmeso_100 > 1.0e19) = nan;
@@ -110,7 +107,7 @@ plot(ryr,nanmean(rZ),'r'); hold on
 title('Zoo')
 
 %%
-save('ipsl_zoo_ts.mat','syr','pyr','hyr','fyr','sZ','pZ','hZ','fZ','rZ');
+save('gfdl_zoo_ts.mat','syr','pyr','hyr','fyr','sZ','pZ','hZ','fZ','rZ');
 
 %%
 

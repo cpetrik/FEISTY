@@ -15,10 +15,10 @@ end
 
 %% FEISTY Output
 %gfdl
-gpath=['/Volumes/FEISTY/NC/FishMIP/GFDL_CMIP6/' cfile '/'];
+gpath=['/Volumes/MIP/NC/FishMIP/GFDL_CMIP6/' cfile '/'];
 load([gpath 'Means_PreIndust_empHP_' cfile '.mat'],...
     'GPreAllF','GPreAllP','GPreAllD','GPreAllM','GPreAllL','GPreAll')
-load([gpath 'Means_Hist_empHP_2000-2010_' cfile '.mat'],...
+load([gpath 'Means_Hist_2000-2010_' cfile '.mat'],...
     'GHistAllF','GHistAllP','GHistAllD','GHistAllM','GHistAllL','GHistAll')
 load([gpath 'Means_SSP126_empHP_2090-2100_' cfile '.mat'],...
     'GS126AllF','GS126AllP','GS126AllD','GS126AllM','GS126AllL','GS126All')
@@ -26,7 +26,7 @@ load([gpath 'Means_SSP585_empHP_2090-2100_' cfile '.mat'],...
     'GS585AllF','GS585AllP','GS585AllD','GS585AllM','GS585AllL','GS585All');
 
 %ipsl
-ipath=['/Volumes/FEISTY/NC/FishMIP/IPSL_CMIP6/' cfile '/'];
+ipath=['/Volumes/MIP/NC/FishMIP/IPSL_CMIP6/' cfile '/'];
 load([ipath 'Means_PreIndust_empHP_' cfile '.mat'],...
     'IPreAllF','IPreAllP','IPreAllD','IPreAllM','IPreAllL','IPreAll')
 load([ipath 'Means_Hist_empHP_2000-2010_' cfile '.mat'],...
@@ -37,8 +37,8 @@ load([ipath 'Means_SSP585_empHP_2090-2100_' cfile '.mat'],...
     'IS585AllF','IS585AllP','IS585AllD','IS585AllM','IS585AllL','IS585All');
 
 %% Grid info
-cpath = '/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/';
-load('/Volumes/FEISTY/Fish-MIP/CMIP6/GFDL/gridspec_gfdl_cmip6.mat');
+cpath = '/Volumes/MIP/Fish-MIP/CMIP6/GFDL/';
+load('/Volumes/MIP/Fish-MIP/CMIP6/GFDL/gridspec_gfdl_cmip6.mat');
 load([cpath 'Data_grid_gfdl.mat']);
 
 [ni,nj]=size(LON);

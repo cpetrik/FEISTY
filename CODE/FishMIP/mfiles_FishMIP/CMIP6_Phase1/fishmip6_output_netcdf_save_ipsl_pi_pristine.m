@@ -36,12 +36,34 @@ load([fpath 'PreIndust_empHP_fishMIP_outputs_monthly_' cfile '.mat'])
 
 t=(1:length(time))/12;
 t=t+1950;
+clear time
 
 %% Grid
 load('/Volumes/MIP/Fish-MIP/CMIP6/IPSL/Data_grid_ipsl.mat','GRD');
 load('/Volumes/MIP/Fish-MIP/CMIP6/IPSL/gridspec_ipsl_cmip6.mat');
 
 [ni,nj] = size(LAT);
+
+load('/Volumes/MIP/Fish-MIP/CMIP6/IPSL/preindust/ipsl_pi_temp_btm_monthly_1950_2100.mat',...
+    'yr','time');
+t_all = time;
+
+runs = find(yr>1950 & yr<=2100);
+year = yr(runs);
+time = time(runs);
+runs1 = find(year>1950 & year<=2015);
+runs2 = find(year>2015 & year<=2100);
+htime = time(runs1);
+ftime = time(runs2);
+
+length(runs1) +length(runs2)
+
+%% Just hsitoric years
+allPel = allPel(:,runs1);
+allD = allD(:,runs1);
+allC = allC(:,runs1);
+SPel = SPel(:,runs1);
+LPel = LPel(:,runs1);
 
 %% Reshape to lat,lon,yr
 [nid,nt] = size(allC);

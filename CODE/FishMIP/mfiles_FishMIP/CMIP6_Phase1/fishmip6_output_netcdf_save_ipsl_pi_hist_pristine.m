@@ -1,6 +1,5 @@
 % Calc Fish-MIP outputs saved as NetCDF
-% Future time period
-% SSP 585
+% PreIndust control
 
 clear all
 close all
@@ -11,7 +10,7 @@ harv = 'pristine';
 
 %% Fish-MIP OUTPUTS =================================================
 
-load([fpath 'SSP585_empHP_fishMIP_outputs_monthly_' cfile '.mat'])
+load([fpath 'PreIndust_empHP_fishMIP_outputs_monthly_' cfile '.mat'])
 
 % PREFERRED (all units = gWW/m2)
 %total pelagic biomass tpb = 360x180xMOs
@@ -36,7 +35,7 @@ load([fpath 'SSP585_empHP_fishMIP_outputs_monthly_' cfile '.mat'])
 % MLDem
 
 t=(1:length(time))/12;
-t=t+2015;
+t=t+1950;
 clear time
 
 %% Grid
@@ -45,9 +44,26 @@ load('/Volumes/MIP/Fish-MIP/CMIP6/IPSL/gridspec_ipsl_cmip6.mat');
 
 [ni,nj] = size(LAT);
 
-load('/Volumes/MIP/Fish-MIP/CMIP6/IPSL/ssp585/ipsl_ssp585_temp_btm_monthly_2015_2100.mat',...
+load('/Volumes/MIP/Fish-MIP/CMIP6/IPSL/preindust/ipsl_pi_temp_btm_monthly_1950_2100.mat',...
     'yr','time');
 t_all = time;
+
+runs = find(yr>1950 & yr<=2100);
+year = yr(runs);
+time = time(runs);
+runs1 = find(year>1950 & year<=2015);
+runs2 = find(year>2015 & year<=2100);
+htime = time(runs1);
+ftime = time(runs2);
+
+length(runs1) +length(runs2)
+
+%% Just hsitoric years
+allPel = allPel(:,runs1);
+allD = allD(:,runs1);
+allC = allC(:,runs1);
+SPel = SPel(:,runs1);
+LPel = LPel(:,runs1);
 
 %% Reshape to lat,lon,yr
 [nid,nt] = size(allC);
@@ -173,8 +189,8 @@ title('L Dem')
 %apecosm_ipsl-esm4_nobasd_picontrol_histsoc_default_tcb_global_monthly_2001_2010.nc
 
 %% Setup netcdf path to store to
-fname1 = 'feisty_ipsl-cm6a_nobasd_ssp585_nat_default_';
-fname2 = '_global_monthly_2015_2100.nc';
+fname1 = 'feisty_ipsl-cm6a_nobasd_picontrol_nat_default_';
+fname2 = '_global_monthly_1950_2014.nc';
 
 file_tpb = [fpath fname1 'tpb' fname2];
 file_tdb = [fpath fname1 'tdb' fname2];
@@ -231,7 +247,7 @@ netcdf.endDef(ncidSB);
 netcdf.putVar(ncidSB,vidlat,LAT);
 netcdf.putVar(ncidSB,vidlon,LON);
 netcdf.putVar(ncidSB,vidbioSB,tpb);
-netcdf.putVar(ncidSB,vidtSB,time);
+netcdf.putVar(ncidSB,vidtSB,htime);
 
 netcdf.close(ncidSB);
 %%
@@ -281,7 +297,7 @@ netcdf.endDef(ncidSD);
 netcdf.putVar(ncidSD,vidlat,LAT);
 netcdf.putVar(ncidSD,vidlon,LON);
 netcdf.putVar(ncidSD,vidbioSD,tdb);
-netcdf.putVar(ncidSD,vidtSD,time);
+netcdf.putVar(ncidSD,vidtSD,htime);
 
 netcdf.close(ncidSD);
 
@@ -329,7 +345,7 @@ netcdf.endDef(ncidCB);
 netcdf.putVar(ncidCB,vidlat,LAT);
 netcdf.putVar(ncidCB,vidlon,LON);
 netcdf.putVar(ncidCB,vidbioCB,tcb);
-netcdf.putVar(ncidCB,vidtCB,time);
+netcdf.putVar(ncidCB,vidtCB,htime);
 
 netcdf.close(ncidCB);
 
@@ -376,7 +392,7 @@ netcdf.endDef(ncid30);
 netcdf.putVar(ncid30,vidlat,LAT);
 netcdf.putVar(ncid30,vidlon,LON);
 netcdf.putVar(ncid30,vidbio30,bp30cm);
-netcdf.putVar(ncid30,vidt30,time);
+netcdf.putVar(ncid30,vidt30,htime);
 
 netcdf.close(ncid30);
 
@@ -424,7 +440,7 @@ netcdf.endDef(ncid90);
 netcdf.putVar(ncid90,vidlat,LAT);
 netcdf.putVar(ncid90,vidlon,LON);
 netcdf.putVar(ncid90,vidbio90,bp90cm);
-netcdf.putVar(ncid90,vidt90,time);
+netcdf.putVar(ncid90,vidt90,htime);
 
 netcdf.close(ncid90);
 
@@ -473,13 +489,8 @@ netcdf.endDef(ncid90);
 netcdf.putVar(ncid90,vidlat,LAT);
 netcdf.putVar(ncid90,vidlon,LON);
 netcdf.putVar(ncid90,vidbio90,bd90cm);
-netcdf.putVar(ncid90,vidt90,time);
+netcdf.putVar(ncid90,vidt90,htime);
 
 netcdf.close(ncid90);
-
-
-
-
-
 
 

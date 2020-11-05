@@ -7,7 +7,7 @@ cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80
 
 fpath=['/Volumes/MIP/NC/FishMIP/IPSL_CMIP6/' cfile '/'];
 
-%% SP
+% SP
 ncid = netcdf.open([fpath 'SSP585_empHP_sml_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
@@ -17,13 +17,13 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-%%
+%
 [ni,nt] = size(biomass);
 
 SP.bio = biomass;
 clear biomass
 
-%% SF
+% SF
 ncid = netcdf.open([fpath 'SSP585_empHP_sml_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
@@ -141,7 +141,7 @@ ld_tmean=nanmean(LD.bio,1);
 b_tmean=nanmean(Bent.bio,1);
 
 
-%% Space
+% Space
 t=time;
 mo=t/12;
 mo=mo+2015;
@@ -170,7 +170,7 @@ plot(mo,log10(lp_tmean),'b'); hold on;
 plot(mo,log10(mf_tmean),'r'); hold on;
 plot(mo,log10(ld_tmean),'k'); hold on;
 
-%% Fish-MIP OUTPUTS =================================================
+% Fish-MIP OUTPUTS =================================================
 
 % PREFERRED (all units = gWW/m2)
 
