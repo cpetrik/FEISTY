@@ -189,7 +189,7 @@ title('L Dem')
 %apecosm_ipsl-esm4_nobasd_picontrol_histsoc_default_tcb_global_monthly_2001_2010.nc
 
 %% Setup netcdf path to store to
-fname1 = 'feisty_ipsl-cm6a_nobasd_picontrol_nat_default_';
+fname1 = 'feisty_ipsl-cm6a-lr_nobasd_picontrol_nat_default_';
 fname2 = '_global_monthly_1950_2014.nc';
 
 file_tpb = [fpath fname1 'tpb' fname2];
