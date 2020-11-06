@@ -30,8 +30,8 @@ end
 
 %% Get subset of temp
 % Time
-yr = ((time+1)/12)+1601-1;
-runs = find(yr>1950 & yr<=2100);
+yr = ((time+1)/12)+1601; %months since 1601-1-1 = first month is Jan 1601
+runs = find(yr>1950);
 z100 = find(lev <= 100);
 
 i = nvars;

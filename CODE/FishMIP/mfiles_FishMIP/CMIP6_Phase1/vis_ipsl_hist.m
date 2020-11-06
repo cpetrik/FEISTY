@@ -131,9 +131,10 @@ figure(3)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,log10(Zb))
-colormap('jet')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+%colormap('jet')
+cmocean('tempo')
+load coastlines;                     %decent looking coastlines
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 %caxis([-2 2]);
 %caxis([1 4]);
 caxis([-1 2]);

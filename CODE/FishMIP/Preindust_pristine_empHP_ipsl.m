@@ -17,7 +17,7 @@ NX = length(GRD.Z);
 ID = 1:param.NX;
 
 %! How long to run the model
-YEARS = length(1950:2099);
+YEARS = length(1950:2100);
 DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 

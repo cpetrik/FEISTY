@@ -29,8 +29,8 @@ end
 
 %% Get subset of temp
 % Time
-yr = ((time+1)/12)+1601-1;
-runs = find(yr>1950 & yr<=2100);
+yr = ((time+1)/12)+1601; %months since 1601-1-1 = first month is Jan 1601
+runs = find(yr>1950);
 z100 = find(olevel <= 100);
 
 i = nvars;
@@ -52,6 +52,12 @@ thkcello(thkcello >= 1.00e+20) = NaN;
 temp_100 = squeeze(nansum((thetao.*thkcello),3)) ./ squeeze(nansum(thkcello,3));
 
 test=squeeze(double(temp_100(:,:,150)));
+pcolor(test)
+colorbar
+
+%%
+temp_100 = fliplr(temp_100);
+test=squeeze(double(temp_100(:,:,1500)));
 pcolor(test)
 colorbar
 

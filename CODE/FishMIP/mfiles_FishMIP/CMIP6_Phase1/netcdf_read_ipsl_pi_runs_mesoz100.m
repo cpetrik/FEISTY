@@ -32,8 +32,8 @@ end
 
 %% Get subset of time & depth
 % Time
-yr = ((time+1)/12)+1601-1;
-runs = find(yr>1950 & yr<=2100);
+yr = ((time+1)/12)+1601; %months since 1601-1-1 = first month is Jan 1601
+runs = find(yr>1950);
 z100 = find(olevel <= 100);
 
 i = nvars;
@@ -55,6 +55,12 @@ thkcello(thkcello >= 1.00e+20) = NaN;
 
 %% Integrate top 100 m
 zmeso_100 = squeeze(nansum((zmeso.*thkcello),3));
+
+%%
+zmeso_100 = fliplr(zmeso_100);
+test=squeeze(double(zmeso_100(:,:,1200)));
+pcolor(test)
+colorbar
 
 %%
 clear zmeso thkcello

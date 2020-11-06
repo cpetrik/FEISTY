@@ -4,7 +4,7 @@
 clear all
 close all
 
-fpath='/Volumes/FEISTY/Fish-MIP/CMIP6/IPSL/preindust/';
+fpath='/Volumes/MIP/Fish-MIP/CMIP6/IPSL/preindust/';
 
 %%
 ncdisp([fpath 'ipsl-cm6a-lr_r1i1p1f1_picontrol_tob_onedeg_global_monthly_1601_2100.nc'])
@@ -30,10 +30,10 @@ netcdf.close(ncid);
 tob(tob >= 1.0000e+20) = NaN;
 
 %% Different time periods
-yr = ((time+1)/12)+1601-1;
+yr = ((time+1)/12)+1601; %months since 1601-1-1 = first month is Jan 1601
 
 spin = find(yr>1850 & yr<=1950);
-runs = find(yr>1950 & yr<=2100);
+runs = find(yr>1950);
 
 %% spinup
 temp_btm = tob(:,:,spin);

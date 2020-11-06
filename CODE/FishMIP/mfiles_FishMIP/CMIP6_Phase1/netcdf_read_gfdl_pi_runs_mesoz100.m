@@ -30,8 +30,8 @@ end
 
 %% Get subset 
 % Time
-yr = ((time+1)/12)+1601-1;
-runs = find(yr>1950 & yr<=2101);
+yr = ((time+1)/12)+1601; %months since 1601-1-1 = first month is Jan 1601
+runs = find(yr>1950);
 z100 = find(lev <= 100);
 
 i = nvars;
@@ -67,6 +67,11 @@ mmz = nanmean(mz);
 
 figure
 plot(yr(runs),mmz,'k');
+
+%%
+test=squeeze(double(zmeso_100(:,:,1500)));
+pcolor(test)
+colorbar
 
 %%
 save([fpath 'gfdl_pi_zmeso_100_monthly_1950_2100.mat'],'zmeso_100','time',...
