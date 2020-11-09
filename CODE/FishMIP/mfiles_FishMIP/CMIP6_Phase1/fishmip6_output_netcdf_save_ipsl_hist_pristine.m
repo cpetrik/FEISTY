@@ -188,6 +188,10 @@ file_bd90 = [fpath fname1 'bd90cm' fname2];
 
 [ni,nj,nt] = size(tpb);
 
+%% Lat & Lon should be vectors
+LAT = LAT(1,:);
+LON = LON(:,1);
+
 %% tpb
 ncidSB = netcdf.create(file_tpb,'netcdf4');
 
@@ -195,14 +199,14 @@ lon_dim = netcdf.defDim(ncidSB,'lon',ni);
 lat_dim = netcdf.defDim(ncidSB,'lat',nj);
 time_dim = netcdf.defDim(ncidSB,'time',nt);
 
-vidlat = netcdf.defVar(ncidSB,'lat','double',[lon_dim,lat_dim]);
-netcdf.putAtt(ncidSB,vidlat,'long_name','lat');
+vidlat = netcdf.defVar(ncidSB,'lat','double',lat_dim);
+netcdf.putAtt(ncidSB,vidlat,'long_name','latitude');
 netcdf.putAtt(ncidSB,vidlat,'standard_name','lat');
 netcdf.putAtt(ncidSB,vidlat,'units','degrees_north');
 netcdf.putAtt(ncidSB,vidlat,'axis','Y');
 
-vidlon = netcdf.defVar(ncidSB,'lon','double',[lon_dim,lat_dim]);
-netcdf.putAtt(ncidSB,vidlon,'long_name','lon');
+vidlon = netcdf.defVar(ncidSB,'lon','double',lon_dim);
+netcdf.putAtt(ncidSB,vidlon,'long_name','longitude');
 netcdf.putAtt(ncidSB,vidlon,'standard_name','lon');
 netcdf.putAtt(ncidSB,vidlon,'units','degrees_east' );
 netcdf.putAtt(ncidSB,vidlon,'axis','X');
@@ -244,14 +248,14 @@ lon_dim = netcdf.defDim(ncidSD,'lon',ni);
 lat_dim = netcdf.defDim(ncidSD,'lat',nj);
 time_dim = netcdf.defDim(ncidSD,'time',nt);
 
-vidlat = netcdf.defVar(ncidSD,'lat','double',[lon_dim,lat_dim]);
-netcdf.putAtt(ncidSD,vidlat,'long_name','lat');
+vidlat = netcdf.defVar(ncidSD,'lat','double',lat_dim);
+netcdf.putAtt(ncidSD,vidlat,'long_name','latitude');
 netcdf.putAtt(ncidSD,vidlat,'standard_name','lat');
 netcdf.putAtt(ncidSD,vidlat,'units','degrees_north');
 netcdf.putAtt(ncidSD,vidlat,'axis','Y');
 
-vidlon = netcdf.defVar(ncidSD,'lon','double',[lon_dim,lat_dim]);
-netcdf.putAtt(ncidSD,vidlon,'long_name','lon');
+vidlon = netcdf.defVar(ncidSD,'lon','double',lon_dim);
+netcdf.putAtt(ncidSD,vidlon,'long_name','longitude');
 netcdf.putAtt(ncidSD,vidlon,'standard_name','lon');
 netcdf.putAtt(ncidSD,vidlon,'units','degrees_east' );
 netcdf.putAtt(ncidSD,vidlon,'axis','X');
@@ -292,14 +296,14 @@ lon_dim = netcdf.defDim(ncidCB,'lon',ni);
 lat_dim = netcdf.defDim(ncidCB,'lat',nj);
 time_dim = netcdf.defDim(ncidCB,'time',nt);
 
-vidlat = netcdf.defVar(ncidCB,'lat','double',[lon_dim,lat_dim]);
-netcdf.putAtt(ncidCB,vidlat,'long_name','lat');
+vidlat = netcdf.defVar(ncidCB,'lat','double',lat_dim);
+netcdf.putAtt(ncidCB,vidlat,'long_name','latitude');
 netcdf.putAtt(ncidCB,vidlat,'standard_name','lat');
 netcdf.putAtt(ncidCB,vidlat,'units','degrees_north');
 netcdf.putAtt(ncidCB,vidlat,'axis','Y');
 
-vidlon = netcdf.defVar(ncidCB,'lon','double',[lon_dim,lat_dim]);
-netcdf.putAtt(ncidCB,vidlon,'long_name','lon');
+vidlon = netcdf.defVar(ncidCB,'lon','double',lon_dim);
+netcdf.putAtt(ncidCB,vidlon,'long_name','longitude');
 netcdf.putAtt(ncidCB,vidlon,'standard_name','lon');
 netcdf.putAtt(ncidCB,vidlon,'units','degrees_east' );
 netcdf.putAtt(ncidCB,vidlon,'axis','X');
@@ -340,14 +344,14 @@ lon_dim = netcdf.defDim(ncid30,'lon',ni);
 lat_dim = netcdf.defDim(ncid30,'lat',nj);
 time_dim = netcdf.defDim(ncid30,'time',nt);
 
-vidlat = netcdf.defVar(ncid30,'lat','double',[lon_dim,lat_dim]);
-netcdf.putAtt(ncid30,vidlat,'long_name','lat');
+vidlat = netcdf.defVar(ncid30,'lat','double',lat_dim);
+netcdf.putAtt(ncid30,vidlat,'long_name','latitude');
 netcdf.putAtt(ncid30,vidlat,'standard_name','lat');
 netcdf.putAtt(ncid30,vidlat,'units','degrees_north');
 netcdf.putAtt(ncid30,vidlat,'axis','Y');
 
-vidlon = netcdf.defVar(ncid30,'lon','double',[lon_dim,lat_dim]);
-netcdf.putAtt(ncid30,vidlon,'long_name','lon');
+vidlon = netcdf.defVar(ncid30,'lon','double',lon_dim);
+netcdf.putAtt(ncid30,vidlon,'long_name','longitude');
 netcdf.putAtt(ncid30,vidlon,'standard_name','lon');
 netcdf.putAtt(ncid30,vidlon,'units','degrees_east' );
 netcdf.putAtt(ncid30,vidlon,'axis','X');
@@ -380,45 +384,6 @@ netcdf.putVar(ncid30,vidt30,time);
 
 netcdf.close(ncid30);
 
-%% bp30to90cm
-% ncid60 = netcdf.create(file_bp3090,'netcdf4');
-% 
-% lon_dim = netcdf.defDim(ncid60,'lon',ni);
-% lat_dim = netcdf.defDim(ncid60,'lat',nj);
-% time_dim = netcdf.defDim(ncid60,'time',nt);
-% 
-% vidlat = netcdf.defVar(ncid60,'lat','double',[lon_dim,lat_dim]);
-% netcdf.putAtt(ncid60,vidlat,'long_name','lat');
-% netcdf.putAtt(ncid60,vidlat,'units','degrees_north');
-% 
-% vidlon = netcdf.defVar(ncid60,'lon','double',[lon_dim,lat_dim]);
-% netcdf.putAtt(ncid60,vidlon,'long_name','lon');
-% netcdf.putAtt(ncid60,vidlon,'units','degrees_east' );
-% 
-% vidt60 = netcdf.defVar(ncid60,'time','double',time_dim);
-% netcdf.putAtt(ncid60,vidt60,'long_name','time');
-% netcdf.putAtt(ncid60,vidt60,'units','months since 1601-01-01' );
-% 
-% vidbio60 = netcdf.defVar(ncid60,'bp30to90cm','double',[lon_dim,lat_dim,time_dim]);
-% netcdf.putAtt(ncid60,vidbio60,'long_name','biomass density of pelagic >=30 cm and <90cm');
-% netcdf.putAtt(ncid60,vidbio60,'units','grams wet weight  m-2' );
-% netcdf.defVarFill(ncid60,vidbio60,false,1.0e20);
-% 
-% varid = netcdf.getConstant('GLOBAL');
-% netcdf.putAtt(ncid60,varid,'creation_date',datestr(now));
-% netcdf.putAtt(ncid60,varid,'wet weight:C ratio','9:1');
-% netcdf.putAtt(ncid60,varid,'feisty fish size','29.24 to 232.08cm');
-% 
-% netcdf.endDef(ncid60);
-% 
-% netcdf.putVar(ncid60,vidlat,LAT);
-% netcdf.putVar(ncid60,vidlon,LON);
-% netcdf.putVar(ncid60,vidbio60,bp30to90cm);
-% netcdf.putVar(ncid60,vidt60,time);
-% 
-% netcdf.close(ncid60);
-
-
 %% bp90cm
 ncid90 = netcdf.create(file_bp90,'netcdf4');
 
@@ -426,14 +391,14 @@ lon_dim = netcdf.defDim(ncid90,'lon',ni);
 lat_dim = netcdf.defDim(ncid90,'lat',nj);
 time_dim = netcdf.defDim(ncid90,'time',nt);
 
-vidlat = netcdf.defVar(ncid90,'lat','double',[lon_dim,lat_dim]);
-netcdf.putAtt(ncid90,vidlat,'long_name','lat');
+vidlat = netcdf.defVar(ncid90,'lat','double',lat_dim);
+netcdf.putAtt(ncid90,vidlat,'long_name','latitude');
 netcdf.putAtt(ncid90,vidlat,'standard_name','lat');
 netcdf.putAtt(ncid90,vidlat,'units','degrees_north');
 netcdf.putAtt(ncid90,vidlat,'axis','Y');
 
-vidlon = netcdf.defVar(ncid90,'lon','double',[lon_dim,lat_dim]);
-netcdf.putAtt(ncid90,vidlon,'long_name','lon');
+vidlon = netcdf.defVar(ncid90,'lon','double',lon_dim);
+netcdf.putAtt(ncid90,vidlon,'long_name','longitude');
 netcdf.putAtt(ncid90,vidlon,'standard_name','lon');
 netcdf.putAtt(ncid90,vidlon,'units','degrees_east' );
 netcdf.putAtt(ncid90,vidlon,'axis','X');
@@ -467,83 +432,6 @@ netcdf.putVar(ncid90,vidt90,time);
 
 netcdf.close(ncid90);
 
-
-%% bd30cm
-% ncid30 = netcdf.create(file_bd30,'netcdf4');
-% 
-% lon_dim = netcdf.defDim(ncid30,'lon',ni);
-% lat_dim = netcdf.defDim(ncid30,'lat',nj);
-% time_dim = netcdf.defDim(ncid30,'time',nt);
-% 
-% vidlat = netcdf.defVar(ncid30,'lat','double',[lon_dim,lat_dim]);
-% netcdf.putAtt(ncid30,vidlat,'long_name','lat');
-% netcdf.putAtt(ncid30,vidlat,'units','degrees_north');
-% 
-% vidlon = netcdf.defVar(ncid30,'lon','double',[lon_dim,lat_dim]);
-% netcdf.putAtt(ncid30,vidlon,'long_name','lon');
-% netcdf.putAtt(ncid30,vidlon,'units','degrees_east' );
-% 
-% vidt30 = netcdf.defVar(ncid30,'time','double',time_dim);
-% netcdf.putAtt(ncid30,vidt30,'long_name','time');
-% netcdf.putAtt(ncid30,vidt30,'units','months since 1601-01-01' );
-% 
-% vidbio30 = netcdf.defVar(ncid30,'bd30cm','double',[lon_dim,lat_dim,time_dim]);
-% netcdf.putAtt(ncid30,vidbio30,'long_name','biomass density of demersal < 30cm');
-% netcdf.putAtt(ncid30,vidbio30,'units','grams wet weight  m-2' );
-% netcdf.defVarFill(ncid30,vidbio30,false,1.0e20);
-% 
-% varid = netcdf.getConstant('GLOBAL');
-% netcdf.putAtt(ncid30,varid,'creation_date',datestr(now));
-% netcdf.putAtt(ncid30,varid,'wet weight:C ratio','9:1');
-% 
-% netcdf.endDef(ncid30);
-% 
-% netcdf.putVar(ncid30,vidlat,LAT);
-% netcdf.putVar(ncid30,vidlon,LON);
-% netcdf.putVar(ncid30,vidbio30,bd30cm);
-% netcdf.putVar(ncid30,vidt30,time);
-% 
-% netcdf.close(ncid30);
-
-%% bd30to90cm
-% ncid60 = netcdf.create(file_bd3090,'netcdf4');
-% 
-% lon_dim = netcdf.defDim(ncid60,'lon',ni);
-% lat_dim = netcdf.defDim(ncid60,'lat',nj);
-% time_dim = netcdf.defDim(ncid60,'time',nt);
-% 
-% vidlat = netcdf.defVar(ncid60,'lat','double',[lon_dim,lat_dim]);
-% netcdf.putAtt(ncid60,vidlat,'long_name','lat');
-% netcdf.putAtt(ncid60,vidlat,'units','degrees_north');
-% 
-% vidlon = netcdf.defVar(ncid60,'lon','double',[lon_dim,lat_dim]);
-% netcdf.putAtt(ncid60,vidlon,'long_name','lon');
-% netcdf.putAtt(ncid60,vidlon,'units','degrees_east' );
-% 
-% vidt60 = netcdf.defVar(ncid60,'time','double',time_dim);
-% netcdf.putAtt(ncid60,vidt60,'long_name','time');
-% netcdf.putAtt(ncid60,vidt60,'units','months since 1601-01-01' );
-% 
-% vidbio60 = netcdf.defVar(ncid60,'bd30to90cm','double',[lon_dim,lat_dim,time_dim]);
-% netcdf.putAtt(ncid60,vidbio60,'long_name','biomass density of demersal >=30 cm and <90cm');
-% netcdf.putAtt(ncid60,vidbio60,'units','grams wet weight  m-2' );
-% netcdf.defVarFill(ncid60,vidbio60,false,1.0e20);
-% 
-% varid = netcdf.getConstant('GLOBAL');
-% netcdf.putAtt(ncid60,varid,'creation_date',datestr(now));
-% netcdf.putAtt(ncid60,varid,'wet weight:C ratio','9:1');
-% netcdf.putAtt(ncid60,varid,'feisty fish size','29.24 to 232.08cm');
-% 
-% netcdf.endDef(ncid60);
-% 
-% netcdf.putVar(ncid60,vidlat,LAT);
-% netcdf.putVar(ncid60,vidlon,LON);
-% netcdf.putVar(ncid60,vidbio60,bd30to90cm);
-% netcdf.putVar(ncid60,vidt60,time);
-% 
-% netcdf.close(ncid60);
-
-
 %% bd90cm
 ncid90 = netcdf.create(file_bd90,'netcdf4');
 
@@ -551,14 +439,14 @@ lon_dim = netcdf.defDim(ncid90,'lon',ni);
 lat_dim = netcdf.defDim(ncid90,'lat',nj);
 time_dim = netcdf.defDim(ncid90,'time',nt);
 
-vidlat = netcdf.defVar(ncid90,'lat','double',[lon_dim,lat_dim]);
-netcdf.putAtt(ncid90,vidlat,'long_name','lat');
+vidlat = netcdf.defVar(ncid90,'lat','double',lat_dim);
+netcdf.putAtt(ncid90,vidlat,'long_name','latitude');
 netcdf.putAtt(ncid90,vidlat,'standard_name','lat');
 netcdf.putAtt(ncid90,vidlat,'units','degrees_north');
 netcdf.putAtt(ncid90,vidlat,'axis','Y');
 
-vidlon = netcdf.defVar(ncid90,'lon','double',[lon_dim,lat_dim]);
-netcdf.putAtt(ncid90,vidlon,'long_name','lon');
+vidlon = netcdf.defVar(ncid90,'lon','double',lon_dim);
+netcdf.putAtt(ncid90,vidlon,'long_name','longitude');
 netcdf.putAtt(ncid90,vidlon,'standard_name','lon');
 netcdf.putAtt(ncid90,vidlon,'units','degrees_east' );
 netcdf.putAtt(ncid90,vidlon,'axis','X');
@@ -592,9 +480,6 @@ netcdf.putVar(ncid90,vidbio90,bd90cm);
 netcdf.putVar(ncid90,vidt90,time);
 
 netcdf.close(ncid90);
-
-
-
 
 
 

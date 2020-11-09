@@ -47,7 +47,8 @@ set(groot,'defaultAxesColorOrder',cm10);
 
 %% Plots in time
 t = 1:length(sp_tmean); %time;
-y = 1849 + (t-1)/12;
+% y = 1849 + (t-1)/12;
+y = mo;
 
 % All size classes of all
 figure(1)
@@ -108,15 +109,15 @@ Zlp=NaN*ones(ni,nj);
 Zld=NaN*ones(ni,nj);
 Zb=NaN*ones(ni,nj);
 
-Zsf(GRD.ID)=sf_mean1;
-Zsp(GRD.ID)=sp_mean1;
-Zsd(GRD.ID)=sd_mean1;
-Zmf(GRD.ID)=mf_mean1;
-Zmp(GRD.ID)=mp_mean1;
-Zmd(GRD.ID)=md_mean1;
-Zlp(GRD.ID)=lp_mean1;
-Zld(GRD.ID)=ld_mean1;
-Zb(GRD.ID)=b_mean1;
+Zsf(GRD.ID)=sf_mean2;
+Zsp(GRD.ID)=sp_mean2;
+Zsd(GRD.ID)=sd_mean2;
+Zmf(GRD.ID)=mf_mean2;
+Zmp(GRD.ID)=mp_mean2;
+Zmd(GRD.ID)=md_mean2;
+Zlp(GRD.ID)=lp_mean2;
+Zld(GRD.ID)=ld_mean2;
+Zb(GRD.ID)=b_mean2;
 
 All = Zsp+Zsf+Zsd+Zmp+Zmf+Zmd+Zlp+Zld;
 AllF = Zsf+Zmf;
@@ -142,9 +143,9 @@ h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-1 2]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
-title('1890-1900 log10 mean benthic biomass (g m^-^2)')
+title('2000-2010 log10 mean benthic biomass (g m^-^2)')
 stamp(mod)
-print('-dpng',[ppath 'PreIndust_empHP_1890-1900_',mod,'_global_BENT.png'])
+print('-dpng',[ppath 'PreIndust_empHP_2000-2010_',mod,'_global_BENT.png'])
 
 %% All 4 on subplots
 figure(4)
@@ -197,7 +198,7 @@ caxis([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
 stamp(mod)
-print('-dpng',[ppath 'PreIndust_empHP_1890-1900_',mod,'_global_All_subplot.png'])
+print('-dpng',[ppath 'PreIndust_empHP_2000-2010_',mod,'_global_All_subplot.png'])
 
 %% Ratios on subplots red-white-blue
 % 3 figure subplot P:D, P:F, M:L
@@ -239,7 +240,7 @@ colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('Fraction Large vs. Medium')
 stamp(mod)
-print('-dpng',[ppath 'PreIndust_empHP_1890-1900_',mod,'_global_ratios_subplot.png'])
+print('-dpng',[ppath 'PreIndust_empHP_2000-2010_',mod,'_global_ratios_subplot.png'])
 
 %% Save for ts plots and spatial comparisons
 IPreFts = F;

@@ -48,11 +48,11 @@ load('/Volumes/MIP/Fish-MIP/CMIP6/IPSL/preindust/ipsl_pi_temp_btm_monthly_1950_2
     'yr','time');
 t_all = time;
 
-runs = find(yr>1950 & yr<=2100);
+runs = find(yr>1950);
 year = yr(runs);
 time = time(runs);
 runs1 = find(year>1950 & year<=2015);
-runs2 = find(year>2015 & year<=2100);
+runs2 = find(year>2015);
 htime = time(runs1);
 ftime = time(runs2);
 
@@ -204,6 +204,10 @@ file_bd90 = [fpath fname1 'bd90cm' fname2];
 
 [ni,nj,nt] = size(tpb);
 
+%% Lat & Lon should be vectors
+LAT = LAT(1,:);
+LON = LON(:,1);
+
 %% tpb
 ncidSB = netcdf.create(file_tpb,'netcdf4');
 
@@ -211,14 +215,14 @@ lon_dim = netcdf.defDim(ncidSB,'lon',ni);
 lat_dim = netcdf.defDim(ncidSB,'lat',nj);
 time_dim = netcdf.defDim(ncidSB,'time',nt);
 
-vidlat = netcdf.defVar(ncidSB,'lat','double',[lon_dim,lat_dim]);
-netcdf.putAtt(ncidSB,vidlat,'long_name','lat');
+vidlat = netcdf.defVar(ncidSB,'lat','double',lat_dim);
+netcdf.putAtt(ncidSB,vidlat,'long_name','latitude');
 netcdf.putAtt(ncidSB,vidlat,'standard_name','lat');
 netcdf.putAtt(ncidSB,vidlat,'units','degrees_north');
 netcdf.putAtt(ncidSB,vidlat,'axis','Y');
 
-vidlon = netcdf.defVar(ncidSB,'lon','double',[lon_dim,lat_dim]);
-netcdf.putAtt(ncidSB,vidlon,'long_name','lon');
+vidlon = netcdf.defVar(ncidSB,'lon','double',lon_dim);
+netcdf.putAtt(ncidSB,vidlon,'long_name','longitude');
 netcdf.putAtt(ncidSB,vidlon,'standard_name','lon');
 netcdf.putAtt(ncidSB,vidlon,'units','degrees_east' );
 netcdf.putAtt(ncidSB,vidlon,'axis','X');
@@ -260,14 +264,14 @@ lon_dim = netcdf.defDim(ncidSD,'lon',ni);
 lat_dim = netcdf.defDim(ncidSD,'lat',nj);
 time_dim = netcdf.defDim(ncidSD,'time',nt);
 
-vidlat = netcdf.defVar(ncidSD,'lat','double',[lon_dim,lat_dim]);
-netcdf.putAtt(ncidSD,vidlat,'long_name','lat');
+vidlat = netcdf.defVar(ncidSD,'lat','double',lat_dim);
+netcdf.putAtt(ncidSD,vidlat,'long_name','latitude');
 netcdf.putAtt(ncidSD,vidlat,'standard_name','lat');
 netcdf.putAtt(ncidSD,vidlat,'units','degrees_north');
 netcdf.putAtt(ncidSD,vidlat,'axis','Y');
 
-vidlon = netcdf.defVar(ncidSD,'lon','double',[lon_dim,lat_dim]);
-netcdf.putAtt(ncidSD,vidlon,'long_name','lon');
+vidlon = netcdf.defVar(ncidSD,'lon','double',lon_dim);
+netcdf.putAtt(ncidSD,vidlon,'long_name','longitude');
 netcdf.putAtt(ncidSD,vidlon,'standard_name','lon');
 netcdf.putAtt(ncidSD,vidlon,'units','degrees_east' );
 netcdf.putAtt(ncidSD,vidlon,'axis','X');
@@ -308,14 +312,14 @@ lon_dim = netcdf.defDim(ncidCB,'lon',ni);
 lat_dim = netcdf.defDim(ncidCB,'lat',nj);
 time_dim = netcdf.defDim(ncidCB,'time',nt);
 
-vidlat = netcdf.defVar(ncidCB,'lat','double',[lon_dim,lat_dim]);
-netcdf.putAtt(ncidCB,vidlat,'long_name','lat');
+vidlat = netcdf.defVar(ncidCB,'lat','double',lat_dim);
+netcdf.putAtt(ncidCB,vidlat,'long_name','latitude');
 netcdf.putAtt(ncidCB,vidlat,'standard_name','lat');
 netcdf.putAtt(ncidCB,vidlat,'units','degrees_north');
 netcdf.putAtt(ncidCB,vidlat,'axis','Y');
 
-vidlon = netcdf.defVar(ncidCB,'lon','double',[lon_dim,lat_dim]);
-netcdf.putAtt(ncidCB,vidlon,'long_name','lon');
+vidlon = netcdf.defVar(ncidCB,'lon','double',lon_dim);
+netcdf.putAtt(ncidCB,vidlon,'long_name','longitude');
 netcdf.putAtt(ncidCB,vidlon,'standard_name','lon');
 netcdf.putAtt(ncidCB,vidlon,'units','degrees_east' );
 netcdf.putAtt(ncidCB,vidlon,'axis','X');
@@ -356,14 +360,14 @@ lon_dim = netcdf.defDim(ncid30,'lon',ni);
 lat_dim = netcdf.defDim(ncid30,'lat',nj);
 time_dim = netcdf.defDim(ncid30,'time',nt);
 
-vidlat = netcdf.defVar(ncid30,'lat','double',[lon_dim,lat_dim]);
-netcdf.putAtt(ncid30,vidlat,'long_name','lat');
+vidlat = netcdf.defVar(ncid30,'lat','double',lat_dim);
+netcdf.putAtt(ncid30,vidlat,'long_name','latitude');
 netcdf.putAtt(ncid30,vidlat,'standard_name','lat');
 netcdf.putAtt(ncid30,vidlat,'units','degrees_north');
 netcdf.putAtt(ncid30,vidlat,'axis','Y');
 
-vidlon = netcdf.defVar(ncid30,'lon','double',[lon_dim,lat_dim]);
-netcdf.putAtt(ncid30,vidlon,'long_name','lon');
+vidlon = netcdf.defVar(ncid30,'lon','double',lon_dim);
+netcdf.putAtt(ncid30,vidlon,'long_name','longitude');
 netcdf.putAtt(ncid30,vidlon,'standard_name','lon');
 netcdf.putAtt(ncid30,vidlon,'units','degrees_east' );
 netcdf.putAtt(ncid30,vidlon,'axis','X');
@@ -403,14 +407,14 @@ lon_dim = netcdf.defDim(ncid90,'lon',ni);
 lat_dim = netcdf.defDim(ncid90,'lat',nj);
 time_dim = netcdf.defDim(ncid90,'time',nt);
 
-vidlat = netcdf.defVar(ncid90,'lat','double',[lon_dim,lat_dim]);
-netcdf.putAtt(ncid90,vidlat,'long_name','lat');
+vidlat = netcdf.defVar(ncid90,'lat','double',lat_dim);
+netcdf.putAtt(ncid90,vidlat,'long_name','latitude');
 netcdf.putAtt(ncid90,vidlat,'standard_name','lat');
 netcdf.putAtt(ncid90,vidlat,'units','degrees_north');
 netcdf.putAtt(ncid90,vidlat,'axis','Y');
 
-vidlon = netcdf.defVar(ncid90,'lon','double',[lon_dim,lat_dim]);
-netcdf.putAtt(ncid90,vidlon,'long_name','lon');
+vidlon = netcdf.defVar(ncid90,'lon','double',lon_dim);
+netcdf.putAtt(ncid90,vidlon,'long_name','longitude');
 netcdf.putAtt(ncid90,vidlon,'standard_name','lon');
 netcdf.putAtt(ncid90,vidlon,'units','degrees_east' );
 netcdf.putAtt(ncid90,vidlon,'axis','X');
@@ -451,14 +455,14 @@ lon_dim = netcdf.defDim(ncid90,'lon',ni);
 lat_dim = netcdf.defDim(ncid90,'lat',nj);
 time_dim = netcdf.defDim(ncid90,'time',nt);
 
-vidlat = netcdf.defVar(ncid90,'lat','double',[lon_dim,lat_dim]);
-netcdf.putAtt(ncid90,vidlat,'long_name','lat');
+vidlat = netcdf.defVar(ncid90,'lat','double',lat_dim);
+netcdf.putAtt(ncid90,vidlat,'long_name','latitude');
 netcdf.putAtt(ncid90,vidlat,'standard_name','lat');
 netcdf.putAtt(ncid90,vidlat,'units','degrees_north');
 netcdf.putAtt(ncid90,vidlat,'axis','Y');
 
-vidlon = netcdf.defVar(ncid90,'lon','double',[lon_dim,lat_dim]);
-netcdf.putAtt(ncid90,vidlon,'long_name','lon');
+vidlon = netcdf.defVar(ncid90,'lon','double',lon_dim);
+netcdf.putAtt(ncid90,vidlon,'long_name','longitude');
 netcdf.putAtt(ncid90,vidlon,'standard_name','lon');
 netcdf.putAtt(ncid90,vidlon,'units','degrees_east' );
 netcdf.putAtt(ncid90,vidlon,'axis','X');

@@ -143,12 +143,13 @@ b_tmean=mean(Bent.bio,1);
 %% Space
 t=time;
 mo=t/12;
-mo=mo+1850;
+mo=mo+1950;
 
 yr1=find(mo>1890 & mo<=1900); 
 yr2=find(mo>2000 & mo<=2010); 
 yr3=find(mo>2090 & mo<=2100); 
 
+%%
 sp_mean1=mean(SP.bio(:,yr1),2);
 sf_mean1=mean(SF.bio(:,yr1),2);
 sd_mean1=mean(SD.bio(:,yr1),2);
