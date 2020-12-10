@@ -3,16 +3,16 @@ param.tEnd =  300;
 %
 % Resources:
 %
-param.ixR = [1 2 3 4];
+param.ixR = [1 2 3 4]; % MZ, LZ, SB, MB
 param.w(param.ixR) = [2e-06  0.001 0.5e-03 0.25]; % lower limit
 param.wc(param.ixR) = [2e-06*sqrt(500) 0.001*sqrt(500) 0.5e-03*sqrt(250000) 0.25*sqrt(500)]; % central size
 param.wu(param.ixR) = [0.001 0.5  125  125]; % upper limit
-param.r =  [1  1  1  0];  % g ww/m2/yr
-param.K =  [5  5  5  0];  % g ww/m2
+param.r =  [1  1  1  0];  % g ww/m2/yr - removes 2B
+param.K =  [5  5  5  0];  % g ww/m2    - removes 2B
 %
 % stages
 %   
-param.nstage = 6; % number of stages predator use 3, 6, 9, etc (prey = 2/3)
+param.nstage = 3; % number of stages predator use 3, 6, 9, etc (prey = 2/3)
 param.nsize  = param.nstage + 1; % 
 param.sfish = 0.001; % smallest size fish (all fish)
 param.lfish = 125000; % largest size fish (only predator)
@@ -59,7 +59,7 @@ param.sigma = 1.3;
 %
 % Initial conditions 
 %
-param.B0 = 0*param.ixFish+.01;
+param.B0 = 0*param.ixFish+.001;
 %param.B0(param.ix1(1)-4:param.ix2(1)-4)=0; %put small pelagics to zero
 %param.B0(param.ix1(2)-4:param.ix2(2)-4)=0; %put small mesopelagics to zero
 %param.B0(param.ix1(3)-4:param.ix2(3)-4)=0; %put large pelagics to zero
@@ -69,18 +69,18 @@ param.B0 = 0*param.ixFish+.01;
 %
 % Habitat and interactions
 %
-param.bottom = 500; % depth in meter
+param.bottom = 100; % depth in meter
 param.photic = 150;
 param.mesop = 250;
-param.visual = 1.5; % scalar; >1 visual predation primarily during the day, = 1 equal day and night
+param.visual = 1.0; % scalar; >1 visual predation primarily during the day, = 1 equal day and night; changed from 1.5
 [param.theta, param.depthDay, param.depthNight, param.avlocDay, param.avlocNight] = calcpreference(param); % feeding preference matrix 
 
 %
 % Calculate temperature dependency 
 %
 param.Q10 = 1.88;
-param.Q10m =  1.88;
-param.region = 4; % 1=tropical, 2=temperate, 3=boreal, 4 = no temp scaling
+param.Q10m = 2.35; %1.88;
+param.region = 2; % 1=tropical, 2=temperate, 3=boreal, 4 = no temp scaling
 [param.scTemp, param.scTempm] = calctemperature(param);
 
 %
@@ -92,7 +92,7 @@ param.epsAssim = 0.7;
 param.q = 0.8;
 param.n = 0.75;
 param.m = 0.825;    
-param.F = 0*param.ixFish';  % Fishing mortality
+param.F = 0.3+0*param.ixFish';  % Fishing mortality
 param.gamma = 70; % factor for the max clearance rate (area per time) 
 param.eRepro = repmat(0.01,param.nSpecies,1)';
 param.mort0 = 0*param.ixFish'+.1; 

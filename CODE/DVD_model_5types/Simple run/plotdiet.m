@@ -8,7 +8,11 @@ yend = mean(y(Bin:end,:));
 ystage = param.ixFish(end);
 ysmall = param.nstage - param.nstage*2/3;
 
-[f, mortpred, Eavail] = calcEncounter(yend', param);
+%[f, mortpred, Eavail] = calcEncounter(yend', param);
+% Use model result instead of calc
+f = result.f;
+mortpred = result.mortpred;
+Eavail = result.Eavail;
 
 bom = param.theta(5:ystage,:) .* mean(y(Bin:end,:)); 
 fbom = f(5:ystage)' ./ sum(bom,2);
@@ -26,7 +30,16 @@ colorSet = [ 0      0.5      0;
              0.929  0.694    0.125;
              0.494  0.184    0.556;
              0.466  0.674    0.188;];
+         
+%% Why do mid-water fish have prey when not in model?
+%Change so if not in the model (or biomass = 0), then 0
+Bend = result.B(end,:)';
+Bend(Bend > 0) = 1;
 
+ns = length(yend);
+output = output .* repmat(Bend,1,ns);
+
+%%
 figure(6)
 
 small_pel = output(param.ix1(1)-4:param.ix2(1)-4,:);
@@ -40,7 +53,7 @@ H = bar(small_pel, 'stacked');
 ylim([0 1])
 title('\fontsize{10}Small pelagics' )
 ylabel('Fraction in stomach') 
-set(gca,'XTick',[])
+% set(gca,'XTick',[])
 xlabel('size-classes')
  
 meso_pel = output(param.ix1(2)-4:param.ix2(2)-4,:);
@@ -53,8 +66,8 @@ H = bar(meso_pel, 'stacked');
  end
 ylim([0 1])
 title('\fontsize{10}Mesopelagics')
-set(gca,'YTick',[])
-set(gca,'XTick',[])
+% set(gca,'YTick',[])
+% set(gca,'XTick',[])
 xlabel('size-classes')
  
 large_pel = output(param.ix1(3)-4:param.ix2(3)-4,:);
@@ -66,8 +79,8 @@ H = bar(large_pel, 'stacked');
  end 
 ylim([0 1])
 title('\fontsize{10}Large pelagics')
-set(gca,'YTick',[])
-set(gca,'XTick',[])
+% set(gca,'YTick',[])
+% set(gca,'XTick',[])
 xlabel('size-classes')
 
 bathy_pel = output(param.ix1(4)-4:param.ix2(4)-4,:);
@@ -79,9 +92,10 @@ H = bar(bathy_pel, 'stacked');
  end 
 ylim([0 1])
 title('\fontsize{10}Bathypelagic')
-set(gca,'YTick',[])
-set(gca,'XTick',[]) 
+% set(gca,'YTick',[])
+% set(gca,'XTick',[]) 
 xlabel('size-classes')
+ylabel('Fraction in stomach')
 
 demers = output(param.ix1(5)-4:param.ix2(5)-4,:);
 subplot(2,3,5)
@@ -91,10 +105,21 @@ H = bar(demers, 'stacked');
      H(i).LineStyle = 'none';
  end 
 ylim([0 1])
-ylabel('Fraction in stomach')
 title('\fontsize{10}Large demersal')
-set(gca,'XTick',[]) 
+%set(gca,'XTick',[]) 
 xlabel('size-classes')
 
 % plot legend
-legend(H([1 3 5 9 13 19 25]),{'Zoopl','Benthos','Spel','Mpel','Lpel','Bpel','Ldem'})
+subplot(2,3,6)
+H = bar(demers, 'stacked');
+ for i = 1:ystage
+     H(i).FaceColor = colorSet(colspec(i),:); 
+     H(i).LineStyle = 'none';
+ end 
+ylim([-1 0])
+set(gca,'XTick',[],'YTick',[]) 
+%6 stages
+%legend(H([1 3 5 9 13 19 25]),{'Zoopl','Benthos','Spel','Mpel','Lpel','Bpel','Ldem'})
+%3 stages
+legend(H([1 3 5 7 9 12 15]),{'Zoopl','Benthos','SmPel','MesPel','LgPel','Bpel','Ldem'})
+

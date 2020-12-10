@@ -65,7 +65,7 @@ for i = 1:length(bdepth)
 end
 
 end
-save depth_threeclasses
+save depth_3classes
 
 %%%%%
 clearvars
@@ -135,7 +135,7 @@ for i = 1:length(bdepth)
 end
 
 end
-save depth_sixclasses
+save depth_6classes
 
 %%%%%
 clearvars
@@ -205,7 +205,7 @@ for i = 1:length(bdepth)
 end
 
 end
-save depth_nineclasses
+save depth_9classes
 
 %%% 12 stages
 clearvars
