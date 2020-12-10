@@ -3,10 +3,10 @@ function [fname,simname] = sub_fname(param)
 
 frate = param.frate;
 
-td = num2str(1000+int64(100 * param.LD_phi_MP));
-tj = num2str(1000+int64(100 * param.MP_phi_S));
-tsm = num2str(1000+int64(100 * param.MF_phi_MZ));
-ta = num2str(1000+int64(100 * param.LP_phi_MF));
+td = num2str(1000+int64(100 * param.D));
+tj = num2str(1000+int64(100 * param.J));
+tsm = num2str(1000+int64(100 * param.Sm));
+ta = num2str(1000+int64(100 * param.A));
 tbe = num2str(100+int64(100 * param.bent_eff));
 tmort = num2str(param.MORT);
 tre = num2str(100000+int64(round(10000 * param.rfrac)));
@@ -57,20 +57,20 @@ tbcmx = num2str(1000+int64(1000 * param.bcmx));
 simname = [coup,'_enc',tefn,'-b',tbenc(2:end),'_m',tmfn,'-b',tbfn(2:end),'-k',tkfn(2:end),'_c',tcfn,'-b',tbcmx(2:end),'_D',td(2:end),'_J',tj(2:end),'_A',ta(2:end),'_Sm',tsm(2:end),'_nmort',tmort,'_BE',tbe(2:end),'_noCC_RE',tre(2:end)];
 
 %! Setup netcdf path to store to
-spath = '/scrath/user/cpetrik/FEISTY_output/';
+spath = '/Volumes/FEISTY/NC/Clim_comp_tests/';
 
-if (~isdir([spath,simname]))
+if (~isfolder([spath,simname]))
     mkdir([spath,simname])
 end
 
 if (isempty(sel))
-    fname = [spath,simname, '/Climatol_pristine'];
+    fname = [spath,simname, '/Orig_Climatol_pristine'];
 elseif (param.Jsel ~= 0.1)
-    fname = [spath,simname, '/Climatol_', sel,'_fish',tfish(2:end),'_Juve',tJ(2:end)];
+    fname = [spath,simname, '/Orig_Climatol_', sel,'_fish',tfish(2:end),'_Juve',tJ(2:end)];
 elseif (param.MFsel ~= param.LPsel)
-    fname = [spath,simname, '/Climatol_fish_F',tF(2:end),'_P',tP(2:end),'_D',tD(2:end)];
+    fname = [spath,simname, '/Orig_Climatol_fish_F',tF(2:end),'_P',tP(2:end),'_D',tD(2:end)];
 else
-    fname = [spath,simname, '/Climatol_', sel,'_fish',tfish(2:end)];
+    fname = [spath,simname, '/Orig_Climatol_', sel,'_fish',tfish(2:end)];
 end
 
 

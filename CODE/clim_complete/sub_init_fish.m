@@ -1,5 +1,5 @@
 %============== INITIAL CONDITIONS =============%
-function [Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT] = sub_init_fish(ID,DAYS)
+function [Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT] = sub_init_fish(ID)
 
 %===== VARIABLES =====%
     %%%! Number of spatial cells
@@ -41,16 +41,6 @@ function [Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT] = sub_init_fish(ID,DAYS)
         Ld.(nzero{i}) = zeros(NX,1);
     end
     
-    %%%! Proportion of population spawning (needed for phenology runs)
-    Sf.S = ones(NX,DAYS);
-    Sp.S = ones(NX,DAYS);
-    Sd.S = ones(NX,DAYS);
-    Mf.S = ones(NX,DAYS);
-    Mp.S = ones(NX,DAYS);
-    Md.S = ones(NX,DAYS);
-    Lp.S = ones(NX,DAYS);
-    Ld.S = ones(NX,DAYS);
-
     %%%! Detritus
     BENT.mass = ones(NX,1) * X;
     BENT.pred = zeros(NX,1);

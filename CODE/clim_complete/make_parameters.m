@@ -10,13 +10,13 @@ function param = make_parameters(param)
     param.K = 600.0;
 
     %! Set fishing rate
-    param.frate = 1; %Fish(F);
+    param.frate = 0.3; 
     param.dfrate = param.frate/365.0;
     
     %! Which fishes harvested
-%     param.MFsel = 1;
-%     param.LPsel = 1;
-%     param.LDsel = 1;
+    param.MFsel = 1;
+    param.LPsel = 1;
+    param.LDsel = 1;
     param.Jsel  = 0.1;
     param.MPsel = param.Jsel * param.LPsel;
     param.MDsel = param.Jsel * param.LDsel;
@@ -30,8 +30,7 @@ function param = make_parameters(param)
     param.M_s = 10^((log10(0.001)+log10(0.5))/2);  %0.0224
     param.M_m = 10^((log10(0.5)+log10(250))/2);    %11.1803
     param.M_l = 10^((log10(250)+log10(125000))/2); %5.5902e3
-    %logspace(-3,5.0969,7) %gives end points and mid points
-
+    
     %! Ratio of initial and final body sizes per size-class
     param.Z_s = 0.001/0.5;
     param.Z_m = 0.5/250;

@@ -2,16 +2,12 @@
 function Climatol()
 
 %%%%%%%%%%%%%%% Initialize Model Variables
-%! Set fishing rate
-frate = 0.3; %Fish(F);
-dfrate = frate/365.0;
-
 %! Make core parameters/constants (global)
+param = [];
 param = make_parameters(param);
 
 %! Setup Climatol (loop 5-year climatology of ESM2.6-COBALT)
-%load('/home/cpetrik/FEISTY_clim/ESM26_1deg_5yr_clim_191_195_daily.mat','COBALT');
-load('/Volumes/FEISTY/FEISTY_clim/ESM26_1deg_5yr_clim_191_195_daily.mat','COBALT');
+load('/Volumes/FEISTY/POEM_JLD/esm26_hist/ESM26_1deg_5yr_clim_191_195_daily.mat','COBALT');
 
 %! How long to run the model
 YEARS = 150;
@@ -19,15 +15,14 @@ DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Grid; choose where and when to run the model
-%load('/home/cpetrik/FEISTY_clim/ESM26_1deg_5yr_clim_191_195_grid.mat','GRD');
-load('/Volumes/FEISTY/FEISTY_clim/ESM26_1deg_5yr_clim_191_195_grid.mat','GRD');
+load('/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/clim_complete/ESM26_1deg_5yr_clim_191_195_grid.mat','GRD');
 NX = length(GRD.Z);
 ID = 1:NX;
 param.NX = NX;
 param.ID = ID;
 
 %! Create a directory for output
-[fname] = sub_fname(frate,param);
+[fname] = sub_fname(param);
 
 %! Storage variables
 S_Bent_bio = zeros(NX,DAYS);
@@ -59,9 +54,7 @@ S_Lrg_d_fish = zeros(NX,DAYS);
 
 %! Initialize
 [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = ...
-        sub_init_fish(ID,DAYS);
-Med_d.td(1:NX) = 0.0;
-Lrg_d.td(1:NX) = 0.0;
+        sub_init_fish(ID);
 
 %%%%%%%%%%%%%%% Setup NetCDF save
 %! Setup netcdf path to store to
@@ -87,7 +80,6 @@ ncidB  = netcdf.create(file_bent,'NC_WRITE');
 
 %! Dims of netcdf file
 nt = 12*YEARS;
-%oldFormat = netcdf.setDefaultFormat('NC_FORMAT_64BIT');
 netcdf.setDefaultFormat('NC_FORMAT_64BIT')
 
 %% ! Def vars of netcdf file
@@ -157,14 +149,17 @@ netcdf.endDef(ncidB);
 MNT=0;
 for YR = 1:YEARS % years
     
+    num2str(YR)
+    
     for DAY = 1:param.DT:DAYS % days
         
         %%%! Future time step
         DY = int64(ceil(DAY));
         %[num2str(YR),' , ', num2str(mod(DY,365))]
+        
         [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = ...
             sub_futbio(ID,DY,COBALT,GRD,Sml_f,Sml_p,Sml_d,...
-            Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,dfrate,param);
+            Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,param);
         
         S_Bent_bio(:,DY) = BENT.mass;
         
@@ -192,15 +187,14 @@ for YR = 1:YEARS % years
         S_Lrg_p_fish(:,DY) = Lrg_p.caught;
         S_Lrg_d_fish(:,DY) = Lrg_d.caught;
         
-        
     end %Days
     
     %! Calculate monthly means and save
     aa = (cumsum(MNTH)+1);
     a = [1,aa(1:end-1)]; % start of the month
-    b = cumsum(MNTH); % end of the month
+    b = cumsum(MNTH);    % end of the month
     for i = 1:12
-        MNT = MNT+1; % Update monthly ticker
+        MNT = MNT+1;     % Update monthly ticker
         
         %! Put vars of netcdf file
         netcdf.putVar(ncidB,vidbioB,[0 MNT-1],[NX 1],mean(S_Bent_bio(:,a(i):b(i)),2));
