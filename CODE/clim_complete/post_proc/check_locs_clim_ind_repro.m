@@ -21,7 +21,7 @@ spots=spots';
 %% new run with param struct
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 fpath = ['/Volumes/FEISTY/NC/Clim_comp_tests/' cfile '/'];
-load([fpath,'NoS_Climatol_All_fish03_locs.mat'])
+load([fpath,'NoSegg_Climatol_All_fish03_locs.mat'])
 
 %% colors
 load('cmap_ppt_angles.mat')
@@ -305,7 +305,7 @@ Pgge=[SP_gge;MP_gge;LP_gge];
 Fgge=[SF_gge;MF_gge];
 Dgge=[SD_gge;MD_gge;LD_gge];
 
-save([fpath,'Orig_Means_Climatol_All_fish03_locs_lastyr_means.mat'],...
+save([fpath,'NoSegg_Means_Climatol_All_fish03_locs_lastyr_means.mat'],...
     'Pmean','Fmean','Dmean','all_mean',...
     'Pmgr','Fmgr','Dmgr','Pcon','Fcon','Dcon','z','Pprod','Fprod','Dprod',...
     'Prep','Frep','Drep','Pmet','Fmet','Dmet','Ppred','Fpred','Dpred',...

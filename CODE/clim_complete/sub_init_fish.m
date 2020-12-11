@@ -1,5 +1,5 @@
 %============== INITIAL CONDITIONS =============%
-function [Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT] = sub_init_fish(ID,DAYS)
+function [Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT] = sub_init_fish(ID)
 
 %===== VARIABLES =====%
     %%%! Number of spatial cells
