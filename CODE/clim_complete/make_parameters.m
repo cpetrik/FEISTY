@@ -6,9 +6,6 @@ function param = make_parameters(param)
     param.DT = 1.0;       % time step
     param.tstep = 1.0;    % time step in hours for adv-diff
 
-    % define diffusivity
-    param.K = 600.0;
-
     %! Set fishing rate
     param.frate = 0.3; 
     param.dfrate = param.frate/365.0;
