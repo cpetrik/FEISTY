@@ -67,7 +67,7 @@ MP.prod = prod;
 MP.yield = yield;
 clear biomass prod yield
 
-%% MF
+% MF
 ncid = netcdf.open([fpath 'Climatol_' harv '_med_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
@@ -143,7 +143,6 @@ clear biomass
 %% Take means and totals
 nt = length(time);
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
-
 
 %Time
 sp_tmean=mean(SP.bio,1);

@@ -1,5 +1,5 @@
 %%% Update biomass
-function [bio_out, pred] = sub_update_be(Tb,bio_in,param,det,con,bio)
+function [bio_out, pred] = sub_update_be(bio_in,param,det,con,bio)
     %Tb = bottom temperature
     %bio_in = benthic biomass
     %det = detritus flux to bottom (g/m2/d)
