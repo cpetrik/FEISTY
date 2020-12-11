@@ -48,8 +48,6 @@ S_Cobalt = NaN*ones(12*YEARS,5,NX);
 
 
 %! Initialize
-% [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = ...
-%         sub_init_fish(ID);
 [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = ...
         sub_init_fish(ID);
 
