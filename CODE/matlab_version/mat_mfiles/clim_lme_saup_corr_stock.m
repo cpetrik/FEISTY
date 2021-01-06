@@ -6,10 +6,10 @@ close all
 
 spath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/SAUP/';
 cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
-dp = '/Volumes/GFDL/NC/Matlab_new_size/';
-pp = '/Users/cpetrik/Dropbox/Princeton/POEM_2.0/CODE/Figs/PNG/Matlab_New_sizes/';
+dp = '/Volumes/FEISTY/NC/Matlab_new_size/';
+pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
 
-Pdir = '/Volumes/GFDL/POEM_JLD/esm26_hist/';
+Pdir = '/Volumes/FEISTY/POEM_JLD/esm26_hist/';
 load([Pdir 'ESM26_1deg_5yr_clim_191_195_gridspec.mat']);
 load([cpath 'esm26_lme_mask_onedeg_SAU_66.mat']);
 load([cpath 'esm26_area_1deg.mat']);
@@ -29,7 +29,8 @@ AREA_OCN = max(area,1);
 frate = 0.3;
 tfish = num2str(100+int64(10*frate));
 
-cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
+%cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
+cfile='Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm100_nmort1_BE08_noCC_RE00100';
 harv = 'All_fish03';
 tharv = 'Harvest all fish 0.3 yr^-^1';
 
@@ -178,11 +179,11 @@ save([dpath 'LME_prod_catch_SAUP_' cfile '.mat'],'tab','tab2')
 
 %% Stats
 %r
-rall=corr(l10s(keep),l10p(keep));
-rF=corr(l10sF(keep),l10pF(keep));
-rP=corr(l10sP(keep),l10pP(keep));
-rD=corr(l10sD(keep),l10pD(keep));
-rPD=corr(sFracPD(keep),pFracPD(keep));
+[rall,pall]=corr(l10s(keep),l10p(keep));
+[rF,pF]=corr(l10sF(keep),l10pF(keep));
+[rP,pP]=corr(l10sP(keep),l10pP(keep));
+[rD,pD]=corr(l10sD(keep),l10pD(keep));
+[rPD,pPD]=corr(sFracPD(keep),pFracPD(keep));
 
 %root mean square error
 o=l10s(keep);
@@ -323,39 +324,22 @@ print('-dpng',[ppath 'Clim_',harv,'_SAUP_comp_types_temp_Stock_LELC.png'])
 
 %% For ms
 figure(2)
-subplot(2,2,4)
-plot(x,x,'--k'); hold on;
-plot(x,x2h,':b'); hold on;
-plot(x,x2l,':b'); hold on;
-plot(x,x5h,':r'); hold on;
-plot(x,x5l,':r'); hold on;
-for i=1:length(keep)
-    lme=keep(i);
-    plot(l10s(lme),l10p(lme),'.k','MarkerSize',25,'color',tmap(tid(lme,2),:)); hold on;
-end
-text(-1.75,1.7,['r = ' sprintf('%2.2f',rall)])
-text(-1.75,1.4,['RMSE = ' sprintf('%2.2f',rmse)])
-axis([-2 2 -2 2])
-xlabel('SAUP')
-ylabel('POEM')
-title('D. All fishes')
-
 subplot(2,2,1)
 plot(x,x,'--k'); hold on;
 plot(x,x2h,':b'); hold on;
 plot(x,x2l,':b'); hold on;
 plot(x,x5h,':r'); hold on;
 plot(x,x5l,':r'); hold on;
-for i=1:length(keep)
-    lme=keep(i);
-    plot(l10sF(lme),l10pF(lme),'.k','MarkerSize',25,'color',tmap(tid(lme,2),:)); hold on;
-end
-text(-5.5,1.5,['r = ' sprintf('%2.2f',rF)])
-text(-5.5,1.0,['RMSE = ' sprintf('%2.2f',rmseF)])
+scatter(l10sF(keep),l10pF(keep),20,lme_ptemp(keep,1),'filled'); hold on;
+cmocean('thermal');
+colorbar('Position',[0.375 0.5 0.3 0.025],'orientation','horizontal')
+text(-5.5,1.5,'A')
+text(-5.5,1.0,['r = ' sprintf('%2.2f',rF) ' (p = ' sprintf('%2.2f',pF) ')'])
+text(-5.5,0.5,['RMSE = ' sprintf('%2.2f',rmseF)])
 axis([-6 2 -6 2])
-xlabel('SAUP')
-ylabel('POEM')
-title('A. Forage Fishes')
+xlabel('SAU')
+ylabel('FEISTY ')
+title('Forage Fishes')
 
 subplot(2,2,2)
 plot(x,x,'--k'); hold on;
@@ -363,16 +347,15 @@ plot(x,x2h,':b'); hold on;
 plot(x,x2l,':b'); hold on;
 plot(x,x5h,':r'); hold on;
 plot(x,x5l,':r'); hold on;
-for i=1:length(keep)
-    lme=keep(i);
-    plot(l10sP(lme),l10pP(lme),'.k','MarkerSize',25,'color',tmap(tid(lme,2),:)); hold on;
-end
-text(-5.5,1.5,['r = ' sprintf('%2.2f',rP)])
-text(-5.5,1.0,['RMSE = ' sprintf('%2.2f',rmseP)])
+scatter(l10sP(keep),l10pP(keep),20,lme_ptemp(keep,1),'filled'); hold on;
+cmocean('thermal');
+text(-5.5,1.5,'B')
+text(-5.5,1.0,['r = ' sprintf('%2.2f',rP) ' (p = ' sprintf('%2.2f',pP) ')'])
+text(-5.5,0.5,['RMSE = ' sprintf('%2.2f',rmseP)])
 axis([-6 2 -6 2])
-xlabel('SAUP')
-ylabel('POEM')
-title('B. Large Pelagics')
+xlabel('SAU')
+ylabel('FEISTY ')
+title('Large Pelagics')
 
 subplot(2,2,3)
 plot(x,x,'--k'); hold on;
@@ -380,18 +363,33 @@ plot(x,x2h,':b'); hold on;
 plot(x,x2l,':b'); hold on;
 plot(x,x5h,':r'); hold on;
 plot(x,x5l,':r'); hold on;
-for i=1:length(keep)
-    lme=keep(i);
-    plot(l10sD(lme),l10pD(lme),'.k','MarkerSize',25,'color',tmap(tid(lme,2),:)); hold on;
-end
-text(-1.75,1.7,['r = ' sprintf('%2.2f',rD)])
-text(-1.75,1.4,['RMSE = ' sprintf('%2.2f',rmseD)])
+scatter(l10sD(keep),l10pD(keep),20,lme_ptemp(keep,1),'filled'); hold on;
+cmocean('thermal');
+text(-1.75,1.7,'C')
+text(-1.75,1.4,['r = ' sprintf('%2.2f',rD) ' (p = ' sprintf('%2.2f',pD) ')'])
+text(-1.75,1.1,['RMSE = ' sprintf('%2.2f',rmseD)])
 axis([-2 2 -2 2])
-xlabel('SAUP')
-ylabel('POEM')
-title('C. Demersals')
+xlabel('SAU')
+ylabel('FEISTY ')
+title('Demersals')
+
+subplot(2,2,4)
+plot(x,x,'--k'); hold on;
+plot(x,x2h,':b'); hold on;
+plot(x,x2l,':b'); hold on;
+plot(x,x5h,':r'); hold on;
+plot(x,x5l,':r'); hold on;
+scatter(l10s(keep),l10p(keep),20,lme_ptemp(keep,1),'filled'); hold on;
+cmocean('thermal');
+text(-1.75,1.7,'D')
+text(-1.75,1.4,['r = ' sprintf('%2.2f',rall) ' (p = ' sprintf('%2.2f',pall) ')'])
+text(-1.75,1.1,['RMSE = ' sprintf('%2.2f',rmse)])
+axis([-2 2 -2 2])
+xlabel('SAU')
+ylabel('FEISTY ')
+title('All fishes')
 % stamp([harv '_' cfile])
-print('-dpng',[ppath 'Clim_',harv,'_SAUP_comp_types_temp_Stock_LELC_ms.png'])
+print('-dpng',[ppath 'Clim_',harv,'_SAUP_comp_types_temp_Stock_LELC_pvals.png'])
 
 %% For ppt
 % figure(3)

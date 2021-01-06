@@ -9,11 +9,11 @@ close all
 
 spath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/SAUP/';
 cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
-pp = '/Users/cpetrik/Dropbox/Princeton/POEM_2.0/CODE/Figs/PNG/Matlab_New_sizes/';
-dp = '/Volumes/GFDL/NC/Matlab_new_size/';
+pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
+dp = '/Volumes/FEISTY/NC/Matlab_new_size/';
 
-Pdir = '/Volumes/GFDL/POEM_JLD/esm26_hist/';
-cdir='/Volumes/GFDL/GCM_DATA/ESM26_hist/';
+Pdir = '/Volumes/FEISTY/POEM_JLD/esm26_hist/';
+cdir='/Volumes/FEISTY/GCM_DATA/ESM26_hist/';
 load([Pdir 'ESM26_1deg_5yr_clim_191_195_gridspec.mat']);
 load([cpath 'esm26_lme_mask_onedeg_SAU_66.mat']);
 load([cpath 'esm26_area_1deg.mat']);
@@ -27,7 +27,8 @@ tlme = lme_mask_onedeg;
 AREA_OCN = max(area,1);
 
 %% FEISTY 
-cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
+%cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
+cfile='Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm100_nmort1_BE08_noCC_RE00100';
 harv = 'All_fish03';
 tharv = 'Harvest all fish 0.3 yr^-^1';
 ppath = [pp cfile '/'];
@@ -144,9 +145,9 @@ lonlim=[plotminlon plotmaxlon]; %[-255 -60] = Pac
 land=-999*ones(ni,nj);
 land(ID)=NaN*ones(size(ID));
 
-cmYOR=cbrewer('seq','YlOrRd',28);
-cmRP=cbrewer('seq','RdPu',28);
-cmPR=cbrewer('seq','PuRd',28);
+cmYOR=cbrewer('seq','YlOrRd',28,'PCHIP');
+cmRP=cbrewer('seq','RdPu',28,'PCHIP');
+cmPR=cbrewer('seq','PuRd',28,'PCHIP');
 
 x=0:0.1:1;
 

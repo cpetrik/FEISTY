@@ -7,28 +7,29 @@ clear all
 close all
 
 Pdrpbx = '/Users/cpetrik/Dropbox/';
-Pdir = '/Volumes/GFDL/POEM_JLD/esm26_hist/';
+Pdir = '/Volumes/FEISTY/POEM_JLD/esm26_hist/';
 cpath = [Pdrpbx 'Princeton/POEM_other/grid_cobalt/'];
-pp = [Pdrpbx 'Princeton/POEM_2.0/CODE/Figs/PNG/Matlab_New_sizes/'];
+pp = [Pdrpbx 'Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/'];
 
 load([Pdir 'ESM26_1deg_5yr_clim_191_195_gridspec.mat']);
 
 % POEM
-cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
+%cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
+cfile='Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm100_nmort1_BE08_noCC_RE00100';
 BE = 0.075;
 harv = 'All_fish03';
 tharv = 'Harvest all fish 0.3 yr^-^1';
-fpath=['/Volumes/GFDL/NC/Matlab_new_size/' cfile '/'];
+fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
 ppath = [pp cfile '/'];
 if (~isdir(ppath))
     mkdir(ppath)
 end
-load([fpath 'Means_bio_prod_fish_Climatol_' harv '_' cfile '.mat']);
-%load([fpath 'Means_Climatol_' harv '_' cfile '.mat']);
+%load([fpath 'Means_bio_prod_fish_Climatol_' harv '_' cfile '.mat']);
+load([fpath 'Means_Climatol_' harv '_' cfile '.mat']);
 
 
 %% Zoop and det and npp
-gpath='/Volumes/GFDL/GCM_DATA/ESM26_hist/';
+gpath='/Volumes/FEISTY/GCM_DATA/ESM26_hist/';
 load([gpath 'clim_det_biom_Dmeans_Ytot.mat'])
 load([gpath 'clim_npp_Dmeans_Ytot.mat'])
 
@@ -129,8 +130,8 @@ Q = array2table(q,'VariableNames',{'Quantile','TEeff_LTLd','TEeff_HTLd',...
     'TEeff_L','TEHTLd','TEL'});
 
 %% save
-mspath='/Users/cpetrik/Dropbox/Princeton/POEM_other/poem_ms/';
-writetable(Q,[mspath 'TEeff_quant_Climatol_All_fish03_' cfile '.csv'],'Delimiter',',');
+% mspath='/Users/cpetrik/Dropbox/Princeton/POEM_other/poem_ms/';
+% writetable(Q,[mspath 'TEeff_quant_Climatol_All_fish03_' cfile '.csv'],'Delimiter',',');
 
 save([fpath 'TEeffDet_Climatol_All_fish03_' cfile '.mat'],'TEeffM',...
     'Pmf','Pmp','Pmd','Plp','Pld','Plb','mmz_loss','mlz_loss','mnpp',...

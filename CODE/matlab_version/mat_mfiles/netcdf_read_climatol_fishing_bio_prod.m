@@ -4,7 +4,7 @@ clear all
 close all
 
 %Orig: cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
-cfile='Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_2B_BE08_noCC_RE00100';
+cfile='Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm100_nmort1_BE08_noCC_RE00100';
 harv = 'All_fish03';
 
 fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
@@ -24,7 +24,7 @@ SP.bio = biomass;
 SP.prod = prod;
 clear biomass prod
 
-% SF
+%% SF
 ncid = netcdf.open([fpath 'Climatol_' harv '_sml_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars

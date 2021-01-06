@@ -46,7 +46,8 @@ load([Pdrpbx 'Princeton/POEM_2.0/CODE/Data/Hindcast_cgrid_cp2D.mat']);
 [ni,nj] = size(CGRD.mask);
 
 %! Create a directory for output
-fname = sub_fname_kap(frate);
+fname = sub_fname(frate);
+%fname = sub_fname_kap(frate);
 
 %! Storage variables
 S_Bent_bio = zeros(NX,DAYS);

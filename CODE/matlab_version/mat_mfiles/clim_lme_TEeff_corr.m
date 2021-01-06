@@ -5,10 +5,10 @@ close all
 
 spath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/poem_ms/';
 cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
-dp = '/Volumes/GFDL/NC/Matlab_new_size/';
-pp = '/Users/cpetrik/Dropbox/Princeton/POEM_2.0/CODE/Figs/PNG/Matlab_New_sizes/';
+dp = '/Volumes/FEISTY/NC/Matlab_new_size/';
+pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
 
-Pdir = '/Volumes/GFDL/POEM_JLD/esm26_hist/';
+Pdir = '/Volumes/FEISTY/POEM_JLD/esm26_hist/';
 load([Pdir 'ESM26_1deg_5yr_clim_191_195_gridspec.mat']);
 load([cpath 'esm26_lme_mask_onedeg_SAU_66.mat']);
 load([cpath 'esm26_area_1deg.mat']);
@@ -20,14 +20,15 @@ load([spath 'Maureaud_etal_2017_s002_ECI.mat']);
 frate = 0.3;
 tfish = num2str(100+int64(10*frate));
 
-cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BEdecrT03_noCC_RE00100';
+%cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BEdecrT03_noCC_RE00100';
+cfile='Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm100_nmort1_BE08_noCC_RE00100';
 harv = 'All_fish03';
 tharv = 'Harvest all fish 0.3 yr^-^1';
 
 ppath = [pp cfile '/'];
 dpath = [dp cfile '/'];
 
-load([dpath 'TEeff_Climatol_All_fish03_' cfile '.mat']);
+load([dpath 'TEeffDet_Climatol_All_fish03_' cfile '.mat']);
 
 %Colormap
 load('MyColormaps.mat')
@@ -80,7 +81,7 @@ tab(:,3)=pECI;
 
 T1 = array2table(tab,'VariableNames',{'LME','Mauread','POEM'});
 
-writetable(T1,[spath 'LME_TEeff_Mauread_comp_' cfile '.csv'],'Delimiter',',')
+%writetable(T1,[spath 'LME_TEeff_Mauread_comp_' cfile '.csv'],'Delimiter',',')
 save([dpath 'LME_TEeff_Mauread_comp_' cfile '.mat'],'tab','keep',...
     'mECI','pECI')
 

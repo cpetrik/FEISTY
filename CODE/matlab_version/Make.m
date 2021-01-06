@@ -11,10 +11,10 @@ forelocs = false;
 climlocs = false;
 oneloc_fore_pristine = false;
 spinup_pristine = false;
-climatol_loop = true;
+climatol_loop = false;
 climatol_param = false;
 climatol_ens = false;
-climatol = false;
+climatol = true;
 climatol_crr = false;
 climatol_con = false;
 climatol_ngdc = false;
@@ -55,8 +55,9 @@ if climatol_ens
     Climatol_param_ensemble6_samek()
 end
 if climatol
-%     Climatol_pristine()
-    Climatol_be2()
+%    Climatol_pristine()
+    Climatol_fished()
+%    Climatol_be2()
 end
 if climatol_con
     Climatol_con_types()

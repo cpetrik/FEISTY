@@ -4,10 +4,10 @@ close all
 
 spath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/SAUP/';
 cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
-dp = '/Volumes/GFDL/NC/Matlab_new_size/';
+dp = '/Volumes/FEISTY/NC/Matlab_new_size/';
 
-Pdir = '/Volumes/GFDL/POEM_JLD/esm26_hist/';
-cdir='/Volumes/GFDL/GCM_DATA/ESM26_hist/';
+Pdir = '/Volumes/FEISTY/POEM_JLD/esm26_hist/';
+cdir='/Volumes/FEISTY/GCM_DATA/ESM26_hist/';
 load([cpath 'ESM26_1deg_5yr_clim_191_195_gridspec.mat']);
 load([cpath 'esm26_lme_mask_onedeg_SAU_66.mat']);
 load([cpath 'esm26_area_1deg.mat']);
@@ -17,18 +17,21 @@ load([cpath 'LME_clim_temp_zoop_det.mat']);
 AREA_OCN = max(area,1);
 tlme = lme_mask_onedeg;
 % "lfile" never changes, has lme areas
-lfile = 'Dc_enc70_cmax-metab20_b18_k09_fcrit20_D075_J100_A050_Sm025_nmort1_BE05_CC050_lgRE00100_mdRE00100';
-lpath = ['/Volumes/GFDL/NC/Matlab_new_size/' lfile '/'];
-load([lpath 'LME_clim_fished03_' lfile '.mat'],'lme_area');
-lme_area_km2 = lme_area * 1e-6;
+% lfile = 'Dc_enc70_cmax-metab20_b18_k09_fcrit20_D075_J100_A050_Sm025_nmort1_BE05_CC050_lgRE00100_mdRE00100';
+% lpath = ['/Volumes/FEISTY/NC/Matlab_new_size/' lfile '/'];
+% load([lpath 'LME_clim_fished03_' lfile '.mat'],'lme_area');
+% lme_area_km2 = lme_area * 1e-6;
 
 %% POEM
-cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
+%cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
+cfile='Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm100_nmort1_BE08_noCC_RE00100';
 harv = 'All_fish03';
 fpath = [dp cfile '/'];
 %load([fpath 'Means_bio_prod_fish_Climatol_' harv '_' cfile '.mat']);
 load([fpath 'LME_clim_fished_',harv,'_' cfile '.mat'],'lme_mcatch',...
-    'lme_mbio','lme_sbio');
+    'lme_mbio','lme_sbio','lme_area');
+
+lme_area_km2 = lme_area * 1e-6;
 
 % POEM LME biomass in MT
 plme_mcatch = nansum(lme_mcatch,2) * 1e-6;
@@ -175,7 +178,7 @@ spath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/poem_ms/';
 load([spath 'Maureaud_etal_2017_s002_ECI.mat']);
 
 % POEM file info
-load([fpath 'TEeff_Climatol_All_fish03_' cfile '.mat']);
+load([fpath 'TEeffDet_Climatol_All_fish03_' cfile '.mat']);
 
 % ECI for clim years (1991-1995?)
 mECI = mean(ECI(:,2:6),2);

@@ -6,10 +6,10 @@ close all
 
 spath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/SAUP/';
 cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
-dp = '/Volumes/GFDL/NC/Matlab_new_size/';
+dp = '/Volumes/FEISTY/NC/Matlab_new_size/';
 pp = '/Users/cpetrik/Dropbox/Princeton/POEM_2.0/CODE/Figs/PNG/Matlab_New_sizes/';
 
-Pdir = '/Volumes/GFDL/POEM_JLD/esm26_hist/';
+Pdir = '/Volumes/FEISTY/POEM_JLD/esm26_hist/';
 load([Pdir 'ESM26_1deg_5yr_clim_191_195_gridspec.mat']);
 load([cpath 'esm26_lme_mask_onedeg_SAU_66.mat']);
 load([cpath 'esm26_area_1deg.mat']);
@@ -54,9 +54,9 @@ lonlim=[plotminlon plotmaxlon]; %[-255 -60] = Pac
 land=-999*ones(ni,nj);
 land(ID)=NaN*ones(size(ID));
 
-cmYOR=cbrewer('seq','YlOrRd',28);
-cmRP=cbrewer('seq','RdPu',28);
-cmPR=cbrewer('seq','PuRd',28);
+cmYOR=cbrewer('seq','YlOrRd',28,'PCHIP');
+cmRP=cbrewer('seq','RdPu',28,'PCHIP');
+cmPR=cbrewer('seq','PuRd',28,'PCHIP');
 
 load(['/Users/cpetrik/Dropbox/Princeton/POEM_other/poem_ms/',...
     'Stock_PNAS_catch_oceanprod_output.mat'],'notLELC')
