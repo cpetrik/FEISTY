@@ -53,10 +53,8 @@ S_Lrg_d_fish = zeros(NX,DAYS);
 
 
 %! Initialize
-% [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = ...
-%         sub_init_fish(ID);
 [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = ...
-        sub_init_fish(ID,DAYS);
+        sub_init_fish(ID);
 
 %%%%%%%%%%%%%%% Setup NetCDF save
 %! Setup netcdf path to store to
@@ -159,7 +157,7 @@ for YR = 1:YEARS % years
         DY = int64(ceil(DAY));
         %[num2str(YR),' , ', num2str(mod(DY,365))]
         
-        [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = ...
+        [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,ENVR] = ...
             sub_futbio(ID,DY,COBALT,GRD,Sml_f,Sml_p,Sml_d,...
             Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,param);
         

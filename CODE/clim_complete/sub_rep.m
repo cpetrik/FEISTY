@@ -16,7 +16,7 @@ function [gamma, nu, rep] = sub_rep(NX,gamma,nu,K)
         gamma = zeros(NX,1);
         
         %nu is now split into used for repro (nu) and stored (egg)
-        nu(id,1) = rep(id,1);
+        %nu(id,1) = rep(id,1);
     else
         rep = zeros(NX,1);
     end

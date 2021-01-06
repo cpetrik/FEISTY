@@ -64,13 +64,13 @@ if (~isfolder([spath,simname]))
 end
 
 if (isempty(sel))
-    fname = [spath,simname, '/NoSegg3_Climatol_pristine'];
+    fname = [spath,simname, '/NoNuUpdate_Climatol_pristine'];
 elseif (param.Jsel ~= 0.1)
-    fname = [spath,simname, '/NoSegg3_Climatol_', sel,'_fish',tfish(2:end),'_Juve',tJ(2:end)];
+    fname = [spath,simname, '/NoNuUpdate_Climatol_', sel,'_fish',tfish(2:end),'_Juve',tJ(2:end)];
 elseif (param.MFsel ~= param.LPsel)
-    fname = [spath,simname, '/NoSegg3_Climatol_fish_F',tF(2:end),'_P',tP(2:end),'_D',tD(2:end)];
+    fname = [spath,simname, '/NoNuUpdate_Climatol_fish_F',tF(2:end),'_P',tP(2:end),'_D',tD(2:end)];
 else
-    fname = [spath,simname, '/NoSegg3_Climatol_', sel,'_fish',tfish(2:end)];
+    fname = [spath,simname, '/NoNuUpdate_Climatol_', sel,'_fish',tfish(2:end)];
 end
 
 

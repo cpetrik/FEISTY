@@ -31,12 +31,10 @@ ppath = [pp cfile '/'];
 if (~isdir(ppath))
     mkdir(ppath)
 end
-load([fpath 'Means_Historic_1zoo_' harv '_prod_' cfile '.mat']);
+%load([fpath 'Means_Historic_1zoo_' harv '_prod_' cfile '.mat']);
+load([fpath 'Means_Historic_1zoo_' harv '_' cfile '.mat']);
 
-cmYOR=cbrewer('seq','YlOrRd',50);
-cmRP=cbrewer('seq','RdPu',50);
-cmPR=cbrewer('seq','PuRd',50);
-
+cmYOR=cbrewer('seq','YlOrRd',50,'PCHIP');
 
 %% Zoop and det and npp 
 

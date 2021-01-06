@@ -21,7 +21,7 @@ spots=spots';
 %% new run with param struct
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 fpath = ['/Volumes/FEISTY/NC/Clim_comp_tests/' cfile '/'];
-tname = 'NoSegg2';
+tname = 'NoNuUpdate';
 load([fpath,tname,'_Climatol_All_fish03_locs.mat'])
 
 %% colors
