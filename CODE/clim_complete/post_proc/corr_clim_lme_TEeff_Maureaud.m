@@ -17,10 +17,11 @@ load([spath 'Maureaud_etal_2017_s002_ECI.mat']);
 frate = 0.3;
 tfish = num2str(100+int64(10*frate));
 
-cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
+cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A075_Sm025_nmort1_BE08_noCC_RE00100';
 BE = 0.075;
 harv = 'All_fish03';
-ppath = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/clim_complete/post_proc/pp_figs/NoNuUpdate_';
+ppath = ['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/clim_complete/post_proc/pp_figs/',...
+    cfile,'/NoNuUpdate_'];
 dpath=['/Volumes/FEISTY/NC/Clim_comp_tests/' cfile '/NoNuUpdate_'];
 
 load([dpath 'TEeffDet_Climatol_All_fish03_' cfile '.mat']);

@@ -21,12 +21,13 @@ btemp_mean_clim=squeeze(nanmean(btm_temp,1));
 %%
 AREA_OCN = max(area,1);
 
-cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
+cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A075_Sm025_nmort1_BE08_noCC_RE00100';
 harv = 'All_fish03';
 tharv = 'Harvest all fish 0.3 yr^-^1';
 
 dpath=['/Volumes/FEISTY/NC/Clim_comp_tests/' cfile '/NoNuUpdate_'];
-ppath = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/clim_complete/post_proc/pp_figs/NoNuUpdate_';
+ppath = ['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/clim_complete/post_proc/pp_figs/',...
+    cfile,'/NoNuUpdate_'];
 
 load([dpath 'Means_Climatol_' harv '_' cfile '.mat']);
 

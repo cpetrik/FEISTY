@@ -6,9 +6,7 @@ spath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/SAUP/';
 gpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
 cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/cobalt_data/';
 
-cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 harv = 'All_fish03';
-ppath = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/clim_complete/post_proc/pp_figs/NoNuUpdate_';
 
 %% Clim grid
 Pdir = '/Volumes/FEISTY/POEM_JLD/esm26_hist/';
@@ -19,6 +17,9 @@ load([gpath 'esm26_area_1deg.mat']);
 load([gpath 'LME_clim_temp_zoop_det.mat']);
 
 %% FEISTY No Nu Update
+cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A075_Sm025_nmort1_BE08_noCC_RE00100';
+ppath = ['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/clim_complete/post_proc/pp_figs/',...
+    cfile,'/NoNuUpdate_'];
 fpath=['/Volumes/FEISTY/NC/Clim_comp_tests/' cfile '/NoNuUpdate_'];
 load([fpath 'LME_clim_fished_',harv,'_' cfile '.mat']);
 load([fpath 'TEeffDet_Climatol_All_fish03_' cfile '.mat'],'lme_te');

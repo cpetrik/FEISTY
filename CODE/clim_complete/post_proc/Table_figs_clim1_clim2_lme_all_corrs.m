@@ -14,9 +14,7 @@ load(['/Users/cpetrik/Dropbox/Princeton/POEM_other/poem_ms/',...
 %keep = notLELC;
 keep=1:66;
 
-cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 harv = 'All_fish03';
-ppath = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/clim_complete/post_proc/pp_figs/NoNuUpdate_';
 
 %% Climatol grid
 Pdir = '/Volumes/FEISTY/POEM_JLD/esm26_hist/';
@@ -31,6 +29,7 @@ clme_ptemp = lme_ptemp;
 clear lme_ptemp
 
 %% FEISTY Climatol
+cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 fpath = [dp cfile '/Climatology/'];
 load([fpath 'LME_clim_fished_',harv,'_' cfile '.mat'],'lme_mcatch',...
     'lme_mbio','lme_area');
@@ -73,9 +72,12 @@ l10pLTL = log10(lme_te(:,4));
 clear lme_mcatch lme_mbio lme_te
  
 %% FEISTY Clim NoNuUpdate
-dpath=['/Volumes/FEISTY/NC/Clim_comp_tests/' cfile '/NoNuUpdate_'];
-load([dpath 'LME_clim_fished_',harv,'_' cfile '.mat']);
-load([dpath 'TEeffDet_Climatol_All_fish03_' cfile '.mat'],'lme_te');
+cfile2 = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A075_Sm025_nmort1_BE08_noCC_RE00100';
+ppath = ['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/clim_complete/post_proc/pp_figs/',...
+    cfile2,'/NoNuUpdate_'];
+dpath=['/Volumes/FEISTY/NC/Clim_comp_tests/' cfile2 '/NoNuUpdate_'];
+load([dpath 'LME_clim_fished_',harv,'_' cfile2 '.mat']);
+load([dpath 'TEeffDet_Climatol_All_fish03_' cfile2 '.mat'],'lme_te');
 
 hlme_mcatch = nansum(lme_mcatch,2) * 1e-6;
 hlme_Fmcatch = (lme_mcatch(:,1)) * 1e-6;
@@ -303,9 +305,9 @@ fish_stat(11,4) = pLTL;
 Fstat = array2table(fish_stat,'VariableNames',{'r','RMSE','Bias','p'},...
     'RowNames',{'All Fish','F','P','D','B','Frac Pel-Dem','Frac Pel-Forage',...
     'Frac Large-Med','TEeffL','TEeffHTL','TEeffLTL'});
-writetable(Fstat,[dpath 'LME_clim_stats_' cfile '.csv'],'Delimiter',',',...
+writetable(Fstat,[dpath 'LME_clim_stats_' cfile2 '.csv'],'Delimiter',',',...
     'WriteRowNames',true)
-save([dpath 'LME_clim_stats_' cfile '.mat'],'fish_stat')
+save([dpath 'LME_clim_stats_' cfile2 '.mat'],'fish_stat')
 
 %% Figures
 x=-8:0.5:8;
@@ -375,7 +377,7 @@ axis([-2 2 -2 2])
 xlabel('NoNuUpdate')
 ylabel('Clim')
 title('All fishes')
-stamp([harv '_' cfile])
+stamp([harv '_' cfile2])
 print('-dpng',[ppath 'Clim_',harv,'_comp_types_temp.png'])
 
 %% Fractions
@@ -440,7 +442,7 @@ axis([-4 0 -4 0])
 xlabel('NoNuUpdate')
 ylabel('Clim')
 title('Benthos')
-stamp([harv '_' cfile])
+stamp([harv '_' cfile2])
 print('-dpng',[ppath 'Clim_',harv,'_comp_fracs_temp.png'])
 
 % benthos figs look the same scale, so mistake somewhere else
@@ -492,7 +494,6 @@ axis([-3.5 -0.5 -3.5 -0.5])
 xlabel('NoNuUpdate')
 ylabel('Clim')
 title('log_1_0 TEeff LTL')
-
-stamp([harv '_' cfile])
+stamp([harv '_' cfile2])
 print('-dpng',[ppath 'Clim_',harv,'_comp_TEeffs_temp.png'])
 
