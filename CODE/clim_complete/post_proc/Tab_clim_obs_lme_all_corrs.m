@@ -17,7 +17,7 @@ load([gpath 'esm26_area_1deg.mat']);
 load([gpath 'LME_clim_temp_zoop_det.mat']);
 
 %% FEISTY No Nu Update
-cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A075_Sm025_nmort1_BE08_noCC_RE00100';
+cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A080_Sm025_nmort1_BE08_noCC_RE00100';
 ppath = ['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/clim_complete/post_proc/pp_figs/',...
     cfile,'/NoNuUpdate_'];
 fpath=['/Volumes/FEISTY/NC/Clim_comp_tests/' cfile '/NoNuUpdate_'];

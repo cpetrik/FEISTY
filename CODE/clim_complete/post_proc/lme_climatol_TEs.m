@@ -28,7 +28,7 @@ lonlim=[plotminlon plotmaxlon]; %[-255 -60] = Pac
 AREA_OCN = max(area,1);
 
 %% FEISTY
-cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A075_Sm025_nmort1_BE08_noCC_RE00100';
+cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A080_Sm025_nmort1_BE08_noCC_RE00100';
 harv = 'All_fish03';
 dpath=['/Volumes/FEISTY/NC/Clim_comp_tests/' cfile '/NoNuUpdate_'];
 ppath = ['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/clim_complete/post_proc/pp_figs/',...

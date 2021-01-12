@@ -88,7 +88,7 @@ function param = make_parameters(param)
     param.Sm = 0.25;  %Feeding 2 sizes down
     param.J = 1.0;    %Juvenile feeding reduction
     param.D = 0.75;   %Demersal feeding in pelagic reduction
-    param.A = 0.75;    %Adult predation reduction %*****
+    param.A = 0.70;    %Adult predation reduction %*****
 
     param.MF_phi_MZ = param.Sm;
     param.MF_phi_LZ = 1.0;

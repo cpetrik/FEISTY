@@ -72,7 +72,7 @@ l10pLTL = log10(lme_te(:,4));
 clear lme_mcatch lme_mbio lme_te
  
 %% FEISTY Clim NoNuUpdate
-cfile2 = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A075_Sm025_nmort1_BE08_noCC_RE00100';
+cfile2 = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A080_Sm025_nmort1_BE08_noCC_RE00100';
 ppath = ['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/clim_complete/post_proc/pp_figs/',...
     cfile2,'/NoNuUpdate_'];
 dpath=['/Volumes/FEISTY/NC/Clim_comp_tests/' cfile2 '/NoNuUpdate_'];

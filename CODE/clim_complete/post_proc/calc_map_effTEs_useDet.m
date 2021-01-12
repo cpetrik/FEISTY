@@ -13,7 +13,7 @@ cpath = [Pdrpbx 'Princeton/POEM_other/grid_cobalt/'];
 load([Pdir 'ESM26_1deg_5yr_clim_191_195_gridspec.mat']);
 
 % POEM
-cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A075_Sm025_nmort1_BE08_noCC_RE00100';
+cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A080_Sm025_nmort1_BE08_noCC_RE00100';
 BE = 0.075;
 harv = 'All_fish03';
 fpath=['/Volumes/FEISTY/NC/Clim_comp_tests/' cfile '/NoNuUpdate_'];
