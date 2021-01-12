@@ -4,16 +4,16 @@ library(latex2exp)
 
 #### script to get matlab biomass output 
 library(R.matlab)
-path <- "C:/Users/pdvd/Online for git/Fish_foodwebs/Coexistence forage fish -- predators/"
+path <- "/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/DVD_model_5types/Coexistence forage fish -- predators/"
 
-setwd("C:/Users/pdvd/Online for git/Fish_foodwebs/Coexistence forage fish -- predators/Final figures/")
-pdf("Coexistence_threespec_equalQ10.pdf",width=7.2,height=3)
+setwd("/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/DVD_model_5types/Coexistence forage fish -- predators/Final figures/")
+pdf("Coexistence_threespec_unequalQ10_70both.pdf",width=7.2,height=3)
 
 op <- par(mfrow = c(1,5),
           oma = c(5,4,0,0) + 0.1,
           mar = c(0,0,1,1) + 0.1)
 #### get biomass
-pathname <- file.path(path, "scenario_3spec.mat")
+pathname <- file.path(path, "scenario_3spec_unequal_70both.mat")
 databio <- readMat(pathname)
 forage  <- databio$BioFf
 pelpred <- databio$BioPf

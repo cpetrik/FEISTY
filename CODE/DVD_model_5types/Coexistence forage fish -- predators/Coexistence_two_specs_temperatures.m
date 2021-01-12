@@ -6,7 +6,7 @@ clearvars
 % define temperatures
 temp = [0   10   20   25   30];
 TQ10_1 =  1.88.^((temp-10)/10);
-TQ10_2 =  1.88.^((temp-10)/10); %2.35
+TQ10_2 =  2.35.^((temp-10)/10); %2.35; 1.88
 
 % Default initial conditions:
 bRp = linspace(1, 150, 150); % change with pelagic production
@@ -39,5 +39,5 @@ for jj = 1:length(temp)
         BioPf(j,jj) = sum(mean(y(Bin:end,param.ix1(3):param.ix2(3))));
       end
 end
-  save('scenario_2spec.mat')
+  save('scenario_2spec_unequal_60both.mat')
  

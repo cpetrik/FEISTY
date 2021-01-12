@@ -6,7 +6,7 @@ clearvars
 % define temperatures
 temp = [0   10   20  25  30];
 TQ10_1 =  1.88.^((temp-10)/10);
-TQ10_2 =  1.88.^((temp-10)/10); %1.88
+TQ10_2 =  2.35.^((temp-10)/10); %2.35; 1.88
 
 % Default initial conditions:
 bRb = linspace(1, 500, 50)*0.1; % flux "carrying capacity" 
@@ -39,4 +39,4 @@ for jj = 1:length(temp)
         BioDem(j,jj) = sum(mean(y(Bin:end,param.ix1(5):param.ix2(5))));
     end
 end
-  save('scenario_3spec.mat')
+  save('scenario_3spec_unequal_70both.mat')

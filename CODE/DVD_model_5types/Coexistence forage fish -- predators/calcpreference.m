@@ -172,7 +172,9 @@ function[theta, depthDay, depthNight, avlocDay, avlocNight] = calcpreference(par
    prey2 = param.ix1(2)+(ixjuv-1):param.ix2(2);
    idx_predat = [pred1 pred2 pred3];
    idx_prey= [prey1 prey2];
-   theta(idx_predat,idx_prey) = theta(idx_predat,idx_prey)*0.5; 
+   theta(idx_predat,idx_prey) = theta(idx_predat,idx_prey)*0.6; 
+   %theta(idx_predat) = theta(idx_predat)*0.5; 
+   %theta(idx_prey) = theta(idx_prey)*0.5; 
         
    % remove feeding on its own stage
    %idown = param.ix2(5);
