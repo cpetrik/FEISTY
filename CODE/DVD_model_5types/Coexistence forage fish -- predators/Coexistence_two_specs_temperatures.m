@@ -39,5 +39,5 @@ for jj = 1:length(temp)
         BioPf(j,jj) = sum(mean(y(Bin:end,param.ix1(3):param.ix2(3))));
       end
 end
-  save('scenario_2spec_unequal_60both.mat')
+  save('scenario_2spec_unequal_A80_3s.mat')
  

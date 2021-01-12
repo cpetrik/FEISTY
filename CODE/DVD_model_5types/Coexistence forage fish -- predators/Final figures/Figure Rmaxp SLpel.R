@@ -8,14 +8,14 @@ library(R.matlab)
 path <- "/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/DVD_model_5types/Coexistence forage fish -- predators/"
 
 setwd("/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/DVD_model_5types/Coexistence forage fish -- predators/Final figures/")
-pdf("Coexistence_main_Q10unequal_60both.pdf",width=7.2,height=3)
+pdf("Coexistence_main_Q10unequal_A80_3s.pdf",width=7.2,height=3)
 
 op <- par(mfrow = c(1,5),
           oma = c(5,4,0,0) + 0.1,
           mar = c(0,0,1,1) + 0.1)
 
 #### get biomass
-pathname <- file.path(path, "scenario_2spec_unequal_60both.mat")
+pathname <- file.path(path, "scenario_2spec_unequal_A80_3s.mat")
 databio <- readMat(pathname)
 forage  <- databio$BioFf
 pelpred <- databio$BioPf
