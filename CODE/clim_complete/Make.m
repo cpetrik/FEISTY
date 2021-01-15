@@ -4,14 +4,20 @@ clear all
 close all
 
 %%%%!! EXPERIMENTS
+locs = false;
 climatol = true;
 pre_industrial = false;
 historic = false;
 forecast = false;
 
 tic
+if locs
+    %Locs_clim()
+    Locs_clim_fishvec()
+end
 if climatol
-    Climatol()
+    %Climatol()
+    Climatol_fishvec()
 end
 if pre_industrial
     Pre_industrial()
