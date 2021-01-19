@@ -126,6 +126,6 @@ end %Years
 %%% Save
 save([fname '_locs.mat'],'S_Cobalt',...
     'S_bio','S_I','S_nu','S_gamma','S_die','S_rep','S_rec','S_clev',...
-    'S_prod','S_pred','S_nmort','S_met','S_caught','S_fmort');
+    'S_prod','S_pred','S_nmort','S_met','S_caught','S_fmort','param');
 
 end
