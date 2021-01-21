@@ -7,8 +7,8 @@
 clear all
 close all
 
-spath='/Users/cpetrik/Dropbox/ESM_data/Fish-MIP/CMIP6/IPSL/ssp126/';
 fpath='/Volumes/MIP/Fish-MIP/CMIP6/IPSL/ssp126/';
+spath='/Users/cpetrik/Dropbox/ESM_data/Fish-MIP/CMIP6/IPSL/ssp126/';
 
 %% thetao
 ncdisp([fpath 'ipsl-cm6a-lr_r1i1p1f1_ssp126_thetao_onedeg_global_monthly_2015_2100.nc'])
@@ -28,8 +28,8 @@ end
 
 %% Get subset of thetao
 % Time
-yr = ((time)/12)+1601-1;
-runs = find(yr>2014 & yr<=2100);
+%yr = ((time)/12)+1601-1;
+yr = ((time)/12)+1601; %months since 1601-1-1 = first month is Jan 1601
 z100 = find(olevel <= 100);
 
 i = nvars;
@@ -47,14 +47,25 @@ thkcello = netcdf.getVar(tcid,t-1, [0,0,0,0],[360 180 length(z100) length(time)]
 netcdf.close(tcid);
 thkcello(thkcello >= 1.00e+20) = NaN;
 
-%% thkcello is L-R flipped (lat,lon) compared to zmeso
-thkcello = fliplr(thkcello);
+%% check orientation
+test=squeeze(double(thetao(:,:,500)));
+figure
+pcolor(test)
+colorbar
+
+test1=squeeze(double(thkcello(:,:,500)));
+figure
+pcolor(test1)
+colorbar
 
 %% Mean top 100 m 
 temp_100 = squeeze(nansum((thetao.*thkcello),3)) ./ squeeze(nansum(thkcello,3));
 
-test=squeeze(double(temp_100(:,:,45)));
-pcolor(test)
+%%
+temp_100 = fliplr(temp_100);
+test2=squeeze(double(temp_100(:,:,50)));
+figure
+pcolor(test2)
 colorbar
 
 %% save

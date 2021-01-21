@@ -4,7 +4,8 @@
 clear all
 close all
 
-fpath='/Volumes/FEISTY/Fish-MIP/CMIP6/IPSL/hist/';
+fpath='/Volumes/MIP/Fish-MIP/CMIP6/IPSL/hist/';
+spath='/Users/cpetrik/Dropbox/ESM_data/Fish-MIP/CMIP6/IPSL/hist/';
 
 %%
 ncdisp([fpath 'ipsl-cm6a-lr_r1i1p1f1_historical_expc-bot_onedeg_global_monthly_1850_2014.nc'])
@@ -29,13 +30,24 @@ netcdf.close(ncid);
 %NaNs on land cells
 expc(expc >= 1.0000e+20) = NaN;
 
-%% Time 
-%yr = ((time+1)/12)+1601-1;
-yr = ((time)/12)+1601-1;
-runs = find(yr>1949 & yr<=2015); 
+%% Time
+%spin 1850-1949, hist 1950-2014, and ssp 2015-2100
+%1200 mo, 780 mo, 1032 mo 
+yr = ((time)/12)+1601; %months since 1601-1-1 = first month is Jan 1601
+
+spin = find(yr>=1850 & yr<1950);
+runs = find(yr>=1950);
+
+runs(end)
+runs(1)
+spin(end)
+
 det_btm = expc(:,:,runs);
 
+%%
 save([fpath 'ipsl_hist_det_btm_monthly_1950_2014.mat'],'det_btm','time',...
+    'yr','runs','long_name','standard_name','units');
+save([spath 'ipsl_hist_det_btm_monthly_1950_2014.mat'],'det_btm','time',...
     'yr','runs','long_name','standard_name','units');
 
 

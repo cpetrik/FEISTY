@@ -1,6 +1,6 @@
 % Make mat files of interpolated time series from IPSL
 % Preindust runs 1950-2100
-% New vertical integrations
+% New vertical integrations, new 1 degree interp by ISIMIP
 
 clear all
 close all
@@ -52,17 +52,33 @@ pcolor(test3)
 subplot(2,2,4)
 pcolor(test4)
 
-%%
-% index of water cells
-[ni,nj,nt] = size(temp_btm);
-WID = find(~isnan(temp_btm(:,:,1)));  % spatial index of water cells
-NID = length(WID);                    % number of water cells 41328
+%% Put Russia on top, AK on bottom
+temp_btm = fliplr(temp_btm);
+det_btm = fliplr(det_btm);
 
-% setup FEISTY data files
-% ESM.Tp  = nan*zeros(NID,365,nyrs);
-% ESM.Tb  = nan*zeros(NID,365,nyrs);
-% ESM.Zm  = nan*zeros(NID,365,nyrs);
-% ESM.det = nan*zeros(NID,365,nyrs);
+%% test that all same orientation
+test1 = squeeze(double(temp_100(:,:,90)));
+test2 = squeeze(double(temp_btm(:,:,90)));
+test3 = squeeze(double(zmeso_100(:,:,90)));
+test4 = squeeze(double(det_btm(:,:,90)));
+
+figure
+subplot(2,2,1)
+pcolor(test1)
+subplot(2,2,2)
+pcolor(test2)
+subplot(2,2,3)
+pcolor(test3)
+subplot(2,2,4)
+pcolor(test4)
+
+%% index of water cells
+load('/Volumes/MIP/Fish-MIP/CMIP6/IPSL/Data_grid_ipsl.mat','GRD');
+load('/Volumes/MIP/Fish-MIP/CMIP6/IPSL/gridspec_ipsl_cmip6.mat','deptho')
+
+WID = GRD.ID;
+NID = GRD.N;
+[ni,nj] = size(deptho);
 
 %%
 for y = 1:nyrs
@@ -72,11 +88,6 @@ for y = 1:nyrs
     Tb = double(temp_btm(:,:,mstart(y):mend(y)));
     Zm = double(zmeso_100(:,:,mstart(y):mend(y)));
     det= double(det_btm(:,:,mstart(y):mend(y)));
-    
-    % index of water cells
-    [ni,nj,nt] = size(Tb);
-    WID = find(~isnan(Tb(:,:,1)));  % spatial index of water cells
-    NID = length(WID);              % number of water cells
     
     % setup FEISTY data files
     D_Tp  = nan*zeros(NID,365);

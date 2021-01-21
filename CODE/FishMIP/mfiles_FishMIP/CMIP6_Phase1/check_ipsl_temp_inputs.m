@@ -19,7 +19,6 @@ load([ppath 'ipsl_pi_temp_100_monthly_1950_2100.mat']);
 
 temp_100 = double(temp_100);
 temp_100(temp_100 > 1.0e19) = nan;
-temp_100 = fliplr(temp_100);
 pTemp = temp_100;
 
 pyr = yr(runs);
@@ -35,7 +34,6 @@ load([ppath 'ipsl_pi_temp_100_monthly_1850_1949.mat']);
 
 temp_100 = double(temp_100);
 temp_100(temp_100 > 1.0e19) = nan;
-temp_100 = fliplr(temp_100);
 sTemp = temp_100;
 
 syr = yr(spin);
@@ -51,7 +49,6 @@ load([hpath 'ipsl_hist_temp_100_monthly_1950_2014.mat']);
 
 temp_100 = double(temp_100);
 temp_100(temp_100 > 1.0e19) = nan;
-temp_100 = fliplr(temp_100);
 hTemp = temp_100;
 
 hyr = yr(runs);

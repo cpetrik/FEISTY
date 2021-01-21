@@ -1,51 +1,38 @@
 % Make GRD file for FEISTY input from IPSL 1 degree model
+% using fixed depth netcdf
 
 clear all
 close all
 
 Cdir = '/Volumes/MIP/Fish-MIP/CMIP6/';
 
-%% Lat & Lon
-ncid = netcdf.open([Cdir 'IPSL/hist/ipsl-cm6a-lr_r1i1p1f1_historical_tob_onedeg_global_monthly_1850_2014.nc'],'NC_NOWRITE');
+%% Depth, lat, lon
+ncdisp([Cdir 'IPSL/ipsl-cm6a-lr_r1i1p1f1_picontrol_deptho_onedeg_global_fixed.nc'])
+
+ncid = netcdf.open([Cdir 'IPSL/ipsl-cm6a-lr_r1i1p1f1_picontrol_deptho_onedeg_global_fixed.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
     eval([ varname ' = netcdf.getVar(ncid,i-1);']);
 end
 netcdf.close(ncid);
-%%
-tob(tob >= 1.00e+20) = NaN;
 
-%Land mask
-mask = squeeze(tob(:,:,1));
-lmask = double(mask);
-lmask(~isnan(lmask)) = 1;
-lmask(isnan(lmask)) = 0;
+%seafloor depths
+deptho(deptho >= 1.00e+20) = NaN;
+deptho = double(deptho);
 
 %Grid of lat & lon
 [LAT,LON] = meshgrid(lat, lon);
 
-LID = find(lmask(:)==1);
-WID = find(~isnan(tob(:,:,1)));  % spatial index of water cells
-NID = length(WID);
+%% check orientation
+figure
+pcolor(deptho)
 
-eq1 = (WID==LID); %41328
-sum(eq1)
+figure
+pcolor(LAT)
 
-%% Depth, lat, lon
-ncdisp([Cdir 'IPSL/ipsl-cm6a-lr_r1i1p1f1_picontrol_deptho_onedeg_global_fx.nc'])
-
-ncid = netcdf.open([Cdir 'IPSL/ipsl-cm6a-lr_r1i1p1f1_picontrol_deptho_onedeg_global_fx.nc'],'NC_NOWRITE');
-[ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
-for i = 1:nvars
-    varname = netcdf.inqVar(ncid, i-1);
-    eval([ varname ' = netcdf.getVar(ncid,i-1);']);
-end
-netcdf.close(ncid);
-
-%% seafloor depths
-deptho(deptho >= 1.00e+20) = NaN;
-deptho = double(deptho);
+LAT = fliplr(LAT);
+deptho = fliplr(deptho);
 
 %%
 clatlim=[-90 90];
@@ -58,12 +45,17 @@ surfm(LAT,LON,deptho)
 title('CMIP')
 
 %%
-deptho(deptho==0) = NaN;
-DID = find(~isnan(deptho(:))); 
-IDN = length(DID); %41328
+WID = find(~isnan(deptho(:))); 
+NID = length(WID); %41383
 
-eq2 = (WID==DID);
-sum(eq2)
+% Land mask
+lmask = deptho;
+lmask(~isnan(lmask)) = 1;
+lmask(isnan(lmask)) = 0;
+LID = find(lmask(:)==1);
+
+eq1 = (WID==LID); 
+sum(eq1)
 
 %% Retain only water cells
 ID = WID;

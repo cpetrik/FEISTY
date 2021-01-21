@@ -21,7 +21,7 @@ load([ppath 'ipsl_pi_zmeso_100_monthly_1950_2100.mat']);
 
 zmeso_100 = double(zmeso_100);
 zmeso_100(zmeso_100 > 1.0e19) = nan;
-zmeso_100 = fliplr(zmeso_100);
+%zmeso_100 = fliplr(zmeso_100);
 
 pyr = yr(runs);
 
@@ -36,7 +36,7 @@ load([ppath 'ipsl_pi_zmeso_100_monthly_1850_1949.mat']);
 
 zmeso_100 = double(zmeso_100);
 zmeso_100(zmeso_100 > 1.0e19) = nan;
-zmeso_100 = fliplr(zmeso_100);
+%zmeso_100 = fliplr(zmeso_100);
 
 syr = yr(spin);
 
@@ -77,7 +77,7 @@ load([fpath 'ipsl_ssp126_zmeso_100_monthly_2015_2100.mat']);
 
 zmeso_100 = double(zmeso_100);
 zmeso_100(zmeso_100 > 1.0e19) = nan;
-zmeso_100 = fliplr(zmeso_100);
+%zmeso_100 = fliplr(zmeso_100);
 
 fyr = yr;
 

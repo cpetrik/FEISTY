@@ -35,8 +35,9 @@ yrs = 1950:2014;
 Tdays=1:365;
 Time=Tdays(15:30:end);
 
-%% flip vavg
-temp_100 = fliplr(temp_100);
+%% flip
+temp_btm = fliplr(temp_btm);
+det_btm = fliplr(det_btm);
 
 %% test that all same orientation
 test1 = squeeze(double(temp_100(:,:,70)));
@@ -54,17 +55,13 @@ pcolor(test3)
 subplot(2,2,4)
 pcolor(test4)
 
-%%
-% index of water cells
-[ni,nj,nt] = size(temp_btm);
-WID = find(~isnan(temp_btm(:,:,1)));  % spatial index of water cells
-NID = length(WID);                    % number of water cells
+%% index of water cells
+load('/Volumes/MIP/Fish-MIP/CMIP6/IPSL/Data_grid_ipsl.mat','GRD');
+load('/Volumes/MIP/Fish-MIP/CMIP6/IPSL/gridspec_ipsl_cmip6.mat','deptho')
 
-% setup FEISTY data files
-% ESM.Tp  = nan*zeros(NID,365,nyrs);
-% ESM.Tb  = nan*zeros(NID,365,nyrs);
-% ESM.Zm  = nan*zeros(NID,365,nyrs);
-% ESM.det = nan*zeros(NID,365,nyrs);
+WID = GRD.ID;
+NID = GRD.N;
+[ni,nj] = size(deptho);
 
 %%
 for y = 1:nyrs
@@ -74,11 +71,6 @@ for y = 1:nyrs
     Tb = double(temp_btm(:,:,mstart(y):mend(y)));
     Zm = double(zmeso_100(:,:,mstart(y):mend(y)));
     det= double(det_btm(:,:,mstart(y):mend(y)));
-    
-    % index of water cells
-    [ni,nj,nt] = size(Tb);
-    WID = find(~isnan(Tb(:,:,1)));  % spatial index of water cells
-    NID = length(WID);              % number of water cells
     
     % setup FEISTY data files
     D_Tp  = nan*zeros(NID,365);

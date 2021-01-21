@@ -27,13 +27,21 @@ for i = 1:(nvars-1)
     eval([ varname '(' varname ' == 1.000000020040877e+20) = NaN;']);
 end
 
-%% Get subset of thetao
-% Time
-%yr = ((time+1)/12)+1601-1;
-yr = ((time)/12)+1601-1;
-runs = find(yr>1949 & yr<=2015);
+%% Time
+%spin 1850-1949, hist 1950-2014, and ssp 2015-2100
+%1200 mo, 780 mo, 1032 mo 
+yr = ((time)/12)+1601; %months since 1601-1-1 = first month is Jan 1601
+
+spin = find(yr>=1850 & yr<1950);
+runs = find(yr>=1950);
+
+runs(end)
+runs(1)
+spin(end)
+
 z100 = find(olevel <= 100);
 
+%% Get subset of thetao
 i = nvars;
 thetao = netcdf.getVar(ncid,i-1, [0,0,0,runs(1)-1],[360 180 length(z100) length(runs)]);
 thetao(thetao >= 1.00e+20) = NaN;
@@ -49,11 +57,29 @@ thkcello = netcdf.getVar(tcid,t-1, [0,0,0,runs(1)-1],[360 180 length(z100) lengt
 netcdf.close(tcid);
 thkcello(thkcello >= 1.00e+20) = NaN;
 
+%% check orientation
+test=squeeze(double(thetao(:,:,20)));
+figure
+pcolor(test)
+colorbar
+
+test1=squeeze(double(thkcello(:,:,20)));
+figure
+pcolor(test1)
+colorbar
+
 %% Mean top 100 m 
 temp_100 = squeeze(nansum((thetao.*thkcello),3)) ./ squeeze(nansum(thkcello,3));
 
 test=squeeze(double(temp_100(:,:,300)));
 pcolor(test)
+colorbar
+
+%%
+temp_100 = fliplr(temp_100);
+test2=squeeze(double(temp_100(:,:,250)));
+figure
+pcolor(test2)
 colorbar
 
 %%

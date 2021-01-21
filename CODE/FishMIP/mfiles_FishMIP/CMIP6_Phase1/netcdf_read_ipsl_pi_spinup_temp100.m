@@ -29,8 +29,17 @@ end
 
 %% Get subset 
 % Time
-yr = ((time+1)/12)+1601-1;
-spin = find(yr>1850 & yr<=1950);
+%spin 1850-1949, hist 1950-2014, and ssp 2015-2100
+%1200 mo, 780 mo, 1032 mo 
+yr = ((time)/12)+1601; %months since 1601-1-1 = first month is Jan 1601
+
+spin = find(yr>=1850 & yr<1950);
+runs = find(yr>=1950);
+
+runs(end)
+runs(1)
+spin(end)
+
 % Top 100 m
 z100 = find(olevel <= 100);
 
@@ -49,11 +58,28 @@ thkcello = netcdf.getVar(tcid,t-1, [0,0,0,spin(1)-1],[360 180 length(z100) lengt
 netcdf.close(tcid);
 thkcello(thkcello >= 1.00e+20) = NaN;
 
+%% check orientation
+test=squeeze(double(thetao(:,:,150)));
+figure
+pcolor(test)
+colorbar
+
+test1=squeeze(double(thkcello(:,:,150)));
+figure
+pcolor(test1)
+colorbar
+
 %% Mean top 100 m 
 temp_100 = squeeze(nansum((thetao.*thkcello),3)) ./ squeeze(nansum(thkcello,3));
 
-test=squeeze(double(temp_100(:,:,150)));
-pcolor(test)
+test2=squeeze(double(temp_100(:,:,150)));
+pcolor(test2)
+colorbar
+
+%%
+temp_100 = fliplr(temp_100);
+test2=squeeze(double(temp_100(:,:,150)));
+pcolor(test2)
 colorbar
 
 %%

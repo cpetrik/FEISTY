@@ -35,8 +35,17 @@ end
 
 
 %% Time
-yr = ((time+1)/12)+1601;
-runs = find(yr>1950 & yr<=2015);
+%spin 1850-1949, hist 1950-2014, and ssp 2015-2100
+%1200 mo, 780 mo, 1032 mo 
+yr = ((time)/12)+1601; %months since 1601-1-1 = first month is Jan 1601
+
+spin = find(yr>=1850 & yr<1950);
+runs = find(yr>=1950);
+
+runs(end)
+runs(1)
+spin(end)
+
 z100 = find(olevel <= 100);
 
 %% Get subset of time & depth
@@ -59,11 +68,26 @@ end
 netcdf.close(tcid);
 thkcello(thkcello >= 1.00e+20) = NaN;
 
-% thkcello is L-R flipped (lat,lon) compared to zmeso
-thkcello = fliplr(thkcello);
+%% check orientation
+test=squeeze(double(zmeso(:,:,120)));
+figure
+pcolor(test)
+colorbar
+
+test1=squeeze(double(thkcello(:,:,120)));
+figure
+pcolor(test1)
+colorbar
 
 %% Integrate top 200 m
 zmeso_100 = squeeze(nansum((zmeso.*thkcello),3));
+
+%%
+zmeso_100 = fliplr(zmeso_100);
+test2=squeeze(double(zmeso_100(:,:,250)));
+figure
+pcolor(test2)
+colorbar
 
 %%
 clear zmeso thkcello
@@ -72,6 +96,10 @@ units_orig = units;
 units_vint = 'mol m-2';
 
 save([fpath 'ipsl_hist_zmeso_100_monthly_1950_2014.mat'],'zmeso_100','yr',...
+    'long_name','standard_name','units_orig','units_vint','lat','lon',...
+    'runs','z100','olevel');
+
+save([spath 'ipsl_hist_zmeso_100_monthly_1950_2014.mat'],'zmeso_100','yr',...
     'long_name','standard_name','units_orig','units_vint','lat','lon',...
     'runs','z100','olevel');
 

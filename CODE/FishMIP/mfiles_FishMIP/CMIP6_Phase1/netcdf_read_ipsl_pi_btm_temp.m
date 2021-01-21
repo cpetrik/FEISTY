@@ -30,10 +30,12 @@ netcdf.close(ncid);
 tob(tob >= 1.0000e+20) = NaN;
 
 %% Different time periods
-yr = ((time+1)/12)+1601; %months since 1601-1-1 = first month is Jan 1601
+%spin 1850-1949, hist 1950-2014, and ssp 2015-2100
+%1200 mo, 780 mo, 1032 mo 
+yr = ((time)/12)+1601; %months since 1601-1-1 = first month is Jan 1601
 
-spin = find(yr>1850 & yr<=1950);
-runs = find(yr>1950);
+spin = find(yr>=1850 & yr<1950);
+runs = find(yr>=1950);
 
 %% spinup
 temp_btm = tob(:,:,spin);

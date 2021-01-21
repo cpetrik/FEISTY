@@ -4,7 +4,8 @@
 clear all
 close all
 
-fpath='/Volumes/FEISTY/Fish-MIP/CMIP6/IPSL/ssp126/';
+fpath='/Volumes/MIP/Fish-MIP/CMIP6/IPSL/ssp126/';
+spath='/Users/cpetrik/Dropbox/ESM_data/Fish-MIP/CMIP6/IPSL/ssp126/';
 
 %%
 ncdisp([fpath 'ipsl-cm6a-lr_r1i1p1f1_ssp126_tob_onedeg_global_monthly_2015_2100.nc'])
@@ -30,10 +31,12 @@ netcdf.close(ncid);
 tob(tob >= 1.0000e+20) = NaN;
 
 %% Time
-yr = ((time)/12)+1601-1;
+yr = ((time)/12)+1601; %months since 1601-1-1 = first month is Jan 1601
 temp_btm = tob;
 
 save([fpath 'ipsl_ssp126_temp_btm_monthly_2015_2100.mat'],'temp_btm','time',...
+    'yr','long_name','standard_name','units');
+save([spath 'ipsl_ssp126_temp_btm_monthly_2015_2100.mat'],'temp_btm','time',...
     'yr','long_name','standard_name','units');
 
 

@@ -30,11 +30,15 @@ det_btm(det_btm > 1.0e19) = nan;
 
 %%
 ryr = yr(runs);
+nt = length(runs);
 
-% index of water cells
-[ni,nj,nt] = size(temp_100);
-WID = find(~isnan(temp_100(:,:,1)));  % spatial index of water cells
-NID = length(WID);
+%% index of water cells
+load('/Volumes/MIP/Fish-MIP/CMIP6/IPSL/Data_grid_ipsl.mat','GRD');
+load('/Volumes/MIP/Fish-MIP/CMIP6/IPSL/gridspec_ipsl_cmip6.mat','deptho')
+
+WID = GRD.ID;
+NID = GRD.N;
+[ni,nj] = size(deptho);
 
 %%
 temp_100 = reshape(temp_100,ni*nj,nt);
@@ -67,11 +71,7 @@ det_btm(det_btm > 1.0e19) = nan;
 
 %%
 syr = yr(spin);
-
-% index of water cells
-[ni,nj,nt] = size(temp_100);
-WID = find(~isnan(temp_100(:,:,1)));  % spatial index of water cells
-NID = length(WID);
+nt = length(spin);
 
 %%
 temp_100 = reshape(temp_100,ni*nj,nt);
@@ -98,7 +98,7 @@ plot(syr,nanmean(sTb),'k'); hold on
 plot(ryr,nanmean(pTb),'b'); hold on
 title('Btemp')
 
-figure(3)
+figure(3) % Zooplankton is problem
 plot(syr,nanmean(sZ),'k'); hold on
 plot(ryr,nanmean(pZ),'b'); hold on
 title('Zoo')

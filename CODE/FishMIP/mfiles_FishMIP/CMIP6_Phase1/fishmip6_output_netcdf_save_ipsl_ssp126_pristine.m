@@ -52,7 +52,7 @@ t_all = time;
 %% Reshape to lat,lon,yr
 [nid,nt] = size(allC);
 
-tpb = 1.0e20*ones(ni,nj,nt);
+tpb = 1.000000020040877e20*ones(ni,nj,nt);
 tdb = tpb;
 tcb = tpb;
 bp30cm = tpb;
@@ -63,37 +63,37 @@ bp90cm = tpb;
 bd90cm = tpb;
 
 for y=1:nt
-    gtpb = 1.0e20*ones(ni,nj);
+    gtpb = 1.000000020040877e20*ones(ni,nj);
     ttpb = allPel(:,y);
     gtpb(GRD.ID) = ttpb;
     tpb(:,:,y) = gtpb;
     
-    gtdb = 1.0e20*ones(ni,nj);
+    gtdb = 1.000000020040877e20*ones(ni,nj);
     ttdb = allD(:,y);
     gtdb(GRD.ID) = ttdb;
     tdb(:,:,y) = gtdb;
     
-    gtcb = 1.0e20*ones(ni,nj);
+    gtcb = 1.000000020040877e20*ones(ni,nj);
     ttcb = allC(:,y);
     gtcb(GRD.ID) = ttcb;
     tcb(:,:,y) = gtcb;
     
-    gp30cm = 1.0e20*ones(ni,nj);
+    gp30cm = 1.000000020040877e20*ones(ni,nj);
     tp30cm = SPel(:,y);
     gp30cm(GRD.ID) = tp30cm;
     bp30cm(:,:,y) = gp30cm;
     
-    gp90cm = 1.0e20*ones(ni,nj);
+    gp90cm = 1.000000020040877e20*ones(ni,nj);
     tp90cm = LPel(:,y);
     gp90cm(GRD.ID) = tp90cm;
     bp90cm(:,:,y) = gp90cm;
     
-%     gd30cm = 1.0e20*ones(ni,nj);
+%     gd30cm = 1.000000020040877e20*ones(ni,nj);
 %     td30cm = SDem(:,y);
 %     gd30cm(GRD.ID) = td30cm;
 %     bd30cm(:,:,y) = gd30cm;
     
-    gd90cm = 1.0e20*ones(ni,nj);
+    gd90cm = 1.000000020040877e20*ones(ni,nj);
     td90cm = allD(:,y);
     gd90cm(GRD.ID) = td90cm;
     bd90cm(:,:,y) = gd90cm;
@@ -189,49 +189,65 @@ file_bd90 = [fpath fname1 'bd90cm' fname2];
 [ni,nj,nt] = size(tpb);
 
 %% Lat & Lon should be vectors
-LAT = LAT(1,:);
+LAT = fliplr(LAT(1,:));
 LON = LON(:,1);
 
-%% tpb
-ncidSB = netcdf.create(file_tpb,'netcdf4');
+%Latitudes in wrong order. Index should range from north to south.
+%(found -89.5 to 89.5)
+%reverse latitude index order
 
+%tpb.dtype="float64" should be "float32"
+%'NC_FLOAT'
+
+%tpb.chunking=contiguous should be [1, 180, 360] (with proper depencency order)
+
+%Use Netcdf4 classic
+cmode = netcdf.getConstant('NETCDF4');
+cmode = bitor(cmode,netcdf.getConstant('CLASSIC_MODEL'));
+
+%% tpb
+ncidSB = netcdf.create(file_tpb,cmode);
+
+time_dim = netcdf.defDim(ncidSB,'time',nt);
 lon_dim = netcdf.defDim(ncidSB,'lon',ni);
 lat_dim = netcdf.defDim(ncidSB,'lat',nj);
-time_dim = netcdf.defDim(ncidSB,'time',nt);
 
-vidlat = netcdf.defVar(ncidSB,'lat','double',lat_dim);
-netcdf.putAtt(ncidSB,vidlat,'long_name','latitude');
-netcdf.putAtt(ncidSB,vidlat,'standard_name','lat');
-netcdf.putAtt(ncidSB,vidlat,'units','degrees_north');
-netcdf.putAtt(ncidSB,vidlat,'axis','Y');
-
-vidlon = netcdf.defVar(ncidSB,'lon','double',lon_dim);
-netcdf.putAtt(ncidSB,vidlon,'long_name','longitude');
-netcdf.putAtt(ncidSB,vidlon,'standard_name','lon');
-netcdf.putAtt(ncidSB,vidlon,'units','degrees_east' );
-netcdf.putAtt(ncidSB,vidlon,'axis','X');
-
-vidtSB = netcdf.defVar(ncidSB,'time','double',time_dim);
+vidtSB = netcdf.defVar(ncidSB,'time','NC_DOUBLE',time_dim);
 netcdf.putAtt(ncidSB,vidtSB,'long_name','time');
 netcdf.putAtt(ncidSB,vidtSB,'standard_name','time');
 netcdf.putAtt(ncidSB,vidtSB,'units','months since 1601-01-01' );
 netcdf.putAtt(ncidSB,vidtSB,'calendar','360_day');
 netcdf.putAtt(ncidSB,vidtSB,'axis','T');
 
-vidbioSB = netcdf.defVar(ncidSB,'tpb','double',[lon_dim,lat_dim,time_dim]);
-netcdf.putAtt(ncidSB,vidbioSB,'long_name','total pelagic biomass density');
-netcdf.putAtt(ncidSB,vidbioSB,'units','grams wet weight m-2' );
-netcdf.defVarFill(ncidSB,vidbioSB,false,1.0e20);
+vidlon = netcdf.defVar(ncidSB,'lon','NC_DOUBLE',lon_dim);
+netcdf.putAtt(ncidSB,vidlon,'long_name','longitude');
+netcdf.putAtt(ncidSB,vidlon,'standard_name','longitude');
+netcdf.putAtt(ncidSB,vidlon,'units','degrees_east' );
+netcdf.putAtt(ncidSB,vidlon,'axis','X');
+
+vidlat = netcdf.defVar(ncidSB,'lat','NC_DOUBLE',lat_dim);
+netcdf.putAtt(ncidSB,vidlat,'long_name','latitude');
+netcdf.putAtt(ncidSB,vidlat,'standard_name','latitude');
+netcdf.putAtt(ncidSB,vidlat,'units','degrees_north');
+netcdf.putAtt(ncidSB,vidlat,'axis','Y');
+
+vidbioSB = netcdf.defVar(ncidSB,'tpb','NC_FLOAT',[lon_dim,lat_dim,time_dim]);
+netcdf.defVarChunking(ncidSB,vidbioSB,'CHUNKED',[1, 180, 360]);
+netcdf.putAtt(ncidSB,vidbioSB,'long_name','Total Pelagic Biomass Density');
+netcdf.putAtt(ncidSB,vidbioSB,'units','g m-2' );
+netcdf.defVarFill(ncidSB,vidbioSB,false,1.000000020040877e+20);
+netcdf.putAtt(ncidSB,vidbioSB,'missing value',1.000000020040877e+20);
 
 varid = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncidSB,varid,'creation_date',datestr(now));
-netcdf.putAtt(ncidSB,varid,'_FillValue',1.00e20);
-netcdf.putAtt(ncidSB,varid,'contact','C. Petrik');
+netcdf.putAtt(ncidSB,varid,'_FillValue',1.000000020040877e+20);
+netcdf.putAtt(ncidSB,varid,'contact','C. Petrik <colleenpetrik@gmail.com>');
 netcdf.putAtt(ncidSB,varid,'institution','Texas A&M University');
 netcdf.putAtt(ncidSB,varid,'wet weight:C ratio','9:1');
 
 netcdf.endDef(ncidSB);
 
+tpb = single(tpb);
 netcdf.putVar(ncidSB,vidlat,LAT);
 netcdf.putVar(ncidSB,vidlon,LON);
 netcdf.putVar(ncidSB,vidbioSB,tpb);
@@ -242,46 +258,48 @@ netcdf.close(ncidSB);
 ncdisp(file_tpb)
 
 %% tdb
-ncidSD = netcdf.create(file_tdb,'netcdf4');
+ncidSD = netcdf.create(file_tdb,cmode);
 
+time_dim = netcdf.defDim(ncidSD,'time',nt);
 lon_dim = netcdf.defDim(ncidSD,'lon',ni);
 lat_dim = netcdf.defDim(ncidSD,'lat',nj);
-time_dim = netcdf.defDim(ncidSD,'time',nt);
 
-vidlat = netcdf.defVar(ncidSD,'lat','double',lat_dim);
-netcdf.putAtt(ncidSD,vidlat,'long_name','latitude');
-netcdf.putAtt(ncidSD,vidlat,'standard_name','lat');
-netcdf.putAtt(ncidSD,vidlat,'units','degrees_north');
-netcdf.putAtt(ncidSD,vidlat,'axis','Y');
-
-vidlon = netcdf.defVar(ncidSD,'lon','double',lon_dim);
-netcdf.putAtt(ncidSD,vidlon,'long_name','longitude');
-netcdf.putAtt(ncidSD,vidlon,'standard_name','lon');
-netcdf.putAtt(ncidSD,vidlon,'units','degrees_east' );
-netcdf.putAtt(ncidSD,vidlon,'axis','X');
-
-vidtSD = netcdf.defVar(ncidSD,'time','double',time_dim);
+vidtSD = netcdf.defVar(ncidSD,'time','NC_DOUBLE',time_dim);
 netcdf.putAtt(ncidSD,vidtSD,'long_name','time');
 netcdf.putAtt(ncidSD,vidtSD,'standard_name','time');
 netcdf.putAtt(ncidSD,vidtSD,'calendar','360_day');
 netcdf.putAtt(ncidSD,vidtSD,'axis','T');
 netcdf.putAtt(ncidSD,vidtSD,'units','months since 1601-01-01' );
 
-vidbioSD = netcdf.defVar(ncidSD,'tdb','double',[lon_dim,lat_dim,time_dim]);
-netcdf.putAtt(ncidSD,vidbioSD,'long_name','total demersal biomass density');
-netcdf.putAtt(ncidSD,vidbioSD,'units','grams wet weight m-2' );
-netcdf.defVarFill(ncidSD,vidbioSD,false,1.0e20);
+vidlon = netcdf.defVar(ncidSD,'lon','NC_DOUBLE',lon_dim);
+netcdf.putAtt(ncidSD,vidlon,'long_name','longitude');
+netcdf.putAtt(ncidSD,vidlon,'standard_name','longitude');
+netcdf.putAtt(ncidSD,vidlon,'units','degrees_east' );
+netcdf.putAtt(ncidSD,vidlon,'axis','X');
+
+vidlat = netcdf.defVar(ncidSD,'lat','NC_DOUBLE',lat_dim);
+netcdf.putAtt(ncidSD,vidlat,'long_name','latitude');
+netcdf.putAtt(ncidSD,vidlat,'standard_name','latitude');
+netcdf.putAtt(ncidSD,vidlat,'units','degrees_north');
+netcdf.putAtt(ncidSD,vidlat,'axis','Y');
+
+vidbioSD = netcdf.defVar(ncidSD,'tdb','NC_FLOAT',[lon_dim,lat_dim,time_dim]);
+netcdf.putAtt(ncidSD,vidbioSD,'long_name','Total Demersal Biomass Density');
+netcdf.putAtt(ncidSD,vidbioSD,'units','g m-2' );
+netcdf.defVarFill(ncidSD,vidbioSD,false,1.000000020040877e+20);
+netcdf.putAtt(ncidSD,vidbioSD,'missing value',1.000000020040877e+20);
 
 varid = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncidSD,varid,'creation_date',datestr(now));
-netcdf.putAtt(ncidSD,varid,'_FillValue',1.00e20);
-netcdf.putAtt(ncidSD,varid,'contact','C. Petrik');
+netcdf.putAtt(ncidSD,varid,'_FillValue',1.000000020040877e+20);
+netcdf.putAtt(ncidSD,varid,'contact','C. Petrik <colleenpetrik@gmail.com>');
 netcdf.putAtt(ncidSD,varid,'institution','Texas A&M University');
 netcdf.putAtt(ncidSD,varid,'wet weight:C ratio','9:1');
 netcdf.putAtt(ncidSD,varid,'includes benthos','no');
 
 netcdf.endDef(ncidSD);
 
+tdb = single(tdb);
 netcdf.putVar(ncidSD,vidlat,LAT);
 netcdf.putVar(ncidSD,vidlon,LON);
 netcdf.putVar(ncidSD,vidbioSD,tdb);
@@ -290,46 +308,48 @@ netcdf.putVar(ncidSD,vidtSD,time);
 netcdf.close(ncidSD);
 
 %% tcb
-ncidCB = netcdf.create(file_tcb,'netcdf4');
+ncidCB = netcdf.create(file_tcb,cmode);
 
+time_dim = netcdf.defDim(ncidCB,'time',nt);
 lon_dim = netcdf.defDim(ncidCB,'lon',ni);
 lat_dim = netcdf.defDim(ncidCB,'lat',nj);
-time_dim = netcdf.defDim(ncidCB,'time',nt);
 
-vidlat = netcdf.defVar(ncidCB,'lat','double',lat_dim);
-netcdf.putAtt(ncidCB,vidlat,'long_name','latitude');
-netcdf.putAtt(ncidCB,vidlat,'standard_name','lat');
-netcdf.putAtt(ncidCB,vidlat,'units','degrees_north');
-netcdf.putAtt(ncidCB,vidlat,'axis','Y');
-
-vidlon = netcdf.defVar(ncidCB,'lon','double',lon_dim);
-netcdf.putAtt(ncidCB,vidlon,'long_name','longitude');
-netcdf.putAtt(ncidCB,vidlon,'standard_name','lon');
-netcdf.putAtt(ncidCB,vidlon,'units','degrees_east' );
-netcdf.putAtt(ncidCB,vidlon,'axis','X');
-
-vidtCB = netcdf.defVar(ncidCB,'time','double',time_dim);
+vidtCB = netcdf.defVar(ncidCB,'time','NC_DOUBLE',time_dim);
 netcdf.putAtt(ncidCB,vidtCB,'long_name','time');
 netcdf.putAtt(ncidCB,vidtCB,'standard_name','time');
 netcdf.putAtt(ncidCB,vidtCB,'calendar','360_day');
 netcdf.putAtt(ncidCB,vidtCB,'axis','T');
 netcdf.putAtt(ncidCB,vidtCB,'units','months since 1601-01-01' );
 
-vidbioCB = netcdf.defVar(ncidCB,'tcb','double',[lon_dim,lat_dim,time_dim]);
-netcdf.putAtt(ncidCB,vidbioCB,'long_name','total consumer biomass density');
-netcdf.putAtt(ncidCB,vidbioCB,'units','grams wet weight m-2' );
-netcdf.defVarFill(ncidCB,vidbioCB,false,1.0e20);
+vidlon = netcdf.defVar(ncidCB,'lon','NC_DOUBLE',lon_dim);
+netcdf.putAtt(ncidCB,vidlon,'long_name','longitude');
+netcdf.putAtt(ncidCB,vidlon,'standard_name','longitude');
+netcdf.putAtt(ncidCB,vidlon,'units','degrees_east' );
+netcdf.putAtt(ncidCB,vidlon,'axis','X');
+
+vidlat = netcdf.defVar(ncidCB,'lat','NC_DOUBLE',lat_dim);
+netcdf.putAtt(ncidCB,vidlat,'long_name','latitude');
+netcdf.putAtt(ncidCB,vidlat,'standard_name','latitude');
+netcdf.putAtt(ncidCB,vidlat,'units','degrees_north');
+netcdf.putAtt(ncidCB,vidlat,'axis','Y');
+
+vidbioCB = netcdf.defVar(ncidCB,'tcb','NC_FLOAT',[lon_dim,lat_dim,time_dim]);
+netcdf.putAtt(ncidCB,vidbioCB,'long_name','Total Consumer Biomass Density');
+netcdf.putAtt(ncidCB,vidbioCB,'units','g m-2' );
+netcdf.defVarFill(ncidCB,vidbioCB,false,1.000000020040877e+20);
+netcdf.putAtt(ncidCB,vidbioCB,'missing value',1.000000020040877e+20);
 
 varid = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncidCB,varid,'creation_date',datestr(now));
-netcdf.putAtt(ncidCB,varid,'_FillValue',1.00e20);
-netcdf.putAtt(ncidCB,varid,'contact','C. Petrik');
+netcdf.putAtt(ncidCB,varid,'_FillValue',1.000000020040877e+20);
+netcdf.putAtt(ncidCB,varid,'contact','C. Petrik <colleenpetrik@gmail.com>');
 netcdf.putAtt(ncidCB,varid,'institution','Texas A&M University');
 netcdf.putAtt(ncidCB,varid,'wet weight:C ratio','9:1');
 netcdf.putAtt(ncidCB,varid,'includes benthos','yes');
 
 netcdf.endDef(ncidCB);
 
+tcb = single(tcb);
 netcdf.putVar(ncidCB,vidlat,LAT);
 netcdf.putVar(ncidCB,vidlon,LON);
 netcdf.putVar(ncidCB,vidbioCB,tcb);
@@ -338,45 +358,47 @@ netcdf.putVar(ncidCB,vidtCB,time);
 netcdf.close(ncidCB);
 
 %% bp30cm
-ncid30 = netcdf.create(file_bp30,'netcdf4');
+ncid30 = netcdf.create(file_bp30,cmode);
 
+time_dim = netcdf.defDim(ncid30,'time',nt);
 lon_dim = netcdf.defDim(ncid30,'lon',ni);
 lat_dim = netcdf.defDim(ncid30,'lat',nj);
-time_dim = netcdf.defDim(ncid30,'time',nt);
 
-vidlat = netcdf.defVar(ncid30,'lat','double',lat_dim);
-netcdf.putAtt(ncid30,vidlat,'long_name','latitude');
-netcdf.putAtt(ncid30,vidlat,'standard_name','lat');
-netcdf.putAtt(ncid30,vidlat,'units','degrees_north');
-netcdf.putAtt(ncid30,vidlat,'axis','Y');
-
-vidlon = netcdf.defVar(ncid30,'lon','double',lon_dim);
-netcdf.putAtt(ncid30,vidlon,'long_name','longitude');
-netcdf.putAtt(ncid30,vidlon,'standard_name','lon');
-netcdf.putAtt(ncid30,vidlon,'units','degrees_east' );
-netcdf.putAtt(ncid30,vidlon,'axis','X');
-
-vidt30 = netcdf.defVar(ncid30,'time','double',time_dim);
+vidt30 = netcdf.defVar(ncid30,'time','NC_DOUBLE',time_dim);
 netcdf.putAtt(ncid30,vidt30,'long_name','time');
 netcdf.putAtt(ncid30,vidt30,'standard_name','time');
 netcdf.putAtt(ncid30,vidt30,'calendar','360_day');
 netcdf.putAtt(ncid30,vidt30,'axis','T');
 netcdf.putAtt(ncid30,vidt30,'units','months since 1601-01-01' );
 
-vidbio30 = netcdf.defVar(ncid30,'bp30cm','double',[lon_dim,lat_dim,time_dim]);
-netcdf.putAtt(ncid30,vidbio30,'long_name','biomass density of pelagic < 30cm');
-netcdf.putAtt(ncid30,vidbio30,'units','grams wet weight  m-2' );
-netcdf.defVarFill(ncid30,vidbio30,false,1.0e20);
+vidlon = netcdf.defVar(ncid30,'lon','NC_DOUBLE',lon_dim);
+netcdf.putAtt(ncid30,vidlon,'long_name','longitude');
+netcdf.putAtt(ncid30,vidlon,'standard_name','longitude');
+netcdf.putAtt(ncid30,vidlon,'units','degrees_east' );
+netcdf.putAtt(ncid30,vidlon,'axis','X');
+
+vidlat = netcdf.defVar(ncid30,'lat','NC_DOUBLE',lat_dim);
+netcdf.putAtt(ncid30,vidlat,'long_name','latitude');
+netcdf.putAtt(ncid30,vidlat,'standard_name','latitude');
+netcdf.putAtt(ncid30,vidlat,'units','degrees_north');
+netcdf.putAtt(ncid30,vidlat,'axis','Y');
+
+vidbio30 = netcdf.defVar(ncid30,'bp30cm','NC_FLOAT',[lon_dim,lat_dim,time_dim]);
+netcdf.putAtt(ncid30,vidbio30,'long_name','Biomass Density of Small Pelagics < 30cm');
+netcdf.putAtt(ncid30,vidbio30,'units','g  m-2' );
+netcdf.defVarFill(ncid30,vidbio30,false,1.000000020040877e+20);
+netcdf.putAtt(ncid30,vidbio30,'missing value',1.000000020040877e+20);
 
 varid = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncid30,varid,'creation_date',datestr(now));
-netcdf.putAtt(ncid30,varid,'_FillValue',1.00e20);
-netcdf.putAtt(ncid30,varid,'contact','C. Petrik');
+netcdf.putAtt(ncid30,varid,'_FillValue',1.000000020040877e+20);
+netcdf.putAtt(ncid30,varid,'contact','C. Petrik <colleenpetrik@gmail.com>');
 netcdf.putAtt(ncid30,varid,'institution','Texas A&M University');
 netcdf.putAtt(ncid30,varid,'wet weight:C ratio','9:1');
 
 netcdf.endDef(ncid30);
 
+bp30cm = single(bp30cm);
 netcdf.putVar(ncid30,vidlat,LAT);
 netcdf.putVar(ncid30,vidlon,LON);
 netcdf.putVar(ncid30,vidbio30,bp30cm);
@@ -385,46 +407,48 @@ netcdf.putVar(ncid30,vidt30,time);
 netcdf.close(ncid30);
 
 %% bp90cm
-ncid90 = netcdf.create(file_bp90,'netcdf4');
+ncid90 = netcdf.create(file_bp90,cmode);
 
+time_dim = netcdf.defDim(ncid90,'time',nt);
 lon_dim = netcdf.defDim(ncid90,'lon',ni);
 lat_dim = netcdf.defDim(ncid90,'lat',nj);
-time_dim = netcdf.defDim(ncid90,'time',nt);
 
-vidlat = netcdf.defVar(ncid90,'lat','double',lat_dim);
-netcdf.putAtt(ncid90,vidlat,'long_name','latitude');
-netcdf.putAtt(ncid90,vidlat,'standard_name','lat');
-netcdf.putAtt(ncid90,vidlat,'units','degrees_north');
-netcdf.putAtt(ncid90,vidlat,'axis','Y');
-
-vidlon = netcdf.defVar(ncid90,'lon','double',lon_dim);
-netcdf.putAtt(ncid90,vidlon,'long_name','longitude');
-netcdf.putAtt(ncid90,vidlon,'standard_name','lon');
-netcdf.putAtt(ncid90,vidlon,'units','degrees_east' );
-netcdf.putAtt(ncid90,vidlon,'axis','X');
-
-vidt90 = netcdf.defVar(ncid90,'time','double',time_dim);
+vidt90 = netcdf.defVar(ncid90,'time','NC_DOUBLE',time_dim);
 netcdf.putAtt(ncid90,vidt90,'long_name','time');
 netcdf.putAtt(ncid90,vidt90,'standard_name','time');
 netcdf.putAtt(ncid90,vidt90,'calendar','360_day');
 netcdf.putAtt(ncid90,vidt90,'axis','T');
 netcdf.putAtt(ncid90,vidt90,'units','months since 1601-01-01' );
 
-vidbio90 = netcdf.defVar(ncid90,'bp90cm','double',[lon_dim,lat_dim,time_dim]);
-netcdf.putAtt(ncid90,vidbio90,'long_name','biomass density of pelagic >=90cm');
-netcdf.putAtt(ncid90,vidbio90,'units','grams wet weight  m-2' );
-netcdf.defVarFill(ncid90,vidbio90,false,1.0e20);
+vidlon = netcdf.defVar(ncid90,'lon','NC_DOUBLE',lon_dim);
+netcdf.putAtt(ncid90,vidlon,'long_name','longitude');
+netcdf.putAtt(ncid90,vidlon,'standard_name','longitude');
+netcdf.putAtt(ncid90,vidlon,'units','degrees_east' );
+netcdf.putAtt(ncid90,vidlon,'axis','X');
+
+vidlat = netcdf.defVar(ncid90,'lat','NC_DOUBLE',lat_dim);
+netcdf.putAtt(ncid90,vidlat,'long_name','latitude');
+netcdf.putAtt(ncid90,vidlat,'standard_name','latitude');
+netcdf.putAtt(ncid90,vidlat,'units','degrees_north');
+netcdf.putAtt(ncid90,vidlat,'axis','Y');
+
+vidbio90 = netcdf.defVar(ncid90,'bp90cm','NC_FLOAT',[lon_dim,lat_dim,time_dim]);
+netcdf.putAtt(ncid90,vidbio90,'long_name','Biomass Density of Large Pelagics >=90cm');
+netcdf.putAtt(ncid90,vidbio90,'units','g  m-2' );
+netcdf.defVarFill(ncid90,vidbio90,false,1.000000020040877e+20);
+netcdf.putAtt(ncid90,vidbio90,'missing value',1.000000020040877e+20);
 
 varid = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncid90,varid,'creation_date',datestr(now));
 netcdf.putAtt(ncid90,varid,'_FillValue',1.00e20);
-netcdf.putAtt(ncid90,varid,'contact','C. Petrik');
+netcdf.putAtt(ncid90,varid,'contact','C. Petrik <colleenpetrik@gmail.com>');
 netcdf.putAtt(ncid90,varid,'institution','Texas A&M University');
 netcdf.putAtt(ncid90,varid,'wet weight:C ratio','9:1');
 % netcdf.putAtt(ncid90,varid,'feisty fish size','29.24 to 232.08cm');
 
 netcdf.endDef(ncid90);
 
+bp90cm = single(bp90cm);
 netcdf.putVar(ncid90,vidlat,LAT);
 netcdf.putVar(ncid90,vidlon,LON);
 netcdf.putVar(ncid90,vidbio90,bp90cm);
@@ -433,47 +457,49 @@ netcdf.putVar(ncid90,vidt90,time);
 netcdf.close(ncid90);
 
 %% bd90cm
-ncid90 = netcdf.create(file_bd90,'netcdf4');
+ncid90 = netcdf.create(file_bd90,cmode);
 
+time_dim = netcdf.defDim(ncid90,'time',nt);
 lon_dim = netcdf.defDim(ncid90,'lon',ni);
 lat_dim = netcdf.defDim(ncid90,'lat',nj);
-time_dim = netcdf.defDim(ncid90,'time',nt);
 
-vidlat = netcdf.defVar(ncid90,'lat','double',lat_dim);
-netcdf.putAtt(ncid90,vidlat,'long_name','latitude');
-netcdf.putAtt(ncid90,vidlat,'standard_name','lat');
-netcdf.putAtt(ncid90,vidlat,'units','degrees_north');
-netcdf.putAtt(ncid90,vidlat,'axis','Y');
-
-vidlon = netcdf.defVar(ncid90,'lon','double',lon_dim);
-netcdf.putAtt(ncid90,vidlon,'long_name','longitude');
-netcdf.putAtt(ncid90,vidlon,'standard_name','lon');
-netcdf.putAtt(ncid90,vidlon,'units','degrees_east' );
-netcdf.putAtt(ncid90,vidlon,'axis','X');
-
-vidt90 = netcdf.defVar(ncid90,'time','double',time_dim);
+vidt90 = netcdf.defVar(ncid90,'time','NC_DOUBLE',time_dim);
 netcdf.putAtt(ncid90,vidt90,'long_name','time');
 netcdf.putAtt(ncid90,vidt90,'standard_name','time');
 netcdf.putAtt(ncid90,vidt90,'calendar','360_day');
 netcdf.putAtt(ncid90,vidt90,'axis','T');
 netcdf.putAtt(ncid90,vidt90,'units','months since 1601-01-01' );
 
-vidbio90 = netcdf.defVar(ncid90,'bd90cm','double',[lon_dim,lat_dim,time_dim]);
-netcdf.putAtt(ncid90,vidbio90,'long_name','biomass density of demersal >=90cm');
-netcdf.putAtt(ncid90,vidbio90,'units','grams wet weight  m-2' );
-netcdf.defVarFill(ncid90,vidbio90,false,1.0e20);
+vidlon = netcdf.defVar(ncid90,'lon','NC_DOUBLE',lon_dim);
+netcdf.putAtt(ncid90,vidlon,'long_name','longitude');
+netcdf.putAtt(ncid90,vidlon,'standard_name','longitude');
+netcdf.putAtt(ncid90,vidlon,'units','degrees_east' );
+netcdf.putAtt(ncid90,vidlon,'axis','X');
+
+vidlat = netcdf.defVar(ncid90,'lat','NC_DOUBLE',lat_dim);
+netcdf.putAtt(ncid90,vidlat,'long_name','latitude');
+netcdf.putAtt(ncid90,vidlat,'standard_name','latitude');
+netcdf.putAtt(ncid90,vidlat,'units','degrees_north');
+netcdf.putAtt(ncid90,vidlat,'axis','Y');
+
+vidbio90 = netcdf.defVar(ncid90,'bd90cm','NC_FLOAT',[lon_dim,lat_dim,time_dim]);
+netcdf.putAtt(ncid90,vidbio90,'long_name','Biomass Density of Large Demersals >=90cm');
+netcdf.putAtt(ncid90,vidbio90,'units','g  m-2' );
+netcdf.defVarFill(ncid90,vidbio90,false,1.000000020040877e+20);
+netcdf.putAtt(ncid90,vidbio90,'missing value',1.000000020040877e+20);
 
 varid = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncid90,varid,'creation_date',datestr(now));
 netcdf.putAtt(ncid90,varid,'wet weight:C ratio','9:1');
 netcdf.putAtt(ncid90,varid,'_FillValue',1.00e20);
-netcdf.putAtt(ncid90,varid,'contact','C. Petrik');
+netcdf.putAtt(ncid90,varid,'contact','C. Petrik <colleenpetrik@gmail.com>');
 netcdf.putAtt(ncid90,varid,'institution','Texas A&M University');
 netcdf.putAtt(ncid90,varid,'includes benthos','no');
 % netcdf.putAtt(ncid90,varid,'feisty fish size','29.24 to 232.08cm');
 
 netcdf.endDef(ncid90);
 
+bd90cm = single(bd90cm);
 netcdf.putVar(ncid90,vidlat,LAT);
 netcdf.putVar(ncid90,vidlon,LON);
 netcdf.putVar(ncid90,vidbio90,bd90cm);

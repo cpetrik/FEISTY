@@ -7,8 +7,8 @@
 clear all
 close all
 
-spath='/Users/cpetrik/Dropbox/ESM_data/Fish-MIP/CMIP6/IPSL/ssp126/';
 fpath='/Volumes/MIP/Fish-MIP/CMIP6/IPSL/ssp126/';
+spath='/Users/cpetrik/Dropbox/ESM_data/Fish-MIP/CMIP6/IPSL/ssp126/';
 
 %% zmeso
 ncdisp([fpath 'ipsl-cm6a-lr_r1i1p1f1_ssp126_zmeso_onedeg_global_monthly_2015_2100.nc'])
@@ -32,7 +32,8 @@ end
 
 %% Get subset of zmeso
 % Time
-yr = ((time)/12)+1601-1;
+%yr = ((time)/12)+1601-1;
+yr = ((time)/12)+1601; %months since 1601-1-1 = first month is Jan 1601
 z100 = find(olevel <= 100);
 
 i = nvars;
@@ -50,8 +51,26 @@ thkcello = netcdf.getVar(tcid,t-1, [0,0,0,0],[360 180 length(z100) length(time)]
 netcdf.close(tcid);
 thkcello(thkcello >= 1.00e+20) = NaN;
 
+%% check orientation
+test=squeeze(double(zmeso(:,:,20)));
+figure
+pcolor(test)
+colorbar
+
+test1=squeeze(double(thkcello(:,:,20)));
+figure
+pcolor(test1)
+colorbar
+
 %% Integrate top 100 m
 zmeso_100 = squeeze(nansum((zmeso.*thkcello),3));
+
+%%
+zmeso_100 = fliplr(zmeso_100);
+test2=squeeze(double(zmeso_100(:,:,250)));
+figure
+pcolor(test2)
+colorbar
 
 %%
 clear zmeso thkcello

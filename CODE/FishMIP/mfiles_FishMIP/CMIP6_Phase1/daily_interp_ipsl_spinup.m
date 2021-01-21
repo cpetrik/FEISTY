@@ -1,6 +1,6 @@
 % Make mat files of interpolated time series from IPSL
 % Preindust spinup 1850-1949
-% New vertical integrations
+% New vertical integrations, new 1 degree interp by ISIMIP
 
 clear all
 close all
@@ -12,8 +12,6 @@ fpath='/Volumes/MIP/Fish-MIP/CMIP6/IPSL/preindust/';
 %zoo: mol C m-2
 %tp: degC
 %tb: degC
-
-%I MAY NEED TO DIVIDE CONCENTRATIONS BY 100 m TO PUT INTO m^-2
 
 load([fpath 'ipsl_pi_temp_100_monthly_1850_1949.mat'],'temp_100');
 load([fpath 'ipsl_pi_temp_btm_monthly_1850_1949.mat'],'temp_btm');
@@ -35,15 +33,11 @@ yrs = 1850:1949;
 Tdays=1:365;
 Time=Tdays(15:30:end);
 
-%% flip vint and vavg
-temp_100 = fliplr(temp_100);
-zmeso_100 = fliplr(zmeso_100);
-
 %% test that all same orientation
-test1 = squeeze(double(temp_100(:,:,100)));
-test2 = squeeze(double(temp_btm(:,:,100)));
-test3 = squeeze(double(zmeso_100(:,:,100)));
-test4 = squeeze(double(det_btm(:,:,100)));
+test1 = squeeze(double(temp_100(:,:,90)));
+test2 = squeeze(double(temp_btm(:,:,90)));
+test3 = squeeze(double(zmeso_100(:,:,90)));
+test4 = squeeze(double(det_btm(:,:,90)));
 
 figure
 subplot(2,2,1)
@@ -55,17 +49,33 @@ pcolor(test3)
 subplot(2,2,4)
 pcolor(test4)
 
-%%
-% index of water cells
-[ni,nj,nt] = size(temp_btm);
-WID = find(~isnan(temp_btm(:,:,1)));  % spatial index of water cells
-NID = length(WID);                    % number of water cells
+%% Put Russia on top, AK on bottom
+temp_btm = fliplr(temp_btm);
+det_btm = fliplr(det_btm);
 
-% % setup FEISTY data files
-% ESM.Tp  = nan*zeros(NID,365,nyrs);
-% ESM.Tb  = nan*zeros(NID,365,nyrs);
-% ESM.Zm  = nan*zeros(NID,365,nyrs);
-% ESM.det = nan*zeros(NID,365,nyrs);
+%% test that all same orientation
+test1 = squeeze(double(temp_100(:,:,90)));
+test2 = squeeze(double(temp_btm(:,:,90)));
+test3 = squeeze(double(zmeso_100(:,:,90)));
+test4 = squeeze(double(det_btm(:,:,90)));
+
+figure
+subplot(2,2,1)
+pcolor(test1)
+subplot(2,2,2)
+pcolor(test2)
+subplot(2,2,3)
+pcolor(test3)
+subplot(2,2,4)
+pcolor(test4)
+
+%% index of water cells
+load('/Volumes/MIP/Fish-MIP/CMIP6/IPSL/Data_grid_ipsl.mat','GRD');
+load('/Volumes/MIP/Fish-MIP/CMIP6/IPSL/gridspec_ipsl_cmip6.mat','deptho')
+
+WID = GRD.ID;
+NID = GRD.N;
+[ni,nj] = size(deptho);
 
 %%
 for y = 1:nyrs
@@ -75,11 +85,6 @@ for y = 1:nyrs
     Tb = double(temp_btm(:,:,mstart(y):mend(y)));
     Zm = double(zmeso_100(:,:,mstart(y):mend(y)));
     det= double(det_btm(:,:,mstart(y):mend(y)));
-    
-    % index of water cells
-    [ni,nj,nt] = size(Tb);
-    WID = find(~isnan(Tb(:,:,1)));  % spatial index of water cells
-    NID = length(WID);              % number of water cells
     
     % setup FEISTY data files
     D_Tp  = nan*zeros(NID,365);
