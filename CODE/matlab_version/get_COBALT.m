@@ -17,5 +17,5 @@ function ENVR = get_COBALT(COBALT,ID,DY)
     ENVR.fZl(:,1) = zeros(NX,1);
     ENVR.fB(:,1)  = zeros(NX,1);
     ENVR.H(:,1)   = GRD.Z(ID);
-    ENVR.A(:,1)   = GRD.AREA(ID);
+%     ENVR.A(:,1)   = GRD.AREA(ID);
 end

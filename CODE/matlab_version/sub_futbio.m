@@ -186,9 +186,9 @@ Lp.gamma = sub_gamma(K_a,Z_l,Lp.nu,Lp.die,Lp.bio,Lp.nmort,dfrate,LPsel);
 Ld.gamma = sub_gamma(K_a,Z_l,Ld.nu,Ld.die,Ld.bio,Ld.nmort,dfrate,LDsel);
 
 % Egg production (by med and large size classes only)
-[Mf.gamma,Mf.nu,Mf.rep,Mf.egg] = sub_rep(Mf.gamma,Mf.nu,K_a,Mf.S(:,DY),Mf.egg);
-[Lp.gamma,Lp.nu,Lp.rep,Lp.egg] = sub_rep(Lp.gamma,Lp.nu,K_a,Lp.S(:,DY),Lp.egg);
-[Ld.gamma,Ld.nu,Ld.rep,Ld.egg] = sub_rep(Ld.gamma,Ld.nu,K_a,Ld.S(:,DY),Ld.egg);
+[Mf.gamma,Mf.nu,Mf.rep] = sub_rep(NX,Mf.gamma,Mf.nu,K_a);
+[Lp.gamma,Lp.nu,Lp.rep] = sub_rep(NX,Lp.gamma,Lp.nu,K_a);
+[Ld.gamma,Ld.nu,Ld.rep] = sub_rep(NX,Ld.gamma,Ld.nu,K_a);
 
 % Recruitment (from smaller size class)
 Sf.rec = sub_rec_larv(Mf.rep,Mf.bio,rfrac);

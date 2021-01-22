@@ -1,5 +1,5 @@
 %%% BIOMASS MADE FROM REPRODUCTION
-function [gamma, nu, rep, egg] = sub_rep(NX,gamma,nu,K,S,egg)
+function [gamma, nu, rep, egg] = sub_rep_egg(NX,gamma,nu,K,S,egg)
 %nu: energy for growth or spawning
 %K: proportion allocated to growth
 %S: fraction = fraction of pop spawning at that time
