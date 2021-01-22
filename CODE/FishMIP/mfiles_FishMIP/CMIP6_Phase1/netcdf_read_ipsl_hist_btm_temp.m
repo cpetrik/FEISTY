@@ -43,8 +43,8 @@ spin(end)
 
 %% 
 temp_btm = tob(:,:,runs);
-%missing last longitude
-temp_btm(360,:,:) = (temp_btm(359,:,:) + temp_btm(1,:,:)) ./2;
+%missing last longitude - Matthias fixed 1/21/21
+%temp_btm(360,:,:) = (temp_btm(359,:,:) + temp_btm(1,:,:)) ./2;
 
 %%
 save([fpath 'ipsl_hist_temp_btm_monthly_1950_2014.mat'],'temp_btm','time',...
