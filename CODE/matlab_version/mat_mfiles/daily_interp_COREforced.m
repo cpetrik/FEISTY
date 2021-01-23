@@ -8,7 +8,7 @@ fpath='/Volumes/MIP/GCM_DATA/CORE-forced/';
 
 %% Units
 %det btm: mol N m-2 s-1
-%zoo: mol N kg-1 integrated to mol N m-2 (1 kg of water = 1 m3) 
+%zoo: integrated to mol N m-2  
 %zoo loss: mol N m-2 s-1
 %tp: degC
 %tb: degC
