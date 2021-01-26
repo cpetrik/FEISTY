@@ -10,7 +10,7 @@ histlocs = false;
 forelocs = false;
 climlocs = false;
 oneloc_fore_pristine = false;
-spinup_pristine = true;
+spinup_pristine = false;
 climatol_loop = false;
 climatol_param = false;
 climatol_ens = false;
@@ -20,7 +20,7 @@ climatol_con = false;
 climatol_ngdc = false;
 pre_industrial = false;
 historic_pristine = false;
-historic_fished = false;
+historic_fished = true;
 historic_fished_ens = false;
 forecast_pristine = false;
 forecast_fished = false;
@@ -76,8 +76,9 @@ if historic_pristine
     Historic_pristine()
 end
 if historic_fished
-    Historic_fished()
+    %Historic_fished()
     %Historic_fished_prod()
+    CORE_fished()
 end
 if historic_fished_ens
     Historic_fished_ensemble6_samek()

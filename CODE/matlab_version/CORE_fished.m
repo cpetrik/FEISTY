@@ -125,7 +125,7 @@ S_Lrg_d_fish = zeros(NX,DAYS);
 
 %% ! Initialize
 init_sim = simname;
-load(['/Volumes/FEISTY/NC/Matlab_new_size/',init_sim '/Last_mo_spinup_core_' init_sim '.mat']);
+load(['/Volumes/FEISTY/NC/Matlab_new_size/',init_sim '/Last_mo_spinup_fished_' init_sim '.mat']);
 BENT.mass = BENT.bio;
 [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_hist(ID,DAYS,Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT);
 ENVR = sub_init_env(ID);
