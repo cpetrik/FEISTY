@@ -1,13 +1,14 @@
-% CORE-forced run
+% CORE-forced climatology run
 
 clear all
 close all
 
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
-fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
+exper = 'Biome_exper_control_';
+fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/' exper];
 
 %% SP
-ncid = netcdf.open([fpath 'Core_All_fish03_sml_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'All_fish03_sml_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -22,8 +23,8 @@ Sml_p.bio = biomass(:,nt);
 
 clear biomass 
 
-%% SF
-ncid = netcdf.open([fpath 'Core_All_fish03_sml_f.nc'],'NC_NOWRITE');
+% SF
+ncid = netcdf.open([fpath 'All_fish03_sml_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -38,7 +39,7 @@ Sml_f.bio = biomass(:,nt);
 clear biomass
 
 % SD
-ncid = netcdf.open([fpath 'Core_All_fish03_sml_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'All_fish03_sml_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -52,8 +53,8 @@ Sml_d.bio = biomass(:,nt);
 
 clear biomass 
 
-%% MP
-ncid = netcdf.open([fpath 'Core_All_fish03_med_p.nc'],'NC_NOWRITE');
+% MP
+ncid = netcdf.open([fpath 'All_fish03_med_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -68,7 +69,7 @@ Med_p.bio = biomass(:,nt);
 clear biomass 
 
 % MF
-ncid = netcdf.open([fpath 'Core_All_fish03_med_f.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'All_fish03_med_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -83,7 +84,7 @@ Med_f.bio = biomass(:,nt);
 clear biomass
 
 % MD
-ncid = netcdf.open([fpath 'Core_All_fish03_med_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'All_fish03_med_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -98,7 +99,7 @@ Med_d.bio = biomass(:,nt);
 clear biomass 
 
 % LP
-ncid = netcdf.open([fpath 'Core_All_fish03_lrg_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'All_fish03_lrg_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -113,7 +114,7 @@ Lrg_p.bio = biomass(:,nt);
 clear biomass 
 
 % LD
-ncid = netcdf.open([fpath 'Core_All_fish03_lrg_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'All_fish03_lrg_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -128,7 +129,7 @@ Lrg_d.bio = biomass(:,nt);
 clear biomass 
 
 % Benthic material
-ncid = netcdf.open([fpath 'Core_All_fish03_bent.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'All_fish03_bent.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -157,55 +158,54 @@ lp_tmean=mean(LP.bio,1);
 ld_tmean=mean(LD.bio,1);
 b_tmean=mean(Bent.bio,1);
 
-%% Each year
-st=1:12:length(time);
-en=12:12:length(time);
+% take means of each slope
+% first 20 rows all slope = 0 in biome 1
+% next 20 rows all slope = -0.3 in biome 1
+% 221:240 all slope = 0 in biome 2
+% etc.
+st=1:20:nid;
+en=20:20:nid;
 
 for n=1:length(st)
-    sp_mean(:,n)=nanmean(SP.bio(:,st(n):en(n)),2);
-    sf_mean(:,n)=nanmean(SF.bio(:,st(n):en(n)),2);
-    sd_mean(:,n)=nanmean(SD.bio(:,st(n):en(n)),2);
-    mp_mean(:,n)=nanmean(MP.bio(:,st(n):en(n)),2);
-    mf_mean(:,n)=nanmean(MF.bio(:,st(n):en(n)),2);
-    md_mean(:,n)=nanmean(MD.bio(:,st(n):en(n)),2);
-    lp_mean(:,n)=nanmean(LP.bio(:,st(n):en(n)),2);
-    ld_mean(:,n)=nanmean(LD.bio(:,st(n):en(n)),2);
-    b_mean(:,n)=nanmean(Bent.bio(:,st(n):en(n)),2);
+    sp_mean(n,:)=nanmean(SP.bio(st(n):en(n),:),1);
+    sf_mean(n,:)=nanmean(SF.bio(st(n):en(n),:),1);
+    sd_mean(n,:)=nanmean(SD.bio(st(n):en(n),:),1);
+    mp_mean(n,:)=nanmean(MP.bio(st(n):en(n),:),1);
+    mf_mean(n,:)=nanmean(MF.bio(st(n):en(n),:),1);
+    md_mean(n,:)=nanmean(MD.bio(st(n):en(n),:),1);
+    lp_mean(n,:)=nanmean(LP.bio(st(n):en(n),:),1);
+    ld_mean(n,:)=nanmean(LD.bio(st(n):en(n),:),1);
+    b_mean(n,:)=nanmean(Bent.bio(st(n):en(n),:),1);
     
-%     mp_my(:,n)=nanmean(MP.yield(:,st(n):en(n)),2);
-%     mf_my(:,n)=nanmean(MF.yield(:,st(n):en(n)),2);
-%     md_my(:,n)=nanmean(MD.yield(:,st(n):en(n)),2);
-%     lp_my(:,n)=nanmean(LP.yield(:,st(n):en(n)),2);
-%     ld_my(:,n)=nanmean(LD.yield(:,st(n):en(n)),2);
 end
 
-%% Whole time period
-sp_mean58=mean(SP.bio,2);
-sf_mean58=mean(SF.bio,2);
-sd_mean58=mean(SD.bio,2);
-mp_mean58=mean(MP.bio,2);
-mf_mean58=mean(MF.bio,2);
-md_mean58=mean(MD.bio,2);
-lp_mean58=mean(LP.bio,2);
-ld_mean58=mean(LD.bio,2);
-b_mean58=mean(Bent.bio,2);
+% Means of each biome
+st=1:220:nid;
+en=220:220:nid;
 
-% mf_my58=mean(MF.yield,2);
-% mp_my58=mean(MP.yield,2);
-% md_my58=mean(MD.yield,2);
-% lp_my58=mean(LP.yield,2);
-% ld_my58=mean(LD.yield,2);
+for n=1:length(st)
+    sp_meanB(n,:)=nanmean(SP.bio(st(n):en(n),:),1);
+    sf_meanB(n,:)=nanmean(SF.bio(st(n):en(n),:),1);
+    sd_meanB(n,:)=nanmean(SD.bio(st(n):en(n),:),1);
+    mp_meanB(n,:)=nanmean(MP.bio(st(n):en(n),:),1);
+    mf_meanB(n,:)=nanmean(MF.bio(st(n):en(n),:),1);
+    md_meanB(n,:)=nanmean(MD.bio(st(n):en(n),:),1);
+    lp_meanB(n,:)=nanmean(LP.bio(st(n):en(n),:),1);
+    ld_meanB(n,:)=nanmean(LD.bio(st(n):en(n),:),1);
+    b_meanB(n,:)=nanmean(Bent.bio(st(n):en(n),:),1);
+    
+end
 
 %% Save means
-save([fpath 'Means_core_fished_' cfile '.mat'],'time',...
+save([fpath 'Means_fished_' cfile '.mat'],'time',...
     'sf_mean','sp_mean','sd_mean',...
     'mf_mean','mp_mean','md_mean',...
     'b_mean','lp_mean','ld_mean',...
     'sf_tmean','sp_tmean','sd_tmean',...
     'mf_tmean','mp_tmean','md_tmean',...
     'b_tmean','lp_tmean','ld_tmean',...
-    'sf_mean58','sp_mean58','sd_mean58',...
-    'mf_mean58','mp_mean58','md_mean58',...
-    'lp_mean58','ld_mean58','b_mean58');
+    'sf_meanB','sp_meanB','sd_meanB',...
+    'mf_meanB','mp_meanB','md_meanB',...
+    'lp_meanB','ld_meanB','b_meanB');
     
 

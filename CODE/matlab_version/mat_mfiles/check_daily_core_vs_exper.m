@@ -12,7 +12,7 @@ CI = COBALT;
 clear COBALT
 
 %% Hist
-load('/Volumes/MIP/GCM_DATA/CORE-forced/Data_core_cobalt_biome_climatol_daily_150yr.mat');
+load('/Volumes/MIP/GCM_DATA/CORE-forced/Data_core_cobalt_biome_climatol_daily_1yr.mat');
 HI = COBALT;
 clear COBALT
 
@@ -105,8 +105,9 @@ plot(log10(zl_hi),'b'); hold on;
 title('2005 log10 LZ')
 %legend({'core','hist'})
 
-%% Core zoo too low by 10^3 - Fixed now 
-mean(HI.Zl(:))/mean(CI.Zl(:))
-mean(HI.Zm(:))/mean(CI.Zm(:))
+%% Exper zoo too low by ~6x - FIXED NOW, WAS OFF BY SQ
+mean(CI.Zl(:))/mean(HI.Zl(:))
+mean(CI.Zm(:))/mean(HI.Zm(:))
+mean(CI.det(:))/mean(HI.det(:))
 
 
