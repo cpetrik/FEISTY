@@ -11,7 +11,7 @@ cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_no
 exper = 'Biome_exper_control_';
 fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/' exper];
 
-ppath = [pp cfile '/' exper];
+ppath = [pp cfile '/Biome_exper/'];
 if (~isfolder(ppath))
     mkdir(ppath)
 end

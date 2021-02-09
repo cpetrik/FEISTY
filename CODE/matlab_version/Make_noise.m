@@ -4,15 +4,16 @@ clear all
 close all
 
 %%%%!! EXPERIMENTS
-Ctrl = true;
+Ctrl = false;
 TP = false;
 TB = false;
 Det = false;
 MZ = false;
 LZ = false;
-AllPel = false;
-AllBtm = false;
-AllZ = false;
+AllPel = true;
+AllBtm = true;
+AllT = true;
+AllFood = true;
 
 tic
 if Ctrl
@@ -39,7 +40,10 @@ end
 if AllBtm
     Noise_exper_all_btm()
 end
-if AllZ
-    Noise_exper_allZ()
+if AllFood
+    Noise_exper_allT()
+end
+if AllFood
+    Noise_exper_all_food()
 end
 toc
