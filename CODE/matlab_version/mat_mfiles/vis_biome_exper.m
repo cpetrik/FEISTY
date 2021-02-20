@@ -8,7 +8,7 @@ close all
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
 
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
-exper = 'Biome_exper_control_';
+exper = 'Biome_exper_Food_';
 fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/' exper];
 
 ppath = [pp cfile '/Biome_exper/'];
@@ -75,12 +75,12 @@ plot(y,log10(ld_tmean),'Linewidth',1); hold on;
 legend('B','SF','MF','SP','MP','LP','SD','MD','LD')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
-ylim([-3 1])
+ylim([-4 2])
 xlabel('Time (mo)')
 ylabel('log10 Biomass (g m^-^2)')
-title('CORE')
+title(exper)
 stamp(cfile)
-%print('-dpng',[ppath 'CORE_fished_all_sizes.png'])
+print('-dpng',[ppath exper 'fished_all_sizes.png'])
 
 figure(2)
 plot(y,log10(B),'color',[0.5 0.5 0.5],'Linewidth',2); hold on;
@@ -90,11 +90,11 @@ plot(y,log10(D),'k','Linewidth',2); hold on;
 legend('B','F','P','D')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
-ylim([-1 1])
+ylim([-4 2])
 xlabel('Time (y)')
 ylabel('log10 Biomass (g m^-^2)')
-title(['CORE'])
-%print('-dpng',[ppath 'CORE_fished_all_types.png'])
+title(exper)
+print('-dpng',[ppath exper 'fished_all_types.png'])
 
 %% 
 st=1:11:88;
@@ -140,8 +140,3 @@ title('LD')
 legend('SLC','SECCS','SECSS','SCoast','NLC','NECCS','NECSS','NCoast')
 legend('location','eastoutside')
 
-%%
-plot(y,log10(ld_mean(1:11,:)));
-
-%%
-plot(time/12,log10(MF.bio(1:20,:)));
