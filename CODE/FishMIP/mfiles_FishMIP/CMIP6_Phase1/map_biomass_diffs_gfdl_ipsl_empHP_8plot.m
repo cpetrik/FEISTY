@@ -36,6 +36,8 @@ load([ipath 'Means_SSP126_empHP_2090-2100_' cfile '.mat'],...
 load([ipath 'Means_SSP585_empHP_2090-2100_' cfile '.mat'],...
     'IS585AllF','IS585AllP','IS585AllD','IS585AllM','IS585AllL','IS585All');
 
+
+
 %% Grid info
 cpath = '/Volumes/MIP/Fish-MIP/CMIP6/GFDL/';
 load('/Volumes/MIP/Fish-MIP/CMIP6/GFDL/gridspec_gfdl_cmip6.mat');
@@ -49,6 +51,8 @@ plotminlon=-180;
 plotmaxlon=180;
 latlim=[plotminlat plotmaxlat];
 lonlim=[plotminlon plotmaxlon];
+
+load coastlines;                     %decent looking coastlines
 
 %% Diffs
 
@@ -98,8 +102,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*GdiffH126_F)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 126 - Hist','HorizontalAlignment','center')
@@ -111,8 +114,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*GdiffH585_F)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 585 - Hist','HorizontalAlignment','center')
@@ -123,8 +125,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*GdiffP126_F)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 126 - Pre','HorizontalAlignment','center')
@@ -135,8 +136,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*GdiffP585_F)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 585 - Pre','HorizontalAlignment','center')
@@ -148,8 +148,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*IdiffH126_F)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 126 - Hist','HorizontalAlignment','center')
@@ -161,8 +160,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*IdiffH585_F)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 colorbar('Position',[0.9 0.25 0.025 0.5],'orientation','vertical','AxisLocation','out')
 set(gcf,'renderer','painters')
@@ -174,8 +172,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*IdiffP126_F)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 126 - Pre','HorizontalAlignment','center')
@@ -186,8 +183,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*IdiffP585_F)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 585 - Pre','HorizontalAlignment','center')
@@ -204,8 +200,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*GdiffH126_P)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 126 - Hist','HorizontalAlignment','center')
@@ -217,8 +212,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*GdiffH585_P)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 585 - Hist','HorizontalAlignment','center')
@@ -229,8 +223,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*GdiffP126_P)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 126 - Pre','HorizontalAlignment','center')
@@ -241,8 +234,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*GdiffP585_P)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 585 - Pre','HorizontalAlignment','center')
@@ -254,8 +246,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*IdiffH126_P)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 126 - Hist','HorizontalAlignment','center')
@@ -267,8 +258,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*IdiffH585_P)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 colorbar('Position',[0.9 0.25 0.025 0.5],'orientation','vertical','AxisLocation','out')
 set(gcf,'renderer','painters')
@@ -280,8 +270,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*IdiffP126_P)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 126 - Pre','HorizontalAlignment','center')
@@ -292,8 +281,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*IdiffP585_P)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 585 - Pre','HorizontalAlignment','center')
@@ -310,8 +298,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*GdiffH126_D)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 126 - Hist','HorizontalAlignment','center')
@@ -323,8 +310,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*GdiffH585_D)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 585 - Hist','HorizontalAlignment','center')
@@ -335,8 +321,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*GdiffP126_D)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 126 - Pre','HorizontalAlignment','center')
@@ -347,8 +332,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*GdiffP585_D)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 585 - Pre','HorizontalAlignment','center')
@@ -360,8 +344,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*IdiffH126_D)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 126 - Hist','HorizontalAlignment','center')
@@ -373,8 +356,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*IdiffH585_D)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 colorbar('Position',[0.9 0.25 0.025 0.5],'orientation','vertical','AxisLocation','out')
 set(gcf,'renderer','painters')
@@ -386,8 +368,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*IdiffP126_D)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 126 - Pre','HorizontalAlignment','center')
@@ -398,8 +379,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*IdiffP585_D)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 585 - Pre','HorizontalAlignment','center')
@@ -416,8 +396,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*GdiffH126_A)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 126 - Hist','HorizontalAlignment','center')
@@ -429,8 +408,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*GdiffH585_A)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 585 - Hist','HorizontalAlignment','center')
@@ -441,8 +419,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*GdiffP126_A)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 126 - Pre','HorizontalAlignment','center')
@@ -453,8 +430,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*GdiffP585_A)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 585 - Pre','HorizontalAlignment','center')
@@ -466,8 +442,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*IdiffH126_A)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 126 - Hist','HorizontalAlignment','center')
@@ -479,8 +454,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*IdiffH585_A)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 colorbar('Position',[0.9 0.25 0.025 0.5],'orientation','vertical','AxisLocation','out')
 set(gcf,'renderer','painters')
@@ -492,8 +466,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*IdiffP126_A)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 126 - Pre','HorizontalAlignment','center')
@@ -504,8 +477,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(LAT,LON,100*IdiffP585_A)
 cmocean('balance')
-load coast;                     %decent looking coastlines
-h=patchm(lat+0.5,long+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-100 100]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SSP 585 - Pre','HorizontalAlignment','center')
