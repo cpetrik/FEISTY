@@ -14,8 +14,8 @@ spinup_pristine = false;
 climatol_loop = false;
 climatol_param = false;
 climatol_ens = false;
-climatol = true;
-climatol_crr = true;
+climatol = false;
+climatol_crr = false;
 climatol_con = false;
 climatol_ngdc = true;
 pre_industrial = false;
@@ -67,7 +67,8 @@ if climatol_crr
     Climatol_con_rec_rep()
 end
 if climatol_ngdc
-    Climatol_nu_gam_die_clev()
+    %Climatol_nu_gam_die_clev()
+    Climatol_death_vars()
 end
 if pre_industrial
     Pre_industrial()

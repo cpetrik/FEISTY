@@ -29,7 +29,8 @@ function [Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT] = sub_init_fish(ID,DAYS)
     %%%! Rates, etc.
     nzero = {'met' 'enc_f' 'enc_p' 'enc_d' 'enc_zm' 'enc_zl' 'enc_be' ...
         'con_f' 'con_p' 'con_d' 'con_zm' 'con_zl' 'con_be' 'I' 'die' 'pred' ...
-        'nmort' 'prod' 'nu' 'gamma' 'egg' 'rep' 'rec' 'clev' 'caught' 'fmort'};
+        'nmort' 'prod' 'nu' 'gamma' 'egg' 'rep' 'rec' 'clev' 'caught' 'fmort' ...
+        'mort'};
     for i = 1 : length(nzero)
         Sf.(nzero{i}) = zeros(NX,1);
         Sp.(nzero{i}) = zeros(NX,1);

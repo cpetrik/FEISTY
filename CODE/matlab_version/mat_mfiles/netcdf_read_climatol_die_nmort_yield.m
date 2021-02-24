@@ -6,7 +6,7 @@ close all
 
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 harv = 'All_fish03';
-vars = '_nu_gam_die_clev';
+vars = '_die_nmort_yield';
 
 fpath=['/Volumes/MIP/NC/Matlab_new_size/' cfile '/'];
 
@@ -20,11 +20,9 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-SP.clev = clev;
-SP.nu = nu;
-SP.gamma = gamma;
+SP.mort = mort;
 SP.die = die;
-clear clev gamma die
+clear  yield die
 
 % SF
 ncid = netcdf.open([fpath 'Climatol_' harv vars '_sml_f.nc'],'NC_NOWRITE');
@@ -36,11 +34,9 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-SF.clev = clev;
-SF.nu = nu;
-SF.gamma = gamma;
+SF.mort = mort;
 SF.die = die;
-clear clev gamma die
+clear  yield die
 
 % SD
 ncid = netcdf.open([fpath 'Climatol_' harv vars '_sml_d.nc'],'NC_NOWRITE');
@@ -52,11 +48,9 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-SD.clev = clev;
-SD.nu = nu;
-SD.gamma = gamma;
+SD.mort = mort;
 SD.die = die;
-clear clev gamma die
+clear  yield die
 
 % MP
 ncid = netcdf.open([fpath 'Climatol_' harv vars '_med_p.nc'],'NC_NOWRITE');
@@ -68,11 +62,10 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-MP.clev = clev;
-MP.nu = nu;
-MP.gamma = gamma;
+MP.mort = mort;
+MP.yield = yield;
 MP.die = die;
-clear clev gamma die
+clear  yield die
 
 % MF
 ncid = netcdf.open([fpath 'Climatol_' harv vars '_med_f.nc'],'NC_NOWRITE');
@@ -84,11 +77,10 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-MF.clev = clev;
-MF.nu = nu;
-MF.gamma = gamma;
+MF.mort = mort;
+MF.yield = yield;
 MF.die = die;
-clear clev gamma die nu
+clear  yield die mort
 
 % MD
 ncid = netcdf.open([fpath 'Climatol_' harv vars '_med_d.nc'],'NC_NOWRITE');
@@ -100,11 +92,10 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-MD.clev = clev;
-MD.nu = nu;
-MD.gamma = gamma;
+MD.mort = mort;
+MD.yield = yield;
 MD.die = die;
-clear clev gamma die
+clear  yield die
 
 % LP
 ncid = netcdf.open([fpath 'Climatol_' harv vars '_lrg_p.nc'],'NC_NOWRITE');
@@ -116,11 +107,10 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-LP.clev = clev;
-LP.nu = nu;
-LP.gamma = gamma;
+LP.mort = mort;
+LP.yield = yield;
 LP.die = die;
-clear clev gamma die nu
+clear  yield die mort
 
 % LD
 ncid = netcdf.open([fpath 'Climatol_' harv vars '_lrg_d.nc'],'NC_NOWRITE');
@@ -132,34 +122,21 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-LD.clev = clev;
-LD.nu = nu;
-LD.gamma = gamma;
+LD.mort = mort;
+LD.yield = yield;
 LD.die = die;
-clear clev gamma die nu
+clear  yield die mort
 
 
 %% Take means
-[ids,nt] = size(LD.clev);
+[ids,nt] = size(LD.die);
 
 %Time
-sp_tmclev=mean(SP.clev,1);
-sf_tmclev=mean(SF.clev,1);
-sd_tmclev=mean(SD.clev,1);
-mp_tmclev=mean(MP.clev,1);
-mf_tmclev=mean(MF.clev,1);
-md_tmclev=mean(MD.clev,1);
-lp_tmclev=mean(LP.clev,1);
-ld_tmclev=mean(LD.clev,1);
-
-sp_tmgamma=mean(SP.gamma,1);
-sf_tmgamma=mean(SF.gamma,1);
-sd_tmgamma=mean(SD.gamma,1);
-mp_tmgamma=mean(MP.gamma,1);
-mf_tmgamma=mean(MF.gamma,1);
-md_tmgamma=mean(MD.gamma,1);
-lp_tmgamma=mean(LP.gamma,1);
-ld_tmgamma=mean(LD.gamma,1);
+mp_tmyield=mean(MP.yield,1);
+mf_tmyield=mean(MF.yield,1);
+md_tmyield=mean(MD.yield,1);
+lp_tmyield=mean(LP.yield,1);
+ld_tmyield=mean(LD.yield,1);
 
 sp_tmdie=mean(SP.die,1);
 sf_tmdie=mean(SF.die,1);
@@ -170,35 +147,24 @@ md_tmdie=mean(MD.die,1);
 lp_tmdie=mean(LP.die,1);
 ld_tmdie=mean(LD.die,1);
 
-sp_tmnu=mean(SP.nu,1);
-sf_tmnu=mean(SF.nu,1);
-sd_tmnu=mean(SD.nu,1);
-mp_tmnu=mean(MP.nu,1);
-mf_tmnu=mean(MF.nu,1);
-md_tmnu=mean(MD.nu,1);
-lp_tmnu=mean(LP.nu,1);
-ld_tmnu=mean(LD.nu,1);
+sp_tmmort=mean(SP.mort,1);
+sf_tmmort=mean(SF.mort,1);
+sd_tmmort=mean(SD.mort,1);
+mp_tmmort=mean(MP.mort,1);
+mf_tmmort=mean(MF.mort,1);
+md_tmmort=mean(MD.mort,1);
+lp_tmmort=mean(LP.mort,1);
+ld_tmmort=mean(LD.mort,1);
 
 %% Last year
 time=1:nt;
 lyr=time((end-12+1):end);
-sp_mclev=mean(SP.clev(:,lyr),2);
-sf_mclev=mean(SF.clev(:,lyr),2);
-sd_mclev=mean(SD.clev(:,lyr),2);
-mp_mclev=mean(MP.clev(:,lyr),2);
-mf_mclev=mean(MF.clev(:,lyr),2);
-md_mclev=mean(MD.clev(:,lyr),2);
-lp_mclev=mean(LP.clev(:,lyr),2);
-ld_mclev=mean(LD.clev(:,lyr),2);
 
-sp_mgamma=mean(SP.gamma(:,lyr),2);
-sf_mgamma=mean(SF.gamma(:,lyr),2);
-sd_mgamma=mean(SD.gamma(:,lyr),2);
-mp_mgamma=mean(MP.gamma(:,lyr),2);
-mf_mgamma=mean(MF.gamma(:,lyr),2);
-md_mgamma=mean(MD.gamma(:,lyr),2);
-lp_mgamma=mean(LP.gamma(:,lyr),2);
-ld_mgamma=mean(LD.gamma(:,lyr),2);
+mp_myield=mean(MP.yield(:,lyr),2);
+mf_myield=mean(MF.yield(:,lyr),2);
+md_myield=mean(MD.yield(:,lyr),2);
+lp_myield=mean(LP.yield(:,lyr),2);
+ld_myield=mean(LD.yield(:,lyr),2);
 
 sp_mdie=mean(SP.die(:,lyr),2);
 sf_mdie=mean(SF.die(:,lyr),2);
@@ -209,14 +175,14 @@ md_mdie=mean(MD.die(:,lyr),2);
 lp_mdie=mean(LP.die(:,lyr),2);
 ld_mdie=mean(LD.die(:,lyr),2);
 
-sp_mnu=mean(SP.nu(:,lyr),2);
-sf_mnu=mean(SF.nu(:,lyr),2);
-sd_mnu=mean(SD.nu(:,lyr),2);
-mp_mnu=mean(MP.nu(:,lyr),2);
-mf_mnu=mean(MF.nu(:,lyr),2);
-md_mnu=mean(MD.nu(:,lyr),2);
-lp_mnu=mean(LP.nu(:,lyr),2);
-ld_mnu=mean(LD.nu(:,lyr),2);
+sp_mmort=mean(SP.mort(:,lyr),2);
+sf_mmort=mean(SF.mort(:,lyr),2);
+sd_mmort=mean(SD.mort(:,lyr),2);
+mp_mmort=mean(MP.mort(:,lyr),2);
+mf_mmort=mean(MF.mort(:,lyr),2);
+md_mmort=mean(MD.mort(:,lyr),2);
+lp_mmort=mean(LP.mort(:,lyr),2);
+ld_mmort=mean(LD.mort(:,lyr),2);
 
 %% Just last year
 sp_die=SP.die(:,lyr);
@@ -228,57 +194,59 @@ md_die=MD.die(:,lyr);
 lp_die=LP.die(:,lyr);
 ld_die=LD.die(:,lyr);
 
-sp_gamma=SP.gamma(:,lyr);
-sf_gamma=SF.gamma(:,lyr);
-sd_gamma=SD.gamma(:,lyr);
-mp_gamma=MP.gamma(:,lyr);
-mf_gamma=MF.gamma(:,lyr);
-md_gamma=MD.gamma(:,lyr);
-lp_gamma=LP.gamma(:,lyr);
-ld_gamma=LD.gamma(:,lyr);
+sp_mort=SP.mort(:,lyr);
+sf_mort=SF.mort(:,lyr);
+sd_mort=SD.mort(:,lyr);
+mp_mort=MP.mort(:,lyr);
+mf_mort=MF.mort(:,lyr);
+md_mort=MD.mort(:,lyr);
+lp_mort=LP.mort(:,lyr);
+ld_mort=LD.mort(:,lyr);
+
+mp_yield=MP.yield(:,lyr);
+mf_yield=MF.yield(:,lyr);
+md_yield=MD.yield(:,lyr);
+lp_yield=LP.yield(:,lyr);
+ld_yield=LD.yield(:,lyr);
 
 %%
-% save([fpath 'Means_Climatol_' harv '_' cfile '.mat'],'sf_mclev',...
-%     'sf_tmclev','sp_tmclev','sd_tmclev','mf_tmclev','mp_tmclev',...
-%     'md_tmclev','lp_tmclev','ld_tmclev',...
-%     'sf_tmgamma','sp_tmgamma','sd_tmgamma','mf_tmgamma','mp_tmgamma',...
-%     'md_tmgamma','lp_tmgamma','ld_tmgamma',...
+% save([fpath 'Means_Climatol_' harv '_' cfile '.mat'],...
+%     'mf_tmyield','mp_tmyield','md_tmyield','lp_tmyield','ld_tmyield',...
 %     'sf_tmdie','sp_tmdie','sd_tmdie','mf_tmdie','mp_tmdie',...
 %     'md_tmdie','lp_tmdie','ld_tmdie',...
-%     'sf_tmnu','sp_tmnu','sd_tmnu','mf_tmnu','mp_tmnu','md_tmnu',...
-%     'lp_tmnu','ld_tmnu',...
-%     'sf_mclev','sp_mclev','sd_mclev','mf_mclev','mp_mclev',...
-%     'md_mclev','lp_mclev','ld_mclev',...
-%     'sf_mgamma','sp_mgamma','sd_mgamma','mf_mgamma','mp_mgamma',...
-%     'md_mgamma','lp_mgamma','ld_mgamma',...
+%     'sf_tmmort','sp_tmmort','sd_tmmort','mf_tmmort','mp_tmmort',...
+%     'md_tmmort','lp_tmmort','ld_tmmort',...
+%     'mf_myield','mp_myield','md_myield','lp_myield','ld_myield',...
 %     'sf_mdie','sp_mdie','sd_mdie','mf_mdie','mp_mdie',...
 %     'md_mdie','lp_mdie','ld_mdie',...
-%     'sf_mnu','sp_mnu','sd_mnu','mf_mnu','mp_mnu','md_mnu',...
-%     'lp_mnu','ld_mnu',...
+%     'sf_mmort','sp_mmort','sd_mmort','mf_mmort','mp_mmort','md_mmort',...
+%     'lp_mmort','ld_mmort',...
 %     'time','lyr','sf_die','sp_die','sd_die',...
 %     'mf_die','mp_die','md_die',...
-%     'lp_die','ld_die','-append');
+%     'lp_die','ld_die','sf_mort','sp_mort','sd_mort',...
+%     'mf_mort','mp_mort','md_mort',...
+%     'lp_mort','ld_mort',...
+%     'mf_yield','mp_yield','md_yield',...
+%     'lp_yield','ld_yield','-append');
 
-save([fpath 'Means_nu_gam_die_clev_Climatol_' harv '_' cfile '.mat'],'sf_mclev',...
-    'sf_tmclev','sp_tmclev','sd_tmclev','mf_tmclev','mp_tmclev',...
-    'md_tmclev','lp_tmclev','ld_tmclev',...
-    'sf_tmgamma','sp_tmgamma','sd_tmgamma','mf_tmgamma','mp_tmgamma',...
-    'md_tmgamma','lp_tmgamma','ld_tmgamma',...
+save([fpath 'Means' vars '_Climatol_' harv '_' cfile '.mat'],...
+    'mf_tmyield','mp_tmyield','md_tmyield','lp_tmyield','ld_tmyield',...
     'sf_tmdie','sp_tmdie','sd_tmdie','mf_tmdie','mp_tmdie',...
     'md_tmdie','lp_tmdie','ld_tmdie',...
-    'mf_tmnu','lp_tmnu','ld_tmnu',...
-    'sf_mclev','sp_mclev','sd_mclev','mf_mclev','mp_mclev',...
-    'md_mclev','lp_mclev','ld_mclev',...
-    'sf_mgamma','sp_mgamma','sd_mgamma','mf_mgamma','mp_mgamma',...
-    'md_mgamma','lp_mgamma','ld_mgamma',...
+    'sf_tmmort','sp_tmmort','sd_tmmort','mf_tmmort','mp_tmmort',...
+    'md_tmmort','lp_tmmort','ld_tmmort',...
+    'mf_myield','mp_myield','md_myield','lp_myield','ld_myield',...
     'sf_mdie','sp_mdie','sd_mdie','mf_mdie','mp_mdie',...
     'md_mdie','lp_mdie','ld_mdie',...
-    'sf_mnu','sp_mnu','sd_mnu','mf_mnu','mp_mnu','md_mnu',...
-    'lp_mnu','ld_mnu',...
-    'time','lyr',...
-    'sf_die','sp_die','sd_die','mf_die','mp_die','md_die',...
-    'lp_die','ld_die','sf_gamma','sp_gamma','sd_gamma',...
-    'mf_gamma','mp_gamma','md_gamma','lp_gamma','ld_gamma');
+    'sf_mmort','sp_mmort','sd_mmort','mf_mmort','mp_mmort','md_mmort',...
+    'lp_mmort','ld_mmort',...
+    'time','lyr','sf_die','sp_die','sd_die',...
+    'mf_die','mp_die','md_die',...
+    'lp_die','ld_die','sf_mort','sp_mort','sd_mort',...
+    'mf_mort','mp_mort','md_mort',...
+    'lp_mort','ld_mort',...
+    'mf_yield','mp_yield','md_yield',...
+    'lp_yield','ld_yield');
 
 
 
