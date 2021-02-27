@@ -3,6 +3,7 @@
 % or             = biomass / output
 % Total inputs: rec
 % Total outputs: gamma, rep, nmort, die (pred), yield (fishing)
+% Exclude cells where biomass < 1 fish per grid cell
 
 clear all
 close all
@@ -41,6 +42,44 @@ load([fpath 'Means_nu_gam_die_clev_Climatol_' harv '_' cfile '.mat'],...
 load([fpath 'Means_Climatol_' harv '_' cfile '.mat'],...
     'sf_bio','sp_bio','sd_bio',...
     'mf_bio','mp_bio','md_bio','lp_bio','ld_bio');
+
+%% min biomass allowed
+cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
+load([cpath 'esm26_area_1deg.mat']);
+AREA_OCN = max(area,1);
+varea = AREA_OCN(ID);
+
+nid=length(ID);
+gr_bio_s = repmat([0.001, 0.02, 0.5],nid,1) ./ repmat(varea,1,3);
+gr_bio_m = repmat([0.5, 11.2, 250],nid,1) ./ repmat(varea,1,3);
+gr_bio_l = repmat([250, 5600, 125000],nid,1) ./ repmat(varea,1,3);
+
+%% test lowest first
+for t=1:12
+    sid = find(sf_bio(:,t)<gr_bio_s(:,1));
+    sf_bio(sid,t) = nan;
+
+    sid = find(sp_bio(:,t)<gr_bio_s(:,1));
+    sp_bio(sid,t) = nan;
+
+    sid = find(sd_bio(:,t)<gr_bio_s(:,1));
+    sd_bio(sid,t) = nan;
+
+    sid = find(mf_bio(:,t)<gr_bio_m(:,1));
+    mf_bio(sid,t) = nan;
+
+    sid = find(mp_bio(:,t)<gr_bio_m(:,1));
+    mp_bio(sid,t) = nan;
+
+    sid = find(md_bio(:,t)<gr_bio_m(:,1));
+    md_bio(sid,t) = nan;
+
+    sid = find(lp_bio(:,t)<gr_bio_l(:,1));
+    lp_bio(sid,t) = nan;
+
+    sid = find(ld_bio(:,t)<gr_bio_l(:,1));
+    ld_bio(sid,t) = nan;
+end
 
 %% add gains and losses
 sf_in = max(0,sf_nu) + sf_rec;
@@ -127,22 +166,22 @@ md_mres1 = nanmean(md_res1,2);
 lp_mres1 = nanmean(lp_res1,2);
 ld_mres1 = nanmean(ld_res1,2);
 
-sf_mres2 = mean(sf_res2,2);
-sp_mres2 = mean(sp_res2,2);
-sd_mres2 = mean(sd_res2,2);
-mf_mres2 = mean(mf_res2,2);
-mp_mres2 = mean(mp_res2,2);
-md_mres2 = mean(md_res2,2);
-lp_mres2 = mean(lp_res2,2);
-ld_mres2 = mean(ld_res2,2);
+sf_mres2 = nanmean(sf_res2,2);
+sp_mres2 = nanmean(sp_res2,2);
+sd_mres2 = nanmean(sd_res2,2);
+mf_mres2 = nanmean(mf_res2,2);
+mp_mres2 = nanmean(mp_res2,2);
+md_mres2 = nanmean(md_res2,2);
+lp_mres2 = nanmean(lp_res2,2);
+ld_mres2 = nanmean(ld_res2,2);
 
 %% Save
-save([fpath 'Residence_time_means_Climatol_' harv '_' cfile '.mat'],...
-  'sf_mbio','sp_mbio','sd_mbio','mf_mbio','mp_mbio','md_mbio','lp_mbio','ld_mbio',...
-  'sf_min','sp_min','sd_min','mf_min','mp_min','md_min','lp_min','ld_min',...
-  'sf_mout','sp_mout','sd_mout','mf_mout','mp_mout','md_mout','lp_mout','ld_mout',...
-  'sf_mres1','sp_mres1','sd_mres1','mf_mres1','mp_mres1','md_mres1','lp_mres1','ld_mres1',...
-  'sf_mres2','sp_mres2','sd_mres2','mf_mres2','mp_mres2','md_mres2','lp_mres2','ld_mres2')
+% save([fpath 'Residence_time_means_Climatol_' harv '_' cfile '.mat'],...
+%   'sf_mbio','sp_mbio','sd_mbio','mf_mbio','mp_mbio','md_mbio','lp_mbio','ld_mbio',...
+%   'sf_min','sp_min','sd_min','mf_min','mp_min','md_min','lp_min','ld_min',...
+%   'sf_mout','sp_mout','sd_mout','mf_mout','mp_mout','md_mout','lp_mout','ld_mout',...
+%   'sf_mres1','sp_mres1','sd_mres1','mf_mres1','mp_mres1','md_mres1','lp_mres1','ld_mres1',...
+%   'sf_mres2','sp_mres2','sd_mres2','mf_mres2','mp_mres2','md_mres2','lp_mres2','ld_mres2')
 
 %% Histograms
 figure(1)
@@ -410,7 +449,7 @@ h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-2 2])
 set(gcf,'renderer','painters')
 text(0,1.75,'LD bio','HorizontalAlignment','center')
-print('-dpng',[ppath 'Climatol_map_mean_bio_stages.png'])
+print('-dpng',[ppath 'Climatol_map_mean_bio_stages_noLowBio.png'])
 
 %% 8 plot of bio in (in)
 f4 = figure('Units','inches','Position',[1 3 6.5 8]);
@@ -504,7 +543,7 @@ h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-4 0])
 set(gcf,'renderer','painters')
 text(0,1.75,'LD bio in','HorizontalAlignment','center')
-print('-dpng',[ppath 'Climatol_map_mean_bioIn_stages.png'])
+%print('-dpng',[ppath 'Climatol_map_mean_bioIn_stages.png'])
 
 %% 8 plot of bio out
 f5 = figure('Units','inches','Position',[1 3 6.5 8]);
@@ -598,7 +637,7 @@ h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-4 0])
 set(gcf,'renderer','painters')
 text(0,1.75,'LD bio out','HorizontalAlignment','center')
-print('-dpng',[ppath 'Climatol_map_mean_bioOut_stages.png'])
+%print('-dpng',[ppath 'Climatol_map_mean_bioOut_stages.png'])
 
 %% 8 plot of res1
 f6 = figure('Units','inches','Position',[1 3 6.5 8]);
@@ -692,7 +731,7 @@ h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-1 3.5])
 set(gcf,'renderer','painters')
 text(0,1.75,'LD res (in)','HorizontalAlignment','center')
-print('-dpng',[ppath 'Climatol_map_mean_resIn_stages.png'])
+print('-dpng',[ppath 'Climatol_map_mean_resIn_stages_noLowBio.png'])
 
 %% 8 plot of res2
 f7 = figure('Units','inches','Position',[1 3 6.5 8]);
@@ -786,4 +825,4 @@ h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-1 3.5])
 set(gcf,'renderer','painters')
 text(0,1.75,'LD res (out)','HorizontalAlignment','center')
-print('-dpng',[ppath 'Climatol_map_mean_resOut_stages.png'])
+print('-dpng',[ppath 'Climatol_map_mean_resOut_stages_noLowBio.png'])

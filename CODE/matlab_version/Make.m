@@ -17,10 +17,10 @@ climatol_ens = false;
 climatol = false;
 climatol_crr = false;
 climatol_con = false;
-climatol_ngdc = true;
+climatol_ngdc = false;
 pre_industrial = false;
 historic_pristine = false;
-historic_fished = false;
+historic_fished = true;
 historic_fished_ens = false;
 forecast_pristine = false;
 forecast_fished = false;
@@ -67,8 +67,8 @@ if climatol_crr
     Climatol_con_rec_rep()
 end
 if climatol_ngdc
-    %Climatol_nu_gam_die_clev()
-    Climatol_death_vars()
+    Climatol_nu_gam_die_clev()
+    %Climatol_death_vars()
 end
 if pre_industrial
     Pre_industrial()
@@ -79,7 +79,9 @@ end
 if historic_fished
     %Historic_fished()
     %Historic_fished_prod()
-    CORE_fished()
+    %CORE_fished()
+    CORE_rec_rep_nmort()
+    CORE_nu_gam_die()
 end
 if historic_fished_ens
     Historic_fished_ensemble6_samek()

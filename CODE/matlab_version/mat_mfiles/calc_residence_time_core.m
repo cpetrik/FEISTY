@@ -1,46 +1,56 @@
 % Calc residence time
 % Residence time = biomass / input
 % or             = biomass / output
-% Total inputs: rec
+% Total inputs: rec, nu
 % Total outputs: gamma, rep, nmort, die (pred), yield (fishing)
 
 clear all
 close all
-
 
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 harv = 'All_fish03';
 fpath=['/Volumes/MIP/NC/Matlab_new_size/' cfile '/'];
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
-ppath = [pp cfile '/Climatol/'];
-load('/Volumes/FEISTY/POEM_JLD/esm26_hist/ESM26_1deg_5yr_clim_191_195_gridspec.mat');
+ppath = [pp cfile '/CORE/'];
+
+load('/Volumes/MIP/GCM_DATA/CORE-forced/Data_grid_ocean_cobalt_ESM2Mcore.mat','GRD');
+load('/Volumes/MIP/GCM_DATA/CORE-forced/ocean_cobalt_grid.mat');
 
 %%
-load([fpath 'Means_die_nmort_yield_Climatol_' harv '_' cfile '.mat'],...
-    'sf_die','sp_die','sd_die',...
-    'mf_die','mp_die','md_die',...
-    'lp_die','ld_die','sf_mort','sp_mort','sd_mort',...
-    'mf_mort','mp_mort','md_mort',...
-    'lp_mort','ld_mort',...
-    'mf_yield','mp_yield','md_yield',...
-    'lp_yield','ld_yield');
-
-load([fpath 'Means_con_rec_rep_Climatol_' harv '_' cfile '.mat'],...
+load([fpath 'Means_rec_rep_nmort_Core_' harv '_' cfile '.mat'],...
     'sf_rec','sp_rec','sd_rec',...
     'mf_rec','mp_rec','md_rec',...
     'lp_rec','ld_rec',...
-    'mf_rep','lp_rep','ld_rep');
+    'mf_rep','lp_rep','ld_rep','sf_mort','sp_mort','sd_mort',...
+    'mf_mort','mp_mort','md_mort',...
+    'lp_mort','ld_mort');
 
-load([fpath 'Means_nu_gam_die_clev_Climatol_' harv '_' cfile '.mat'],...
+load([fpath 'Means_nu_gam_die_Core_' harv '_' cfile '.mat'],...
+    'sf_die','sp_die','sd_die',...
+    'mf_die','mp_die','md_die',...
+    'lp_die','ld_die',...
     'sf_gamma','sp_gamma','sd_gamma',...
-    'mf_gamma','mp_gamma','md_gamma','lp_gamma','ld_gamma');
+    'mf_gamma','mp_gamma','md_gamma','lp_gamma','ld_gamma',...
+    'sf_nu','sp_nu','sd_nu',...
+    'mf_nu','mp_nu','md_nu','lp_nu','ld_nu');
 
-load([fpath 'Means_Climatol_' harv '_' cfile '.mat'],...
+load([fpath 'Means_core_fished_' cfile '.mat'],...
     'sf_bio','sp_bio','sd_bio',...
-    'mf_bio','mp_bio','md_bio','lp_bio','ld_bio');
+    'mf_bio','mp_bio','md_bio','lp_bio','ld_bio',...
+    'mf_yield','mp_yield','md_yield',...
+    'lp_yield','ld_yield');
 
-%% add losses
+%% add gains and losses
+sf_in = max(0,sf_nu) + sf_rec;
+sp_in = max(0,sp_nu) + sp_rec;
+sd_in = max(0,sd_nu) + sd_rec;
+mp_in = max(0,mp_nu) + mp_rec;
+md_in = max(0,md_nu) + md_rec;
+mf_in = max(0,mf_nu) + mf_rec;
+lp_in = max(0,lp_nu) + lp_rec;
+ld_in = max(0,ld_nu) + ld_rec;
+
 sf_out = sf_gamma + sf_mort + sf_die;
 sp_out = sp_gamma + sp_mort + sp_die;
 sd_out = sd_gamma + sd_mort + sd_die;
@@ -51,14 +61,14 @@ lp_out = lp_gamma + lp_rep + lp_mort + lp_die + lp_yield;
 ld_out = ld_gamma + ld_rep + ld_mort + ld_die + ld_yield;
 
 %% v1
-sf_res1 = sf_bio ./ sf_rec;
-sp_res1 = sp_bio ./ sp_rec;
-sd_res1 = sd_bio ./ sd_rec;
-mf_res1 = mf_bio ./ mf_rec;
-mp_res1 = mp_bio ./ mp_rec;
-md_res1 = md_bio ./ md_rec;
-lp_res1 = lp_bio ./ lp_rec;
-ld_res1 = ld_bio ./ ld_rec;
+sf_res1 = sf_bio ./ sf_in;
+sp_res1 = sp_bio ./ sp_in;
+sd_res1 = sd_bio ./ sd_in;
+mf_res1 = mf_bio ./ mf_in;
+mp_res1 = mp_bio ./ mp_in;
+md_res1 = md_bio ./ md_in;
+lp_res1 = lp_bio ./ lp_in;
+ld_res1 = ld_bio ./ ld_in;
 
 sf_res1(isinf(sf_res1(:))) = NaN;
 sp_res1(isinf(sp_res1(:))) = NaN;
@@ -89,14 +99,14 @@ md_mbio = mean(md_bio,2);
 lp_mbio = mean(lp_bio,2);
 ld_mbio = mean(ld_bio,2);
 
-sf_mrec = mean(sf_rec,2);
-sp_mrec = mean(sp_rec,2);
-sd_mrec = mean(sd_rec,2);
-mf_mrec = mean(mf_rec,2);
-mp_mrec = mean(mp_rec,2);
-md_mrec = mean(md_rec,2);
-lp_mrec = mean(lp_rec,2);
-ld_mrec = mean(ld_rec,2);
+sf_min = mean(sf_in,2);
+sp_min = mean(sp_in,2);
+sd_min = mean(sd_in,2);
+mf_min = mean(mf_in,2);
+mp_min = mean(mp_in,2);
+md_min = mean(md_in,2);
+lp_min = mean(lp_in,2);
+ld_min = mean(ld_in,2);
 
 sf_mout = mean(sf_out,2);
 sp_mout = mean(sp_out,2);
@@ -125,86 +135,94 @@ md_mres2 = mean(md_res2,2);
 lp_mres2 = mean(lp_res2,2);
 ld_mres2 = mean(ld_res2,2);
 
+%% Save
+save([fpath 'Residence_time_means_Core_' harv '_' cfile '.mat'],...
+  'sf_mbio','sp_mbio','sd_mbio','mf_mbio','mp_mbio','md_mbio','lp_mbio','ld_mbio',...
+  'sf_min','sp_min','sd_min','mf_min','mp_min','md_min','lp_min','ld_min',...
+  'sf_mout','sp_mout','sd_mout','mf_mout','mp_mout','md_mout','lp_mout','ld_mout',...
+  'sf_mres1','sp_mres1','sd_mres1','mf_mres1','mp_mres1','md_mres1','lp_mres1','ld_mres1',...
+  'sf_mres2','sp_mres2','sd_mres2','mf_mres2','mp_mres2','md_mres2','lp_mres2','ld_mres2')
+
 %% Histograms
 figure(1)
 subplot(3,3,1)
-histogram(sf_mres1)
+histogram(log10(sf_mres1))
 title('SF')
 
 subplot(3,3,2)
-histogram(sp_mres1)
+histogram(log10(sp_mres1))
 title('SP')
 
 subplot(3,3,3)
-histogram(sd_mres1)
+histogram(log10(sd_mres1))
 title('SD')
 
 subplot(3,3,4)
-histogram(sf_mres1)
+histogram(log10(sf_mres1))
 title('MF')
 
 subplot(3,3,5)
-histogram(sp_mres1)
+histogram(log10(sp_mres1))
 title('MP')
 
 subplot(3,3,6)
-histogram(sd_mres1)
+histogram(log10(sd_mres1))
 title('MD')
 
 subplot(3,3,8)
-histogram(sp_mres1)
+histogram(log10(sp_mres1))
 title('LP')
 
 subplot(3,3,9)
-histogram(sd_mres1)
+histogram(log10(sd_mres1))
 title('LD')
 
 figure(2)
 subplot(3,3,1)
-histogram(sf_mres2)
+histogram(log10(sf_mres2))
 title('SF')
 
 subplot(3,3,2)
-histogram(sp_mres2)
+histogram(log10(sp_mres2))
 title('SP')
 
 subplot(3,3,3)
-histogram(sd_mres2)
+histogram(log10(sd_mres2))
 title('SD')
 
 subplot(3,3,4)
-histogram(sf_mres2)
+histogram(log10(sf_mres2))
 title('MF')
 
 subplot(3,3,5)
-histogram(sp_mres2)
+histogram(log10(sp_mres2))
 title('MP')
 
 subplot(3,3,6)
-histogram(sd_mres2)
+histogram(log10(sd_mres2))
 title('MD')
 
 subplot(3,3,8)
-histogram(sp_mres2)
+histogram(log10(sp_mres2))
 title('LP')
 
 subplot(3,3,9)
-histogram(sd_mres2)
+histogram(log10(sd_mres2))
 title('LD')
 
 %% Maps
 % plot info
-[ni,nj]=size(lon);
-geolon_t = double(lon);
-geolat_t = double(lat);
-plotminlat=-90; 
+[ni,nj]=size(geolon_t);
+geolon_t = double(geolon_t);
+geolat_t = double(geolat_t);
+plotminlat=-90;
 plotmaxlat=90;
 plotminlon=-280;
 plotmaxlon=80;
 latlim=[plotminlat plotmaxlat];
-lonlim=[plotminlon plotmaxlon]; 
+lonlim=[plotminlon plotmaxlon];
 
-load coastlines;        
+load coastlines;
 
 %% Plots in space
 %bio
@@ -253,6 +271,7 @@ Smd=NaN*ones(ni,nj);
 Slp=NaN*ones(ni,nj);
 Sld=NaN*ones(ni,nj);
 
+ID = GRD.ID;
 %bio
 Bsf(ID)=sf_mbio;
 Bsp(ID)=sp_mbio;
@@ -263,14 +282,14 @@ Bmd(ID)=md_mbio;
 Blp(ID)=lp_mbio;
 Bld(ID)=ld_mbio;
 %in
-Isf(ID)=sf_mrec;
-Isp(ID)=sp_mrec;
-Isd(ID)=sd_mrec;
-Imf(ID)=mf_mrec;
-Imp(ID)=mp_mrec;
-Imd(ID)=md_mrec;
-Ilp(ID)=lp_mrec;
-Ild(ID)=ld_mrec;
+Isf(ID)=sf_min;
+Isp(ID)=sp_min;
+Isd(ID)=sd_min;
+Imf(ID)=mf_min;
+Imp(ID)=mp_min;
+Imd(ID)=md_min;
+Ilp(ID)=lp_min;
+Ild(ID)=ld_min;
 %out
 Osf(ID)=sf_mout;
 Osp(ID)=sp_mout;
@@ -300,198 +319,197 @@ Slp(ID)=lp_mres2;
 Sld(ID)=ld_mres2;
 
 %% 8 plot of bio
-f1 = figure('Units','inches','Position',[1 3 6.5 8]);
-%f1.Units = 'inches';
+f3 = figure('Units','inches','Position',[1 3 6.5 8]);
 
-%A 
+%A
 subplot('Position',[0.025 0.75 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,Bsf)
+surfm(geolat_t,geolon_t,log10(Bsf))
 cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([0 10])
+caxis([-2 2])
 set(gcf,'renderer','painters')
 text(0,1.75,'SF bio','HorizontalAlignment','center')
 
-%B 
+%B
 subplot('Position',[0.025 0.5 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,Bsp)
+surfm(geolat_t,geolon_t,log10(Bsp))
 cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([0 10])
+caxis([-2 2])
 set(gcf,'renderer','painters')
 text(0,1.75,'SP bio','HorizontalAlignment','center')
 
-%C 
+%C
 subplot('Position',[0.025 0.25 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,Bsd)
+surfm(geolat_t,geolon_t,log10(Bsd))
 cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([0 10])
+caxis([-2 2])
 set(gcf,'renderer','painters')
 text(0,1.75,'SD bio','HorizontalAlignment','center')
 
-%D 
+%D
 subplot('Position',[0.025 0.0 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,Bmf)
+surfm(geolat_t,geolon_t,log10(Bmf))
 cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([0 10])
+caxis([-2 2])
 set(gcf,'renderer','painters')
 text(0,1.75,'MF bio','HorizontalAlignment','center')
 
-%E 
+%E
 subplot('Position',[0.475 0.75 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,Bmp)
+surfm(geolat_t,geolon_t,log10(Bmp))
 cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([0 10])
+caxis([-2 2])
 set(gcf,'renderer','painters')
 text(0,1.75,'MP bio','HorizontalAlignment','center')
 
-%F 
+%F
 subplot('Position',[0.475 0.5 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,Bmd)
+surfm(geolat_t,geolon_t,log10(Bmd))
 cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([0 10])
-colorbar('Position',[0.9 0.25 0.025 0.5],'orientation','vertical','AxisLocation','out')
+caxis([-2 2])
+cb = colorbar('Position',[0.9 0.25 0.025 0.5],'orientation','vertical','AxisLocation','out');
+xlabel(cb,'log_1_0 g m^-^2')
 set(gcf,'renderer','painters')
 text(0,1.75,'MD bio','HorizontalAlignment','center')
 
-%G 
+%G
 subplot('Position',[0.475 0.25 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,Blp)
+surfm(geolat_t,geolon_t,log10(Blp))
 cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([0 10])
+caxis([-2 2])
 set(gcf,'renderer','painters')
 text(0,1.75,'LP bio','HorizontalAlignment','center')
 
-%H 
+%H
 subplot('Position',[0.475 0.0 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,Bld)
+surfm(geolat_t,geolon_t,log10(Bld))
 cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([0 10])
+caxis([-2 2])
 set(gcf,'renderer','painters')
 text(0,1.75,'LD bio','HorizontalAlignment','center')
-print('-dpng',[ppath 'Climatol_map_mean_bio_stages.png'])
+print('-dpng',[ppath 'Core_map_mean_bio_stages.png'])
 
-%% 8 plot of bio in (rec)
-f2 = figure('Units','inches','Position',[1 3 6.5 8]);
-%f1.Units = 'inches';
+%% 8 plot of bio in (in)
+f4 = figure('Units','inches','Position',[1 3 6.5 8]);
 
-%A 
+%A
 subplot('Position',[0.025 0.75 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,log10(Isf))
 cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-5 -2])
+caxis([-4 0])
 set(gcf,'renderer','painters')
 text(0,1.75,'SF bio in','HorizontalAlignment','center')
 
-%B 
+%B
 subplot('Position',[0.025 0.5 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,log10(Isp))
 cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-5 -2])
+caxis([-4 0])
 set(gcf,'renderer','painters')
 text(0,1.75,'SP bio in','HorizontalAlignment','center')
 
-%C 
+%C
 subplot('Position',[0.025 0.25 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,log10(Isd))
 cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-5 -2])
+caxis([-4 0])
 set(gcf,'renderer','painters')
 text(0,1.75,'SD bio in','HorizontalAlignment','center')
 
-%D 
+%D
 subplot('Position',[0.025 0.0 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,log10(Imf))
 cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-5 -2])
+caxis([-4 0])
 set(gcf,'renderer','painters')
 text(0,1.75,'MF bio in','HorizontalAlignment','center')
 
-%E 
+%E
 subplot('Position',[0.475 0.75 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,log10(Imp))
 cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-5 -2])
+caxis([-4 0])
 set(gcf,'renderer','painters')
 text(0,1.75,'MP bio in','HorizontalAlignment','center')
 
-%F 
+%F
 subplot('Position',[0.475 0.5 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,log10(Imd))
 cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-5 -2])
-colorbar('Position',[0.9 0.25 0.025 0.5],'orientation','vertical','AxisLocation','out')
+caxis([-4 0])
+cb = colorbar('Position',[0.9 0.25 0.025 0.5],'orientation','vertical','AxisLocation','out');
+xlabel(cb,'log_1_0 g m^-^2 d^-^1')
 set(gcf,'renderer','painters')
 text(0,1.75,'MD bio in','HorizontalAlignment','center')
 
-%G 
+%G
 subplot('Position',[0.475 0.25 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,log10(Ilp))
 cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-5 -2])
+caxis([-4 0])
 set(gcf,'renderer','painters')
 text(0,1.75,'LP bio in','HorizontalAlignment','center')
 
-%H 
+%H
 subplot('Position',[0.475 0.0 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,log10(Ild))
 cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-5 -2])
+caxis([-4 0])
 set(gcf,'renderer','painters')
 text(0,1.75,'LD bio in','HorizontalAlignment','center')
-print('-dpng',[ppath 'Climatol_map_mean_bioIn_stages.png'])
+print('-dpng',[ppath 'Core_map_mean_bioIn_stages.png'])
 
 %% 8 plot of bio out
-f3 = figure('Units','inches','Position',[1 3 6.5 8]);
-%f1.Units = 'inches';
+f5 = figure('Units','inches','Position',[1 3 6.5 8]);
 
-%A 
+%A
 subplot('Position',[0.025 0.75 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
@@ -502,7 +520,7 @@ caxis([-4 0])
 set(gcf,'renderer','painters')
 text(0,1.75,'SF bio out','HorizontalAlignment','center')
 
-%B 
+%B
 subplot('Position',[0.025 0.5 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
@@ -513,7 +531,7 @@ caxis([-4 0])
 set(gcf,'renderer','painters')
 text(0,1.75,'SP bio out','HorizontalAlignment','center')
 
-%C 
+%C
 subplot('Position',[0.025 0.25 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
@@ -524,7 +542,7 @@ caxis([-4 0])
 set(gcf,'renderer','painters')
 text(0,1.75,'SD bio out','HorizontalAlignment','center')
 
-%D 
+%D
 subplot('Position',[0.025 0.0 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
@@ -535,7 +553,7 @@ caxis([-4 0])
 set(gcf,'renderer','painters')
 text(0,1.75,'MF bio out','HorizontalAlignment','center')
 
-%E 
+%E
 subplot('Position',[0.475 0.75 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
@@ -546,7 +564,7 @@ caxis([-4 0])
 set(gcf,'renderer','painters')
 text(0,1.75,'MP bio out','HorizontalAlignment','center')
 
-%F 
+%F
 subplot('Position',[0.475 0.5 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
@@ -554,11 +572,12 @@ surfm(geolat_t,geolon_t,log10(Omd))
 cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-4 0])
-colorbar('Position',[0.9 0.25 0.025 0.5],'orientation','vertical','AxisLocation','out')
+cb = colorbar('Position',[0.9 0.25 0.025 0.5],'orientation','vertical','AxisLocation','out');
+xlabel(cb,'log_1_0 g m^-^2 d^-^1')
 set(gcf,'renderer','painters')
 text(0,1.75,'MD bio out','HorizontalAlignment','center')
 
-%G 
+%G
 subplot('Position',[0.475 0.25 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
@@ -569,7 +588,7 @@ caxis([-4 0])
 set(gcf,'renderer','painters')
 text(0,1.75,'LP bio out','HorizontalAlignment','center')
 
-%H 
+%H
 subplot('Position',[0.475 0.0 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
@@ -579,196 +598,192 @@ h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-4 0])
 set(gcf,'renderer','painters')
 text(0,1.75,'LD bio out','HorizontalAlignment','center')
-print('-dpng',[ppath 'Climatol_map_mean_bioOut_stages.png'])
+print('-dpng',[ppath 'Core_map_mean_bioOut_stages.png'])
 
 %% 8 plot of res1
-f4 = figure('Units','inches','Position',[1 3 6.5 8]);
-%f4.Units = 'inches';
+f6 = figure('Units','inches','Position',[1 3 6.5 8]);
 
-%A 
+%A
 subplot('Position',[0.025 0.75 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,log10(Rsf))
 cmocean('speed')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([2 12])
+caxis([-1 3.5])
 set(gcf,'renderer','painters')
 text(0,1.75,'SF res (in)','HorizontalAlignment','center')
 
-%B 
+%B
 subplot('Position',[0.025 0.5 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,log10(Rsp))
 cmocean('speed')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([2 12])
+caxis([-1 3.5])
 set(gcf,'renderer','painters')
 text(0,1.75,'SP res (in)','HorizontalAlignment','center')
 
-%C 
+%C
 subplot('Position',[0.025 0.25 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,log10(Rsd))
 cmocean('speed')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([2 12])
+caxis([-1 3.5])
 set(gcf,'renderer','painters')
 text(0,1.75,'SD res (in)','HorizontalAlignment','center')
 
-%D 
+%D
 subplot('Position',[0.025 0.0 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,log10(Rmf))
 cmocean('speed')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([2 12])
+caxis([-1 3.5])
 set(gcf,'renderer','painters')
 text(0,1.75,'MF res (in)','HorizontalAlignment','center')
 
-%E 
+%E
 subplot('Position',[0.475 0.75 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,log10(Rmp))
 cmocean('speed')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([2 12])
+caxis([-1 3.5])
 set(gcf,'renderer','painters')
 text(0,1.75,'MP res (in)','HorizontalAlignment','center')
 
-%F 
+%F
 subplot('Position',[0.475 0.5 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,log10(Rmd))
 cmocean('speed')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([2 12])
-colorbar('Position',[0.9 0.25 0.025 0.5],'orientation','vertical','AxisLocation','out')
+caxis([-1 3.5])
+cb = colorbar('Position',[0.9 0.25 0.025 0.5],'orientation','vertical','AxisLocation','out');
+xlabel(cb,'log_1_0 d')
 set(gcf,'renderer','painters')
 text(0,1.75,'MD res (in)','HorizontalAlignment','center')
 
-%G 
+%G
 subplot('Position',[0.475 0.25 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,log10(Rlp))
 cmocean('speed')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([2 12])
+caxis([-1 3.5])
 set(gcf,'renderer','painters')
 text(0,1.75,'LP res (in)','HorizontalAlignment','center')
 
-%H 
+%H
 subplot('Position',[0.475 0.0 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,log10(Rld))
 cmocean('speed')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([2 12])
+caxis([-1 3.5])
 set(gcf,'renderer','painters')
 text(0,1.75,'LD res (in)','HorizontalAlignment','center')
-print('-dpng',[ppath 'Climatol_map_mean_resIn_stages.png'])
+print('-dpng',[ppath 'Core_map_mean_resIn_stages.png'])
 
 %% 8 plot of res2
-f5 = figure('Units','inches','Position',[1 3 6.5 8]);
-%f5.Units = 'inches';
+f7 = figure('Units','inches','Position',[1 3 6.5 8]);
 
-%A 
+%A
 subplot('Position',[0.025 0.75 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(Rsf))
+surfm(geolat_t,geolon_t,log10(Ssf))
 cmocean('speed')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([2 12])
+caxis([-1 3.5])
 set(gcf,'renderer','painters')
-text(0,1.75,'SF res (in)','HorizontalAlignment','center')
+text(0,1.75,'SF res (out)','HorizontalAlignment','center')
 
-%B 
+%B
 subplot('Position',[0.025 0.5 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(Rsp))
+surfm(geolat_t,geolon_t,log10(Ssp))
 cmocean('speed')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([2 12])
+caxis([-1 3.5])
 set(gcf,'renderer','painters')
-text(0,1.75,'SP res (in)','HorizontalAlignment','center')
+text(0,1.75,'SP res (out)','HorizontalAlignment','center')
 
-%C 
+%C
 subplot('Position',[0.025 0.25 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(Rsd))
+surfm(geolat_t,geolon_t,log10(Ssd))
 cmocean('speed')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([2 12])
+caxis([-1 3.5])
 set(gcf,'renderer','painters')
-text(0,1.75,'SD res (in)','HorizontalAlignment','center')
+text(0,1.75,'SD res (out)','HorizontalAlignment','center')
 
-%D 
+%D
 subplot('Position',[0.025 0.0 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(Rmf))
+surfm(geolat_t,geolon_t,log10(Smf))
 cmocean('speed')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([2 12])
+caxis([-1 3.5])
 set(gcf,'renderer','painters')
-text(0,1.75,'MF res (in)','HorizontalAlignment','center')
+text(0,1.75,'MF res (out)','HorizontalAlignment','center')
 
-%E 
+%E
 subplot('Position',[0.475 0.75 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(Rmp))
+surfm(geolat_t,geolon_t,log10(Smp))
 cmocean('speed')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([2 12])
+caxis([-1 3.5])
 set(gcf,'renderer','painters')
-text(0,1.75,'MP res (in)','HorizontalAlignment','center')
+text(0,1.75,'MP res (out)','HorizontalAlignment','center')
 
-%F 
+%F
 subplot('Position',[0.475 0.5 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(Rmd))
+surfm(geolat_t,geolon_t,log10(Smd))
 cmocean('speed')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([2 12])
-colorbar('Position',[0.9 0.25 0.025 0.5],'orientation','vertical','AxisLocation','out')
+caxis([-1 3.5])
+cb = colorbar('Position',[0.9 0.25 0.025 0.5],'orientation','vertical','AxisLocation','out');
+xlabel(cb,'log_1_0 d')
 set(gcf,'renderer','painters')
-text(0,1.75,'MD res (in)','HorizontalAlignment','center')
+text(0,1.75,'MD res (out)','HorizontalAlignment','center')
 
-%G 
+%G
 subplot('Position',[0.475 0.25 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(Rlp))
+surfm(geolat_t,geolon_t,log10(Slp))
 cmocean('speed')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([2 12])
+caxis([-1 3.5])
 set(gcf,'renderer','painters')
-text(0,1.75,'LP res (in)','HorizontalAlignment','center')
+text(0,1.75,'LP res (out)','HorizontalAlignment','center')
 
-%H 
+%H
 subplot('Position',[0.475 0.0 0.4 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(Rld))
+surfm(geolat_t,geolon_t,log10(Sld))
 cmocean('speed')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([2 12])
+caxis([-1 3.5])
 set(gcf,'renderer','painters')
-text(0,1.75,'LD res (in)','HorizontalAlignment','center')
-print('-dpng',[ppath 'Climatol_map_mean_res_stages.png'])
-
-
-
-
+text(0,1.75,'LD res (out)','HorizontalAlignment','center')
+print('-dpng',[ppath 'Core_map_mean_resOut_stages.png'])

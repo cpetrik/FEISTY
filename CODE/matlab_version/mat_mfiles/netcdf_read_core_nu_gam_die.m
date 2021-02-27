@@ -6,12 +6,12 @@ close all
 
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 harv = 'All_fish03';
-vars = '_nu_gam_die_clev';
+vars = '_nu_gam_die';
 
 fpath=['/Volumes/MIP/NC/Matlab_new_size/' cfile '/'];
 
 %% SP
-ncid = netcdf.open([fpath 'Climatol_' harv vars '_sml_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Core_' harv vars '_sml_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -20,14 +20,13 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-SP.clev = clev;
 SP.nu = nu;
 SP.gamma = gamma;
 SP.die = die;
 clear clev gamma die
 
 % SF
-ncid = netcdf.open([fpath 'Climatol_' harv vars '_sml_f.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Core_' harv vars '_sml_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -36,14 +35,13 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-SF.clev = clev;
 SF.nu = nu;
 SF.gamma = gamma;
 SF.die = die;
 clear clev gamma die
 
 % SD
-ncid = netcdf.open([fpath 'Climatol_' harv vars '_sml_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Core_' harv vars '_sml_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -52,14 +50,13 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-SD.clev = clev;
 SD.nu = nu;
 SD.gamma = gamma;
 SD.die = die;
 clear clev gamma die
 
 % MP
-ncid = netcdf.open([fpath 'Climatol_' harv vars '_med_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Core_' harv vars '_med_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -68,14 +65,13 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-MP.clev = clev;
 MP.nu = nu;
 MP.gamma = gamma;
 MP.die = die;
 clear clev gamma die
 
 % MF
-ncid = netcdf.open([fpath 'Climatol_' harv vars '_med_f.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Core_' harv vars '_med_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -84,14 +80,13 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-MF.clev = clev;
 MF.nu = nu;
 MF.gamma = gamma;
 MF.die = die;
 clear clev gamma die nu
 
 % MD
-ncid = netcdf.open([fpath 'Climatol_' harv vars '_med_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Core_' harv vars '_med_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -100,14 +95,13 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-MD.clev = clev;
 MD.nu = nu;
 MD.gamma = gamma;
 MD.die = die;
 clear clev gamma die
 
 % LP
-ncid = netcdf.open([fpath 'Climatol_' harv vars '_lrg_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Core_' harv vars '_lrg_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -116,14 +110,13 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-LP.clev = clev;
 LP.nu = nu;
 LP.gamma = gamma;
 LP.die = die;
 clear clev gamma die nu
 
 % LD
-ncid = netcdf.open([fpath 'Climatol_' harv vars '_lrg_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Core_' harv vars '_lrg_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -132,7 +125,6 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-LD.clev = clev;
 LD.nu = nu;
 LD.gamma = gamma;
 LD.die = die;
@@ -140,18 +132,9 @@ clear clev gamma die nu
 
 
 %% Take means
-[ids,nt] = size(LD.clev);
+[ids,nt] = size(LD.die);
 
 %Time
-sp_tmclev=mean(SP.clev,1);
-sf_tmclev=mean(SF.clev,1);
-sd_tmclev=mean(SD.clev,1);
-mp_tmclev=mean(MP.clev,1);
-mf_tmclev=mean(MF.clev,1);
-md_tmclev=mean(MD.clev,1);
-lp_tmclev=mean(LP.clev,1);
-ld_tmclev=mean(LD.clev,1);
-
 sp_tmgamma=mean(SP.gamma,1);
 sf_tmgamma=mean(SF.gamma,1);
 sd_tmgamma=mean(SD.gamma,1);
@@ -179,105 +162,73 @@ md_tmnu=mean(MD.nu,1);
 lp_tmnu=mean(LP.nu,1);
 ld_tmnu=mean(LD.nu,1);
 
-%% Last year
+%% Spatial mean over all time
 time=1:nt;
 lyr=time((end-12+1):end);
-sp_mclev=mean(SP.clev(:,lyr),2);
-sf_mclev=mean(SF.clev(:,lyr),2);
-sd_mclev=mean(SD.clev(:,lyr),2);
-mp_mclev=mean(MP.clev(:,lyr),2);
-mf_mclev=mean(MF.clev(:,lyr),2);
-md_mclev=mean(MD.clev(:,lyr),2);
-lp_mclev=mean(LP.clev(:,lyr),2);
-ld_mclev=mean(LD.clev(:,lyr),2);
 
-sp_mgamma=mean(SP.gamma(:,lyr),2);
-sf_mgamma=mean(SF.gamma(:,lyr),2);
-sd_mgamma=mean(SD.gamma(:,lyr),2);
-mp_mgamma=mean(MP.gamma(:,lyr),2);
-mf_mgamma=mean(MF.gamma(:,lyr),2);
-md_mgamma=mean(MD.gamma(:,lyr),2);
-lp_mgamma=mean(LP.gamma(:,lyr),2);
-ld_mgamma=mean(LD.gamma(:,lyr),2);
+sp_mgamma=mean(SP.gamma,2);
+sf_mgamma=mean(SF.gamma,2);
+sd_mgamma=mean(SD.gamma,2);
+mp_mgamma=mean(MP.gamma,2);
+mf_mgamma=mean(MF.gamma,2);
+md_mgamma=mean(MD.gamma,2);
+lp_mgamma=mean(LP.gamma,2);
+ld_mgamma=mean(LD.gamma,2);
 
-sp_mdie=mean(SP.die(:,lyr),2);
-sf_mdie=mean(SF.die(:,lyr),2);
-sd_mdie=mean(SD.die(:,lyr),2);
-mp_mdie=mean(MP.die(:,lyr),2);
-mf_mdie=mean(MF.die(:,lyr),2);
-md_mdie=mean(MD.die(:,lyr),2);
-lp_mdie=mean(LP.die(:,lyr),2);
-ld_mdie=mean(LD.die(:,lyr),2);
+sp_mdie=mean(SP.die,2);
+sf_mdie=mean(SF.die,2);
+sd_mdie=mean(SD.die,2);
+mp_mdie=mean(MP.die,2);
+mf_mdie=mean(MF.die,2);
+md_mdie=mean(MD.die,2);
+lp_mdie=mean(LP.die,2);
+ld_mdie=mean(LD.die,2);
 
-sp_mnu=mean(SP.nu(:,lyr),2);
-sf_mnu=mean(SF.nu(:,lyr),2);
-sd_mnu=mean(SD.nu(:,lyr),2);
-mp_mnu=mean(MP.nu(:,lyr),2);
-mf_mnu=mean(MF.nu(:,lyr),2);
-md_mnu=mean(MD.nu(:,lyr),2);
-lp_mnu=mean(LP.nu(:,lyr),2);
-ld_mnu=mean(LD.nu(:,lyr),2);
+sp_mnu=mean(SP.nu,2);
+sf_mnu=mean(SF.nu,2);
+sd_mnu=mean(SD.nu,2);
+mp_mnu=mean(MP.nu,2);
+mf_mnu=mean(MF.nu,2);
+md_mnu=mean(MD.nu,2);
+lp_mnu=mean(LP.nu,2);
+ld_mnu=mean(LD.nu,2);
 
-%% Just last year
-sp_die=SP.die(:,lyr);
-sf_die=SF.die(:,lyr);
-sd_die=SD.die(:,lyr);
-mp_die=MP.die(:,lyr);
-mf_die=MF.die(:,lyr);
-md_die=MD.die(:,lyr);
-lp_die=LP.die(:,lyr);
-ld_die=LD.die(:,lyr);
+%% Every mo
+sp_die=SP.die;
+sf_die=SF.die;
+sd_die=SD.die;
+mp_die=MP.die;
+mf_die=MF.die;
+md_die=MD.die;
+lp_die=LP.die;
+ld_die=LD.die;
 
-sp_gamma=SP.gamma(:,lyr);
-sf_gamma=SF.gamma(:,lyr);
-sd_gamma=SD.gamma(:,lyr);
-mp_gamma=MP.gamma(:,lyr);
-mf_gamma=MF.gamma(:,lyr);
-md_gamma=MD.gamma(:,lyr);
-lp_gamma=LP.gamma(:,lyr);
-ld_gamma=LD.gamma(:,lyr);
+sp_gamma=SP.gamma;
+sf_gamma=SF.gamma;
+sd_gamma=SD.gamma;
+mp_gamma=MP.gamma;
+mf_gamma=MF.gamma;
+md_gamma=MD.gamma;
+lp_gamma=LP.gamma;
+ld_gamma=LD.gamma;
 
-sp_nu=SP.nu(:,lyr);
-sf_nu=SF.nu(:,lyr);
-sd_nu=SD.nu(:,lyr);
-mp_nu=MP.nu(:,lyr);
-mf_nu=MF.nu(:,lyr);
-md_nu=MD.nu(:,lyr);
-lp_nu=LP.nu(:,lyr);
-ld_nu=LD.nu(:,lyr);
+sp_nu=SP.nu;
+sf_nu=SF.nu;
+sd_nu=SD.nu;
+mp_nu=MP.nu;
+mf_nu=MF.nu;
+md_nu=MD.nu;
+lp_nu=LP.nu;
+ld_nu=LD.nu;
 
 %%
-% save([fpath 'Means_Climatol_' harv '_' cfile '.mat'],'sf_mclev',...
-%     'sf_tmclev','sp_tmclev','sd_tmclev','mf_tmclev','mp_tmclev',...
-%     'md_tmclev','lp_tmclev','ld_tmclev',...
-%     'sf_tmgamma','sp_tmgamma','sd_tmgamma','mf_tmgamma','mp_tmgamma',...
-%     'md_tmgamma','lp_tmgamma','ld_tmgamma',...
-%     'sf_tmdie','sp_tmdie','sd_tmdie','mf_tmdie','mp_tmdie',...
-%     'md_tmdie','lp_tmdie','ld_tmdie',...
-%     'sf_tmnu','sp_tmnu','sd_tmnu','mf_tmnu','mp_tmnu','md_tmnu',...
-%     'lp_tmnu','ld_tmnu',...
-%     'sf_mclev','sp_mclev','sd_mclev','mf_mclev','mp_mclev',...
-%     'md_mclev','lp_mclev','ld_mclev',...
-%     'sf_mgamma','sp_mgamma','sd_mgamma','mf_mgamma','mp_mgamma',...
-%     'md_mgamma','lp_mgamma','ld_mgamma',...
-%     'sf_mdie','sp_mdie','sd_mdie','mf_mdie','mp_mdie',...
-%     'md_mdie','lp_mdie','ld_mdie',...
-%     'sf_mnu','sp_mnu','sd_mnu','mf_mnu','mp_mnu','md_mnu',...
-%     'lp_mnu','ld_mnu',...
-%     'time','lyr','sf_die','sp_die','sd_die',...
-%     'mf_die','mp_die','md_die',...
-%     'lp_die','ld_die','-append');
 
-save([fpath 'Means_nu_gam_die_clev_Climatol_' harv '_' cfile '.mat'],'sf_mclev',...
-    'sf_tmclev','sp_tmclev','sd_tmclev','mf_tmclev','mp_tmclev',...
-    'md_tmclev','lp_tmclev','ld_tmclev',...
+save([fpath 'Means_nu_gam_die_Core_' harv '_' cfile '.mat'],...
     'sf_tmgamma','sp_tmgamma','sd_tmgamma','mf_tmgamma','mp_tmgamma',...
     'md_tmgamma','lp_tmgamma','ld_tmgamma',...
     'sf_tmdie','sp_tmdie','sd_tmdie','mf_tmdie','mp_tmdie',...
     'md_tmdie','lp_tmdie','ld_tmdie',...
     'mf_tmnu','lp_tmnu','ld_tmnu',...
-    'sf_mclev','sp_mclev','sd_mclev','mf_mclev','mp_mclev',...
-    'md_mclev','lp_mclev','ld_mclev',...
     'sf_mgamma','sp_mgamma','sd_mgamma','mf_mgamma','mp_mgamma',...
     'md_mgamma','lp_mgamma','ld_mgamma',...
     'sf_mdie','sp_mdie','sd_mdie','mf_mdie','mp_mdie',...

@@ -6,12 +6,12 @@ close all
 
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 harv = 'All_fish03';
-var = '_con_rec_rep';
+var = '_rec_rep_nmort';
 
 fpath=['/Volumes/MIP/NC/Matlab_new_size/' cfile '/'];
 
 %% SP
-ncid = netcdf.open([fpath 'Climatol_' harv var '_sml_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Core_' harv var '_sml_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -20,12 +20,12 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-SP.con = con;
+SP.mort = mort;
 SP.rec = rec;
-clear con rec
+clear mort rec
 
 % SF
-ncid = netcdf.open([fpath 'Climatol_' harv var '_sml_f.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Core_' harv var '_sml_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -34,12 +34,12 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-SF.con = con;
+SF.mort = mort;
 SF.rec = rec;
-clear con rec
+clear mort rec
 
 % SD
-ncid = netcdf.open([fpath 'Climatol_' harv var '_sml_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Core_' harv var '_sml_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -48,12 +48,12 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-SD.con = con;
+SD.mort = mort;
 SD.rec = rec;
-clear con rec
+clear mort rec
 
 % MP
-ncid = netcdf.open([fpath 'Climatol_' harv var '_med_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Core_' harv var '_med_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -62,12 +62,12 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-MP.con = con;
+MP.mort = mort;
 MP.rec = rec;
-clear con rec
+clear mort rec
 
 % MF
-ncid = netcdf.open([fpath 'Climatol_' harv var '_med_f.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Core_' harv var '_med_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -76,13 +76,13 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-MF.con = con;
+MF.mort = mort;
 MF.rep = rep;
 MF.rec = rec;
-clear con rec rep
+clear mort rec rep
 
 % MD
-ncid = netcdf.open([fpath 'Climatol_' harv var '_med_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Core_' harv var '_med_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -91,12 +91,12 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-MD.con = con;
+MD.mort = mort;
 MD.rec = rec;
-clear con rec
+clear mort rec
 
 % LP
-ncid = netcdf.open([fpath 'Climatol_' harv var '_lrg_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Core_' harv var '_lrg_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -105,13 +105,13 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-LP.con = con;
+LP.mort = mort;
 LP.rep = rep;
 LP.rec = rec;
-clear con rec rep
+clear mort rec rep
 
 % LD
-ncid = netcdf.open([fpath 'Climatol_' harv var '_lrg_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Core_' harv var '_lrg_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -120,24 +120,24 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-LD.con = con;
+LD.mort = mort;
 LD.rep = rep;
 LD.rec = rec;
-clear con rec rep
+clear mort rec rep
 
 
 %% Take means
-[ids,nt] = size(LD.con);
+[ids,nt] = size(LD.mort);
 
 %Time
-sp_tmcon=mean(SP.con,1);
-sf_tmcon=mean(SF.con,1);
-sd_tmcon=mean(SD.con,1);
-mp_tmcon=mean(MP.con,1);
-mf_tmcon=mean(MF.con,1);
-md_tmcon=mean(MD.con,1);
-lp_tmcon=mean(LP.con,1);
-ld_tmcon=mean(LD.con,1);
+sp_tmmort=mean(SP.mort,1);
+sf_tmmort=mean(SF.mort,1);
+sd_tmmort=mean(SD.mort,1);
+mp_tmmort=mean(MP.mort,1);
+mf_tmmort=mean(MF.mort,1);
+md_tmmort=mean(MD.mort,1);
+lp_tmmort=mean(LP.mort,1);
+ld_tmmort=mean(LD.mort,1);
 
 sp_tmrec=mean(SP.rec,1);
 sf_tmrec=mean(SF.rec,1);
@@ -152,63 +152,64 @@ mf_tmrep=mean(MF.rep,1);
 lp_tmrep=mean(LP.rep,1);
 ld_tmrep=mean(LD.rep,1);
 
-%% Last year
+%% Spatial mean over all time
 time=1:nt;
 lyr=time((end-12+1):end);
-sp_mcon=mean(SP.con(:,lyr),2);
-sf_mcon=mean(SF.con(:,lyr),2);
-sd_mcon=mean(SD.con(:,lyr),2);
-mp_mcon=mean(MP.con(:,lyr),2);
-mf_mcon=mean(MF.con(:,lyr),2);
-md_mcon=mean(MD.con(:,lyr),2);
-lp_mcon=mean(LP.con(:,lyr),2);
-ld_mcon=mean(LD.con(:,lyr),2);
 
-sp_mrec=mean(SP.rec(:,lyr),2);
-sf_mrec=mean(SF.rec(:,lyr),2);
-sd_mrec=mean(SD.rec(:,lyr),2);
-mp_mrec=mean(MP.rec(:,lyr),2);
-mf_mrec=mean(MF.rec(:,lyr),2);
-md_mrec=mean(MD.rec(:,lyr),2);
-lp_mrec=mean(LP.rec(:,lyr),2);
-ld_mrec=mean(LD.rec(:,lyr),2);
+sp_mmort=mean(SP.mort,2);
+sf_mmort=mean(SF.mort,2);
+sd_mmort=mean(SD.mort,2);
+mp_mmort=mean(MP.mort,2);
+mf_mmort=mean(MF.mort,2);
+md_mmort=mean(MD.mort,2);
+lp_mmort=mean(LP.mort,2);
+ld_mmort=mean(LD.mort,2);
 
-mf_mrep=mean(MF.rep(:,lyr),2);
-lp_mrep=mean(LP.rep(:,lyr),2);
-ld_mrep=mean(LD.rep(:,lyr),2);
+sp_mrec=mean(SP.rec,2);
+sf_mrec=mean(SF.rec,2);
+sd_mrec=mean(SD.rec,2);
+mp_mrec=mean(MP.rec,2);
+mf_mrec=mean(MF.rec,2);
+md_mrec=mean(MD.rec,2);
+lp_mrec=mean(LP.rec,2);
+ld_mrec=mean(LD.rec,2);
 
-%% Just last year
-sp_rec=SP.rec(:,lyr);
-sf_rec=SF.rec(:,lyr);
-sd_rec=SD.rec(:,lyr);
-mp_rec=MP.rec(:,lyr);
-mf_rec=MF.rec(:,lyr);
-md_rec=MD.rec(:,lyr);
-lp_rec=LP.rec(:,lyr);
-ld_rec=LD.rec(:,lyr);
+mf_mrep=mean(MF.rep,2);
+lp_mrep=mean(LP.rep,2);
+ld_mrep=mean(LD.rep,2);
 
-mf_rep=MF.rep(:,lyr);
-lp_rep=LP.rep(:,lyr);
-ld_rep=LD.rep(:,lyr);
+%% Every mo
+sp_rec=SP.rec;
+sf_rec=SF.rec;
+sd_rec=SD.rec;
+mp_rec=MP.rec;
+mf_rec=MF.rec;
+md_rec=MD.rec;
+lp_rec=LP.rec;
+ld_rec=LD.rec;
 
-sp_con=SP.con(:,lyr);
-sf_con=SF.con(:,lyr);
-sd_con=SD.con(:,lyr);
-mp_con=MP.con(:,lyr);
-mf_con=MF.con(:,lyr);
-md_con=MD.con(:,lyr);
-lp_con=LP.con(:,lyr);
-ld_con=LD.con(:,lyr);
+sp_mort=SP.mort;
+sf_mort=SF.mort;
+sd_mort=SD.mort;
+mp_mort=MP.mort;
+mf_mort=MF.mort;
+md_mort=MD.mort;
+lp_mort=LP.mort;
+ld_mort=LD.mort;
+
+mf_rep=MF.rep;
+lp_rep=LP.rep;
+ld_rep=LD.rep;
 
 %%
-% save([fpath 'Means_Climatol_' harv '_' cfile '.mat'],'sf_mcon',...
-%     'sf_tmcon','sp_tmcon','sd_tmcon','mf_tmcon','mp_tmcon',...
-%     'md_tmcon','lp_tmcon','ld_tmcon',...
+% save([fpath 'Means_Core_' harv '_' cfile '.mat'],'sf_mmort',...
+%     'sf_tmmort','sp_tmmort','sd_tmmort','mf_tmmort','mp_tmmort',...
+%     'md_tmmort','lp_tmmort','ld_tmmort',...
 %     'sf_tmrec','sp_tmrec','sd_tmrec','mf_tmrec','mp_tmrec',...
 %     'md_tmrec','lp_tmrec','ld_tmrec',...
 %     'mf_tmrep','lp_tmrep','ld_tmrep',...
-%     'sf_mcon','sp_mcon','sd_mcon','mf_mcon','mp_mcon',...
-%     'md_mcon','lp_mcon','ld_mcon',...
+%     'sf_mmort','sp_mmort','sd_mmort','mf_mmort','mp_mmort',...
+%     'md_mmort','lp_mmort','ld_mmort',...
 %     'sf_mrec','sp_mrec','sd_mrec','mf_mrec','mp_mrec',...
 %     'md_mrec','lp_mrec','ld_mrec',...
 %     'mf_mrep','lp_mrep','ld_mrep',...
@@ -217,24 +218,22 @@ ld_con=LD.con(:,lyr);
 %     'lp_rec','ld_rec','b_rec',...
 %     'mf_rep','lp_rep','ld_rep','-append');
 
-save([fpath 'Means',var,'_Climatol_' harv '_' cfile '.mat'],'sf_mcon',...
-    'sf_tmcon','sp_tmcon','sd_tmcon','mf_tmcon','mp_tmcon',...
-    'md_tmcon','lp_tmcon','ld_tmcon',...
+save([fpath 'Means',var,'_Core_' harv '_' cfile '.mat'],'sf_tmmort',...
+    'sf_tmmort','sp_tmmort','sd_tmmort','mf_tmmort','mp_tmmort',...
+    'md_tmmort','lp_tmmort','ld_tmmort',...
     'sf_tmrec','sp_tmrec','sd_tmrec','mf_tmrec','mp_tmrec',...
     'md_tmrec','lp_tmrec','ld_tmrec',...
     'mf_tmrep','lp_tmrep','ld_tmrep',...
-    'sf_mcon','sp_mcon','sd_mcon','mf_mcon','mp_mcon',...
-    'md_mcon','lp_mcon','ld_mcon',...
+    'sf_mmort','sp_mmort','sd_mmort','mf_mmort','mp_mmort',...
+    'md_mmort','lp_mmort','ld_mmort',...
     'sf_mrec','sp_mrec','sd_mrec','mf_mrec','mp_mrec',...
     'md_mrec','lp_mrec','ld_mrec',...
     'mf_mrep','lp_mrep','ld_mrep',...
     'time','lyr','sf_rec','sp_rec','sd_rec',...
     'mf_rec','mp_rec','md_rec',...
     'lp_rec','ld_rec',...
-    'mf_rep','lp_rep','ld_rep',...
-    'sf_con','sp_con','sd_con',...
-    'mf_con','mp_con','md_con',...
-    'lp_con','ld_con');
+    'mf_rep','lp_rep','ld_rep','sf_mort','sp_mort','sd_mort',...
+    'mf_mort','mp_mort','md_mort','lp_mort','ld_mort');
 
 
 

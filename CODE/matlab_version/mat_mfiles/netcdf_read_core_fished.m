@@ -4,7 +4,7 @@ clear all
 close all
 
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
-fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
+fpath=['/Volumes/MIP/NC/Matlab_new_size/' cfile '/'];
 
 %% SP
 ncid = netcdf.open([fpath 'Core_All_fish03_sml_p.nc'],'NC_NOWRITE');
@@ -64,8 +64,9 @@ netcdf.close(ncid);
 
 MP.bio = biomass;
 Med_p.bio = biomass(:,nt);
+MP.yield = yield;
 
-clear biomass 
+clear biomass yield
 
 % MF
 ncid = netcdf.open([fpath 'Core_All_fish03_med_f.nc'],'NC_NOWRITE');
@@ -79,8 +80,9 @@ netcdf.close(ncid);
 
 MF.bio = biomass;
 Med_f.bio = biomass(:,nt);
+MF.yield = yield;
 
-clear biomass
+clear biomassyield
 
 % MD
 ncid = netcdf.open([fpath 'Core_All_fish03_med_d.nc'],'NC_NOWRITE');
@@ -94,8 +96,9 @@ netcdf.close(ncid);
 
 MD.bio = biomass;
 Med_d.bio = biomass(:,nt);
+MD.yield = yield;
 
-clear biomass 
+clear biomass yield
 
 % LP
 ncid = netcdf.open([fpath 'Core_All_fish03_lrg_p.nc'],'NC_NOWRITE');
@@ -109,8 +112,9 @@ netcdf.close(ncid);
 
 LP.bio = biomass;
 Lrg_p.bio = biomass(:,nt);
+LP.yield = yield;
 
-clear biomass 
+clear biomass yield
 
 % LD
 ncid = netcdf.open([fpath 'Core_All_fish03_lrg_d.nc'],'NC_NOWRITE');
@@ -124,8 +128,9 @@ netcdf.close(ncid);
 
 LD.bio = biomass;
 Lrg_d.bio = biomass(:,nt);
+LD.yield = yield;
 
-clear biomass 
+clear biomass yield
 
 % Benthic material
 ncid = netcdf.open([fpath 'Core_All_fish03_bent.nc'],'NC_NOWRITE');
@@ -179,7 +184,7 @@ for n=1:length(st)
 %     ld_my(:,n)=nanmean(LD.yield(:,st(n):en(n)),2);
 end
 
-%% Whole time period
+%% Whole time period mean
 sp_mean58=mean(SP.bio,2);
 sf_mean58=mean(SF.bio,2);
 sd_mean58=mean(SD.bio,2);
@@ -190,11 +195,28 @@ lp_mean58=mean(LP.bio,2);
 ld_mean58=mean(LD.bio,2);
 b_mean58=mean(Bent.bio,2);
 
-% mf_my58=mean(MF.yield,2);
-% mp_my58=mean(MP.yield,2);
-% md_my58=mean(MD.yield,2);
-% lp_my58=mean(LP.yield,2);
-% ld_my58=mean(LD.yield,2);
+mf_my58=mean(MF.yield,2);
+mp_my58=mean(MP.yield,2);
+md_my58=mean(MD.yield,2);
+lp_my58=mean(LP.yield,2);
+ld_my58=mean(LD.yield,2);
+
+%% Whole time period each month
+sp_bio=SP.bio;
+sf_bio=SF.bio;
+sd_bio=SD.bio;
+mp_bio=MP.bio;
+mf_bio=MF.bio;
+md_bio=MD.bio;
+lp_bio=LP.bio;
+ld_bio=LD.bio;
+b_bio=Bent.bio;
+
+mf_yield=MF.yield;
+mp_yield=MP.yield;
+md_yield=MD.yield;
+lp_yield=LP.yield;
+ld_yield=LD.yield;
 
 %% Save means
 save([fpath 'Means_core_fished_' cfile '.mat'],'time',...
@@ -206,6 +228,13 @@ save([fpath 'Means_core_fished_' cfile '.mat'],'time',...
     'b_tmean','lp_tmean','ld_tmean',...
     'sf_mean58','sp_mean58','sd_mean58',...
     'mf_mean58','mp_mean58','md_mean58',...
-    'lp_mean58','ld_mean58','b_mean58');
+    'lp_mean58','ld_mean58','b_mean58',...
+    'mf_my58','mp_my58','md_my58',...
+    'lp_my58','ld_my58',...
+    'sf_bio','sp_bio','sd_bio',...
+    'mf_bio','mp_bio','md_bio',...
+    'b_bio','lp_bio','ld_bio',...
+    'mf_yield','mp_yield','md_yield',...
+    'lp_yield','ld_yield');
     
 
