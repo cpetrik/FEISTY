@@ -246,7 +246,7 @@ Pmet=[SP_met;MP_met;LP_met];
 Fmet=[SF_met;MF_met];
 Dmet=[SD_met;MD_met;LD_met];
 
-%% Predation
+%% Predation (per biomass) 
 SP_pred=squeeze(nanmean(SP(lyr,22,:)))';
 SF_pred=squeeze(nanmean(SF(lyr,22,:)))';
 SD_pred=squeeze(nanmean(SD(lyr,22,:)))';
@@ -260,15 +260,15 @@ Ppred=[SP_pred;MP_pred;LP_pred];
 Fpred=[SF_pred;MF_pred];
 Dpred=[SD_pred;MD_pred;LD_pred];
 
-%% Natural mortality
-Pnat(1,:)=squeeze(nanmean(SP(lyr,23,:)))';
-Fnat(1,:)=squeeze(nanmean(SF(lyr,23,:)))';
-Dnat(1,:)=squeeze(nanmean(SD(lyr,23,:)))';
-Pnat(2,:)=squeeze(nanmean(MP(lyr,23,:)))';
-Fnat(2,:)=squeeze(nanmean(MF(lyr,23,:)))';
-Dnat(2,:)=squeeze(nanmean(MD(lyr,23,:)))';
-Pnat(3,:)=squeeze(nanmean(LP(lyr,23,:)))';
-Dnat(3,:)=squeeze(nanmean(LD(lyr,23,:)))';
+%% Natural mortality (nmort*biom) - want per biom so divide
+Pnat(1,:)=squeeze(nanmean(SP(lyr,23,:)./SP(lyr,1,:)))';
+Fnat(1,:)=squeeze(nanmean(SF(lyr,23,:)./SF(lyr,1,:)))';
+Dnat(1,:)=squeeze(nanmean(SD(lyr,23,:)./SD(lyr,1,:)))';
+Pnat(2,:)=squeeze(nanmean(MP(lyr,23,:)./MP(lyr,1,:)))';
+Fnat(2,:)=squeeze(nanmean(MF(lyr,23,:)./MF(lyr,1,:)))';
+Dnat(2,:)=squeeze(nanmean(MD(lyr,23,:)./MD(lyr,1,:)))';
+Pnat(3,:)=squeeze(nanmean(LP(lyr,23,:)./LP(lyr,1,:)))';
+Dnat(3,:)=squeeze(nanmean(LD(lyr,23,:)./LD(lyr,1,:)))';
 
 %% Fishing
 MP_fish=squeeze(nanmean(MP(lyr,25,:)))';
@@ -306,10 +306,10 @@ Fmort = Fpred + Fnat;
 Pmort = Ppred + Pnat;
 Dmort = Dpred + Dnat;
 
-%% Total mortality w/ fishing
-Fmortf = Fpred + Fnat + Ffish;
-Pmortf = Ppred + Pnat + Pfish;
-Dmortf = Dpred + Dnat + Dfish;
+%% Total mortality w/ fishing (all rates per biomass)
+Fmortf = Fpred + Fnat + Frate;
+Pmortf = Ppred + Pnat + Prate;
+Dmortf = Dpred + Dnat + Drate;
 
 %% Gross growth efficiency (= nu/consump)
 SP_gge=squeeze(nanmean(SP(lyr,15,:)./SP(lyr,14,:)))';
@@ -356,43 +356,43 @@ for s=1:length(spots)
     
     %% TIME SERIES ----------------------------------------------------
     y=t/12;
-    figure(50)
-    clf
-    plot(y,log10(SF(:,1,s)),'Linewidth',1); hold on;
-    plot(y,log10(MF(:,1,s)),'Linewidth',1); hold on;
-    plot(y,log10(SP(:,1,s)),'Linewidth',1); hold on;
-    plot(y,log10(MP(:,1,s)),'Linewidth',1); hold on;
-    plot(y,log10(LP(:,1,s)),'Linewidth',1); hold on;
-    plot(y,log10(SD(:,1,s)),'Linewidth',1); hold on;
-    plot(y,log10(MD(:,1,s)),'Linewidth',1); hold on;
-    plot(y,log10(LD(:,1,s)),'Linewidth',1); hold on;
-    legend('SF','MF','SP','MP','LP','SD','MD','LD')
-    legend('location','eastoutside')
-    xlim([y(1) y(end)])
-    ylim([-5 2])
-    xlabel('Year')
-    ylabel('log10 Biomass (g m^-^2)')
-    title(['Clim ' loc])
-    stamp(cfile)
+%     figure(50)
+%     clf
+%     plot(y,log10(SF(:,1,s)),'Linewidth',1); hold on;
+%     plot(y,log10(MF(:,1,s)),'Linewidth',1); hold on;
+%     plot(y,log10(SP(:,1,s)),'Linewidth',1); hold on;
+%     plot(y,log10(MP(:,1,s)),'Linewidth',1); hold on;
+%     plot(y,log10(LP(:,1,s)),'Linewidth',1); hold on;
+%     plot(y,log10(SD(:,1,s)),'Linewidth',1); hold on;
+%     plot(y,log10(MD(:,1,s)),'Linewidth',1); hold on;
+%     plot(y,log10(LD(:,1,s)),'Linewidth',1); hold on;
+%     legend('SF','MF','SP','MP','LP','SD','MD','LD')
+%     legend('location','eastoutside')
+%     xlim([y(1) y(end)])
+%     ylim([-5 2])
+%     xlabel('Year')
+%     ylabel('log10 Biomass (g m^-^2)')
+%     title(['Clim ' loc])
+%     stamp(cfile)
     %print('-dpng',[fpath sname harv '_timeseries_logmean_biomass_' loc '.png'])
     
     F = SF(:,1,s)+MF(:,1,s);
     P = SP(:,1,s)+MP(:,1,s)+LP(:,1,s);
     D = SD(:,1,s)+MD(:,1,s)+LD(:,1,s);
     
-    figure(51)
-    clf
-    plot(y,log10(F),'r','Linewidth',2); hold on;
-    plot(y,log10(P),'b','Linewidth',2); hold on;
-    plot(y,log10(D),'k','Linewidth',2); hold on;
-    legend('F','P','D')
-    legend('location','eastoutside')
-    xlim([y(1) y(end)])
-    ylim([-5 2])
-    xlabel('Year')
-    ylabel('log10 Biomass (g m^-^2)')
-    title(['Clim ' loc])
-    stamp(cfile)
+%     figure(51)
+%     clf
+%     plot(y,log10(F),'r','Linewidth',2); hold on;
+%     plot(y,log10(P),'b','Linewidth',2); hold on;
+%     plot(y,log10(D),'k','Linewidth',2); hold on;
+%     legend('F','P','D')
+%     legend('location','eastoutside')
+%     xlim([y(1) y(end)])
+%     ylim([-5 2])
+%     xlabel('Year')
+%     ylabel('log10 Biomass (g m^-^2)')
+%     title(['Clim ' loc])
+%     stamp(cfile)
     %print('-dpng',[fpath sname harv '_timeseries_Logmean_biomass_types_' loc '.png'])
     
     %  TIME SERIES ----------------------------------------------------

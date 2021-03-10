@@ -1,6 +1,6 @@
 % Calc partial residence times
-% Residence time = biomass / 1 input
-% or             = biomass / 1 output
+% Residence time = 1 / 1 input
+% or             = 1 / 1 output
 % Total inputs: rec, nu
 % Total outputs: gamma, rep, nmort, die (pred), yield (fishing)
 
@@ -32,24 +32,24 @@ load([fpath 'Means_Climatol_' harv '_' cfile '.mat'],...
     'sf_bio','sp_bio','sd_bio');
 
 %% 
-sf_nu = max(0,sf_nu);
-sp_nu = max(0,sp_nu);
-sd_nu = max(0,sd_nu);
+sf_nu = max(eps,sf_nu);
+sp_nu = max(eps,sp_nu);
+sd_nu = max(eps,sd_nu);
 
 %ld_gamma + ld_rep + ld_mort + ld_die + ld_yield + max(0,ld_nu) + ld_rec;
 
 %% nu
-sf_rnu = sf_bio ./ sf_nu;
-sp_rnu = sp_bio ./ sp_nu;
-sd_rnu = sd_bio ./ sd_nu;
+sf_rnu = 1 ./ sf_nu;
+sp_rnu = 1 ./ sp_nu;
+sd_rnu = 1 ./ sd_nu;
 % rec
 sf_rrec = sf_bio ./ sf_rec;
 sp_rrec = sp_bio ./ sp_rec;
 sd_rrec = sd_bio ./ sd_rec;
 % gamma
-sf_rgam = sf_bio ./ sf_gamma;
-sp_rgam = sp_bio ./ sp_gamma;
-sd_rgam = sd_bio ./ sd_gamma;
+sf_rgam = 1 ./ sf_gamma;
+sp_rgam = 1 ./ sp_gamma;
+sd_rgam = 1 ./ sd_gamma;
 % mort
 sf_rmort = sf_bio ./ sf_mort;
 sp_rmort = sp_bio ./ sp_mort;
@@ -59,9 +59,9 @@ sf_rdie = sf_bio ./ sf_die;
 sp_rdie = sp_bio ./ sp_die;
 sd_rdie = sd_bio ./ sd_die;
 % con
-sf_rcon = sf_bio ./ sf_con;
-sp_rcon = sp_bio ./ sp_con;
-sd_rcon = sd_bio ./ sd_con;
+sf_rcon = 1 ./ sf_con;
+sp_rcon = 1 ./ sp_con;
+sd_rcon = 1 ./ sd_con;
 
 %% means
 sf_mrnu = nanmean(sf_rnu,2);
@@ -99,66 +99,67 @@ save([fpath 'Residence_time_means_Climatol_' harv '_' cfile '.mat'],...
     'sf_mrcon','sp_mrcon','sd_mrcon','-append')
 
 %% Histograms
-edges = -5:0.5:5;
+%edges = -5:0.5:5; for log10
+edges = [0:30:360 547 730 912 1095];
 figure(1)
 subplot(5,3,1)
-histogram(log10(sf_mrnu),edges)
+histogram((sf_mrnu),edges)
 title('SF nu')
 
 subplot(5,3,2)
-histogram(log10(sp_mrnu),edges)
+histogram((sp_mrnu),edges)
 title('SP nu')
 
 subplot(5,3,3)
-histogram(log10(sd_mrnu),edges)
+histogram((sd_mrnu),edges)
 title('SD nu')
 
 subplot(5,3,4)
-histogram(log10(sf_mrrec),edges)
+histogram((sf_mrrec),edges)
 title('SF rec')
 
 subplot(5,3,5)
-histogram(log10(sp_mrrec),edges)
+histogram((sp_mrrec),edges)
 title('SP rec')
 
 subplot(5,3,6)
-histogram(log10(sd_mrrec),edges)
+histogram((sd_mrrec),edges)
 title('SD rec')
 
 subplot(5,3,7)
-histogram(log10(sf_mrgam),edges)
+histogram((sf_mrgam),edges)
 title('SF gam')
 
 subplot(5,3,8)
-histogram(log10(sp_mrgam),edges)
+histogram((sp_mrgam),edges)
 title('SP gam')
 
 subplot(5,3,9)
-histogram(log10(sd_mrgam),edges)
+histogram((sd_mrgam),edges)
 title('SD gam')
 
 subplot(5,3,10)
-histogram(log10(sf_mrmort),edges)
+histogram((sf_mrmort),edges)
 title('SF mort')
 
 subplot(5,3,11)
-histogram(log10(sp_mrmort),edges)
+histogram((sp_mrmort),edges)
 title('SP mort')
 
 subplot(5,3,12)
-histogram(log10(sd_mrmort),edges)
+histogram((sd_mrmort),edges)
 title('SD mort')
 
 subplot(5,3,13)
-histogram(log10(sf_mrdie),edges)
+histogram((sf_mrdie),edges)
 title('SF die')
 
 subplot(5,3,14)
-histogram(log10(sp_mrdie),edges)
+histogram((sp_mrdie),edges)
 title('SP die')
 
 subplot(5,3,15)
-histogram(log10(sd_mrdie),edges)
+histogram((sd_mrdie),edges)
 title('SD die')
 
 
