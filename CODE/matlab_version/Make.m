@@ -8,7 +8,7 @@ testoneloc = false;
 testlocs = false;
 histlocs = false;
 forelocs = false;
-climlocs = false;
+climlocs = true;
 oneloc_fore_pristine = false;
 spinup_pristine = false;
 climatol_loop = false;
@@ -20,7 +20,7 @@ climatol_con = false;
 climatol_ngdc = false;
 pre_industrial = false;
 historic_pristine = false;
-historic_fished = true;
+historic_fished = false;
 historic_fished_ens = false;
 forecast_pristine = false;
 forecast_fished = false;
@@ -40,7 +40,8 @@ if histlocs
     Locs_hist()
 end
 if climlocs
-    Locs_clim()
+    %Locs_clim()
+    Locs_clim_half_sat_search()
 end
 if spinup_pristine
     %Spinup_pristine()
