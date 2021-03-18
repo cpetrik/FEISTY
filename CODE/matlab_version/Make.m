@@ -8,7 +8,7 @@ testoneloc = false;
 testlocs = false;
 histlocs = false;
 forelocs = false;
-climlocs = true;
+climlocs = false;
 oneloc_fore_pristine = false;
 spinup_pristine = false;
 climatol_loop = false;
@@ -18,7 +18,7 @@ climatol = false;
 climatol_crr = false;
 climatol_con = false;
 climatol_ngdc = false;
-pre_industrial = false;
+pre_industrial = true;
 historic_pristine = false;
 historic_fished = false;
 historic_fished_ens = false;
@@ -72,7 +72,8 @@ if climatol_ngdc
     %Climatol_death_vars()
 end
 if pre_industrial
-    Pre_industrial()
+    %Pre_industrial()
+    Pre_industrial_long()
 end
 if historic_pristine
     Historic_pristine()
