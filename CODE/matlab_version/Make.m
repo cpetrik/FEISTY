@@ -5,7 +5,7 @@ close all
 
 %%%%!! EXPERIMENTS
 testoneloc = false;
-testlocs = false;
+testlocs = true;
 histlocs = false;
 forelocs = false;
 climlocs = false;
@@ -18,7 +18,7 @@ climatol = false;
 climatol_crr = false;
 climatol_con = false;
 climatol_ngdc = false;
-pre_industrial = true;
+pre_industrial = false;
 historic_pristine = false;
 historic_fished = false;
 historic_fished_ens = false;
@@ -73,7 +73,11 @@ if climatol_ngdc
 end
 if pre_industrial
     %Pre_industrial()
-    Pre_industrial_long()
+    %Pre_industrial_long()
+    Pre_industrial_long_nu()
+    Pre_industrial_long_gamma()
+    Pre_industrial_long_pred()
+    Pre_industrial_long_rep()
 end
 if historic_pristine
     Historic_pristine()

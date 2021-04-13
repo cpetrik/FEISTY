@@ -43,7 +43,7 @@ load([fpath 'Means_Climatol_' harv '_' cfile '.mat'],...
     'mf_bio','mp_bio','md_bio','lp_bio','ld_bio');
 
 %% add gains and losses
-% nu is g/g/m2/d; rec is g/m2/d
+% +nu is g/g/m2/d; rec is g/m2/d
 sf_in = max(0,sf_nu) + sf_rec./sf_bio;
 sp_in = max(0,sp_nu) + sp_rec./sp_bio;
 sd_in = max(0,sd_nu) + sd_rec./sd_bio;
@@ -53,15 +53,24 @@ mf_in = max(0,mf_nu) + mf_rec./md_bio;
 lp_in = max(0,lp_nu) + lp_rec./lp_bio;
 ld_in = max(0,ld_nu) + ld_rec./ld_bio;
 
-% gamma, rep, nmort, pred, fmort are g/g/m2/d; mort, die, yield are g/m2/d
-sf_out = sf_gamma + sf_mort./sf_bio + sf_die./sf_bio;
-sp_out = sp_gamma + sp_mort./sp_bio + sp_die./sp_bio;
-sd_out = sd_gamma + sd_mort./sd_bio + sd_die./sd_bio;
-mp_out = mp_gamma + mp_mort./mp_bio + mp_die./mp_bio + mp_yield./mp_bio;
-md_out = md_gamma + md_mort./md_bio + md_die./md_bio + md_yield./md_bio;
-mf_out = mf_gamma + mf_rep + mf_mort./mf_bio + mf_die./mf_bio + mf_yield./mf_bio;
-lp_out = lp_gamma + lp_rep + lp_mort./lp_bio + lp_die./lp_bio + lp_yield./lp_bio;
-ld_out = ld_gamma + ld_rep + ld_mort./ld_bio + ld_die./ld_bio + ld_yield./ld_bio;
+% (-nu,) gamma, rep, nmort, pred, fmort are g/g/m2/d; mort, die, yield are g/m2/d
+% sf_out = sf_gamma + sf_mort./sf_bio + sf_die./sf_bio;
+% sp_out = sp_gamma + sp_mort./sp_bio + sp_die./sp_bio;
+% sd_out = sd_gamma + sd_mort./sd_bio + sd_die./sd_bio;
+% mp_out = mp_gamma + mp_mort./mp_bio + mp_die./mp_bio + mp_yield./mp_bio;
+% md_out = md_gamma + md_mort./md_bio + md_die./md_bio + md_yield./md_bio;
+% mf_out = mf_gamma + mf_rep + mf_mort./mf_bio + mf_die./mf_bio + mf_yield./mf_bio;
+% lp_out = lp_gamma + lp_rep + lp_mort./lp_bio + lp_die./lp_bio + lp_yield./lp_bio;
+% ld_out = ld_gamma + ld_rep + ld_mort./ld_bio + ld_die./ld_bio + ld_yield./ld_bio;
+
+sf_out = abs(min(0,sf_nu)) + sf_gamma + (0.1/365) + sf_die./sf_bio;
+sp_out = abs(min(0,sp_nu)) + sp_gamma + (0.1/365) + sp_die./sp_bio;
+sd_out = abs(min(0,sd_nu)) + sd_gamma + (0.1/365) + sd_die./sd_bio;
+mp_out = abs(min(0,mf_nu)) + mp_gamma + (0.1/365) + mp_die./mp_bio + (0.1*0.3/365);
+md_out = abs(min(0,mp_nu)) + md_gamma + (0.1/365) + md_die./md_bio + (0.1*0.3/365);
+mf_out = abs(min(0,md_nu)) + mf_gamma + mf_rep + (0.1/365) + mf_die./mf_bio + (0.3/365);
+lp_out = abs(min(0,lp_nu)) + lp_gamma + lp_rep + (0.1/365) + lp_die./lp_bio + (0.3/365);
+ld_out = abs(min(0,ld_nu)) + ld_gamma + ld_rep + (0.1/365) + ld_die./ld_bio + (0.3/365);
 
 %% v1
 sf_res1 = 1 ./ sf_in;
