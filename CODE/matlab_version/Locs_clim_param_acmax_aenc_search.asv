@@ -12,7 +12,7 @@ global MFsel MPsel MDsel LPsel LDsel Jsel efn cfn mfn
 global tstep K frate kc ke
 
 %! Setup Climatol (loop 5-year climatology of ESM2.6-COBALT)
-load('/Volumes/MIP/POEM_JLD/esm26_hist/ESM26_1deg_5yr_clim_191_195_daily.mat','COBALT');
+load('/Volumes/FEISTY/POEM_JLD/esm26_hist/ESM26_1deg_5yr_clim_191_195_daily.mat','COBALT');
 
 %! How long to run the model
 YEARS = 150;
@@ -20,12 +20,12 @@ DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! choose where and when to run the model
-load('/Volumes/MIP/POEM_JLD/esm26_hist/ESM26_1deg_5yr_clim_191_195_grid.mat','GRD');
+load('/Volumes/FEISTY/POEM_JLD/esm26_hist/ESM26_1deg_5yr_clim_191_195_grid.mat','GRD');
 load('/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/clim_grid_180x360_id_locs_area_dep.mat','ids','abbrev');
 names = abbrev;
 ID = ids;
 NX = length(ID);
-
+        
 %%%%%%%%%%%%%%% Initialize Model Variables
 %! Set fishing rate
 frate = 0.3; %Fish(F);
@@ -44,11 +44,9 @@ aep = 5:5:60;
 acp = 5:1:19;
 
 for k=1:length(acp)
-    for j=1:length(aep)
+    for j=1:length(aep)   
         h = acp(k);         % coeff on Cmax
         gam = aep(j);       % coeff on search area
-        
-        [num2str(k),' , ', num2str(j)]
         
         %! Create a directory for output
         fname = sub_fname_acmax_aenc_search();
@@ -68,20 +66,20 @@ for k=1:length(acp)
         Spinup_Lrg_d = NaN*ones(DAYS,26,NX);
         Spinup_Cobalt = NaN*ones(DAYS,5,NX);
         
-        S_Sml_f = NaN*ones(12,26,NX);
-        S_Sml_p = NaN*ones(12,26,NX);
-        S_Sml_d = NaN*ones(12,26,NX);
-        S_Med_f = NaN*ones(12,26,NX);
-        S_Med_p = NaN*ones(12,26,NX);
-        S_Med_d = NaN*ones(12,26,NX);
-        S_Lrg_p = NaN*ones(12,26,NX);
-        S_Lrg_d = NaN*ones(12,26,NX);
-        S_Cobalt = NaN*ones(12,5,NX);
+        S_Sml_f = NaN*ones(12*YEARS,26,NX);
+        S_Sml_p = NaN*ones(12*YEARS,26,NX);
+        S_Sml_d = NaN*ones(12*YEARS,26,NX);
+        S_Med_f = NaN*ones(12*YEARS,26,NX);
+        S_Med_p = NaN*ones(12*YEARS,26,NX);
+        S_Med_d = NaN*ones(12*YEARS,26,NX);
+        S_Lrg_p = NaN*ones(12*YEARS,26,NX);
+        S_Lrg_d = NaN*ones(12*YEARS,26,NX);
+        S_Cobalt = NaN*ones(12*YEARS,5,NX);
         
         %! Iterate forward in time with NO fishing
         MNT=0;
         for YR = 1:YEARS % years
-            %num2str(YR)
+            num2str(YR)
             for DAY = 1:DT:DAYS % days
                 
                 %%%! ticker
@@ -107,7 +105,7 @@ for k=1:length(acp)
                     Spinup_Lrg_p(DY,:,:) = [Lrg_p.bio Lrg_p.enc_f Lrg_p.enc_p Lrg_p.enc_d Lrg_p.enc_zm Lrg_p.enc_zl Lrg_p.enc_be Lrg_p.con_f Lrg_p.con_p Lrg_p.con_d Lrg_p.con_zm Lrg_p.con_zl Lrg_p.con_be Lrg_p.I Lrg_p.nu Lrg_p.gamma Lrg_p.die Lrg_p.rep Lrg_p.rec Lrg_p.clev Lrg_p.prod Lrg_p.pred Lrg_p.nmort Lrg_p.met Lrg_p.caught Lrg_p.fmort]';
                     Spinup_Lrg_d(DY,:,:) = [Lrg_d.bio Lrg_d.enc_f Lrg_d.enc_p Lrg_d.enc_d Lrg_d.enc_zm Lrg_d.enc_zl Lrg_d.enc_be Lrg_d.con_f Lrg_d.con_p Lrg_d.con_d Lrg_d.con_zm Lrg_d.con_zl Lrg_d.con_be Lrg_d.I Lrg_d.nu Lrg_d.gamma Lrg_d.die Lrg_d.rep Lrg_d.rec Lrg_d.clev Lrg_d.prod Lrg_d.pred Lrg_d.nmort Lrg_d.met Lrg_d.caught Lrg_d.fmort]';
                     Spinup_Cobalt(DY,:,:) = [BENT.mass BENT.pred ENVR.fZm ENVR.fZl ENVR.fB]';
-                    %Spinup_Cobalt(DY,:,:) = [BENT.sm BENT.md ENVR.fZm ENVR.fZl ENVR.fB]';
+                %Spinup_Cobalt(DY,:,:) = [BENT.sm BENT.md ENVR.fZm ENVR.fZl ENVR.fB]';
                 end
                 
             end %Days
@@ -129,17 +127,17 @@ for k=1:length(acp)
                     S_Lrg_p(MNT,:,:) = mean(Spinup_Lrg_p(a(i):b(i),:,:),1);
                     S_Lrg_d(MNT,:,:) = mean(Spinup_Lrg_d(a(i):b(i),:,:),1);
                 end
-                
-                %%% Save
-                save([fname '_locs.mat'],...
-                    'S_Sml_f','S_Sml_p','S_Sml_d','S_Med_f','S_Med_p','S_Med_d',...
-                    'S_Lrg_p','S_Lrg_d','S_Cobalt')
             end
             
         end %Years
         
-    end %enc
-end     %cmax
+        %%% Save
+        save([fname '_locs.mat'],...
+            'S_Sml_f','S_Sml_p','S_Sml_d','S_Med_f','S_Med_p','S_Med_d',...
+            'S_Lrg_p','S_Lrg_d','S_Cobalt')
+        
+    end
+end
 
 end
 

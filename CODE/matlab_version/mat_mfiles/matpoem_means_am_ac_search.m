@@ -49,17 +49,17 @@ gLP = SF;
 gLD = SF;
 
 %%
-for k=1:length(acp)
-    for j=1:length(aep)   
+for k=1%:length(acp)
+    for j=1%:length(aep)   
         h = acp(k);         % coeff on Cmax
         gam = aep(j);       % coeff on search area
 
     
-%     sfile = ['/Volumes/GFDL/NC/Matlab_new_size/',cfile,...
-%         '/param_sens/Climatol_All_fish03_enc',num2str(gam),'_c',num2str(h),'_locs.mat'];
-    sfile = ['/Volumes/GFDL/NC/Matlab_new_size/',cfile,...
-        '/param_sens/Climatol_All_fish03_enc-a',num2str(gam),'_c-a',num2str(h),'_locs.mat'];
-    %Climatol_All_fish03_enc-a100_c-a100_locs
+    sfile = ['/Volumes/FEISTY/NC/Matlab_new_size/',cfile,...
+        '/param_sens/Climatol_All_fish03_enc',num2str(gam),'_c',num2str(h),'_locs.mat'];
+%     sfile = ['/Volumes/FEISTY/NC/Matlab_new_size/',cfile,...
+%         '/param_sens/Climatol_All_fish03_enc-a',num2str(gam),'_c-a',num2str(h),'_locs.mat'];
+     %Climatol_All_fish03_enc-a100_c-a100_locs
     load(sfile);
     
     % Last year
@@ -105,11 +105,11 @@ for k=1:length(acp)
     ld_gge=squeeze(mean(S_Lrg_d(lyr,15,:)./S_Lrg_d(lyr,14,:),1));
     
     %
-    save(sfile,...
-        'sf_mean','sp_mean','sd_mean','mf_mean','mp_mean','md_mean','b_mean',...
-        'lp_mean','ld_mean','time','lyr',...
-        'mf_my','mp_my','md_my','lp_my','ld_my',...
-        '-append');
+%     save(sfile,...
+%         'sf_mean','sp_mean','sd_mean','mf_mean','mp_mean','md_mean','b_mean',...
+%         'lp_mean','ld_mean','time','lyr',...
+%         'mf_my','mp_my','md_my','lp_my','ld_my',...
+%         '-append');
     
     SF(j,k,:) = sf_mean;
     SP(j,k,:) = sp_mean;
@@ -150,7 +150,7 @@ end
 
 %%
 nfile = ['/Volumes/GFDL/NC/Matlab_new_size/',cfile,'/param_sens/'];
-save([nfile 'Locs_Climatol_All_fish03_means_aenc_acmax_search.mat'])
+%save([nfile 'Locs_Climatol_All_fish03_means_aenc_acmax_search.mat'])
 
 
 

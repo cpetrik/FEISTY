@@ -9,8 +9,8 @@ cmaxs = 10:10:50;
 frate = 0.3; %Fish(F);
 
 %%
-for c=4:length(cmaxs)
-    for e=1:length(encs)
+for c=1%:length(cmaxs)
+    for e=1%:length(encs)
             gam = encs(e);
             h = cmaxs(c);
             tcfn = num2str(h);
@@ -18,8 +18,8 @@ for c=4:length(cmaxs)
             
             cfile = ['Dc_enc',tefn,'-b200_cm',tcfn,'_m-b175-k09_fcrit20',...
                 '_c-b250_D075_J100_A050_Sm025_nmort1_BE05_noCC_RE00100'];
-            fpath=['/Volumes/GFDL/CSV/Matlab_new_size/' cfile '/'];
-            sfile = ['/Volumes/GFDL/CSV/Matlab_new_size/',cfile,...
+            fpath=['/Volumes/FEISTY/NC/Matlab_new_size/' cfile '/'];
+            sfile = ['/Volumes/FEISTY/NC/Matlab_new_size/',cfile,...
                 '/Clim_means_All_fish03.mat'];
             load(sfile);
             harv = 'All_fish03';
@@ -45,11 +45,11 @@ for c=4:length(cmaxs)
             ld_my=mean(Spinup_Lrg_d.yield(:,lyr),2);
             
             %
-            save(sfile,...
-                'sf_mean','sp_mean','sd_mean','mf_mean','mp_mean','md_mean','b_mean',...
-                'lp_mean','ld_mean','time','lyr',...
-                'mf_my','mp_my','md_my','lp_my','ld_my',...
-                '-append');
+%             save(sfile,...
+%                 'sf_mean','sp_mean','sd_mean','mf_mean','mp_mean','md_mean','b_mean',...
+%                 'lp_mean','ld_mean','time','lyr',...
+%                 'mf_my','mp_my','md_my','lp_my','ld_my',...
+%                 '-append');
             
     end
 end
