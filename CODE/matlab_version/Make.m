@@ -31,7 +31,7 @@ if testoneloc
     Testoneloc()
 end
 if testlocs
-    Locs_clim_param_acmax_aenc_search()
+    Locs_clim_param_mzpref_search()
 end
 if forelocs
     Locs_fore()

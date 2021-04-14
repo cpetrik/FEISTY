@@ -6,7 +6,7 @@ close all
 
 %warning off 
 
-datap = '/Volumes/MIP/NC/Matlab_new_size/';
+datap = '/Volumes/MIP/NC/Matlab_new_size/param_ensemble/';
 figp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
 
 load('/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/clim_grid_180x360_id_locs_area_dep.mat','ids','abbrev');
@@ -18,16 +18,16 @@ cols = {'bio','enc_f','enc_p','enc_d','enc_zm','enc_zl','enc_be','con_f',...
 cols=cols';
 spots=spots';
 
-dp = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
-sname = 'Climatol_ksat125_';
-harv = 'All_fish03';
+dp = 'Dc_enc-b200_m4-b175-k086_c-b250_D075_J100_A050_Sm025_nmort1_BE075_noCC_RE00100';
+sname = 'Climatol_All_fish030_enc60_cmax19';
+harv = 'All_fish030';
 dpath = [datap char(dp) '/'];
-fpath = [figp char(dp) '/Climatol/half_sat_exper/'];
-if (~isfolder([figp char(dp)]))
-    mkdir([figp char(dp)])
+fpath = [figp 'param_ensemble/' char(dp) '/'];
+if (~isfolder(figp))
+    mkdir(figp)
 end
 cfile = char(dp);
-load([dpath sname harv '_locs.mat'])
+load([dpath sname '_locs.mat'])
 
 %%
 load('cmap_ppt_angles.mat')
@@ -340,13 +340,13 @@ Fgam=[SF_gam;MF_gam];
 Dgam=[SD_gam;MD_gam;LD_gam];
 
 %%
-save([dpath sname 'locs_' harv '_lastyr_sum_mean_biom.mat'],'Pmean','Fmean','Dmean','all_mean',...
-    'Pmgr','Fmgr','Dmgr','Pcon','Fcon','Dcon','z','Pprod','Fprod','Dprod',...
-    'Prep','Frep','Drep','Pmet','Fmet','Dmet','Ppred','Fpred','Dpred',...
-    'Pnat','Fnat','Dnat','Pfish','Ffish','Dfish','Ptotcatch','Ftotcatch',...
-    'Dtotcatch','Pgge','Fgge','Dgge','Plev','Flev','Dlev','Bmean',...
-    'conF','conP','conD','conZm','conZl','conB','Pfrate','Ffrate','Dfrate',...
-    'Prec','Frec','Drec','Pgam','Fgam','Dgam');
+% save([dpath sname 'locs_lastyr_sum_mean_biom.mat'],'Pmean','Fmean','Dmean','all_mean',...
+%     'Pmgr','Fmgr','Dmgr','Pcon','Fcon','Dcon','z','Pprod','Fprod','Dprod',...
+%     'Prep','Frep','Drep','Pmet','Fmet','Dmet','Ppred','Fpred','Dpred',...
+%     'Pnat','Fnat','Dnat','Pfish','Ffish','Dfish','Ptotcatch','Ftotcatch',...
+%     'Dtotcatch','Pgge','Fgge','Dgge','Plev','Flev','Dlev','Bmean',...
+%     'conF','conP','conD','conZm','conZl','conB','Pfrate','Ffrate','Dfrate',...
+%     'Prec','Frec','Drec','Pgam','Fgam','Dgam');
 
 mlev = [Flev;Plev;Dlev];
 %%
@@ -932,18 +932,18 @@ for s=1:length(spots)
     end
     
 end
-print(f21,'-dpng',[fpath sname harv '_All_oneloc_Logmean_biomass_axes.png'])
-print(f2,'-dpng',[fpath sname harv '_All_oneloc_con_level.png'])
-%print(f3,'-dpng',[fpath sname harv '_All_oneloc_nu.png'])
-print(f5,'-dpng',[fpath sname harv '_All_oneloc_frac_zoop_loss.png'])
-%print(f8,'-dpng',[fpath sname harv '_All_oneloc_prod.png'])
-%print(f9,'-dpng',[fpath sname harv '_All_oneloc_rep.png'])
-%print(f10,'-dpng',[fpath sname harv '_All_oneloc_met.png'])
-%print(f11,'-dpng',[fpath sname harv '_All_oneloc_pred.png'])
-%print(f12,'-dpng',[fpath sname harv '_All_oneloc_catch.png'])
-%print(f13,'-dpng',[fpath sname harv '_All_oneloc_mort_nof.png'])
-%print(f14,'-dpng',[fpath sname harv '_All_oneloc_mort_f.png'])
-print(f15,'-dpng',[fpath sname harv '_All_oneloc_gge.png'])
+print(f21,'-dpng',[fpath sname '_All_oneloc_Logmean_biomass_axes.png'])
+print(f2,'-dpng',[fpath sname '_All_oneloc_con_level.png'])
+%print(f3,'-dpng',[fpath sname '_All_oneloc_nu.png'])
+print(f5,'-dpng',[fpath sname '_All_oneloc_frac_zoop_loss.png'])
+%print(f8,'-dpng',[fpath sname '_All_oneloc_prod.png'])
+%print(f9,'-dpng',[fpath sname '_All_oneloc_rep.png'])
+%print(f10,'-dpng',[fpath sname '_All_oneloc_met.png'])
+%print(f11,'-dpng',[fpath sname '_All_oneloc_pred.png'])
+%print(f12,'-dpng',[fpath sname '_All_oneloc_catch.png'])
+%print(f13,'-dpng',[fpath sname '_All_oneloc_mort_nof.png'])
+%print(f14,'-dpng',[fpath sname '_All_oneloc_mort_f.png'])
+print(f15,'-dpng',[fpath sname '_All_oneloc_gge.png'])
 
 %% Sum mean biom over stages
 fishsp = squeeze(nansum(all_mean));
@@ -964,7 +964,7 @@ end
 ylabel('log10 Mean Biom (g m^-^2) in final year')
 title('All stages')
 stamp(cfile)
-print('-dpng',[fpath sname harv '_All_oneloc_tot_mean_biomass_type.png'])
+print('-dpng',[fpath sname '_All_oneloc_tot_mean_biomass_type.png'])
 
 sumspec = squeeze(nansum(nansum(all_mean)));
 
@@ -979,7 +979,7 @@ end
 ylabel('log10 Mean Biom (g m^-^2) in final year')
 title('All fishes and stages')
 stamp(cfile)
-print('-dpng',[fpath sname harv '_All_oneloc_tot_mean_biomass_spec.png'])
+print('-dpng',[fpath sname '_All_oneloc_tot_mean_biomass_spec.png'])
 
 %% Fishing rate
 % figure(54);
@@ -998,7 +998,7 @@ print('-dpng',[fpath sname harv '_All_oneloc_tot_mean_biomass_spec.png'])
 % ylabel('Mean fishing rate (yr^-^1) in final year')
 % title('Adult stages')
 % stamp(cfile)
-% print('-dpng',[fpath sname harv '_All_oneloc_mean_frate_type.png'])
+% print('-dpng',[fpath sname '_All_oneloc_mean_frate_type.png'])
 % 
 % 
 %% Consump g/g/d --> g/d --> g/y
@@ -1049,7 +1049,7 @@ print('-dpng',[fpath sname harv '_All_oneloc_tot_mean_biomass_spec.png'])
 % xlabel('Location')
 % stamp(cfile)
 % 
-% print(f18,'-dpng',[fpath sname harv '_All_oneloc_consump_gyr.png'])
+% print(f18,'-dpng',[fpath sname '_All_oneloc_consump_gyr.png'])
 
 %% Consump vs. weight
 % warning off
@@ -1098,6 +1098,6 @@ print('-dpng',[fpath sname harv '_All_oneloc_tot_mean_biomass_spec.png'])
 % subplot(2,2,4)
 % legend('location','eastoutside')
 % legend('orientation','vertical')
-%print(f19,'-dpng',[fpath sname harv '_All_oneloc_consump_gyr_vs_weight_compare.png'])
+%print(f19,'-dpng',[fpath sname '_All_oneloc_consump_gyr_vs_weight_compare.png'])
 
 
