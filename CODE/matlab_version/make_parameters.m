@@ -106,6 +106,7 @@ function make_parameters()
     %large piscivore eats medium forage fish, medium piscivore, medium detritivore
     %large detritivore eats detritus, medium forage fish, medium piscivore, medium detrivore
     
+    MZpref = 1; %
     Sm = 0.25;  %Feeding 2 sizes down; 0.25
     J = 1.0;    %Juvenile feeding reduction
     D = 0.75;   %Demersal feeding in pelagic reduction
