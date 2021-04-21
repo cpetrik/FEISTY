@@ -127,118 +127,13 @@ netcdf.close(ncid);
 Bent.bio = biomass;
 clear biomass
 
-%% Take means for my own visualization
-
-%Time
-sp_tmean=mean(SP.bio,1);
-sf_tmean=mean(SF.bio,1);
-sd_tmean=mean(SD.bio,1);
-mp_tmean=mean(MP.bio,1);
-mf_tmean=mean(MF.bio,1);
-md_tmean=mean(MD.bio,1);
-lp_tmean=mean(LP.bio,1);
-ld_tmean=mean(LD.bio,1);
-b_tmean=mean(Bent.bio,1);
-
-%% Space
+%% 
 t=time;
 mo=t/12;
 mo=mo+1950;
 
-yr1=find(mo>1890 & mo<=1900); 
-yr2=find(mo>2000 & mo<=2010); 
-yr3=find(mo>2090 & mo<=2100); 
-
-%%
-sp_mean1=mean(SP.bio(:,yr1),2);
-sf_mean1=mean(SF.bio(:,yr1),2);
-sd_mean1=mean(SD.bio(:,yr1),2);
-mp_mean1=mean(MP.bio(:,yr1),2);
-mf_mean1=mean(MF.bio(:,yr1),2);
-md_mean1=mean(MD.bio(:,yr1),2);
-lp_mean1=mean(LP.bio(:,yr1),2);
-ld_mean1=mean(LD.bio(:,yr1),2);
-b_mean1 =mean(Bent.bio(:,yr1),2);
-
-sp_mean2=mean(SP.bio(:,yr2),2);
-sf_mean2=mean(SF.bio(:,yr2),2);
-sd_mean2=mean(SD.bio(:,yr2),2);
-mp_mean2=mean(MP.bio(:,yr2),2);
-mf_mean2=mean(MF.bio(:,yr2),2);
-md_mean2=mean(MD.bio(:,yr2),2);
-lp_mean2=mean(LP.bio(:,yr2),2);
-ld_mean2=mean(LD.bio(:,yr2),2);
-b_mean2 =mean(Bent.bio(:,yr2),2);
-
-sp_mean3=mean(SP.bio(:,yr3),2);
-sf_mean3=mean(SF.bio(:,yr3),2);
-sd_mean3=mean(SD.bio(:,yr3),2);
-mp_mean3=mean(MP.bio(:,yr3),2);
-mf_mean3=mean(MF.bio(:,yr3),2);
-md_mean3=mean(MD.bio(:,yr3),2);
-lp_mean3=mean(LP.bio(:,yr3),2);
-ld_mean3=mean(LD.bio(:,yr3),2);
-b_mean3 =mean(Bent.bio(:,yr3),2);
-
-save([fpath 'Means_PreIndust_empHP_' cfile '.mat'],'time','mo',...
-    'yr1','yr2','yr3',...
-    'sf_tmean','sp_tmean','sd_tmean',...
-    'mf_tmean','mp_tmean','md_tmean',...
-    'lp_tmean','ld_tmean','b_tmean',...
-    'sf_mean1','sp_mean1','sd_mean1',...
-    'mf_mean1','mp_mean1','md_mean1',...
-    'lp_mean1','ld_mean1','b_mean1',...
-    'sf_mean2','sp_mean2','sd_mean2',...
-    'mf_mean2','mp_mean2','md_mean2',...
-    'lp_mean2','ld_mean2','b_mean2',...
-    'sf_mean3','sp_mean3','sd_mean3',...
-    'mf_mean3','mp_mean3','md_mean3',...
-    'lp_mean3','ld_mean3','b_mean3')
-
-figure
-plot(mo,log10(lp_tmean),'b'); hold on;
-plot(mo,log10(mf_tmean),'r'); hold on;
-plot(mo,log10(ld_tmean),'k'); hold on;
-
 %% Fish-MIP OUTPUTS =================================================
-
-% % PREFERRED (all units = gWW/m2)
-% 
-% %total pelagic biomass tpb = 360x180xMOs
-% allF = SF.bio + MF.bio;
-% allP = SP.bio + MP.bio + LP.bio;
-% allPel = allF + allP;
-% 
-% %total demersal biomass tdb = 360x180xMOs
-% allD = SD.bio + MD.bio + LD.bio;
-% 
-% %total consumber biomass tcb = 360x180xMOs
-% allC = allF + allP + allD + Bent.bio;
-% 
-% % SECONDARY
-% 
-% %total pelagic (Linf <30cm) biomass bp30cm = 360x180xMOs
-% SPel = allF;
-% 
-% %total pelagic (>=30 cm and <90cm) biomass bp30to90cm = 360x180xMOs
-% %none
-% 
-% %total pelagic (>=90cm) biomass bp90cm = 360x180xMOs
-% LPel = allP;
-% 
-% %total demersal (Linf <30cm) biomass bd30cm = 360x180xMOs
-% %none
-% 
-% %total demersal (>=30 cm and <90cm) biomass bd30to90cm = 360x180xMOs
-% %none
-% 
-% %total demersal (>=90cm) biomass bd90cm = 360x180xMOs
-% %LDem = allD;
-% 
-% save([fpath 'PreIndust_empHP_fishMIP_outputs_monthly_' cfile '.mat'],'time','mo',...
-%     'allPel','allD','allC','SPel','LPel');
-
-%% total consumber biomass in log10 bins tcblog10 = 360x180xMOsx6
+% total consumber biomass in log10 bins tcblog10 = 360x180xMOsx6
 %(1g, 10g, 100g, 1kg, 10kg, 100kg)
 %Small <1g      (0.001-0.5g; 0.02g mean)    (0.46-3.68cm; mean 1.3cm)
 %Med 1-100g     (0.5-250g; 11.2g mean)      (3.68-29.24cm; mean 10.4cm)
@@ -249,7 +144,6 @@ allLpel = LP.bio;
 allSdem = SD.bio;
 allMdem = MD.bio;
 allLdem = LD.bio;
-
 
 save([fpath 'PreIndust_empHP_sizespec_outputs_monthly_' cfile '.mat'],'time','mo',...
     'allSpel','allMpel','allLpel','allSdem','allMdem','allLdem');

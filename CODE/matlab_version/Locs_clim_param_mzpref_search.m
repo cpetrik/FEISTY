@@ -40,7 +40,7 @@ mfn=nan;
 %! Make core parameters/constants (global)
 make_parameters()
 
-mzp = 0.1:0.1:0.9;
+mzp = 0.15:0.1:0.95;
 
 for k=1:length(mzp)
     num2str(k)
