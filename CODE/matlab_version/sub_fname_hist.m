@@ -65,19 +65,19 @@ else
     simname = [coup,'_efn',num2str(efn),'_mfn',num2str(mfn),'_cfn',num2str(cfn),'_D',td(2:end),'_J',tj(2:end),'_A',ta(2:end),'_Sm',tsm(2:end),'_nmort',tmort,'_BE',tbe(2:end),'_noCC_RE',tre(2:end)];
 end
 
-if (~isdir(['/Volumes/FEISTY/NC/Matlab_new_size/',simname]))
-    mkdir(['/Volumes/FEISTY/NC/Matlab_new_size/',simname])
+if (~isfolder(['/Volumes/MIP/NC/Matlab_new_size/',simname '/Historic_ESM2M']))
+    mkdir(['/Volumes/MIP/NC/Matlab_new_size/',simname '/Historic_ESM2M'])
 end
 
 %! Setup netcdf path to store to
 if (frate==0)
-    fname = ['/Volumes/FEISTY/NC/Matlab_new_size/',simname, '/Historic_pristine'];
+    fname = ['/Volumes/MIP/NC/Matlab_new_size/',simname, '/Historic_ESM2M/Historic_pristine'];
 elseif (Jsel~=0.1)
-    fname = ['/Volumes/FEISTY/NC/Matlab_new_size/',simname, '/Historic_', sel,'_fish',tfish(2:end),'_Juve',tJ(2:end)];
+    fname = ['/Volumes/MIP/NC/Matlab_new_size/',simname, '/Historic_ESM2M/Historic_', sel,'_fish',tfish(2:end),'_Juve',tJ(2:end)];
 elseif (MFsel~=LPsel)
-    fname = ['/Volumes/FEISTY/NC/Matlab_new_size/',simname, '/Historic_fish_F',tF(2:end),'_P',tP(2:end),'_D',tD(2:end)];
+    fname = ['/Volumes/MIP/NC/Matlab_new_size/',simname, '/Historic_ESM2M/Historic_fish_F',tF(2:end),'_P',tP(2:end),'_D',tD(2:end)];
 else
-    fname  = ['/Volumes/FEISTY/NC/Matlab_new_size/',simname, '/Historic_', sel,'_fish',tfish(2:end)];  
+    fname  = ['/Volumes/MIP/NC/Matlab_new_size/',simname, '/Historic_ESM2M/Historic_', sel,'_fish',tfish(2:end)];  
 end
 
 

@@ -5,7 +5,7 @@ close all
 
 %%%%!! EXPERIMENTS
 testoneloc = false;
-testlocs = true;
+testlocs = false;
 histlocs = false;
 forelocs = false;
 climlocs = false;
@@ -20,7 +20,7 @@ climatol_con = false;
 climatol_ngdc = false;
 pre_industrial = false;
 historic_pristine = false;
-historic_fished = false;
+historic_fished = true;
 historic_fished_ens = false;
 forecast_pristine = false;
 forecast_fished = false;
@@ -85,9 +85,10 @@ end
 if historic_fished
     %Historic_fished()
     %Historic_fished_prod()
+    Historic_fished_met()
     %CORE_fished()
-    CORE_rec_rep_nmort()
-    CORE_nu_gam_die()
+    %CORE_rec_rep_nmort()
+    %CORE_nu_gam_die()
 end
 if historic_fished_ens
     Historic_fished_ensemble6_samek()
