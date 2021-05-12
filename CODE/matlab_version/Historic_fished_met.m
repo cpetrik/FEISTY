@@ -318,14 +318,14 @@ for YR = 1:YEARS % years
         %         S_Lrg_p_nu(:,DY) = Lrg_p.nu;
         %         S_Lrg_d_nu(:,DY) = Lrg_d.nu;
         
-                S_Sml_f_met(:,DY) = Sml_f.met .* Sml_f.bio;
-                S_Sml_p_met(:,DY) = Sml_p.met .* Sml_p.bio;
-                S_Sml_d_met(:,DY) = Sml_d.met .* Sml_d.bio;
-                S_Med_f_met(:,DY) = Med_f.met .* Med_f.bio;
-                S_Med_p_met(:,DY) = Med_p.met .* Med_p.bio;
-                S_Med_d_met(:,DY) = Med_d.met .* Med_d.bio;
-                S_Lrg_p_met(:,DY) = Lrg_p.met .* Lrg_p.bio;
-                S_Lrg_d_met(:,DY) = Lrg_d.met .* Lrg_d.bio;
+                S_Sml_f_met(:,DY) = Sml_f.met;% .* Sml_f.bio;
+                S_Sml_p_met(:,DY) = Sml_p.met;% .* Sml_p.bio;
+                S_Sml_d_met(:,DY) = Sml_d.met;% .* Sml_d.bio;
+                S_Med_f_met(:,DY) = Med_f.met;% .* Med_f.bio;
+                S_Med_p_met(:,DY) = Med_p.met;% .* Med_p.bio;
+                S_Med_d_met(:,DY) = Med_d.met;% .* Med_d.bio;
+                S_Lrg_p_met(:,DY) = Lrg_p.met;% .* Lrg_p.bio;
+                S_Lrg_d_met(:,DY) = Lrg_d.met;% .* Lrg_d.bio;
         
         %         S_Sml_f_gamma(:,DY) = Sml_f.gamma;
         %         S_Sml_p_gamma(:,DY) = Sml_p.gamma;
