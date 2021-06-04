@@ -1,6 +1,6 @@
 % Visualize output of FEISTY
 % Historic time period (1861-2005) at all locations
-% Metab
+% Metab*Biomass
 % Use stoich to calc equiv O2 demand
 
 clear all
@@ -93,30 +93,23 @@ load([tpath 'woa18_decav_t00_01_m100.mat']); %Climatology
 %1 kg = 1 L water
 %10^-6 ug in 1 g
 %32.00 g O2 in 1 mol O2
-% O2 umol/kg --> mol/L
+
+%O2 umol/kg --> mol/L
 %10^6 umol in 1 mol
 o2_100 = o_100 * 10e-6;
 
-%% Calc pressure (at sea surface, pO2=0.21)
+%Calc pressure (at sea surface, pO2=0.21)
 %pO2 = O2/Kh(T,S); where Kh is the solubility
 %for solubility use gsw_O2sol_SP_pt.m in "gsw_matlab_v3_06_12" toolbox
-%INPUT:  
-%  SP  =  Practical Salinity  (PSS-78)                         [ unitless ]
-%  pt  =  potential temperature (ITS-90) referenced            [ deg C ]
-%         to one standard atmosphere (0 dbar).
-%  SP & pt need to have the same dimensions.
-%OUTPUT:
-%  O2sol = solubility of oxygen in micro-moles per kg          [ umol/kg ]
-Sal = 35*ones(size(t_100));
-Kh = gsw_O2sol_SP_pt(Sal,t_100);
-
-%pO2 = O2/Kh(T,S); both units of umol/kg
-pO2 = o_100 ./ Kh; %ambient O2 pressure (we use units of atm).
-% I GET NUMBERS 0.8-1, NOT ~0.21 -> probably percent concentration
+Rgas = 0.082057; %units = L atm K−1 mol−1
+T = t_100+273;
+Tref = 15+273;
+kb = 8.6173e-5; %Boltzmann const
+pO2 = o2_100 .* T .* Rgas; %ambient O2 pressure (we use units of atm).
 
 %% plot
 [mlat,mlon] = meshgrid(double(lat),double(lon));
-load coastlines;                     %decent looking coastlines
+load coastlines;                     
 cmYR=cbrewer('seq','YlOrRd',45,'PCHIP');
 
 figure(18) 
@@ -161,7 +154,7 @@ title('Temp (^oC)')
 print('-dpng',[ppath 'WOA_global_O2_pO2_Temp_100m.png'])
 
 %% Calc example supply
-load('/Users/cpetrik/Dropbox/Princeton/MAPP-METF/NCAR3/metab_index/O2_methods/MI_fntypes3_spp.mat','FBname','alphaS','del','Esup')
+load('MI_fntypes3_spp.mat','FBname','alphaS','del','Esup')
 DalphaS = alphaS(1); %Atl cod in μmol O2 g−3/4 h−1 atm−1
 FalphaS = alphaS(2); %Lanternfish
 PalphaS = alphaS(3); %Striped bass
@@ -198,7 +191,7 @@ supp_ld = DalphaS .* exp(-DEsup./kb .* ((1./T) - (1./Tref))) .* M_l.^Ddel .* pO2
 %1 g dry W in 9 g wet
 
 %g WW C --> μmol O2
-%1 g dryC in 9 g wetC; 1 molC in 12.01 gC; 106/138 molC in 1 molO2; 1e6 μmol in 1 mol
+%1 g dry in 9 g wet; 12.01 g C in 1 mol C; 106/138 mol C in 1 mol O2; 1e6 μmol in 1 mol
 Omet_sf = Psf * (1/9.0) * (1/12.01) * (106/138) * 1e6;
 Omet_sp = Psp * (1/9.0) * (1/12.01) * (106/138) * 1e6;
 Omet_sd = Psd * (1/9.0) * (1/12.01) * (106/138) * 1e6;
@@ -419,6 +412,6 @@ caxis([1 100])
 set(gcf,'renderer','painters')
 text(0,1.75,'LD','HorizontalAlignment','center')
 
-print('-dpng',[ppath 'Hist_umolO2_met_' harv '_global_stages_6plot_YOR.png'])
+print('-dpng',[ppath 'Hist_umolO2_metBiom_' harv '_global_stages_6plot_YOR.png'])
 
 

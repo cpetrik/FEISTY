@@ -7,7 +7,7 @@ param = [];
 param = make_parameters(param);
 
 %! Setup Climatol (loop 5-year climatology of ESM2.6-COBALT)
-load('/Volumes/FEISTY/POEM_JLD/esm26_hist/ESM26_1deg_5yr_clim_191_195_daily.mat','COBALT');
+load('/Volumes/MIP/POEM_JLD/esm26_hist/ESM26_1deg_5yr_clim_191_195_daily.mat','COBALT');
 
 %! How long to run the model
 YEARS = 150;
@@ -22,10 +22,14 @@ param.NX = NX;
 param.ID = ID;
 
 %! Create a directory for output
-[fname] = sub_fname(param);
+Fdir = pwd;
+addpath([Fdir '/naming/'])
+[fname] = sub_fname_clim(param);
 
 %! Storage variables
 S_Bent_bio = zeros(NX,DAYS);
+S_Mzoo_frac = zeros(NX,DAYS);
+S_Lzoo_frac = zeros(NX,DAYS);
 
 S_Sml_f = zeros(NX,DAYS);
 S_Sml_p = zeros(NX,DAYS);
@@ -67,6 +71,8 @@ file_med_d = [fname,'_med_d.nc'];
 file_lrg_p = [fname,'_lrg_p.nc'];
 file_lrg_d = [fname,'_lrg_d.nc'];
 file_bent  = [fname,'_bent.nc'];
+file_mzoo  = [fname,'_mzoo.nc'];
+file_lzoo  = [fname,'_lzoo.nc'];
 
 ncidSF = netcdf.create(file_sml_f,'NC_WRITE');
 ncidSP = netcdf.create(file_sml_p,'NC_WRITE');
@@ -77,6 +83,8 @@ ncidMD = netcdf.create(file_med_d,'NC_WRITE');
 ncidLP = netcdf.create(file_lrg_p,'NC_WRITE');
 ncidLD = netcdf.create(file_lrg_d,'NC_WRITE');
 ncidB  = netcdf.create(file_bent,'NC_WRITE');
+ncidMZ = netcdf.create(file_mzoo,'NC_WRITE');
+ncidLZ = netcdf.create(file_lzoo,'NC_WRITE');
 
 %! Dims of netcdf file
 nt = 12*YEARS;
@@ -143,6 +151,17 @@ vidbioB    = netcdf.defVar(ncidB,'biomass','double',[xy_dim,time_dim]);
 vidTB      = netcdf.defVar(ncidB,'time','double',time_dim);
 netcdf.endDef(ncidB);
 
+xy_dim      = netcdf.defDim(ncidMZ,'nid',NX);
+time_dim    = netcdf.defDim(ncidMZ,'ntime',nt);
+vidfracMZ   = netcdf.defVar(ncidMZ,'fraction','double',[xy_dim,time_dim]);
+vidTMZ      = netcdf.defVar(ncidMZ,'time','double',time_dim);
+netcdf.endDef(ncidMZ);
+
+xy_dim      = netcdf.defDim(ncidLZ,'nid',NX);
+time_dim    = netcdf.defDim(ncidLZ,'ntime',nt);
+vidfracLZ   = netcdf.defVar(ncidLZ,'fraction','double',[xy_dim,time_dim]);
+vidTLZ      = netcdf.defVar(ncidLZ,'time','double',time_dim);
+netcdf.endDef(ncidLZ);
 
 %% %%%%%%%%%%%%%%%%%%%% Run the Model %%%%%%%%%%%%%%%%%%%%
 %! Run model 
@@ -155,13 +174,14 @@ for YR = 1:YEARS % years
         
         %%%! Future time step
         DY = int64(ceil(DAY));
-        %[num2str(YR),' , ', num2str(mod(DY,365))]
         
         [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,ENVR] = ...
             sub_futbio(ID,DY,COBALT,GRD,Sml_f,Sml_p,Sml_d,...
             Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,param);
         
         S_Bent_bio(:,DY) = BENT.mass;
+        S_Mzoo_frac(:,DY) = ENVR.fZm;
+        S_Lzoo_frac(:,DY) = ENVR.fZl;
         
         S_Sml_f(:,DY) = Sml_f.bio;
         S_Sml_p(:,DY) = Sml_p.bio;
@@ -199,6 +219,12 @@ for YR = 1:YEARS % years
         %! Put vars of netcdf file
         netcdf.putVar(ncidB,vidbioB,[0 MNT-1],[NX 1],mean(S_Bent_bio(:,a(i):b(i)),2));
         netcdf.putVar(ncidB,vidTB,MNT-1,1,MNT);
+        
+        netcdf.putVar(ncidMZ,vidfracMZ,[0 MNT-1],[NX 1],mean(S_Mzoo_frac(:,a(i):b(i)),2));
+        netcdf.putVar(ncidMZ,vidTMZ,MNT-1,1,MNT);
+        
+        netcdf.putVar(ncidLZ,vidfracLZ,[0 MNT-1],[NX 1],mean(S_Lzoo_frac(:,a(i):b(i)),2));
+        netcdf.putVar(ncidLZ,vidTLZ,MNT-1,1,MNT);
         
         netcdf.putVar(ncidSF,vidbioSF,[0 MNT-1],[NX 1],mean(S_Sml_f(:,a(i):b(i)),2));
         netcdf.putVar(ncidSP,vidbioSP,[0 MNT-1],[NX 1],mean(S_Sml_p(:,a(i):b(i)),2));
@@ -238,7 +264,8 @@ netcdf.close(ncidMD);
 netcdf.close(ncidLP);
 netcdf.close(ncidLD);
 netcdf.close(ncidB);
-
+netcdf.close(ncidMZ);
+netcdf.close(ncidLZ);
 
 
 end

@@ -7,7 +7,7 @@ function param = make_parameters(param)
     param.tstep = 1.0;    % time step in hours for adv-diff
 
     %! Set fishing rate
-    param.frate = 0.3; 
+    param.frate = 0.0; 
     param.dfrate = param.frate/365.0;
     
     %! Which fishes harvested
@@ -85,10 +85,10 @@ function param = make_parameters(param)
     %large piscivore eats medium forage fish, medium piscivore, medium detritivore
     %large detritivore eats detritus, medium forage fish, medium piscivore, medium detrivore
 
-    param.Sm = 0.25;  %Feeding 2 sizes down
+    param.Sm = 0.10;  %Feeding 2 sizes down
     param.J = 1.0;    %Juvenile feeding reduction
     param.D = 0.75;   %Demersal feeding in pelagic reduction
-    param.A = 0.70;    %Adult predation reduction %*****
+    param.A = 0.75;   %Adult predation reduction %*****
 
     param.MF_phi_MZ = param.Sm;
     param.MF_phi_LZ = 1.0;

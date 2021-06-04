@@ -1,6 +1,6 @@
 % Visualize output of FEISTY
 % Historic time period (1861-2005) at all locations
-% Metab
+% Metab*Biomass
 % Use stoich to calc equiv O2 demand
 
 clear all
@@ -17,7 +17,7 @@ fpath=['/Volumes/MIP/NC/Matlab_new_size/' cfile '/Historic_ESM2M/'];
 
 ppath = [pp cfile '/'];
 
-load([fpath 'Means_Historic_' harv '_met_' cfile '.mat']);
+load([fpath 'Means_Historic_' harv '_metBiom_' cfile '.mat']);
 
 load('/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/hindcast_gridspec.mat',...
     'geolon_t','geolat_t');
@@ -107,27 +107,22 @@ o2_100 = o_100 * 10e-6;
 %12.01 g C in 1 mol C
 %1 g dry W in 9 g wet
 
-M_s = (10^((log10(0.001)+log10(0.5))/2));
-M_m = (10^((log10(0.5)+log10(250))/2));
-M_l = (10^((log10(250)+log10(125000))/2));
-
-%gWW/gWW/m2 --> mol/L
-%mult by size of one individual to get gWW/m2?
+%g WW --> mol/L
 %1 g dry in 9 g wet; 12.01 g C in 1 mol C; 100 m depth -> m^3; 10^-3 m^3 in 1 L; 106/138 mol C in 1 mol O2
-Omet_sf = Psf * M_s * (1/9.0) * (1/12.01) * (1/100) * 1e-3 * (106/138);
-Omet_sp = Psp * M_s * (1/9.0) * (1/12.01) * (1/100) * 1e-3 * (106/138);
-Omet_sd = Psd * M_s * (1/9.0) * (1/12.01) * (1/100) * 1e-3 * (106/138);
-Omet_mf = Pmf * M_m * (1/9.0) * (1/12.01) * (1/100) * 1e-3 * (106/138);
-Omet_mp = Pmp * M_m * (1/9.0) * (1/12.01) * (1/100) * 1e-3 * (106/138);
-Omet_md = Pmd * M_m * (1/9.0) * (1/12.01) * (1/100) * 1e-3 * (106/138);
-Omet_lp = Plp * M_l * (1/9.0) * (1/12.01) * (1/100) * 1e-3 * (106/138);
-Omet_ld = Pld * M_l * (1/9.0) * (1/12.01) * (1/100) * 1e-3 * (106/138);
-Omet_S = AllS * M_s * (1/9.0) * (1/12.01) * (1/100) * 1e-3 * (106/138);
-Omet_M = AllM * M_m * (1/9.0) * (1/12.01) * (1/100) * 1e-3 * (106/138);
-Omet_L = AllL * M_l * (1/9.0) * (1/12.01) * (1/100) * 1e-3 * (106/138);
-Omet_F = AllF * 0.5 * (1/9.0) * (1/12.01) * (1/100) * 1e-3 * (106/138);
-Omet_P = AllP * M_m * (1/9.0) * (1/12.01) * (1/100) * 1e-3 * (106/138);
-Omet_D = AllD * M_m * (1/9.0) * (1/12.01) * (1/100) * 1e-3 * (106/138);
+Omet_sf = Psf * (1/9.0) * (1/12.01) * (1/100) * 1e-3 * (106/138);
+Omet_sp = Psp * (1/9.0) * (1/12.01) * (1/100) * 1e-3 * (106/138);
+Omet_sd = Psd * (1/9.0) * (1/12.01) * (1/100) * 1e-3 * (106/138);
+Omet_mf = Pmf * (1/9.0) * (1/12.01) * (1/100) * 1e-3 * (106/138);
+Omet_mp = Pmp * (1/9.0) * (1/12.01) * (1/100) * 1e-3 * (106/138);
+Omet_md = Pmd * (1/9.0) * (1/12.01) * (1/100) * 1e-3 * (106/138);
+Omet_lp = Plp * (1/9.0) * (1/12.01) * (1/100) * 1e-3 * (106/138);
+Omet_ld = Pld * (1/9.0) * (1/12.01) * (1/100) * 1e-3 * (106/138);
+Omet_S = AllS * (1/9.0) * (1/12.01) * (1/100) * 1e-3 * (106/138);
+Omet_M = AllM * (1/9.0) * (1/12.01) * (1/100) * 1e-3 * (106/138);
+Omet_L = AllL * (1/9.0) * (1/12.01) * (1/100) * 1e-3 * (106/138);
+Omet_F = AllF * (1/9.0) * (1/12.01) * (1/100) * 1e-3 * (106/138);
+Omet_P = AllP * (1/9.0) * (1/12.01) * (1/100) * 1e-3 * (106/138);
+Omet_D = AllD * (1/9.0) * (1/12.01) * (1/100) * 1e-3 * (106/138);
 
 %% Map of O2
 figure(1)
@@ -136,7 +131,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
 surfm(mlat,mlon,(o2_100))
 colormap(cmBP)
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([0.5e-3 4e-3]);
+caxis([2e-5 12e-5]);
 colorbar('orientation','vertical','AxisLocation','out')
 set(gcf,'renderer','painters')
 title('WOA O_2 100 m mean (mol L^-^1)')
@@ -145,81 +140,81 @@ print('-dpng',[ppath 'WOA_O2_global_molL_YOR.png'])
 %% 6 plot of types
 figure(2)
 %A - Small
-subplot('Position',[0.01 0.64 0.4 0.3])
+subplot('Position',[0.01 0.68 0.4 0.3])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,(Omet_S))
 colormap(cmBP)
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 %caxis([2e-5 12e-5]);
-colorbar('Position',[0.385 0.655 0.025 0.275],'orientation','vertical','AxisLocation','out')
+colorbar('Position',[0.385 0.695 0.025 0.275],'orientation','vertical','AxisLocation','out')
 set(gcf,'renderer','painters')
 text(0,1.75,'Small','HorizontalAlignment','center')
-text(5,2.5,'Metab of one individ converted to O_2 (mol L^-^1)','HorizontalAlignment','center')
 
 %D - forage
-subplot('Position',[0.45 0.64 0.4 0.3])
+subplot('Position',[0.45 0.68 0.4 0.3])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,(Omet_F))
 colormap(cmBP)
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 %caxis([2e-5 12e-5]);
-colorbar('Position',[0.825 0.655 0.025 0.275],'orientation','vertical','AxisLocation','out')
+colorbar('Position',[0.825 0.695 0.025 0.275],'orientation','vertical','AxisLocation','out')
 set(gcf,'renderer','painters')
 text(0,1.75,'Forage','HorizontalAlignment','center')
 
 %B - med
-subplot('Position',[0.01 0.33 0.4 0.3])
+subplot('Position',[0.01 0.37 0.4 0.3])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,(Omet_M))
 colormap(cmBP)
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 %caxis([2e-5 12e-5]);
-colorbar('Position',[0.385 0.345 0.025 0.275],'orientation','vertical','AxisLocation','out')
+colorbar('Position',[0.385 0.385 0.025 0.275],'orientation','vertical','AxisLocation','out')
 set(gcf,'renderer','painters')
 text(0,1.75,'Medium','HorizontalAlignment','center')
 
 %E - P
-subplot('Position',[0.45 0.33 0.4 0.3])
+subplot('Position',[0.45 0.37 0.4 0.3])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,(Omet_P))
 colormap(cmBP)
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 %caxis([2e-5 12e-5]);
-colorbar('Position',[0.825 0.345 0.025 0.275],'orientation','vertical','AxisLocation','out')
+colorbar('Position',[0.825 0.385 0.025 0.275],'orientation','vertical','AxisLocation','out')
 set(gcf,'renderer','painters')
 text(0,1.75,'Large pelagic','HorizontalAlignment','center')
 
 %C - large
-subplot('Position',[0.01 0.02 0.4 0.3])
+subplot('Position',[0.01 0.06 0.4 0.3])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,(Omet_L))
 colormap(cmBP)
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 %caxis([2e-5 12e-5]);
-colorbar('Position',[0.385 0.035 0.025 0.275],'orientation','vertical','AxisLocation','out')
+colorbar('Position',[0.385 0.075 0.025 0.275],'orientation','vertical','AxisLocation','out')
 set(gcf,'renderer','painters')
 text(0,1.75,'Large','HorizontalAlignment','center')
 
 %F - dem
-subplot('Position',[0.45 0.02 0.4 0.3])
+subplot('Position',[0.45 0.06 0.4 0.3])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,(Omet_D))
 colormap(cmBP)
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 %caxis([2e-5 12e-5]);
-colorbar('Position',[0.825 0.035 0.025 0.275],'orientation','vertical','AxisLocation','out')
+colorbar('Position',[0.825 0.075 0.025 0.275],'orientation','vertical','AxisLocation','out')
 set(gcf,'renderer','painters')
 text(0,1.75,'Demersal','HorizontalAlignment','center')
 
-print('-dpng',[ppath 'Hist_O2met_' harv '_global_types_6plot_YOR.png'])
+print('-dpng',[ppath 'Hist_O2_metBiom_' harv '_global_types_6plot_YOR.png'])
 
 %% 8plot by stage and type
+% Mollweid proj
 f3 = figure('Units','inches','Position',[1 3 6.5 8]);
 %f1.Units = 'inches';
 
@@ -227,10 +222,10 @@ f3 = figure('Units','inches','Position',[1 3 6.5 8]);
 subplot('Position',[0.025 0.75 0.44 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(Omet_sf))
+surfm(geolat_t,geolon_t,Omet_sf)
 colormap(cmBP)
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-11 -5]);
+caxis([2e-9 12e-9]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SF','HorizontalAlignment','center')
 
@@ -238,10 +233,10 @@ text(0,1.75,'SF','HorizontalAlignment','center')
 subplot('Position',[0.025 0.5 0.44 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(Omet_sp))
+surfm(geolat_t,geolon_t,Omet_sp)
 colormap(cmBP)
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-11 -5]);
+caxis([2e-9 12e-9]);
 set(gcf,'renderer','painters')
 text(0,1.75,'SP','HorizontalAlignment','center')
 
@@ -249,10 +244,10 @@ text(0,1.75,'SP','HorizontalAlignment','center')
 subplot('Position',[0.025 0.25 0.44 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(Omet_mp))
+surfm(geolat_t,geolon_t,Omet_mp)
 colormap(cmBP)
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-11 -5]);
+caxis([2e-9 12e-9]);
 set(gcf,'renderer','painters')
 text(0,1.75,'MP','HorizontalAlignment','center')
 
@@ -260,10 +255,10 @@ text(0,1.75,'MP','HorizontalAlignment','center')
 subplot('Position',[0.025 0.0 0.44 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(Omet_lp))
+surfm(geolat_t,geolon_t,Omet_lp)
 colormap(cmBP)
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-11 -5]);
+caxis([2e-9 12e-9]);
 set(gcf,'renderer','painters')
 text(0,1.75,'LP','HorizontalAlignment','center')
 
@@ -271,10 +266,10 @@ text(0,1.75,'LP','HorizontalAlignment','center')
 subplot('Position',[0.475 0.75 0.44 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(Omet_mf))
+surfm(geolat_t,geolon_t,Omet_mf)
 colormap(cmBP)
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-11 -5]);
+caxis([2e-9 12e-9]);
 set(gcf,'renderer','painters')
 text(0,1.75,'MF','HorizontalAlignment','center')
 
@@ -282,23 +277,22 @@ text(0,1.75,'MF','HorizontalAlignment','center')
 subplot('Position',[0.475 0.5 0.44 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(Omet_sd))
+surfm(geolat_t,geolon_t,Omet_sd)
 colormap(cmBP)
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-11 -5]);
+caxis([2e-9 12e-9]);
 colorbar('Position',[0.92 0.25 0.025 0.5],'orientation','vertical','AxisLocation','out')
 set(gcf,'renderer','painters')
 text(0,1.75,'SD','HorizontalAlignment','center')
-text(2.8,2.5,'log_1_0 O_2 (mol L^-^1)','HorizontalAlignment','right')
 
 %G - md
 subplot('Position',[0.475 0.25 0.44 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(Omet_md))
+surfm(geolat_t,geolon_t,Omet_md)
 colormap(cmBP)
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-11 -5]);
+caxis([2e-9 12e-9]);
 set(gcf,'renderer','painters')
 text(0,1.75,'MD','HorizontalAlignment','center')
 
@@ -306,11 +300,11 @@ text(0,1.75,'MD','HorizontalAlignment','center')
 subplot('Position',[0.475 0.0 0.44 0.25])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(Omet_ld))
+surfm(geolat_t,geolon_t,Omet_ld)
 colormap(cmBP)
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-11 -5]);
+caxis([2e-9 12e-9]);
 set(gcf,'renderer','painters')
 text(0,1.75,'LD','HorizontalAlignment','center')
 
-print('-dpng',[ppath 'Hist_O2met_' harv '_global_stages_6plot_YOR.png'])
+print('-dpng',[ppath 'Hist_O2_metBiom_' harv '_global_stages_6plot_YOR.png'])

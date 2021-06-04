@@ -6,7 +6,7 @@ close all
 
 warning off 
 
-figp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/clim_complete/post_proc/pp_figs/';
+figp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Midwater/';
 
 %% location info
 load('/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/clim_grid_180x360_id_locs_area_dep.mat','ids','abbrev');
@@ -18,35 +18,41 @@ cols = {'bio','enc_f','enc_p','enc_d','enc_zm','enc_zl','enc_be','con_f',...
 cols=cols';
 spots=spots';
 
-%% new run with param struct
+%% run with param struct
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
-fpath = ['/Volumes/FEISTY/NC/Clim_comp_tests/' cfile '/'];
-load([fpath,'Orig_Climatol_All_fish03_locs.mat'])
+rname = 'Climatol_basic_All_fish03_locs';
+fpath = ['/Volumes/MIP/NC/Midwater/' cfile '/'];
+ppath = [figp cfile '/'];
+if ~isfolder(ppath)
+    mkdir(ppath)
+end
+
+load([fpath,rname,'.mat'])
 
 %% colors
 load('cmap_ppt_angles.mat')
 cmap3=cmap_ppt([5,1,3],:);
-cm={[1 0.5 0],...   %orange
-    [0.5 0.5 0],... %tan/army
-    [0 0.7 0],...   %g
-    [0 1 1],...     %c
-    [0 0 0.75],...  %b
-    [0.5 0 1],...   %purple
-    [1 0 1],...     %m
-    [1 0 0],...     %r
-    [0.5 0 0],...   %maroon
-    [0.75 0.75 0.75],... %lt grey
-    [0.5 0.5 0.5],...    %med grey
-    [49/255 79/255 79/255],... %dk grey
-    [0 0 0],...      %black
-    [1 1 0],...      %yellow
-    [127/255 255/255 0],... %lime green
-    [0 0.5 0],...    %dk green
-    [0/255 206/255 209/255],... %turq
-    [0 0.5 0.75],...   %med blue
-    [188/255 143/255 143/255],... %rosy brown
-    [255/255 192/255 203/255],... %pink
-    [255/255 160/255 122/255]}; %peach
+cm=[1 0.5 0;...   %orange
+    0.5 0.5 0;... %tan/army
+    0 0.7 0;...   %g
+    0 1 1;...     %c
+    0 0 0.75;...  %b
+    0.5 0 1;...   %purple
+    1 0 1;...     %m
+    1 0 0;...     %r
+    0.5 0 0;...   %maroon
+    0.75 0.75 0.75;... %lt grey
+    0.5 0.5 0.5;...    %med grey
+    49/255 79/255 79/255;... %dk grey
+    0 0 0;...      %black
+    1 1 0;...      %yellow
+    127/255 255/255 0;... %lime green
+    0 0.5 0;...    %dk green
+    0/255 206/255 209/255;... %turq
+    0 0.5 0.75;...   %med blue
+    188/255 143/255 143/255;... %rosy brown
+    255/255 192/255 203/255;... %pink
+    255/255 160/255 122/255]; %peach
 
 set(groot,'defaultAxesColorOrder',cm);
 
@@ -305,7 +311,7 @@ Pgge=[SP_gge;MP_gge;LP_gge];
 Fgge=[SF_gge;MF_gge];
 Dgge=[SD_gge;MD_gge;LD_gge];
 
-save([fpath,'Orig_Means_Climatol_All_fish03_locs_lastyr_means.mat'],...
+save([fpath,rname,'_lastyr_means.mat'],...
     'Pmean','Fmean','Dmean','all_mean',...
     'Pmgr','Fmgr','Dmgr','Pcon','Fcon','Dcon','z','Pprod','Fprod','Dprod',...
     'Prep','Frep','Drep','Pmet','Fmet','Dmet','Ppred','Fpred','Dpred',...
@@ -339,7 +345,7 @@ for s=1:length(spots)
     ylabel('log10 Biomass (g m^-^2)')
     title(['Clim ' loc])
     stamp(cfile)
-    %print('-dpng',[fpath sname harv '_timeseries_logmean_biomass_' loc '.png'])
+    print('-dpng',[ppath rname '_timeseries_logmean_biomass_' loc '.png'])
     
     F = SF(:,1,s)+MF(:,1,s);
     P = SP(:,1,s)+MP(:,1,s)+LP(:,1,s);
@@ -358,7 +364,7 @@ for s=1:length(spots)
     ylabel('log10 Biomass (g m^-^2)')
     title(['Clim ' loc])
     stamp(cfile)
-    %print('-dpng',[fpath sname harv '_timeseries_Logmean_biomass_types_' loc '.png'])
+    print('-dpng',[ppath rname '_timeseries_Logmean_biomass_types_' loc '.png'])
     
     %  TIME SERIES ----------------------------------------------------
     
@@ -897,18 +903,18 @@ for s=1:length(spots)
     end
     
 end
-%print(f21,'-dpng',[fpath sname harv '_All_oneloc_Logmean_biomass_axes.png'])
-%print(f2,'-dpng',[fpath sname harv '_All_oneloc_con_level.png'])
-%print(f3,'-dpng',[fpath sname harv '_All_oneloc_nu.png'])
-%print(f5,'-dpng',[fpath sname harv '_All_oneloc_frac_zoop_loss.png'])
-%print(f8,'-dpng',[fpath sname harv '_All_oneloc_prod.png'])
-%print(f9,'-dpng',[fpath sname harv '_All_oneloc_rep.png'])
-%print(f10,'-dpng',[fpath sname harv '_All_oneloc_met.png'])
-%print(f11,'-dpng',[fpath sname harv '_All_oneloc_pred.png'])
-%print(f12,'-dpng',[fpath sname harv '_All_oneloc_catch.png'])
-%print(f13,'-dpng',[fpath sname harv '_All_oneloc_mort_nof.png'])
-%print(f14,'-dpng',[fpath sname harv '_All_oneloc_mort_f.png'])
-%print(f15,'-dpng',[fpath sname harv '_All_oneloc_gge.png'])
+print(f21,'-dpng',[ppath rname '_Logmean_biomass_axes.png'])
+print(f2,'-dpng',[ppath rname '_con_level.png'])
+print(f3,'-dpng',[ppath rname '_nu.png'])
+print(f5,'-dpng',[ppath rname '_frac_zoop_loss.png'])
+print(f8,'-dpng',[ppath rname '_prod.png'])
+print(f9,'-dpng',[ppath rname '_rep.png'])
+print(f10,'-dpng',[ppath rname '_met.png'])
+print(f11,'-dpng',[ppath rname '_pred.png'])
+print(f12,'-dpng',[ppath rname '_catch.png'])
+print(f13,'-dpng',[ppath rname '_mort_nof.png'])
+print(f14,'-dpng',[ppath rname '_mort_f.png'])
+print(f15,'-dpng',[ppath rname '_gge.png'])
 
 %% Sum mean biom over stages
 fishsp = squeeze(nansum(all_mean));
@@ -929,7 +935,7 @@ end
 ylabel('log10 Mean Biom (g m^-^2) in final year')
 title('All stages')
 stamp(cfile)
-%print('-dpng',[fpath sname harv '_All_oneloc_tot_mean_biomass_type.png'])
+print('-dpng',[ppath rname '_tot_mean_biomass_type.png'])
 
 sumspec = squeeze(nansum(nansum(all_mean)));
 
@@ -944,7 +950,7 @@ end
 ylabel('log10 Mean Biom (g m^-^2) in final year')
 title('All fishes and stages')
 stamp(cfile)
-%print('-dpng',[fpath sname harv '_All_oneloc_tot_mean_biomass_spec.png'])
+print('-dpng',[ppath rname '_tot_mean_biomass_spec.png'])
 
 %% Fishing rate
 figure(54);
@@ -963,7 +969,7 @@ end
 ylabel('Mean fishing rate (yr^-^1) in final year')
 title('Adult stages')
 stamp(cfile)
-%print('-dpng',[fpath sname harv '_All_oneloc_mean_frate_type.png'])
+print('-dpng',[ppath rname '_mean_frate_type.png'])
 
 
 %% Consump g/g/d --> g/d --> g/y
@@ -1014,54 +1020,5 @@ set(gca,'XTick',1:16,'XTickLabel',spots)
 xlabel('Location')
 stamp(cfile)
 
-%print(f18,'-dpng',[fpath sname harv '_All_oneloc_consump_gyr.png'])
-
-%% Consump vs. weight
-f19=figure(19);
-for s=1:length(spots)
-    subplot(2,2,1)
-    loglog((mass(1:2,1)),(Fcon(:,s)),'.',...
-        'Color',cm{s},'MarkerSize',25); hold on;
-    title('F')
-    xlabel('Mass (g)')
-    ylabel('Mean consumption (g y^-^1) in final year')
-    %axis([-5 5 -1 5])
-    
-    subplot(2,2,2)
-    loglog((mass(:,1)),(Pcon(:,s)),'.',...
-        'Color',cm{s},'MarkerSize',25); hold on;
-    title('P')
-    xlabel('Mass (g)')
-    %axis([-5 5 -1 5])
-    
-    subplot(2,2,3)
-    loglog((mass(:,1)),(Dcon(:,s)),'.',...
-        'Color',cm{s},'MarkerSize',25); hold on;
-    title('D')
-    xlabel('Mass (g)')
-    %axis([-5 5 -1 5])
-    
-    subplot(2,2,4)
-    loglog((mass(:,1)),(Dcon(:,s)),'.',...
-        'Color',cm{s},'MarkerSize',25); hold on;
-    xlabel('Mass (g)')
-    legend(spots)
-    legend('location','northwest','orientation','horizontal')
-    axis([-5 1 -1 1])
-    stamp(cfile)
-end
-subplot(2,2,1)
-loglog(w, Consumption,'k')
-
-subplot(2,2,2)
-loglog(w, Consumption,'k')
-
-subplot(2,2,3)
-loglog(w, Consumption,'k')
-
-subplot(2,2,4)
-legend('location','eastoutside')
-legend('orientation','vertical')
-%print(f19,'-dpng',[fpath sname harv '_All_oneloc_consump_gyr_vs_weight_compare.png'])
-
+print(f18,'-dpng',[ppath rname '_consump_gyr.png'])
 

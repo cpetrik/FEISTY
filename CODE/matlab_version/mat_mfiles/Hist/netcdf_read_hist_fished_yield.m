@@ -207,7 +207,7 @@ md_tyc = nan*ones(ni,nyr);
 lp_tyc = nan*ones(ni,nyr);
 ld_tyc = nan*ones(ni,nyr);
 for n=1:length(st)
-    
+
     mp_tyc(:,n)=nansum(MP.catch(:,st(n):en(n)),2);
     mf_tyc(:,n)=nansum(MF.catch(:,st(n):en(n)),2);
     md_tyc(:,n)=nansum(MD.catch(:,st(n):en(n)),2);
@@ -229,10 +229,3 @@ save([fpath 'Means_Historic_' harv '_' cfile '.mat'],'time',...
     'mf_tyc','mp_tyc','md_tyc','lp_tyc','ld_tyc',...
     'mf_tsyc','mp_tsyc','md_tsyc','lp_tsyc','ld_tsyc',...
     'units_yield','units_catch','-append');
-
-
-
-
-
-
-

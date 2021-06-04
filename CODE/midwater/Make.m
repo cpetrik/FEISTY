@@ -12,12 +12,10 @@ forecast = false;
 
 tic
 if locs
-    %Locs_clim()
-    Locs_clim_fishvec()
+    Locs_clim()
 end
 if climatol
-    %Climatol()
-    Climatol_fishvec()
+    Climatol()
 end
 if pre_industrial
     Pre_industrial()
