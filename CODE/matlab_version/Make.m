@@ -14,13 +14,13 @@ spinup_pristine = false;
 climatol_loop = false;
 climatol_param = false;
 climatol_ens = false;
-climatol = false;
-climatol_crr = false;
+climatol = true;
+climatol_crr = true;
 climatol_con = false;
-climatol_ngdc = false;
+climatol_ngdc = true;
 pre_industrial = false;
 historic_pristine = false;
-historic_fished = true;
+historic_fished = false;
 historic_fished_ens = false;
 forecast_pristine = false;
 forecast_fished = false;
@@ -69,7 +69,7 @@ if climatol_crr
 end
 if climatol_ngdc
     Climatol_nu_gam_die_clev()
-    %Climatol_death_vars()
+    Climatol_death_vars()
 end
 if pre_industrial
     %Pre_industrial()

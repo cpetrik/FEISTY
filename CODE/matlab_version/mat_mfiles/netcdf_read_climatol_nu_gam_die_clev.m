@@ -5,7 +5,7 @@ close all
 
 
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
-harv = 'All_fish03';
+harv = 'SWmlog_All_fish03';
 vars = '_nu_gam_die_clev';
 
 fpath=['/Volumes/MIP/NC/Matlab_new_size/' cfile '/'];

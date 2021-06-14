@@ -9,7 +9,7 @@ clear all
 close all
 
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
-harv = 'All_fish03';
+harv = 'SWmlog_All_fish03';
 fpath=['/Volumes/MIP/NC/Matlab_new_size/' cfile '/'];
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
@@ -422,7 +422,7 @@ h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-2 2])
 set(gcf,'renderer','painters')
 text(0,1.75,'LD bio','HorizontalAlignment','center')
-print('-dpng',[ppath 'Climatol_map_mean_bio_stages.png'])
+print('-dpng',[ppath 'Climatol_',harv,'_map_mean_bio_stages.png'])
 
 %% 8 plot of rate in (in)
 f4 = figure('Units','inches','Position',[1 3 6.5 8]);
@@ -516,7 +516,7 @@ h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-3 1])
 set(gcf,'renderer','painters')
 text(0,1.75,'LD rate in','HorizontalAlignment','center')
-print('-dpng',[ppath 'Climatol_map_mean_rateIn_stages.png'])
+print('-dpng',[ppath 'Climatol_',harv,'_map_mean_rateIn_stages.png'])
 
 %% 8 plot of rate out
 f5 = figure('Units','inches','Position',[1 3 6.5 8]);
@@ -610,7 +610,7 @@ h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-3 1])
 set(gcf,'renderer','painters')
 text(0,1.75,'LD rate out','HorizontalAlignment','center')
-print('-dpng',[ppath 'Climatol_map_mean_rateOut_stages.png'])
+print('-dpng',[ppath 'Climatol_',harv,'_map_mean_rateOut_stages.png'])
 
 %% 8 plot of res1
 f6 = figure('Units','inches','Position',[1 3 6.5 8]);
@@ -704,7 +704,7 @@ h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-1 3.5])
 set(gcf,'renderer','painters')
 text(0,1.75,'LD res (in)','HorizontalAlignment','center')
-print('-dpng',[ppath 'Climatol_map_mean_resIn_stages_log.png'])
+print('-dpng',[ppath 'Climatol_',harv,'_map_mean_resIn_stages_log.png'])
 
 %% 8 plot of res2
 f7 = figure('Units','inches','Position',[1 3 6.5 8]);
@@ -798,7 +798,7 @@ h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-1 3.5])
 set(gcf,'renderer','painters')
 text(0,1.75,'LD res (out)','HorizontalAlignment','center')
-print('-dpng',[ppath 'Climatol_map_mean_resOut_stages_log.png'])
+print('-dpng',[ppath 'Climatol_',harv,'_map_mean_resOut_stages_log.png'])
 
 %% 8 plot of res1
 f9 = figure('Units','inches','Position',[1 3 6.5 8]);
@@ -892,7 +892,7 @@ h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([0 350])
 set(gcf,'renderer','painters')
 text(0,1.75,'LD res (in)','HorizontalAlignment','center')
-print('-dpng',[ppath 'Climatol_map_mean_resIn_stages.png'])
+print('-dpng',[ppath 'Climatol_',harv,'_map_mean_resIn_stages.png'])
 
 %% 8 plot of res2
 f10 = figure('Units','inches','Position',[1 3 6.5 8]);
@@ -986,7 +986,7 @@ h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([0 350])
 set(gcf,'renderer','painters')
 text(0,1.75,'LD res (out)','HorizontalAlignment','center')
-print('-dpng',[ppath 'Climatol_map_mean_resOut_stages.png'])
+print('-dpng',[ppath 'Climatol_',harv,'_map_mean_resOut_stages.png'])
 
 %% Just small
 f11 = figure('Units','inches','Position',[1 3 6.5 7.25]);
@@ -1058,7 +1058,7 @@ h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([0 60])
 set(gcf,'renderer','painters')
 text(0,1.75,'SD res (out)','HorizontalAlignment','center')
-print('-dpng',[ppath 'Climatol_map_mean_resInOut_small.png'])
+print('-dpng',[ppath 'Climatol_',harv,'_map_mean_resInOut_small.png'])
 
 %% test how low in tropics/subtropics
 f12 = figure('Units','inches','Position',[1 3 6.5 7.25]);
@@ -1070,7 +1070,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
 surfm(geolat_t,geolon_t,(Rsf))
 cmocean('speed')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([0 10])
+caxis([5 15])
 set(gcf,'renderer','painters')
 text(0,1.75,'SF res (in)','HorizontalAlignment','center')
 
@@ -1081,7 +1081,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
 surfm(geolat_t,geolon_t,(Ssf))
 cmocean('speed')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([0 10])
+caxis([5 15])
 set(gcf,'renderer','painters')
 text(0,1.75,'SF res (out)','HorizontalAlignment','center')
 
@@ -1092,7 +1092,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
 surfm(geolat_t,geolon_t,(Rsp))
 cmocean('speed')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([0 10])
+caxis([5 15])
 set(gcf,'renderer','painters')
 text(0,1.75,'SP res (in)','HorizontalAlignment','center')
 
@@ -1103,7 +1103,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
 surfm(geolat_t,geolon_t,(Ssp))
 cmocean('speed')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([0 10])
+caxis([5 15])
 set(gcf,'renderer','painters')
 text(0,1.75,'SP res (out)','HorizontalAlignment','center')
 
@@ -1116,7 +1116,7 @@ cmocean('speed')
 cb = colorbar('Position',[0.85 0.25 0.025 0.5],'orientation','vertical','AxisLocation','out');
 xlabel(cb,'days')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([0 10])
+caxis([5 15])
 set(gcf,'renderer','painters')
 text(0,1.75,'SD res (in)','HorizontalAlignment','center')
 
@@ -1127,6 +1127,6 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
 surfm(geolat_t,geolon_t,(Ssd))
 cmocean('speed')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([0 10])
+caxis([5 15])
 set(gcf,'renderer','painters')
 text(0,1.75,'SD res (out)','HorizontalAlignment','center')

@@ -9,7 +9,7 @@ global Tu_s Tu_m Tu_l Nat_mrt MORT
 global MF_phi_MZ MF_phi_LZ MF_phi_S MP_phi_MZ MP_phi_LZ MP_phi_S MD_phi_BE
 global LP_phi_MF LP_phi_MP LP_phi_MD LD_phi_MF LD_phi_MP LD_phi_MD LD_phi_BE
 global MFsel MPsel MDsel LPsel LDsel Jsel efn cfn mfn
-global tstep K CGRD ni nj
+global tstep K CGRD ni nj MZpref
 
 %%%%%%%%%%%%%%% Initialize Model Variables
 %! Set fishing rate
@@ -23,7 +23,7 @@ efn=nan;
 mfn=nan;
 
 %! Make core parameters/constants (global)
-make_parameters()
+make_parameters_SW()
 
 %! Setup Climatol (loop 5-year climatology of ESM2.6-COBALT)
 load('/Volumes/FEISTY/POEM_JLD/esm26_hist/ESM26_1deg_5yr_clim_191_195_daily.mat','COBALT');
@@ -39,7 +39,9 @@ NX = length(GRD.Z);
 ID = 1:NX;
 
 %! Create a directory for output
-fname = sub_fname(frate);
+%fname = sub_fname(frate);
+test = 'SWmarth_MZ25';
+fname = sub_fname_test(frate,test);
 
 %! Storage variables
 S_Sml_f_nu = zeros(NX,DAYS);
@@ -187,7 +189,7 @@ for YR = 1:YEARS % years
         DY = int64(ceil(DAY));
         [num2str(YR),' , ', num2str(mod(DY,365))]
         [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,ENVR] = ...
-            sub_futbio(ID,DY,COBALT,ENVR,Sml_f,Sml_p,Sml_d,...
+            sub_futbio_mzpref(ID,DY,COBALT,ENVR,Sml_f,Sml_p,Sml_d,...
             Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,dfrate);
         
         S_Sml_f_nu(:,DY) = Sml_f.nu;
