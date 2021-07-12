@@ -40,7 +40,7 @@ ID = 1:NX;
 
 %! Create a directory for output
 %fname = sub_fname(frate);
-test = 'SWmarth_MZ25';
+test = 'Whigh';
 fname = sub_fname_test(frate,test);
 
 %! Storage variables

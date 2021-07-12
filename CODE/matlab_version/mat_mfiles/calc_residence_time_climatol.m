@@ -9,12 +9,14 @@ clear all
 close all
 
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
-harv = 'SWmlog_All_fish03';
+harv = 'SWhigh_All_fish03';
+% cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm000_nmort1_BE08_noCC_RE00100';
+% harv = 'SWmarth_MZ50_All_fish03';
 fpath=['/Volumes/MIP/NC/Matlab_new_size/' cfile '/'];
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
 ppath = [pp cfile '/Climatol/'];
-load('/Volumes/FEISTY/POEM_JLD/esm26_hist/ESM26_1deg_5yr_clim_191_195_gridspec.mat');
+load('/Volumes/MIP/POEM_JLD/esm26_hist/ESM26_1deg_5yr_clim_191_195_gridspec.mat');
 
 %%
 load([fpath 'Means_die_nmort_yield_Climatol_' harv '_' cfile '.mat'],...
@@ -1070,7 +1072,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
 surfm(geolat_t,geolon_t,(Rsf))
 cmocean('speed')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([5 15])
+caxis([10 30])
 set(gcf,'renderer','painters')
 text(0,1.75,'SF res (in)','HorizontalAlignment','center')
 
@@ -1081,7 +1083,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
 surfm(geolat_t,geolon_t,(Ssf))
 cmocean('speed')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([5 15])
+caxis([10 30])
 set(gcf,'renderer','painters')
 text(0,1.75,'SF res (out)','HorizontalAlignment','center')
 
@@ -1092,7 +1094,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
 surfm(geolat_t,geolon_t,(Rsp))
 cmocean('speed')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([5 15])
+caxis([10 30])
 set(gcf,'renderer','painters')
 text(0,1.75,'SP res (in)','HorizontalAlignment','center')
 
@@ -1103,7 +1105,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
 surfm(geolat_t,geolon_t,(Ssp))
 cmocean('speed')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([5 15])
+caxis([10 30])
 set(gcf,'renderer','painters')
 text(0,1.75,'SP res (out)','HorizontalAlignment','center')
 
@@ -1116,7 +1118,7 @@ cmocean('speed')
 cb = colorbar('Position',[0.85 0.25 0.025 0.5],'orientation','vertical','AxisLocation','out');
 xlabel(cb,'days')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([5 15])
+caxis([10 30])
 set(gcf,'renderer','painters')
 text(0,1.75,'SD res (in)','HorizontalAlignment','center')
 
@@ -1127,6 +1129,27 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
 surfm(geolat_t,geolon_t,(Ssd))
 cmocean('speed')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([5 15])
+caxis([10 30])
 set(gcf,'renderer','painters')
 text(0,1.75,'SD res (out)','HorizontalAlignment','center')
+
+%%
+quan(1,:) = quantile(Ssf(:),[0.1 0.25 0.5 0.75 0.9]);
+quan(2,:) = quantile(Ssp(:),[0.1 0.25 0.5 0.75 0.9]);
+quan(3,:) = quantile(Ssd(:),[0.1 0.25 0.5 0.75 0.9]);
+quan(4,:) = quantile(Smf(:),[0.1 0.25 0.5 0.75 0.9]);
+quan(5,:) = quantile(Smp(:),[0.1 0.25 0.5 0.75 0.9]);
+quan(6,:) = quantile(Smd(:),[0.1 0.25 0.5 0.75 0.9]);
+quan(7,:) = quantile(Slp(:),[0.1 0.25 0.5 0.75 0.9]);
+quan(8,:) = quantile(Sld(:),[0.1 0.25 0.5 0.75 0.9]);
+
+TQ = array2table(quan,'VariableNames',{'0.10','0.25','0.5','0.75','0.90'},...
+    'RowNames',{'SF','SP','SD','MF','MP','MD','LP','LD'})
+
+save([fpath 'Residence_time_means_Climatol_' harv '_' cfile '.mat'],...
+    'quan','TQ','-append');
+writetable(TQ,[fpath 'Residence_time_quant_Climatol_' harv '_' cfile '.csv'],...
+    'Delimiter',',','WriteRowNames',true);
+
+
+

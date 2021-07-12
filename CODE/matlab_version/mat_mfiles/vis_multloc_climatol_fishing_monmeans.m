@@ -6,7 +6,7 @@
 clear all
 close all
 
-Pdir = '/Volumes/FEISTY/POEM_JLD/esm26_hist/';
+Pdir = '/Volumes/MIP/POEM_JLD/esm26_hist/';
 cpath = ['/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/'];
 pp = ['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/'];
 
@@ -14,8 +14,8 @@ load([Pdir 'ESM26_1deg_5yr_clim_191_195_gridspec.mat']);
 
 %Orig: 
 %cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
-cfile='Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
-harv = 'SWmlog_All_fish03';
+cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm000_nmort1_BE08_noCC_RE00100';
+harv = 'SWmarth_MZ25_All_fish03';
 
 fpath=['/Volumes/MIP/NC/Matlab_new_size/' cfile '/'];
 ppath = [pp cfile '/Climatol/'];

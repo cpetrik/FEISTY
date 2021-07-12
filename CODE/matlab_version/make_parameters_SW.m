@@ -32,11 +32,14 @@ function make_parameters_SW()
     pdc = 1;
 
     %!Individual Mass (g) = geometric mean
-    %M_s = 10^((log10(0.001)+log10(0.5))/2);  %0.0224
-    M_s = (0.001+0.5)/2;                     %0.2505
+%     M_s = 10^((log10(0.001)+log10(0.5))/2);  %0.0224
+    %M_s = (0.001+0.5)/2;                     %0.2505
     %M_s = (0.5-0.001)/(log(0.5)-log(0.001)); %0.0803
-    M_m = 10^((log10(0.5)+log10(250))/2);    %11.1803
-    M_l = 10^((log10(250)+log10(125000))/2); %5.5902e3
+    M_s = 0.5;
+    M_m = 250;    
+    M_l = 125000;
+%     M_m = 10^((log10(0.5)+log10(250))/2);    %11.1803
+%     M_l = 10^((log10(250)+log10(125000))/2); %5.5902e3
     %logspace(-3,5.0969,7) %gives end points and mid points
 
     %! Body lengths (mm)
@@ -109,8 +112,8 @@ function make_parameters_SW()
     %large piscivore eats medium forage fish, medium piscivore, medium detritivore
     %large detritivore eats detritus, medium forage fish, medium piscivore, medium detrivore
     
-    MZpref = 0.25; %
-    Sm = 0.0;  %Feeding 2 sizes down; 0.25
+    MZpref = 1.00; %
+    Sm = 0.25;  %Feeding 2 sizes down; 0.25
     J = 1.0;    %Juvenile feeding reduction
     D = 0.75;   %Demersal feeding in pelagic reduction
     A = 0.5;    %Adult predation reduction %*****
