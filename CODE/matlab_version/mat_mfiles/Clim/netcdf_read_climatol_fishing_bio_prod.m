@@ -4,10 +4,10 @@ clear all
 close all
 
 %Orig: cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
-cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm000_nmort1_BE08_noCC_RE00100';
-harv = 'SWmarth_MZ25_All_fish03';
+cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
+harv = 'Whigh_All_fish03';
 
-fpath=['/Volumes/MIP/NC/Matlab_new_size/' cfile '/'];
+fpath=['/Volumes/MIP/NC/Matlab_new_size/' cfile '/Climatology/'];
 
 %% SP
 prod = [];
