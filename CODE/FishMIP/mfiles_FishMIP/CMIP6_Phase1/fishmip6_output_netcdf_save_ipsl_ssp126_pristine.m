@@ -1,6 +1,7 @@
 % Calc Fish-MIP outputs saved as NetCDF
 % Future time period
 % SSP 126
+% RYAN FOUND THE LATITUDE ORIENTATION IS FLIPPED - NEED TO FIX!!!
 
 clear all
 close all
@@ -19,19 +20,19 @@ load([fpath 'SSP126_empHP_fishMIP_outputs_monthly_' cfile '.mat'])
 %total demersal biomass tdb = 360x180xMOs
 % allD
 %total consumber biomass tcb = 360x180xMOs
-% allC 
+% allC
 
 % SECONDARY
 %total pelagic (Linf <30cm) biomass bp30cm = 360x180xMOs
-% SPel 
+% SPel
 %total pelagic (>=30 cm and <90cm) biomass bp30to90cm = 360x180xMOs
-% MLPel 
+% MLPel
 %total pelagic (>=90cm) biomass bp90cm = 360x180xMOs
-% MLPel 
+% MLPel
 %total demersal (Linf <30cm) biomass bd30cm = 360x180xMOs
-% SDem 
+% SDem
 %total demersal (>=30 cm and <90cm) biomass bd30to90cm = 360x180xMOs
-% MLDem 
+% MLDem
 %total demersal (>=90cm) biomass bd90cm = 360x180xMOs
 % MLDem
 
@@ -67,32 +68,32 @@ for y=1:nt
     ttpb = allPel(:,y);
     gtpb(GRD.ID) = ttpb;
     tpb(:,:,y) = gtpb;
-    
+
     gtdb = 1.000000020040877e20*ones(ni,nj);
     ttdb = allD(:,y);
     gtdb(GRD.ID) = ttdb;
     tdb(:,:,y) = gtdb;
-    
+
     gtcb = 1.000000020040877e20*ones(ni,nj);
     ttcb = allC(:,y);
     gtcb(GRD.ID) = ttcb;
     tcb(:,:,y) = gtcb;
-    
+
     gp30cm = 1.000000020040877e20*ones(ni,nj);
     tp30cm = SPel(:,y);
     gp30cm(GRD.ID) = tp30cm;
     bp30cm(:,:,y) = gp30cm;
-    
+
     gp90cm = 1.000000020040877e20*ones(ni,nj);
     tp90cm = LPel(:,y);
     gp90cm(GRD.ID) = tp90cm;
     bp90cm(:,:,y) = gp90cm;
-    
+
 %     gd30cm = 1.000000020040877e20*ones(ni,nj);
 %     td30cm = SDem(:,y);
 %     gd30cm(GRD.ID) = td30cm;
 %     bd30cm(:,:,y) = gd30cm;
-    
+
     gd90cm = 1.000000020040877e20*ones(ni,nj);
     td90cm = allD(:,y);
     gd90cm(GRD.ID) = td90cm;
@@ -506,9 +507,3 @@ netcdf.putVar(ncid90,vidbio90,bd90cm);
 netcdf.putVar(ncid90,vidt90,time);
 
 netcdf.close(ncid90);
-
-
-
-
-
-

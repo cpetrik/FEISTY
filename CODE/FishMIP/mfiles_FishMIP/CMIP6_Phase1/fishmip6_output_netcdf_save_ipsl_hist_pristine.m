@@ -1,5 +1,6 @@
 % Calc Fish-MIP outputs saved as NetCDF
 % Historical time period
+% RYAN FOUND THE LATITUDE ORIENTATION IS FLIPPED - NEED TO FIX!!!
 
 clear all
 close all
@@ -67,32 +68,32 @@ for y=1:nt
     ttpb = allPel(:,y);
     gtpb(GRD.ID) = ttpb;
     tpb(:,:,y) = gtpb;
-    
+
     gtdb = 1.000000020040877e+20*ones(ni,nj);
     ttdb = allD(:,y);
     gtdb(GRD.ID) = ttdb;
     tdb(:,:,y) = gtdb;
-    
+
     gtcb = 1.000000020040877e+20*ones(ni,nj);
     ttcb = allC(:,y);
     gtcb(GRD.ID) = ttcb;
     tcb(:,:,y) = gtcb;
-    
+
     gp30cm = 1.000000020040877e+20*ones(ni,nj);
     tp30cm = SPel(:,y);
     gp30cm(GRD.ID) = tp30cm;
     bp30cm(:,:,y) = gp30cm;
-    
+
     gp90cm = 1.000000020040877e+20*ones(ni,nj);
     tp90cm = LPel(:,y);
     gp90cm(GRD.ID) = tp90cm;
     bp90cm(:,:,y) = gp90cm;
-    
+
     %     gd30cm = 1.000000020040877e+20*ones(ni,nj);
     %     td30cm = SDem(:,y);
     %     gd30cm(GRD.ID) = td30cm;
     %     bd30cm(:,:,y) = gd30cm;
-    
+
     gd90cm = 1.000000020040877e+20*ones(ni,nj);
     td90cm = allD(:,y);
     gd90cm(GRD.ID) = td90cm;
@@ -509,8 +510,3 @@ netcdf.putVar(ncid90,vidbio90,bd90cm);
 netcdf.putVar(ncid90,vidt90,time);
 
 netcdf.close(ncid90);
-
-
-
-
-
