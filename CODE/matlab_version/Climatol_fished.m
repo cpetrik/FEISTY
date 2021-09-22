@@ -29,7 +29,7 @@ mfn=nan;
 make_parameters_SW()
 
 %! Setup Climatol (loop 5-year climatology of ESM2.6-COBALT)
-load('/Volumes/FEISTY/POEM_JLD/esm26_hist/ESM26_1deg_5yr_clim_191_195_daily.mat','COBALT');
+load('/Volumes/MIP/POEM_JLD/esm26_hist/ESM26_1deg_5yr_clim_191_195_daily.mat','COBALT');
 
 %! How long to run the model
 YEARS = 150;
@@ -37,7 +37,7 @@ DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Grid; choose where and when to run the model
-load('/Volumes/FEISTY/POEM_JLD/esm26_hist/ESM26_1deg_5yr_clim_191_195_grid.mat','GRD');
+load('/Volumes/MIP/POEM_JLD/esm26_hist/ESM26_1deg_5yr_clim_191_195_grid.mat','GRD');
 NX = length(GRD.Z);
 ID = 1:NX;
 %2D Grid for advect-diff
@@ -46,7 +46,7 @@ ID = 1:NX;
 
 %! Create a directory for output
 %fname = sub_fname(frate);
-test = 'Whigh';
+test = 'Wmarth';
 fname = sub_fname_test(frate,test);
 
 %! Storage variables
