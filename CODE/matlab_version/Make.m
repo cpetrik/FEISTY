@@ -14,10 +14,11 @@ spinup_pristine = false;
 climatol_loop = false;
 climatol_param = false;
 climatol_ens = false;
-climatol = true;
-climatol_crr = true;
+climatol = false;
+climatol_crr = false;
 climatol_con = false;
-climatol_ngdc = true;
+climatol_ngdc = false;
+core_fished = true;
 pre_industrial = false;
 historic_pristine = false;
 historic_fished = false;
@@ -45,7 +46,8 @@ if climlocs
 end
 if spinup_pristine
     %Spinup_pristine()
-    Spinup_CORE_pristine()
+    %Spinup_CORE_pristine()
+    Spinup_CORE_fished_obs()
 end
 if climatol_loop
     Climatol_fishing_RE_search()
@@ -71,6 +73,12 @@ if climatol_ngdc
     Climatol_nu_gam_die_clev()
     Climatol_death_vars()
 end
+if core_fished
+    %CORE_fished()
+    CORE_fished_obs()
+    %CORE_rec_rep_nmort()
+    %CORE_nu_gam_die()
+end
 if pre_industrial
     %Pre_industrial()
     %Pre_industrial_long()
@@ -83,12 +91,9 @@ if historic_pristine
     Historic_pristine()
 end
 if historic_fished
-    %Historic_fished()
+    Historic_fished()
     %Historic_fished_prod()
-    Historic_fished_met()
-    %CORE_fished()
-    %CORE_rec_rep_nmort()
-    %CORE_nu_gam_die()
+    %Historic_fished_met()
 end
 if historic_fished_ens
     Historic_fished_ensemble6_samek()
