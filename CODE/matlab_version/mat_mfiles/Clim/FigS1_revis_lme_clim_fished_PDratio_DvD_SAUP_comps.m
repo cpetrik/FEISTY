@@ -1,6 +1,6 @@
 % P:D ratio by LME 
-% Climatology
-% 150 years
+% CORE-forced
+% Observed effort
 % Saved as mat files
 % Compare to Daniel's model results &SAUP
 
