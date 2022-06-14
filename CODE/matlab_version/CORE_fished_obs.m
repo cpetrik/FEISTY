@@ -271,7 +271,7 @@ MNT = 0;
 %! Run model with no fishing
 for YR = 1:YEARS % years
     %! Load a year's COBALT and fishing effort data
-    ti = num2str(YR+1949);
+    ti = num2str(YR+1960);
     load(['/Volumes/MIP/GCM_DATA/CORE-forced/Data_ocean_cobalt_daily_',ti,'.mat'],'COBALT');
     
     frateF = fmF(:,YR);
