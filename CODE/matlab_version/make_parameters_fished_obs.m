@@ -19,9 +19,9 @@ function make_parameters_fished_obs()
     K = 600.0;
     
     %! Which fishes harvested
-    MFsel = 1;
+    MFsel = 0.5;
     LPsel = 1;
-    LDsel = 1;
+    LDsel = 0.5;
     Jsel  = 0.1;
     MPsel = Jsel * LPsel;
     MDsel = Jsel * LDsel;

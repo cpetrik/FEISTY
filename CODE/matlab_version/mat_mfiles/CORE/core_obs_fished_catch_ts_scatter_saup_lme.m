@@ -13,7 +13,7 @@ if (~isfolder(ppath))
     mkdir(ppath)
 end
 
-harv = 'fished_obs';
+harv = 'fish_Fobs050_Pobs100_Dobs050'; %'fished_obs';
 tharv = 'Observed effort';
 
 load([fpath 'LME_core_',harv,'_' cfile '.mat']);
@@ -74,7 +74,7 @@ subplot(2,2,4)
 plot(slme_scatch_all(:),Alme_fcatch_all(:),'.k','MarkerSize',20)
 xlabel('SAUP')
 title('All')
-print('-dpng',[ppath 'CORE_obs_fished_lme_scatter_all_yrs.png'])
+print('-dpng',[ppath 'CORE_',harv,'_lme_scatter_all_yrs.png'])
 
 %% log10 Global
 figure(2)
@@ -97,7 +97,7 @@ subplot(2,2,4)
 plot(log10(slme_scatch_all(:)),log10(Alme_fcatch_all(:)),'.k','MarkerSize',20)
 xlabel('SAUP')
 title('All')
-print('-dpng',[ppath 'CORE_obs_fished_lme_scatter_all_yrs_log10.png'])
+print('-dpng',[ppath 'CORE_',harv,'_lme_scatter_all_yrs_log10.png'])
 
 %% Scatter by LME
 nrows=11;
@@ -118,7 +118,7 @@ for m = 1:nrows
         end
     end
 end
-print('-dpng',[ppath 'CORE_byLME_obs_fished_scatter_all_yrs_Allfish.png'])
+print('-dpng',[ppath 'CORE_byLME_',harv,'_scatter_all_yrs_Allfish.png'])
 
 %% F
 figure('Units','inches','Position',[1 3 6.5 8.5]);
@@ -134,7 +134,7 @@ for m = 1:nrows
         end
     end
 end
-print('-dpng',[ppath 'CORE_byLME_obs_fished_scatter_all_yrs_F.png'])
+print('-dpng',[ppath 'CORE_byLME_',harv,'_scatter_all_yrs_F.png'])
 
 %% P
 figure('Units','inches','Position',[1 3 6.5 8.5]);
@@ -150,7 +150,7 @@ for m = 1:nrows
         end
     end
 end
-print('-dpng',[ppath 'CORE_byLME_obs_fished_scatter_all_yrs_P.png'])
+print('-dpng',[ppath 'CORE_byLME_',harv,'_scatter_all_yrs_P.png'])
 
 %% D
 figure('Units','inches','Position',[1 3 6.5 8.5]);
@@ -166,7 +166,7 @@ for m = 1:nrows
         end
     end
 end
-print('-dpng',[ppath 'CORE_byLME_obs_fished_scatter_all_yrs_D.png'])
+print('-dpng',[ppath 'CORE_byLME_',harv,'_scatter_all_yrs_D.png'])
 
 %% Time series Plots 
 % Global
@@ -194,7 +194,7 @@ plot(years,sum(slme_scatch_all),'color',[0.5 0.5 0.5],'LineWidth',2); hold on
 plot(years,sum(Alme_fcatch_all),'k','LineWidth',2)
 xlabel('year')
 title('All')
-print('-dpng',[ppath 'CORE_obs_fished_sumlme_ts.png'])
+print('-dpng',[ppath 'CORE_',harv,'_sumlme_ts.png'])
 
 %% log10 Global
 figure(8)
@@ -221,7 +221,7 @@ plot(years,log10(sum(slme_scatch_all)),'color',[0.5 0.5 0.5],'LineWidth',2); hol
 plot(years,log10(sum(Alme_fcatch_all)),'k','LineWidth',2)
 xlabel('year')
 title('All')
-print('-dpng',[ppath 'CORE_obs_fished_sumlme_ts_log10.png'])
+print('-dpng',[ppath 'CORE_',harv,'_sumlme_ts_log10.png'])
 
 %% TS by LME
 % all 
@@ -239,7 +239,7 @@ for m = 1:nrows
         end
     end
 end
-print('-dpng',[ppath 'CORE_byLME_obs_fished_ts_Allfish.png'])
+print('-dpng',[ppath 'CORE_byLME_',harv,'_ts_Allfish.png'])
 
 %% F
 figure('Units','inches','Position',[1 3 6.5 8.5]);
@@ -256,7 +256,7 @@ for m = 1:nrows
         end
     end
 end
-print('-dpng',[ppath 'CORE_byLME_obs_fished_ts_F.png'])
+print('-dpng',[ppath 'CORE_byLME_',harv,'_ts_F.png'])
 
 %% P
 figure('Units','inches','Position',[1 3 6.5 8.5]);
@@ -273,7 +273,7 @@ for m = 1:nrows
         end
     end
 end
-print('-dpng',[ppath 'CORE_byLME_obs_fished_ts_P.png'])
+print('-dpng',[ppath 'CORE_byLME_',harv,'_ts_P.png'])
 
 %% D
 figure('Units','inches','Position',[1 3 6.5 8.5]);
@@ -290,6 +290,6 @@ for m = 1:nrows
         end
     end
 end
-print('-dpng',[ppath 'CORE_byLME_obs_fished_ts_D.png'])
+print('-dpng',[ppath 'CORE_byLME_',harv,'_ts_D.png'])
 
 

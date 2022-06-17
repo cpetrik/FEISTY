@@ -13,7 +13,7 @@ if (~isfolder(ppath))
     mkdir(ppath)
 end
 
-harv = 'fished_obs';
+harv = 'fish_Fobs050_Pobs100_Dobs050'; %'fished_obs';
 tharv = 'Observed effort';
 
 load([fpath 'LME_core_',harv,'_' cfile '.mat']);
@@ -54,7 +54,7 @@ l10sD=log10(Dlme_mcatch10+eps);
 sFracPD = Plme_mcatch10 ./ (Plme_mcatch10 + Dlme_mcatch10);
 
 %% save
-save([fpath 'LME_core_obs_fished_Catch_top10.mat'],'alme_mcatch10','Flme_mcatch10',...
+save([fpath 'LME_core_',harv,'_Catch_top10.mat'],'alme_mcatch10','Flme_mcatch10',...
     'Plme_mcatch10','Dlme_mcatch10','sFracPD')
 
 

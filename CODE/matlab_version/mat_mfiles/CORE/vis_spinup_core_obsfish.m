@@ -15,7 +15,8 @@ if (~isfolder(ppath))
     mkdir(ppath)
 end
 
-load([fpath 'Means_spinup_core_obs_fished_' cfile '.mat']);
+harv = 'fish_Fobs050_Pobs100_Dobs050'; %All_fish_obs
+load([fpath 'Means_spinup_core_',harv,'_' cfile '.mat']);
 
 load('/Volumes/MIP/GCM_DATA/CORE-forced/ocean_cobalt_grid.mat',...
     'geolon_t','geolat_t');
@@ -94,7 +95,7 @@ xlabel('Time (mo)')
 ylabel('log10 Biomass (g m^-^2)')
 title('Spinup')
 stamp(cfile)
-print('-dpng',[ppath 'Spinup_obs_fished_all_sizes.png'])
+print('-dpng',[ppath 'Spinup_',harv,'_all_sizes.png'])
 
 figure(2)
 plot(y,log10(B),'color',[0.5 0.5 0.5],'Linewidth',2); hold on;
@@ -108,7 +109,7 @@ ylim([-5 2])
 xlabel('Time (y)')
 ylabel('log10 Biomass (g m^-^2)')
 title(['Spinup'])
-print('-dpng',[ppath 'Spinup_obs_fished_all_types.png'])
+print('-dpng',[ppath 'Spinup_',harv,'_all_types.png'])
 
 %% Plots in space
 Zsf=NaN*ones(ni,nj);
@@ -155,7 +156,7 @@ hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('log10 mean benthic biomass (g m^-^2)')
 stamp(cfile)
-print('-dpng',[ppath 'Spinup_obs_fished_global_BENT.png'])
+print('-dpng',[ppath 'Spinup_',harv,'_global_BENT.png'])
 
 %% ALL
 figure(4)
@@ -208,7 +209,7 @@ caxis([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
 stamp(cfile)
-print('-dpng',[ppath 'Spinup_obs_fished_global_All_subplot.png'])
+print('-dpng',[ppath 'Spinup_',harv,'_global_All_subplot.png'])
 
 %% Ratios on subplots 3 figure subplot P:D, P:F, M:L
 figure(5)
@@ -249,7 +250,7 @@ colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('Fraction Large vs. Medium')
 stamp(cfile)
-print('-dpng',[ppath 'Spinup_obs_fished_global_ratios_subplot.png'])
+print('-dpng',[ppath 'Spinup_',harv,'_global_ratios_subplot.png'])
 
 
 

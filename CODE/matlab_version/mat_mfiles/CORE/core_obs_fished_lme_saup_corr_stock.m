@@ -51,9 +51,9 @@ if (~isfolder(ppath))
     mkdir(ppath)
 end
 
-harv = 'fished_obs';
+harv = 'fish_Fobs050_Pobs100_Dobs050'; %'fished_obs';
 
-load([fpath 'LME_core_obs_fished_Catch_top10.mat'])
+load([fpath 'LME_core_',harv,'_Catch_top10.mat'])
 
 plme_mcatch = alme_mcatch10;
 plme_Fmcatch = Flme_mcatch10;

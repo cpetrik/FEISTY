@@ -44,10 +44,10 @@ if (~isfolder(ppath))
     mkdir(ppath)
 end
 
-harv = 'fished_obs';
+harv = 'fish_Fobs050_Pobs100_Dobs050'; %All_fish_obs
 tharv = 'Observed effort';
 
-load([fpath 'Means_core_fished_obs_' cfile '.mat']);
+load([fpath 'Means_core_',harv,'_' cfile '.mat']);
 
 [nid,nt] = size(ld_mean);
 

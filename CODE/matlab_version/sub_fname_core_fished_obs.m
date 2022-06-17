@@ -1,5 +1,5 @@
 %%%% File naming system
-function [fname,simname] = sub_fname_core_fished_obs()
+function [fname,simname,harv] = sub_fname_core_fished_obs()
 global DAYS GRD NX ID
 global DT PI_be_cutoff pdc L_s L_m L_l M_s M_m M_l L_zm L_zl
 global Z_s Z_m Z_l Lambda K_l K_j K_a h gam kt bpow
@@ -18,6 +18,30 @@ tbe = num2str(100+int64(100*bent_eff));
 tmort = num2str(MORT);
 tre = num2str(100000+int64(round(10000*rfrac)));
 tJ = num2str(100+int64(10*Jsel));
+if (nanmean(dfrateF) == 0)
+    tF = '0';
+else
+    selF = num2str(1000+int64(100*MFsel));
+    tF = ['obs' selF(2:end)];
+end
+if (nanmean(dfrateP) == 0)
+    tP = '0';
+else
+    selP = num2str(1000+int64(100*LPsel));
+    tP = ['obs' selP(2:end)];
+end
+if (nanmean(dfrateD) == 0)
+    tD = '0';
+else
+    selD = num2str(1000+int64(100*LDsel));  
+    tD = ['obs' selD(2:end)];
+end
+if (nanmean(dfrateF) > 0)
+    if (nanmean(dfrateP) > 0 && nanmean(dfrateD) > 0)
+        sel='All';
+        tfish='obs';
+    end
+end
 if (pdc == 0)
     coup = 'NoDc';
 elseif (pdc == 1)
@@ -45,9 +69,14 @@ end
 
 %! Setup netcdf path to store to
 if (Jsel~=0.1)
-    fname = ['/Volumes/MIP/NC/Matlab_new_size/',simname, '/CORE/Core_All_fish_obs_Juve',tJ(2:end)];
+    fname = ['/Volumes/MIP/NC/Matlab_new_size/',simname, '/CORE/Core_', sel,'_fish_obs_Juve',tJ(2:end)];
+    harv = [sel,'_fish_obs_Juve',tJ(2:end)];
+elseif (MFsel~=LPsel)
+    fname = ['/Volumes/MIP/NC/Matlab_new_size/',simname, '/CORE/Core_fish_F',tF,'_P',tP,'_D',tD];
+    harv = ['fish_F',tF,'_P',tP,'_D',tD];
 else
-    fname  = ['/Volumes/MIP/NC/Matlab_new_size/',simname, '/CORE/Core_All_fish_obs'];
+    fname  = ['/Volumes/MIP/NC/Matlab_new_size/',simname, '/CORE/Core_', sel,'_fish_obs'];
+    harv = [sel,'_fish_obs'];
 end
 
 

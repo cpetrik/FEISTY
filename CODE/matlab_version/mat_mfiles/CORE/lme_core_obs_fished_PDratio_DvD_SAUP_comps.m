@@ -37,9 +37,9 @@ if (~isfolder(ppath))
     mkdir(ppath)
 end
 
-harv = 'fished_obs';
+harv = 'fish_Fobs050_Pobs100_Dobs050'; %'fished_obs';
 
-load([fpath 'LME_core_obs_fished_Catch_top10.mat'])
+load([fpath 'LME_core_',harv,'_Catch_top10.mat'])
 
 plme_mcatch = alme_mcatch10;
 plme_Fmcatch = Flme_mcatch10;
@@ -134,8 +134,8 @@ fish_stat(3,3) = FPD;
 
 Fstat = array2table(fish_stat,'RowNames',{'r','RMSE','Fmed'},...
     'VariableNames',{'DvDAllLMEs','DvDnoLELC','SAUnoLELC'});
-writetable(Fstat,[fpath 'core_obs_fished_LME_DvD_SAU_stats_' cfile '.csv'],'Delimiter',',','WriteRowNames',true)
-save([fpath 'core_obs_fished_LME_DvD_SAU_stats_' cfile '.mat'],'fish_stat')
+writetable(Fstat,[fpath 'core_',harv,'_LME_DvD_SAU_stats_' cfile '.csv'],'Delimiter',',','WriteRowNames',true)
+save([fpath 'core_',harv,'_LME_DvD_SAU_stats_' cfile '.mat'],'fish_stat')
 
 %% Plot info
 [ni,nj]=size(geolon_t);

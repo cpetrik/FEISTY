@@ -21,17 +21,20 @@ tJ = num2str(100+int64(10*Jsel));
 if (nanmean(dfrateF) == 0)
     tF = '0';
 else
-    tF = 'obs';
+    selF = num2str(1000+int64(100*MFsel));
+    tF = ['obs' selF(2:end)];
 end
 if (nanmean(dfrateP) == 0)
     tP = '0';
 else
-    tP = 'obs';
+    selP = num2str(1000+int64(100*LPsel));
+    tP = ['obs' selP(2:end)];
 end
 if (nanmean(dfrateD) == 0)
     tD = '0';
 else
-    tD = 'obs';
+    selD = num2str(1000+int64(100*LDsel));  
+    tD = ['obs' selD(2:end)];
 end
 if (nanmean(dfrateF) > 0)
     if (nanmean(dfrateP) > 0 && nanmean(dfrateD) > 0)

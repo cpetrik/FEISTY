@@ -32,7 +32,7 @@ DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Create a directory for output
-[fname,simname] = sub_fname_core_fished_obs();
+[fname,simname,harv] = sub_fname_core_fished_obs();
 
 %! Storage variables
 S_Bent_bio = zeros(NX,DAYS);
@@ -121,7 +121,7 @@ S_Lrg_d_fish = zeros(NX,DAYS);
 
 %% ! Initialize
 init_sim = simname;
-load(['/Volumes/MIP/NC/Matlab_new_size/',init_sim '/CORE/Last_mo_spinup_core_obs_fished_' init_sim '.mat']);
+load(['/Volumes/MIP/NC/Matlab_new_size/',init_sim '/CORE/Last_mo_spinup_core_',harv,'_' init_sim '.mat']);
 BENT.mass = BENT.bio;
 [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_hist(ID,DAYS,Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT);
 ENVR = sub_init_env(ID);
