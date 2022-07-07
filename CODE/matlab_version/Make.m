@@ -10,7 +10,7 @@ histlocs = false;
 forelocs = false;
 climlocs = false;
 oneloc_fore_pristine = false;
-spinup_pristine      = false;
+spinup_pristine      = true;
 climatol_loop   = false;
 climatol_param  = false;
 climatol_ens    = false;
@@ -18,7 +18,7 @@ climatol        = false;
 climatol_crr    = false;
 climatol_con    = false;
 climatol_ngdc   = false;
-core_fished     = true;
+core_fished     = false;
 pre_industrial  = false;
 historic_pristine   = false;
 historic_fished     = false;
@@ -47,7 +47,7 @@ end
 if spinup_pristine
     %Spinup_pristine()
     %Spinup_CORE_pristine()
-    Spinup_CORE_fished_obs()
+    Spinup_CORE_fished_obs_data()
 end
 if climatol_loop
     Climatol_fishing_RE_search()

@@ -5,8 +5,9 @@ clear all
 close all
 
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
-fpath=['/Volumes/MIP/NC/Matlab_new_size/' cfile '/CORE/'];
-harv = 'fish_Fobs050_Pobs100_Dobs050'; %All_fish_obs
+%fpath=['/Volumes/MIP/NC/Matlab_new_size/' cfile '/CORE/'];
+fpath=['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/' cfile '/CORE/'];
+harv = 'All_fish_obs'; %All_fish_obs %fish_Fobs050_Pobs100_Dobs050
 
 %% SP
 ncid = netcdf.open([fpath 'Core_spin_',harv,'_sml_p.nc'],'NC_NOWRITE');

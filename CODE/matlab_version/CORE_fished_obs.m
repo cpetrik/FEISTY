@@ -265,7 +265,7 @@ vidTB      = netcdf.defVar(ncidB,'time','double',time_dim);
 netcdf.endDef(ncidB);
 
 %% %%%%%%%%%%%%%%%%%%%% Run the Model
-load('/Volumes/MIP/Fish-MIP/Phase3/fishing/grid_mortality_guilds/CORE_mortality_all_ID_annual.mat',...
+load('/Volumes/MIP/Fish-MIP/Phase3/fishing/grid_mortality_guilds/CORE_mortality_all_ID_annual_tempSc.mat',...
     'fmD','fmF','fmP');
 MNT = 0;
 %! Run model with no fishing

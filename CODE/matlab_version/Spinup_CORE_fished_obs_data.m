@@ -1,5 +1,5 @@
 %%%%!! RUN SPINUP FOR ALL LOCATIONS
-function Spinup_CORE_fished_obs()
+function Spinup_CORE_fished_obs_data()
 
 global DAYS GRD NX ID
 global DT PI_be_cutoff pdc L_s L_m L_l M_s M_m M_l L_zm L_zl
@@ -35,7 +35,9 @@ mfn=nan;
 make_parameters_fished_obs() % make core parameters/constants
 
 %! Setup spinup (loop first year of COBALT)
-load(['/Volumes/MIP/GCM_DATA/CORE-forced/Data_ocean_cobalt_daily_',...
+% load(['/Volumes/MIP/GCM_DATA/CORE-forced/Data_ocean_cobalt_daily_',...
+%     num2str(year(1)),'.mat'],'COBALT');
+load(['/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/CORE/Data_ocean_cobalt_daily_',...
     num2str(year(1)),'.mat'],'COBALT');
 
 %! How long to run the model
@@ -44,14 +46,15 @@ DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Grid
-load('/Volumes/MIP/GCM_DATA/CORE-forced/Data_grid_ocean_cobalt_ESM2Mcore.mat','GRD');
+%load('/Volumes/MIP/GCM_DATA/CORE-forced/Data_grid_ocean_cobalt_ESM2Mcore.mat','GRD');
+load('/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/CORE/Data_grid_ocean_cobalt_ESM2Mcore.mat','GRD');
 NX = GRD.N;
 ID = 1:NX;
 
 %! Create a directory for output
-[fname,simname] = sub_fname_core_spin_fished_obs();
+[fname,simname] = sub_fname_core_spin_fished_obs_data();
 
-%! Storage variables
+%% ! Storage variables
 S_Bent_bio = zeros(NX,DAYS);
 
 S_Sml_f = zeros(NX,DAYS);

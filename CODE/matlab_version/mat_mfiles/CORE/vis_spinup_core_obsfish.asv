@@ -20,10 +20,11 @@ end
 %harv = 'fish_Fobs050_Pobs100_Dobs050'; %All_fish_obs
 load([fpath 'Means_spinup_core_',harv,'_' cfile '.mat']);
 
-%cpath='/Volumes/MIP/GCM_DATA/CORE-forced/';
-cpath='/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/CORE/';
-load([cpath 'ocean_cobalt_grid.mat'],'geolon_t','geolat_t');
-load([cpath 'Data_grid_ocean_cobalt_ESM2Mcore.mat'],'GRD');
+cpath='/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Data/' cfile '/CORE/'];
+load('/Volumes/MIP/GCM_DATA/CORE-forced/ocean_cobalt_grid.mat',...
+    'geolon_t','geolat_t');
+load('/Volumes/MIP/GCM_DATA/CORE-forced/Data_grid_ocean_cobalt_ESM2Mcore.mat',...
+    'GRD');
 
 [ni,nj]=size(geolon_t);
 geolon_t = double(geolon_t);
@@ -92,7 +93,7 @@ plot(y,log10(ld_tmean),'Linewidth',1); hold on;
 legend('B','SF','MF','SP','MP','LP','SD','MD','LD')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
-%ylim([-5 2])
+ylim([-5 2])
 xlabel('Time (mo)')
 ylabel('log10 Biomass (g m^-^2)')
 title('Spinup')
@@ -107,7 +108,7 @@ plot(y,log10(D),'k','Linewidth',2); hold on;
 legend('B','F','P','D')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
-%ylim([-5 2])
+ylim([-5 2])
 xlabel('Time (y)')
 ylabel('log10 Biomass (g m^-^2)')
 title(['Spinup'])

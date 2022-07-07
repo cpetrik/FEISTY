@@ -19,12 +19,12 @@ function make_parameters_fished_obs()
     K = 600.0;
     
     %! Which fishes harvested
-    MFsel = 0.5;
+    MFsel = 1;
     LPsel = 1;
-    LDsel = 0.5;
+    LDsel = 1;
     Jsel  = 0.1;
-    MPsel = Jsel * LPsel;
-    MDsel = Jsel * LDsel;
+    MPsel = Jsel * MFsel;
+    MDsel = Jsel * MFsel;
     
     %! Benthic-pelagic coupling cutoff (depth, m)
     PI_be_cutoff = 200;

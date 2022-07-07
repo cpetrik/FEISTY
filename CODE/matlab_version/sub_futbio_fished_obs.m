@@ -215,8 +215,8 @@ Ld.rec = sub_rec(Md.gamma,Md.bio);
 
 % Fishing by rate
 [Mf.bio, Mf.caught, Mf.fmort] = sub_fishing_rate(Mf.bio,dfrateF,MFsel);
-[Mp.bio, Mp.caught, Mp.fmort] = sub_fishing_rate(Mp.bio,dfrateP,MPsel);
-[Md.bio, Md.caught, Md.fmort] = sub_fishing_rate(Md.bio,dfrateD,MDsel);
+[Mp.bio, Mp.caught, Mp.fmort] = sub_fishing_rate(Mp.bio,dfrateF,MPsel);
+[Md.bio, Md.caught, Md.fmort] = sub_fishing_rate(Md.bio,dfrateF,MDsel);
 [Lp.bio, Lp.caught, Lp.fmort] = sub_fishing_rate(Lp.bio,dfrateP,LPsel);
 [Ld.bio, Ld.caught, Ld.fmort] = sub_fishing_rate(Ld.bio,dfrateD,LDsel);
 
