@@ -44,7 +44,7 @@ if (~isfolder(ppath))
     mkdir(ppath)
 end
 
-harv = 'fish_Fobs050_Pobs100_Dobs050'; %All_fish_obs
+harv = 'All_fish_obs'; %All_fish_obs
 tharv = 'Observed effort';
 
 load([fpath 'Means_core_',harv,'_' cfile '.mat']);

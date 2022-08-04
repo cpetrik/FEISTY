@@ -18,6 +18,17 @@ cfn=nan;
 efn=nan;
 mfn=nan;
 
+%! Load fishing mortality rates
+load('/Volumes/MIP/Fish-MIP/Phase3/fishing/grid_mortality_guilds/CORE_mortality_all_ID_annual_tempSc.mat',...
+    'fmD','fmF','fmP');
+% Set fishing rate as 1st year of observations for filename
+frateF = fmF(:,1);
+frateP = fmP(:,1);
+frateD = fmD(:,1);
+dfrateF = frateF/365.0;
+dfrateP = frateP/365.0;
+dfrateD = frateD/365.0;
+
 %! Make core parameters/constants (global)
 make_parameters_fished_obs() % make core parameters/constants
 
@@ -265,8 +276,6 @@ vidTB      = netcdf.defVar(ncidB,'time','double',time_dim);
 netcdf.endDef(ncidB);
 
 %% %%%%%%%%%%%%%%%%%%%% Run the Model
-load('/Volumes/MIP/Fish-MIP/Phase3/fishing/grid_mortality_guilds/CORE_mortality_all_ID_annual_tempSc.mat',...
-    'fmD','fmF','fmP');
 MNT = 0;
 %! Run model with no fishing
 for YR = 1:YEARS % years

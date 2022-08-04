@@ -4,7 +4,7 @@ clear all
 close all
 
 %% 1961-2010
-%fpath = '/Volumes/MIP/Fish-MIP/Phase3/fishing/grid_mortality_guilds/';
+spath = '/Volumes/MIP/Fish-MIP/Phase3/fishing/grid_mortality_guilds/';
 fpath = '/Users/cpetrik/Dropbox/Princeton/FEISTY_other/fishing_ms_ideas/fishing_effort_impl/grid_mortality_guilds/';
 load([fpath 'grid_mortality_all.mat'])
 
@@ -13,8 +13,8 @@ lats = unique([LatD, LatF, LatP]);
 lons = unique([LonD, LonF, LonP]);
 
 %% test with CORE-forced COBALT
-%Cdir = '/Volumes/MIP/GCM_DATA/CORE-forced/';
-Cdir = '/Volumes/petrik-lab/Feisty/GCM_Data/CORE-forced/';
+Cdir = '/Volumes/MIP/GCM_DATA/CORE-forced/';
+%Cdir = '/Volumes/petrik-lab/Feisty/GCM_Data/CORE-forced/';
 cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/cobalt_data/';
 
 % Depth, lat, lon, area, grid cell with seafloor
@@ -69,9 +69,9 @@ vmtb = mtb(WID);
 %%
 %tsc = (exp(0.063*(temp-10.0));
 
-fmF = fmF .* (exp(0.063*(vmtp-10.0)));
-fmP = fmP .* (exp(0.063*(vmtp-10.0)));
-fmD = fmD .* (exp(0.063*(vmtb-10.0)));
+fmF = 0.3 * fmF .* (exp(0.063*(vmtp-10.0)));
+fmP = 0.3 * fmP .* (exp(0.063*(vmtp-10.0)));
+fmD = 0.3 * fmD .* (exp(0.063*(vmtb-10.0)));
 
 %shelf
 sid = find(GRD.Z<200);
@@ -93,6 +93,8 @@ fmP(fmP<0) = 0.0;
 year = 1961:2010;
 
 save([fpath 'CORE_mortality_all_ID_annual_tempSc.mat'],'year','WID',...
+    'fmD','fmF','fmP');
+save([spath 'CORE_mortality_all_ID_annual_tempSc.mat'],'year','WID',...
     'fmD','fmF','fmP');
 
 

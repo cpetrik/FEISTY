@@ -13,7 +13,7 @@ if (~isfolder(ppath))
     mkdir(ppath)
 end
 
-harv = 'fish_Fobs050_Pobs100_Dobs050'; %'fished_obs';
+harv = 'fished_obs';
 tharv = 'Observed effort';
 
 load([fpath 'LME_core_',harv,'_' cfile '.mat']);
