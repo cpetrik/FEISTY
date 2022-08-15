@@ -1,28 +1,25 @@
 %%%%!! RUN HISTORIC FOR ALL LOCATIONS
-function Historic_pristine_empHP_gfdl()
+function Hist_fishing_empHP_gfdl_mom6_cobalt2_onedeg_obsclim()
 
 %%%%%%%%%%%%%%% Initialize Model Variables
-%! Set fishing rate
-param.frate = 0;
-param.dfrate = param.frate/365.0;
-
 %! Make core parameters/constants
 param = make_parameters_1meso(param);
 
 %! Grid
-load('/Volumes/MIP/Fish-MIP/CMIP6/GFDL/Data_grid_gfdl.mat','GRD');
+load('/Volumes/MIP/Fish-MIP/Phase3/OneDeg/Data_grid_gfdl-mom6-cobalt2_obsclim_deptho_onedeg.mat','GRD');
 param.NX = length(GRD.Z);
 param.ID = 1:param.NX;
 NX = length(GRD.Z);
 ID = 1:param.NX;
 
 %! How long to run the model
-YEARS = length(1950:2014);
+YEARS = 1961:2010;
+nYEARS = length(YEARS);
 DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Create a directory for output
-[fname,simname] = sub_fname_hist_gfdl(param);
+[fname,simname,outdir] = sub_fname_hist_gfdl_onedeg_obs(param);
 
 %! Storage variables
 S_Bent_bio = zeros(NX,DAYS);
@@ -38,11 +35,10 @@ S_Lrg_p = zeros(NX,DAYS);
 S_Lrg_d = zeros(NX,DAYS);
 
 %! Initialize
-init_sim = simname;
-load(['/Volumes/MIP/NC/FishMIP/GFDL_CMIP6/',init_sim '/Last_mo_spinup_' init_sim '.mat']);
+load([outdir 'Last_mo_pi_fishing_' simname '.mat']);
 BENT.mass = BENT.bio;
 [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_hist(ID,DAYS,Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT);
-ENVR = sub_init_env_empHP(ID);
+%ENVR = sub_init_env_empHP(ID);
 
 %%%%%%%%%%%%%%% Setup NetCDF save
 %! Setup netcdf path to store to
@@ -136,11 +132,13 @@ netcdf.endDef(ncidB);
 
 %% %%%%%%%%%%%%%%%%%%%% Run the Model
 MNT = 0;
-%! Run model with no fishing
-for YR = 1:YEARS % years
-    %! Load a year's CESM data
-    ti = num2str(YR+1949)
-    load(['/Volumes/MIP/Fish-MIP/CMIP6/GFDL/hist/Data_gfdl_hist_daily_',ti,'.mat'],'ESM');
+%! Run model with fishing
+for YR = 1:nYEARS % years
+    %! Load a year's ESM data
+    ti = num2str(YEARS(YR));
+    [ti,' , ', num2str(c)]
+    load(['/Volumes/MIP/Fish-MIP/Phase3/OneDeg/',...
+        'Data_gfdl_mom6_cobalt2_obsclim_onedeg_daily_',ti,'.mat'],'ESM');
 
     for DAY = 1:param.DT:DAYS % days
 

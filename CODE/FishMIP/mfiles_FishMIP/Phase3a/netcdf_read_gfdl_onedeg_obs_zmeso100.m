@@ -84,7 +84,7 @@ run2 = 301:600;
 %% zmeso 1st half
 for n = nvars
     varname = netcdf.inqVar(ncid, n-1);
-    zmeso = netcdf.getVar(ncid,n-1,[0,0,0,run1(1)-1],[1440 720 length(z100) length(run1)]);
+    zmeso = netcdf.getVar(ncid,n-1,[0,0,0,run1(1)-1],[360 180 length(z100) length(run1)]);
 end
 zmeso(zmeso >= 1.00e+19) = NaN;
 
@@ -97,7 +97,7 @@ clear zmeso
 
 for n = nvars
     varname = netcdf.inqVar(ncid, n-1);
-    zmeso = netcdf.getVar(ncid,n-1,[0,0,0,run2(1)-1],[1440 720 length(z100) length(run2)]);
+    zmeso = netcdf.getVar(ncid,n-1,[0,0,0,run2(1)-1],[360 180 length(z100) length(run2)]);
 end
 netcdf.close(ncid);
 
@@ -125,7 +125,7 @@ units_orig = units;
 units_vint = 'mol m-2';
 
 %%
-save([fpath 'QuarterDeg/gfdl-mom6-cobalt2_obsclim_zmeso100_onedeg_global_monthly_1961_2010.mat'],...
+save([fpath 'gfdl-mom6-cobalt2_obsclim_zmeso100_onedeg_global_monthly_1961_2010.mat'],...
     'GFDL_variable','long_name','standard_name','missing_value','units',...
     'lat','lon','time','LAT','LON','zmeso_100','time_units','yr',...
     'run1','run2','z100','lev','lev_long_name','lev_units','-v7.3');

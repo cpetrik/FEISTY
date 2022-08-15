@@ -81,7 +81,7 @@ run2 = 301:600;
 %% temp 1st half
 for n = nvars
     varname = netcdf.inqVar(ncid, n-1);
-    thetao = netcdf.getVar(ncid,n-1,[0,0,0,run1(1)-1],[1440 720 length(z100) length(run1)]);
+    thetao = netcdf.getVar(ncid,n-1,[0,0,0,run1(1)-1],[360 180 length(z100) length(run1)]);
 end
 thetao(thetao >= 1.00e+19) = NaN;
 
@@ -96,7 +96,7 @@ ncid = netcdf.open([fpath 'gfdl-mom6-cobalt2_obsclim_thetao_onedeg_global_monthl
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for n = nvars
     varname = netcdf.inqVar(ncid, n-1);
-    thetao = netcdf.getVar(ncid,n-1,[0,0,0,run2(1)-1],[1440 720 length(z100) length(run2)]);
+    thetao = netcdf.getVar(ncid,n-1,[0,0,0,run2(1)-1],[360 180 length(z100) length(run2)]);
 end
 netcdf.close(ncid);
 

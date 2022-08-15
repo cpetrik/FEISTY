@@ -5,7 +5,7 @@
 clear all
 close all
 
-fpath='/Volumes/MIP/Fish-MIP/Phase3/QuarterDeg/';
+fpath='/Volumes/MIP/Fish-MIP/Phase3/OneDeg/';
 
 %% Units
 %poc flux: mmol C m-2 s-1
@@ -13,10 +13,10 @@ fpath='/Volumes/MIP/Fish-MIP/Phase3/QuarterDeg/';
 %tp: degC
 %tb: degC
 
-load([fpath 'gfdl-mom6-cobalt2_obsclim_temp100_15arcmin_global_monthly_1961_2010.mat'],'temp_100');
-load([fpath 'gfdl-mom6-cobalt2_obsclim_tob_15arcmin_global_monthly_1961_2010.mat'],'tob');
-load([fpath 'gfdl-mom6-cobalt2_obsclim_zmeso100_15arcmin_global_monthly_1961_2010.mat'],'zmeso_100');
-load([fpath 'gfdl-mom6-cobalt2_obsclim_expc-bot_15arcmin_global_monthly_1961_2010.mat']); %,'det_btm'
+load([fpath 'gfdl-mom6-cobalt2_obsclim_temp100_onedeg_global_monthly_1961_2010.mat'],'temp_100');
+load([fpath 'gfdl-mom6-cobalt2_obsclim_tob_onedeg_global_monthly_1961_2010.mat'],'tob');
+load([fpath 'gfdl-mom6-cobalt2_obsclim_zmeso100_onedeg_global_monthly_1961_2010.mat'],'zmeso_100');
+load([fpath 'gfdl-mom6-cobalt2_obsclim_expc-bot_onedeg_global_monthly_1961_2010.mat']); %,'det_btm'
 
 temp_100(temp_100 > 1.0e19) = nan;
 tob(tob > 1.0e19) = nan;
@@ -31,7 +31,7 @@ nyrs = mos/12;
 
 yrs = floor(yr(1)):yr(end);
 
-
+Tdays=1:365;
 
 %% test that all same orientation
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP/Phase3a/';
@@ -45,7 +45,7 @@ subplot(2,2,3)
 pcolor(squeeze(double(zmeso_100(:,:,200)))); shading flat
 subplot(2,2,4)
 pcolor(squeeze(double(det_btm(:,:,200)))); shading flat
-print('-dpng',[pp 'gfdl_obsclim_test.png'])
+print('-dpng',[pp 'gfdl_obsclim_onedeg_test.png'])
 
 %%
 % index of water cells
@@ -68,16 +68,10 @@ for y = 1:nyrs
         Time=-15:30:395;
     end
     
-    Tp  = (TEMP_100m(:,:,range));
-    Tb  = (TEMP_bottom(:,:,range));
-    Zm  = (LzooC_100m(:,:,range));
-    dZm = (Lzoo_loss_100m(:,:,range));
-    det = (POC_FLUX_IN_bottom(:,:,range));
-    
-    Tp = double(temp_100(:,:,mstart(y):mend(y)));
-    Tb = double(tob(:,:,mstart(y):mend(y)));
-    Zm = double(zmeso_100(:,:,mstart(y):mend(y)));
-    det= double(det_btm(:,:,mstart(y):mend(y)));
+    Tp = (temp_100(:,:,range));
+    Tb = (tob(:,:,range));
+    Zm = (zmeso_100(:,:,range));
+    det= (det_btm(:,:,range));
     
     % index of water cells
     [ni,nj,nt] = size(Tb);
@@ -97,19 +91,19 @@ for y = 1:nyrs
         
         % pelagic temperature (in Celcius)
         Y = squeeze(Tp(m,n,:));
-        yi = interp1(Time(1:12), Y, 1:365,'linear','extrap');
+        yi = interp1(Time, Y, 1:365,'linear','extrap');
         D_Tp(j,:) = yi;
         
         % bottom temperature (in Celcius)
         Y = squeeze(Tb(m,n,:));
-        yi = interp1(Time(1:12), Y, 1:365,'linear','extrap');
+        yi = interp1(Time, Y, 1:365,'linear','extrap');
         D_Tb(j,:) = yi;
         
         % meso zoo: from molC m-2 to g(WW) m-2
         % 12.01 g C in 1 mol C
         % 1 g dry W in 9 g wet W (Pauly & Christiansen)
         Y = squeeze(Zm(m,n,:));
-        yi = interp1(Time(1:12), Y, 1:365,'linear','extrap');
+        yi = interp1(Time, Y, 1:365,'linear','extrap');
         D_Zm(j,:) = yi * 12.01 * 9.0;
         
         % detrital flux to benthos: from molC m-2 s-1 to g(WW) m-2 d-1
@@ -117,7 +111,7 @@ for y = 1:nyrs
         % 1 g dry W in 9 g wet W (Pauly & Christiansen)
         % 60*60*24 sec in a day
         Y = squeeze(det(m,n,:));
-        yi = interp1(Time(1:12), Y, 1:365,'linear','extrap');
+        yi = interp1(Time, Y, 1:365,'linear','extrap');
         D_det(j,:) = yi * 12.01 * 9.0 * 60 * 60 * 24;
         
     end
@@ -132,7 +126,7 @@ for y = 1:nyrs
     ESM.det = D_det;
     
     % save
-    save([fpath 'Data_gfdl_mom6_cobalt2_obsclim_15arcmin_daily_',num2str(YR),'.mat'], 'ESM');
+    save([fpath 'Data_gfdl_mom6_cobalt2_obsclim_onedeg_daily_',num2str(YR),'.mat'], 'ESM','-v7.3');
     
     
 end

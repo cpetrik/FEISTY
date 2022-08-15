@@ -1,5 +1,5 @@
-%%%%!! RUN HISTORIC FOR ALL LOCATIONS
-function Historic_pristine_empHP_gfdl()
+%%%%!! RUN PRE-INDUSTRIAL FOR ALL LOCATIONS
+function PI_pristine_empHP_gfdl_mom6_cobalt2_15arcmin_ctrlclim()
 
 %%%%%%%%%%%%%%% Initialize Model Variables
 %! Set fishing rate
@@ -10,19 +10,21 @@ param.dfrate = param.frate/365.0;
 param = make_parameters_1meso(param);
 
 %! Grid
-load('/Volumes/MIP/Fish-MIP/CMIP6/GFDL/Data_grid_gfdl.mat','GRD');
+load('/Volumes/MIP/Fish-MIP/Phase3/QuarterDeg/Data_grid_gfdl-mom6-cobalt2_ctrlclim_deptho_15arcmin.mat','GRD');
 param.NX = length(GRD.Z);
 param.ID = 1:param.NX;
 NX = length(GRD.Z);
 ID = 1:param.NX;
 
 %! How long to run the model
-YEARS = length(1950:2014);
+CYCLES = 6;
+YEARS = 1961:1980;
+nYEARS = length(YEARS);
 DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Create a directory for output
-[fname,simname] = sub_fname_hist_gfdl(param);
+[fname,simname,outdir] = sub_fname_pi_gfdl_15arcmin_ctrl(param);
 
 %! Storage variables
 S_Bent_bio = zeros(NX,DAYS);
@@ -38,11 +40,11 @@ S_Lrg_p = zeros(NX,DAYS);
 S_Lrg_d = zeros(NX,DAYS);
 
 %! Initialize
-init_sim = simname;
-load(['/Volumes/MIP/NC/FishMIP/GFDL_CMIP6/',init_sim '/Last_mo_spinup_' init_sim '.mat']);
+%init_sim = simname;
+load([outdir 'Last_mo_spinup_' simname '.mat']);
 BENT.mass = BENT.bio;
 [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_hist(ID,DAYS,Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT);
-ENVR = sub_init_env_empHP(ID);
+%ENVR = sub_init_env_empHP(ID);
 
 %%%%%%%%%%%%%%% Setup NetCDF save
 %! Setup netcdf path to store to
@@ -69,7 +71,7 @@ ncidB  = netcdf.create(file_bent,'NC_WRITE');
 % ncidMZ = netcdf.create(file_mzoo,'NC_WRITE');
 
 %! Dims of netcdf file
-nt = 12*YEARS;
+nt = 12 * nYEARS * CYCLES;
 netcdf.setDefaultFormat('NC_FORMAT_64BIT');
 
 %% ! Def vars of netcdf file
@@ -137,10 +139,13 @@ netcdf.endDef(ncidB);
 %% %%%%%%%%%%%%%%%%%%%% Run the Model
 MNT = 0;
 %! Run model with no fishing
-for YR = 1:YEARS % years
-    %! Load a year's CESM data
-    ti = num2str(YR+1949)
-    load(['/Volumes/MIP/Fish-MIP/CMIP6/GFDL/hist/Data_gfdl_hist_daily_',ti,'.mat'],'ESM');
+for c = 1:CYCLES
+    for YR = 1:nYEARS % years
+        %! Load a year's ESM data
+        ti = num2str(YEARS(YR));
+        [ti,' , ', num2str(c)]
+        load(['/Volumes/MIP/Fish-MIP/Phase3/QuarterDeg/',...
+            'Data_gfdl_mom6_cobalt2_ctrlclim_15arcmin_daily_',ti,'.mat'],'ESM');
 
     for DAY = 1:param.DT:DAYS % days
 
@@ -148,7 +153,7 @@ for YR = 1:YEARS % years
         DY = int64(ceil(DAY));
 %         [num2str(YR),' , ', num2str(mod(DY,365))]
         [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,ENVR] = ...
-            sub_futbio_1meso_empHPloss(ID,DY,ESM,GRD,Sml_f,Sml_p,Sml_d,...
+            sub_futbio_1meso_empHPloss(DY,ESM,GRD,Sml_f,Sml_p,Sml_d,...
             Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,param);
 
         %! Store
@@ -193,6 +198,7 @@ for YR = 1:YEARS % years
     end %Monthly mean
 
 end %Years
+end %Cycles
 
 %%
 %! Close save

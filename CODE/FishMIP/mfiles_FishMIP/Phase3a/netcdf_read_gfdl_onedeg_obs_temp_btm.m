@@ -5,7 +5,7 @@
 clear all
 close all
 
-fpath='/Volumes/MIP/Fish-MIP/Phase3/';
+fpath='/Volumes/MIP/Fish-MIP/Phase3/OneDeg/';
 %fpath='/Volumes/petrik-lab/Fish-MIP/Phase3/';
 
 %% one file
@@ -45,7 +45,7 @@ for i = 1:(nvars)
     eval([ varname ' = netcdf.getVar(ncid,i-1);']);
     eval([ varname '(' varname ' == 1.000000020040877e+20) = NaN;']);
 end
-netcdf.close(tcid);
+netcdf.close(ncid);
 
 tob(tob>1e19) = nan;
 tob = double(tob);
@@ -57,6 +57,6 @@ tob = double(tob);
 yr = 1901 + (time/12);
 
 %%
-save([fpath 'QuarterDeg/gfdl-mom6-cobalt2_obsclim_tob_onedeg_global_monthly_1961_2010.mat'],...
+save([fpath 'gfdl-mom6-cobalt2_obsclim_tob_onedeg_global_monthly_1961_2010.mat'],...
     'GFDL_variable','long_name','standard_name','missing_value','units',...
     'lat','lon','time','LAT','LON','tob','time_units','yr','-v7.3');

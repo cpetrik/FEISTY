@@ -5,7 +5,7 @@
 clear all
 close all
 
-fpath='/Volumes/MIP/Fish-MIP/Phase3/QuarterDeg/';
+fpath='/Volumes/MIP/Fish-MIP/Phase3/OneDeg/';
 
 %% Units
 %poc flux: mmol C m-2 s-1
@@ -13,10 +13,10 @@ fpath='/Volumes/MIP/Fish-MIP/Phase3/QuarterDeg/';
 %tp: degC
 %tb: degC
 
-load([fpath 'gfdl-mom6-cobalt2_ctrlclim_temp100_15arcmin_global_monthly_1961_2010.mat'],'temp_100');
-load([fpath 'gfdl-mom6-cobalt2_ctrlclim_tob_15arcmin_global_monthly_1961_2010.mat'],'tob');
-load([fpath 'gfdl-mom6-cobalt2_ctrlclim_zmeso100_15arcmin_global_monthly_1961_2010.mat'],'zmeso_100');
-load([fpath 'gfdl-mom6-cobalt2_ctrlclim_expc-bot_15arcmin_global_monthly_1961_2010.mat']); %,'det_btm'
+load([fpath 'gfdl-mom6-cobalt2_ctrlclim_temp100_onedeg_global_monthly_1961_2010.mat'],'temp_100');
+load([fpath 'gfdl-mom6-cobalt2_ctrlclim_tob_onedeg_global_monthly_1961_2010.mat'],'tob');
+load([fpath 'gfdl-mom6-cobalt2_ctrlclim_zmeso100_onedeg_global_monthly_1961_2010.mat'],'zmeso_100');
+load([fpath 'gfdl-mom6-cobalt2_ctrlclim_expc-bot_onedeg_global_monthly_1961_2010.mat']); %,'det_btm'
 
 temp_100(temp_100 > 1.0e19) = nan;
 tob(tob > 1.0e19) = nan;
@@ -45,7 +45,7 @@ subplot(2,2,3)
 pcolor(squeeze(double(zmeso_100(:,:,200)))); shading flat
 subplot(2,2,4)
 pcolor(squeeze(double(det_btm(:,:,200)))); shading flat
-print('-dpng',[pp 'gfdl_ctrlclim_test.png'])
+print('-dpng',[pp 'gfdl_ctrlclim_onedeg_test.png'])
 
 %%
 % index of water cells
@@ -54,7 +54,7 @@ WID = find(~isnan(det_btm(:,:,1)));  % spatial index of water cells
 NID = length(WID);                    % number of water cells
 
 %%
-for y = 2:nyrs
+for y = 1:nyrs
     YR = yrs(y)
     
     if y==1
@@ -126,7 +126,7 @@ for y = 2:nyrs
     ESM.det = D_det;
     
     % save
-    save([fpath 'Data_gfdl_mom6_cobalt2_ctrlclim_15arcmin_daily_',num2str(YR),'.mat'], 'ESM','-v7.3');
+    save([fpath 'Data_gfdl_mom6_cobalt2_ctrlclim_onedeg_daily_',num2str(YR),'.mat'], 'ESM','-v7.3');
     
     
 end

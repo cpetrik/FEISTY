@@ -54,7 +54,7 @@ WID = find(~isnan(det_btm(:,:,1)));  % spatial index of water cells
 NID = length(WID);                    % number of water cells
 
 %%
-for y = 1%:nyrs
+for y = 2:nyrs
     YR = yrs(y)
     
     if y==1

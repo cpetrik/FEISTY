@@ -84,7 +84,7 @@ run2 = 301:600;
 %% zmeso 1st half
 for n = nvars
     varname = netcdf.inqVar(ncid, n-1);
-    zmeso = netcdf.getVar(ncid,n-1,[0,0,0,run1(1)-1],[1440 720 length(z100) length(run1)]);
+    zmeso = netcdf.getVar(ncid,n-1,[0,0,0,run1(1)-1],[360 180 length(z100) length(run1)]);
 end
 zmeso(zmeso >= 1.00e+19) = NaN;
 
@@ -97,7 +97,7 @@ clear zmeso
 
 for n = nvars
     varname = netcdf.inqVar(ncid, n-1);
-    zmeso = netcdf.getVar(ncid,n-1,[0,0,0,run2(1)-1],[1440 720 length(z100) length(run2)]);
+    zmeso = netcdf.getVar(ncid,n-1,[0,0,0,run2(1)-1],[360 180 length(z100) length(run2)]);
 end
 netcdf.close(ncid);
 
