@@ -1,16 +1,21 @@
 %%%%!! RUN PRE-INDUSTRIAL FOR ALL LOCATIONS
-function PI_pristine_empHP_gfdl_mom6_cobalt2_15arcmin_obsclim()
+function PI_pristine_empHP_gfdl_mom6_cobalt2_onedeg_ctrlclim_server()
 
 %%%%%%%%%%%%%%% Initialize Model Variables
 %! Set fishing rate
 param.frate = 0;
 param.dfrate = param.frate/365.0;
+param.dfrateF = nan;
+param.dfrateP = nan;
+param.dfrateD = nan;
+
 
 %! Make core parameters/constants
 param = make_parameters_1meso(param);
 
 %! Grid
-load('/Volumes/MIP/Fish-MIP/Phase3/QuarterDeg/Data_grid_gfdl-mom6-cobalt2_obsclim_deptho_15arcmin.mat','GRD');
+%load('/Volumes/MIP/Fish-MIP/Phase3/OneDeg/Data_grid_gfdl-mom6-cobalt2_crtlclim_deptho_onedeg.mat','GRD');
+load('/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/OneDeg/Data_grid_gfdl-mom6-cobalt2_obsclim_deptho_onedeg.mat','GRD');
 param.NX = length(GRD.Z);
 param.ID = 1:param.NX;
 NX = length(GRD.Z);
@@ -24,7 +29,7 @@ DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Create a directory for output
-[fname,simname,outdir] = sub_fname_pi_gfdl_15arcmin_obs(param);
+[fname,simname,outdir] = sub_fname_pi_gfdl_onedeg_ctrl_server(param);
 
 %! Storage variables
 S_Bent_bio = zeros(NX,DAYS);
@@ -40,11 +45,9 @@ S_Lrg_p = zeros(NX,DAYS);
 S_Lrg_d = zeros(NX,DAYS);
 
 %! Initialize
-init_sim = simname;
-load([outdir 'Last_mo_spinup_' simname '.mat']);
+load([fname '_Last_mo_' simname '.mat']);
 BENT.mass = BENT.bio;
 [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_hist(ID,DAYS,Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT);
-ENVR = sub_init_env_empHP(ID);
 
 %%%%%%%%%%%%%%% Setup NetCDF save
 %! Setup netcdf path to store to
@@ -144,8 +147,10 @@ for c = 1:CYCLES
         %! Load a year's ESM data
         ti = num2str(YEARS(YR));
         [ti,' , ', num2str(c)]
-        load(['/Volumes/MIP/Fish-MIP/Phase3/QuarterDeg/',...
-            'Data_gfdl_mom6_cobalt2_obsclim_15arcmin_daily_',ti,'.mat'],'ESM');
+%         load(['/Volumes/MIP/Fish-MIP/Phase3/OneDeg/',...
+%             'Data_gfdl_mom6_cobalt2_obsclim_onedeg_daily_',ti,'.mat'],'ESM');
+        load(['/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/OneDeg/',...
+            'Data_gfdl_mom6_cobalt2_ctrlclim_onedeg_daily_',ti,'.mat'],'ESM');
 
     for DAY = 1:param.DT:DAYS % days
 

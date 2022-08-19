@@ -2,6 +2,19 @@
 function PI_fishing_empHP_gfdl_mom6_cobalt2_15arcmin_ctrlclim()
 
 %%%%%%%%%%%%%%% Initialize Model Variables
+%! Set fishing rate
+load(['/Volumes/MIP/Fish-MIP/Phase3/QuarterDeg/',...
+    'gfdl-mom6-cobalt2_ctrlclim_15arcmin_fmort_ID_annual_1841_1960_tempSc.mat'],...
+    'fmD','fmF','fmP');
+% Set fishing rate as 1st year for fname
+param.frate = nan;
+param.frateF = fmF(:,1);
+param.frateP = fmP(:,1);
+param.frateD = fmD(:,1);
+param.dfrateF = param.frateF/365.0;
+param.dfrateP = param.frateP/365.0;
+param.dfrateD = param.frateD/365.0;
+
 %! Make core parameters/constants
 param = make_parameters_1meso(param);
 
@@ -134,6 +147,7 @@ netcdf.endDef(ncidB);
 
 %% %%%%%%%%%%%%%%%%%%%% Run the Model
 MNT = 0;
+FYR = 0;
 %! Run model with fishing
 for c = 1:CYCLES
     for YR = 1:nYEARS % years
@@ -142,6 +156,15 @@ for c = 1:CYCLES
         [ti,' , ', num2str(c)]
         load(['/Volumes/MIP/Fish-MIP/Phase3/QuarterDeg/',...
             'Data_gfdl_mom6_cobalt2_ctrlclim_15arcmin_daily_',ti,'.mat'],'ESM');
+
+        %keep track of "real year" for FISHING
+        FYR = FYR+1;
+        frateF = fmF(:,FYR);
+        frateP = fmP(:,FYR);
+        frateD = fmD(:,FYR);
+        dfrateF = frateF/365.0;
+        dfrateP = frateP/365.0;
+        dfrateD = frateD/365.0;
 
     for DAY = 1:param.DT:DAYS % days
 

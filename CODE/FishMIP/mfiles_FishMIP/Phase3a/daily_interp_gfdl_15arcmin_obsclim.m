@@ -54,7 +54,7 @@ WID = find(~isnan(det_btm(:,:,1)));  % spatial index of water cells
 NID = length(WID);                    % number of water cells
 
 %%
-for y = 2:nyrs
+for y = 1:nyrs
     YR = yrs(y)
     
     if y==1
@@ -68,21 +68,21 @@ for y = 2:nyrs
         Time=-15:30:395;
     end
     
-    Tp = (temp_100(:,:,range));
-    Tb = (tob(:,:,range));
-    Zm = (zmeso_100(:,:,range));
-    det= (det_btm(:,:,range));
+    tp = (temp_100(:,:,range));
+    tb = (tob(:,:,range));
+    zm = (zmeso_100(:,:,range));
+    poc= (det_btm(:,:,range));
     
     % index of water cells
-    [ni,nj,nt] = size(Tb);
-    WID = find(~isnan(Tb(:,:,1)));  % spatial index of water cells
+    [ni,nj,nt] = size(tb);
+    WID = find(~isnan(tb(:,:,1)));  % spatial index of water cells
     NID = length(WID);              % number of water cells
     
     % setup FEISTY data files
-    D_Tp  = nan*zeros(NID,365);
-    D_Tb  = nan*zeros(NID,365);
-    D_Zm  = nan*zeros(NID,365);
-    D_det = nan*zeros(NID,365);
+    Tp  = nan*zeros(NID,365);
+    Tb  = nan*zeros(NID,365);
+    Zm  = nan*zeros(NID,365);
+    det = nan*zeros(NID,365);
     
     %% interpolate to daily resolution
     for j = 1:NID
@@ -90,44 +90,45 @@ for y = 2:nyrs
         [m,n] = ind2sub([ni,nj],WID(j)); % spatial index of water cell
         
         % pelagic temperature (in Celcius)
-        Y = squeeze(Tp(m,n,:));
+        Y = squeeze(tp(m,n,:));
         yi = interp1(Time, Y, 1:365,'linear','extrap');
-        D_Tp(j,:) = yi;
+        Tp(j,:) = yi;
         
         % bottom temperature (in Celcius)
-        Y = squeeze(Tb(m,n,:));
+        Y = squeeze(tb(m,n,:));
         yi = interp1(Time, Y, 1:365,'linear','extrap');
-        D_Tb(j,:) = yi;
+        Tb(j,:) = yi;
         
         % meso zoo: from molC m-2 to g(WW) m-2
         % 12.01 g C in 1 mol C
         % 1 g dry W in 9 g wet W (Pauly & Christiansen)
-        Y = squeeze(Zm(m,n,:));
+        Y = squeeze(zm(m,n,:));
         yi = interp1(Time, Y, 1:365,'linear','extrap');
-        D_Zm(j,:) = yi * 12.01 * 9.0;
+        Zm(j,:) = yi * 12.01 * 9.0;
         
         % detrital flux to benthos: from molC m-2 s-1 to g(WW) m-2 d-1
         % 12.01 g C in 1 mol C
         % 1 g dry W in 9 g wet W (Pauly & Christiansen)
         % 60*60*24 sec in a day
-        Y = squeeze(det(m,n,:));
+        Y = squeeze(poc(m,n,:));
         yi = interp1(Time, Y, 1:365,'linear','extrap');
-        D_det(j,:) = yi * 12.01 * 9.0 * 60 * 60 * 24;
+        det(j,:) = yi * 12.01 * 9.0 * 60 * 60 * 24;
         
     end
     
     % Negative biomass or mortality loss from interp
-    D_Zm(D_Zm<0) = 0.0;
-    D_det(D_det<0) = 0.0;
+    Zm(Zm<0) = 0.0;
+    det(det<0) = 0.0;
     
-    ESM.Tp = D_Tp;
-    ESM.Tb = D_Tb;
-    ESM.Zm = D_Zm;
-    ESM.det = D_det;
+    ESM.Tp = Tp;
+    ESM.Tb = Tb;
+    ESM.Zm = Zm;
+    ESM.det = det;
     
     % save
     save([fpath 'Data_gfdl_mom6_cobalt2_obsclim_15arcmin_daily_',num2str(YR),'.mat'], 'ESM','-v7.3');
-    
+%     save([fpath 'gfdl_mom6_cobalt2_obsclim_15arcmin_daily_',num2str(YR),'.mat'],...
+%         'Tp','Tb','Zm','det','-v7.3');
     
 end
 

@@ -181,8 +181,8 @@ Sf.gamma = sub_gamma(K_l,Z_s,Sf.nu,Sf.die,Sf.bio,Sf.nmort,0,0);
 Sp.gamma = sub_gamma(K_l,Z_s,Sp.nu,Sp.die,Sp.bio,Sp.nmort,0,0);
 Sd.gamma = sub_gamma(K_l,Z_s,Sd.nu,Sd.die,Sd.bio,Sd.nmort,0,0);
 Mf.gamma = sub_gamma(K_a,Z_m,Mf.nu,Mf.die,Mf.bio,Mf.nmort,dfrateF,MFsel);
-Mp.gamma = sub_gamma(K_j,Z_m,Mp.nu,Mp.die,Mp.bio,Mp.nmort,dfrateP,MPsel);
-Md.gamma = sub_gamma(K_j,Z_m,Md.nu,Md.die,Md.bio,Md.nmort,dfrateD,MDsel);
+Mp.gamma = sub_gamma(K_j,Z_m,Mp.nu,Mp.die,Mp.bio,Mp.nmort,dfrateF,MPsel);
+Md.gamma = sub_gamma(K_j,Z_m,Md.nu,Md.die,Md.bio,Md.nmort,dfrateF,MDsel);
 Lp.gamma = sub_gamma(K_a,Z_l,Lp.nu,Lp.die,Lp.bio,Lp.nmort,dfrateP,LPsel);
 Ld.gamma = sub_gamma(K_a,Z_l,Ld.nu,Ld.die,Ld.bio,Ld.nmort,dfrateD,LDsel);
 

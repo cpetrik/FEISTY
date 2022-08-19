@@ -18,7 +18,7 @@ tic
 
 if spinup 
     Spinup_pristine_empHP_gfdl_mom6_cobalt2_15arcmin_ctrlclim()
-    Spinup_fishing_empHP_gfdl_mom6_cobalt2_15arcmin_ctrlclim()
+    %Spinup_fishing_empHP_gfdl_mom6_cobalt2_15arcmin_ctrlclim()
 end
 if pre_ctrlclim_15arcmin  
     PI_pristine_empHP_gfdl_mom6_cobalt2_15arcmin_ctrlclim()

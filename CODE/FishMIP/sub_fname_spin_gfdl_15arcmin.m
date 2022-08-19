@@ -9,33 +9,28 @@ tbe = num2str(100+int64(100 * param.bent_eff));
 tcc = num2str(param.CC);
 tmort = num2str(param.MORT);
 tre = num2str(100000+int64(round(10000 * param.rfrac)));
-if (frate >= 0.1)
-    tfish = num2str(100+int64(10*frate));
-    tF = num2str(1000+int64(100*frate * param.MFsel));
-    tP = num2str(1000+int64(100*frate * param.LPsel));
-    tD = num2str(1000+int64(100*frate * param.LDsel));
-    tJ = num2str(1000+int64(100 * param.Jsel));
+if (nanmean(param.dfrateF) == 0)
+    tF = '0';
 else
-    tfish = num2str(1000+int64(100*frate));
-    tF = num2str(1000+int64(100*frate * param.MFsel));
-    tP = num2str(1000+int64(100*frate *param.LPsel));
-    tD = num2str(1000+int64(100*frate *param.LDsel));
-    tJ = num2str(1000+int64(100* param.Jsel));
+    selF = num2str(1000+int64(100*param.MFsel));
+    tF = ['obs' selF(2:end)];
 end
-sel = {};
-if (param.MFsel > 0)
-    if (param.LPsel > 0 && param.LDsel > 0)
-        sel='All';
-    else
-        sel='F';
-    end
+if (nanmean(param.dfrateP) == 0)
+    tP = '0';
 else
-    if (param.LPsel > 0 && param.LDsel > 0)
-        sel = 'L';
-    elseif (param.LPsel > 0)
-        sel = 'P';
-    elseif (param.LDsel > 0)
-        sel = 'D';
+    selP = num2str(1000+int64(100*param.LPsel));
+    tP = ['obs' selP(2:end)];
+end
+if (nanmean(param.dfrateD) == 0)
+    tD = '0';
+else
+    selD = num2str(1000+int64(100*param.LDsel));  
+    tD = ['obs' selD(2:end)];
+end
+if (nanmean(param.dfrateF) > 0)
+    if (nanmean(param.dfrateP) > 0 && nanmean(param.dfrateD) > 0)
+        sel='All';
+        tfish='obs';
     end
 end
 if (param.pdc == 0)

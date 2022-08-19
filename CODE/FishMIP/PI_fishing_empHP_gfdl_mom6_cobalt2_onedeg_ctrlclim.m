@@ -2,11 +2,28 @@
 function PI_fishing_empHP_gfdl_mom6_cobalt2_onedeg_ctrlclim()
 
 %%%%%%%%%%%%%%% Initialize Model Variables
+%! Set fishing rate
+% load(['/Volumes/MIP/Fish-MIP/Phase3/OneDeg/',...
+%     'gfdl-mom6-cobalt2_ctrlclim_onedeg_fmort_ID_annual_1841_1960_tempSc.mat'],...
+%     'fmD','fmF','fmP');
+load(['/Users/cpetrik/Dropbox/Princeton/FEISTY_other/fishing_ms_ideas/fishing_effort_impl/grid_mortality_guilds/',...
+    'gfdl-mom6-cobalt2_ctrlclim_onedeg_fmort_ID_annual_1841_1960_tempSc.mat'],...
+    'fmD','fmF','fmP');
+% Set fishing rate as 1st year for fname
+param.frate = nan;
+param.frateF = fmF(:,1);
+param.frateP = fmP(:,1);
+param.frateD = fmD(:,1);
+param.dfrateF = param.frateF/365.0;
+param.dfrateP = param.frateP/365.0;
+param.dfrateD = param.frateD/365.0;
+
 %! Make core parameters/constants
 param = make_parameters_1meso(param);
 
-%! Grid
-load('/Volumes/MIP/Fish-MIP/Phase3/OneDeg/Data_grid_gfdl-mom6-cobalt2_ctrlclim_deptho_onedeg.mat','GRD');
+%! Grid 
+%load('/Volumes/MIP/Fish-MIP/Phase3/OneDeg/Data_grid_gfdl-mom6-cobalt2_obsclim_deptho_onedeg.mat','GRD');
+load('/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/OneDeg/Data_grid_gfdl-mom6-cobalt2_obsclim_deptho_onedeg.mat','GRD');
 param.NX = length(GRD.Z);
 param.ID = 1:param.NX;
 NX = length(GRD.Z);

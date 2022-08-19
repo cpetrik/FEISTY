@@ -1,11 +1,20 @@
 %%%%!! RUN SPINUP GLOBALLY
 % GFDL reanalysis, ctrlclim, 1/4 degree
-function Spinup_pristine_empHP_gfdl_mom6_cobalt2_15arcmin_ctrlclim()
+function Spinup_fishing_empHP_gfdl_mom6_cobalt2_15arcmin_ctrlclim()
 
 %%%%%%%%%%%%%%% Initialize Model Variables
 %! Set fishing rate
-param.frate = 0;
-param.dfrate = param.frate/365.0;
+load(['/Volumes/MIP/Fish-MIP/Phase3/QuarterDeg/',...
+    'gfdl-mom6-cobalt2_ctrlclim_15arcmin_fmort_ID_annual_1841_1960_tempSc.mat'],...
+    'fmD','fmF','fmP');
+% Set fishing rate as 1st year 1841
+param.frate = nan;
+param.frateF = fmF(:,1);
+param.frateP = fmP(:,1);
+param.frateD = fmD(:,1);
+param.dfrateF = param.frateF/365.0;
+param.dfrateP = param.frateP/365.0;
+param.dfrateD = param.frateD/365.0;
 
 %! Make core parameters/constants
 param = make_parameters_1meso(param);
@@ -39,6 +48,12 @@ S_Med_p = zeros(NX,DAYS);
 S_Med_d = zeros(NX,DAYS);
 S_Lrg_p = zeros(NX,DAYS);
 S_Lrg_d = zeros(NX,DAYS);
+
+C_Med_f = zeros(NX,DAYS);
+C_Med_p = zeros(NX,DAYS);
+C_Med_d = zeros(NX,DAYS);
+C_Lrg_p = zeros(NX,DAYS);
+C_Lrg_d = zeros(NX,DAYS);
 
 %! Initialize
 [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish(param.ID,DAYS);
@@ -95,31 +110,31 @@ netcdf.endDef(ncidSD);
 xy_dim      = netcdf.defDim(ncidMF,'nid',NX);
 time_dim    = netcdf.defDim(ncidMF,'ntime',nt);
 vidbioMF    = netcdf.defVar(ncidMF,'biomass','double',[xy_dim,time_dim]);
-% vidprodMF   = netcdf.defVar(ncidMF,'prod','double',[xy_dim,time_dim]);
+vidcatchMF  = netcdf.defVar(ncidMF,'yield','double',[xy_dim,time_dim]);
 netcdf.endDef(ncidMF);
 
 xy_dim      = netcdf.defDim(ncidMP,'nid',NX);
 time_dim    = netcdf.defDim(ncidMP,'ntime',nt);
 vidbioMP    = netcdf.defVar(ncidMP,'biomass','double',[xy_dim,time_dim]);
-% vidprodMP   = netcdf.defVar(ncidMP,'prod','double',[xy_dim,time_dim]);
+vidcatchMP  = netcdf.defVar(ncidMP,'yield','double',[xy_dim,time_dim]);
 netcdf.endDef(ncidMP);
 
 xy_dim      = netcdf.defDim(ncidMD,'nid',NX);
 time_dim    = netcdf.defDim(ncidMD,'ntime',nt);
 vidbioMD    = netcdf.defVar(ncidMD,'biomass','double',[xy_dim,time_dim]);
-% vidprodMD   = netcdf.defVar(ncidMD,'prod','double',[xy_dim,time_dim]);
+vidcatchMD  = netcdf.defVar(ncidMD,'yield','double',[xy_dim,time_dim]);
 netcdf.endDef(ncidMD);
 
 xy_dim      = netcdf.defDim(ncidLP,'nid',NX);
 time_dim    = netcdf.defDim(ncidLP,'ntime',nt);
 vidbioLP    = netcdf.defVar(ncidLP,'biomass','double',[xy_dim,time_dim]);
-% vidprodLP   = netcdf.defVar(ncidLP,'prod','double',[xy_dim,time_dim]);
+vidcatchLP  = netcdf.defVar(ncidLP,'yield','double',[xy_dim,time_dim]);
 netcdf.endDef(ncidLP);
 
 xy_dim      = netcdf.defDim(ncidLD,'nid',NX);
 time_dim    = netcdf.defDim(ncidLD,'ntime',nt);
 vidbioLD    = netcdf.defVar(ncidLD,'biomass','double',[xy_dim,time_dim]);
-% vidprodLD   = netcdf.defVar(ncidLD,'prod','double',[xy_dim,time_dim]);
+vidcatchLD  = netcdf.defVar(ncidLD,'yield','double',[xy_dim,time_dim]);
 netcdf.endDef(ncidLD);
 
 xy_dim     = netcdf.defDim(ncidB,'nid',NX);
@@ -151,7 +166,7 @@ for c = 1:CYCLES
             DY = int64(ceil(DAY));
             %[ti,' , ', num2str(mod(DY,365))]
             [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,ENVR] = ...
-                sub_futbio_1meso_empHPloss(DY,ESM,GRD,Sml_f,Sml_p,Sml_d,...
+                sub_futbio_1meso_empHPloss_obsfished(DY,ESM,GRD,Sml_f,Sml_p,Sml_d,...
                 Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,param);
 
             %! Store
@@ -166,6 +181,12 @@ for c = 1:CYCLES
             S_Med_d(:,DY) = Med_d.bio;
             S_Lrg_p(:,DY) = Lrg_p.bio;
             S_Lrg_d(:,DY) = Lrg_d.bio;
+
+            C_Med_f(:,DY) = Med_f.caught;
+            C_Med_p(:,DY) = Med_p.caught;
+            C_Med_d(:,DY) = Med_d.caught;
+            C_Lrg_p(:,DY) = Lrg_p.caught;
+            C_Lrg_d(:,DY) = Lrg_d.caught;
 
         end %Days
 
@@ -192,6 +213,12 @@ for c = 1:CYCLES
             netcdf.putVar(ncidMD,vidbioMD,[0 MNT-1],[NX 1],mean(S_Med_d(:,a(i):b(i)),2));
             netcdf.putVar(ncidLP,vidbioLP,[0 MNT-1],[NX 1],mean(S_Lrg_p(:,a(i):b(i)),2));
             netcdf.putVar(ncidLD,vidbioLD,[0 MNT-1],[NX 1],mean(S_Lrg_d(:,a(i):b(i)),2));
+
+            netcdf.putVar(ncidMF,vidcatchMF,[0 MNT-1],[NX 1],mean(C_Med_f(:,a(i):b(i)),2));
+            netcdf.putVar(ncidMP,vidcatchMP,[0 MNT-1],[NX 1],mean(C_Med_p(:,a(i):b(i)),2));
+            netcdf.putVar(ncidMD,vidcatchMD,[0 MNT-1],[NX 1],mean(C_Med_d(:,a(i):b(i)),2));
+            netcdf.putVar(ncidLP,vidcatchLP,[0 MNT-1],[NX 1],mean(C_Lrg_p(:,a(i):b(i)),2));
+            netcdf.putVar(ncidLD,vidcatchLD,[0 MNT-1],[NX 1],mean(C_Lrg_d(:,a(i):b(i)),2));
 
         end %Monthly mean
         end

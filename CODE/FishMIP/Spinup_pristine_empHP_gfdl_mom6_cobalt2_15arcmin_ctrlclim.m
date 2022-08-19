@@ -6,6 +6,9 @@ function Spinup_pristine_empHP_gfdl_mom6_cobalt2_15arcmin_ctrlclim()
 %! Set fishing rate
 param.frate = 0;
 param.dfrate = param.frate/365.0;
+param.dfrateF = nan;
+param.dfrateP = nan;
+param.dfrateD = nan;
 
 %! Make core parameters/constants
 param = make_parameters_1meso(param);
@@ -42,7 +45,6 @@ S_Lrg_d = zeros(NX,DAYS);
 
 %! Initialize
 [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish(param.ID,DAYS);
-%ENVR = sub_init_env_empHP(ID);
 
 %%%%%%%%%%%%%%% Setup NetCDF save
 %! Setup netcdf path to store to

@@ -1,5 +1,5 @@
 %%%% File naming system
-function [fname,simname,outdir] = sub_fname_pi_gfdl_onedeg_ctrl(param)
+function [fname,simname,outdir] = sub_fname_pi_gfdl_onedeg_ctrl_server(param)
 
 frate = param.frate;
 
@@ -55,7 +55,7 @@ else
     simname = [coup,'_Lam',tlam(2:end),'_enc',tefn,'-b',tbenc(2:end),'_m',tmfn,'-b',tbfn(2:end),'-k',tkfn(2:end),'_c',tcfn,'-b',tbcmx(2:end),'_D',td(2:end),'_A',ta(2:end),'_nmort',tmort,'_BE',tbe(2:end),'_CC',tcc,'_RE',tre(2:end)];
 end
 
-outdir = ['/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/',simname,'/OneDeg/'];
+outdir = ['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/',simname,'/OneDeg/'];
 
 if (~isfolder(outdir))
     mkdir(outdir)
@@ -69,7 +69,7 @@ elseif (param.Jsel~=0.1)
 elseif (param.MFsel~=param.LPsel)
     fname = [outdir, 'PI_ctrlclim_fish_F',tF(2:end),'_P',tP(2:end),'_D',tD(2:end)];
 else
-    fname = [outdir, 'PI_ctrlclim_', sel,'_fish',tfish(2:end)];
+    fname = [outdir, 'PI_ctrlclim_', sel,'_fish',tfish];
 end
 
 
