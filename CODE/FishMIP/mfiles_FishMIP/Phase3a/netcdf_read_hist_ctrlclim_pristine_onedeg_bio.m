@@ -3,7 +3,7 @@
 clear all
 close all
 
-%/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/.../QuarterDeg
+%/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/.../OneDeg
 %Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80_RE00100
 
 %/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/.../OneDeg
@@ -11,28 +11,11 @@ close all
 
 cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80_RE00100';
 
-fpath=['/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/QuarterDeg/'];
-%fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/QuarterDeg/'];
-
-%% intermediate cycles
-load([fpath 'Spinup_ctrlclim_pristine_end_cycle_1.mat'])
-
-% Save last year for initializing forecast runs
-Sml_f.bio = ySF(:,1);
-Sml_p.bio = ySP(:,1);
-Sml_d.bio = ySD(:,1);
-Med_f.bio = yMF(:,1);
-Med_p.bio = yMP(:,1);
-Med_d.bio = yMD(:,1);
-Lrg_p.bio = yLP(:,1);
-Lrg_d.bio = yLD(:,1);
-BENT.mass = yB(:,1);
-
-save([fpath 'Last_mo_spinup_ctrlclim_pristine_' cfile '.mat'],'Sml_f','Sml_p','Sml_d',... 
-    'Med_f','Med_p','Med_d','Lrg_p','Lrg_d','BENT')
+%fpath=['/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
+fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 
 %% SP
-ncid = netcdf.open([fpath 'Spinup_ctrlclim_pristine_empHP_sml_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Hist_ctrlclim_pristine_empHP_sml_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -47,8 +30,8 @@ netcdf.close(ncid);
 SP.bio = biomass;
 clear biomass
 
-%% SF
-ncid = netcdf.open([fpath 'Spinup_ctrlclim_pristine_empHP_sml_f.nc'],'NC_NOWRITE');
+%% SF 
+ncid = netcdf.open([fpath 'Hist_ctrlclim_pristine_empHP_sml_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -61,7 +44,7 @@ SF.bio = biomass(:,1:nt);
 clear biomass 
 
 % SD
-ncid = netcdf.open([fpath 'Spinup_ctrlclim_pristine_empHP_sml_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Hist_ctrlclim_pristine_empHP_sml_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -74,7 +57,7 @@ SD.bio = biomass;
 clear biomass 
 
 % MP
-ncid = netcdf.open([fpath 'Spinup_ctrlclim_pristine_empHP_med_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Hist_ctrlclim_pristine_empHP_med_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -87,7 +70,7 @@ MP.bio = biomass;
 clear biomass
 
 % MF
-ncid = netcdf.open([fpath 'Spinup_ctrlclim_pristine_empHP_med_f.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Hist_ctrlclim_pristine_empHP_med_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -100,7 +83,7 @@ MF.bio = biomass;
 clear biomass
 
 % MD
-ncid = netcdf.open([fpath 'Spinup_ctrlclim_pristine_empHP_med_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Hist_ctrlclim_pristine_empHP_med_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -113,7 +96,7 @@ MD.bio = biomass;
 clear biomass
 
 % LP
-ncid = netcdf.open([fpath 'Spinup_ctrlclim_pristine_empHP_lrg_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Hist_ctrlclim_pristine_empHP_lrg_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -126,7 +109,7 @@ LP.bio = biomass;
 clear biomass
 
 % LD
-ncid = netcdf.open([fpath 'Spinup_ctrlclim_pristine_empHP_lrg_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Hist_ctrlclim_pristine_empHP_lrg_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -139,7 +122,7 @@ LD.bio = biomass;
 clear biomass
 
 % Benthic material
-ncid = netcdf.open([fpath 'Spinup_ctrlclim_pristine_empHP_bent.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Hist_ctrlclim_pristine_empHP_bent.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -154,49 +137,56 @@ clear biomass
 %% Take means 
 
 %Time
-sp_tmean=mean(SP.bio,1);
-sf_tmean=mean(SF.bio,1);
-sd_tmean=mean(SD.bio,1);
-mp_tmean=mean(MP.bio,1);
-mf_tmean=mean(MF.bio,1);
-md_tmean=mean(MD.bio,1);
-lp_tmean=mean(LP.bio,1);
-ld_tmean=mean(LD.bio,1);
-b_tmean=mean(Bent.bio,1);
+sp_tmean=mean(SP.bio,1,'omitnan');
+sf_tmean=mean(SF.bio,1,'omitnan');
+sd_tmean=mean(SD.bio,1,'omitnan');
+mp_tmean=mean(MP.bio,1,'omitnan');
+mf_tmean=mean(MF.bio,1,'omitnan');
+md_tmean=mean(MD.bio,1,'omitnan');
+lp_tmean=mean(LP.bio,1,'omitnan');
+ld_tmean=mean(LD.bio,1,'omitnan');
+b_tmean=mean(Bent.bio,1,'omitnan');
 
 %Space
-sp_mean=mean(SP.bio,2);
-sf_mean=mean(SF.bio,2);
-sd_mean=mean(SD.bio,2);
-mp_mean=mean(MP.bio,2);
-mf_mean=mean(MF.bio,2);
-md_mean=mean(MD.bio,2);
-lp_mean=mean(LP.bio,2);
-ld_mean=mean(LD.bio,2);
-b_mean =mean(Bent.bio,2);
+sp_smean=mean(SP.bio,2,'omitnan');
+sf_smean=mean(SF.bio,2,'omitnan');
+sd_smean=mean(SD.bio,2,'omitnan');
+mp_smean=mean(MP.bio,2,'omitnan');
+mf_smean=mean(MF.bio,2,'omitnan');
+md_smean=mean(MD.bio,2,'omitnan');
+lp_smean=mean(LP.bio,2,'omitnan');
+ld_smean=mean(LD.bio,2,'omitnan');
+b_smean =mean(Bent.bio,2,'omitnan');
 
-save([fpath 'Means_Spinup_ctrlclim_pristine_' cfile '.mat'],'time',...
+%% Each year
+st=1:12:length(time);
+en=12:12:length(time);
+
+for n=1:length(st)
+    sp_mean(:,n)=nanmean(SP.bio(:,st(n):en(n)),2);
+    sf_mean(:,n)=nanmean(SF.bio(:,st(n):en(n)),2);
+    sd_mean(:,n)=nanmean(SD.bio(:,st(n):en(n)),2);
+    mp_mean(:,n)=nanmean(MP.bio(:,st(n):en(n)),2);
+    mf_mean(:,n)=nanmean(MF.bio(:,st(n):en(n)),2);
+    md_mean(:,n)=nanmean(MD.bio(:,st(n):en(n)),2);
+    lp_mean(:,n)=nanmean(LP.bio(:,st(n):en(n)),2);
+    ld_mean(:,n)=nanmean(LD.bio(:,st(n):en(n)),2);
+    b_mean(:,n)=nanmean(Bent.bio(:,st(n):en(n)),2);
+    
+end
+
+%%
+save([fpath 'Means_Hist_ctrlclim_pristine_' cfile '.mat'],'time',...
     'sf_tmean','sp_tmean','sd_tmean',...
     'mf_tmean','mp_tmean','md_tmean',...
     'lp_tmean','ld_tmean','b_tmean',...
+    'sf_smean','sp_smean','sd_smean',...
+    'mf_smean','mp_smean','md_smean',...
+    'lp_smean','ld_smean','b_smean',...
     'sf_mean','sp_mean','sd_mean',...
     'mf_mean','mp_mean','md_mean',...
     'lp_mean','ld_mean','b_mean')
 
-
-%% Save last year for initializing forecast runs
-Sml_f.bio = nanmean(SF.bio(:,nt-11:nt),2);
-Sml_p.bio = nanmean(SP.bio(:,nt-11:nt),2);
-Sml_d.bio = nanmean(SD.bio(:,nt-11:nt),2);
-Med_f.bio = nanmean(MF.bio(:,nt-11:nt),2);
-Med_p.bio = nanmean(MP.bio(:,nt-11:nt),2);
-Med_d.bio = nanmean(MD.bio(:,nt-11:nt),2);
-Lrg_p.bio = nanmean(LP.bio(:,nt-11:nt),2);
-Lrg_d.bio = nanmean(LD.bio(:,nt-11:nt),2);
-BENT.bio  = nanmean(Bent.bio(:,nt-11:nt),2);
-
-save([fpath 'Last_mo_spinup_ctrlclim_pristine_' cfile '.mat'],'Sml_f','Sml_p','Sml_d',... 
-    'Med_f','Med_p','Med_d','Lrg_p','Lrg_d','BENT')
 
 
 

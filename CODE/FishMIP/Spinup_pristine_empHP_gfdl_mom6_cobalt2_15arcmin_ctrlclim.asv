@@ -43,23 +43,8 @@ S_Med_d = zeros(NX,DAYS);
 S_Lrg_p = zeros(NX,DAYS);
 S_Lrg_d = zeros(NX,DAYS);
 
-load([fname,'_end_cycle_1.mat'])
-% yB  = zeros(NX,CYCLES);
-% ySF = zeros(NX,CYCLES);
-% ySP = zeros(NX,CYCLES);
-% ySD = zeros(NX,CYCLES);
-% yMF = zeros(NX,CYCLES);
-% yMP = zeros(NX,CYCLES);
-% yMD = zeros(NX,CYCLES);
-% yLP = zeros(NX,CYCLES);
-% yLD = zeros(NX,CYCLES);
-
 %! Initialize
-%[Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish(param.ID,DAYS);
-% from incomplete cycles
-load([fname '_Last_mo_' simname '.mat']);
-[Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_hist(ID,DAYS,Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT);
-
+[Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish(param.ID,DAYS);
 
 %%%%%%%%%%%%%%% Setup NetCDF save
 %! Setup netcdf path to store to
@@ -152,9 +137,10 @@ netcdf.endDef(ncidB);
 % netcdf.endDef(ncidMZ);
 
 %% %%%%%%%%%%%%%%%%%%%% Run the Model
-MNT = 0;
+MNT  = 0;
+cMNT = 0;
 %! Run model with no fishing
-for c = 2:CYCLES
+for c = 1:CYCLES
     for YR = 1:nYEARS % years
         %! Load a year's CESM data
         ti = num2str(YEARS(YR));
@@ -189,6 +175,27 @@ for c = 2:CYCLES
         
         %! Calculate monthly means and save
         if (c==CYCLES) % save last 20 yrs
+            aa = (cumsum(cMNTH)+1);
+            a = [1,aa(1:end-1)]; % start of the month
+            b = cumsum(cMNTH); % end of the month
+            for i = 1:12
+                cMNT = cMNT+1; % Update monthly ticker
+                
+                %! Put vars of netcdf file
+                netcdf.putVar(ncidB,vidbioB,[0 cMNT-1],[NX 1],mean(S_Bent_bio(:,a(i):b(i)),2));
+                netcdf.putVar(ncidB,vidTB,cMNT-1,1,cMNT);
+                
+                netcdf.putVar(ncidSF,vidbioSF,[0 cMNT-1],[NX 1],mean(S_Sml_f(:,a(i):b(i)),2));
+                netcdf.putVar(ncidSP,vidbioSP,[0 cMNT-1],[NX 1],mean(S_Sml_p(:,a(i):b(i)),2));
+                netcdf.putVar(ncidSD,vidbioSD,[0 cMNT-1],[NX 1],mean(S_Sml_d(:,a(i):b(i)),2));
+                netcdf.putVar(ncidMF,vidbioMF,[0 cMNT-1],[NX 1],mean(S_Med_f(:,a(i):b(i)),2));
+                netcdf.putVar(ncidMP,vidbioMP,[0 cMNT-1],[NX 1],mean(S_Med_p(:,a(i):b(i)),2));
+                netcdf.putVar(ncidMD,vidbioMD,[0 cMNT-1],[NX 1],mean(S_Med_d(:,a(i):b(i)),2));
+                netcdf.putVar(ncidLP,vidbioLP,[0 cMNT-1],[NX 1],mean(S_Lrg_p(:,a(i):b(i)),2));
+                netcdf.putVar(ncidLD,vidbioLD,[0 cMNT-1],[NX 1],mean(S_Lrg_d(:,a(i):b(i)),2));
+                
+            end %Monthly mean
+        else
             aa = (cumsum(MNTH)+1);
             a = [1,aa(1:end-1)]; % start of the month
             b = cumsum(MNTH); % end of the month
@@ -196,34 +203,29 @@ for c = 2:CYCLES
                 MNT = MNT+1; % Update monthly ticker
                 
                 %! Put vars of netcdf file
-                netcdf.putVar(ncidB,vidbioB,[0 MNT-1],[NX 1],mean(S_Bent_bio(:,a(i):b(i)),2));
-                netcdf.putVar(ncidB,vidTB,MNT-1,1,MNT);
-                
-                netcdf.putVar(ncidSF,vidbioSF,[0 MNT-1],[NX 1],mean(S_Sml_f(:,a(i):b(i)),2));
-                netcdf.putVar(ncidSP,vidbioSP,[0 MNT-1],[NX 1],mean(S_Sml_p(:,a(i):b(i)),2));
-                netcdf.putVar(ncidSD,vidbioSD,[0 MNT-1],[NX 1],mean(S_Sml_d(:,a(i):b(i)),2));
-                netcdf.putVar(ncidMF,vidbioMF,[0 MNT-1],[NX 1],mean(S_Med_f(:,a(i):b(i)),2));
-                netcdf.putVar(ncidMP,vidbioMP,[0 MNT-1],[NX 1],mean(S_Med_p(:,a(i):b(i)),2));
-                netcdf.putVar(ncidMD,vidbioMD,[0 MNT-1],[NX 1],mean(S_Med_d(:,a(i):b(i)),2));
-                netcdf.putVar(ncidLP,vidbioLP,[0 MNT-1],[NX 1],mean(S_Lrg_p(:,a(i):b(i)),2));
-                netcdf.putVar(ncidLD,vidbioLD,[0 MNT-1],[NX 1],mean(S_Lrg_d(:,a(i):b(i)),2));
+                mB(:,MNT-1)  = mean(S_Bent_bio(:,a(i):b(i)),2);
+                mSF(:,MNT-1) = mean(S_Sml_f(:,a(i):b(i)),2);
+                mSP(:,MNT-1) = mean(S_Sml_p(:,a(i):b(i)),2);
+                mSD(:,MNT-1) = mean(S_Sml_d(:,a(i):b(i)),2);
+                mMF(:,MNT-1) = mean(S_Med_f(:,a(i):b(i)),2);
+                mMP(:,MNT-1) = mean(S_Med_p(:,a(i):b(i)),2);
+                yMD(:,MNT-1) = mean(S_Med_d(:,a(i):b(i)),2);
+                mLP(:,MNT-1) = mean(S_Lrg_p(:,a(i):b(i)),2);
+                mLD(:,MNT-1) = mean(S_Lrg_d(:,a(i):b(i)),2);
                 
             end %Monthly mean
-        end %if c=cycles
+            yB(:,YR)  = mean(S_Bent_bio(:,a(i):b(i)),2);
+            ySF(:,c) = mean(S_Sml_f(:,a(i):b(i)),2);
+            ySP(:,c) = mean(S_Sml_p(:,a(i):b(i)),2);
+            ySD(:,c) = mean(S_Sml_d(:,a(i):b(i)),2);
+            yMF(:,c) = mean(S_Med_f(:,a(i):b(i)),2);
+            yMP(:,c) = mean(S_Med_p(:,a(i):b(i)),2);
+            yMD(:,c) = mean(S_Med_d(:,a(i):b(i)),2);
+            yLP(:,c) = mean(S_Lrg_p(:,a(i):b(i)),2);
+            yLD(:,c) = mean(S_Lrg_d(:,a(i):b(i)),2);
+        end
         
     end %Years
-    yB(:,c)  = mean(S_Bent_bio,2);
-    ySF(:,c) = mean(S_Sml_f,2);
-    ySP(:,c) = mean(S_Sml_p,2);
-    ySD(:,c) = mean(S_Sml_d,2);
-    yMF(:,c) = mean(S_Med_f,2);
-    yMP(:,c) = mean(S_Med_p,2);
-    yMD(:,c) = mean(S_Med_d,2);
-    yLP(:,c) = mean(S_Lrg_p,2);
-    yLD(:,c) = mean(S_Lrg_d,2);
-    
-    save([fname,'_end_cycle_',num2str(c),'.mat'],'yB','ySF','ySP','ySD',...
-        'yMF','yMP','yMD','yLP','yLD')
 end %Cycles
 
 %%

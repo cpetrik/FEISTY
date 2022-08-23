@@ -1,6 +1,5 @@
-%%%%!! RUN SPINUP GLOBALLY
-% GFDL reanalysis, ctrlclim, 1/4 degree
-function Spinup_pristine_empHP_gfdl_mom6_cobalt2_15arcmin_ctrlclim()
+%%%%!! RUN HISTORIC FOR ALL LOCATIONS
+function Hist_pristine_empHP_gfdl_mom6_cobalt2_onedeg_obsclim_server()
 
 %%%%%%%%%%%%%%% Initialize Model Variables
 %! Set fishing rate
@@ -14,21 +13,20 @@ param.dfrateD = nan;
 param = make_parameters_1meso(param);
 
 %! Grid
-load('/Volumes/MIP/Fish-MIP/Phase3/QuarterDeg/Data_grid_gfdl-mom6-cobalt2_obsclim_deptho_15arcmin.mat','GRD');
+load('/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/OneDeg/Data_grid_gfdl-mom6-cobalt2_obsclim_deptho_onedeg.mat','GRD');
 param.NX = length(GRD.Z);
 param.ID = 1:param.NX;
 NX = length(GRD.Z);
 ID = 1:param.NX;
 
 %! How long to run the model
-CYCLES = 10;
-YEARS = 1961:1980;
+YEARS = 1961:2010;
 nYEARS = length(YEARS);
 DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Create a directory for output
-[fname,simname] = sub_fname_spin_gfdl_15arcmin(param);
+[fname,simname,outdir] = sub_fname_hist_gfdl_onedeg_obs_server(param);
 
 %! Storage variables
 S_Bent_bio = zeros(NX,DAYS);
@@ -43,23 +41,10 @@ S_Med_d = zeros(NX,DAYS);
 S_Lrg_p = zeros(NX,DAYS);
 S_Lrg_d = zeros(NX,DAYS);
 
-load([fname,'_end_cycle_1.mat'])
-% yB  = zeros(NX,CYCLES);
-% ySF = zeros(NX,CYCLES);
-% ySP = zeros(NX,CYCLES);
-% ySD = zeros(NX,CYCLES);
-% yMF = zeros(NX,CYCLES);
-% yMP = zeros(NX,CYCLES);
-% yMD = zeros(NX,CYCLES);
-% yLP = zeros(NX,CYCLES);
-% yLD = zeros(NX,CYCLES);
-
 %! Initialize
-%[Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish(param.ID,DAYS);
-% from incomplete cycles
 load([fname '_Last_mo_' simname '.mat']);
+BENT.mass = BENT.bio;
 [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_hist(ID,DAYS,Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT);
-
 
 %%%%%%%%%%%%%%% Setup NetCDF save
 %! Setup netcdf path to store to
@@ -86,11 +71,11 @@ ncidB  = netcdf.create(file_bent,'NC_WRITE');
 % ncidMZ = netcdf.create(file_mzoo,'NC_WRITE');
 
 %! Dims of netcdf file
-nt = 12 * nYEARS;
+nt = 12*nYEARS;
 netcdf.setDefaultFormat('NC_FORMAT_64BIT');
 
 %% ! Def vars of netcdf file
-['Defining netcdfs, takes ~10 minutes ... ']
+['Defining netcdfs, takes ~5 minutes ... ']
 xy_dim      = netcdf.defDim(ncidSF,'nid',NX);
 time_dim    = netcdf.defDim(ncidSF,'ntime',nt);
 vidbioSF    = netcdf.defVar(ncidSF,'biomass','double',[xy_dim,time_dim]);
@@ -154,77 +139,64 @@ netcdf.endDef(ncidB);
 %% %%%%%%%%%%%%%%%%%%%% Run the Model
 MNT = 0;
 %! Run model with no fishing
-for c = 2:CYCLES
-    for YR = 1:nYEARS % years
-        %! Load a year's CESM data
-        ti = num2str(YEARS(YR));
-        [ti,' , ', num2str(c)]
-        load(['/Volumes/MIP/Fish-MIP/Phase3/QuarterDeg/',...
-            'Data_gfdl_mom6_cobalt2_ctrlclim_15arcmin_daily_',ti,'.mat'],'ESM');
-        
-        for DAY = 1:DAYS % days
-            
-            %%%! Future time step
-            DY = int64(ceil(DAY));
-            %[ti,' , ', num2str(mod(DY,365))]
-            ENVR = get_ESM_empHPl(ESM,GRD,param,DY);
-            [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,ENVR] = ...
-                sub_futbio_1meso_empHPloss(DY,ESM,GRD,Sml_f,Sml_p,Sml_d,...
-                Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,param);
-            
-            %! Store
-            S_Bent_bio(:,DY) = BENT.mass;
-            %S_Mzoo_frac(:,DY) = ENVR.fZm;
-            
-            S_Sml_f(:,DY) = Sml_f.bio;
-            S_Sml_p(:,DY) = Sml_p.bio;
-            S_Sml_d(:,DY) = Sml_d.bio;
-            S_Med_f(:,DY) = Med_f.bio;
-            S_Med_p(:,DY) = Med_p.bio;
-            S_Med_d(:,DY) = Med_d.bio;
-            S_Lrg_p(:,DY) = Lrg_p.bio;
-            S_Lrg_d(:,DY) = Lrg_d.bio;
-            
-        end %Days
-        
-        %! Calculate monthly means and save
-        if (c==CYCLES) % save last 20 yrs
-            aa = (cumsum(MNTH)+1);
-            a = [1,aa(1:end-1)]; % start of the month
-            b = cumsum(MNTH); % end of the month
-            for i = 1:12
-                MNT = MNT+1; % Update monthly ticker
-                
-                %! Put vars of netcdf file
-                netcdf.putVar(ncidB,vidbioB,[0 MNT-1],[NX 1],mean(S_Bent_bio(:,a(i):b(i)),2));
-                netcdf.putVar(ncidB,vidTB,MNT-1,1,MNT);
-                
-                netcdf.putVar(ncidSF,vidbioSF,[0 MNT-1],[NX 1],mean(S_Sml_f(:,a(i):b(i)),2));
-                netcdf.putVar(ncidSP,vidbioSP,[0 MNT-1],[NX 1],mean(S_Sml_p(:,a(i):b(i)),2));
-                netcdf.putVar(ncidSD,vidbioSD,[0 MNT-1],[NX 1],mean(S_Sml_d(:,a(i):b(i)),2));
-                netcdf.putVar(ncidMF,vidbioMF,[0 MNT-1],[NX 1],mean(S_Med_f(:,a(i):b(i)),2));
-                netcdf.putVar(ncidMP,vidbioMP,[0 MNT-1],[NX 1],mean(S_Med_p(:,a(i):b(i)),2));
-                netcdf.putVar(ncidMD,vidbioMD,[0 MNT-1],[NX 1],mean(S_Med_d(:,a(i):b(i)),2));
-                netcdf.putVar(ncidLP,vidbioLP,[0 MNT-1],[NX 1],mean(S_Lrg_p(:,a(i):b(i)),2));
-                netcdf.putVar(ncidLD,vidbioLD,[0 MNT-1],[NX 1],mean(S_Lrg_d(:,a(i):b(i)),2));
-                
-            end %Monthly mean
-        end %if c=cycles
-        
-    end %Years
-    yB(:,c)  = mean(S_Bent_bio,2);
-    ySF(:,c) = mean(S_Sml_f,2);
-    ySP(:,c) = mean(S_Sml_p,2);
-    ySD(:,c) = mean(S_Sml_d,2);
-    yMF(:,c) = mean(S_Med_f,2);
-    yMP(:,c) = mean(S_Med_p,2);
-    yMD(:,c) = mean(S_Med_d,2);
-    yLP(:,c) = mean(S_Lrg_p,2);
-    yLD(:,c) = mean(S_Lrg_d,2);
-    
-    save([fname,'_end_cycle_',num2str(c),'.mat'],'yB','ySF','ySP','ySD',...
-        'yMF','yMP','yMD','yLP','yLD')
-end %Cycles
+for YR = 1:nYEARS % years
+    %! Load a year's ESM data
+    ti = num2str(YEARS(YR));
+    ti
+    load(['/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/OneDeg/',...
+        'Data_gfdl_mom6_cobalt2_obsclim_onedeg_daily_',ti,'.mat'],'ESM');
+
+    for DAY = 1:param.DT:DAYS % days
+
+        %%%! Future time step
+        DY = int64(ceil(DAY));
+%         [num2str(YR),' , ', num2str(mod(DY,365))]
+        [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,ENVR] = ...
+            sub_futbio_1meso_empHPloss(DY,ESM,GRD,Sml_f,Sml_p,Sml_d,...
+            Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,param);
+
+        %! Store
+        S_Bent_bio(:,DY) = BENT.mass;
+%         S_Mzoo_frac(:,DY) = ENVR.fZm;
+
+        S_Sml_f(:,DY) = Sml_f.bio;
+        S_Sml_p(:,DY) = Sml_p.bio;
+        S_Sml_d(:,DY) = Sml_d.bio;
+        S_Med_f(:,DY) = Med_f.bio;
+        S_Med_p(:,DY) = Med_p.bio;
+        S_Med_d(:,DY) = Med_d.bio;
+        S_Lrg_p(:,DY) = Lrg_p.bio;
+        S_Lrg_d(:,DY) = Lrg_d.bio;
+
+    end %Days
+
+    %! Calculate monthly means and save
+    aa = (cumsum(MNTH)+1);
+    a = [1,aa(1:end-1)]; % start of the month
+    b = cumsum(MNTH); % end of the month
+    for i = 1:12
+        MNT = MNT+1; % Update monthly ticker
+
+        %! Put vars of netcdf file
+        netcdf.putVar(ncidB,vidbioB,[0 MNT-1],[NX 1],mean(S_Bent_bio(:,a(i):b(i)),2));
+        netcdf.putVar(ncidB,vidTB,MNT-1,1,MNT);
+
+%         netcdf.putVar(ncidMZ,vidfracMZ,[0 MNT-1],[NX 1],mean(S_Mzoo_frac(:,a(i):b(i)),2));
+%         netcdf.putVar(ncidMZ,vidTMZ,MNT-1,1,MNT);
+
+        netcdf.putVar(ncidSF,vidbioSF,[0 MNT-1],[NX 1],mean(S_Sml_f(:,a(i):b(i)),2));
+        netcdf.putVar(ncidSP,vidbioSP,[0 MNT-1],[NX 1],mean(S_Sml_p(:,a(i):b(i)),2));
+        netcdf.putVar(ncidSD,vidbioSD,[0 MNT-1],[NX 1],mean(S_Sml_d(:,a(i):b(i)),2));
+        netcdf.putVar(ncidMF,vidbioMF,[0 MNT-1],[NX 1],mean(S_Med_f(:,a(i):b(i)),2));
+        netcdf.putVar(ncidMP,vidbioMP,[0 MNT-1],[NX 1],mean(S_Med_p(:,a(i):b(i)),2));
+        netcdf.putVar(ncidMD,vidbioMD,[0 MNT-1],[NX 1],mean(S_Med_d(:,a(i):b(i)),2));
+        netcdf.putVar(ncidLP,vidbioLP,[0 MNT-1],[NX 1],mean(S_Lrg_p(:,a(i):b(i)),2));
+        netcdf.putVar(ncidLD,vidbioLD,[0 MNT-1],[NX 1],mean(S_Lrg_d(:,a(i):b(i)),2));
+
+
+    end %Monthly mean
+
+end %Years
 
 %%
 %! Close save
