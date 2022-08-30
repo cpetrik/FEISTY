@@ -26,7 +26,7 @@ load([fpath 'Means_Hist_',mod,'_All_fishobs_' cfile '.mat']);
 cpath = '/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/OneDeg/';
 load([cpath 'gridspec_gfdl-mom6-cobalt2_obsclim_deptho_onedeg.mat']);
 load([cpath 'Data_grid_gfdl-mom6-cobalt2_obsclim_deptho_onedeg.mat'], 'GRD');
-load([cpath 'lme_gfdl-mom6-cobalt2_onedeg_temporary.mat'],'tlme','AREA_OCN');
+load([cpath 'lme_gfdl-mom6-cobalt2_onedeg.mat'],'tlme');%,'AREA_OCN');
 
 [ni,nj]=size(LON);
 
@@ -126,13 +126,13 @@ for t=1:nt
     end
 end
 
-lme_area = NaN*ones(66,1);
-for L=1:66
-    lid = find(tlme==L);
-    %total area of LME
-    lme_area(L,1) = nansum(AREA_OCN(lid));
-end
+% lme_area = NaN*ones(66,1);
+% for L=1:66
+%     lid = find(tlme==L);
+%     %total area of LME
+%     lme_area(L,1) = nansum(AREA_OCN(lid));
+% end
 
 %%
 save([fpath 'LME_Hist_',mod,'_All_fishobs_' cfile '.mat'],...
-    'lme_mcatch','lme_mbio','lme_sbio','lme_area');
+    'lme_mcatch','lme_mbio','lme_sbio');%,'lme_area');

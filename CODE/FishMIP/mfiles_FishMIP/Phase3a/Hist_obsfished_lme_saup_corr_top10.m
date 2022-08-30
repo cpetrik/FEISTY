@@ -16,7 +16,7 @@ load([cdir 'LME_clim_temp_zoop_det.mat'],'lme_ptemp');
 
 cpath = '/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/OneDeg/';
 load([cpath 'gridspec_gfdl-mom6-cobalt2_obsclim_deptho_onedeg.mat']);
-load([cpath 'lme_gfdl-mom6-cobalt2_onedeg_temporary.mat'],'tlme','AREA_OCN');
+load([cpath 'lme_gfdl-mom6-cobalt2_onedeg.mat'],'tlme','AREA_OCN');
 [ni,nj]=size(LON);
 
 %% FEISTY LME biomass in MT/km2

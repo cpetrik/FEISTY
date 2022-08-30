@@ -1,5 +1,5 @@
 %%%%!! RUN PRE-INDUSTRIAL FOR ALL LOCATIONS
-function PI_pristine_empHP_gfdl_mom6_cobalt2_15arcmin_ctrlclim()
+function PI_pristine_empHP_gfdl_mom6_cobalt2_15arcmin_ctrlclim_chunk1()
 
 %%%%%%%%%%%%%%% Initialize Model Variables
 %! Set fishing rate

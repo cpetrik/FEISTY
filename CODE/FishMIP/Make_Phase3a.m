@@ -4,11 +4,9 @@ clear all
 close all
 
 %%%%!! EXPERIMENTS
-spinup                  = true;
-pre_ctrlclim_15arcmin   = false;
-pre_obsclim_15arcmin    = false;
+spinup                  = false;
+pre_ctrlclim_15arcmin   = true;
 pre_ctrlclim_onedeg     = false;
-pre_obsclim_onedeg      = false;
 hist_ctrlclim_15arcmin  = false;
 hist_obsclim_15arcmin   = false;
 hist_ctrlclim_onedeg    = false;
@@ -18,23 +16,15 @@ tic
 
 if spinup 
     Spinup_pristine_empHP_gfdl_mom6_cobalt2_15arcmin_ctrlclim()
-    %Spinup_fishing_empHP_gfdl_mom6_cobalt2_15arcmin_ctrlclim()
+    Spinup_fishing_empHP_gfdl_mom6_cobalt2_15arcmin_ctrlclim()
 end
 if pre_ctrlclim_15arcmin  
     PI_pristine_empHP_gfdl_mom6_cobalt2_15arcmin_ctrlclim()
-    PI_fishing_empHP_gfdl_mom6_cobalt2_15arcmin_ctrlclim()
-end
-if pre_obsclim_15arcmin  
-    PI_pristine_empHP_gfdl_mom6_cobalt2_15arcmin_obsclim()
-    PI_fishing_empHP_gfdl_mom6_cobalt2_15arcmin_obsclim()
+    %PI_fishing_empHP_gfdl_mom6_cobalt2_15arcmin_ctrlclim()
 end
 if pre_ctrlclim_onedeg   
     PI_pristine_empHP_gfdl_mom6_cobalt2_onedeg_ctrlclim()
     PI_fishing_empHP_gfdl_mom6_cobalt2_onedeg_ctrlclim()
-end
-if pre_obsclim_onedeg   
-    PI_pristine_empHP_gfdl_mom6_cobalt2_onedeg_obsclim()
-    PI_fishing_empHP_gfdl_mom6_cobalt2_onedeg_obsclim()
 end
 if hist_ctrlclim_15arcmin 
     Hist_pristine_empHP_gfdl_mom6_cobalt2_15arcmin_ctrlclim()

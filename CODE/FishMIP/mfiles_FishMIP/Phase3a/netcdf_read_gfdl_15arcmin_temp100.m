@@ -6,8 +6,8 @@
 clear all
 close all
 
-fpath='/Volumes/MIP/Fish-MIP/Phase3/';
-%fpath='/Volumes/petrik-lab/Fish-MIP/Phase3/';
+%fpath='/Volumes/MIP/Fish-MIP/Phase3/';
+fpath='/Volumes/petrik-lab/Fish-MIP/Phase3/';
 
 %% one file
 ncdisp([fpath 'gfdl-mom6-cobalt2_ctrlclim_thetao_15arcmin_global_monthly_1961_2010.nc'])

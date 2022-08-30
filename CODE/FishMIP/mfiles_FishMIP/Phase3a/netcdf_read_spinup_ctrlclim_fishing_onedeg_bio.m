@@ -164,21 +164,21 @@ lp_tmcatch=mean(LP.yield,1,'omitnan');
 ld_tmcatch=mean(LD.yield,1,'omitnan');
 
 %Space
-sp_mean=mean(SP.bio,2,'omitnan');
-sf_mean=mean(SF.bio,2,'omitnan');
-sd_mean=mean(SD.bio,2,'omitnan');
-mp_mean=mean(MP.bio,2,'omitnan');
-mf_mean=mean(MF.bio,2,'omitnan');
-md_mean=mean(MD.bio,2,'omitnan');
-lp_mean=mean(LP.bio,2,'omitnan');
-ld_mean=mean(LD.bio,2,'omitnan');
-b_mean =mean(Bent.bio,2,'omitnan');
+sp_mean=mean(SP.bio(:,nt-11:nt),2,'omitnan');
+sf_mean=mean(SF.bio(:,nt-11:nt),2,'omitnan');
+sd_mean=mean(SD.bio(:,nt-11:nt),2,'omitnan');
+mp_mean=mean(MP.bio(:,nt-11:nt),2,'omitnan');
+mf_mean=mean(MF.bio(:,nt-11:nt),2,'omitnan');
+md_mean=mean(MD.bio(:,nt-11:nt),2,'omitnan');
+lp_mean=mean(LP.bio(:,nt-11:nt),2,'omitnan');
+ld_mean=mean(LD.bio(:,nt-11:nt),2,'omitnan');
+b_mean =mean(Bent.bio(:,nt-11:nt),2,'omitnan');
 
-mp_mcatch=mean(MP.yield,2,'omitnan');
-mf_mcatch=mean(MF.yield,2,'omitnan');
-md_mcatch=mean(MD.yield,2,'omitnan');
-lp_mcatch=mean(LP.yield,2,'omitnan');
-ld_mcatch=mean(LD.yield,2,'omitnan');
+mp_mcatch=mean(MP.yield(:,nt-11:nt),2,'omitnan');
+mf_mcatch=mean(MF.yield(:,nt-11:nt),2,'omitnan');
+md_mcatch=mean(MD.yield(:,nt-11:nt),2,'omitnan');
+lp_mcatch=mean(LP.yield(:,nt-11:nt),2,'omitnan');
+ld_mcatch=mean(LD.yield(:,nt-11:nt),2,'omitnan');
 
 %%
 save([fpath 'Means_Spinup_ctrlclim_All_fish_obs_' cfile '.mat'],'time',...

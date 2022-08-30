@@ -8,7 +8,7 @@ clear all
 close all
 
 %fpath='/Volumes/MIP/Fish-MIP/Phase3/GFDL_reanalysis/';
-fpath='/Volumes/petrik-lab/Fish-MIP/Phase3/GFDL_reanalysis/';
+fpath='/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/GFDL_reanalysis/';
 
 %% one file
 ncdisp([fpath '20000101.ocean_cobalt_fdet_100_FishMIP.nc'])
@@ -72,7 +72,7 @@ ncid = netcdf.open([fpath '20000101.ocean_cobalt_fdet_100_FishMIP.nc'],'NC_NOWRI
 
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 
-for i = 1:(nvars-1)
+for i = 1:(nvars)
     varname = netcdf.inqVar(ncid, i-1);
     eval([ varname ' = netcdf.getVar(ncid,i-1);']);
     eval([ varname '(' varname ' == 1.0000000e+20) = NaN;']);
@@ -83,7 +83,14 @@ fndet_100(fndet_100>1e19) = nan;
 %% Mean
 mepc100 = double(mean(fndet_100,3));
 
+[lon,lat]=meshgrid(xh,yh);
+figure
+pcolor(lon); shading flat; colorbar
+figure
+pcolor(lat); shading flat; colorbar
 
+save([fpath 'gridspec_gfdl-mom6-cobalt2_obsclim_15arcmin_orig'],'xh','yh',...
+    'lat','lon');
 
 % save([fpath 'gfdl_hist_zmeso_100_monthly_1950_2014.mat'],'zmeso_100','yr',...
 %     'long_name','standard_name','units_orig','units_vint','lat','lon',...

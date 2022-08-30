@@ -5,7 +5,8 @@
 clear all
 close all
 
-fpath='/Volumes/MIP/Fish-MIP/Phase3/QuarterDeg/';
+%fpath='/Volumes/MIP/Fish-MIP/Phase3/QuarterDeg/';
+fpath='/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/QuarterDeg/';
 
 %% Units
 %poc flux: mmol C m-2 s-1

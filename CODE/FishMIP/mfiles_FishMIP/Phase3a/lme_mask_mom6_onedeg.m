@@ -21,27 +21,27 @@ lonlim=[plotminlon plotmaxlon];
 
 %%
 Pdir = '/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/QuarterDeg/';
-cdir = '/Users/cpetrik/Dropbox/Princeton/FEISTY_other/grid_cobalt/';
-load([Pdir 'ESM26_1deg_5yr_clim_191_195_gridspec.mat']);
-load([cdir 'esm26_lme_mask_onedeg_SAU_66.mat']);
-load([cdir 'esm26_area_1deg.mat']);
+load([Pdir 'lme_mask_om4_025_2.mat'],'lme_mask');
+
+rpath = '/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/GFDL_reanalysis/';
+load([rpath 'gridspec_gfdl-mom6-cobalt2_obsclim_15arcmin_orig']);
 
 %% diff orientation
 lat = lat';
 lat = fliplr(lat);
 lon = lon';
 lon = fliplr(lon);
-area = area';
-area = fliplr(area);
-lme_mask_onedeg = lme_mask_onedeg';
-lme_mask_onedeg = fliplr(lme_mask_onedeg);
+% area = area';
+% area = fliplr(area);
+lme_mask = lme_mask';
+lme_mask = fliplr(lme_mask);
 
-AREA_OCN = max(area,1);
+%AREA_OCN = max(area,1);
 
 %% need to shift lon
 %fix lon shift
-id=find(lon(:)>180);
-lon(id)=lon(id)-360;
+id=find(lon(:)<-180);
+lon(id)=lon(id)+360;
 
 %%
 figure
@@ -53,15 +53,15 @@ pcolor(LON); shading flat; colorbar
 figure
 pcolor(lon); shading flat; colorbar
 figure
-pcolor(lme_mask_onedeg); shading flat; colorbar
+pcolor(lme_mask); shading flat; colorbar
 
 %% regrid
-tlme = griddata(lat,lon,lme_mask_onedeg, LAT,LON);
+tlme = griddata(lat,lon,lme_mask, LAT,LON);
 
 figure
 pcolor(tlme); shading flat; colorbar
 
 %%
-save([cpath 'lme_gfdl-mom6-cobalt2_onedeg_temporary.mat'],'tlme','AREA_OCN');
+save([cpath 'lme_gfdl-mom6-cobalt2_onedeg.mat'],'tlme');%,'AREA_OCN');
 
 

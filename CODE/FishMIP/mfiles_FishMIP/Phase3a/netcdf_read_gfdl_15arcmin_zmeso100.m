@@ -6,8 +6,8 @@
 clear all
 close all
 
-fpath='/Volumes/MIP/Fish-MIP/Phase3/';
-%fpath='/Volumes/petrik-lab/Fish-MIP/Phase3/';
+%fpath='/Volumes/MIP/Fish-MIP/Phase3/';
+fpath='/Volumes/petrik-lab/Fish-MIP/Phase3/';
 
 %% zmeso
 ncdisp([fpath 'gfdl-mom6-cobalt2_ctrlclim_zmeso_15arcmin_global_monthly_1961_2010.nc'])

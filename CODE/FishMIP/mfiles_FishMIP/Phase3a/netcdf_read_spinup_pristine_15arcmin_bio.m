@@ -143,10 +143,7 @@ ld_tmean=mean(LD.bio,1);
 b_tmean=mean(Bent.bio,1);
 
 %Space
-t=time;
-mo=t/12;
-mo=mo+1850;
-yrP=find(mo>1949 & mo<=1950); 
+yrP=(nt-11:nt); 
 
 sp_mean=mean(SP.bio(:,yrP),2);
 sf_mean=mean(SF.bio(:,yrP),2);
