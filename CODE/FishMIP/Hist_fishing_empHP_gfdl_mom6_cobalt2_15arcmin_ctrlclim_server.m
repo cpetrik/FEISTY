@@ -3,7 +3,7 @@ function Hist_fishing_empHP_gfdl_mom6_cobalt2_15arcmin_ctrlclim_server()
 
 %%%%%%%%%%%%%%% Initialize Model Variables
 %! Set fishing rate
-load(['/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/OneDeg/',...
+load(['/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/QuarterDeg/',...
     'gfdl-mom6-cobalt2_ctrlclim_15arcmin_fmort_ID_annual_1961_2010_tempSc.mat'],...
     'fmD','fmF','fmP');
 % Set fishing rate as 1st year for fname
@@ -19,7 +19,7 @@ param.dfrateD = param.frateD/365.0;
 param = make_parameters_1meso(param);
 
 %! Grid
-load('/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/OneDeg/Data_grid_gfdl-mom6-cobalt2_obsclim_deptho_15arcmin.mat','GRD');
+load('/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/QuarterDeg/Data_grid_gfdl-mom6-cobalt2_obsclim_deptho_15arcmin.mat','GRD');
 param.NX = length(GRD.Z);
 param.ID = 1:param.NX;
 NX = length(GRD.Z);
@@ -156,7 +156,7 @@ for YR = 1:nYEARS % years
     %! Load a year's ESM data
     ti = num2str(YEARS(YR));
     ti
-    load(['/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/OneDeg/',...
+    load(['/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/QuarterDeg/',...
         'Data_gfdl_mom6_cobalt2_ctrlclim_15arcmin_daily_',ti,'.mat'],'ESM');
 
     param.frateF = fmF(:,YR);

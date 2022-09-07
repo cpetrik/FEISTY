@@ -5,8 +5,8 @@
 clear all
 close all
 
-fpath='/Volumes/MIP/Fish-MIP/Phase3/';
-%fpath='/Volumes/petrik-lab/Fish-MIP/Phase3/';
+%fpath='/Volumes/MIP/Fish-MIP/Phase3/QuarterDeg/';
+fpath='/Volumes/petrik-lab/Fish-MIP/Phase3/QuarterDeg/';
 
 %% one file
 ncdisp([fpath 'gfdl-mom6-cobalt2_obsclim_expc-bot_15arcmin_global_monthly_1961_2010.nc'])
@@ -63,7 +63,7 @@ det_btm = double(det_btm);
 yr = 1901 + (time/12);
 
 %%
-save([fpath 'QuarterDeg/gfdl-mom6-cobalt2_obsclim_expc-bot_15arcmin_global_monthly_1961_2010.mat'],...
+save([fpath 'gfdl-mom6-cobalt2_obsclim_expc-bot_15arcmin_global_monthly_1961_2010.mat'],...
     'GFDL_variable','long_name','standard_name','missing_value','units',...
     'lat','lon','time','LAT','LON','det_btm','yr', '-v7.3');
 

@@ -61,8 +61,6 @@ end
 netcdf.close(ncid);
 
 MP.bio = biomass;
-MP.yield = yield;
-clear yield
 clear biomass
 
 % MF
@@ -76,8 +74,6 @@ end
 netcdf.close(ncid);
 
 MF.bio = biomass;
-MF.yield = yield;
-clear yield
 clear biomass
 
 % MD
@@ -91,8 +87,6 @@ end
 netcdf.close(ncid);
 
 MD.bio = biomass;
-MD.yield = yield;
-clear yield
 clear biomass
 
 % LP
@@ -106,8 +100,6 @@ end
 netcdf.close(ncid);
 
 LP.bio = biomass;
-LP.yield = yield;
-clear yield
 clear biomass
 
 % LD
@@ -121,8 +113,6 @@ end
 netcdf.close(ncid);
 
 LD.bio = biomass;
-LD.yield = yield;
-clear yield
 clear biomass
 
 % Benthic material
@@ -137,6 +127,81 @@ netcdf.close(ncid);
 
 Bent.bio = biomass;
 clear biomass
+
+% MF catch
+ncid = netcdf.open([fpath 'PI_ctrlclim_All_fishobs_empHP_catch_med_f.nc'],'NC_NOWRITE');
+[ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
+for i = 1:nvars
+    varname = netcdf.inqVar(ncid, i-1);
+    eval([ varname ' = netcdf.getVar(ncid,i-1);']);
+    eval([ varname '(' varname ' == 99999) = NaN;']);
+end
+netcdf.close(ncid);
+
+MF.yield = yield;
+clear yield
+
+% MP catch
+ncid = netcdf.open([fpath 'PI_ctrlclim_All_fishobs_empHP_catch_med_p.nc'],'NC_NOWRITE');
+[ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
+for i = 1:nvars
+    varname = netcdf.inqVar(ncid, i-1);
+    eval([ varname ' = netcdf.getVar(ncid,i-1);']);
+    eval([ varname '(' varname ' == 99999) = NaN;']);
+end
+netcdf.close(ncid);
+
+MP.yield = yield;
+clear yield
+
+% MD catch
+ncid = netcdf.open([fpath 'PI_ctrlclim_All_fishobs_empHP_catch_med_d.nc'],'NC_NOWRITE');
+[ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
+for i = 1:nvars
+    varname = netcdf.inqVar(ncid, i-1);
+    eval([ varname ' = netcdf.getVar(ncid,i-1);']);
+    eval([ varname '(' varname ' == 99999) = NaN;']);
+end
+netcdf.close(ncid);
+
+MD.yield = yield;
+clear yield
+
+% LP catch
+ncid = netcdf.open([fpath 'PI_ctrlclim_All_fishobs_empHP_catch_lrg_p.nc'],'NC_NOWRITE');
+[ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
+for i = 1:nvars
+    varname = netcdf.inqVar(ncid, i-1);
+    eval([ varname ' = netcdf.getVar(ncid,i-1);']);
+    eval([ varname '(' varname ' == 99999) = NaN;']);
+end
+netcdf.close(ncid);
+
+LP.yield = yield;
+clear yield
+
+% LD catch
+ncid = netcdf.open([fpath 'PI_ctrlclim_All_fishobs_empHP_catch_lrg_d.nc'],'NC_NOWRITE');
+[ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
+for i = 1:nvars
+    varname = netcdf.inqVar(ncid, i-1);
+    eval([ varname ' = netcdf.getVar(ncid,i-1);']);
+    eval([ varname '(' varname ' == 99999) = NaN;']);
+end
+netcdf.close(ncid);
+
+LD.yield = yield;
+clear yield
+
+% time
+ncid = netcdf.open([fpath 'PI_ctrlclim_All_fishobs_empHP_time.nc'],'NC_NOWRITE');
+[ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
+for i = 1:nvars
+    varname = netcdf.inqVar(ncid, i-1);
+    eval([ varname ' = netcdf.getVar(ncid,i-1);']);
+    eval([ varname '(' varname ' == 99999) = NaN;']);
+end
+netcdf.close(ncid);
 
 %% Take means 
 

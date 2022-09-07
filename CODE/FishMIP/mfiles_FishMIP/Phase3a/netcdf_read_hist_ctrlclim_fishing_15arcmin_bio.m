@@ -95,7 +95,7 @@ MD.yield = yield;
 clear yield
 clear biomass
 
-% LP
+%% LP 
 ncid = netcdf.open([fpath 'Hist_ctrlclim_All_fishobs_empHP_lrg_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
@@ -138,7 +138,7 @@ netcdf.close(ncid);
 Bent.bio = biomass;
 clear biomass
 
-%% Take means 
+% Take means 
 
 %Time
 sp_tmean=mean(SP.bio,1,'omitnan');
@@ -174,7 +174,7 @@ md_mcatch=mean(MD.yield,2,'omitnan');
 lp_mcatch=mean(LP.yield,2,'omitnan');
 ld_mcatch=mean(LD.yield,2,'omitnan');
 
-%% Each year
+% Each year
 st=1:12:length(time);
 en=12:12:length(time);
 
@@ -196,7 +196,7 @@ for n=1:length(st)
     ld_my(:,n)=nanmean(LD.yield(:,st(n):en(n)),2);
 end
 
-%%
+%
 save([fpath 'Means_Hist_ctrlclim_All_fishobs_' cfile '.mat'],'time',...
     'sf_tmean','sp_tmean','sd_tmean',...
     'mf_tmean','mp_tmean','md_tmean',...

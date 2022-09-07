@@ -19,7 +19,7 @@ if spinup
     Spinup_fishing_empHP_gfdl_mom6_cobalt2_15arcmin_ctrlclim()
 end
 if pre_ctrlclim_15arcmin  
-    PI_pristine_empHP_gfdl_mom6_cobalt2_15arcmin_ctrlclim()
+    PI_pristine_empHP_gfdl_mom6_cobalt2_15arcmin_ctrlclim_server()
     %PI_fishing_empHP_gfdl_mom6_cobalt2_15arcmin_ctrlclim()
 end
 if pre_ctrlclim_onedeg   

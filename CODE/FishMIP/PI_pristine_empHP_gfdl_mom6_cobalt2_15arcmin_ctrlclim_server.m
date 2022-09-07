@@ -1,16 +1,19 @@
 %%%%!! RUN PRE-INDUSTRIAL FOR ALL LOCATIONS
-function PI_pristine_empHP_gfdl_mom6_cobalt2_15arcmin_ctrlclim()
+function PI_pristine_empHP_gfdl_mom6_cobalt2_15arcmin_ctrlclim_server()
 
 %%%%%%%%%%%%%%% Initialize Model Variables
 %! Set fishing rate
 param.frate = 0;
 param.dfrate = param.frate/365.0;
+param.dfrateF = nan;
+param.dfrateP = nan;
+param.dfrateD = nan;
 
 %! Make core parameters/constants
 param = make_parameters_1meso(param);
 
 %! Grid
-load('/Volumes/MIP/Fish-MIP/Phase3/QuarterDeg/Data_grid_gfdl-mom6-cobalt2_obsclim_deptho_15arcmin.mat','GRD');
+load('/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/QuarterDeg/Data_grid_gfdl-mom6-cobalt2_obsclim_deptho_15arcmin.mat','GRD');
 param.NX = length(GRD.Z);
 param.ID = 1:param.NX;
 NX = length(GRD.Z);
@@ -24,7 +27,7 @@ DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Create a directory for output
-[fname,simname,outdir] = sub_fname_pi_gfdl_15arcmin_ctrl(param);
+[fname,simname,outdir] = sub_fname_pi_gfdl_15arcmin_ctrl_server(param);
 
 %! Storage variables
 S_Bent_bio = zeros(NX,DAYS);
@@ -135,7 +138,7 @@ for c = 5:CYCLES
         %! Load a year's ESM data
         ti = num2str(YEARS(YR));
         [ti,' , ', num2str(c)]
-        load(['/Volumes/MIP/Fish-MIP/Phase3/QuarterDeg/',...
+        load(['/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/QuarterDeg/',...
             'Data_gfdl_mom6_cobalt2_ctrlclim_15arcmin_daily_',ti,'.mat'],'ESM');
         
         for DAY = 1:param.DT:DAYS % days
