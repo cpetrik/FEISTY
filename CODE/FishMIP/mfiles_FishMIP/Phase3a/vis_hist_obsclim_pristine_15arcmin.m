@@ -1,5 +1,5 @@
 % Visualize output of FEISTY
-% 10 cycles of 1961-1980 ctrlclim to spinup biomass
+% Hist obsclim w/o fishing
 % Time series plots and maps
 
 clear all
@@ -8,25 +8,29 @@ close all
 %% Fish data
 cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80_RE00100';
 
-%fpath=['/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
-fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
+%fpath=['/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/QuarterDeg/'];
+fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/QuarterDeg/'];
 
-harvs = {'All_fish_obs','All_fish_obs_v1.2','All_fish_obs_v2'};
-harv = harvs{3};
-mod = [harv '_ctrlclim_onedeg'];
+mod = 'pristine_obsclim_15arcmin';
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP/Phase3a/';
 ppath = [pp cfile '/'];
 if (~isfolder(ppath))
     mkdir(ppath)
 end
-load([fpath 'Means_Spinup_ctrlclim_',harv,'_' cfile '.mat']);
+load([fpath 'Means_Hist_obsclim_pristine_' cfile '.mat'],'time',...
+    'sf_tmean','sp_tmean','sd_tmean',...
+    'mf_tmean','mp_tmean','md_tmean',...
+    'lp_tmean','ld_tmean','b_tmean',...
+    'sf_smean','sp_smean','sd_smean',...
+    'mf_smean','mp_smean','md_smean',...
+    'lp_smean','ld_smean','b_smean');
 
 % Map data
-%cpath = '/Volumes/MIP/Fish-MIP/Phase3/OneDeg/';
-cpath = '/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/OneDeg/';
-load([cpath 'gridspec_gfdl-mom6-cobalt2_obsclim_deptho_onedeg.mat']);
-load([cpath 'Data_grid_gfdl-mom6-cobalt2_obsclim_deptho_onedeg.mat'], 'GRD');
+%cpath = '/Volumes/MIP/Fish-MIP/Phase3/QuarterDeg/';
+cpath = '/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/QuarterDeg/';
+load([cpath 'gridspec_gfdl-mom6-cobalt2_obsclim_deptho_15arcmin.mat']);
+load([cpath 'Data_grid_gfdl-mom6-cobalt2_obsclim_deptho_15arcmin.mat'], 'GRD');
 
 [ni,nj]=size(LON);
 
@@ -54,8 +58,8 @@ set(groot,'defaultAxesColorOrder',cm10);
 load coastlines;                     %decent looking coastlines
 
 %% Plots in time
-t = 1:length(sp_tmean); %time;
-y = 0 + (t)/12;
+%t = 1:length(sp_tmean); %time;
+y = 1961 + (time)/12;
 
 % All size classes of all
 figure(1)
@@ -74,19 +78,15 @@ xlim([y(1) y(end)])
 ylim([-5 2])
 xlabel('Time (y)')
 ylabel('log_1_0 Biomass (g m^-^2)')
-title('Spinup')
+title('Hist')
 stamp(mod)
-print('-dpng',[ppath 'Spinup_empHP_',mod,'_all_sizes.png'])
+print('-dpng',[ppath 'Hist_empHP_',mod,'_all_sizes.png'])
 
 %% Types together
 F = sf_tmean+mf_tmean;
 P = sp_tmean+mp_tmean+lp_tmean;
 D = sd_tmean+md_tmean+ld_tmean;
 B = b_tmean;
-
-yF = mf_tmcatch;
-yP = mp_tmcatch+lp_tmcatch;
-yD = md_tmcatch+ld_tmcatch;
 
 %%
 figure(2)
@@ -100,23 +100,9 @@ xlim([y(1) y(end)])
 ylim([-5 2])
 xlabel('Time (y)')
 ylabel('log_1_0 Biomass (g m^-^2)')
-title('Spinup')
+title('Hist')
 stamp(mod)
-print('-dpng',[ppath 'Spinup_empHP_',mod,'_all_types.png'])
-
-figure(20)
-plot(y,log10(yF),'r','Linewidth',2); hold on;
-plot(y,log10(yP),'b','Linewidth',2); hold on;
-plot(y,log10(yD),'k','Linewidth',2); hold on;
-legend('F','P','D')
-legend('location','east')
-xlim([y(1) y(end)])
-%ylim([-5 2])
-xlabel('Time (y)')
-ylabel('log_1_0 Yield (g m^-^2)')
-title('Spinup')
-stamp(mod)
-print('-dpng',[ppath 'Spinup_empHP_',mod,'_yield_all_types.png'])
+print('-dpng',[ppath 'Hist_empHP_',mod,'_all_types.png'])
  
 %% Plots in space
 Zsf=NaN*ones(ni,nj);
@@ -129,15 +115,15 @@ Zlp=NaN*ones(ni,nj);
 Zld=NaN*ones(ni,nj);
 Zb=NaN*ones(ni,nj);
 
-Zsf(GRD.ID)=sf_mean;
-Zsp(GRD.ID)=sp_mean;
-Zsd(GRD.ID)=sd_mean;
-Zmf(GRD.ID)=mf_mean;
-Zmp(GRD.ID)=mp_mean;
-Zmd(GRD.ID)=md_mean;
-Zlp(GRD.ID)=lp_mean;
-Zld(GRD.ID)=ld_mean;
-Zb(GRD.ID)=b_mean;
+Zsf(GRD.ID)=sf_smean;
+Zsp(GRD.ID)=sp_smean;
+Zsd(GRD.ID)=sd_smean;
+Zmf(GRD.ID)=mf_smean;
+Zmp(GRD.ID)=mp_smean;
+Zmd(GRD.ID)=md_smean;
+Zlp(GRD.ID)=lp_smean;
+Zld(GRD.ID)=ld_smean;
+Zb(GRD.ID)=b_smean;
 
 All = Zsp+Zsf+Zsd+Zmp+Zmf+Zmd+Zlp+Zld;
 AllF = Zsf+Zmf;
@@ -160,9 +146,9 @@ h=patchm(coastlat,coastlon,'w','FaceColor',[0.75 0.75 0.75]);
 caxis([-1 2]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
-title('Spinup 1949 log10 mean benthic biomass (g m^-^2)')
+title('Hist 1949 log10 mean benthic biomass (g m^-^2)')
 stamp(mod)
-print('-dpng',[ppath 'Spinup_empHP_',mod,'_global_BENT.png'])
+print('-dpng',[ppath 'Hist_empHP_',mod,'_global_BENT.png'])
 
 %% All 4 on subplots
 figure(4)
@@ -211,7 +197,7 @@ caxis([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
 stamp(mod)
-print('-dpng',[ppath 'Spinup_empHP_',mod,'_global_All_subplot.png'])
+print('-dpng',[ppath 'Hist_empHP_',mod,'_global_All_subplot.png'])
 
 %% Ratios on subplots red-white-blue
 % 3 figure subplot P:D, P:F, M:L
@@ -250,4 +236,4 @@ colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('Fraction Large vs. Medium')
 stamp(mod)
-print('-dpng',[ppath 'Spinup_empHP_',mod,'_global_ratios_subplot.png'])
+print('-dpng',[ppath 'Hist_empHP_',mod,'_global_ratios_subplot.png'])

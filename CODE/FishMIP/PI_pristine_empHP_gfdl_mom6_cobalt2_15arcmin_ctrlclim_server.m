@@ -43,8 +43,8 @@ S_Lrg_p = zeros(NX,DAYS);
 S_Lrg_d = zeros(NX,DAYS);
 
 %! Initialize
-%load([fname '_Last_mo_' simname '.mat']);
-load([fname '_Last_mo_cycle4_' simname '.mat']);
+load([fname '_Last_mo_' simname '.mat']);
+%load([fname '_Last_mo_cycle4_' simname '.mat']);
 BENT.mass = BENT.bio;
 [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_hist(ID,DAYS,Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT);
 
@@ -52,7 +52,7 @@ BENT.mass = BENT.bio;
 nt = 12 * nYEARS;
 netcdf.setDefaultFormat('NC_FORMAT_64BIT');
     
-for c = 5:CYCLES
+for c = 1:CYCLES
     %%%%%%%%%%%%%%% Setup NetCDF save
     %! Setup netcdf path to store to
     file_sml_f = [fname,'_empHP_sml_f_cycle',num2str(c),'.nc'];

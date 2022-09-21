@@ -20,8 +20,7 @@ end
 load([fpath 'LME_Hist_',mod,'_All_fishobs_' cfile '.mat']);
 
 %% total catch
-%lme_area_km2 = lme_area * 1e-6;
-lme_area_km2 = 1;
+lme_area_km2 = lme_area * 1e-6;
 
 %mcatch = mf, mp, md, lp, ld
 %MT/km2

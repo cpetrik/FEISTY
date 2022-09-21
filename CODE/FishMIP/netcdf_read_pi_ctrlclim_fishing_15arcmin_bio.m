@@ -64,19 +64,19 @@ MP.bio = biomass;
 clear biomass
 
 % MF
-% ncid = netcdf.open([fpath 'PI_ctrlclim_All_fishobs_empHP_med_f.nc'],'NC_NOWRITE');
-% [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
-% for i = 1:nvars
-%     varname = netcdf.inqVar(ncid, i-1);
-%     eval([ varname ' = netcdf.getVar(ncid,i-1);']);
-%     eval([ varname '(' varname ' == 99999) = NaN;']);
-% end
-% netcdf.close(ncid);
-% 
-% MF.bio = biomass;
-% clear biomass
+ncid = netcdf.open([fpath 'PI_ctrlclim_All_fishobs_empHP_med_f.nc'],'NC_NOWRITE');
+[ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
+for i = 1:nvars
+    varname = netcdf.inqVar(ncid, i-1);
+    eval([ varname ' = netcdf.getVar(ncid,i-1);']);
+    eval([ varname '(' varname ' == 99999) = NaN;']);
+end
+netcdf.close(ncid);
 
-% MD
+MF.bio = biomass;
+clear biomass
+
+%% MD
 ncid = netcdf.open([fpath 'PI_ctrlclim_All_fishobs_empHP_med_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
@@ -210,7 +210,7 @@ sp_tmean=mean(SP.bio,1,'omitnan');
 sf_tmean=mean(SF.bio,1,'omitnan');
 sd_tmean=mean(SD.bio,1,'omitnan');
 mp_tmean=mean(MP.bio,1,'omitnan');
-% mf_tmean=mean(MF.bio,1,'omitnan');
+mf_tmean=mean(MF.bio,1,'omitnan');
 md_tmean=mean(MD.bio,1,'omitnan');
 lp_tmean=mean(LP.bio,1,'omitnan');
 ld_tmean=mean(LD.bio,1,'omitnan');
@@ -227,7 +227,7 @@ sp_smean=mean(SP.bio,2,'omitnan');
 sf_smean=mean(SF.bio,2,'omitnan');
 sd_smean=mean(SD.bio,2,'omitnan');
 mp_smean=mean(MP.bio,2,'omitnan');
-% mf_smean=mean(MF.bio,2,'omitnan');
+mf_smean=mean(MF.bio,2,'omitnan');
 md_smean=mean(MD.bio,2,'omitnan');
 lp_smean=mean(LP.bio,2,'omitnan');
 ld_smean=mean(LD.bio,2,'omitnan');
@@ -248,7 +248,7 @@ for n=1:length(st)
     sf_mean(:,n)=nanmean(SF.bio(:,st(n):en(n)),2);
     sd_mean(:,n)=nanmean(SD.bio(:,st(n):en(n)),2);
     mp_mean(:,n)=nanmean(MP.bio(:,st(n):en(n)),2);
-%     mf_mean(:,n)=nanmean(MF.bio(:,st(n):en(n)),2);
+    mf_mean(:,n)=nanmean(MF.bio(:,st(n):en(n)),2);
     md_mean(:,n)=nanmean(MD.bio(:,st(n):en(n)),2);
     lp_mean(:,n)=nanmean(LP.bio(:,st(n):en(n)),2);
     ld_mean(:,n)=nanmean(LD.bio(:,st(n):en(n)),2);
@@ -264,22 +264,20 @@ end
 %%
 save([fpath 'Means_PI_ctrlclim_All_fishobs_' cfile '.mat'],'time',...
     'sf_tmean','sp_tmean','sd_tmean',...
-    'mp_tmean','md_tmean',...
+    'mf_tmean','mp_tmean','md_tmean',...
     'lp_tmean','ld_tmean','b_tmean',...
     'mf_tmcatch','mp_tmcatch','md_tmcatch',...
     'lp_tmcatch','ld_tmcatch',...
     'sf_smean','sp_smean','sd_smean',...
-    'mp_smean','md_smean',...
+    'mf_smean','mp_smean','md_smean',...
     'lp_smean','ld_smean','b_smean',...
     'mf_mcatch','mp_mcatch','md_mcatch',...
     'lp_mcatch','ld_mcatch',...
     'sf_mean','sp_mean','sd_mean',...
-    'mp_mean','md_mean',...
+    'mf_mean','mp_mean','md_mean',...
     'lp_mean','ld_mean','b_mean',...
     'mf_my','mp_my','md_my',...
     'lp_my','ld_my')
-
-%'mf_tmean','mf_smean','mf_mean',
 
 
 %% Save last year for initializing forecast runs

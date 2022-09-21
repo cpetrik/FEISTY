@@ -14,8 +14,14 @@ cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80
 %fpath=['/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 
+mods = {'All_fish_obs','All_fish_obs_v1.2','All_fish_obs_v2'};
+mod = mods{3};
+
+imods = {'All_fishobs','All_fishobs_v1.2','All_fishobs_v2'};
+imod = imods{3};
+
 %% SP
-ncid = netcdf.open([fpath 'Spinup_ctrlclim_All_fish_obs_empHP_sml_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Spinup_ctrlclim_',mod,'_empHP_sml_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -30,8 +36,8 @@ netcdf.close(ncid);
 SP.bio = biomass;
 clear biomass
 
-%% SF 
-ncid = netcdf.open([fpath 'Spinup_ctrlclim_All_fish_obs_empHP_sml_f.nc'],'NC_NOWRITE');
+%% SF
+ncid = netcdf.open([fpath 'Spinup_ctrlclim_',mod,'_empHP_sml_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -41,10 +47,10 @@ end
 netcdf.close(ncid);
 
 SF.bio = biomass(:,1:nt);
-clear biomass 
+clear biomass
 
 %% SD
-ncid = netcdf.open([fpath 'Spinup_ctrlclim_All_fish_obs_empHP_sml_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Spinup_ctrlclim_',mod,'_empHP_sml_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -54,10 +60,10 @@ end
 netcdf.close(ncid);
 
 SD.bio = biomass;
-clear biomass 
+clear biomass
 
 % MP
-ncid = netcdf.open([fpath 'Spinup_ctrlclim_All_fish_obs_empHP_med_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Spinup_ctrlclim_',mod,'_empHP_med_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -72,7 +78,7 @@ clear yield
 clear biomass
 
 % MF
-ncid = netcdf.open([fpath 'Spinup_ctrlclim_All_fish_obs_empHP_med_f.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Spinup_ctrlclim_',mod,'_empHP_med_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -87,7 +93,7 @@ clear yield
 clear biomass
 
 % MD
-ncid = netcdf.open([fpath 'Spinup_ctrlclim_All_fish_obs_empHP_med_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Spinup_ctrlclim_',mod,'_empHP_med_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -102,7 +108,7 @@ clear yield
 clear biomass
 
 % LP
-ncid = netcdf.open([fpath 'Spinup_ctrlclim_All_fish_obs_empHP_lrg_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Spinup_ctrlclim_',mod,'_empHP_lrg_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -117,7 +123,7 @@ clear yield
 clear biomass
 
 % LD
-ncid = netcdf.open([fpath 'Spinup_ctrlclim_All_fish_obs_empHP_lrg_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Spinup_ctrlclim_',mod,'_empHP_lrg_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -132,7 +138,7 @@ clear yield
 clear biomass
 
 % Benthic material
-ncid = netcdf.open([fpath 'Spinup_ctrlclim_All_fish_obs_empHP_bent.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Spinup_ctrlclim_',mod,'_empHP_bent.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -144,7 +150,7 @@ netcdf.close(ncid);
 Bent.bio = biomass;
 clear biomass
 
-%% Take means 
+%% Take means
 
 %Time
 sp_tmean=mean(SP.bio,1,'omitnan');
@@ -181,7 +187,7 @@ lp_mcatch=mean(LP.yield(:,nt-11:nt),2,'omitnan');
 ld_mcatch=mean(LD.yield(:,nt-11:nt),2,'omitnan');
 
 %%
-save([fpath 'Means_Spinup_ctrlclim_All_fish_obs_' cfile '.mat'],'time',...
+save([fpath 'Means_Spinup_ctrlclim_',mod,'_' cfile '.mat'],'time',...
     'sf_tmean','sp_tmean','sd_tmean',...
     'mf_tmean','mp_tmean','md_tmean',...
     'lp_tmean','ld_tmean','b_tmean',...
@@ -205,10 +211,5 @@ Lrg_p.bio = mean(LP.bio(:,nt-11:nt),2,'omitnan');
 Lrg_d.bio = mean(LD.bio(:,nt-11:nt),2,'omitnan');
 BENT.bio  = mean(Bent.bio(:,nt-11:nt),2,'omitnan');
 
-save([fpath 'PI_ctrlclim_All_fishobs_Last_mo_' cfile '.mat'],'Sml_f','Sml_p','Sml_d',... 
+save([fpath 'PI_ctrlclim_',imod,'_Last_mo_' cfile '.mat'],'Sml_f','Sml_p','Sml_d',...
     'Med_f','Med_p','Med_d','Lrg_p','Lrg_d','BENT')
-
-
-
-
-

@@ -35,7 +35,8 @@ en = ntc:ntc:nta;
 
 SP.bio = nan*ones(nid,nta);
 
-for c=6%1:10
+%%
+for c=1:10
 
     %% SP
     ncid = netcdf.open([fpath 'PI_ctrlclim_pristine_empHP_sml_p_cycle',...
@@ -180,39 +181,58 @@ ld_tmean=mean(LD.bio,1,'omitnan');
 b_tmean=mean(Bent.bio,1,'omitnan');
 
 %Space
-sp_mean=mean(SP.bio,2,'omitnan');
-sf_mean=mean(SF.bio,2,'omitnan');
-sd_mean=mean(SD.bio,2,'omitnan');
-mp_mean=mean(MP.bio,2,'omitnan');
-mf_mean=mean(MF.bio,2,'omitnan');
-md_mean=mean(MD.bio,2,'omitnan');
-lp_mean=mean(LP.bio,2,'omitnan');
-ld_mean=mean(LD.bio,2,'omitnan');
-b_mean =mean(Bent.bio,2,'omitnan');
+sp_mean=smean(SP.bio,2,'omitnan');
+sf_mean=smean(SF.bio,2,'omitnan');
+sd_mean=smean(SD.bio,2,'omitnan');
+mp_mean=smean(MP.bio,2,'omitnan');
+mf_mean=smean(MF.bio,2,'omitnan');
+md_mean=smean(MD.bio,2,'omitnan');
+lp_mean=smean(LP.bio,2,'omitnan');
+ld_mean=smean(LD.bio,2,'omitnan');
+b_mean =smean(Bent.bio,2,'omitnan');
 
-save([fpath 'Means_PI_ctrlclim_pristine_cycle',num2str(c),'_',cfile,'.mat'],'time',...
+%% Each year
+st=1:12:length(time);
+en=12:12:length(time);
+
+for n=1:length(st)
+    sp_mean(:,n)=nanmean(SP.bio(:,st(n):en(n)),2);
+    sf_mean(:,n)=nanmean(SF.bio(:,st(n):en(n)),2);
+    sd_mean(:,n)=nanmean(SD.bio(:,st(n):en(n)),2);
+    mp_mean(:,n)=nanmean(MP.bio(:,st(n):en(n)),2);
+    mf_mean(:,n)=nanmean(MF.bio(:,st(n):en(n)),2);
+    md_mean(:,n)=nanmean(MD.bio(:,st(n):en(n)),2);
+    lp_mean(:,n)=nanmean(LP.bio(:,st(n):en(n)),2);
+    ld_mean(:,n)=nanmean(LD.bio(:,st(n):en(n)),2);
+    b_mean(:,n)=nanmean(Bent.bio(:,st(n):en(n)),2);
+end
+
+save([fpath 'Means_PI_ctrlclim_pristine_',cfile,'.mat'],'time',...
     'sf_tmean','sp_tmean','sd_tmean',...
     'mf_tmean','mp_tmean','md_tmean',...
     'lp_tmean','ld_tmean','b_tmean',...
     'sf_mean','sp_mean','sd_mean',...
     'mf_mean','mp_mean','md_mean',...
-    'lp_mean','ld_mean','b_mean')
+    'lp_mean','ld_mean','b_mean',...
+    'sf_smean','sp_smean','sd_smean',...
+    'mf_smean','mp_smean','md_smean',...
+    'lp_smean','ld_smean','b_smean')
 
 %% Save last year for initializing forecast run
-Sml_f.bio = mean(SF.bio(:,nta-11:nta),2,'omitnan');
-Sml_p.bio = mean(SP.bio(:,nta-11:nta),2,'omitnan');
-Sml_d.bio = mean(SD.bio(:,nta-11:nta),2,'omitnan');
-Med_f.bio = mean(MF.bio(:,nta-11:nta),2,'omitnan');
-Med_p.bio = mean(MP.bio(:,nta-11:nta),2,'omitnan');
-Med_d.bio = mean(MD.bio(:,nta-11:nta),2,'omitnan');
-Lrg_p.bio = mean(LP.bio(:,nta-11:nta),2,'omitnan');
-Lrg_d.bio = mean(LD.bio(:,nta-11:nta),2,'omitnan');
-BENT.bio  = mean(Bent.bio(:,nta-11:nta),2,'omitnan');
-
-save([fpath 'Hist_ctrlclim_pristine_Last_mo_cycle',num2str(c),'_',cfile '.mat'],'Sml_f','Sml_p','Sml_d',...
-    'Med_f','Med_p','Med_d','Lrg_p','Lrg_d','BENT')
-save([fpath 'Hist_obsclim_pristine_Last_mo_cycle',num2str(c),'_', cfile '.mat'],'Sml_f','Sml_p','Sml_d',...
-    'Med_f','Med_p','Med_d','Lrg_p','Lrg_d','BENT')
+% Sml_f.bio = mean(SF.bio(:,nta-11:nta),2,'omitnan');
+% Sml_p.bio = mean(SP.bio(:,nta-11:nta),2,'omitnan');
+% Sml_d.bio = mean(SD.bio(:,nta-11:nta),2,'omitnan');
+% Med_f.bio = mean(MF.bio(:,nta-11:nta),2,'omitnan');
+% Med_p.bio = mean(MP.bio(:,nta-11:nta),2,'omitnan');
+% Med_d.bio = mean(MD.bio(:,nta-11:nta),2,'omitnan');
+% Lrg_p.bio = mean(LP.bio(:,nta-11:nta),2,'omitnan');
+% Lrg_d.bio = mean(LD.bio(:,nta-11:nta),2,'omitnan');
+% BENT.bio  = mean(Bent.bio(:,nta-11:nta),2,'omitnan');
+% 
+% save([fpath 'Hist_ctrlclim_pristine_Last_mo_cycle',num2str(c),'_',cfile '.mat'],'Sml_f','Sml_p','Sml_d',...
+%     'Med_f','Med_p','Med_d','Lrg_p','Lrg_d','BENT')
+% save([fpath 'Hist_obsclim_pristine_Last_mo_cycle',num2str(c),'_', cfile '.mat'],'Sml_f','Sml_p','Sml_d',...
+%     'Med_f','Med_p','Med_d','Lrg_p','Lrg_d','BENT')
 
 
 

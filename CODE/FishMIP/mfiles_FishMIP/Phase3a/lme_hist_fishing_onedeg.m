@@ -26,7 +26,8 @@ load([fpath 'Means_Hist_',mod,'_All_fishobs_' cfile '.mat']);
 cpath = '/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/OneDeg/';
 load([cpath 'gridspec_gfdl-mom6-cobalt2_obsclim_deptho_onedeg.mat']);
 load([cpath 'Data_grid_gfdl-mom6-cobalt2_obsclim_deptho_onedeg.mat'], 'GRD');
-load([cpath 'lme_gfdl-mom6-cobalt2_onedeg.mat'],'tlme');%,'AREA_OCN');
+load([cpath 'lme_gfdl-mom6-cobalt2_onedeg.mat'],'tlme');
+load([cpath 'cellarea_onedeg.mat'],'cell_area');
 
 [ni,nj]=size(LON);
 
@@ -77,21 +78,21 @@ for t=1:nt
     Cld(GRD.ID)=ld_my(:,t);
     
     % g/m2/d --> total g
-    Amf_mcatch = Cmf .* AREA_OCN * 365; %mean fish catch per yr
-    Amp_mcatch = Cmp .* AREA_OCN * 365;
-    Amd_mcatch = Cmd .* AREA_OCN * 365;
-    Alp_mcatch = Clp .* AREA_OCN * 365;
-    Ald_mcatch = Cld .* AREA_OCN * 365;
+    Amf_mcatch = Cmf .* cell_area * 365; %mean fish catch per yr
+    Amp_mcatch = Cmp .* cell_area * 365;
+    Amd_mcatch = Cmd .* cell_area * 365;
+    Alp_mcatch = Clp .* cell_area * 365;
+    Ald_mcatch = Cld .* cell_area * 365;
     % g/m2 --> total g
-    Asf_mean = Zsf .* AREA_OCN;
-    Asp_mean = Zsp .* AREA_OCN;
-    Asd_mean = Zsd .* AREA_OCN;
-    Amf_mean = Zmf .* AREA_OCN;
-    Amp_mean = Zmp .* AREA_OCN;
-    Amd_mean = Zmd .* AREA_OCN;
-    Alp_mean = Zlp .* AREA_OCN;
-    Ald_mean = Zld .* AREA_OCN;
-    Ab_mean  = Zb .* AREA_OCN;
+    Asf_mean = Zsf .* cell_area;
+    Asp_mean = Zsp .* cell_area;
+    Asd_mean = Zsd .* cell_area;
+    Amf_mean = Zmf .* cell_area;
+    Amp_mean = Zmp .* cell_area;
+    Amd_mean = Zmd .* cell_area;
+    Alp_mean = Zlp .* cell_area;
+    Ald_mean = Zld .* cell_area;
+    Ab_mean  = Zb .* cell_area;
     
     %% Calc LMEs
     for L=1:66
@@ -126,13 +127,13 @@ for t=1:nt
     end
 end
 
-% lme_area = NaN*ones(66,1);
-% for L=1:66
-%     lid = find(tlme==L);
-%     %total area of LME
-%     lme_area(L,1) = nansum(AREA_OCN(lid));
-% end
+lme_area = NaN*ones(66,1);
+for L=1:66
+    lid = find(tlme==L);
+    %total area of LME
+    lme_area(L,1) = nansum(cell_area(lid));
+end
 
 %%
 save([fpath 'LME_Hist_',mod,'_All_fishobs_' cfile '.mat'],...
-    'lme_mcatch','lme_mbio','lme_sbio');%,'lme_area');
+    'lme_mcatch','lme_mbio','lme_sbio','lme_area');

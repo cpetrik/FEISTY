@@ -1,5 +1,5 @@
 %%%%!! RUN HISTORIC FOR ALL LOCATIONS
-function Hist_pristine_empHP_gfdl_mom6_cobalt2_15arcmin_obsclim_server()
+function Hist_pristine_empHP_gfdl_mom6_cobalt2_15arcmin_ctrlclim_server()
 
 %%%%%%%%%%%%%%% Initialize Model Variables
 %! Set fishing rate
@@ -26,7 +26,7 @@ DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Create a directory for output
-[fname,simname,outdir] = sub_fname_hist_gfdl_15arcmin_obs_server(param);
+[fname,simname,outdir] = sub_fname_hist_gfdl_15arcmin_ctrl_server(param);
 
 %! Storage variables
 S_Bent_bio = zeros(NX,DAYS);
@@ -141,10 +141,9 @@ MNT = 0;
 %! Run model with no fishing
 for YR = 1:nYEARS % years
     %! Load a year's ESM data
-    ti = num2str(YEARS(YR));
-    ti
+    ti = num2str(YEARS(YR))
     load(['/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/QuarterDeg/',...
-        'Data_gfdl_mom6_cobalt2_obsclim_15arcmin_daily_',ti,'.mat'],'ESM');
+        'Data_gfdl_mom6_cobalt2_ctrlclim_15arcmin_daily_',ti,'.mat'],'ESM');
 
     for DAY = 1:param.DT:DAYS % days
 
