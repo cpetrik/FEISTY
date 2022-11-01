@@ -7,27 +7,32 @@ close all
 %% Fish data
 cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80_RE00100';
 
-%fpath=['/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
-fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
+%fpath=['/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/QuarterDeg/'];
+fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/QuarterDeg/'];
 
-mod = 'obsclim_All_fishobs_v1.2_';
+mod = 'obsclim';
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP/Phase3a/';
 ppath = [pp cfile '/'];
 if (~isfolder(ppath))
     mkdir(ppath)
 end
-load([fpath 'Means_Hist_',mod,cfile,'.mat']);
+load([fpath 'Means_Hist_',mod,'_All_fishobs_' cfile '.mat'],...
+    'sf_mean','sp_mean','sd_mean',...
+    'mf_mean','mp_mean','md_mean',...
+    'lp_mean','ld_mean','b_mean',...
+    'mf_my','mp_my','md_my',...
+    'lp_my','ld_my');
 
 [nid,nt] = size(ld_mean);
 
 %% Map data
-%cpath = '/Volumes/MIP/Fish-MIP/Phase3/OneDeg/';
-cpath = '/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/OneDeg/';
-load([cpath 'gridspec_gfdl-mom6-cobalt2_obsclim_deptho_onedeg.mat']);
-load([cpath 'Data_grid_gfdl-mom6-cobalt2_obsclim_deptho_onedeg.mat'], 'GRD');
-load([cpath 'lme_gfdl-mom6-cobalt2_onedeg.mat'],'tlme');
-load([cpath 'cellarea_onedeg.mat'],'cell_area');
+%cpath = '/Volumes/MIP/Fish-MIP/Phase3/QuarterDeg/';
+cpath = '/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/QuarterDeg/';
+load([cpath 'gridspec_gfdl-mom6-cobalt2_obsclim_deptho_15arcmin.mat']);
+load([cpath 'Data_grid_gfdl-mom6-cobalt2_obsclim_deptho_15arcmin.mat'], 'GRD');
+load([cpath 'lme_gfdl-mom6-cobalt2_15arcmin.mat'],'tlme');
+load([cpath 'cellarea_15arcmin.mat'],'cell_area');
 
 [ni,nj]=size(LON);
 
@@ -135,5 +140,5 @@ for L=1:66
 end
 
 %%
-save([fpath 'LME_Hist_',mod,cfile,'.mat'],...
+save([fpath 'LME_Hist_',mod,'_All_fishobs_' cfile '.mat'],...
     'lme_mcatch','lme_mbio','lme_sbio','lme_area');

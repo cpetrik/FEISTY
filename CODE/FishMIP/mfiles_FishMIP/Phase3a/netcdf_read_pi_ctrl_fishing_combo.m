@@ -1,0 +1,6 @@
+clear all
+close all
+
+netcdf_read_pi_ctrlclim_fishing_15arcmin_bio
+netcdf_read_pi_ctrlclim_fishing_15arcmin_MF
+netcdf_read_pi_ctrlclim_fishing_15arcmin_B

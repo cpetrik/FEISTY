@@ -8,17 +8,17 @@ close all
 %% Fish data
 cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80_RE00100';
 
-%fpath=['/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
-fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
+%fpath=['/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/QuarterDeg/'];
+fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/QuarterDeg/'];
 
-mod = 'obsclim_All_fishobs_v1.2_';
+mod = 'obsclim';
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP/Phase3a/';
 ppath = [pp cfile '/'];
 if (~isfolder(ppath))
     mkdir(ppath)
 end
-load([fpath 'LME_Hist_',mod,cfile,'.mat']);
+load([fpath 'LME_Hist_',mod,'_All_fishobs_' cfile '.mat']);
 
 %% 
 lme_area_km2 = lme_area * 1e-6;
@@ -56,7 +56,7 @@ l10sD=log10(Dlme_mcatch10+eps);
 sFracPD = Plme_mcatch10 ./ (Plme_mcatch10 + Dlme_mcatch10);
 
 %% save
-save([fpath 'LME_Hist_',mod,'Catch_top10.mat'],'alme_mcatch10',...
+save([fpath 'LME_Hist_',mod,'_All_fishobs_Catch_top10.mat'],'alme_mcatch10',...
     'Flme_mcatch10','Plme_mcatch10','Dlme_mcatch10','sFracPD')
 
 

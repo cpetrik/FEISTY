@@ -14,25 +14,25 @@ keep = notLELC;
 cdir = '/Users/cpetrik/Dropbox/Princeton/FEISTY_other/grid_cobalt/';
 load([cdir 'LME_clim_temp_zoop_det.mat'],'lme_ptemp');
 
-cpath = '/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/OneDeg/';
-load([cpath 'gridspec_gfdl-mom6-cobalt2_obsclim_deptho_onedeg.mat']);
-load([cpath 'lme_gfdl-mom6-cobalt2_onedeg.mat'],'tlme');
+cpath = '/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/QuarterDeg/';
+load([cpath 'gridspec_gfdl-mom6-cobalt2_obsclim_deptho_15arcmin.mat']);
+load([cpath 'lme_gfdl-mom6-cobalt2_15arcmin.mat'],'tlme');
 [ni,nj]=size(LON);
 
 %% FEISTY LME biomass in MT/km2
 cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80_RE00100';
 
-%fpath=['/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
-fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
+%fpath=['/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/QuarterDeg/'];
+fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/QuarterDeg/'];
 
-mod = 'obsclim_All_fishobs_v1.2_';
+mod = 'obsclim';
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP/Phase3a/';
 ppath = [pp cfile '/'];
 if (~isfolder(ppath))
     mkdir(ppath)
 end
-load([fpath 'LME_Hist_',mod,cfile,'_Catch_top10.mat']);
+load([fpath 'LME_Hist_',mod,'_All_fishobs_Catch_top10.mat']);
 
 plme_mcatch = alme_mcatch10;
 plme_Fmcatch = Flme_mcatch10;
@@ -206,7 +206,7 @@ xlabel('SAU')
 ylabel('FEISTY')
 title('All fishes')
 stamp(mod)
-print('-dpng',[ppath 'LME_Hist_',mod,'onedeg_Catch_top10_SAUP_comp.png'])
+print('-dpng',[ppath 'LME_Hist_',mod,'_All_fishobs_15arcmin_Catch_top10_SAUP_comp.png'])
 
 %% LgPel vs. Dem
 plotminlat=-90; %Set these bounds for your data
@@ -272,4 +272,4 @@ xlabel('vanD')
 ylabel('FEISTY')
 %title('Fraction Large Pelagics')
 stamp(mod)
-print('-dpng',[ppath 'LME_Hist_',mod,'onedeg_fracPD_catch_SAUP_DvD_comp.png'])
+print('-dpng',[ppath 'LME_Hist_',mod,'_All_fishobs_15arcmin_fracPD_catch_SAUP_DvD_comp.png'])

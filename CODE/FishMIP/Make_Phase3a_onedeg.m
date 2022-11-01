@@ -6,7 +6,7 @@ close all
 %%%%!! EXPERIMENTS
 spinup                  = false;
 spinup_onedeg           = false;
-pre_ctrlclim_onedeg     = true;
+pre_ctrlclim_onedeg     = false;
 hist_onedeg             = true;
 
 tic

@@ -18,7 +18,8 @@ ppath = [pp cfile '/'];
 if (~isfolder(ppath))
     mkdir(ppath)
 end
-load([fpath 'Means_PI_ctrlclim_All_fishobs_' cfile '.mat']);
+%load([fpath 'Means_PI_ctrlclim_All_fishobs_' cfile '.mat']); TOO MUCH,
+%CHANGE to tmean and smeans
 
 % Map data
 %cpath = '/Volumes/MIP/Fish-MIP/Phase3/OneDeg/';
