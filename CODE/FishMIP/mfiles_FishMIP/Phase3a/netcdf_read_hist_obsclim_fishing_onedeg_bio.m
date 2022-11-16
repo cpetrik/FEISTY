@@ -3,19 +3,15 @@
 clear all
 close all
 
-%/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/.../OneDeg
-%Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80_RE00100
-
-%/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/.../OneDeg
-%Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80_RE00100
-
 cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80_RE00100';
 
 %fpath=['/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 
+mod = 'v2';
+
 %% SP
-ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_empHP_sml_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_',mod,'_empHP_sml_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -31,7 +27,7 @@ SP.bio = biomass;
 clear biomass
 
 %% SF 
-ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_empHP_sml_f.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_',mod,'_empHP_sml_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -44,7 +40,7 @@ SF.bio = biomass(:,1:nt);
 clear biomass 
 
 %% SD
-ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_empHP_sml_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_',mod,'_empHP_sml_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -57,7 +53,7 @@ SD.bio = biomass;
 clear biomass 
 
 % MP
-ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_empHP_med_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_',mod,'_empHP_med_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -72,7 +68,7 @@ clear yield
 clear biomass
 
 % MF
-ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_empHP_med_f.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_',mod,'_empHP_med_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -87,7 +83,7 @@ clear yield
 clear biomass
 
 % MD
-ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_empHP_med_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_',mod,'_empHP_med_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -102,7 +98,7 @@ clear yield
 clear biomass
 
 % LP
-ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_empHP_lrg_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_',mod,'_empHP_lrg_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -117,7 +113,7 @@ clear yield
 clear biomass
 
 % LD
-ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_empHP_lrg_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_',mod,'_empHP_lrg_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -132,7 +128,7 @@ clear yield
 clear biomass
 
 % Benthic material
-ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_empHP_bent.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_',mod,'_empHP_bent.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -203,7 +199,7 @@ for n=1:length(st)
 end
 
 %%
-save([fpath 'Means_Hist_obsclim_All_fishobs_' cfile '.mat'],'time',...
+save([fpath 'Means_Hist_obsclim_All_fishobs_',mod,'_',cfile,'.mat'],'time',...
     'sf_tmean','sp_tmean','sd_tmean',...
     'mf_tmean','mp_tmean','md_tmean',...
     'lp_tmean','ld_tmean','b_tmean',...

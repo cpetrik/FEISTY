@@ -11,14 +11,15 @@ cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80
 %fpath=['/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 
-mod = 'fishing_obsclim_onedeg';
+eff = ''; %eff = 'v1.2_';
+mod = ['fishing_obsclim_',eff,'onedeg'];
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP/Phase3a/';
-ppath = [pp cfile '/'];
+ppath = [pp cfile '/OneDeg/'];
 if (~isfolder(ppath))
     mkdir(ppath)
 end
-load([fpath 'Means_Hist_obsclim_All_fishobs_' cfile '.mat']);
+load([fpath 'Means_Hist_obsclim_All_fishobs_',eff,cfile,'.mat']);
 
 % Map data
 %cpath = '/Volumes/MIP/Fish-MIP/Phase3/OneDeg/';
@@ -109,7 +110,7 @@ plot(y,log10(yD),'k','Linewidth',2); hold on;
 legend('F','P','D')
 legend('location','east')
 xlim([y(1) y(end)])
-%ylim([-5 2])
+ylim([-6 -3])
 xlabel('Time (y)')
 ylabel('log_1_0 Yield (g m^-^2)')
 title('Hist')
@@ -127,15 +128,15 @@ Zlp=NaN*ones(ni,nj);
 Zld=NaN*ones(ni,nj);
 Zb=NaN*ones(ni,nj);
 
-Zsf(GRD.ID)=sf_mean;
-Zsp(GRD.ID)=sp_mean;
-Zsd(GRD.ID)=sd_mean;
-Zmf(GRD.ID)=mf_mean;
-Zmp(GRD.ID)=mp_mean;
-Zmd(GRD.ID)=md_mean;
-Zlp(GRD.ID)=lp_mean;
-Zld(GRD.ID)=ld_mean;
-Zb(GRD.ID)=b_mean;
+Zsf(GRD.ID)=sf_smean;
+Zsp(GRD.ID)=sp_smean;
+Zsd(GRD.ID)=sd_smean;
+Zmf(GRD.ID)=mf_smean;
+Zmp(GRD.ID)=mp_smean;
+Zmd(GRD.ID)=md_smean;
+Zlp(GRD.ID)=lp_smean;
+Zld(GRD.ID)=ld_smean;
+Zb(GRD.ID)=b_smean;
 
 All = Zsp+Zsf+Zsd+Zmp+Zmf+Zmd+Zlp+Zld;
 AllF = Zsf+Zmf;

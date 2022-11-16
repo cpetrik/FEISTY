@@ -25,14 +25,14 @@ cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80
 %fpath=['/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 
-mod = 'obsclim_All_fishobs_v1.2_';
+mod = 'obsclim_All_fishobs_v2_';
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP/Phase3a/';
 ppath = [pp cfile '/'];
 if (~isfolder(ppath))
     mkdir(ppath)
 end
-load([fpath 'LME_Hist_',mod,cfile,'_Catch_top10.mat']);
+load([fpath 'LME_Hist_',mod,'Catch_top10.mat']);
 
 plme_mcatch = alme_mcatch10;
 plme_Fmcatch = Flme_mcatch10;
@@ -42,10 +42,10 @@ plme_Dmcatch = Dlme_mcatch10;
 pFracPD = sFracPD;
 clear sFracPD
 
-l10p=log10(plme_mcatch);
-l10pF=log10(plme_Fmcatch);
-l10pP=log10(plme_Pmcatch);
-l10pD=log10(plme_Dmcatch);
+l10p=log10(plme_mcatch+eps);
+l10pF=log10(plme_Fmcatch+eps);
+l10pP=log10(plme_Pmcatch+eps);
+l10pD=log10(plme_Dmcatch+eps);
 
 clear Flme_mcatch10 Plme_mcatch10 Dlme_mcatch10 sFracPD
 
@@ -156,7 +156,7 @@ cmocean('thermal');
 colorbar('Position',[0.375 0.5 0.3 0.025],'orientation','horizontal')
 text(-5.5,1.5,['r = ' sprintf('%2.2f',rF) ' (p = ' sprintf('%2.2f',pF) ')'])
 text(-5.5,1.0,['RMSE = ' sprintf('%2.2f',rmseF)])
-axis([-6 2 -6 2])
+axis([-7 2 -7 2])
 xlabel('SAU')
 ylabel('FEISTY')
 title('Forage Fishes')
@@ -171,7 +171,7 @@ scatter(l10sP(keep),l10pP(keep),20,lme_ptemp(keep,1),'filled'); hold on;
 cmocean('thermal');
 text(-5.5,1.5,['r = ' sprintf('%2.2f',rP) ' (p = ' sprintf('%2.2f',pP) ')'])
 text(-5.5,1.0,['RMSE = ' sprintf('%2.2f',rmseP)])
-axis([-6 2 -6 2])
+axis([-7 2 -7 2])
 xlabel('SAU')
 ylabel('FEISTY')
 title('Large Pelagics')
@@ -184,9 +184,9 @@ plot(x,x5h,':r'); hold on;
 plot(x,x5l,':r'); hold on;
 scatter(l10sD(keep),l10pD(keep),20,lme_ptemp(keep,1),'filled'); hold on;
 cmocean('thermal');
-text(-1.75,1.7,['r = ' sprintf('%2.2f',rD) ' (p = ' sprintf('%2.2f',pD) ')'])
-text(-1.75,1.4,['RMSE = ' sprintf('%2.2f',rmseD)])
-axis([-2 2 -2 2])
+text(-5.75,1.5,['r = ' sprintf('%2.2f',rD) ' (p = ' sprintf('%2.2f',pD) ')'])
+text(-5.75,1.0,['RMSE = ' sprintf('%2.2f',rmseD)])
+axis([-7 2 -7 2])
 xlabel('SAU')
 ylabel('FEISTY')
 title('Demersals')
@@ -199,9 +199,9 @@ plot(x,x5h,':r'); hold on;
 plot(x,x5l,':r'); hold on;
 scatter(l10s(keep),l10p(keep),20,lme_ptemp(keep,1),'filled'); hold on;
 cmocean('thermal');
-text(-1.75,1.7,['r = ' sprintf('%2.2f',rall) ' (p = ' sprintf('%2.2f',pall) ')'])
-text(-1.75,1.4,['RMSE = ' sprintf('%2.2f',rmse)])
-axis([-2 2 -2 2])
+text(-5.75,1.5,['r = ' sprintf('%2.2f',rall) ' (p = ' sprintf('%2.2f',pall) ')'])
+text(-5.75,1.0,['RMSE = ' sprintf('%2.2f',rmse)])
+axis([-7 2 -7 2])
 xlabel('SAU')
 ylabel('FEISTY')
 title('All fishes')
