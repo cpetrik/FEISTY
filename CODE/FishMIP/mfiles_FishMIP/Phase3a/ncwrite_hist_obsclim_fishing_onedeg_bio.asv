@@ -9,11 +9,11 @@ cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80
 %fpath=['/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 
-alt = '_v2'; %_v1.2, _v2
+alt = '_v1.2'; %_v1.2, _v2
 
 %%
 % MP
-ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs',alt,'_empHP_med_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_',,'_empHP_med_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -28,7 +28,7 @@ clear yield
 clear biomass
 
 % MF
-ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs',alt,'_empHP_med_f.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_empHP_med_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -43,7 +43,7 @@ clear yield
 clear biomass
 
 % MD
-ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs',alt,'_empHP_med_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_empHP_med_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -58,7 +58,7 @@ clear yield
 clear biomass
 
 % LP
-ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs',alt,'_empHP_lrg_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_empHP_lrg_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -73,7 +73,7 @@ clear yield
 clear biomass
 
 % LD
-ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs',alt,'_empHP_lrg_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_empHP_lrg_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -88,7 +88,7 @@ clear yield
 clear biomass
 
 %% Benthic material
-ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs',alt,'_empHP_bent.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_empHP_bent.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -161,7 +161,7 @@ db = AllD(:,:,50);
 cb = AllF(:,:,50);
 
 figure(1)
-pcolor(log10(pb' + eps))
+pcolor(log10(pb'))
 shading flat
 colormap('jet')
 colorbar
@@ -169,7 +169,7 @@ caxis([-5 0])
 title('allP')
 
 figure(2)
-pcolor(log10(db' + eps))
+pcolor(log10(db'))
 shading flat
 colormap('jet')
 colorbar
@@ -177,7 +177,7 @@ caxis([-5 0])
 title('allD')
 
 figure(3)
-pcolor(log10(cb' + eps))
+pcolor(log10(cb'))
 shading flat
 colormap('jet')
 colorbar
@@ -188,7 +188,7 @@ title('all F')
 close all
 
 %% Setup netcdf path to store to
-fname1 = ['FEISTY_obsclim_fishobs',alt,'_onedeg_1961-2010_'];
+fname1 = 'FEISTY_obsclim_fishobs_onedeg_1961-2010_';
 fname3 = '.nc';
 
 file_tfb = [fpath fname1 'tfc' fname3];
@@ -201,7 +201,7 @@ file_tdb = [fpath fname1 'tdc' fname3];
 cmode = netcdf.getConstant('NETCDF4');
 cmode = bitor(cmode,netcdf.getConstant('CLASSIC_MODEL'));
 
-% tfb
+%% tfb
 ncidFB = netcdf.create(file_tfb,cmode);
 
 time_dim = netcdf.defDim(ncidFB,'time',nt);
