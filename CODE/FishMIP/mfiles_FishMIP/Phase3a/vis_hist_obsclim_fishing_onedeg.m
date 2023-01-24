@@ -14,14 +14,14 @@ fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg
 % eff = ''; %eff = 'v1.2_';
 % mod = ['fishing_obsclim_',eff,'onedeg'];
 
-mod = 'fishing_obsclim_v1_onedeg';
+mod = 'fishing_obsclim_v3_onedeg';
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP/Phase3a/';
 ppath = [pp cfile '/OneDeg/'];
 if (~isfolder(ppath))
     mkdir(ppath)
 end
-load([fpath 'Means_Hist_obsclim_All_fishobs_',cfile,'.mat'],'time',...
+load([fpath 'Means_Hist_obsclim_All_fishobs_v3_',cfile,'.mat'],'time',...
     'sf_tmean','sp_tmean','sd_tmean',...
     'mf_tmean','mp_tmean','md_tmean',...
     'lp_tmean','ld_tmean','b_tmean',...

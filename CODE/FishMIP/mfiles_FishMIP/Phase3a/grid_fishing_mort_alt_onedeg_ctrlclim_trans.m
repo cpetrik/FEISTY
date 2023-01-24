@@ -4,10 +4,10 @@ clear all
 close all 
 
 %% load f/fmsy
-alt1 = 'pristine_grid_mortality_guilds_v1'; %grid_mortality_guilds_v2, pristine_grid_mortality_guilds_v1
-alt2 = '_v1_pristine'; %_v2, _v1_pristine
-spath = ['/Volumes/MIP/Fish-MIP/Phase3/fishing/',alt1,'/'];
-%spath = ['/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/fishing/',alt1,'/'];
+alt1 = 'grid_mortality_guilds_v3'; %grid_mortality_guilds_v2, pristine_grid_mortality_guilds_v1
+alt2 = '_v3'; %_v2, _v1_pristine
+spath = ['/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/fishing/',alt1,'/'];
+%spath = ['/Volumes/MIP/Fish-MIP/Phase3/fishing/',alt1,'/'];
 fpath = ['/Users/cpetrik/Dropbox/Princeton/FEISTY_other/fishing_ms_ideas/fishing_effort_impl/',alt1,'/'];
 load([fpath 'grid_mortality_all',alt2,'.mat'])
 
@@ -24,8 +24,8 @@ lats = unique([LatD; LatF; LatP]);
 lons = unique([LonD; LonF; LonP]);
 
 %% ctrlclim one degree
-Cdir = '/Volumes/MIP/Fish-MIP/Phase3/OneDeg/';
-%Cdir = '/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/OneDeg/';
+Cdir = '/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/OneDeg/';
+%Cdir = '/Volumes/MIP/Fish-MIP/Phase3/OneDeg/';
 
 % Depth, lat, lon, area, grid cell with seafloor
 load([Cdir 'gridspec_gfdl-mom6-cobalt2_obsclim_deptho_onedeg.mat']);

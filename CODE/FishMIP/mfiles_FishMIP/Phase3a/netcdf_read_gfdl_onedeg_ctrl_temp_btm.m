@@ -4,8 +4,8 @@
 clear all
 close all
 
-fpath='/Volumes/MIP/Fish-MIP/Phase3/OneDeg/';
-%fpath='/Volumes/petrik-lab/Fish-MIP/Phase3/';
+%fpath='/Volumes/MIP/Fish-MIP/Phase3/OneDeg/';
+fpath='/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/OneDeg/';
 
 %% one file
 ncdisp([fpath 'gfdl-mom6-cobalt2_ctrlclim_tob_onedeg_global_monthly_1961_2010.nc'])

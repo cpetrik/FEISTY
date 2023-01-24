@@ -1,0 +1,49 @@
+% FEISTY output at all locations
+
+clear all
+close all
+
+
+
+%% 
+% PREFERRED (all units = gWW/m2)
+%total pelagic biomass tpb = 360x180xMOs
+allPB = SF.bio + MF.bio + SP.bio + MP.bio + LP.bio;
+%total demersal biomass tdb = 360x180xMOs
+allDB = SD.bio + MD.bio + LD.bio;
+%total consumber biomass tcb = 360x180xMOs
+allCB = allPB + allDB + Bent.bio;
+
+%Total Pelagic Density Catch across Artisanal and Industrial sectors
+% tpc
+allPC = MF.yield + MP.yield + LP.yield;
+%Total Demersal Catch Density across Artisanal and Industrial sectors
+allDC = MD.yield + LD.yield;
+%Total Catch Density (all commercial functional groups / size classes)
+allCC = allPC + allDC;
+
+
+% SECONDARY
+%total pelagic (Linf <30cm) biomass bp30cm = 360x180xMOs
+SPel = SF.bio + MF.bio;
+%total pelagic (>=90cm) biomass bp90cm = 360x180xMOs
+LPel = SP.bio + MP.bio + LP.bio;
+%total demersal (>=90cm) biomass bd90cm = 360x180xMOs
+% = allDB
+%Catch Density of Small Pelagics <30cm
+SPelC = MF.yield;
+%Catch Density of Large Pelagics >=90cm
+LPelC = MP.yield + LP.yield;
+%Catch Density of Large Demersals >=90cm
+% = allDC
+
+%%
+save([fpath 'FishMIP_monthly_Hist_ctrlclim_fished_15arcmin.mat'],'time',...
+    'allPB','allDB','allCB','allPC','allDC','allCC',...
+    'SPel','LPel','SPelC','LPelC');
+
+
+
+
+
+

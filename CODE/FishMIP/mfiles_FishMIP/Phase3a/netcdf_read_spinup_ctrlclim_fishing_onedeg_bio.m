@@ -14,11 +14,11 @@ cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80
 %fpath=['/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 
-mods = {'All_fish_obs','All_fish_obs_v1.2','All_fish_obs_v2'};
-mod = mods{3};
+mods = {'All_fish_obs','All_fish_obs_v1.2','All_fish_obs_v2','All_fish_obs_v3'};
+mod = mods{4};
 
-imods = {'All_fishobs','All_fishobs_v1.2','All_fishobs_v2'};
-imod = imods{3};
+imods = {'All_fishobs','All_fishobs_v1.2','All_fishobs_v2','All_fishobs_v3'};
+imod = imods{4};
 
 %% SP
 ncid = netcdf.open([fpath 'Spinup_ctrlclim_',mod,'_empHP_sml_p.nc'],'NC_NOWRITE');
@@ -49,7 +49,7 @@ netcdf.close(ncid);
 SF.bio = biomass(:,1:nt);
 clear biomass
 
-%% SD
+% SD
 ncid = netcdf.open([fpath 'Spinup_ctrlclim_',mod,'_empHP_sml_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
@@ -169,7 +169,9 @@ md_tmcatch=mean(MD.yield,1,'omitnan');
 lp_tmcatch=mean(LP.yield,1,'omitnan');
 ld_tmcatch=mean(LD.yield,1,'omitnan');
 
-%Space
+%% Space 
+%set nt=2340 for v3
+%nt=2340;
 sp_mean=mean(SP.bio(:,nt-11:nt),2,'omitnan');
 sf_mean=mean(SF.bio(:,nt-11:nt),2,'omitnan');
 sd_mean=mean(SD.bio(:,nt-11:nt),2,'omitnan');

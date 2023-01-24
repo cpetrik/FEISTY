@@ -1,7 +1,7 @@
 % 1961-2010 ctrlclim & obsclim
 % Observed effort
 
-clear all
+clear 
 close all
 
 %% Fish data
@@ -10,10 +10,10 @@ cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80
 %fpath=['/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 
-mod = 'obsclim_All_fishobs_v2_';
+mod = 'obsclim_All_fishobs_'; %'obsclim_All_fishobs_v3_';
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP/Phase3a/';
-ppath = [pp cfile '/'];
+ppath = [pp cfile '/OneDeg/'];
 if (~isfolder(ppath))
     mkdir(ppath)
 end
@@ -194,11 +194,13 @@ plot(years,sum(Flme_fcatch_all),'r','LineWidth',2)
 %ylabel('FEISTY catch (MT km^-^2)')
 ylabel('FEISTY catch (MT)')
 title('Forage')
+ylim([0 60])
 
 subplot(2,2,2)
 plot(years,sum(Plme_scatch_all),'color',[0.5 0.5 0.5],'LineWidth',2); hold on
 plot(years,sum(Plme_fcatch_all),'b','LineWidth',2)
 title('Large pelagic')
+ylim([10 60])
 
 subplot(2,2,3)
 plot(years,sum(Dlme_scatch_all),'color',[0.5 0.5 0.5],'LineWidth',2); hold on
@@ -207,12 +209,14 @@ xlabel('year')
 %ylabel('FEISTY catch (MT km^-^2)')
 ylabel('FEISTY catch (MT)')
 title('Demersal')
+ylim([25 70])
 
 subplot(2,2,4)
 plot(years,sum(slme_scatch_all),'color',[0.5 0.5 0.5],'LineWidth',2); hold on
 plot(years,sum(Alme_fcatch_all),'k','LineWidth',2)
 xlabel('year')
 title('All')
+ylim([40 180])
 stamp(mod)
 print('-dpng',[ppath 'Hist_',mod,'onedeg_sumLME_ts.png'])
 
@@ -224,25 +228,29 @@ plot(years,log10(sum(Flme_fcatch_all)),'r','LineWidth',2)
 %ylabel('log_1_0 FEISTY catch (MT km^-^2)')
 ylabel('log_1_0 FEISTY catch (MT km)')
 title('Forage')
+ylim([0.5 2])
 
 subplot(2,2,2)
 plot(years,log10(sum(Plme_scatch_all)),'color',[0.5 0.5 0.5],'LineWidth',2); hold on
 plot(years,log10(sum(Plme_fcatch_all)),'b','LineWidth',2)
 title('Large pelagic')
+ylim([1 1.8])
 
 subplot(2,2,3)
 plot(years,log10(sum(Dlme_scatch_all)),'color',[0.5 0.5 0.5],'LineWidth',2); hold on
 plot(years,log10(sum(Dlme_fcatch_all)),'color',[0 0.6 0],'LineWidth',2)
-xlabel('year')
+ylabel('year')
 %ylabel('log_1_0 FEISTY catch (MT km^-^2)')
 ylabel('log_1_0 FEISTY catch (MT km)')
 title('Demersal')
+ylim([1.45 1.85])
 
 subplot(2,2,4)
 plot(years,log10(sum(slme_scatch_all)),'color',[0.5 0.5 0.5],'LineWidth',2); hold on
 plot(years,log10(sum(Alme_fcatch_all)),'k','LineWidth',2)
 xlabel('year')
 title('All')
+ylim([1.6 2.3])
 stamp(mod)
 print('-dpng',[ppath 'Hist_',mod,'onedeg_sumLME_ts_log10.png'])
 

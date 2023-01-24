@@ -11,8 +11,8 @@ cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80
 %fpath=['/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 
-harvs = {'All_fish_obs','All_fish_obs_v1.2','All_fish_obs_v2'};
-harv = harvs{3};
+harvs = {'All_fish_obs','All_fish_obs_v1.2','All_fish_obs_v2','All_fish_obs_v3'};
+harv = harvs{4};
 mod = [harv '_ctrlclim_onedeg'];
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP/Phase3a/';

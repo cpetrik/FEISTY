@@ -1,6 +1,6 @@
 % FEISTY output at all locations
 
-clear all
+clear 
 close all
 
 %%
@@ -9,7 +9,7 @@ cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80
 %fpath=['/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 
-alt = '_v2'; %_v1.2, _v2
+alt = '_v3'; %_v1.2, _v2, _v3
 
 %%
 % MP
