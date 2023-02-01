@@ -8,7 +8,7 @@ cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80
 %fpath=['/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 
-mod = 'v3';
+mod = 'v3.2';
 
 %% SP
 ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_',mod,'_empHP_sml_p.nc'],'NC_NOWRITE');

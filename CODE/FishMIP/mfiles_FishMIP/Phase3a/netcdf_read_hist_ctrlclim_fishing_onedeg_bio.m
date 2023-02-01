@@ -14,9 +14,10 @@ cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80
 %fpath=['/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 
-mods = {'All_fishobs','All_fishobs_v1.2','All_fishobs_v2','All_fishobs_v3'};
+mods = {'All_fishobs','All_fishobs_v1.2','All_fishobs_v2',...
+    'All_fishobs_v3','All_fishobs_v3.2'};
 
-for m=4
+for m=5
     mod = mods{m};
 
     %% SP

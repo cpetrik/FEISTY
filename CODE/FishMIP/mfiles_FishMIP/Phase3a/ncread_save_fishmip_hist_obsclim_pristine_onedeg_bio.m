@@ -149,6 +149,13 @@ load([epath 'gfdl-mom6-cobalt2_obsclim_time_onedeg_global_monthly_1831_2010.mat'
 
 [ni,nj] = size(LAT);
 
+% time is supposed to be months since Jan 1, 1841
+test_time_h = time_hist + 60*12;
+test_yr_h = (test_time_h+1)/12 + 1841;
+
+test_time_s = time_spin + 60*12;
+test_time_t = time_trans + 60*12;
+
 %% Reshape to lat,lon,yr
 [nid,nt] = size(allPB);
 

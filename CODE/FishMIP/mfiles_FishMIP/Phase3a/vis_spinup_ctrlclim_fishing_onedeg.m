@@ -2,7 +2,7 @@
 % 10 cycles of 1961-1980 ctrlclim to spinup biomass
 % Time series plots and maps
 
-clear all
+clear 
 close all
 
 %% Fish data
@@ -11,8 +11,9 @@ cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80
 %fpath=['/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 
-harvs = {'All_fish_obs','All_fish_obs_v1.2','All_fish_obs_v2','All_fish_obs_v3'};
-harv = harvs{4};
+harvs = {'All_fish_obs','All_fish_obs_v1.2','All_fish_obs_v2',...
+    'All_fish_obs_v3','All_fish_obs_v3.2'};
+harv = harvs{5};
 mod = [harv '_ctrlclim_onedeg'];
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP/Phase3a/';
@@ -22,7 +23,7 @@ if (~isfolder(ppath))
 end
 load([fpath 'Means_Spinup_ctrlclim_',harv,'_' cfile '.mat']);
 
-% Map data
+%% Map data
 %cpath = '/Volumes/MIP/Fish-MIP/Phase3/OneDeg/';
 cpath = '/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/OneDeg/';
 load([cpath 'gridspec_gfdl-mom6-cobalt2_obsclim_deptho_onedeg.mat']);
@@ -37,7 +38,7 @@ plotmaxlon=180;
 latlim=[plotminlat plotmaxlat];
 lonlim=[plotminlon plotmaxlon];
 
-%% colors
+% colors
 cm10=[0.5 0.5 0;... %tan/army
     0 0.7 0;...   %g
     1 0 1;...     %m

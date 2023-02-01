@@ -90,6 +90,24 @@ Pv3 = sum(Plme_fcatch_all);
 Dv3 = sum(Dlme_fcatch_all);
 Av3 = sum(Alme_fcatch_all);
 
+%% v3.2
+mod = 'obsclim_All_fishobs_v3.2_';
+load([fpath 'LME_Hist_',mod,cfile,'.mat']);
+
+lme_area_km2 = lme_area * 1e-6;
+
+%mcatch = mf, mp, md, lp, ld
+%MT/km2
+Alme_fcatch_all = nansum(lme_mcatch,3) * 1e-6 ./ lme_area_km2;
+Flme_fcatch_all = (lme_mcatch(:,:,1)) * 1e-6 ./ lme_area_km2;
+Plme_fcatch_all = (lme_mcatch(:,:,2)+lme_mcatch(:,:,4)) * 1e-6 ./ lme_area_km2;
+Dlme_fcatch_all = (lme_mcatch(:,:,3)+lme_mcatch(:,:,5)) * 1e-6 ./ lme_area_km2;
+
+Fv32 = sum(Flme_fcatch_all);
+Pv32 = sum(Plme_fcatch_all);
+Dv32 = sum(Dlme_fcatch_all);
+Av32 = sum(Alme_fcatch_all);
+
 %% SAUP catch
 spath = '/Users/cpetrik/Dropbox/Princeton/FEISTY_other/SAUP/';
 %use weighted catches
@@ -129,7 +147,8 @@ plot(years,Fv1,'k','LineWidth',2)
 plot(years,Fv12,'r','LineWidth',2)
 plot(years,Fv2,'b','LineWidth',2)
 plot(years,Fv3,'color',[0 0.6 0],'LineWidth',2)
-legend('SAU','v1','v1.2','v2','v3')
+plot(years,Fv32,'color',[0.5 0 0.75],'LineWidth',2)
+legend('SAU','v1','v1.2','v2','v3','v3.2')
 legend('location','northwest')
 ylabel('FEISTY catch (MT)')
 title('Forage')
@@ -141,6 +160,7 @@ plot(years,Pv1,'k','LineWidth',2)
 plot(years,Pv12,'r','LineWidth',2)
 plot(years,Pv2,'b','LineWidth',2)
 plot(years,Pv3,'color',[0 0.6 0],'LineWidth',2)
+plot(years,Pv32,'color',[0.5 0 0.75],'LineWidth',2)
 title('Large pelagic')
 %ylim([10 60])
 
@@ -150,6 +170,7 @@ plot(years,Dv1,'k','LineWidth',2)
 plot(years,Dv12,'r','LineWidth',2)
 plot(years,Dv2,'b','LineWidth',2)
 plot(years,Dv3,'color',[0 0.6 0],'LineWidth',2)
+plot(years,Dv32,'color',[0.5 0 0.75],'LineWidth',2)
 xlabel('year')
 %ylabel('FEISTY catch (MT km^-^2)')
 ylabel('FEISTY catch (MT)')
@@ -162,6 +183,7 @@ plot(years,Av1,'k','LineWidth',2)
 plot(years,Av12,'r','LineWidth',2)
 plot(years,Av2,'b','LineWidth',2)
 plot(years,Av3,'color',[0 0.6 0],'LineWidth',2)
+plot(years,Av32,'color',[0.5 0 0.75],'LineWidth',2)
 xlabel('year')
 title('All')
 %ylim([40 180])
@@ -176,7 +198,8 @@ plot(years,log10(Fv1),'k','LineWidth',2)
 plot(years,log10(Fv12),'r','LineWidth',2)
 plot(years,log10(Fv2),'b','LineWidth',2)
 plot(years,log10(Fv3),'color',[0 0.6 0],'LineWidth',2)
-legend('SAU','v1','v1.2','v2','v3')
+plot(years,log10(Fv32),'color',[0.5 0 0.75],'LineWidth',2)
+legend('SAU','v1','v1.2','v2','v3','v3.2')
 legend('location','northwest')
 ylabel('log_1_0 FEISTY catch (MT km)')
 title('Forage')
@@ -188,6 +211,7 @@ plot(years,log10(Pv1),'k','LineWidth',2)
 plot(years,log10(Pv12),'r','LineWidth',2)
 plot(years,log10(Pv2),'b','LineWidth',2)
 plot(years,log10(Pv3),'color',[0 0.6 0],'LineWidth',2)
+plot(years,log10(Pv32),'color',[0.5 0 0.75],'LineWidth',2)
 title('Large pelagic')
 %ylim([1 1.8])
 
@@ -197,6 +221,7 @@ plot(years,log10(Dv1),'k','LineWidth',2)
 plot(years,log10(Dv12),'r','LineWidth',2)
 plot(years,log10(Dv2),'b','LineWidth',2)
 plot(years,log10(Dv3),'color',[0 0.6 0],'LineWidth',2)
+plot(years,log10(Dv32),'color',[0.5 0 0.75],'LineWidth',2)
 ylabel('year')
 %ylabel('log_1_0 FEISTY catch (MT km^-^2)')
 ylabel('log_1_0 FEISTY catch (MT km)')
@@ -209,6 +234,7 @@ plot(years,log10(Av1),'k','LineWidth',2)
 plot(years,log10(Av12),'r','LineWidth',2)
 plot(years,log10(Av2),'b','LineWidth',2)
 plot(years,log10(Av3),'color',[0 0.6 0],'LineWidth',2)
+plot(years,log10(Av32),'color',[0.5 0 0.75],'LineWidth',2)
 xlabel('year')
 title('All')
 %ylim([1.6 2.3])
