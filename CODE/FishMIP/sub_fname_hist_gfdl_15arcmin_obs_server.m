@@ -1,5 +1,5 @@
 %%%% File naming system
-function [fname,simname,outdir] = sub_fname_hist_gfdl_15arcmin_obs_server(param)
+function [fname,simname,outdir] = sub_fname_hist_gfdl_15arcmin_obs_server(param,vers)
 
 frate = param.frate;
 
@@ -65,11 +65,11 @@ end
 if (frate==0)
     fname = [outdir, 'Hist_obsclim_pristine'];
 elseif (param.Jsel~=0.1)
-    fname = [outdir, 'Hist_obsclim_', sel,'_fish',tfish(2:end),'_Juve',tJ(2:end)];
+    fname = [outdir, 'Hist_obsclim_', sel,'_fish',tfish(2:end),'_Juve',tJ(2:end),'_',vers];
 elseif (param.MFsel~=param.LPsel)
-    fname = [outdir, 'Hist_obsclim_fish_F',tF(2:end),'_P',tP(2:end),'_D',tD(2:end)];
+    fname = [outdir, 'Hist_obsclim_fish_F',tF(2:end),'_P',tP(2:end),'_D',tD(2:end),'_',vers];
 else
-    fname = [outdir, 'Hist_obsclim_', sel,'_fish',tfish];
+    fname = [outdir, 'Hist_obsclim_', sel,'_fish',tfish,'_',vers];
 end
 
 

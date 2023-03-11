@@ -1,7 +1,7 @@
 % 1961-2010 ctrlclim & obsclim
 % Observed effort
 
-clear all
+clear 
 close all
 
 %% Fish data
@@ -11,13 +11,14 @@ cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80
 fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/QuarterDeg/'];
 
 mod = 'obsclim';
+vers = '_All_fishobs_v3.2_';
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP/Phase3a/';
-ppath = [pp cfile '/'];
+ppath = [pp cfile '/QuarterDeg/'];
 if (~isfolder(ppath))
     mkdir(ppath)
 end
-load([fpath 'LME_Hist_',mod,'_All_fishobs_' cfile '.mat']);
+load([fpath 'LME_Hist_',mod,vers,cfile,'.mat']);
 
 %% total catch
 lme_area_km2 = lme_area * 1e-6;
@@ -84,7 +85,7 @@ plot(slme_scatch_all(:),Alme_fcatch_all(:),'.k','MarkerSize',20)
 xlabel('SAUP')
 title('All')
 stamp(mod)
-print('-dpng',[ppath 'Hist_',mod,'_All_fishobs_15arcmin_LME_scatter_all_yrs.png'])
+print('-dpng',[ppath 'Hist_',mod,vers,'15arcmin_LME_scatter_all_yrs.png'])
 
 %% log10 Global
 figure(2)
@@ -110,7 +111,7 @@ plot(log10(slme_scatch_all(:)),log10(Alme_fcatch_all(:)),'.k','MarkerSize',20)
 xlabel('SAUP')
 title('All')
 stamp(mod)
-print('-dpng',[ppath 'Hist_',mod,'_All_fishobs_15arcmin_LME_scatter_all_yrs_log10.png'])
+print('-dpng',[ppath 'Hist_',mod,vers,'15arcmin_LME_scatter_all_yrs_log10.png'])
 
 %% Scatter by LME
 nrows=11;
@@ -132,7 +133,7 @@ for m = 1:nrows
     end
 end
 stamp(mod)
-print('-dpng',[ppath 'Hist_',mod,'_All_fishobs_15arcmin_byLME_scatter_all_yrs_Allfish.png'])
+print('-dpng',[ppath 'Hist_',mod,vers,'15arcmin_byLME_scatter_all_yrs_Allfish.png'])
 
 %% F
 figure('Units','inches','Position',[1 3 6.5 8.5]);
@@ -149,7 +150,7 @@ for m = 1:nrows
     end
 end
 stamp(mod)
-print('-dpng',[ppath 'Hist_',mod,'_All_fishobs_15arcmin_byLME_scatter_all_yrs_F.png'])
+print('-dpng',[ppath 'Hist_',mod,vers,'15arcmin_byLME_scatter_all_yrs_F.png'])
 
 %% P
 figure('Units','inches','Position',[1 3 6.5 8.5]);
@@ -166,7 +167,7 @@ for m = 1:nrows
     end
 end
 stamp(mod)
-print('-dpng',[ppath 'Hist_',mod,'_All_fishobs_15arcmin_byLME_scatter_all_yrs_P.png'])
+print('-dpng',[ppath 'Hist_',mod,vers,'15arcmin_byLME_scatter_all_yrs_P.png'])
 
 %% D
 figure('Units','inches','Position',[1 3 6.5 8.5]);
@@ -183,7 +184,7 @@ for m = 1:nrows
     end
 end
 stamp(mod)
-print('-dpng',[ppath 'Hist_',mod,'_All_fishobs_15arcmin_byLME_scatter_all_yrs_D.png'])
+print('-dpng',[ppath 'Hist_',mod,vers,'15arcmin_byLME_scatter_all_yrs_D.png'])
 
 %% Time series Plots 
 % Global
@@ -214,7 +215,7 @@ plot(years,sum(Alme_fcatch_all),'k','LineWidth',2)
 xlabel('year')
 title('All')
 stamp(mod)
-print('-dpng',[ppath 'Hist_',mod,'_All_fishobs_15arcmin_sumLME_ts.png'])
+print('-dpng',[ppath 'Hist_',mod,vers,'15arcmin_sumLME_ts.png'])
 
 %% log10 Global
 figure(8)
@@ -244,7 +245,7 @@ plot(years,log10(sum(Alme_fcatch_all)),'k','LineWidth',2)
 xlabel('year')
 title('All')
 stamp(mod)
-print('-dpng',[ppath 'Hist_',mod,'_All_fishobs_15arcmin_sumLME_ts_log10.png'])
+print('-dpng',[ppath 'Hist_',mod,vers,'15arcmin_sumLME_ts_log10.png'])
 
 %% TS by LME
 % all 
@@ -263,7 +264,7 @@ for m = 1:nrows
     end
 end
 stamp(mod)
-print('-dpng',[ppath 'Hist_',mod,'_All_fishobs_15arcmin_byLME_ts_Allfish.png'])
+print('-dpng',[ppath 'Hist_',mod,vers,'15arcmin_byLME_ts_Allfish.png'])
 
 %% F
 figure('Units','inches','Position',[1 3 6.5 8.5]);
@@ -281,7 +282,7 @@ for m = 1:nrows
     end
 end
 stamp(mod)
-print('-dpng',[ppath 'Hist_',mod,'_All_fishobs_15arcmin_byLME_ts_F.png'])
+print('-dpng',[ppath 'Hist_',mod,vers,'15arcmin_byLME_ts_F.png'])
 
 %% P
 figure('Units','inches','Position',[1 3 6.5 8.5]);
@@ -299,7 +300,7 @@ for m = 1:nrows
     end
 end
 stamp(mod)
-print('-dpng',[ppath 'Hist_',mod,'_All_fishobs_15arcmin_byLME_ts_P.png'])
+print('-dpng',[ppath 'Hist_',mod,vers,'15arcmin_byLME_ts_P.png'])
 
 %% D
 figure('Units','inches','Position',[1 3 6.5 8.5]);
@@ -317,6 +318,6 @@ for m = 1:nrows
     end
 end
 stamp(mod)
-print('-dpng',[ppath 'Hist_',mod,'_All_fishobs_15arcmin_byLME_ts_D.png'])
+print('-dpng',[ppath 'Hist_',mod,vers,'15arcmin_byLME_ts_D.png'])
 
 

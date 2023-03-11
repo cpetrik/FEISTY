@@ -1,5 +1,5 @@
 %%%% File naming system
-function [fname,simname] = sub_fname_spin_gfdl_15arcmin_server(param)
+function [fname,simname] = sub_fname_spin_gfdl_15arcmin_server(param,vers)
 
 frate = param.frate;
 
@@ -65,11 +65,11 @@ end
 if (frate==0)
     fname = [outdir, 'Spinup_ctrlclim_pristine'];
 elseif (param.Jsel~=0.1)
-    fname = [outdir, 'Spinup_ctrlclim_', sel,'_fish',tfish(2:end),'_Juve',tJ(2:end)];
+    fname = [outdir, 'Spinup_ctrlclim_', sel,'_fish',tfish(2:end),'_Juve',tJ(2:end),'_',vers];
 elseif (param.MFsel~=param.LPsel)
-    fname = [outdir, 'Spinup_ctrlclim_fish_F',tF(2:end),'_P',tP(2:end),'_D',tD(2:end)];
+    fname = [outdir, 'Spinup_ctrlclim_fish_F',tF(2:end),'_P',tP(2:end),'_D',tD(2:end),'_',vers];
 else
-    fname = [outdir, 'Spinup_ctrlclim_', sel,'_fish',tfish];  
+    fname = [outdir, 'Spinup_ctrlclim_', sel,'_fish',tfish,'_',vers];  
 end
 
 

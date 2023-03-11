@@ -33,6 +33,7 @@ MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Create a directory for output
 [fname,simname,outdir] = sub_fname_hist_gfdl_15arcmin_ctrl_server(param);
+[fname,simname,outdir] = sub_fname_hist_gfdl_onedeg_obs_vers_server(param,vers);
 
 %! Storage variables
 S_Bent_bio = zeros(NX,DAYS);

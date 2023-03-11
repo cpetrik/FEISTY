@@ -1,5 +1,5 @@
 %%%%!! RUN HISTORIC FOR ALL LOCATIONS
-function Hist_fishing_empHP_gfdl_mom6_cobalt2_15arcmin_obsclim_server()
+function Hist_fishingv3_2_empHP_gfdl_mom6_cobalt2_15arcmin_obsclim()
 
 %%%%%%%%%%%%%%% Initialize Model Variables
 %! Set fishing rate
@@ -7,12 +7,12 @@ vers = 'v3.2';
 % V1 for predators
 load(['/Users/cpetrik/Dropbox/Princeton/FEISTY_other/fishing_ms_ideas/',...
     'fishing_effort_impl/grid_mortality_guilds_v1/',...
-    'gfdl-mom6-cobalt2_obsclim_onedeg_fmort_ID_annual_1961_2010_tempSc.mat'],...
+    'gfdl-mom6-cobalt2_obsclim_15arcmin_fmort_ID_annual_1961_2010_tempSc.mat'],...
     'fmD','fmP');
 % V3 for forage fish
 load(['/Users/cpetrik/Dropbox/Princeton/FEISTY_other/fishing_ms_ideas/',...
     'fishing_effort_impl/grid_mortality_guilds_v3/',...
-    'gfdl-mom6-cobalt2_obsclim_onedeg_fmort_ID_annual_1961_2010_tempSc_v3.mat'],...
+    'gfdl-mom6-cobalt2_obsclim_15arcmin_fmort_ID_annual_1961_2010_tempSc_v3.mat'],...
     'fmF');
 % Set fishing rate as 1st year for fname
 param.frate = nan;
@@ -40,7 +40,7 @@ DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Create a directory for output
-[fname,simname,outdir] = sub_fname_hist_gfdl_15arcmin_obs_server(param);
+[fname,simname,outdir] = sub_fname_hist_gfdl_15arcmin_obs_server(param,vers);
 
 %! Storage variables
 S_Bent_bio = zeros(NX,DAYS);

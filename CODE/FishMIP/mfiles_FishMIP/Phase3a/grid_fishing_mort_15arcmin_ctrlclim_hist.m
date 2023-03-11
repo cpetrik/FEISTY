@@ -8,6 +8,12 @@ spath = '/Volumes/MIP/Fish-MIP/Phase3/fishing/grid_mortality_guilds/';
 fpath = '/Users/cpetrik/Dropbox/Princeton/FEISTY_other/fishing_ms_ideas/fishing_effort_impl/grid_mortality_guilds/';
 load([fpath 'grid_mortality_all_1961_2010.mat'])
 
+alt1 = 'grid_mortality_guilds_v3'; %grid_mortality_guilds_v2, pristine_grid_mortality_guilds_v1
+alt2 = '_v3'; %_v2, _v1_pristine
+spath = ['/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/fishing/',alt1,'/'];
+fpath = ['/Users/cpetrik/Dropbox/Princeton/FEISTY_other/fishing_ms_ideas/fishing_effort_impl/',alt1,'/'];
+load([fpath 'grid_mortality_all',alt2,'.mat'])
+
 yrF = yr;
 
 %% 1/2 degree

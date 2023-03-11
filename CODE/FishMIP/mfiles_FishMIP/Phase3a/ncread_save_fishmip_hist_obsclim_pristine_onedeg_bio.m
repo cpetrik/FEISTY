@@ -1,8 +1,17 @@
 % FEISTY output at all locations
 % Hist obsclim pristine 1 degree
+% Early periods (1841-1960) can have 1841 as the reference year 
+% Historic experimental period uses 1901 as the reference year
 
 clear 
 close all
+
+load('FishMIP_phase3a_exper_times.mat')
+time_long_name = 'time';
+time_standard_name = 'time';
+time_units = 'days since 1901-1-1 00:00:00'; %hist_units;
+time_axis = 'T';
+calendar = '365_day';
 
 cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80_RE00100';
 
@@ -235,7 +244,7 @@ title('all F')
 close all
 
 %% Setup netcdf path to store to
-fname1 = 'gfdl-mom6_cobalt2_none_obsclim_nat_onedeg_';
+fname1 = 'feisty_gfdl-mom6-cobalt2_obsclim_nat_60arcmin_';
 fname2 = '_global_monthly_1961_2010.nc';
 
 file_tpb = [fpath fname1 'tpb' fname2];
@@ -274,8 +283,8 @@ netcdf.putAtt(ncidSB,vidtSB,'calendar',calendar);
 netcdf.putAtt(ncidSB,vidtSB,'axis',time_axis);
 
 vidbioSB = netcdf.defVar(ncidSB,'tpb','double',[lon_dim,lat_dim,time_dim]);
-netcdf.putAtt(ncidSB,vidbioSB,'long_name','total pelagic biomass density');
-netcdf.putAtt(ncidSB,vidbioSB,'units','grams wet weight m-2' );
+netcdf.putAtt(ncidSB,vidbioSB,'long_name','Total Pelagic Biomass Density');
+netcdf.putAtt(ncidSB,vidbioSB,'units','g m-2' );
 netcdf.defVarFill(ncidSB,vidbioSB,false,1.0e20);
 
 varid = netcdf.getConstant('GLOBAL');
@@ -323,8 +332,8 @@ netcdf.putAtt(ncidSD,vidtSD,'axis',time_axis);
 netcdf.putAtt(ncidSD,vidtSD,'units',time_units);
 
 vidbioSD = netcdf.defVar(ncidSD,'tdb','double',[lon_dim,lat_dim,time_dim]);
-netcdf.putAtt(ncidSD,vidbioSD,'long_name','total demersal biomass density');
-netcdf.putAtt(ncidSD,vidbioSD,'units','grams wet weight m-2' );
+netcdf.putAtt(ncidSD,vidbioSD,'long_name','Total Demersal Biomass Density');
+netcdf.putAtt(ncidSD,vidbioSD,'units','g m-2' );
 netcdf.defVarFill(ncidSD,vidbioSD,false,1.0e20);
 
 varid = netcdf.getConstant('GLOBAL');
@@ -371,8 +380,8 @@ netcdf.putAtt(ncidCB,vidtCB,'axis',time_axis);
 netcdf.putAtt(ncidCB,vidtCB,'units',time_units);
 
 vidbioCB = netcdf.defVar(ncidCB,'tcb','double',[lon_dim,lat_dim,time_dim]);
-netcdf.putAtt(ncidCB,vidbioCB,'long_name','total consumer biomass density');
-netcdf.putAtt(ncidCB,vidbioCB,'units','grams wet weight m-2' );
+netcdf.putAtt(ncidCB,vidbioCB,'long_name','Total Consumer Biomass Density');
+netcdf.putAtt(ncidCB,vidbioCB,'units','g m-2' );
 netcdf.defVarFill(ncidCB,vidbioCB,false,1.0e20);
 
 varid = netcdf.getConstant('GLOBAL');
@@ -419,8 +428,8 @@ netcdf.putAtt(ncid30,vidt30,'axis',time_axis);
 netcdf.putAtt(ncid30,vidt30,'units',time_units);
 
 vidbio30 = netcdf.defVar(ncid30,'bp30cm','double',[lon_dim,lat_dim,time_dim]);
-netcdf.putAtt(ncid30,vidbio30,'long_name','biomass density of pelagic Linf<30cm');
-netcdf.putAtt(ncid30,vidbio30,'units','grams wet weight  m-2' );
+netcdf.putAtt(ncid30,vidbio30,'long_name','Biomass Density of Small Pelagics <30cm');
+netcdf.putAtt(ncid30,vidbio30,'units','g m-2' );
 netcdf.defVarFill(ncid30,vidbio30,false,1.0e20);
 
 varid = netcdf.getConstant('GLOBAL');
@@ -466,8 +475,8 @@ netcdf.putAtt(ncid90,vidt90,'axis',time_axis);
 netcdf.putAtt(ncid90,vidt90,'units',time_units);
 
 vidbio90 = netcdf.defVar(ncid90,'bp90cm','double',[lon_dim,lat_dim,time_dim]);
-netcdf.putAtt(ncid90,vidbio90,'long_name','biomass density of pelagic Linf>=90cm');
-netcdf.putAtt(ncid90,vidbio90,'units','grams wet weight  m-2' );
+netcdf.putAtt(ncid90,vidbio90,'long_name','Biomass Density of Large Pelagics >=90cm');
+netcdf.putAtt(ncid90,vidbio90,'units','g m-2' );
 netcdf.defVarFill(ncid90,vidbio90,false,1.0e20);
 
 varid = netcdf.getConstant('GLOBAL');
@@ -514,8 +523,8 @@ netcdf.putAtt(ncid90,vidt90,'axis',time_axis);
 netcdf.putAtt(ncid90,vidt90,'units',time_units);
 
 vidbio90 = netcdf.defVar(ncid90,'bd90cm','double',[lon_dim,lat_dim,time_dim]);
-netcdf.putAtt(ncid90,vidbio90,'long_name','biomass density of demersal Linf>=90cm');
-netcdf.putAtt(ncid90,vidbio90,'units','grams wet weight  m-2' );
+netcdf.putAtt(ncid90,vidbio90,'long_name','Biomass Density of Large Demersals >=90cm');
+netcdf.putAtt(ncid90,vidbio90,'units','g m-2' );
 netcdf.defVarFill(ncid90,vidbio90,false,1.0e20);
 
 varid = netcdf.getConstant('GLOBAL');

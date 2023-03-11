@@ -2,7 +2,7 @@
 % Hist obsclim w/ fishing
 % Time series plots and maps
 
-clear all
+clear 
 close all
 
 %% Fish data
@@ -11,14 +11,14 @@ cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80
 %fpath=['/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/QuarterDeg/'];
 fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/QuarterDeg/'];
 
-mod = 'fishingv1_obsclim_15arcmin';
+mod = 'fishing_v3.2_obsclim_15arcmin';
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP/Phase3a/';
-ppath = [pp cfile '/'];
+ppath = [pp cfile '/QuarterDeg/'];
 if (~isfolder(ppath))
     mkdir(ppath)
 end
-load([fpath 'Means_Hist_obsclim_All_fishobs_' cfile '.mat'],'time',...
+load([fpath 'Means_Hist_obsclim_All_fishobs_v3.2_' cfile '.mat'],'time',...
     'sf_tmean','sp_tmean','sd_tmean',...
     'mf_tmean','mp_tmean','md_tmean',...
     'lp_tmean','ld_tmean','b_tmean',...
@@ -26,9 +26,11 @@ load([fpath 'Means_Hist_obsclim_All_fishobs_' cfile '.mat'],'time',...
     'lp_tmcatch','ld_tmcatch',...
     'sf_smean','sp_smean','sd_smean',...
     'mf_smean','mp_smean','md_smean',...
-    'lp_smean','ld_smean','b_smean');
+    'lp_smean','ld_smean','b_smean',...
+    'mf_mcatch','mp_mcatch','md_mcatch',...
+    'lp_mcatch','ld_mcatch');
 
-% Map data
+%% Map data
 %cpath = '/Volumes/MIP/Fish-MIP/Phase3/QuarterDeg/';
 cpath = '/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/QuarterDeg/';
 load([cpath 'gridspec_gfdl-mom6-cobalt2_obsclim_deptho_15arcmin.mat']);
@@ -77,12 +79,29 @@ plot(y,log10(b_tmean),'Linewidth',1); hold on;
 legend('SF','MF','SP','MP','LP','SD','MD','LD','B')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
-ylim([-5 2])
+ylim([-2 1])
 xlabel('Time (y)')
 ylabel('log_1_0 Biomass (g m^-^2)')
 title('Hist')
 stamp(mod)
 print('-dpng',[ppath 'Hist_empHP_',mod,'_all_sizes.png'])
+
+%%
+figure(20)
+plot(y,log10(mf_tmcatch),'Linewidth',1); hold on;
+plot(y,log10(mp_tmcatch),'Linewidth',1); hold on;
+plot(y,log10(lp_tmcatch),'Linewidth',1); hold on;
+plot(y,log10(md_tmcatch),'Linewidth',1); hold on;
+plot(y,log10(ld_tmcatch),'Linewidth',1); hold on;
+legend('MF','MP','LP','MD','LD')
+legend('location','eastoutside')
+xlim([y(1) y(end)])
+ylim([-6 -3])
+xlabel('Time (y)')
+ylabel('log_1_0 Yield (g m^-^2)')
+title('Hist')
+stamp(mod)
+print('-dpng',[ppath 'Hist_empHP_',mod,'_yield_all_sizes.png'])
 
 %% Types together
 F = sf_tmean+mf_tmean;
@@ -103,21 +122,21 @@ plot(y,log10(D),'k','Linewidth',2); hold on;
 legend('B','F','P','D')
 legend('location','east')
 xlim([y(1) y(end)])
-ylim([-5 2])
+ylim([-1 1])
 xlabel('Time (y)')
 ylabel('log_1_0 Biomass (g m^-^2)')
 title('Hist')
 stamp(mod)
 print('-dpng',[ppath 'Hist_empHP_',mod,'_all_types.png'])
 
-figure(20)
+figure(22)
 plot(y,log10(yF),'r','Linewidth',2); hold on;
 plot(y,log10(yP),'b','Linewidth',2); hold on;
 plot(y,log10(yD),'k','Linewidth',2); hold on;
 legend('F','P','D')
 legend('location','east')
 xlim([y(1) y(end)])
-%ylim([-5 2])
+ylim([-5 -3])
 xlabel('Time (y)')
 ylabel('log_1_0 Yield (g m^-^2)')
 title('Hist')
@@ -156,6 +175,24 @@ FracPD = AllP ./ (AllP+AllD);
 FracPF = AllP ./ (AllP+AllF);
 FracLM = AllL ./ (AllL+AllM);
 
+%%
+Cmf=NaN*ones(ni,nj);
+Cmp=NaN*ones(ni,nj);
+Cmd=NaN*ones(ni,nj);
+Clp=NaN*ones(ni,nj);
+Cld=NaN*ones(ni,nj);
+
+Cmf(GRD.ID)=mf_mcatch;
+Cmp(GRD.ID)=mp_mcatch;
+Cmd(GRD.ID)=md_mcatch;
+Clp(GRD.ID)=lp_mcatch;
+Cld(GRD.ID)=ld_mcatch;
+
+CAllF = Cmf+eps;
+CAllP = Cmp+Clp+eps;
+CAllD = Cmd+Cld+eps;
+CAll = CAllF + CAllP + CAllD;
+
 %% bent
 figure(3)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
@@ -179,7 +216,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
 surfm(LAT,LON,log10(AllF))
 cmocean('matter')
 h=patchm(coastlat,coastlon,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
+caxis([-2 2.5]);
 colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('log10 mean All F (g m^-^2)')
@@ -191,7 +228,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
 surfm(LAT,LON,log10(AllD))
 cmocean('matter')
 h=patchm(coastlat,coastlon,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
+caxis([-2 2.5]);
 set(gcf,'renderer','painters')
 title('log10 mean All D (g m^-^2)')
 
@@ -202,7 +239,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
 surfm(LAT,LON,log10(AllP))
 cmocean('matter')
 h=patchm(coastlat,coastlon,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
+caxis([-2 2.5]);
 set(gcf,'renderer','painters')
 title('log10 mean All P (g m^-^2)')
 
@@ -213,7 +250,7 @@ axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
 surfm(LAT,LON,log10(All))
 cmocean('matter')
 h=patchm(coastlat,coastlon,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
+caxis([-2 2.5]);
 set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
 stamp(mod)
@@ -257,3 +294,54 @@ set(gcf,'renderer','painters')
 title('Fraction Large vs. Medium')
 stamp(mod)
 print('-dpng',[ppath 'Hist_empHP_',mod,'_global_ratios_subplot.png'])
+
+%% All 4 Catch on subplots
+figure(8)
+% all F
+subplot('Position',[0 0.51 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1)
+surfm(LAT,LON,log10(CAllF))
+cmocean('matter')
+h=patchm(coastlat,coastlon,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-6 -2])
+colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
+set(gcf,'renderer','painters')
+title('log10 mean All F (g m^-^2)')
+
+% all D
+subplot('Position',[0 0 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1)
+surfm(LAT,LON,log10(CAllD))
+cmocean('matter')
+h=patchm(coastlat,coastlon,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-6 -2])
+set(gcf,'renderer','painters')
+title('log10 mean All D (g m^-^2)')
+
+% All P
+subplot('Position',[0.5 0.51 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1)
+surfm(LAT,LON,log10(CAllP))
+cmocean('matter')
+h=patchm(coastlat,coastlon,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-6 -2])
+set(gcf,'renderer','painters')
+title('log10 mean All P (g m^-^2)')
+
+% All
+subplot('Position',[0.5 0 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1)
+surfm(LAT,LON,log10(CAll))
+cmocean('matter')
+h=patchm(coastlat,coastlon,'w','FaceColor',[0.75 0.75 0.75]);
+caxis([-6 -2])
+set(gcf,'renderer','painters')
+title('log10 mean All fishes (g m^-^2)')
+stamp(mod)
+print('-dpng',[ppath 'Hist_empHP_',mod,'_global_yield_All_subplot.png'])
+
+

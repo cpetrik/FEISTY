@@ -1,7 +1,7 @@
 % Calc LME means from output of FEISTY
 % 1961-2010 ctrlclim & obsclim with obs fishing effort
 
-clear all
+clear 
 close all
 
 %% Fish data
@@ -11,13 +11,14 @@ cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80
 fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/QuarterDeg/'];
 
 mod = 'obsclim';
+vers = '_All_fishobs_v3.2_';
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP/Phase3a/';
 ppath = [pp cfile '/'];
 if (~isfolder(ppath))
     mkdir(ppath)
 end
-load([fpath 'Means_Hist_',mod,'_All_fishobs_' cfile '.mat'],...
+load([fpath 'Means_Hist_',mod,vers,cfile,'.mat'],...
     'sf_mean','sp_mean','sd_mean',...
     'mf_mean','mp_mean','md_mean',...
     'lp_mean','ld_mean','b_mean',...
@@ -140,5 +141,5 @@ for L=1:66
 end
 
 %%
-save([fpath 'LME_Hist_',mod,'_All_fishobs_' cfile '.mat'],...
+save([fpath 'LME_Hist_',mod,vers,cfile,'.mat'],...
     'lme_mcatch','lme_mbio','lme_sbio','lme_area');

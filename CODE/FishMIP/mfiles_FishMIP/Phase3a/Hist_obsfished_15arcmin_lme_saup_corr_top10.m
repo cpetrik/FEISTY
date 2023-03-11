@@ -3,7 +3,7 @@
 % 1961-2010 ctrlclim & obsclim
 % Observed effort
 
-clear all
+clear 
 close all
 
 %%
@@ -26,13 +26,14 @@ cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80
 fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/QuarterDeg/'];
 
 mod = 'obsclim';
+vers = '_All_fishobs_v3.2_';
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP/Phase3a/';
-ppath = [pp cfile '/'];
+ppath = [pp cfile '/QuarterDeg/'];
 if (~isfolder(ppath))
     mkdir(ppath)
 end
-load([fpath 'LME_Hist_',mod,'_All_fishobs_Catch_top10.mat']);
+load([fpath 'LME_Hist_',mod,vers,'Catch_top10.mat']);
 
 plme_mcatch = alme_mcatch10;
 plme_Fmcatch = Flme_mcatch10;
@@ -169,9 +170,9 @@ plot(x,x5h,':r'); hold on;
 plot(x,x5l,':r'); hold on;
 scatter(l10sP(keep),l10pP(keep),20,lme_ptemp(keep,1),'filled'); hold on;
 cmocean('thermal');
-text(-5.5,1.5,['r = ' sprintf('%2.2f',rP) ' (p = ' sprintf('%2.2f',pP) ')'])
-text(-5.5,1.0,['RMSE = ' sprintf('%2.2f',rmseP)])
-axis([-6 2 -6 2])
+text(-4.5,1.5,['r = ' sprintf('%2.2f',rP) ' (p = ' sprintf('%2.2f',pP) ')'])
+text(-4.5,1.0,['RMSE = ' sprintf('%2.2f',rmseP)])
+axis([-5 2 -5 2])
 xlabel('SAU')
 ylabel('FEISTY')
 title('Large Pelagics')
@@ -184,9 +185,9 @@ plot(x,x5h,':r'); hold on;
 plot(x,x5l,':r'); hold on;
 scatter(l10sD(keep),l10pD(keep),20,lme_ptemp(keep,1),'filled'); hold on;
 cmocean('thermal');
-text(-1.75,1.7,['r = ' sprintf('%2.2f',rD) ' (p = ' sprintf('%2.2f',pD) ')'])
-text(-1.75,1.4,['RMSE = ' sprintf('%2.2f',rmseD)])
-axis([-2 2 -2 2])
+text(-2.75,1.5,['r = ' sprintf('%2.2f',rD) ' (p = ' sprintf('%2.2f',pD) ')'])
+text(-2.75,1.0,['RMSE = ' sprintf('%2.2f',rmseD)])
+axis([-3 2 -3 2])
 xlabel('SAU')
 ylabel('FEISTY')
 title('Demersals')
@@ -206,7 +207,7 @@ xlabel('SAU')
 ylabel('FEISTY')
 title('All fishes')
 stamp(mod)
-print('-dpng',[ppath 'LME_Hist_',mod,'_All_fishobs_15arcmin_Catch_top10_SAUP_comp.png'])
+print('-dpng',[ppath 'LME_Hist_',mod,vers,'15arcmin_Catch_top10_SAUP_comp.png'])
 
 %% LgPel vs. Dem
 plotminlat=-90; %Set these bounds for your data
@@ -272,4 +273,4 @@ xlabel('vanD')
 ylabel('FEISTY')
 %title('Fraction Large Pelagics')
 stamp(mod)
-print('-dpng',[ppath 'LME_Hist_',mod,'_All_fishobs_15arcmin_fracPD_catch_SAUP_DvD_comp.png'])
+print('-dpng',[ppath 'LME_Hist_',mod,vers,'15arcmin_fracPD_catch_SAUP_DvD_comp.png'])

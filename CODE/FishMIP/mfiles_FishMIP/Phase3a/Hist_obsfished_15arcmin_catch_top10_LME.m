@@ -2,7 +2,7 @@
 % Observed effort
 % Use same methods as Stock et al. 2017 to calc top 10 catch yrs
 
-clear all
+clear 
 close all
 
 %% Fish data
@@ -12,13 +12,14 @@ cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80
 fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/QuarterDeg/'];
 
 mod = 'obsclim';
+vers = '_All_fishobs_v3.2_';
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP/Phase3a/';
-ppath = [pp cfile '/'];
+ppath = [pp cfile '/QuarterDeg/'];
 if (~isfolder(ppath))
     mkdir(ppath)
 end
-load([fpath 'LME_Hist_',mod,'_All_fishobs_' cfile '.mat']);
+load([fpath 'LME_Hist_',mod,vers,cfile,'.mat']);
 
 %% 
 lme_area_km2 = lme_area * 1e-6;
@@ -56,7 +57,7 @@ l10sD=log10(Dlme_mcatch10+eps);
 sFracPD = Plme_mcatch10 ./ (Plme_mcatch10 + Dlme_mcatch10);
 
 %% save
-save([fpath 'LME_Hist_',mod,'_All_fishobs_Catch_top10.mat'],'alme_mcatch10',...
+save([fpath 'LME_Hist_',mod,vers,'Catch_top10.mat'],'alme_mcatch10',...
     'Flme_mcatch10','Plme_mcatch10','Dlme_mcatch10','sFracPD')
 
 

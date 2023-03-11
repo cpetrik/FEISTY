@@ -1,22 +1,29 @@
 % Put fishing mortality onto grid
 
-clear all 
+clear 
 close all
 
-%% 1841-1960
-spath = '/Volumes/MIP/Fish-MIP/Phase3/fishing/grid_mortality_guilds/';
-fpath = '/Users/cpetrik/Dropbox/Princeton/FEISTY_other/fishing_ms_ideas/fishing_effort_impl/grid_mortality_guilds/';
-load([fpath 'grid_mortality_all_1841_1960.mat'])
+%% 1961-2010
+alt1 = 'grid_mortality_guilds_v3'; %grid_mortality_guilds_v2, pristine_grid_mortality_guilds_v1
+alt2 = '_v3'; %_v2, _v1_pristine
+spath = ['/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/fishing/',alt1,'/'];
+fpath = ['/Users/cpetrik/Dropbox/Princeton/FEISTY_other/fishing_ms_ideas/fishing_effort_impl/',alt1,'/'];
+load([fpath 'grid_mortality_all',alt2,'.mat'])
 
-yrF = yr;
+%% 1841-2010, subset 1961-2010
+yrall = 1841:2010;
+yid = find(yrall>=1961);
+
+fmortD = fmortD(:,yid);
+fmortF = fmortF(:,yid);
+fmortP = fmortP(:,yid);
 
 %% 1/2 degree
 lats = unique([LatD, LatF, LatP]);
 lons = unique([LonD, LonF, LonP]);
 
-%% ctrlclim one degree
-Cdir = '/Volumes/MIP/Fish-MIP/Phase3/QuarterDeg/';
-%Cdir = '/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/QuarterDeg/';
+%% obsclim one degree
+Cdir = '/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/QuarterDeg/';
 
 % Depth, lat, lon, area, grid cell with seafloor
 load([Cdir 'gridspec_gfdl-mom6-cobalt2_obsclim_deptho_15arcmin.mat']);
@@ -28,7 +35,7 @@ WID = GRD.ID;
 NID = GRD.N;
 
 %%
-nt = length(yr);
+nt = length(yid);
 fmD = zeros(NID,nt);
 fmF = zeros(NID,nt);
 fmP = zeros(NID,nt);
@@ -72,22 +79,8 @@ caxis([0 0.6])
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 
 %% temp scaling
-tpath ='/Volumes/MIP/Fish-MIP/Phase3/QuarterDeg/';
-% take mean temp over transition time period = 1961-1980
-% load([tpath 'gfdl-mom6-cobalt2_ctrlclim_temp100_15arcmin_global_monthly_1961_2010.mat'],'temp_100');
-% load([tpath 'gfdl-mom6-cobalt2_ctrlclim_tob_15arcmin_global_monthly_1961_2010.mat'],'tob','yr');
-% 
-% % 
-% yt = (yr<1981);
-% tp = temp_100(:,:,yt);
-% tb = tob(:,:,yt);
-% mtp = nanmean(tp,3);
-% mtb = nanmean(tb,3);
-% save([tpath 'gfdl-mom6-cobalt2_ctrlclim_mtemp_15arcmin_global_1961_1980.mat'],...
-%     'mtp','mtb');
-
-%%
-load([tpath 'gfdl-mom6-cobalt2_ctrlclim_mtemp_15arcmin_global_1961_1980.mat'])
+tpath ='/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/QuarterDeg/';
+load([tpath 'gfdl-mom6-cobalt2_obsclim_mtemp_15arcmin_global_1961_2010.mat'])
 vmtp = mtp(WID);
 vmtb = mtb(WID);
 
@@ -109,13 +102,13 @@ fmF(fmF<0) = 0.0;
 fmP(fmP<0) = 0.0;
 
 %% save 
-year = 1841:1960;
+year = 1961:2010;
 
-save([tpath 'gfdl-mom6-cobalt2_ctrlclim_15arcmin_fmort_ID_annual_1841_1960_tempSc',alt2,'.mat'],'year','WID',...
+% save([tpath 'gfdl-mom6-cobalt2_obsclim_15arcmin_fmort_ID_annual_1961_2010_tempSc',alt2,'.mat'],'year','WID',...
+%     'fmD','fmF','fmP');
+save([fpath 'gfdl-mom6-cobalt2_obsclim_15arcmin_fmort_ID_annual_1961_2010_tempSc',alt2,'.mat'],'year','WID',...
     'fmD','fmF','fmP');
-save([fpath 'gfdl-mom6-cobalt2_ctrlclim_15arcmin_fmort_ID_annual_1841_1960_tempSc',alt2,'.mat'],'year','WID',...
-    'fmD','fmF','fmP');
-save([spath 'gfdl-mom6-cobalt2_ctrlclim_15arcmin_fmort_ID_annual_1841_1960_tempSc',alt2,'.mat'],'year','WID',...
+save([spath 'gfdl-mom6-cobalt2_obsclim_15arcmin_fmort_ID_annual_1961_2010_tempSc',alt2,'.mat'],'year','WID',...
     'fmD','fmF','fmP');
 
 
