@@ -10,10 +10,10 @@ pre_industrial_ipsl = false;
 pre_industrial_gfdl = false;
 historic_ipsl = false;
 historic_gfdl = false;
-ssp126_ipsl = true;
+ssp126_ipsl = false;
 ssp126_gfdl = false;
 ssp585_ipsl = true;
-ssp585_gfdl = false;
+ssp585_gfdl = true;
 
 forecast_cesm = false;
 forecast_gfdl = false;
@@ -33,11 +33,13 @@ if spinup_gfdl
 end
 if historic_ipsl
 %     Historic_pristine_ipsl()
-    Historic_pristine_empHP_ipsl()
+%     Historic_pristine_empHP_ipsl()
+    Historic_pristine_empHP_prod_ipsl()
 end
 if historic_gfdl
 %     Historic_pristine_gfdl()
-    Historic_pristine_empHP_gfdl()
+%     Historic_pristine_empHP_gfdl()
+    Historic_pristine_empHP_prod_gfdl()
 end
 if ssp126_ipsl
 %     SSP126_pristine_ipsl()
@@ -49,11 +51,13 @@ if ssp126_gfdl
 end
 if ssp585_ipsl
 %     SSP585_pristine_ipsl()
-    SSP585_pristine_empHP_ipsl()
+%     SSP585_pristine_empHP_ipsl()
+    SSP585_pristine_empHP_prod_ipsl()
 end
 if ssp585_gfdl
 %     SSP585_pristine_gfdl()
-    SSP585_pristine_empHP_gfdl()
+%     SSP585_pristine_empHP_gfdl()
+    SSP585_pristine_empHP_prod_gfdl()
 end
 if pre_industrial_ipsl
 %     Preindust_pristine_ipsl()

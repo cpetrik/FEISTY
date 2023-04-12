@@ -1,12 +1,11 @@
 % FEISTY output at all locations
-% Hist obsclim fished 1/4 degree
+% Hist obsclim pristine 1 degree
 % Early periods (1841-1960) can have 1841 as the reference year 
 % Historic experimental period uses 1901 as the reference year
 
 clear 
 close all
 
-%%
 load('FishMIP_phase3a_exper_times.mat')
 time_long_name = 'time';
 time_standard_name = 'time';
@@ -16,11 +15,10 @@ calendar = '365_day';
 
 cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80_RE00100';
 
-%fpath=['/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/QuarterDeg/'];
-fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/QuarterDeg/'];
+fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 
 %% SP
-ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_v3.2_empHP_sml_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'PI_ctrlclim_All_fishobs_v3.2_empHP_sml_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -34,7 +32,7 @@ SP.bio = biomass;
 clear biomass
 
 % MP
-ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_v3.2_empHP_med_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'PI_ctrlclim_All_fishobs_v3.2_empHP_med_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -49,7 +47,7 @@ clear yield
 clear biomass
 
 % LP
-ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_v3.2_empHP_lrg_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'PI_ctrlclim_All_fishobs_v3.2_empHP_lrg_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -69,7 +67,7 @@ allPC = MP.yield + LP.yield;
 clear SP MP LP
 
 %% SD
-ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_v3.2_empHP_sml_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'PI_ctrlclim_All_fishobs_v3.2_empHP_sml_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -82,7 +80,7 @@ SD.bio = biomass;
 clear biomass 
 
 % MD
-ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_v3.2_empHP_med_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'PI_ctrlclim_All_fishobs_v3.2_empHP_med_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -97,7 +95,7 @@ clear yield
 clear biomass
 
 % LD
-ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_v3.2_empHP_lrg_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'PI_ctrlclim_All_fishobs_v3.2_empHP_lrg_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -117,7 +115,7 @@ allDC = MD.yield + LD.yield;
 clear SD MD LD
 
 %% SF 
-ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_v3.2_empHP_sml_f.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'PI_ctrlclim_All_fishobs_v3.2_empHP_sml_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -130,7 +128,7 @@ SF.bio = biomass(:,1:nt);
 clear biomass 
 
 % MF
-ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_v3.2_empHP_med_f.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'PI_ctrlclim_All_fishobs_v3.2_empHP_med_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -150,7 +148,7 @@ allFC = MF.yield;
 clear SF MF
 
 %% Benthic material
-ncid = netcdf.open([fpath 'Hist_obsclim_All_fishobs_v3.2_empHP_bent.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'PI_ctrlclim_All_fishobs_v3.2_empHP_bent.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -174,9 +172,9 @@ allDC = allDC .* mos;
 %% ========================== netcdf info ===============================
 
 %% ESM
-epath = '/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/QuarterDeg/';
-load([epath 'Data_grid_gfdl-mom6-cobalt2_obsclim_deptho_15arcmin.mat'],'GRD');
-load([epath 'gridspec_gfdl-mom6-cobalt2_obsclim_deptho_15arcmin.mat'],'LAT','LON');
+epath = '/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/OneDeg/';
+load([epath 'Data_grid_gfdl-mom6-cobalt2_obsclim_deptho_onedeg.mat'],'GRD');
+load([epath 'gridspec_gfdl-mom6-cobalt2_obsclim_deptho_onedeg.mat'],'LAT');
 
 [ni,nj] = size(LAT);
 
@@ -214,7 +212,7 @@ for y=1:nt
     ttbb = allBB(:,y);
     gtbb(GRD.ID) = ttbb;
     tbb(:,:,y) = gtbb;
-    
+
     gtpc = 1.0e20*ones(ni,nj);
     ttpc = allPC(:,y);
     gtpc(GRD.ID) = ttpc;
@@ -229,10 +227,8 @@ for y=1:nt
     ttfc = allFC(:,y);
     gtfc(GRD.ID) = ttfc;
     tfc(:,:,y) = gtfc;
+    
 end
-
-%%
-clear allPB allDB allFB allBB allPC allDC allFC
 
 %%
 allPelB = tfb + tpb;
@@ -253,7 +249,7 @@ db = tdb(:,:,150);
 fb = tfb(:,:,150);
 
 figure(1)
-pcolor(log10(pb'))
+pcolor(log10(pb))
 shading flat
 colormap('jet')
 colorbar
@@ -261,7 +257,7 @@ caxis([-2 2])
 title('all LPel')
 
 figure(2)
-pcolor(log10(db'))
+pcolor(log10(db))
 shading flat
 colormap('jet')
 colorbar
@@ -269,7 +265,7 @@ caxis([-2 2])
 title('all Dem')
 
 figure(3)
-pcolor(log10(fb'))
+pcolor(log10(fb))
 shading flat
 colormap('jet')
 colorbar
@@ -281,18 +277,18 @@ title('all F')
 % <sens-scenario>_<variable>_<region>_<time-step>_<start-year>_
 % <end-year>.nc
 
-% climate scenario:   obsclim or ctrlclim
+% climate scenario:   obsclim or obsclim
 % socioecon scenario: histsoc or nat
-% sens scenario:      15arcmin or 60arcmin
+% sens scenario:      15arcmin or onedeg
 
 %e.g.
-%boats_gfdl-mom6_cobalt2_none_obsclim_histsoc_default_tcb_global_monthly_1840_2010.nc
+%boats_gfdl-mom6_cobalt2_none_obsclim_histsoc_15arcmin_tcb_global_monthly_1840_2010.nc
 
 close all
 
 %% Setup netcdf path to store to
-fname1 = 'feisty_gfdl-mom6-cobalt2_obsclim_histsoc_default_';
-fname2 = '_global_monthly_1961_2010.nc';
+fname1 = 'feisty_gfdl-mom6-cobalt2_obsclim_histsoc_60arcmin_1955-riverine-input_';
+fname2 = '_global_monthly_1841_1960.nc';
 
 file_tpb = [fpath fname1 'tpb' fname2];
 file_tdb = [fpath fname1 'tdb' fname2];
@@ -357,7 +353,7 @@ netcdf.endDef(ncidSB);
 netcdf.putVar(ncidSB,vidlat,lat);
 netcdf.putVar(ncidSB,vidlon,lon);
 netcdf.putVar(ncidSB,vidbioSB,allPelB);
-netcdf.putVar(ncidSB,vidtSB,hist_time);
+netcdf.putVar(ncidSB,vidtSB,pi_time);
 
 netcdf.close(ncidSB);
 %%
@@ -408,7 +404,7 @@ netcdf.endDef(ncidSD);
 netcdf.putVar(ncidSD,vidlat,lat);
 netcdf.putVar(ncidSD,vidlon,lon);
 netcdf.putVar(ncidSD,vidbioSD,tdb);
-netcdf.putVar(ncidSD,vidtSD,hist_time);
+netcdf.putVar(ncidSD,vidtSD,pi_time);
 
 netcdf.close(ncidSD);
 
@@ -457,7 +453,7 @@ netcdf.endDef(ncidCB);
 netcdf.putVar(ncidCB,vidlat,lat);
 netcdf.putVar(ncidCB,vidlon,lon);
 netcdf.putVar(ncidCB,vidbioCB,allCB);
-netcdf.putVar(ncidCB,vidtCB,hist_time);
+netcdf.putVar(ncidCB,vidtCB,pi_time);
 
 netcdf.close(ncidCB);
 
@@ -505,7 +501,7 @@ netcdf.endDef(ncid30);
 netcdf.putVar(ncid30,vidlat,lat);
 netcdf.putVar(ncid30,vidlon,lon);
 netcdf.putVar(ncid30,vidbio30,tfb);
-netcdf.putVar(ncid30,vidt30,hist_time);
+netcdf.putVar(ncid30,vidt30,pi_time);
 
 netcdf.close(ncid30);
 
@@ -554,7 +550,7 @@ netcdf.endDef(ncid90);
 netcdf.putVar(ncid90,vidlat,lat);
 netcdf.putVar(ncid90,vidlon,lon);
 netcdf.putVar(ncid90,vidbio90,tpb);
-netcdf.putVar(ncid90,vidt90,hist_time);
+netcdf.putVar(ncid90,vidt90,pi_time);
 
 netcdf.close(ncid90);
 
@@ -604,7 +600,7 @@ netcdf.endDef(ncid90);
 netcdf.putVar(ncid90,vidlat,lat);
 netcdf.putVar(ncid90,vidlon,lon);
 netcdf.putVar(ncid90,vidbio90,tdb);
-netcdf.putVar(ncid90,vidt90,hist_time);
+netcdf.putVar(ncid90,vidt90,pi_time);
 
 netcdf.close(ncid90);
 
@@ -653,7 +649,7 @@ netcdf.endDef(ncidSB);
 netcdf.putVar(ncidSB,vidlat,lat);
 netcdf.putVar(ncidSB,vidlon,lon);
 netcdf.putVar(ncidSB,vidbioSB,allPelC);
-netcdf.putVar(ncidSB,vidtSB,hist_time);
+netcdf.putVar(ncidSB,vidtSB,pi_time);
 
 netcdf.close(ncidSB);
 
@@ -702,7 +698,7 @@ netcdf.endDef(ncidSD);
 netcdf.putVar(ncidSD,vidlat,lat);
 netcdf.putVar(ncidSD,vidlon,lon);
 netcdf.putVar(ncidSD,vidbioSD,tdc);
-netcdf.putVar(ncidSD,vidtSD,hist_time);
+netcdf.putVar(ncidSD,vidtSD,pi_time);
 
 netcdf.close(ncidSD);
 
@@ -751,7 +747,7 @@ netcdf.endDef(ncidCB);
 netcdf.putVar(ncidCB,vidlat,lat);
 netcdf.putVar(ncidCB,vidlon,lon);
 netcdf.putVar(ncidCB,vidbioCB,allCC);
-netcdf.putVar(ncidCB,vidtCB,hist_time);
+netcdf.putVar(ncidCB,vidtCB,pi_time);
 
 netcdf.close(ncidCB);
 
@@ -799,7 +795,7 @@ netcdf.endDef(ncid30);
 netcdf.putVar(ncid30,vidlat,lat);
 netcdf.putVar(ncid30,vidlon,lon);
 netcdf.putVar(ncid30,vidbio30,tfc);
-netcdf.putVar(ncid30,vidt30,hist_time);
+netcdf.putVar(ncid30,vidt30,pi_time);
 
 netcdf.close(ncid30);
 
@@ -848,7 +844,7 @@ netcdf.endDef(ncid90);
 netcdf.putVar(ncid90,vidlat,lat);
 netcdf.putVar(ncid90,vidlon,lon);
 netcdf.putVar(ncid90,vidbio90,tpc);
-netcdf.putVar(ncid90,vidt90,hist_time);
+netcdf.putVar(ncid90,vidt90,pi_time);
 
 netcdf.close(ncid90);
 
@@ -898,6 +894,9 @@ netcdf.endDef(ncid90);
 netcdf.putVar(ncid90,vidlat,lat);
 netcdf.putVar(ncid90,vidlon,lon);
 netcdf.putVar(ncid90,vidbio90,tdc);
-netcdf.putVar(ncid90,vidt90,hist_time);
+netcdf.putVar(ncid90,vidt90,pi_time);
 
 netcdf.close(ncid90);
+
+
+

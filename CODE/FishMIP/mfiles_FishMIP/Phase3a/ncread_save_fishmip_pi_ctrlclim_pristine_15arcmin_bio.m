@@ -168,6 +168,8 @@ allBB = Bent.bio;
 
 %% ========================== netcdf info ===============================
 
+clear SP MP LP SD MD LD SF MF Bent
+
 %% ESM
 epath = '/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/QuarterDeg/';
 load([epath 'Data_grid_gfdl-mom6-cobalt2_obsclim_deptho_15arcmin.mat'],'GRD');
@@ -209,8 +211,14 @@ for y=1:nt
 end
 
 %%
+clear allPB allDB allFB allBB
+
+%%
 allPelB = tfb + tpb;
 allCB = tfb + tpb + tdb + tbb;
+
+allPelB(allPelB>1.0e20) = 1.0e20;
+allCB(allCB>1.0e20) = 1.0e20;
 
 %% Quick look
 pb = tpb(:,:,150);
@@ -256,7 +264,7 @@ title('all F')
 close all
 
 %% Setup netcdf path to store to
-fname1 = 'feisty_gfdl-mom6-cobalt2_nat_1955-riverine-input_';
+fname1 = 'feisty_gfdl-mom6-cobalt2_obsclim_nat_1955-riverine-input_';
 fname2 = '_global_monthly_1841_1960.nc';
 
 file_tpb = [fpath fname1 'tpb' fname2];
@@ -268,8 +276,11 @@ file_bd90 = [fpath fname1 'bd90cm' fname2];
 
 [ni,nj,nt] = size(tpb);
 
+cmode = netcdf.getConstant('NETCDF4');
+cmode = bitor(cmode,netcdf.getConstant('CLASSIC_MODEL'));
+
 %% tpb
-ncidSB = netcdf.create(file_tpb,'netcdf4');
+ncidSB = netcdf.create(file_tpb,cmode);
 
 lon_dim = netcdf.defDim(ncidSB,'lon',ni);
 lat_dim = netcdf.defDim(ncidSB,'lat',nj);
@@ -295,6 +306,7 @@ netcdf.putAtt(ncidSB,vidtSB,'calendar',calendar);
 netcdf.putAtt(ncidSB,vidtSB,'axis',time_axis);
 
 vidbioSB = netcdf.defVar(ncidSB,'tpb','double',[lon_dim,lat_dim,time_dim]);
+netcdf.defVarChunking(ncidSB,vidbioSB,'CHUNKED',[ni nj 1]);
 netcdf.putAtt(ncidSB,vidbioSB,'long_name','Total Pelagic Biomass Density');
 netcdf.putAtt(ncidSB,vidbioSB,'units','g m-2' );
 netcdf.defVarFill(ncidSB,vidbioSB,false,1.0e20);
@@ -318,7 +330,7 @@ netcdf.close(ncidSB);
 ncdisp(file_tpb)
 
 %% tdb
-ncidSD = netcdf.create(file_tdb,'netcdf4');
+ncidSD = netcdf.create(file_tdb,cmode);
 
 lon_dim = netcdf.defDim(ncidSD,'lon',ni);
 lat_dim = netcdf.defDim(ncidSD,'lat',nj);
@@ -344,6 +356,7 @@ netcdf.putAtt(ncidSD,vidtSD,'axis',time_axis);
 netcdf.putAtt(ncidSD,vidtSD,'units',time_units);
 
 vidbioSD = netcdf.defVar(ncidSD,'tdb','double',[lon_dim,lat_dim,time_dim]);
+netcdf.defVarChunking(ncidSD,vidbioSD,'CHUNKED',[ni nj 1]);
 netcdf.putAtt(ncidSD,vidbioSD,'long_name','Total Demersal Biomass Density');
 netcdf.putAtt(ncidSD,vidbioSD,'units','g m-2' );
 netcdf.defVarFill(ncidSD,vidbioSD,false,1.0e20);
@@ -366,7 +379,7 @@ netcdf.putVar(ncidSD,vidtSD,pi_time);
 netcdf.close(ncidSD);
 
 %% tcb
-ncidCB = netcdf.create(file_tcb,'netcdf4');
+ncidCB = netcdf.create(file_tcb,cmode);
 
 lon_dim = netcdf.defDim(ncidCB,'lon',ni);
 lat_dim = netcdf.defDim(ncidCB,'lat',nj);
@@ -392,6 +405,7 @@ netcdf.putAtt(ncidCB,vidtCB,'axis',time_axis);
 netcdf.putAtt(ncidCB,vidtCB,'units',time_units);
 
 vidbioCB = netcdf.defVar(ncidCB,'tcb','double',[lon_dim,lat_dim,time_dim]);
+netcdf.defVarChunking(ncidCB,vidbioCB,'CHUNKED',[ni nj 1]);
 netcdf.putAtt(ncidCB,vidbioCB,'long_name','Total Consumer Biomass Density');
 netcdf.putAtt(ncidCB,vidbioCB,'units','g m-2' );
 netcdf.defVarFill(ncidCB,vidbioCB,false,1.0e20);
@@ -414,7 +428,7 @@ netcdf.putVar(ncidCB,vidtCB,pi_time);
 netcdf.close(ncidCB);
 
 %% bp30cm
-ncid30 = netcdf.create(file_bp30,'netcdf4');
+ncid30 = netcdf.create(file_bp30,cmode);
 
 lon_dim = netcdf.defDim(ncid30,'lon',ni);
 lat_dim = netcdf.defDim(ncid30,'lat',nj);
@@ -440,6 +454,7 @@ netcdf.putAtt(ncid30,vidt30,'axis',time_axis);
 netcdf.putAtt(ncid30,vidt30,'units',time_units);
 
 vidbio30 = netcdf.defVar(ncid30,'bp30cm','double',[lon_dim,lat_dim,time_dim]);
+netcdf.defVarChunking(ncid30,vidbio30,'CHUNKED',[ni nj 1]);
 netcdf.putAtt(ncid30,vidbio30,'long_name','Biomass Density of Small Pelagics <30cm');
 netcdf.putAtt(ncid30,vidbio30,'units','g m-2' );
 netcdf.defVarFill(ncid30,vidbio30,false,1.0e20);
@@ -460,8 +475,8 @@ netcdf.putVar(ncid30,vidt30,pi_time);
 
 netcdf.close(ncid30);
 
-% bp90cm
-ncid90 = netcdf.create(file_bp90,'netcdf4');
+%% bp90cm
+ncid90 = netcdf.create(file_bp90,cmode);
 
 lon_dim = netcdf.defDim(ncid90,'lon',ni);
 lat_dim = netcdf.defDim(ncid90,'lat',nj);
@@ -487,6 +502,7 @@ netcdf.putAtt(ncid90,vidt90,'axis',time_axis);
 netcdf.putAtt(ncid90,vidt90,'units',time_units);
 
 vidbio90 = netcdf.defVar(ncid90,'bp90cm','double',[lon_dim,lat_dim,time_dim]);
+netcdf.defVarChunking(ncid90,vidbio90,'CHUNKED',[ni nj 1]);
 netcdf.putAtt(ncid90,vidbio90,'long_name','Biomass Density of Large Pelagics >=90cm');
 netcdf.putAtt(ncid90,vidbio90,'units','g m-2' );
 netcdf.defVarFill(ncid90,vidbio90,false,1.0e20);
@@ -508,8 +524,8 @@ netcdf.putVar(ncid90,vidt90,pi_time);
 
 netcdf.close(ncid90);
 
-% bd90cm
-ncid90 = netcdf.create(file_bd90,'netcdf4');
+%% bd90cm
+ncid90 = netcdf.create(file_bd90,cmode);
 
 lon_dim = netcdf.defDim(ncid90,'lon',ni);
 lat_dim = netcdf.defDim(ncid90,'lat',nj);
@@ -535,6 +551,7 @@ netcdf.putAtt(ncid90,vidt90,'axis',time_axis);
 netcdf.putAtt(ncid90,vidt90,'units',time_units);
 
 vidbio90 = netcdf.defVar(ncid90,'bd90cm','double',[lon_dim,lat_dim,time_dim]);
+netcdf.defVarChunking(ncid90,vidbio90,'CHUNKED',[ni nj 1]);
 netcdf.putAtt(ncid90,vidbio90,'long_name','Biomass Density of Large Demersals >=90cm');
 netcdf.putAtt(ncid90,vidbio90,'units','g m-2' );
 netcdf.defVarFill(ncid90,vidbio90,false,1.0e20);
