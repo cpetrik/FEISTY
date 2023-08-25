@@ -24,6 +24,9 @@ if hist_onedeg_obs
     Hist_fishing_assess_gfdl_mom6_cobalt2_onedeg_obsclim()
     Hist_fishing_effec_gfdl_mom6_cobalt2_onedeg_obsclim()
     Hist_fishing_nom_gfdl_mom6_cobalt2_onedeg_obsclim()
+    netcdf_read_hist_obsclim_fishing_ms_onedeg
+    calc_anntot_hist_obsclim_fishing_ms_onedeg_bio
+    ncwrite_hist_obsclim_fishing_ms_onedeg_bio
 end
 
 
