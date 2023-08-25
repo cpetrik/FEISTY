@@ -1,6 +1,6 @@
 % Visualize time series output of FEISTY forced by CMIP6
-% Fig 3B in ms
 % tcb relative to 1990-2000
+% compared to tc production for Vianney's paper
 
 clear 
 close all

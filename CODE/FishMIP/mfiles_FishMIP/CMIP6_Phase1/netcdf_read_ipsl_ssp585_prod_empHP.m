@@ -156,3 +156,24 @@ plot(mo,log10(lp_tprod),'b'); hold on;
 plot(mo,log10(mf_tprod),'r'); hold on;
 plot(mo,log10(ld_tprod),'k'); hold on;
 
+%% ANNUAL MEANS =================================================
+
+%total pelagic biomass tpb = 360x180xMOs
+allC = 365*(SF.prod + MF.prod + SP.prod + MP.prod + LP.prod + SD.prod + MD.prod + LD.prod);
+units_prod = 'g/m2/yr';
+
+nyr = nt/12;
+st=1:12:length(time);
+en=12:12:length(time);
+allCprod = nan*ones(ni,nyr);
+
+for n=1:length(st)
+    % mean prod
+    allCprod(:,n)=nanmean(allC(:,st(n):en(n)),2);
+    
+end
+
+%%
+save([fpath 'SSP585_empHP_fishMIP_outputs_monthly_' cfile '.mat'],...
+    'units_prod','allCprod','-append');
+

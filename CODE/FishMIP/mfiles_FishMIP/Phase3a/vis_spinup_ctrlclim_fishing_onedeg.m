@@ -12,8 +12,9 @@ cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80
 fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 
 harvs = {'All_fish_obs','All_fish_obs_v1.2','All_fish_obs_v2',...
-    'All_fish_obs_v3','All_fish_obs_v3.2'};
-harv = harvs{5};
+    'All_fish_obs_v3','All_fish_obs_v3.2',...
+    'All_fish_obs_assessment','All_fish_obs_effective','All_fish_obs_nominal'};
+harv = harvs{8};
 mod = [harv '_ctrlclim_onedeg'];
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP/Phase3a/';
@@ -112,7 +113,7 @@ plot(y,log10(yD),'k','Linewidth',2); hold on;
 legend('F','P','D')
 legend('location','east')
 xlim([y(1) y(end)])
-%ylim([-5 2])
+ylim([-8 -4])
 xlabel('Time (y)')
 ylabel('log_1_0 Yield (g m^-^2)')
 title('Spinup')

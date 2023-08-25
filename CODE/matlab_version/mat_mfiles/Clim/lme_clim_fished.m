@@ -3,10 +3,10 @@
 % 150 years
 % Saved as mat files
 
-clear all
+clear 
 close all
 
-cpath = '/Users/cpetrik/Dropbox/Princeton/POEM_other/grid_cobalt/';
+cpath = '/Users/cpetrik/Petrik Lab Group Dropbox/Colleen Petrik/Princeton/FEISTY_other/grid_cobalt/';
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/Matlab_New_sizes/';
 dp = '/Volumes/FEISTY/NC/Matlab_new_size/';
 

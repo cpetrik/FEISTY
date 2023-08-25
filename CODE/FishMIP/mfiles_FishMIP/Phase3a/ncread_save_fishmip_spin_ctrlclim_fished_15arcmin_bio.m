@@ -302,7 +302,7 @@ file_bd90 = [fpath fname1 'bd90cm' fname2];
 
 file_tpc = [fpath fname1 'tpc' fname2];
 file_tdc = [fpath fname1 'tdc' fname2];
-file_tcc = [fpath fname1 'tcc' fname2];
+file_tcc = [fpath fname1 'tc' fname2];
 file_cp30 = [fpath fname1 'cp30cm' fname2];
 file_cp90 = [fpath fname1 'cp90cm' fname2];
 file_cd90 = [fpath fname1 'cd90cm' fname2];
