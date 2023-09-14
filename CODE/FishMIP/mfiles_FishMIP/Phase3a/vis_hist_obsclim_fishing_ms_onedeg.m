@@ -52,6 +52,7 @@ load coastlines;
 %%
 for i=1:3
     mod = mods{i};
+    close all
 
     load([fpath 'Means_Hist_obsclim_',mod,'_',cfile,'.mat'],'time',...
         'sf_tmean','sp_tmean','sd_tmean',...
@@ -100,7 +101,7 @@ for i=1:3
     legend('MF','MP','LP','MD','LD')
     legend('location','eastoutside')
     xlim([y(1) y(end)])
-    ylim([-8 -4])
+    ylim([-6.5 -3])
     xlabel('Time (y)')
     ylabel('log_1_0 Yield (g m^-^2)')
     title('Hist')
@@ -140,7 +141,7 @@ for i=1:3
     legend('F','P','D')
     legend('location','east')
     xlim([y(1) y(end)])
-    ylim([-7 -4])
+    ylim([-5 -3])
     xlabel('Time (y)')
     ylabel('log_1_0 Yield (g m^-^2)')
     title('Hist')
