@@ -1,6 +1,6 @@
-%% POEM Make file
+%% FEISTY Make file for NEMURO forcing
 
-clear all
+clear 
 close all
 
 %%%%!! EXPERIMENTS
@@ -27,6 +27,9 @@ if histlocs
 end
 if climlocs
     Locs_clim()
+end
+if spinup_ipsl
+    Spinup_ispl()
 end
 if spinup_3
     Spinup_pristine_3km()

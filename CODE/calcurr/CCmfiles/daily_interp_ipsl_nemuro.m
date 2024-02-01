@@ -1,61 +1,95 @@
-% Make mat files of interpolated time series from CESM
-% RCP 8.5 2006-2100
+% Make mat files of interpolated time series from NEMURO CCE model
+% using IPSL downscaled projections
 
-clear all
+clear 
 close all
 
-fpath='/Volumes/GFDL/Fish-MIP/CESM/RCP85/';
+%%
+%fpath='/Volumes/petrik-lab/Feisty/GCM_Data/NEMURO/IPSLdown/';
+fpath = '/Users/cpetrik/Petrik Lab Group Dropbox/Colleen Petrik/ESM_data/NEMURO/';
+spath = '/Users/cpetrik/Documents/NEMURO/';
 
-tstart = 201001:1000:210001;
-tend = 200912:1000:210012;
-tstart = [200601 tstart];
-tend = [tend 210012];
+load([fpath 'feisty_ipsl_gridspec.mat'],'TMO','TMO_bnds','tmo_units','BATHY')
+load([fpath 'Data_grid_nemuro_ipsl.mat'],'GRD');
 
-%2006-2010 is 4 years, then
-%each file has 10 years of 12 months, 
-%last is 1 year of 12 months
-mos = 4*12 + 10*12*(length(tstart) - 2) + 12;
+%%
+time = (TMO/365)+1900;
+yrs= 1980:2100;
+Tdays=1:365;
+
+mos = length(time);
 mstart = 1:12:mos;
 mend = 12:12:mos;
-
-yrs= 2006:2100;
-Tdays=1:365;
-Time=Tdays(15:30:end);
+nyrs = mos/12;
 
 %% Units
-%poc flux: mmol C/m^3 cm/s
-%szoo: mmol C/m^3
-%lzoo: mmol C/m^3
+%poc flux: mmolN/m3/d %Not sure if I need to mult by 100m to get per m2!
+%lzoo: mmolN/m2
+%pzoo: mmolN/m2
 %tp: degC
 %tb: degC
 
-%I MAY NEED TO DIVIDE CONCENTRATIONS BY 100 m TO PUT INTO m^-2
 
-load([fpath 'cesm_rcp85_tp_100_monthly_',num2str(tstart(1)),'-',...
-    num2str(tend(end)),'.mat'],'tp_100');
-load([fpath 'cesm_rcp85_tbtm_monthly_',num2str(tstart(1)),'-',...
-    num2str(tend(end)),'.mat'],'tbtm');
-load([fpath 'cesm_rcp85_szoo_100_monthly_',num2str(tstart(1)),'-',...
-    num2str(tend(end)),'.mat'],'nsmz_100');
-load([fpath 'cesm_rcp85_lzoo_100_monthly_',num2str(tstart(1)),'-',...
-    num2str(tend(end)),'.mat'],'nlgz_100');
-load([fpath 'cesm_rcp85_det_btm_monthly_',num2str(tstart(1)),'-',...
-        num2str(tend(end)),'.mat'],'poc_btm');
-    
+load([fpath 'feisty_ipsl_lzoo_1980-2100.mat'],'LZOO_INT_200M',...
+    'lz_long_name','lz_units');
+
+load([fpath 'feisty_ipsl_pon_1980-2100.mat'],'PON_FLX_100M',...
+    'pon_long_name','pon_units');
+
+load([fpath 'feisty_ipsl_pzoo_1980-2100.mat'],'PZOO_INT_200M',...
+    'pz_long_name','pz_units');
+
+load([fpath 'feisty_ipsl_tb_1980-2100.mat'],'TEMP_BOT','tb_long_name','tb_units');
+
+load([fpath 'feisty_ipsl_tp_1980-2100.mat'],'TEMP_AVG_200M',...
+    'tp_long_name','tp_units','LAT','LON');
+
+[ni,nj,nt] = size(TEMP_BOT);
+
 %%
-for y = 76:length(yrs)
+LZOO_INT_200M(LZOO_INT_200M<0) = 0.0;
+PZOO_INT_200M(PZOO_INT_200M<0) = 0.0;
+PON_FLX_100M(PON_FLX_100M<0) = 0.0;
+
+%% Calc Martin curve for POC to bottom
+% b = -0.863 for whole CCE in Martin et al. 1987
+
+depth = repmat(BATHY,1,1,nt);
+det_btm = PON_FLX_100M .* ((depth/100).^-0.863);
+
+%%
+figure
+pcolor(PON_FLX_100M(:,:,1)); shading flat;
+caxis([0 0.002])
+
+figure
+pcolor(det_btm(:,:,1)); shading flat;
+caxis([0 0.002])
+  
+%%
+WID = GRD.ID;
+NID = GRD.N;
+
+for y = 1:length(yrs)
     yr = yrs(y)
+
+    if y==1
+        range = mstart(y):(mend(y)+1);
+        Time=15:30:395;
+    elseif y==nyrs
+        range = (mstart(y)-1):mend(y);
+        Time=-15:30:365;
+    else
+        range = (mstart(y)-1):(mend(y)+1);
+        Time=-15:30:395;
+    end
     
-    Tp = tp_100(:,:,mstart(y):mend(y));
-    Tb = tbtm(:,:,mstart(y):mend(y));
-    Zm = nsmz_100(:,:,mstart(y):mend(y));
-    Zl = nlgz_100(:,:,mstart(y):mend(y));
-    det= poc_btm(:,:,mstart(y):mend(y));
+    Tp = TEMP_AVG_200M(:,:,range);
+    Tb = TEMP_BOT(:,:,range);
+    Zm = LZOO_INT_200M(:,:,range);
+    Zl = PZOO_INT_200M(:,:,range);
+    det= det_btm(:,:,range);
     
-    % index of water cells
-    [ni,nj,nt] = size(Tp);
-    WID = find(~isnan(Tp(:,:,1)));  % spatial index of water cells
-    NID = length(WID);              % number of water cells
     
     % setup FEISTY data files
     D_Tp  = zeros(NID,365);
@@ -71,38 +105,37 @@ for y = 76:length(yrs)
         
         % pelagic temperature (in Celcius)
         Y = squeeze(Tp(m,n,:));
-        yi = interp1(Time(1:12), Y, 1:365,'linear','extrap');
+        yi = interp1(Time, Y, Tdays,'linear','extrap');
         D_Tp(j,:) = yi;
         
         % bottom temperature (in Celcius)
         Y = squeeze(Tb(m,n,:));
-        yi = interp1(Time(1:12), Y, 1:365,'linear','extrap');
+        yi = interp1(Time, Y, Tdays,'linear','extrap');
         D_Tb(j,:) = yi;
         
-        % medium zoo: from mmolC m-3 to g(WW) m-2
+        % medium zoo: from mmolN m-2 to g(WW) m-2
         % 1e-3 mol in 1 mmol
+        % 106/16 mol C in 1 mol N
         % 12.01 g C in 1 mol C
         % 1 g dry W in 9 g wet W (Pauly & Christiansen)
-        % mult by 10 m depth interval for m-3 to m-2
         Y = squeeze(Zm(m,n,:));
-        yi = interp1(Time(1:12), Y, 1:365,'linear','extrap');
-        D_Zm(j,:) = yi * 1e-3 * 12.01 * 9.0 * 10;
+        yi = interp1(Time, Y, Tdays,'linear','extrap');
+        D_Zm(j,:) = yi * 1e-3 * (106.0/16.0) * 12.01 * 9.0;
         
-        % large zoo: from mmolC m-3 to g(WW) m-2
+        % large zoo: from mmolN m-2 to g(WW) m-2
         Y = squeeze(Zl(m,n,:));
-        yi = interp1(Time(1:12), Y, 1:365,'linear','extrap');
-        D_Zl(j,:) = yi * 1e-3  * 12.01 * 9.0 * 10;
+        yi = interp1(Time, Y, Tdays,'linear','extrap');
+        D_Zl(j,:) = yi * 1e-3 * (106.0/16.0) * 12.01 * 9.0;
         
-        % detrital flux to benthos: from mmolC m-3 cm s-1 to g(WW) m-2 d-1
-        %poc flux: mmol C/m^3 cm/s
+        % detrital flux to benthos: from mmolN m-3 d-1 to g(WW) m-2 d-1
         % 1e-3 mol in 1 mmol
+        % 106/16 mol C in 1 mol N
         % 12.01 g C in 1 mol C
         % 1 g dry W in 9 g wet W (Pauly & Christiansen)
-        % 1e-2 m in cm
-        % 60*60*24 sec in a day
+        % mult by 20 m depth interval for m-3 to m-2
         Y = squeeze(det(m,n,:));
-        yi = interp1(Time(1:12), Y, 1:365,'linear','extrap');
-        D_det(j,:) = yi * 1e-3  * 12.01 * 9.0 * 1e-2 * 60 * 60 * 24;
+        yi = interp1(Time, Y, Tdays,'linear','extrap');
+        D_det(j,:) = yi * 1e-3  * (106.0/16.0) * 12.01 * 9.0 * 20;
         
     end
     
@@ -111,14 +144,14 @@ for y = 76:length(yrs)
     D_Zl(D_Zl<0) = 0.0;
     D_det(D_det<0) = 0.0;
     
-    CESM.Tp = D_Tp;
-    CESM.Tb = D_Tb;
-    CESM.Zm = D_Zm;
-    CESM.Zl = D_Zl;
-    CESM.det = D_det;
+    ESM.Tp = D_Tp;
+    ESM.Tb = D_Tb;
+    ESM.Zm = D_Zm;
+    ESM.Zl = D_Zl;
+    ESM.det = D_det;
     
     % save
-    save([fpath 'Data_cesm_rcp85_' num2str(yr) '.mat'], 'CESM');
+    save([spath 'Data_nemuro_ipsl_' num2str(yr) '.mat'], 'ESM');
     
 end
 
