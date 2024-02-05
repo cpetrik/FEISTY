@@ -1,5 +1,5 @@
-%%%%!! RUN SPINUP FOR ALL LOCATIONS
-function Spinup_ipsl()
+%%%%!! RUN HISTORIC WITH FISHING FOR ALL LOCATIONS
+function Hist_nemuro_obsfish()
 
 vers = 'IPSL';
 
@@ -21,11 +21,12 @@ param.dfrateD = param.frateD/365.0;
 param = make_parameters(param);
 
 %! Setup spinup (loop first year of NEMURO)
-load('/Volumes/petrik-lab/Feisty/GCM_Data/NEMURO/IPSLdown/Data_nemuro_ipsl_1980.mat','ESM');
+
 %load('/Users/cpetrik/Documents/NEMURO/Data_nemuro_ipsl_1980.mat','ESM');
 
 %! How long to run the model
-YEARS = 200;
+modyrs = 1980:2010;
+YEARS = length(modyrs);
 DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
@@ -38,7 +39,7 @@ NX = length(GRD.Z);
 ID = 1:NX;
 
 %! Create a directory for output
-[fname,simname] = fname_spin(param,vers);
+[fname,simname,outdir] = fname_hist(param,vers);
 
 %! Storage variables
 S_Bent_bio = zeros(NX,DAYS);
@@ -126,13 +127,10 @@ S_Lrg_d_fish = zeros(NX,DAYS);
 % S_Lrg_d_clev = zeros(NX,DAYS);
 
 %! Initialize
-%!From a very small number
-[Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish(ID,DAYS);
 %!From a previous run
-% init_sim = simname;
-% load(['/Volumes/GFDL/NC/Matlab_new_size/',init_sim '/CalCurr/Last_mo_Spinup3km_pristine_' init_sim '.mat']);
-% BENT.mass = BENT.bio;
-% [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_hist(ID,DAYS,Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT);
+load([outdir 'Last_mo_Spinup_IPSL_All_fishobs.mat']);
+BENT.mass = BENT.bio;
+[Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_hist(ID,DAYS,Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT);
 
 %%%%%%%%%%%%%%% Setup NetCDF save
 %! Setup netcdf path to store to
@@ -278,14 +276,15 @@ netcdf.endDef(ncidB);
 MNT=0;
 for YR = 1:YEARS % years
     
-    num2str(YR)
+    MY = num2str(modyrs(YR))
+    load(['/Volumes/petrik-lab/Feisty/GCM_Data/NEMURO/IPSLdown/Data_nemuro_ipsl_',MY,'.mat'],'ESM');
 
-%     param.frateF = fmF(:,YR);
-%     param.frateP = fmP(:,YR);
-%     param.frateD = fmD(:,YR);
-%     param.dfrateF = param.frateF/365.0;
-%     param.dfrateP = param.frateP/365.0;
-%     param.dfrateD = param.frateD/365.0;
+    param.frateF = fmF(:,YR);
+    param.frateP = fmP(:,YR);
+    param.frateD = fmD(:,YR);
+    param.dfrateF = param.frateF/365.0;
+    param.dfrateP = param.frateP/365.0;
+    param.dfrateD = param.frateD/365.0;
     
     for DY = 1:DAYS % days
         

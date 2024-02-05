@@ -1,10 +1,12 @@
 %%% Temp-dep natural mortality
-function nmort = sub_nmort(Tp,Tb,tpel,wgt)
+function nmort = sub_nmort(param,Tp,Tb,tpel,wgt)
     %Tp: pelagic temp
     %Tb: bottom temp
     %tpel: frac pelagic time
     
-    global MORT Nat_mrt NX
+    MORT = param.MORT;
+    Nat_mrt = param.Nat_mrt;
+    NX = param.NX;
     
     if (MORT==0) % None
         nmort = 0.0;

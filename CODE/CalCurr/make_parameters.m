@@ -89,11 +89,11 @@ function param = make_parameters(param)
     param.A = 0.5;    %Adult predation reduction %*****
 
     param.MF_phi_MZ = param.Sm;
-    param.MF_phi_MZ = 1.0;
+    param.MF_phi_LZ = 1.0;
     param.MF_phi_S  = 1.0;
     
     param.MP_phi_MZ = param.Sm;
-    param.MP_phi_MZ = 1.0;
+    param.MP_phi_LZ = 1.0;
     param.MP_phi_S  = 1.0;
 
     param.MD_phi_BE = 1.0;

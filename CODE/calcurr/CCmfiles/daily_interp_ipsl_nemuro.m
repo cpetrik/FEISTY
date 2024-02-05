@@ -47,6 +47,8 @@ load([fpath 'feisty_ipsl_tp_1980-2100.mat'],'TEMP_AVG_200M',...
 [ni,nj,nt] = size(TEMP_BOT);
 
 %%
+PON_FLX_100M = -1.0 * PON_FLX_100M; %was neg b/c downward flux
+
 LZOO_INT_200M(LZOO_INT_200M<0) = 0.0;
 PZOO_INT_200M(PZOO_INT_200M<0) = 0.0;
 PON_FLX_100M(PON_FLX_100M<0) = 0.0;
@@ -67,7 +69,7 @@ pcolor(det_btm(:,:,1)); shading flat;
 caxis([0 0.002])
   
 %%
-WID = GRD.ID;
+WID = GRD.ID;  %1560 of these NaNs - maybe FW bodies on land?
 NID = GRD.N;
 
 for y = 1:length(yrs)
