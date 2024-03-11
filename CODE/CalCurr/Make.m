@@ -12,13 +12,25 @@ spinup_10 = false;
 climatol = false;
 pre_industrial = false;
 historic_pristine = false;
-historic_fished3_loop = true;
+historic_fished3_loop = false;
 historic_fished3 = false;
 historic_fished10 = false;
 forecast_pristine = false;
 forecast_fished = false;
+spinup_ipsl = false;
+hist_ipsl = false;
+proj_ipsl = true;
 
 tic
+if spinup_ipsl
+    Spinup_ipsl()
+end
+if hist_ipsl
+    Hist_nemuro_obsfish()
+end
+if proj_ipsl
+    Project_nemuro_obsfish()
+end
 if testlocs
     Testlocs()
 end
@@ -27,9 +39,6 @@ if histlocs
 end
 if climlocs
     Locs_clim()
-end
-if spinup_ipsl
-    Spinup_ispl()
 end
 if spinup_3
     Spinup_pristine_3km()

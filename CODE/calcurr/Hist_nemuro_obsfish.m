@@ -20,10 +20,6 @@ param.dfrateD = param.frateD/365.0;
 %! Make core parameters/constants (global)
 param = make_parameters(param);
 
-%! Setup spinup (loop first year of NEMURO)
-
-%load('/Users/cpetrik/Documents/NEMURO/Data_nemuro_ipsl_1980.mat','ESM');
-
 %! How long to run the model
 modyrs = 1980:2010;
 YEARS = length(modyrs);
@@ -128,7 +124,7 @@ S_Lrg_d_fish = zeros(NX,DAYS);
 
 %! Initialize
 %!From a previous run
-load([outdir 'Last_mo_Spinup_IPSL_All_fishobs.mat']);
+load([outdir 'Last_mo_Spinup_IPSL_All_fishobs_',simname,'.mat']);
 BENT.mass = BENT.bio;
 [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_hist(ID,DAYS,Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT);
 
@@ -161,7 +157,7 @@ netcdf.setDefaultFormat('NC_FORMAT_64BIT');
 %% ! Def vars of netcdf file
 ['Defining netcdfs, takes ~5 minutes ... ']
 xy_dim      = netcdf.defDim(ncidSF,'nid',NX);
-time_dim    = netcdf.defDim(ncidSF,'ntime',nt+1);
+time_dim    = netcdf.defDim(ncidSF,'ntime',nt);
 vidbioSF    = netcdf.defVar(ncidSF,'biomass','double',[xy_dim,time_dim]);
 % vidprodSF   = netcdf.defVar(ncidSF,'prod','double',[xy_dim,time_dim]);
 % vidrecSF    = netcdf.defVar(ncidSF,'rec','double',[xy_dim,time_dim]);

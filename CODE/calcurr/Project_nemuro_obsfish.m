@@ -20,10 +20,6 @@ param.dfrateD = param.frateD/365.0;
 %! Make core parameters/constants (global)
 param = make_parameters(param);
 
-%! Setup spinup (loop first year of NEMURO)
-
-%load('/Users/cpetrik/Documents/NEMURO/Data_nemuro_ipsl_1980.mat','ESM');
-
 %! How long to run the model
 modyrs = 2011:2100;
 YEARS = length(modyrs);
@@ -128,7 +124,7 @@ S_Lrg_d_fish = zeros(NX,DAYS);
 
 %! Initialize
 %!From a previous run
-load([outdir 'Last_mo_Hist_IPSL_All_fishobs.mat']);
+load([outdir 'Last_mo_Hist_IPSL_All_fishobs_',simname,'.mat']);
 BENT.mass = BENT.bio;
 [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_hist(ID,DAYS,Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT);
 

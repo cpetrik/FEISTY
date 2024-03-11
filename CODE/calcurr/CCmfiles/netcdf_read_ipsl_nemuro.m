@@ -4,10 +4,10 @@ clear
 close all
 
 %%
-%fpath='/Volumes/petrik-lab/Feisty/GCM_Data/NEMURO/IPSLdown/';
-fpath='/Users/cpetrik/Documents/NEMURO/';
+fpath='/Volumes/petrik-lab/Feisty/GCM_Data/NEMURO/IPSLdown/';
+%fpath='/Users/cpetrik/Documents/NEMURO/';
 
-ncdisp([fpath 'new_feisty_ipsl_1980-2100.nc'])
+ncdisp([fpath 'feisty_v3_ipsl_1980-2100.nc'])
 
 %%
 % Global Attributes:
@@ -49,7 +49,7 @@ tmo_standard_name = 'time';
 % TMO_bnds
 
 % TEMP_BOT
-% Size:       186x181x1x1452
+% Size:       186x181x1452
 tb_long_name = 'TEMP[K=1,GT=TMO@ASN]';
 tb_units     = 'C';
 
@@ -59,6 +59,7 @@ tp_long_name = 'TEMPZ[meanZ=-212.5:-2.5]';
 tp_units     = 'C';
 
 % LZOO_INT_200M
+% Size:       186x181x1452
 lz_long_name     = 'LZOO_200M[sumZ=-1:4.1633E-17]';
 lz_units         = 'mmolN/m2';
 
@@ -69,8 +70,16 @@ pz_units        = 'mmolN/m2';
 
 % PON_FLX_100M
 % Size:       186x181x1452
-pon_long_name   = '(-40)*(PONZ[Z=-90@AVE]-PONZ[Z=-110@AVE])/20';
+% pon_long_name   = '(-40)*(PONZ[Z=-90@AVE]-PONZ[Z=-110@AVE])/20';
 pon_units       = 'mmolN/m3/d';
+
+PON_BOT
+% Size:       186x181x1452
+% missing_value = -9.999999999999999e+33;
+% _FillValue    = -9.999999999999999e+33;
+pon_long_name     = 'PON[K=1@AVE,GT=TMO@ASN]';
+% history       = 'From /data01/fiechter/WC12_OffBio/IPSL_TV_1980-2100/Monthly/wc12_avg_1980.nc'
+
 
 %Zooplankton units are mmolN/m2. 
 %LZ is mesozooplankton and PZ is euphausiids.
@@ -78,7 +87,7 @@ pon_units       = 'mmolN/m3/d';
 %The remineralization rate of PON is 0.02 day-1 at 0C with a Q10 relationship.
 
 %%
-ncid = netcdf.open([fpath 'new_feisty_ipsl_1980-2100.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'feisty_v3_ipsl_1980-2100.nc'],'NC_NOWRITE');
 
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 
@@ -97,35 +106,35 @@ TEMP_AVG_200M(TEMP_AVG_200M<=-9.9e+33)=nan;
 TEMP_BOT(TEMP_BOT<=-9.9e+33)=nan;
 LZOO_INT_200M(LZOO_INT_200M<=-9.9e+33)=nan;
 PZOO_INT_200M(PZOO_INT_200M<=-9.9e+33)=nan;
-PON_FLX_100M(PON_FLX_100M<=-9.9e+33)=nan;
+PON_BOT(PON_BOT<=-9.9e+33)=nan;
 
 %%
-save([fpath 'feisty_ipsl_gridspec.mat'],'BATHY','bathy_units',...
-    'bathy_long_name','S_RHO1_1','TMO','TMO_bnds','srho_long_name',...
-    'tmo_units','tmo_time_origin','tmo_standard_name','LAT','LON');
+% save([fpath 'feisty_ipsl_gridspec.mat'],'BATHY','bathy_units',...
+%     'bathy_long_name','TMO','TMO_bnds','srho_long_name',...
+%     'tmo_units','tmo_time_origin','tmo_standard_name','LAT','LON');
 
 save([fpath 'feisty_ipsl_lzoo_1980-2100.mat'],'LZOO_INT_200M',...
     'lz_long_name','lz_units',...
-    'S_RHO1_1','TMO','TMO_bnds','srho_long_name','tmo_units',...
+    'TMO','TMO_bnds','srho_long_name','tmo_units',...
     'tmo_time_origin','tmo_standard_name','LAT','LON');
 
-save([fpath 'feisty_ipsl_pon_1980-2100.mat'],'PON_FLX_100M',...
+save([fpath 'feisty_ipsl_pon_1980-2100.mat'],'PON_BOT',...
     'pon_long_name','pon_units',...
-    'S_RHO1_1','TMO','TMO_bnds','srho_long_name','tmo_units',...
+    'TMO','TMO_bnds','srho_long_name','tmo_units',...
     'tmo_time_origin','tmo_standard_name','LAT','LON');
 
 save([fpath 'feisty_ipsl_pzoo_1980-2100.mat'],'PZOO_INT_200M',...
     'pz_long_name','pz_units',...
-    'S_RHO1_1','TMO','TMO_bnds','srho_long_name','tmo_units',...
+    'TMO','TMO_bnds','srho_long_name','tmo_units',...
     'tmo_time_origin','tmo_standard_name','LAT','LON');
 
 save([fpath 'feisty_ipsl_tb_1980-2100.mat'],'TEMP_BOT','tb_long_name',...
-    'S_RHO1_1','TMO','TMO_bnds','srho_long_name','tmo_units',...
+    'TMO','TMO_bnds','srho_long_name','tmo_units',...
     'tmo_time_origin','tmo_standard_name','LAT','LON','tb_units');
 
 save([fpath 'feisty_ipsl_tp_1980-2100.mat'],'TEMP_AVG_200M',...
     'tp_long_name','tp_units',...
-    'S_RHO1_1','TMO','TMO_bnds','srho_long_name','tmo_units',...
+    'TMO','TMO_bnds','srho_long_name','tmo_units',...
     'tmo_time_origin','tmo_standard_name','LAT','LON');
 
 

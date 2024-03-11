@@ -47,16 +47,27 @@ load([fpath 'feisty_ipsl_tp_1980-2100.mat'],'TEMP_AVG_200M',...
 [ni,nj,nt] = size(TEMP_BOT);
 
 %%
+PON_BOT = -1.0 * PON_BOT; %was neg b/c downward flux
+
 LZOO_INT_200M(LZOO_INT_200M<0) = 0.0;
 PZOO_INT_200M(PZOO_INT_200M<0) = 0.0;
 PON_BOT(PON_BOT<0) = 0.0;
 
+%% Calc Martin curve for POC to bottom
+% b = -0.863 for whole CCE in Martin et al. 1987
+
+depth = repmat(BATHY,1,1,nt);
+det_btm = PON_BOT .* ((depth/100).^-0.863);
+
 %%
 figure
 pcolor(PON_BOT(:,:,1)); shading flat;
-colorbar
-caxis([0 2])
+caxis([0 0.002])
 
+figure
+pcolor(det_btm(:,:,1)); shading flat;
+caxis([0 0.002])
+  
 %%
 WID = GRD.ID;  %1560 of these NaNs - maybe FW bodies on land?
 NID = GRD.N;
@@ -79,7 +90,7 @@ for y = 1:length(yrs)
     Tb = TEMP_BOT(:,:,range);
     Zm = LZOO_INT_200M(:,:,range);
     Zl = PZOO_INT_200M(:,:,range);
-    det= PON_BOT(:,:,range);
+    det= det_btm(:,:,range);
     
     
     % setup FEISTY data files
@@ -142,7 +153,7 @@ for y = 1:length(yrs)
     ESM.det = D_det;
     
     % save
-    save([fpath 'Data_nemuro_ipsl_' num2str(yr) '.mat'], 'ESM');
+    save([spath 'Data_nemuro_ipsl_' num2str(yr) '.mat'], 'ESM');
     
 end
 
