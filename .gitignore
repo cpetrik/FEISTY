@@ -5,6 +5,7 @@
 *.png
 *.pdf
 *.csv
+*.xlsx
 *.mat
 *.npy
 *.o
