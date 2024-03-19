@@ -1,11 +1,24 @@
 %%%%!! RUN HISTORIC WITH FISHING FOR ALL LOCATIONS
 function Hist_nemuro_obsfish()
 
-vers = 'IPSL';
+esms = {'IPSL','GFDL','HAD'};
+esms2 = {'ipsl','gfdl','hadley'};
+for mod = 3
+    vers = esms{mod};
+    esm = esms2{mod};
+
+    if mod==1
+        gcpath = '/Volumes/petrik-lab/Feisty/GCM_Data/NEMURO/IPSLdown/';
+    elseif mod==2
+        gcpath = '/Volumes/petrik-lab/Feisty/GCM_Data/NEMURO/GFDLdown/';
+    elseif mod==3
+        gcpath = '/Volumes/petrik-lab/Feisty/GCM_Data/NEMURO/HADdown/';
+    end
+    
 
 %%%%%%%%%%%%%%% Initialize Model Variables
 %! Set fishing rate
-load('/Volumes/petrik-lab/Feisty/GCM_Data/NEMURO/IPSLdown/nemuro_ipsl_fmort_ID_annual_1980_2010_tempSc_assessment.mat',...
+load([gcpath 'nemuro_',esm,'_fmort_ID_annual_1980_2010_tempSc_assessment.mat'],...
     'fmD','fmF','fmP');
 
 % Set fishing rate as 1st year for fname
@@ -27,8 +40,7 @@ DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Grid (choose where and when to run the model)
-load('/Volumes/petrik-lab/Feisty/GCM_Data/NEMURO/IPSLdown/Data_grid_nemuro_ipsl.mat','GRD');
-%load('/Users/cpetrik/Documents/NEMURO/Data_grid_nemuro_ipsl.mat','GRD');
+load([gcpath 'Data_grid_nemuro_',esm,'.mat'],'GRD');
 param.NX = length(GRD.Z);
 param.ID = 1:param.NX;
 NX = length(GRD.Z);
@@ -124,7 +136,7 @@ S_Lrg_d_fish = zeros(NX,DAYS);
 
 %! Initialize
 %!From a previous run
-load([outdir 'Last_mo_Spinup_IPSL_All_fishobs_',simname,'.mat']);
+load([outdir 'Last_mo_Spinup_',vers,'_All_fishobs_',simname,'.mat']);
 BENT.mass = BENT.bio;
 [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_hist(ID,DAYS,Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT);
 
@@ -273,7 +285,7 @@ MNT=0;
 for YR = 1:YEARS % years
     
     MY = num2str(modyrs(YR))
-    load(['/Volumes/petrik-lab/Feisty/GCM_Data/NEMURO/IPSLdown/Data_nemuro_ipsl_',MY,'.mat'],'ESM');
+    load([gcpath 'Data_nemuro_',esm,'_',MY,'.mat'],'ESM');
 
     param.frateF = fmF(:,YR);
     param.frateP = fmP(:,YR);
@@ -483,5 +495,7 @@ netcdf.close(ncidMD);
 netcdf.close(ncidLP);
 netcdf.close(ncidLD);
 netcdf.close(ncidB);
+
+end %esms
 
 end

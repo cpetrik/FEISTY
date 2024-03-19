@@ -1,9 +1,9 @@
-%%%%!! RUN CLIMATE CHANGE PROJECTION WITH FISHING FOR ALL LOCATIONS
-function Project_nemuro_obsfish()
+%%%%!! RUN SPINUP FOR ALL LOCATIONS
+function Spinup_nemuro()
 
 esms = {'IPSL','GFDL','HAD'};
 esms2 = {'ipsl','gfdl','hadley'};
-for mod = 2:3
+for mod = 3
     vers = esms{mod};
     esm = esms2{mod};
 
@@ -14,18 +14,17 @@ for mod = 2:3
     elseif mod==3
         gcpath = '/Volumes/petrik-lab/Feisty/GCM_Data/NEMURO/HADdown/';
     end
-    
 
 %%%%%%%%%%%%%%% Initialize Model Variables
 %! Set fishing rate
 load([gcpath 'nemuro_',esm,'_fmort_ID_annual_1980_2010_tempSc_assessment.mat'],...
     'fmD','fmF','fmP');
 
-% Set fishing rate as last year for future
+% Set fishing rate as 1st year for fname
 param.frate = nan;
-param.frateF = fmF(:,end);
-param.frateP = fmP(:,end);
-param.frateD = fmD(:,end);
+param.frateF = fmF(:,1);
+param.frateP = fmP(:,1);
+param.frateD = fmD(:,1);
 param.dfrateF = param.frateF/365.0;
 param.dfrateP = param.frateP/365.0;
 param.dfrateD = param.frateD/365.0;
@@ -33,9 +32,11 @@ param.dfrateD = param.frateD/365.0;
 %! Make core parameters/constants (global)
 param = make_parameters(param);
 
+%! Setup spinup (loop first year of NEMURO)
+load([gcpath 'Data_nemuro_',esm,'_1980.mat'],'ESM');
+
 %! How long to run the model
-modyrs = 2011:2100;
-YEARS = length(modyrs);
+YEARS = 200;
 DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
@@ -47,7 +48,7 @@ NX = length(GRD.Z);
 ID = 1:NX;
 
 %! Create a directory for output
-[fname,simname,outdir] = fname_project(param,vers);
+[fname,simname] = fname_spin(param,vers);
 
 %! Storage variables
 S_Bent_bio = zeros(NX,DAYS);
@@ -61,11 +62,11 @@ S_Med_d = zeros(NX,DAYS);
 S_Lrg_p = zeros(NX,DAYS);
 S_Lrg_d = zeros(NX,DAYS);
 
-S_Med_f_fish = zeros(NX,DAYS);
-S_Med_p_fish = zeros(NX,DAYS);
-S_Med_d_fish = zeros(NX,DAYS);
-S_Lrg_p_fish = zeros(NX,DAYS);
-S_Lrg_d_fish = zeros(NX,DAYS);
+% S_Med_f_fish = zeros(NX,DAYS);
+% S_Med_p_fish = zeros(NX,DAYS);
+% S_Med_d_fish = zeros(NX,DAYS);
+% S_Lrg_p_fish = zeros(NX,DAYS);
+% S_Lrg_d_fish = zeros(NX,DAYS);
 
 % S_Sml_f_rec = zeros(NX,DAYS);
 % S_Sml_p_rec = zeros(NX,DAYS);
@@ -135,10 +136,13 @@ S_Lrg_d_fish = zeros(NX,DAYS);
 % S_Lrg_d_clev = zeros(NX,DAYS);
 
 %! Initialize
+%!From a very small number
+[Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish(ID,DAYS);
 %!From a previous run
-load([outdir 'Last_mo_Hist_',vers,'_All_fishobs_',simname,'.mat']);
-BENT.mass = BENT.bio;
-[Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_hist(ID,DAYS,Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT);
+% init_sim = simname;
+% load(['/Volumes/GFDL/NC/Matlab_new_size/',init_sim '/CalCurr/Last_mo_Spinup3km_pristine_' init_sim '.mat']);
+% BENT.mass = BENT.bio;
+% [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_hist(ID,DAYS,Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT);
 
 %%%%%%%%%%%%%%% Setup NetCDF save
 %! Setup netcdf path to store to
@@ -169,7 +173,7 @@ netcdf.setDefaultFormat('NC_FORMAT_64BIT');
 %% ! Def vars of netcdf file
 ['Defining netcdfs, takes ~5 minutes ... ']
 xy_dim      = netcdf.defDim(ncidSF,'nid',NX);
-time_dim    = netcdf.defDim(ncidSF,'ntime',nt+1);
+time_dim    = netcdf.defDim(ncidSF,'ntime',nt);
 vidbioSF    = netcdf.defVar(ncidSF,'biomass','double',[xy_dim,time_dim]);
 % vidprodSF   = netcdf.defVar(ncidSF,'prod','double',[xy_dim,time_dim]);
 % vidrecSF    = netcdf.defVar(ncidSF,'rec','double',[xy_dim,time_dim]);
@@ -207,7 +211,7 @@ netcdf.endDef(ncidSD);
 xy_dim      = netcdf.defDim(ncidMF,'nid',NX);
 time_dim    = netcdf.defDim(ncidMF,'ntime',nt);
 vidbioMF    = netcdf.defVar(ncidMF,'biomass','double',[xy_dim,time_dim]);
-vidfishMF   = netcdf.defVar(ncidMF,'yield','double',[xy_dim,time_dim]);
+%vidfishMF   = netcdf.defVar(ncidMF,'yield','double',[xy_dim,time_dim]);
 % vidprodMF   = netcdf.defVar(ncidMF,'prod','double',[xy_dim,time_dim]);
 % vidrecMF    = netcdf.defVar(ncidMF,'rec','double',[xy_dim,time_dim]);
 % vidconMF    = netcdf.defVar(ncidMF,'con','double',[xy_dim,time_dim]);
@@ -221,7 +225,7 @@ netcdf.endDef(ncidMF);
 xy_dim      = netcdf.defDim(ncidMP,'nid',NX);
 time_dim    = netcdf.defDim(ncidMP,'ntime',nt);
 vidbioMP    = netcdf.defVar(ncidMP,'biomass','double',[xy_dim,time_dim]);
-vidfishMP   = netcdf.defVar(ncidMP,'yield','double',[xy_dim,time_dim]);
+%vidfishMP   = netcdf.defVar(ncidMP,'yield','double',[xy_dim,time_dim]);
 % vidprodMP   = netcdf.defVar(ncidMP,'prod','double',[xy_dim,time_dim]);
 % vidrecMP    = netcdf.defVar(ncidMP,'rec','double',[xy_dim,time_dim]);
 % vidconMP    = netcdf.defVar(ncidMP,'con','double',[xy_dim,time_dim]);
@@ -234,7 +238,7 @@ netcdf.endDef(ncidMP);
 xy_dim      = netcdf.defDim(ncidMD,'nid',NX);
 time_dim    = netcdf.defDim(ncidMD,'ntime',nt);
 vidbioMD    = netcdf.defVar(ncidMD,'biomass','double',[xy_dim,time_dim]);
-vidfishMD   = netcdf.defVar(ncidMD,'yield','double',[xy_dim,time_dim]);
+%vidfishMD   = netcdf.defVar(ncidMD,'yield','double',[xy_dim,time_dim]);
 % vidprodMD   = netcdf.defVar(ncidMD,'prod','double',[xy_dim,time_dim]);
 % vidrecMD    = netcdf.defVar(ncidMD,'rec','double',[xy_dim,time_dim]);
 % vidconMD    = netcdf.defVar(ncidMD,'con','double',[xy_dim,time_dim]);
@@ -247,7 +251,7 @@ netcdf.endDef(ncidMD);
 xy_dim      = netcdf.defDim(ncidLP,'nid',NX);
 time_dim    = netcdf.defDim(ncidLP,'ntime',nt);
 vidbioLP    = netcdf.defVar(ncidLP,'biomass','double',[xy_dim,time_dim]);
-vidfishLP   = netcdf.defVar(ncidLP,'yield','double',[xy_dim,time_dim]);
+%vidfishLP   = netcdf.defVar(ncidLP,'yield','double',[xy_dim,time_dim]);
 % vidprodLP   = netcdf.defVar(ncidLP,'prod','double',[xy_dim,time_dim]);
 % vidrecLP    = netcdf.defVar(ncidLP,'rec','double',[xy_dim,time_dim]);
 % vidconLP    = netcdf.defVar(ncidLP,'con','double',[xy_dim,time_dim]);
@@ -261,7 +265,7 @@ netcdf.endDef(ncidLP);
 xy_dim      = netcdf.defDim(ncidLD,'nid',NX);
 time_dim    = netcdf.defDim(ncidLD,'ntime',nt);
 vidbioLD    = netcdf.defVar(ncidLD,'biomass','double',[xy_dim,time_dim]);
-vidfishLD   = netcdf.defVar(ncidLD,'yield','double',[xy_dim,time_dim]);
+%vidfishLD   = netcdf.defVar(ncidLD,'yield','double',[xy_dim,time_dim]);
 % vidprodLD   = netcdf.defVar(ncidLD,'prod','double',[xy_dim,time_dim]);
 % vidrecLD    = netcdf.defVar(ncidLD,'rec','double',[xy_dim,time_dim]);
 % vidconLD    = netcdf.defVar(ncidLD,'con','double',[xy_dim,time_dim]);
@@ -284,10 +288,17 @@ netcdf.endDef(ncidB);
 MNT=0;
 for YR = 1:YEARS % years
     
-    MY = num2str(modyrs(YR))
-    load([gcpath 'Data_nemuro_',esm,'_',MY,'.mat'],'ESM');
+    num2str(YR)
 
+%     param.frateF = fmF(:,YR);
+%     param.frateP = fmP(:,YR);
+%     param.frateD = fmD(:,YR);
+%     param.dfrateF = param.frateF/365.0;
+%     param.dfrateP = param.frateP/365.0;
+%     param.dfrateD = param.frateD/365.0;
+    
     for DY = 1:DAYS % days
+        
         
         [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,ENVR] = ...
             sub_futbio(DY,ESM,GRD,Sml_f,Sml_p,Sml_d,...
@@ -304,12 +315,12 @@ for YR = 1:YEARS % years
         S_Lrg_p(:,DY) = Lrg_p.bio;
         S_Lrg_d(:,DY) = Lrg_d.bio;
         
-        S_Med_f_fish(:,DY) = Med_f.caught;
-        S_Med_p_fish(:,DY) = Med_p.caught;
-        S_Med_d_fish(:,DY) = Med_d.caught;
-        S_Lrg_p_fish(:,DY) = Lrg_p.caught;
-        S_Lrg_d_fish(:,DY) = Lrg_d.caught;
-        
+%         S_Med_f_fish(:,DY) = Med_f.caught;
+%         S_Med_p_fish(:,DY) = Med_p.caught;
+%         S_Med_d_fish(:,DY) = Med_d.caught;
+%         S_Lrg_p_fish(:,DY) = Lrg_p.caught;
+%         S_Lrg_d_fish(:,DY) = Lrg_d.caught;
+%         
         %         S_Sml_f_rec(:,DY) = Sml_f.rec;
         %         S_Sml_p_rec(:,DY) = Sml_p.rec;
         %         S_Sml_d_rec(:,DY) = Sml_d.rec;
@@ -399,11 +410,11 @@ for YR = 1:YEARS % years
         netcdf.putVar(ncidLP,vidbioLP,[0 MNT-1],[NX 1],mean(S_Lrg_p(:,a(i):b(i)),2));
         netcdf.putVar(ncidLD,vidbioLD,[0 MNT-1],[NX 1],mean(S_Lrg_d(:,a(i):b(i)),2));
         
-        netcdf.putVar(ncidMF,vidfishMF,[0 MNT-1],[NX 1],mean(S_Med_f_fish(:,a(i):b(i)),2));
-        netcdf.putVar(ncidMP,vidfishMP,[0 MNT-1],[NX 1],mean(S_Med_p_fish(:,a(i):b(i)),2));
-        netcdf.putVar(ncidMD,vidfishMD,[0 MNT-1],[NX 1],mean(S_Med_d_fish(:,a(i):b(i)),2));
-        netcdf.putVar(ncidLP,vidfishLP,[0 MNT-1],[NX 1],mean(S_Lrg_p_fish(:,a(i):b(i)),2));
-        netcdf.putVar(ncidLD,vidfishLD,[0 MNT-1],[NX 1],mean(S_Lrg_d_fish(:,a(i):b(i)),2));
+%         netcdf.putVar(ncidMF,vidfishMF,[0 MNT-1],[NX 1],mean(S_Med_f_fish(:,a(i):b(i)),2));
+%         netcdf.putVar(ncidMP,vidfishMP,[0 MNT-1],[NX 1],mean(S_Med_p_fish(:,a(i):b(i)),2));
+%         netcdf.putVar(ncidMD,vidfishMD,[0 MNT-1],[NX 1],mean(S_Med_d_fish(:,a(i):b(i)),2));
+%         netcdf.putVar(ncidLP,vidfishLP,[0 MNT-1],[NX 1],mean(S_Lrg_p_fish(:,a(i):b(i)),2));
+%         netcdf.putVar(ncidLD,vidfishLD,[0 MNT-1],[NX 1],mean(S_Lrg_d_fish(:,a(i):b(i)),2));
         
         %           netcdf.putVar(ncidSF,vidprodSF,[0 MNT-1],[NX 1],mean(S_Sml_f_prod(:,a(i):b(i)),2));
         % 			netcdf.putVar(ncidSP,vidprodSP,[0 MNT-1],[NX 1],mean(S_Sml_p_prod(:,a(i):b(i)),2));

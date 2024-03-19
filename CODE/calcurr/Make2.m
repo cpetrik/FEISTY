@@ -18,8 +18,8 @@ historic_fished10 = false;
 forecast_pristine = false;
 forecast_fished = false;
 spinup_ipsl = false;
-hist_ipsl = false;
-proj_ipsl = true;
+hist_ipsl = true;
+proj_ipsl = false;
 
 tic
 if spinup_ipsl
@@ -27,12 +27,12 @@ if spinup_ipsl
 end
 if hist_ipsl
     Hist_nemuro_obsfish()
-    Hist_nemuro_obsfish_prod()
-    Hist_nemuro_obsfish_rec()
-    Hist_nemuro_obsfish_mort()
+%     Hist_nemuro_obsfish_prod()
+%     Hist_nemuro_obsfish_rec()
+%     Hist_nemuro_obsfish_mort()
 end
 if proj_ipsl
-    Project_nemuro_obsfish()
+%     Project_nemuro_obsfish()
     Project_nemuro_obsfish_prod()
     Project_nemuro_obsfish_rec()
     Project_nemuro_obsfish_mort()

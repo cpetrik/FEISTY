@@ -1,15 +1,16 @@
 % Visualize output of POEM
-% Spinup with IPSL downscaled model
+% Hist with IPSL downscaled model
 % 200 years
 % Saved as mat files
 
 clear 
 close all
 
-% Fish data
+%% Fish data
 pp = '/Users/cpetrik/Petrik Lab Group Dropbox/Colleen Petrik/Princeton/FEISTY/CODE/Figs/PNG/CC/';
 cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80_RE00100';
-vers = 'IPSL';
+vers = 'HAD';
+mod = 'hadley';
 harv = 'All_fishobs';
 
 fpath=['/Volumes/petrik-lab/Feisty/NC/NEMURO/',cfile,'/',vers,'/'];
@@ -18,18 +19,28 @@ ppath = [pp cfile '/'];
 if (~isfolder(ppath))
     mkdir(ppath)
 end
-load([fpath 'Means_Spinup_' vers '_' harv '_' cfile '.mat']);
+load([fpath 'Means_Hist_' vers '_' harv '_' cfile '.mat']);
 
-% Map data
-cpath = '/Volumes/petrik-lab/Feisty/GCM_Data/NEMURO/IPSLdown/';
-load([cpath 'feisty_ipsl_gridspec.mat'])%,'LON','LAT');
-load([cpath 'Data_grid_nemuro_ipsl.mat']);
+nt = length(mf_tmean);
+
+%% Map data
+cpath = ['/Volumes/petrik-lab/Feisty/GCM_Data/NEMURO/' vers 'down/'];
+load([cpath 'feisty_' mod '_gridspec.mat'])%,'LON','LAT');
+load([cpath 'Data_grid_nemuro_' mod '.mat']);
+
+%%
+time = (TMO/365)+1900;
+y = time(1:nt); %time;
 
 %%
 F = sf_tmean+mf_tmean;
 P = sp_tmean+mp_tmean+lp_tmean;
 D = sd_tmean+md_tmean+ld_tmean;
 B = b_tmean;
+
+CF = mf_tmy;
+CP = mp_tmy+lp_tmy;
+CD = md_tmy+ld_tmy;
 
 %%
 [ni,nj]=size(LON);
@@ -79,7 +90,6 @@ set(groot,'defaultAxesColorOrder',cm10);
 cmBP50=cbrewer('seq','BuPu',50,'PCHIP');
 
 %% Plots in time
-y = 1:length(sp_tmean); %time;
 
 % All size classes of all
 figure(1)
@@ -95,12 +105,12 @@ plot(y,log10(b_tmean),'Linewidth',1); hold on;
 legend('SF','MF','SP','MP','LP','SD','MD','LD','B')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
-ylim([-5 2])
+ylim([-3 2])
 xlabel('Time (mo)')
 ylabel('log10 Biomass (g m^-^2)')
-title(['Spinup ' harv])
-stamp(cfile)
-print('-dpng',[ppath 'Spinup_' vers '_' harv '_all_sizes.png'])
+title('Historic biomass')
+stamp(vers)
+print('-dpng',[ppath 'Hist_' vers '_' harv '_all_sizes_biom.png'])
 
 %%
 figure(2)
@@ -111,12 +121,27 @@ plot(y,log10(D),'k','Linewidth',2); hold on;
 legend('B','F','P','D')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
-ylim([-5 2])
+ylim([-2 2])
 xlabel('Time (y)')
 ylabel('log10 Biomass (g m^-^2)')
-title(['Spinup ' harv])
-print('-dpng',[ppath 'Spinup_' vers '_' harv '_all_types.png'])
+title('Historic biomass')
+stamp(vers)
+print('-dpng',[ppath 'Hist_' vers '_' harv '_all_types_biom.png'])
 
+%% Catch
+figure(12)
+plot(y,log10(CF),'r','Linewidth',2); hold on;
+plot(y,log10(CP),'b','Linewidth',2); hold on;
+plot(y,log10(CD),'k','Linewidth',2); hold on;
+legend('F','P','D')
+legend('location','eastoutside')
+xlim([y(1) y(end)])
+ylim([-5 -2])
+xlabel('Time (y)')
+ylabel('log10 Catch (g m^-^2)')
+title('Historic catch')
+stamp(vers)
+print('-dpng',[ppath 'Hist_' vers '_' harv '_all_types_catch.png'])
 
 %% Plots in space
 Zsf=NaN*ones(ni,nj);
@@ -129,6 +154,12 @@ Zlp=NaN*ones(ni,nj);
 Zld=NaN*ones(ni,nj);
 Zb=NaN*ones(ni,nj);
 
+Cmf=NaN*ones(ni,nj);
+Cmp=NaN*ones(ni,nj);
+Cmd=NaN*ones(ni,nj);
+Clp=NaN*ones(ni,nj);
+Cld=NaN*ones(ni,nj);
+
 Zsf(GRD.ID)=sf_mean;
 Zsp(GRD.ID)=sp_mean;
 Zsd(GRD.ID)=sd_mean;
@@ -138,6 +169,12 @@ Zmd(GRD.ID)=md_mean;
 Zlp(GRD.ID)=lp_mean;
 Zld(GRD.ID)=ld_mean;
 Zb(GRD.ID)=b_mean;
+
+Cmf(GRD.ID)=mf_my;
+Cmp(GRD.ID)=mp_my;
+Cmd(GRD.ID)=md_my;
+Clp(GRD.ID)=lp_my;
+Cld(GRD.ID)=ld_my;
 
 All = Zsp+Zsf+Zsd+Zmp+Zmf+Zmd+Zlp+Zld;
 AllF = Zsf+Zmf;
@@ -149,6 +186,11 @@ AllL = Zlp+Zld;
 FracPD = AllP ./ (AllP+AllD);
 FracPF = AllP ./ (AllP+AllF);
 FracLM = AllL ./ (AllL+AllM);
+
+CAllF = Cmf;
+CAllP = Cmp+Clp;
+CAllD = Cmd+Cld;
+CAll = CAllF+CAllP+CAllD;
 
 %% bent
 figure(3)
@@ -162,10 +204,10 @@ clim([-1 2]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('log10 mean benthic biomass (g m^-^2)')
-stamp(cfile)
-print('-dpng',[ppath 'Spinup_' vers '_' harv '_BENT.png'])
+stamp(vers)
+print('-dpng',[ppath 'Hist_' vers '_' harv '_BENT.png'])
 
-%% All 4 on subplots
+%% All 4 biom on subplots
 figure(4)
 % all F
 subplot('Position',[0 0.5 0.5 0.5])
@@ -173,7 +215,7 @@ axesm ('Miller','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','on','FLineWidth',1)
 surfm(LAT,LON,log10(AllF))
 colormap(cmBP50)
-clim([-1 3]);
+clim([-1 2]);
 colorbar('Position',[0.475 0.25 0.035 0.5],'orientation','vertical')
 set(gcf,'renderer','painters')
 text(0,0.93,'\bf log_1_0 mean All F (g m^-^2)','HorizontalAlignment','center')
@@ -184,7 +226,7 @@ axesm ('Miller','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','on','FLineWidth',1)
 surfm(LAT,LON,log10(AllD))
 colormap(cmBP50)
-clim([-1 3]);
+clim([-1 2]);
 set(gcf,'renderer','painters')
 text(0,0.93,'\bf log_1_0 mean All D (g m^-^2)','HorizontalAlignment','center')
 %title('log10 mean All D (g m^-^2)')
@@ -195,7 +237,7 @@ axesm ('Miller','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','on','FLineWidth',1)
 surfm(LAT,LON,log10(AllP))
 colormap(cmBP50)
-clim([-1 3]);
+clim([-1 2]);
 set(gcf,'renderer','painters')
 text(0,0.93,'\bf log_1_0 mean All P (g m^-^2)','HorizontalAlignment','center')
 
@@ -205,11 +247,23 @@ axesm ('Miller','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','on','FLineWidth',1)
 surfm(LAT,LON,log10(All))
 colormap(cmBP50)
-clim([-1 3]);
+clim([-1 2]);
 set(gcf,'renderer','painters')
 text(0,0.93,'\bf log_1_0 mean All fishes (g m^-^2)','HorizontalAlignment','center')
-stamp(cfile)
-print('-dpng',[ppath 'Spinup_' vers '_' harv '_All_subplot.png'])
+stamp(vers)
+print('-dpng',[ppath 'Hist_' vers '_' harv '_All_subplot.png'])
+
+%% Just F
+figure(14)
+% all F
+axesm ('Miller','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','on','FLineWidth',1)
+surfm(LAT,LON,log10(AllF))
+colormap(cmBP50)
+clim([-4 2]);
+colorbar
+set(gcf,'renderer','painters')
+text(0,0.93,'\bf log_1_0 mean All F (g m^-^2)','HorizontalAlignment','center')
 
 %% Ratios on subplots red-white-blue
 % 3 figure subplot P:D, P:F, M:L
@@ -244,6 +298,52 @@ cmocean('balance')
 clim([0 1]);
 set(gcf,'renderer','painters')
 text(0,0.93,'\bf Fraction Large vs. Medium','HorizontalAlignment','center')
-stamp(cfile)
-print('-dpng',[ppath 'Spinup_' vers '_' harv '_ratios_subplot.png'])
+stamp(vers)
+print('-dpng',[ppath 'Hist_' vers '_' harv '_ratios_subplot.png'])
+
+%% All 4 catch on subplots
+figure(6)
+% all F
+subplot('Position',[0 0.5 0.5 0.5])
+axesm ('Miller','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','on','FLineWidth',1)
+surfm(LAT,LON,log10(CAllF))
+colormap(cmBP50)
+clim([-4 0]);
+colorbar('Position',[0.475 0.25 0.035 0.5],'orientation','vertical')
+set(gcf,'renderer','painters')
+text(0,0.93,'\bf log_1_0 mean All F (g m^-^2)','HorizontalAlignment','center')
+
+% all D
+subplot('Position',[0 0 0.5 0.5])
+axesm ('Miller','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','on','FLineWidth',1)
+surfm(LAT,LON,log10(CAllD))
+colormap(cmBP50)
+clim([-4 0]);
+set(gcf,'renderer','painters')
+text(0,0.93,'\bf log_1_0 mean All D (g m^-^2)','HorizontalAlignment','center')
+%title('log10 mean All D (g m^-^2)')
+
+% All P
+subplot('Position',[0.5 0.5 0.5 0.5])
+axesm ('Miller','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','on','FLineWidth',1)
+surfm(LAT,LON,log10(CAllP))
+colormap(cmBP50)
+clim([-4 0]);
+set(gcf,'renderer','painters')
+text(0,0.93,'\bf log_1_0 mean All P (g m^-^2)','HorizontalAlignment','center')
+
+% All
+subplot('Position',[0.5 0 0.5 0.5])
+axesm ('Miller','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','on','FLineWidth',1)
+surfm(LAT,LON,log10(CAll))
+colormap(cmBP50)
+clim([-4 0]);
+set(gcf,'renderer','painters')
+text(0,0.93,'\bf log_1_0 mean All fishes (g m^-^2)','HorizontalAlignment','center')
+stamp(vers)
+print('-dpng',[ppath 'Hist_' vers '_' harv '_All_catch_subplot.png'])
 

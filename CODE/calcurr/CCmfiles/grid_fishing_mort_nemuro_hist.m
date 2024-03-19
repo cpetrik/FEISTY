@@ -4,8 +4,7 @@ clear
 close all
 
 %% grid info
-%Cdir = '/Volumes/petrik-lab/Feisty/GCM_Data/NEMURO/IPSLdown/';
-Cdir ='/Users/cpetrik/Petrik Lab Group Dropbox/Colleen Petrik/ESM_data/NEMURO/';
+Cdir = '/Volumes/petrik-lab/Feisty/GCM_Data/NEMURO/IPSLdown/';
 
 % Depth, lat, lon
 load([Cdir 'feisty_ipsl_gridspec.mat']);

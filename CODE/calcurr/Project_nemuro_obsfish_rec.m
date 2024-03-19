@@ -1,11 +1,24 @@
 %%%%!! RUN CLIMATE CHANGE PROJECTION WITH FISHING FOR ALL LOCATIONS
-function Project_nemuro_obsfish()
+function Project_nemuro_obsfish_rec()
 
-vers = 'IPSL';
+esms = {'IPSL','GFDL','HAD'};
+esms2 = {'ipsl','gfdl','hadley'};
+for mod = 2:3
+    vers = esms{mod};
+    esm = esms2{mod};
+
+    if mod==1
+        gcpath = '/Volumes/petrik-lab/Feisty/GCM_Data/NEMURO/IPSLdown/';
+    elseif mod==2
+        gcpath = '/Volumes/petrik-lab/Feisty/GCM_Data/NEMURO/GFDLdown/';
+    elseif mod==3
+        gcpath = '/Volumes/petrik-lab/Feisty/GCM_Data/NEMURO/HADdown/';
+    end
+    
 
 %%%%%%%%%%%%%%% Initialize Model Variables
 %! Set fishing rate
-load('/Volumes/petrik-lab/Feisty/GCM_Data/NEMURO/IPSLdown/nemuro_ipsl_fmort_ID_annual_1980_2010_tempSc_assessment.mat',...
+load([gcpath 'nemuro_',esm,'_fmort_ID_annual_1980_2010_tempSc_assessment.mat'],...
     'fmD','fmF','fmP');
 
 % Set fishing rate as last year for future
@@ -27,7 +40,7 @@ DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Grid (choose where and when to run the model)
-load('/Volumes/petrik-lab/Feisty/GCM_Data/NEMURO/IPSLdown/Data_grid_nemuro_ipsl.mat','GRD');
+load([gcpath 'Data_grid_nemuro_',esm,'.mat'],'GRD');
 param.NX = length(GRD.Z);
 param.ID = 1:param.NX;
 NX = length(GRD.Z);
@@ -37,40 +50,40 @@ ID = 1:NX;
 [fname,simname,outdir] = fname_project(param,vers);
 
 %! Storage variables
-	S_Sml_f_rec = zeros(NX,DAYS);
-	 S_Sml_p_rec = zeros(NX,DAYS);
-	 S_Sml_d_rec = zeros(NX,DAYS);
-	 S_Med_f_rec = zeros(NX,DAYS);
-	 S_Med_p_rec = zeros(NX,DAYS);
-	 S_Med_d_rec = zeros(NX,DAYS);
-	 S_Lrg_p_rec = zeros(NX,DAYS);
-	 S_Lrg_d_rec = zeros(NX,DAYS);
- 
-	 S_Sml_f_gamma = zeros(NX,DAYS);
-	 S_Sml_p_gamma = zeros(NX,DAYS);
-	 S_Sml_d_gamma = zeros(NX,DAYS);
-	 S_Med_f_gamma = zeros(NX,DAYS);
-	 S_Med_p_gamma = zeros(NX,DAYS);
-	 S_Med_d_gamma = zeros(NX,DAYS);
-	 S_Lrg_p_gamma = zeros(NX,DAYS);
-	 S_Lrg_d_gamma = zeros(NX,DAYS);
+S_Sml_f_rec = zeros(NX,DAYS);
+S_Sml_p_rec = zeros(NX,DAYS);
+S_Sml_d_rec = zeros(NX,DAYS);
+S_Med_f_rec = zeros(NX,DAYS);
+S_Med_p_rec = zeros(NX,DAYS);
+S_Med_d_rec = zeros(NX,DAYS);
+S_Lrg_p_rec = zeros(NX,DAYS);
+S_Lrg_d_rec = zeros(NX,DAYS);
+
+S_Sml_f_gamma = zeros(NX,DAYS);
+S_Sml_p_gamma = zeros(NX,DAYS);
+S_Sml_d_gamma = zeros(NX,DAYS);
+S_Med_f_gamma = zeros(NX,DAYS);
+S_Med_p_gamma = zeros(NX,DAYS);
+S_Med_d_gamma = zeros(NX,DAYS);
+S_Lrg_p_gamma = zeros(NX,DAYS);
+S_Lrg_d_gamma = zeros(NX,DAYS);
 
 %! Initialize
 %!From a previous run
-load([outdir 'Last_mo_Hist_IPSL_All_fishobs_',simname,'.mat']);
+load([outdir 'Last_mo_Hist_',vers,'_All_fishobs_',simname,'.mat']);
 BENT.mass = BENT.bio;
 [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_hist(ID,DAYS,Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT);
 
 %%%%%%%%%%%%%%% Setup NetCDF save
 %! Setup netcdf path to store to
-	file_sml_f = [fname,'_rec_sml_f.nc'];
-	file_sml_p = [fname,'_rec_sml_p.nc'];
-	file_sml_d = [fname,'_rec_sml_d.nc'];
-	file_med_f = [fname,'_rec_med_f.nc'];
-	file_med_p = [fname,'_rec_med_p.nc'];
-	file_med_d = [fname,'_rec_med_d.nc'];
-	file_lrg_p = [fname,'_rec_lrg_p.nc'];
-	file_lrg_d = [fname,'_rec_lrg_d.nc'];
+file_sml_f = [fname,'_rec_sml_f.nc'];
+file_sml_p = [fname,'_rec_sml_p.nc'];
+file_sml_d = [fname,'_rec_sml_d.nc'];
+file_med_f = [fname,'_rec_med_f.nc'];
+file_med_p = [fname,'_rec_med_p.nc'];
+file_med_d = [fname,'_rec_med_d.nc'];
+file_lrg_p = [fname,'_rec_lrg_p.nc'];
+file_lrg_d = [fname,'_rec_lrg_d.nc'];
 
 ncidSF = netcdf.create(file_sml_f,'NC_WRITE');
 ncidSP = netcdf.create(file_sml_p,'NC_WRITE');
@@ -158,65 +171,65 @@ netcdf.endDef(ncidLD);
 %! Run model with no fishing
 MNT=0;
 for YR = 1:YEARS % years
-    
+
     MY = num2str(modyrs(YR))
-    load(['/Volumes/petrik-lab/Feisty/GCM_Data/NEMURO/IPSLdown/Data_nemuro_ipsl_',MY,'.mat'],'ESM');
+    load([gcpath 'Data_nemuro_',esm,'_',MY,'.mat'],'ESM');
 
     for DY = 1:DAYS % days
-        
+
         [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,ENVR] = ...
             sub_futbio(DY,ESM,GRD,Sml_f,Sml_p,Sml_d,...
             Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,param);
-        
-    S_Sml_f_rec(:,DY) = Sml_f.rec;
-             S_Sml_p_rec(:,DY) = Sml_p.rec;
-             S_Sml_d_rec(:,DY) = Sml_d.rec;
-             S_Med_f_rec(:,DY) = Med_f.rec;
-             S_Med_p_rec(:,DY) = Med_p.rec;
-             S_Med_d_rec(:,DY) = Med_d.rec;
-             S_Lrg_p_rec(:,DY) = Lrg_p.rec;
-             S_Lrg_d_rec(:,DY) = Lrg_d.rec;
-    
-			 S_Sml_f_gamma(:,DY) = Sml_f.gamma;
-             S_Sml_p_gamma(:,DY) = Sml_p.gamma;
-             S_Sml_d_gamma(:,DY) = Sml_d.gamma;
-             S_Med_f_gamma(:,DY) = Med_f.gamma;
-            S_Med_p_gamma(:,DY) = Med_p.gamma;
-             S_Med_d_gamma(:,DY) = Med_d.gamma;
-             S_Lrg_p_gamma(:,DY) = Lrg_p.gamma;
-             S_Lrg_d_gamma(:,DY) = Lrg_d.gamma;
-        
+
+        S_Sml_f_rec(:,DY) = Sml_f.rec;
+        S_Sml_p_rec(:,DY) = Sml_p.rec;
+        S_Sml_d_rec(:,DY) = Sml_d.rec;
+        S_Med_f_rec(:,DY) = Med_f.rec;
+        S_Med_p_rec(:,DY) = Med_p.rec;
+        S_Med_d_rec(:,DY) = Med_d.rec;
+        S_Lrg_p_rec(:,DY) = Lrg_p.rec;
+        S_Lrg_d_rec(:,DY) = Lrg_d.rec;
+
+        S_Sml_f_gamma(:,DY) = Sml_f.gamma;
+        S_Sml_p_gamma(:,DY) = Sml_p.gamma;
+        S_Sml_d_gamma(:,DY) = Sml_d.gamma;
+        S_Med_f_gamma(:,DY) = Med_f.gamma;
+        S_Med_p_gamma(:,DY) = Med_p.gamma;
+        S_Med_d_gamma(:,DY) = Med_d.gamma;
+        S_Lrg_p_gamma(:,DY) = Lrg_p.gamma;
+        S_Lrg_d_gamma(:,DY) = Lrg_d.gamma;
+
     end %Days
-    
+
     %! Calculate monthly means and save
     aa = (cumsum(MNTH)+1);
     a = [1,aa(1:end-1)]; % start of the month
     b = cumsum(MNTH); % end of the month
     for i = 1:12
         MNT = MNT+1; % Update monthly ticker
-        
+
         %! Put vars of netcdf file
-        
-            netcdf.putVar(ncidSF,vidrecSF,[0 MNT-1],[NX 1],mean(S_Sml_f_rec(:,a(i):b(i)),2));
-  			netcdf.putVar(ncidSP,vidrecSP,[0 MNT-1],[NX 1],mean(S_Sml_p_rec(:,a(i):b(i)),2));
-  			netcdf.putVar(ncidSD,vidrecSD,[0 MNT-1],[NX 1],mean(S_Sml_d_rec(:,a(i):b(i)),2));
-  			netcdf.putVar(ncidMF,vidrecMF,[0 MNT-1],[NX 1],mean(S_Med_f_rec(:,a(i):b(i)),2));
- 			netcdf.putVar(ncidMP,vidrecMP,[0 MNT-1],[NX 1],mean(S_Med_p_rec(:,a(i):b(i)),2));
- 			netcdf.putVar(ncidMD,vidrecMD,[0 MNT-1],[NX 1],mean(S_Med_d_rec(:,a(i):b(i)),2));
-  			netcdf.putVar(ncidLP,vidrecLP,[0 MNT-1],[NX 1],mean(S_Lrg_p_rec(:,a(i):b(i)),2));
-  			netcdf.putVar(ncidLD,vidrecLD,[0 MNT-1],[NX 1],mean(S_Lrg_d_rec(:,a(i):b(i)),2));
- 
- netcdf.putVar(ncidSF,vidgammaSF,[0 MNT-1],[NX 1],mean(S_Sml_f_gamma(:,a(i):b(i)),2));
-  			netcdf.putVar(ncidSP,vidgammaSP,[0 MNT-1],[NX 1],mean(S_Sml_p_gamma(:,a(i):b(i)),2));
-  			netcdf.putVar(ncidSD,vidgammaSD,[0 MNT-1],[NX 1],mean(S_Sml_d_gamma(:,a(i):b(i)),2));
- 			netcdf.putVar(ncidMF,vidgammaMF,[0 MNT-1],[NX 1],mean(S_Med_f_gamma(:,a(i):b(i)),2));
-  			netcdf.putVar(ncidMP,vidgammaMP,[0 MNT-1],[NX 1],mean(S_Med_p_gamma(:,a(i):b(i)),2));
-  			netcdf.putVar(ncidMD,vidgammaMD,[0 MNT-1],[NX 1],mean(S_Med_d_gamma(:,a(i):b(i)),2));
-  			netcdf.putVar(ncidLP,vidgammaLP,[0 MNT-1],[NX 1],mean(S_Lrg_p_gamma(:,a(i):b(i)),2));
- 			netcdf.putVar(ncidLD,vidgammaLD,[0 MNT-1],[NX 1],mean(S_Lrg_d_gamma(:,a(i):b(i)),2));
-        
+
+        netcdf.putVar(ncidSF,vidrecSF,[0 MNT-1],[NX 1],mean(S_Sml_f_rec(:,a(i):b(i)),2));
+        netcdf.putVar(ncidSP,vidrecSP,[0 MNT-1],[NX 1],mean(S_Sml_p_rec(:,a(i):b(i)),2));
+        netcdf.putVar(ncidSD,vidrecSD,[0 MNT-1],[NX 1],mean(S_Sml_d_rec(:,a(i):b(i)),2));
+        netcdf.putVar(ncidMF,vidrecMF,[0 MNT-1],[NX 1],mean(S_Med_f_rec(:,a(i):b(i)),2));
+        netcdf.putVar(ncidMP,vidrecMP,[0 MNT-1],[NX 1],mean(S_Med_p_rec(:,a(i):b(i)),2));
+        netcdf.putVar(ncidMD,vidrecMD,[0 MNT-1],[NX 1],mean(S_Med_d_rec(:,a(i):b(i)),2));
+        netcdf.putVar(ncidLP,vidrecLP,[0 MNT-1],[NX 1],mean(S_Lrg_p_rec(:,a(i):b(i)),2));
+        netcdf.putVar(ncidLD,vidrecLD,[0 MNT-1],[NX 1],mean(S_Lrg_d_rec(:,a(i):b(i)),2));
+
+        netcdf.putVar(ncidSF,vidgammaSF,[0 MNT-1],[NX 1],mean(S_Sml_f_gamma(:,a(i):b(i)),2));
+        netcdf.putVar(ncidSP,vidgammaSP,[0 MNT-1],[NX 1],mean(S_Sml_p_gamma(:,a(i):b(i)),2));
+        netcdf.putVar(ncidSD,vidgammaSD,[0 MNT-1],[NX 1],mean(S_Sml_d_gamma(:,a(i):b(i)),2));
+        netcdf.putVar(ncidMF,vidgammaMF,[0 MNT-1],[NX 1],mean(S_Med_f_gamma(:,a(i):b(i)),2));
+        netcdf.putVar(ncidMP,vidgammaMP,[0 MNT-1],[NX 1],mean(S_Med_p_gamma(:,a(i):b(i)),2));
+        netcdf.putVar(ncidMD,vidgammaMD,[0 MNT-1],[NX 1],mean(S_Med_d_gamma(:,a(i):b(i)),2));
+        netcdf.putVar(ncidLP,vidgammaLP,[0 MNT-1],[NX 1],mean(S_Lrg_p_gamma(:,a(i):b(i)),2));
+        netcdf.putVar(ncidLD,vidgammaLD,[0 MNT-1],[NX 1],mean(S_Lrg_d_gamma(:,a(i):b(i)),2));
+
     end %Monthly mean
-    
+
 end %Years
 
 %! Close save
@@ -228,5 +241,7 @@ netcdf.close(ncidMP);
 netcdf.close(ncidMD);
 netcdf.close(ncidLP);
 netcdf.close(ncidLD);
+
+end
 
 end
