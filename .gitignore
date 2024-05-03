@@ -3,6 +3,10 @@
 *.m~
 *.jl~
 *.png
+*.jpg
+*.jpeg
+*.JPG
+*.mov
 *.pdf
 *.csv
 *.xlsx
