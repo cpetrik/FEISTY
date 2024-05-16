@@ -190,6 +190,13 @@ Md.rec = sub_rec(Sd.gamma,Sd.bio);
 Lp.rec = sub_rec(Mp.gamma,Mp.bio);
 Ld.rec = sub_rec(Md.gamma,Md.bio);
 
+% Population prod = biomass growing/maturing from the juvenile size class
+    % to the adult size class divided by the biomass of adults that are 
+    % already adults
+Mf.pp = Mf.rec ./ Mf.bio;
+Lp.pp = Lp.rec ./ Lp.bio;
+Ld.pp = Ld.rec ./ Ld.bio;
+
 % Fishing by rate
 [Mf.bio, Mf.caught, Mf.fmort] = sub_fishing_rate(Mf.bio,param.dfrateF,param.MFsel);
 [Mp.bio, Mp.caught, Mp.fmort] = sub_fishing_rate(Mp.bio,param.dfrateF,param.MPsel);

@@ -98,16 +98,21 @@ for z=1:3
     LD.yield = yield;
     clear biomass yield
 
-    %% Total yields = area sums
+    %% Total yields = area sums & # days in mo
     % Area in m2 instead of km2, matrix
     aream2 = GRD.AREA .* 1e6;
     aream2_mat = repmat(aream2,1,nt);
 
-    mf_ay= (MF.yield .* aream2_mat);
-    mp_ay= (MP.yield .* aream2_mat);
-    md_ay= (MD.yield .* aream2_mat);
-    lp_ay= (LP.yield .* aream2_mat);
-    ld_ay= (LD.yield .* aream2_mat);
+    MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
+    nyr = nt/12;
+    nid = length(GRD.ID);
+    mos = repmat(MNTH,nid,nyr);
+
+    mf_ay= (MF.yield .*mos .* aream2_mat);
+    mp_ay= (MP.yield .*mos .* aream2_mat);
+    md_ay= (MD.yield .*mos .* aream2_mat);
+    lp_ay= (LP.yield .*mos .* aream2_mat);
+    ld_ay= (LD.yield .*mos .* aream2_mat);
 
     %% Time total
     mf_tty=sum(mf_ay,1,"omitnan");
