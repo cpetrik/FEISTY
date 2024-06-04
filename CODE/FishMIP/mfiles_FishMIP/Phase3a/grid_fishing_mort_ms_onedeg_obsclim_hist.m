@@ -38,15 +38,16 @@ yrall = 1841:2010;
 yid = find(yrall>=1961);
 
 %% load f/fmsy
-alt = {'assessment','effective','nominal'};
+alt = {'assessment','effective','nominal','FFmsy_creep','FFmsy_nominal',...
+    'FFmsymax_creep','FFmsymax_nominal','FFmsymin_creep','FFmsymin_nominal'};
 
 % loop through
-for i=1:length(alt)
+for i=4:length(alt)
     alt1 = alt{i};
     spath = ['/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/fishing/',alt1,'/'];
     fpath = ['/Users/cpetrik/Petrik Lab Group Dropbox/Colleen Petrik/Princeton/',...
         'FEISTY_other/fishing_ms_ideas/fishing_effort_ms/fishing_for_FEISTY/',alt1,'/'];
-    load([fpath 'grid_mortality_all_',alt1,'.mat'])
+    load([spath 'grid_mortality_all_',alt1,'.mat'])
 
     %% 1841-2010, subset 1961-2010
     fmortD = fmortD(:,yid);
@@ -117,10 +118,10 @@ for i=1:length(alt)
 
     %% save
     tpath = ['/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/fishing/',alt1,'/'];
-    save([tpath 'gfdl-mom6-cobalt2_obsclim_onedeg_fmort_ID_annual_1961_2010_tempSc_',alt1,'.mat'],'year','WID',...
-        'fmD','fmF','fmP');
-    save([fpath 'gfdl-mom6-cobalt2_obsclim_onedeg_fmort_ID_annual_1961_2010_tempSc_',alt1,'.mat'],'year','WID',...
-        'fmD','fmF','fmP');
+%     save([tpath 'gfdl-mom6-cobalt2_obsclim_onedeg_fmort_ID_annual_1961_2010_tempSc_',alt1,'.mat'],'year','WID',...
+%         'fmD','fmF','fmP');
+%     save([fpath 'gfdl-mom6-cobalt2_obsclim_onedeg_fmort_ID_annual_1961_2010_tempSc_',alt1,'.mat'],'year','WID',...
+%         'fmD','fmF','fmP');
     save([spath 'gfdl-mom6-cobalt2_obsclim_onedeg_fmort_ID_annual_1961_2010_tempSc_',alt1,'.mat'],'year','WID',...
         'fmD','fmF','fmP');
 

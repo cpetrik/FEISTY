@@ -14,11 +14,15 @@ cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80
 %fpath=['/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 
-mods = {'All_fishobs_assessment','All_fishobs_effective','All_fishobs_nominal'};
+% mods = {'All_fishobs_assessment','All_fishobs_effective','All_fishobs_nominal'};
+mods = {'assessment','effective','nominal','FFmsy_creep','FFmsy_nominal','FFmsymax_creep','FFmsymax_nominal',...
+    'FFmsymin_creep','FFmsymin_nominal'};
 
-for i=1:length(mods)
+for i=4:length(mods)
 
-    mod = mods{i};
+%     mod = mods{i};
+%     mod = ['All_fish_obs_' mods{i}];
+    mod = ['All_fishobs_' mods{i}];
 
     %% SP
     ncid = netcdf.open([fpath 'PI_ctrlclim_',mod,'_empHP_sml_p.nc'],'NC_NOWRITE');

@@ -13,14 +13,14 @@ cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80
 
 fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 
-mods = {'All_fish_obs_assessment','All_fish_obs_effective','All_fish_obs_nominal'};
-mods2 = {'All_fishobs_assessment','All_fishobs_effective','All_fishobs_nominal'};
+mods = {'assessment','effective','nominal','FFmsy_creep','FFmsy_nominal','FFmsymax_creep','FFmsymax_nominal',...
+    'FFmsymin_creep','FFmsymin_nominal'};
 
 %%
-for i=1:length(mods)
+for i=4:length(mods)
 
-    mod = mods{i};
-    mod2 = mods2{i};
+    mod = ['All_fish_obs_' mods{i}];
+    mod2 = ['All_fishobs_' mods{i}];
 
     %% SP
     ncid = netcdf.open([fpath 'Spinup_ctrlclim_',mod,'_empHP_sml_p.nc'],'NC_NOWRITE');
@@ -213,6 +213,9 @@ for i=1:length(mods)
     Lrg_d.bio = mean(LD.bio(:,nt-11:nt),2,'omitnan');
     BENT.bio  = mean(Bent.bio(:,nt-11:nt),2,'omitnan');
 
+    save([fpath 'PI_ctrlclim_',mod,'_Last_mo_' cfile '.mat'],...
+        'Sml_f','Sml_p','Sml_d',...
+        'Med_f','Med_p','Med_d','Lrg_p','Lrg_d','BENT')
     save([fpath 'PI_ctrlclim_',mod2,'_Last_mo_' cfile '.mat'],...
         'Sml_f','Sml_p','Sml_d',...
         'Med_f','Med_p','Med_d','Lrg_p','Lrg_d','BENT')

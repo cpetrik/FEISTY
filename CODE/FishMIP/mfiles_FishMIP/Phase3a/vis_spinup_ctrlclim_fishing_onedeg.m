@@ -15,8 +15,11 @@ harvs = {'All_fish_obs','All_fish_obs_v1.2','All_fish_obs_v2',...
     'All_fish_obs_v3','All_fish_obs_v3.2',...
     'All_fish_obs_assessment','All_fish_obs_effective','All_fish_obs_nominal'};
 
+mods = {'FFmsy_creep','FFmsy_nominal','FFmsymax_creep','FFmsymax_nominal',...
+    'FFmsymin_creep','FFmsymin_nominal'};
+
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP/Phase3a/';
-ppath = [pp cfile '/'];
+ppath = [pp cfile '/OneDeg/'];
 if (~isfolder(ppath))
     mkdir(ppath)
 end
@@ -53,10 +56,13 @@ set(groot,'defaultAxesColorOrder',cm10);
 load coastlines;                     %decent looking coastlines
 
 %%
-for i=6:8
-    harv = harvs{i};
+for i=1:length(mods)
+    %harv = harvs{i};
+    harv = ['All_fish_obs_' mods{i}];
     mod = [harv '_ctrlclim_onedeg'];
     load([fpath 'Means_Spinup_ctrlclim_',harv,'_' cfile '.mat']);
+
+    close all
 
     %% Plots in time
     t = 1:length(sp_tmean); %time;
