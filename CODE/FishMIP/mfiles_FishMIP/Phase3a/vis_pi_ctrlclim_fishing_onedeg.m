@@ -11,9 +11,12 @@ cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80
 %fpath=['/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 
-mods = {'All_fish_obs','All_fish_obs_v1.2','All_fish_obs_v2',...
-    'All_fish_obs_v3','All_fish_obs_v3.2',...
-    'All_fishobs_assessment','All_fishobs_effective','All_fishobs_nominal'};
+% mods = {'All_fish_obs','All_fish_obs_v1.2','All_fish_obs_v2',...
+%     'All_fish_obs_v3','All_fish_obs_v3.2',...e lan   sharee 
+%     'All_fishobs_assessment','All_fishobs_effective','All_fishobs_nominal'};
+
+mods = {'FFmsy_creep','FFmsy_nominal','FFmsymax_creep','FFmsymax_nominal',...
+    'FFmsymin_creep','FFmsymin_nominal'};
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/FishMIP/Phase3a/';
 ppath = [pp cfile '/OneDeg/'];
@@ -53,8 +56,12 @@ set(groot,'defaultAxesColorOrder',cm10);
 load coastlines;                     %decent looking coastlines
 
 %%
-for i=6:8
-    mod = mods{i};
+for i=1:length(mods)
+    %harv = harvs{i};
+    mod = ['All_fishobs_' mods{i}];
+    %mod = [harv '_ctrlclim_onedeg'];
+    
+    %mod = mods{i};
 
     load([fpath 'Means_PI_ctrlclim_',mod,'_' cfile '.mat'],'time',...
         'sf_tmean','sp_tmean','sd_tmean',...

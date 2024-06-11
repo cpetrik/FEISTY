@@ -8,8 +8,8 @@ cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80
 fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 
 mods = {'All_fishobs_assessment','All_fishobs_effective','All_fishobs_nominal',...
-    'All_fish_obs_FFmsy_creep','All_fish_obs_FFmsy_nominal','All_fish_obs_FFmsymax_creep',...
-    'All_fish_obs_FFmsymax_nominal','All_fish_obs_FFmsymin_creep','All_fish_obs_FFmsymin_nominal'};
+    'All_fishobs_FFmsy_creep','All_fishobs_FFmsy_nominal','All_fishobs_FFmsymax_creep',...
+    'All_fishobs_FFmsymax_nominal','All_fishobs_FFmsymin_creep','All_fishobs_FFmsymin_nominal'};
 
 for i=4:length(mods)
 
