@@ -123,9 +123,9 @@ figure
 pcolor(aLON,aLAT,test2); shading flat; colorbar;
 colormap('jet')
 
-%% molN/kg --> gWW/m3
-hploss_nmdz_100 = double(jhploss_nmdz_100 * (1/1e-3) * (106/16) * 12.01 * 9);
-hploss_nlgz_100 = double(jhploss_nlgz_100 * (1/1e-3) * (106/16) * 12.01 * 9);
+%% mol m-2 s-1 --> gWW/m2 
+hploss_nmdz_100 = double(jhploss_nmdz_100 * (106/16) * 12.01 * 9);
+hploss_nlgz_100 = double(jhploss_nlgz_100 * (106/16) * 12.01 * 9);
 
 %% viz
 test3 = squeeze(hploss_nmdz_100(:,:,6));
@@ -151,58 +151,73 @@ load coastlines;
 
 %%
 mtp = squeeze(mean(mean(hploss_nmdz_100,2,'omitnan'),1,'omitnan'));
+ltp = squeeze(mean(mean(hploss_nlgz_100,2,'omitnan'),1,'omitnan'));
 
 mzmeso_vint = (mean((hploss_nmdz_100+hploss_nmdz_100),3)); %,'omitnan'));
-test1 = mean(hploss_nmdz_100,3); %,'omitnan');
-test2 = squeeze(hploss_nmdz_100(:,:,6));
+mz1 = mean(hploss_nmdz_100,3); %,'omitnan');
+mz2 = squeeze(hploss_nmdz_100(:,:,6));
+lz1 = mean(hploss_nlgz_100,3); %,'omitnan');
+lz2 = squeeze(hploss_nlgz_100(:,:,6));
 
 ppath='/Users/cpetrik/Petrik Lab Group Dropbox/Colleen Petrik/Princeton/FEISTY/CODE/Figs/PNG/FishMIP/Phase3a/';
 
 figure(10)
-plot(yr,mtp*3600)
+plot(yr,mtp*3600*24,'b'); hold on
+plot(yr,ltp*3600*24,'r');
 
 figure(1)
 axesm ('Robinson','MapLatLimit',clatlim,'MapLonLimit',clonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
-surfm(aLAT,aLON,mzmeso_vint*3600./12.01./9)
+surfm(aLAT,aLON,mzmeso_vint*3600*24./12.01./9)
 colormap('jet')
-caxis([0.02 0.15])
+%caxis([0.02 0.15])
 colorbar
-title('zmeso-vint molC d-1')
+title('zmeso-vint molC m-2 d-1')
 %h=patchm(coastlat,coastlon,'w','FaceColor',[0.75 0.75 0.75]);
 print('-dpng',[ppath 'Map_NAtl_GFDL_15arcmin_jet_HPloss_zmesovint_molC.png'])
 
 figure(11)
 axesm ('Robinson','MapLatLimit',clatlim,'MapLonLimit',clonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
-surfm(aLAT,aLON,log10(mzmeso_vint*3600))
+surfm(aLAT,aLON,log10(mzmeso_vint*3600*24))
 colormap('jet')
-caxis([-1 1.5])
+%caxis([-1 1.5])
 colorbar
-title('zmeso-vint molC d-1')
+title('zmeso-vint gWW m-2 d-1')
 %h=patchm(coastlat,coastlon,'w','FaceColor',[0.75 0.75 0.75]);
 print('-dpng',[ppath 'Map_NAtl_GFDL_15arcmin_jet_HPloss_zmesovint_log10gWW.png'])
 
 figure(2)
-pcolor(aLON,aLAT,mzmeso_vint*3600); shading flat;
+pcolor(aLON,aLAT,log10(mz1*3600*24)); shading flat;
 colormap('jet')
-caxis([0 10])
+caxis([-3.5 0.5])
 colorbar
-title('zmeso-vint molC')
+title('MZ gWW/m2/d')
+print('-dpng',[ppath 'Map_NAtl_GFDL_15arcmin_jet_HPloss_MZ_log10gWW.png'])
 
 figure(3)
-pcolor(aLON,aLAT,test1*3600); shading flat;
+pcolor(aLON,aLAT,log10(lz1*3600*24)); shading flat;
 colormap('jet')
-caxis([0 10])
+caxis([-5 1])
 colorbar
-title('test1')
+title('LZ gWW/m2/d')
+print('-dpng',[ppath 'Map_NAtl_GFDL_15arcmin_jet_HPloss_LZ_log10gWW.png'])
 
 figure(4)
-pcolor(aLON,aLAT,test2*3600); shading flat;
+pcolor(aLON,aLAT,log10(mz2*3600*24*1e3/9)); shading flat;
 colormap('jet')
-caxis([0 10])
+caxis([0 2])
 colorbar
-title('test2')
+title('MZ mgC/m2/d')
+print('-dpng',[ppath 'Map_NAtl_GFDL_15arcmin_jet_HPloss_MZ_log10mgC.png'])
+
+figure(5)
+pcolor(aLON,aLAT,log10(lz2*3600*24*1e3/9)); shading flat;
+colormap('jet')
+caxis([0 2])
+colorbar
+title('LZ mgC/m2/d')
+print('-dpng',[ppath 'Map_NAtl_GFDL_15arcmin_jet_HPloss_LZ_log10mgC.png'])
 
 
 %%
@@ -215,7 +230,7 @@ lgz_long_name     = 'large zooplankton loss to higher preds.integrated in top 10
 lgz_units         = 'gWW m-2 s-1';
 
 %%
-save([fpath 'mom6_cobalt2_HPloss_mdz_lgz_100m_gWW_month_1961_2010.mat'],...
+save([fpath 'mom6_cobalt2_NAtl_HPloss_mdz_lgz_100m_gWW_month_1961_2010.mat'],...
     'time','time_units','yr',...
     'mdz_long_name','lgz_long_name','mdz_units','lgz_units',...
     'aLAT','aLON','hploss_nmdz_100','hploss_nlgz_100','-v7.3');

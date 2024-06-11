@@ -117,9 +117,9 @@ figure
 pcolor(LON,LAT,test2); shading flat; colorbar;
 colormap('jet')
 
-%% molN/kg --> gC/m3
-hploss_nmdz_100 = double(jhploss_nmdz_100 * (1/1e-3) * (106/16) * 12.01);
-hploss_nlgz_100 = double(jhploss_nlgz_100 * (1/1e-3) * (106/16) * 12.01);
+%% molN/m2 --> gC/m3
+hploss_nmdz_100 = double(jhploss_nmdz_100 * (106/16) * 12.01);
+hploss_nlgz_100 = double(jhploss_nlgz_100 * (106/16) * 12.01);
 
 %% viz
 test3 = squeeze(hploss_nmdz_100(:,:,6));
@@ -145,58 +145,73 @@ load coastlines;
 
 %%
 mtp = squeeze(mean(mean(hploss_nmdz_100,2,'omitnan'),1,'omitnan'));
+ltp = squeeze(mean(mean(hploss_nlgz_100,2,'omitnan'),1,'omitnan'));
 
 mzmeso_vint = (mean((hploss_nmdz_100+hploss_nmdz_100),3)); %,'omitnan'));
-test1 = mean(hploss_nmdz_100,3); %,'omitnan');
-test2 = squeeze(hploss_nmdz_100(:,:,6));
+mz1 = mean(hploss_nmdz_100,3); %,'omitnan');
+mz2 = squeeze(hploss_nmdz_100(:,:,6));
+lz1 = mean(hploss_nlgz_100,3); %,'omitnan');
+lz2 = squeeze(hploss_nlgz_100(:,:,6));
 
 ppath='/Users/cpetrik/Petrik Lab Group Dropbox/Colleen Petrik/Princeton/FEISTY/CODE/Figs/PNG/FishMIP/Phase3a/';
 
 figure(10)
-plot(yr,mtp*3600)
+plot(yr,mtp*3600*24,'b'); hold on
+plot(yr,ltp*3600*24,'r');
 
 figure(1)
 axesm ('Robinson','MapLatLimit',clatlim,'MapLonLimit',clonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
-surfm(LAT,LON,mzmeso_vint*3600./12.01)
+surfm(LAT,LON,mzmeso_vint*3600*24./12.01)
 colormap('jet')
-caxis([0.02 0.15])
+caxis([0 0.01])
 colorbar
-title('zmeso-vint molC d-1')
+title('zmeso-vint molC m-2 d-1')
 %h=patchm(coastlat,coastlon,'w','FaceColor',[0.75 0.75 0.75]);
-print('-dpng',[ppath 'Map_NAtl_GFDL_15arcmin_jet_HPloss_zmesovint_molC.png'])
+print('-dpng',[ppath 'Map_GFDL_15arcmin_jet_HPloss_zmesovint_molC.png'])
 
 figure(11)
 axesm ('Robinson','MapLatLimit',clatlim,'MapLonLimit',clonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
-surfm(LAT,LON,log10(mzmeso_vint*3600))
+surfm(LAT,LON,log10(mzmeso_vint*3600*24*9))
 colormap('jet')
-caxis([-1 1.5])
+caxis([-2 1])
 colorbar
-title('zmeso-vint log_1_0 gC d-1')
+title('zmeso-vint gWW m-2 d-1')
 %h=patchm(coastlat,coastlon,'w','FaceColor',[0.75 0.75 0.75]);
-print('-dpng',[ppath 'Map_NAtl_GFDL_15arcmin_jet_HPloss_zmesovint_log10gC.png'])
+print('-dpng',[ppath 'Map_GFDL_15arcmin_jet_HPloss_zmesovint_log10gWW.png'])
 
 figure(2)
-pcolor(LON,LAT,mzmeso_vint*3600); shading flat;
-colormap('jet')
-caxis([0 10])
+pcolor(LON,LAT,log10(mz1*3600*24*9)); shading flat;
+cmocean('tempo')
+caxis([-3.5 0.5])
 colorbar
-title('zmeso-vint molC')
+title('MZ gWW/m2/d')
+print('-dpng',[ppath 'Map_GFDL_15arcmin_jet_HPloss_MZ_log10gWW.png'])
 
 figure(3)
-pcolor(LON,LAT,test1*3600); shading flat;
-colormap('jet')
-caxis([0 10])
+pcolor(LON,LAT,log10(lz1*3600*24*9)); shading flat;
+cmocean('tempo')
+caxis([-5 1])
 colorbar
-title('test1')
+title('LZ gWW/m2/d')
+print('-dpng',[ppath 'Map_GFDL_15arcmin_jet_HPloss_LZ_log10gWW.png'])
 
 figure(4)
-pcolor(LON,LAT,test2*3600); shading flat;
+pcolor(LON,LAT,log10(mz1*3600*24*1e3)); shading flat;
 colormap('jet')
-caxis([0 10])
+caxis([0 2])
 colorbar
-title('test2')
+title('MZ mgC/m2/d')
+print('-dpng',[ppath 'Map_GFDL_15arcmin_jet_HPloss_MZ_log10mgC.png'])
+
+figure(5)
+pcolor(LON,LAT,log10(lz1*3600*24*1e3)); shading flat;
+colormap('jet')
+caxis([0 2])
+colorbar
+title('LZ mgC/m2/d')
+print('-dpng',[ppath 'Map_GFDL_15arcmin_jet_HPloss_LZ_log10mgC.png'])
 
 
 %%
