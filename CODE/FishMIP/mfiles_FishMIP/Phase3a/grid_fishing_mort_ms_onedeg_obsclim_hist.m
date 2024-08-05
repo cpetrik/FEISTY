@@ -84,6 +84,7 @@ for i=4:length(alt)
     surfm(LAT,LON,testF)
     caxis([0 0.6])
     h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+    title('F')
 
     figure
     axesm ('Robinson','MapLatLimit',clatlim,'MapLonLimit',clonlim,'frame','on',...
@@ -91,6 +92,7 @@ for i=4:length(alt)
     surfm(LAT,LON,testP)
     caxis([0 0.6])
     h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+    title('P')
 
     figure
     axesm ('Robinson','MapLatLimit',clatlim,'MapLonLimit',clonlim,'frame','on',...
@@ -98,6 +100,7 @@ for i=4:length(alt)
     surfm(LAT,LON,testD)
     caxis([0 0.6])
     h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+    title('D')
 
     %% scale with Fmsy and temp
     % fm = F/Fmsy, need to mult by Fmsy ~= 0.3

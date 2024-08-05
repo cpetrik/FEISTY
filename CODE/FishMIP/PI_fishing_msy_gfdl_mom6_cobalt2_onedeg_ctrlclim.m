@@ -5,7 +5,7 @@ function PI_fishing_msy_gfdl_mom6_cobalt2_onedeg_ctrlclim()
 alt = {'FFmsy_creep','FFmsy_nominal','FFmsymax_creep','FFmsymax_nominal',...
     'FFmsymin_creep','FFmsymin_nominal'};
 %! Set fishing rate
-for fv=1:length(alt)
+for fv=5:length(alt)
     vers = alt{fv};
     % Assessment method of estimating
     load(['/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/fishing/',vers,'/',...
