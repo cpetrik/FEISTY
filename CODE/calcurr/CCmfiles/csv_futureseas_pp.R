@@ -1,12 +1,6 @@
 ################################################################################
 
-# GLMs of recruitment var as a function of LH strat, environ, fishing
-# LH classifications with k-means of 5 clusters
-# Use imputed values for missing values of Fecundity & tmax
-# Exclude Fecundity, PCI, and tm 
-# RAM v4.4 dataset
-# R/SSB
-# Use cv of Fest
+# Combine FEISTY FutureSeas output into one table
 
 ################################################################################
 
