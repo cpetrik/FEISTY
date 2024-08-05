@@ -19,17 +19,23 @@ load([cpath 'Data_grid_gfdl-mom6-cobalt2_obsclim_deptho_15arcmin.mat'])
 %[cpath 'gfdl-mom6-cobalt2_obsclim_zmeso100_15arcmin_global_monthly_1961_2010.mat'];
 %load([cpath 'Data_gfdl_mom6_cobalt2_obsclim_15arcmin_daily_2010.mat'])
 
-%% Are they the same orientation? - No
+%% Are they the same orientation? - No: flipud & transpose
 
 lat2 = flipud(lat);
 lon2 = flipud(lon);
 lat3 = lat2';
 lon3 = lon2';
 
+% shift lon
+lat4 = lat3;
+lon4 = lon3;
+lon4(lon3<-180) = lon3(lon3<-180) + 360; %lon4 = lon3 + 119.75;
+
+%%
 figure(1)
-pcolor(lat2'); shading flat;
+pcolor(lat4); shading flat;
 colorbar
-title('lat')
+title('lat4')
 
 figure(2)
 pcolor(LAT); shading flat;
@@ -37,9 +43,9 @@ colorbar
 title('LAT')
 
 figure(3)
-pcolor(lon2'); shading flat;
+pcolor(lon4); shading flat;
 colorbar
-title('lon')
+title('lon4')
 
 figure(4)
 pcolor(LON); shading flat;
@@ -47,17 +53,92 @@ colorbar
 title('LON')
 
 figure(5)
-pcolor(LON,LAT,deptho); shading flat
-colorbar
-title('depth')
-
-%% shift lon
-lon4 = lon3 + 119.75;
-
-figure(6)
 pcolor(lon4); shading flat;
 colorbar
 title('lon4')
+
+figure(6)
+pcolor(deptho); shading flat
+colorbar
+title('depth')
+
+%% THIS IS THE WAY
+% D = griddedInterpolant(fliplr(lon4),fliplr(lat3),fliplr(dep3)); % fn of old grid
+% dep4 = D(fliplr(LON),fliplr(LAT));                   % interp on new grid
+
+%%
+t=1; 
+zm = nmdz_100(:,:,t);
+zm2 = fliplr(zm);    % flippingLR matches orientation of lat4, LAT & LON Deptho
+% zm2 = flipud(zm);
+% zm3 = zm2';
+
+figure
+pcolor(zm); shading flat
+colorbar
+title('zm')
+
+figure
+pcolor(zm2); shading flat
+colorbar
+title('zm2')
+
+%% Sort lat and lon in ascending order
+% flipLR both to get lat ascending
+lat5 = fliplr(lat4);
+lon5 = fliplr(lon4);
+zm5 = zm;
+
+% need to move rows of lon to get ascending
+%neg lon starts at row 484
+lon6 = lon5(484:end,:);
+lon6(958:1440,:) = lon5(1:483,:);
+
+lat6 = lat5(484:end,:);
+lat6(958:1440,:) = lat5(1:483,:);
+
+zm6 = zm5(484:end,:);
+zm6(958:1440,:) = zm5(1:483,:);
+
+%%
+figure
+pcolor(lat6); shading flat
+colorbar
+title('lat6')
+
+figure
+pcolor(lon6); shading flat
+colorbar
+title('lon6')
+
+figure
+pcolor(zm6); shading flat
+colorbar
+title('zm6')
+
+%% Interp
+%Error using griddedInterpolant
+%Sample points must be sorted in ascending order.
+
+F1 = griddedInterpolant(lon6,lat6,zm6);
+test1 = F1(fliplr(LON),fliplr(LAT));
+
+%%
+close all
+figure(9)
+pcolor(LON,LAT,fliplr(test1)); shading flat
+colorbar
+title('test1')
+
+figure(10)
+pcolor(LON,LAT,deptho); shading flat
+colorbar
+title('deptho')
+
+lidZ = find(isnan(fliplr(test1)));
+lidD = find(isnan(fliplr(deptho)));
+
+%Successfully regridded, but 1/4 grids do not align !!!!!!!!!
 
 %%
 [ni,nj] = size(lon4); %lat,lon 1080x1440
@@ -72,46 +153,6 @@ MZ = zeros(zi,zj,nt);
 LZ = MZ;
 hpMZ = MZ;
 hpLZ = MZ;
-
-%% Test on depth
-% F = scatteredInterpolant(x,y,v); % fn of old grid
-% vq = F(xq,yq);                   % interp on new grid
-% F = griddedInterpolant(x,y,v);   % fn of old grid
-% vq = F(xq,yq);                   % interp on new grid
-
-F = griddedInterpolant(fliplr(LON),fliplr(LAT),fliplr(deptho)); % fn of old grid
-dep2 = F(fliplr(lon4),fliplr(lat3));                   % interp on new grid
-
-%%
-close all
-figure(7)
-pcolor(LON,LAT,deptho); shading flat
-colorbar
-title('depth')
-
-figure(8)
-pcolor(lon4,lat3,fliplr(dep2)); shading flat
-colorbar
-title('depth2')
-
-%% Test going in opposite direction - THIS THE WAY
-dep2 = fliplr(dep2);
-dep3 = log10(abs(dep2) +1);
-D = griddedInterpolant(fliplr(lon4),fliplr(lat3),fliplr(dep3)); % fn of old grid
-dep4 = D(fliplr(LON),fliplr(LAT));                   % interp on new grid
-
-%%
-close all
-figure(9)
-pcolor(LON,LAT,fliplr(dep4)); shading flat
-colorbar
-title('dep4')
-
-figure(10)
-pcolor(lon4,lat3,dep3); shading flat
-colorbar
-title('dep3')
-
 
 %%
 

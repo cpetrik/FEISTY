@@ -3,11 +3,11 @@
 % zmeso all depths, integrate top 100m
 % 1/4 grid from ISIMIP
 
-clear all
+clear 
 close all
 
 %fpath='/Volumes/MIP/Fish-MIP/Phase3/QuarterDeg/';
-fpath='/Volumes/petrik-lab/Fish-MIP/Phase3/QuarterDeg/';
+fpath='/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/QuarterDeg/';
 
 %% zmeso
 ncdisp([fpath 'gfdl-mom6-cobalt2_obsclim_zmeso_15arcmin_global_monthly_1961_2010.nc'])

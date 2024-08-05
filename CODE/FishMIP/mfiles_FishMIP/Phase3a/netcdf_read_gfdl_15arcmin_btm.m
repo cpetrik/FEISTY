@@ -3,11 +3,11 @@
 % Raw units provided by GFDL
 % Before conversion by Matthias
 
-clear all
+clear 
 close all
 
 %fpath='/Volumes/MIP/Fish-MIP/Phase3/GFDL_reanalysis/';
-fpath='/Volumes/petrik-lab/Fish-MIP/Phase3/GFDL_reanalysis/';
+fpath='/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/GFDL_reanalysis/';
 
 %% one file
 ncdisp([fpath '20000101.ocean_cobalt_btm_FishMIP.nc'])
@@ -75,57 +75,41 @@ ncdisp([fpath '20000101.ocean_cobalt_btm_FishMIP.nc'])
 % units          = 'meters'
 
 %%
-ncid = netcdf.open([fpath 'gfdl-esm4_r1i1p1f1_historical_zmeso_onedeg_global_monthly_1850_2014.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath '20000101.ocean_cobalt_btm_FishMIP.nc'],'NC_NOWRITE');
 
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 
-for i = 1:(nvars-1)
+for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
     eval([ varname ' = netcdf.getVar(ncid,i-1);']);
     eval([ varname '(' varname ' == 1.000000020040877e+20) = NaN;']);
 end
-
-
-%% Time
-yr = ((time+1)/12)+1601;
-runs = find(yr>1950 & yr<=2015);
-z100 = find(lev <= 100);
-
-%% Get subset of time & depth
-for n = nvars
-    varname = netcdf.inqVar(ncid, n-1);
-    zmeso = netcdf.getVar(ncid,n-1, [0,0,0,runs(1)-1],[360 180 length(z100) length(runs)]);
-    
-end
 netcdf.close(ncid);
-zmeso(zmeso >= 1.00e+20) = NaN;
 
-%% Subset of thkcello
-tcid = netcdf.open([fpath 'gfdl-esm4_r1i1p1f1_historical_thkcello_onedeg_global_monthly_1850_2014.nc'],'NC_NOWRITE');
-[tdims,tvars,tgatts,unlimdimid] = netcdf.inq(tcid);
-
-% just last var = thkcello
-for t = tvars
-    varname = netcdf.inqVar(tcid, t-1);
-    thkcello = netcdf.getVar(tcid,t-1, [0,0,0,runs(1)-1],[360 180 length(z100) length(runs)]);
-end
-netcdf.close(tcid);
-thkcello(thkcello >= 1.00e+20) = NaN;
-
-%% Integrate top 100 m
-zmeso_100 = squeeze(nansum((zmeso.*thkcello),3));
 
 %%
-clear zmeso thkcello
+test=(double(squeeze(fndet_btm(:,:,6))));
 
-units_orig = units;
-units_vint = 'mol m-2';
+figure
+pcolor(test); shading flat;
+title('pcolor(test)')
 
-% save([fpath 'gfdl_hist_zmeso_100_monthly_1950_2014.mat'],'zmeso_100','yr',...
-%     'long_name','standard_name','units_orig','units_vint','lat','lon',...
-%     'runs','z100','lev');
-%
+%%
+cpath = '/Volumes/petrik-lab/Feisty/GCM_Data/MOM6-COBALTv2_reanalysis/';
+ncid = netcdf.open([cpath 'full.ocean_static_FishMIP.nc'],'NC_NOWRITE');
 
+[ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 
+for i = 1:nvars
+    varname = netcdf.inqVar(ncid, i-1);
+    eval([ varname ' = netcdf.getVar(ncid,i-1);']);
+    eval([ varname '(' varname ' == 1.000000020040877e+20) = NaN;']);
+end
+netcdf.close(ncid);
 
+geolat = double(geolat);
+geolon = double(geolon);
+figure
+pcolor(geolat,geolon,test); shading flat;
+title('pcolor(geolat,geolon,test)')
 

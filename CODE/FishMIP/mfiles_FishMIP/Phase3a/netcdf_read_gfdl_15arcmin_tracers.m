@@ -7,7 +7,7 @@ clear all
 close all
 
 %fpath='/Volumes/MIP/Fish-MIP/Phase3/GFDL_reanalysis/';
-fpath='/Volumes/petrik-lab/Fish-MIP/Phase3/GFDL_reanalysis/';
+fpath='/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/GFDL_reanalysis/';
 
 %% one file
 ncdisp([fpath '20000101.ocean_cobalt_tracers_month_z_FishMIP.nc'])

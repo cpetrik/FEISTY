@@ -3,11 +3,11 @@
 % Raw units provided by GFDL
 % Before conversion by Matthias
 
-clear all
+clear 
 close all
 
 %fpath='/Volumes/MIP/Fish-MIP/Phase3/GFDL_reanalysis/';
-fpath='/Volumes/petrik-lab/Fish-MIP/Phase3/GFDL_reanalysis/';
+fpath='/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/GFDL_reanalysis/';
 
 %% one file
 ncdisp([fpath '20000101.ocean_n_budget_FishMIP.nc'])
@@ -77,23 +77,15 @@ ncid = netcdf.open([fpath '20000101.ocean_n_budget_FishMIP.nc'],'NC_NOWRITE');
 
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 
-for i = 1:(nvars-1)
+for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
     eval([ varname ' = netcdf.getVar(ncid,i-1);']);
     eval([ varname '(' varname ' == 1.000000020040877e+20) = NaN;']);
 end
-
-
-%% Time
-
+	netcdf.close(ncid);
 
 
 
-% save([fpath 'gfdl_hist_zmeso_100_monthly_1950_2014.mat'],'zmeso_100','yr',...
-%     'long_name','standard_name','units_orig','units_vint','lat','lon',...
-%     'runs','z100','lev');
-%
-%% Map
 [gLAT,gLON] = meshgrid(lat,lon);
 
 clatlim=[-90 90];
@@ -116,7 +108,7 @@ colorbar
 title('int-poc')
 %text(-2.5,2.25,num2str(qint_poc),'HorizontalAlignment','left')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-print('-dpng',[ppath 'Map_GFDL_CMIP6_1deg_from_ESGF_jet_intpoc.png'])
+%print('-dpng',[ppath 'Map_GFDL_CMIP6_1deg_from_ESGF_jet_intpoc.png'])
 
 
 
