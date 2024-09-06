@@ -13,7 +13,7 @@ qpath='/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/QuarterDeg/';
 spath = '/Users/cpetrik/Petrik Lab Group Dropbox/Colleen Petrik/Fish-MIP/Phase3/regular_grid_15arcmin/';
 
 %% zmeso regular grid
-ncdisp([fpath '19710101.ocean_cobalt_tracers_month_z_FishMIP_CP_remapped.nc'])
+ncdisp([fpath '20100101.ocean_cobalt_tracers_month_z_FishMIP_CP_remapped.nc'])
 
 % Global Attributes:
 % CDI              = 'Climate Data Interface version 2.4.2 (https://mpimet.mpg.de/cdi)'
@@ -101,7 +101,7 @@ ncdisp([fpath '19710101.ocean_cobalt_tracers_month_z_FishMIP_CP_remapped.nc'])
 %                        time_avg_info = 'average_T1,average_T2,average_DT'
 
 %% 
-ncid = netcdf.open([fpath '19710101.ocean_cobalt_tracers_month_z_FishMIP_CP_remapped.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath '20100101.ocean_cobalt_tracers_month_z_FishMIP_CP_remapped.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 
 for i = 1:(nvars-2)
@@ -110,10 +110,19 @@ for i = 1:(nvars-2)
     eval([ varname '(' varname ' == 1.000000020040877e+20) = NaN;']);
 end
 
+%% Get top 100 m
+z100 = find(z_l <= 100);
+
+ni = length(lon);
+nj = length(lat);
+nk = length(z_l);
+nt = length(time);
+
 %%
 for i = (nvars-1):nvars
     varname = netcdf.inqVar(ncid, i-1);
-    eval([ varname ' = netcdf.getVar(ncid,i-1);']);
+    %zmeso = netcdf.getVar(ncid,n-1, [0,0,0,runs(1)-1],[360 180 length(z200) length(runs)]);
+    eval([ varname ' = netcdf.getVar(ncid,i-1, [0,0,0,0],[ni nj length(z100) nt]);']);
     eval([ varname '(' varname ' == 1.000000020040877e+20) = NaN;']);
 end
 netcdf.close(ncid);
@@ -163,6 +172,136 @@ pcolor(Ltcomb); shading flat
 
 figure
 pcolor(deptho); shading flat
+
+%% Integrate top 100 m
+%load([ 'gfdl-mom6-cobalt2_ctrlclim_thkcello_15arcmin_global_fixed.nc']) 
+ncid = netcdf.open([qpath 'gfdl-mom6-cobalt2_ctrlclim_thkcello_15arcmin_global_fixed.nc'],'NC_NOWRITE');
+[ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
+
+for i = 1:(nvars)
+    varname = netcdf.inqVar(ncid, i-1);
+    eval([ varname ' = netcdf.getVar(ncid,i-1);']);
+    eval([ varname '(' varname ' == 1.000000020040877e+20) = NaN;']);
+end
+netcdf.close(ncid);
+
+save([qpath 'gfdl-mom6-cobalt2_ctrlclim_thkcello_15arcmin_global_fixed.mat'],...
+    'thkcello')
+
+%%
+figure
+subplot(3,3,1)
+pcolor(Ltcomb); shading flat
+
+tk1 = squeeze(thkcello(:,:,1));
+tk2 = squeeze(thkcello(:,:,2));
+tk3 = squeeze(thkcello(:,:,3));
+tk4 = squeeze(thkcello(:,:,4));
+tk5 = squeeze(thkcello(:,:,5));
+tk6 = squeeze(thkcello(:,:,6));
+tk7 = squeeze(thkcello(:,:,7));
+
+subplot(3,3,2)
+pcolor(tk1); shading flat
+colorbar; clim([0 30]);
+subplot(3,3,3)
+pcolor(tk2); shading flat
+colorbar; clim([0 30]);
+subplot(3,3,4)
+pcolor(tk3); shading flat
+colorbar; clim([0 30]);
+subplot(3,3,5)
+pcolor(tk4); shading flat
+colorbar; clim([0 30]);
+subplot(3,3,6)
+pcolor(tk5); shading flat
+colorbar; clim([0 30]);
+subplot(3,3,7)
+pcolor(tk6); shading flat
+colorbar; clim([0 30]);
+subplot(3,3,8)
+pcolor(tk7); shading flat
+colorbar; clim([0 30]);
+
+%% thkcello is the same everywhere, can take mean
+thk = (mean(thkcello,1,'omitnan'));
+thk = (mean(thk,2,'omitnan'));
+
+thk_mat = repmat(thk,ni,nj,1,nt);
+thk_100 = thk_mat(:,:,z100,:);
+
+%% Integrate
+mz100 = double(squeeze(sum(nmdz .* thk_100 , 3, 'omitnan')));
+lz100 = double(squeeze(sum(nlgz .* thk_100 , 3, 'omitnan')));
+
+omask = squeeze(mz100(:,:,6));
+omask(omask<=0) = nan;
+omask(omask>0) = 1;
+omask = repmat(omask,1,1,nt);
+
+mz100 = mz100 .* omask;
+lz100 = lz100 .* omask;
+
+%%
+testM2 = (squeeze(mz100(:,:,6)));
+testL2 = (squeeze(lz100(:,:,7)));
+
+figure
+pcolor(testM2); shading flat; colorbar; 
+
+figure
+pcolor(testL2); shading flat; colorbar; 
+
+%% Loop over time to re-orient and save
+clear testM testL
+
+[ni,nj,nt] = size(mz100);
+
+nmdz_100 = nan*ones(ni,nj,nt);
+nlgz_100 = nan*ones(ni,nj,nt);
+
+for t=1:nt
+    testM = double(squeeze(mz100(:,:,t)));
+    testL = double(squeeze(lz100(:,:,t)));
+
+    Mtsplit1 = testM(1:720,:);
+    Mtsplit2 = testM(721:end,:);
+    Mtflip1 = fliplr(Mtsplit1);
+    Mtflip2 = fliplr(Mtsplit2);
+    Mtcomb = [Mtflip2;Mtflip1];
+
+    Ltsplit1 = testL(1:720,:);
+    Ltsplit2 = testL(721:end,:);
+    Ltflip1 = fliplr(Ltsplit1);
+    Ltflip2 = fliplr(Ltsplit2);
+    Ltcomb = [Ltflip2;Ltflip1];
+
+    nmdz_100(:,:,t) = Mtcomb;
+    nlgz_100(:,:,t) = Ltcomb;
+
+    clear Mtsplit1 Mtsplit2 Mtflip1 Mtflip2 Mtcomb
+    clear Ltsplit1 Ltsplit2 Ltflip1 Ltflip2 Ltcomb
+
+end
+
+%%
+test1 = double(squeeze(nmdz_100(:,:,5)));
+test2 = double(squeeze(nlgz_100(:,:,12)));
+
+figure
+pcolor(test1); shading flat; colorbar; 
+
+figure
+pcolor(test2); shading flat; colorbar;
+
+figure
+pcolor(deptho); shading flat
+% 
+% %% save
+% save([fpath '19590101-20101231.ocean_cobalt_fluxes_int_FishMIP_CP_remapped.mat'],...
+%     'hploss_nmdz_100','hploss_nlgz_100','time','time_units',...
+%     'nmdz_long_name','nmdz_units','nlgz_long_name','nlgz_units','-v7.3')
+
 
 
 
