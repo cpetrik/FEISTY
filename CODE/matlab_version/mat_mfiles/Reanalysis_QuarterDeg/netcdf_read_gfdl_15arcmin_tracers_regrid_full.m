@@ -8,12 +8,15 @@ close all
 
 fpath='/Volumes/petrik-lab/jabrzenski/Remapping_netCDF/FLUX/';
 qpath='/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/QuarterDeg/';
+spath='/Volumes/petrik-lab/Feisty/GCM_Data/MOM6-COBALTv2_reanalysis/';
 
 %%
 nlgz_units         = 'molN/kg';
-nmdz_units         = 'mol/kg';
+nmdz_units         = 'molN/kg';
 lz100_units        = 'gC/m2';
 mz100_units        = 'gC/m2';
+lz100_long_name    = 'large zooplankton biomass integrated over top 100m';
+mz100_long_name    = 'medium zooplankton biomass integrated over top 100m';
 missing_value = 1.000000020040877e+20;
 
 %% Cell thickness
@@ -24,11 +27,12 @@ nt = 12;
 load([qpath 'gfdl-mom6-cobalt2_ctrlclim_thkcello_15arcmin_global_fixed.mat'])
 
 % thkcello is the same everywhere, can take mean
+thkcello(thkcello >= 1.00e+20) = NaN;
 thk = (mean(thkcello,1,'omitnan'));
 thk = (mean(thk,2,'omitnan'));
 
 thk_mat = repmat(thk,ni,nj,1,nt);
-thk_100 = thk_mat(:,:,z100,:);
+%thk_100 = thk_mat(:,:,z100,:);
 
 %% loop over files, each one year (12 mo)
 yr = 1961:2010;
@@ -42,7 +46,7 @@ for y = 1:length(yr)
     Y = yr(y);
 
     %%
-    ncid = netcdf.open([fpath num2str(Y) '.ocean_cobalt_tracers_month_z_FishMIP_remapped.nc'],'NC_NOWRITE');
+    ncid = netcdf.open([fpath num2str(Y) '0101.ocean_cobalt_tracers_month_z_FishMIP_remapped.nc'],'NC_NOWRITE');
     [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 
     for i = 1:(nvars-2)
@@ -54,7 +58,8 @@ for y = 1:length(yr)
     %% Get top 100 m
     z100 = find(z_l <= 100);
     nk = length(z_l);
-    
+    thk_100 = thk_mat(:,:,z100,:);
+
     %%
     for i = (nvars-1):nvars
         varname = netcdf.inqVar(ncid, i-1);
@@ -117,23 +122,25 @@ for y = 1:length(yr)
 end %yrs
 
 %%
-test1 = double(squeeze(nmdz_100(:,:,500)));
-test2 = double(squeeze(nlgz_100(:,:,360)));
+test1 = double(squeeze(nmdz_100(:,:,6)))./ 12.01;
+test2 = double(squeeze(nlgz_100(:,:,12)))./ 12.01;
 test3 = double(squeeze(thkcello(:,:,5)));
 
 figure
 pcolor(test1); shading flat; colorbar;
+clim([0 0.15])
 
 figure
 pcolor(test2); shading flat; colorbar;
+clim([0 0.15])
 
 figure
 pcolor(test3); shading flat
 
 %% save
-% save([fpath '19610101-20101231.ocean_cobalt_tracers_int100_FishMIP_remapped.mat'],...
-%     'nmdz_100','nlgz_100','time','time_units',...
-%     'nmdz_units','nlgz_units','nmdz_100_units','nlgz_100_units','-v7.3')
+save([spath '19610101-20101231.ocean_cobalt_tracers_int100_FishMIP_remapped.mat'],...
+    'nmdz_100','nlgz_100','mz100_long_name','lz100_long_name',...
+    'nmdz_units','nlgz_units','lz100_units','mz100_units','-v7.3')
 
 
 

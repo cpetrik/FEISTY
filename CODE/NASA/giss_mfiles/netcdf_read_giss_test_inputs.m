@@ -1,6 +1,6 @@
 % Read NASA GISS output netcdfs
 
-clear 
+clear
 close all
 
 fpath='/Volumes/petrik-lab/Feisty/GCM_Data/GISS/VolMIP/';
@@ -24,45 +24,45 @@ ncdisp([fpath 'APR1925.obio_ijlVolMIPCarbANL1924Control.nc'])
 %            zoc   = 40
 %            zoce  = 40
 % Variables:
-%     lono     
+%     lono
 %            Size:       288x1
 %            Dimensions: lono
 %            Datatype:   single
 %            Attributes:
 %                        units = 'degrees_east'
-%     lono2    
+%     lono2
 %            Size:       288x1
 %            Dimensions: lono2
 %            Datatype:   single
 %            Attributes:
 %                        units = 'degrees_east'
-%     lato     
+%     lato
 %            Size:       180x1
 %            Dimensions: lato
 %            Datatype:   single
 %            Attributes:
 %                        units = 'degrees_north'
-%     lato2    
+%     lato2
 %            Size:       180x1
 %            Dimensions: lato2
 %            Datatype:   single
 %            Attributes:
 %                        units = 'degrees_north'
-%     zoc      
+%     zoc
 %            Size:       40x1
 %            Dimensions: zoc
 %            Datatype:   single
 %            Attributes:
 %                        units    = 'm'
 %                        positive = 'down'
-%     zoce     
+%     zoce
 %            Size:       40x1
 %            Dimensions: zoce
 %            Datatype:   single
 %            Attributes:
 %                        units    = 'm'
 %                        positive = 'down'
-%     avgq     
+%     avgq
 %            Size:       288x180x40
 %            Dimensions: lono,lato,zoc
 %            Datatype:   single
@@ -70,7 +70,7 @@ ncdisp([fpath 'APR1925.obio_ijlVolMIPCarbANL1924Control.nc'])
 %                        units         = 'quanta/m2/s'
 %                        long_name     = 'Mean daily irradiance'
 %                        missing_value = -1.000000015047466e+30
-%     diatwss  
+%     diatwss
 %            Size:       288x180x40
 %            Dimensions: lono,lato,zoc
 %            Datatype:   single
@@ -78,7 +78,7 @@ ncdisp([fpath 'APR1925.obio_ijlVolMIPCarbANL1924Control.nc'])
 %                        units         = 'm/s'
 %                        long_name     = 'diatwss'
 %                        missing_value = -1.000000015047466e+30
-%     chlowss  
+%     chlowss
 %            Size:       288x180x40
 %            Dimensions: lono,lato,zoc
 %            Datatype:   single
@@ -86,7 +86,7 @@ ncdisp([fpath 'APR1925.obio_ijlVolMIPCarbANL1924Control.nc'])
 %                        units         = 'm/s'
 %                        long_name     = 'chlowss'
 %                        missing_value = -1.000000015047466e+30
-%     cyanwss  
+%     cyanwss
 %            Size:       288x180x40
 %            Dimensions: lono,lato,zoc
 %            Datatype:   single
@@ -94,7 +94,7 @@ ncdisp([fpath 'APR1925.obio_ijlVolMIPCarbANL1924Control.nc'])
 %                        units         = 'm/s'
 %                        long_name     = 'cyanwss'
 %                        missing_value = -1.000000015047466e+30
-%     coccwss  
+%     coccwss
 %            Size:       288x180x40
 %            Dimensions: lono,lato,zoc
 %            Datatype:   single
@@ -126,7 +126,7 @@ ncdisp([fpath 'APR1925.obio_ijlVolMIPCarbANL1924Control.nc'])
 %                        units         = 'm/s'
 %                        long_name     = 'idetwsdet'
 %                        missing_value = -1.000000015047466e+30
-%     diatpp   
+%     diatpp
 %            Size:       288x180x40
 %            Dimensions: lono,lato,zoc
 %            Datatype:   single
@@ -134,7 +134,7 @@ ncdisp([fpath 'APR1925.obio_ijlVolMIPCarbANL1924Control.nc'])
 %                        units         = 'mg,C/m2/day'
 %                        long_name     = 'diatpp'
 %                        missing_value = -1.000000015047466e+30
-%     chlopp   
+%     chlopp
 %            Size:       288x180x40
 %            Dimensions: lono,lato,zoc
 %            Datatype:   single
@@ -142,7 +142,7 @@ ncdisp([fpath 'APR1925.obio_ijlVolMIPCarbANL1924Control.nc'])
 %                        units         = 'mg,C/m2/day'
 %                        long_name     = 'chlopp'
 %                        missing_value = -1.000000015047466e+30
-%     cyanpp   
+%     cyanpp
 %            Size:       288x180x40
 %            Dimensions: lono,lato,zoc
 %            Datatype:   single
@@ -150,7 +150,7 @@ ncdisp([fpath 'APR1925.obio_ijlVolMIPCarbANL1924Control.nc'])
 %                        units         = 'mg,C/m2/day'
 %                        long_name     = 'cyanpp'
 %                        missing_value = -1.000000015047466e+30
-%     coccpp   
+%     coccpp
 %            Size:       288x180x40
 %            Dimensions: lono,lato,zoc
 %            Datatype:   single
@@ -200,157 +200,157 @@ ncdisp([fpath 'APR1925.obio_ijVolMIPCarbANL1924Control.nc'])
 %            lato  = 180
 %            lato2 = 180
 % Variables:
-%     lono         
+%     lono
 %            Size:       288x1
 %            Dimensions: lono
 %            Datatype:   single
 %            Attributes:
 %                        units = 'degrees_east'
-%     lono2        
+%     lono2
 %            Size:       288x1
 %            Dimensions: lono2
 %            Datatype:   single
 %            Attributes:
 %                        units = 'degrees_east'
-%     lato         
+%     lato
 %            Size:       180x1
 %            Dimensions: lato
 %            Datatype:   single
 %            Attributes:
 %                        units = 'degrees_north'
-%     lato2        
+%     lato2
 %            Size:       180x1
 %            Dimensions: lato2
 %            Datatype:   single
 %            Attributes:
 %                        units = 'degrees_north'
-%     oij_pH       
+%     oij_pH
 %            Size:       288x180
 %            Dimensions: lono,lato
 %            Datatype:   single
 %            Attributes:
 %                        units     = 'pH units'
 %                        long_name = 'ocean surface pH'
-%     oij_dayl     
+%     oij_dayl
 %            Size:       288x180
 %            Dimensions: lono,lato
 %            Datatype:   single
 %            Attributes:
 %                        units     = 'timesteps'
 %                        long_name = 'Daylight length'
-%     oij_diat     
+%     oij_diat
 %            Size:       288x180
 %            Dimensions: lono,lato
 %            Datatype:   single
 %            Attributes:
 %                        units     = 'mg/m3'
 %                        long_name = 'Surface ocean Diatoms'
-%     oij_chlo     
+%     oij_chlo
 %            Size:       288x180
 %            Dimensions: lono,lato
 %            Datatype:   single
 %            Attributes:
 %                        units     = 'mg/m3'
 %                        long_name = 'Surface ocean Chlorophytes'
-%     oij_cyan     
+%     oij_cyan
 %            Size:       288x180
 %            Dimensions: lono,lato
 %            Datatype:   single
 %            Attributes:
 %                        units     = 'mg/m3'
 %                        long_name = 'Surface ocean Cyanobacteria'
-%     oij_cocc     
+%     oij_cocc
 %            Size:       288x180
 %            Dimensions: lono,lato
 %            Datatype:   single
 %            Attributes:
 %                        units     = 'mg/m3'
 %                        long_name = 'Surface ocean Coccolithophores'
-%     oij_herb     
+%     oij_herb
 %            Size:       288x180
 %            Dimensions: lono,lato
 %            Datatype:   single
 %            Attributes:
 %                        units     = 'mg/m3'
 %                        long_name = 'Surface ocean Herbivores'
-%     oij_flux     
+%     oij_flux
 %            Size:       288x180
 %            Dimensions: lono,lato
 %            Datatype:   single
 %            Attributes:
 %                        units     = 'depends if on atm/ocean grid'
 %                        long_name = 'AO Flux CO2 (gr,CO2 or mol,CO2/m2/yr)'
-%     oij_cexp     
+%     oij_cexp
 %            Size:       288x180
 %            Dimensions: lono,lato
 %            Datatype:   single
 %            Attributes:
 %                        units     = 'PgC/yr'
 %                        long_name = 'C export flux at compensation depth'
-%     oij_ndet     
+%     oij_ndet
 %            Size:       288x180
 %            Dimensions: lono,lato
 %            Datatype:   single
 %            Attributes:
 %                        units     = 'ugC/l'
 %                        long_name = 'N/C detritus at 74m'
-%     oij_setl     
+%     oij_setl
 %            Size:       288x180
 %            Dimensions: lono,lato
 %            Datatype:   single
 %            Attributes:
 %                        units     = 'm/s'
 %                        long_name = 'settlvel n/cdet at 74m'
-%     oij_sink     
+%     oij_sink
 %            Size:       288x180
 %            Dimensions: lono,lato
 %            Datatype:   single
 %            Attributes:
 %                        units     = 'm/s'
 %                        long_name = 'sink vel phytopl at 74m'
-%     oij_xchl     
+%     oij_xchl
 %            Size:       288x180
 %            Dimensions: lono,lato
 %            Datatype:   single
 %            Attributes:
 %                        units     = 'kg,C*m/s'
 %                        long_name = 'C export due to chloroph'
-%     oij_fca      
+%     oij_fca
 %            Size:       288x180
 %            Dimensions: lono,lato
 %            Datatype:   single
 %            Attributes:
 %                        units     = 'mili-g,C/m2/s'
 %                        long_name = 'CaCO3 export flux at compensation depth'
-%     oij_pp       
+%     oij_pp
 %            Size:       288x180
 %            Dimensions: lono,lato
 %            Datatype:   single
 %            Attributes:
 %                        units     = 'mg,C/m2/day'
 %                        long_name = 'Depth integrated PP'
-%     oij_pp1      
+%     oij_pp1
 %            Size:       288x180
 %            Dimensions: lono,lato
 %            Datatype:   single
 %            Attributes:
 %                        units     = 'mg,C/m2/day'
 %                        long_name = 'PP-diat'
-%     oij_pp2      
+%     oij_pp2
 %            Size:       288x180
 %            Dimensions: lono,lato
 %            Datatype:   single
 %            Attributes:
 %                        units     = 'mg,C/m2/day'
 %                        long_name = 'PP-chlor'
-%     oij_pp3      
+%     oij_pp3
 %            Size:       288x180
 %            Dimensions: lono,lato
 %            Datatype:   single
 %            Attributes:
 %                        units     = 'mg,C/m2/day'
 %                        long_name = 'PP-cyan'
-%     oij_pp4      
+%     oij_pp4
 %            Size:       288x180
 %            Dimensions: lono,lato
 %            Datatype:   single
@@ -362,7 +362,7 @@ ncdisp([fpath 'APR1925.obio_ijVolMIPCarbANL1924Control.nc'])
 ncdisp([fpath 'APR1925.oijlVolMIPCarbANL1924Control.nc'])
 % ocean 3D velocities and fluxes
 
-% pot_temp    
+% pot_temp
 %            Size:       288x180x40
 %            Dimensions: lono,lato,zoc
 %            Datatype:   single
@@ -370,7 +370,7 @@ ncdisp([fpath 'APR1925.oijlVolMIPCarbANL1924Control.nc'])
 %                        units         = 'C'
 %                        long_name     = 'OCEAN POTENTIAL TEMPERATURE'
 %                        missing_value = -1.000000015047466e+30
-%     mfw2        
+%     mfw2
 %            Size:       288x180x40
 %            Dimensions: lono,lato,zoce
 %            Datatype:   single
@@ -392,38 +392,38 @@ ncdisp([fpath 'APR1925.oijVolMIPCarbANL1924Control.nc'])
 %            lato  = 180
 %            lato2 = 180
 % Variables:
-%     lono       
+%     lono
 %            Size:       288x1
 %            Dimensions: lono
 %            Datatype:   single
 %            Attributes:
 %                        units = 'degrees_east'
-%     lono2      
+%     lono2
 %            Size:       288x1
 %            Dimensions: lono2
 %            Datatype:   single
 %            Attributes:
 %                        units = 'degrees_east'
-%     lato       
+%     lato
 %            Size:       180x1
 %            Dimensions: lato
 %            Datatype:   single
 %            Attributes:
 %                        units = 'degrees_north'
-%     lato2      
+%     lato2
 %            Size:       180x1
 %            Dimensions: lato2
 %            Datatype:   single
 %            Attributes:
 %                        units = 'degrees_north'
-%     oij_mask   
+%     oij_mask
 %            Size:       288x180
 %            Dimensions: lono,lato
 %            Datatype:   single
 %            Attributes:
 %                        units     = '1'
 %                        long_name = 'Ocean Mask'
-%     oij_mld    
+%     oij_mld
 %            Size:       288x180
 %            Dimensions: lono,lato
 %            Datatype:   single
@@ -431,7 +431,7 @@ ncdisp([fpath 'APR1925.oijVolMIPCarbANL1924Control.nc'])
 %                        units         = 'm'
 %                        long_name     = 'Ocean Mixed layer depth'
 %                        missing_value = -1.000000015047466e+30
-%     oij_ssh    
+%     oij_ssh
 %            Size:       288x180
 %            Dimensions: lono,lato
 %            Datatype:   single
@@ -444,9 +444,99 @@ ncdisp([fpath 'APR1925.oijVolMIPCarbANL1924Control.nc'])
 ncdisp([fpath 'APR1925.ojlVolMIPCarbANL1924Control.nc'])
 % ocean basin-scale variables
 
-%%
+%% This has the plankton variables I need
 ncdisp([fpath 'APR1925.toijlVolMIPCarbANL1924Control.nc'])
-% 3D ocean tracers (all fluxes)
+% 3D ocean tracers (& fluxes)
+
+%SEP1925.toijlVolMIPCarbANL1924Control.nc
+
+% lono
+%     Size:       288x1
+%     Dimensions: lono
+%     Datatype:   single
+%     Attributes:
+%     units = 'degrees_east'
+%     %lato
+%     Size:       180x1
+%     Dimensions: lato
+%     Datatype:   single
+%     Attributes:
+%     units = 'degrees_north'
+% 
+% zoc
+%     Size:       40x1
+%     Dimensions: zoc
+%     Datatype:   single
+%     Attributes:
+%     units    = 'm'
+%     positive = 'down'
+% 
+% mo
+%     Size:       288x180x40
+%     Dimensions: lono,lato,zoc
+%     Datatype:   single
+%     Attributes:
+%     units     = 'kg'
+%     long_name = 'OCEAN GRIDBOX MASS'
+% 
+% Diat
+%     Size:       288x180x40
+%     Dimensions: lono,lato,zoc
+%     Datatype:   single
+%     Attributes:
+%     units         = 'kg/kg'
+%     long_name     = 'OCEAN Diat'
+%     missing_value = -1.000000015047466e+30
+% 
+% Chlo
+%     Size:       288x180x40
+%     Dimensions: lono,lato,zoc
+%     Datatype:   single
+%     Attributes:
+%     units         = 'kg/kg'
+%     long_name     = 'OCEAN Chlo'
+%     missing_value = -1.000000015047466e+30
+% 
+% 
+% Cyan
+%     Size:       288x180x40
+%     Dimensions: lono,lato,zoc
+%     Datatype:   single
+%     Attributes:
+%     units         = 'kg/kg'
+%     long_name     = 'OCEAN Cyan'
+%     missing_value = -1.000000015047466e+30
+% 
+% Cocc
+%     Size:       288x180x40
+%     Dimensions: lono,lato,zoc
+%     Datatype:   single
+%     Attributes:
+%     units         = 'kg/kg'
+%     long_name     = 'OCEAN Cocc'
+%     missing_value = -1.000000015047466e+30
+% 
+% Herb
+%     Size:       288x180x40
+%     Dimensions: lono,lato,zoc
+%     Datatype:   single
+%     Attributes:
+%     units         = 'kg/kg'
+%     long_name     = 'OCEAN Herb'
+%     missing_value = -1.000000015047466e+30
+% 
+% N_det
+%     Size:       288x180x40
+%     Dimensions: lono,lato,zoc
+%     Datatype:   single
+%     Attributes:
+%     units         = 'kg/kg'
+%     long_name     = 'OCEAN N_det'
+%     missing_value = -1.000000015047466e+30
+
+%%
+ncdisp([fpath 'Data2Colleen.nc'])
+
 
 %%
 ncid = netcdf.open([fpath 'APR1925.oijlVolMIPCarbANL1924Control.nc'],'NC_NOWRITE');
@@ -464,7 +554,7 @@ netcdf.close(ncid);
 yr = (time-time(1)+1)/365;
 
 %%
-save([fpath 'g.e11_LENS.GECOIAF.T62_g16.009.FIESTY-forcing.mat']);
+%save([fpath 'g.e11_LENS.GECOIAF.T62_g16.009.FIESTY-forcing.mat']);
 
 
 
