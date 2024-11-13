@@ -28,9 +28,10 @@ function [gamma, nu, rep, egg] = sub_rep_egg(NX,gamma,nu,K,S,egg)
         rep = rep + gamma;
         gamma = zeros(NX,1);
         
-        id4 = (nu > 0.0);
-        %nu is now split into used for repro (nu) and stored (egg)
-        nu(id4,1) = rep(id4,1);
+        %THINK THIS IS WRONG BECAUSE NU-REP = EGG (CMP: 11/12/24)
+        %id4 = (nu > 0.0);
+        %%nu is now split into used for repro (nu) and stored (egg)
+        %nu(id4,1) = rep(id4,1);
     else
         rep = zeros(NX,1);
         egg = zeros(NX,1);
