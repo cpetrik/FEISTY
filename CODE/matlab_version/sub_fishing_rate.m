@@ -7,6 +7,6 @@ function [bio, caught, fmort] = sub_fishing_rate(bio,F,selec)
     % Linear fishing mortality
     caught = bio .* selec .* F;
     fmort = caught ./ bio;
-    bio = bio - caught;
+    %bio = bio - caught;
     
 end

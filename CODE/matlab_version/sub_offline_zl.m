@@ -19,6 +19,4 @@ function [out_1, out_2, zf] = sub_offline_zl(enc_1,enc_2,bio_1,bio_2,dZ)
     out_1(id,1) = (frac1(id,1) .* dZ(id,1)) ./ bio_1(id,1);
     out_2(id,1) = (frac2(id,1) .* dZ(id,1)) ./ bio_2(id,1);
     
-    % Fraction of original or reduced consumed
-    %zf = (out_1.*bio_1 + out_2.*bio_2) ./ dZ;
 end

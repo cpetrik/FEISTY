@@ -1,11 +1,13 @@
 %%% Temp-dep natural mortality
-function nmort = sub_nmort(Tp,Tb,tpel,wgt)
+function nmort = sub_nmort(param,Tp,Tb,tpel,wgt)
     %Tp: pelagic temp
     %Tb: bottom temp
     %tpel: frac pelagic time
-
-    global MORT Nat_mrt NX
-
+    
+    MORT = param.MORT;
+    Nat_mrt = param.Nat_mrt;
+    NX = param.NX;
+    
     if (MORT==0) % None
         nmort = 0.0;
     end
@@ -22,7 +24,7 @@ function nmort = sub_nmort(Tp,Tb,tpel,wgt)
         % mizer
         nmort = exp(0.063*(temp-10.0)) .* 3.0 .* wgt^(-0.25) /365.0;
     end
-    if (MORT==4) % Jennings & Collingridge Temperature-dependent mortality EXCLUDE
+    if (MORT==4) % Jennings & Collingridge Temperature-dependent mortality
         temp = (Tp.*tpel) + (Tb.*(1.0-tpel));
         % J&C
         temp2 = temp+273;
@@ -35,7 +37,7 @@ function nmort = sub_nmort(Tp,Tb,tpel,wgt)
     if (MORT==5) % Peterson & Wrob Temperature-dependent mortality
         temp = (Tp.*tpel) + (Tb.*(1.0-tpel));
         % Peterson & Wroblewski (daily & uses dry weight)
-        nmort = exp(0.063*(temp-15.0)) * 5.26e-3 * (wgt/9.0)^(-0.25);
+        nmort = exp(0.063*(temp-15.0)) * 5.26e-3 * (wgt/9.0)^(-0.25); 
     end
     if (MORT==6) % Temp-dep but constant by weight
         temp = (Tp.*tpel) + (Tb.*(1.0-tpel));
@@ -43,8 +45,5 @@ function nmort = sub_nmort(Tp,Tb,tpel,wgt)
     end
     if (MORT==7) % wgt-dep but constant by temp
         nmort = 0.5 .* wgt^(-0.25) /365.0;
-    end
-    if (MORT==8) % Quadratic
-        %nmort =
     end
 end

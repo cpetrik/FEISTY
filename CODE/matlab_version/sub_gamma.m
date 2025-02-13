@@ -6,6 +6,7 @@ function gamma = sub_gamma(K,Z,nu,d,B,nmrt,Frate,selec)
     % selec = harvested selectivity (adults 100%, juveniles 10%)
     
     % convert predation mortality to biomass specific rate
+    % could use "pred" instead of "die/bio" for this
     if (selec > 0)
         D = (d./B) + nmrt + (Frate*selec);
     else
