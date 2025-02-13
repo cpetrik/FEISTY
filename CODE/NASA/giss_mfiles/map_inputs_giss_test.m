@@ -1,36 +1,25 @@
 % CESM FOSI output 
 
-clear all
+clear 
 close all
 
 %% Paths
 
-fpath='/Volumes/MIP/GCM_DATA/CESM/FOSI/';
-pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/PNG/CESM_MAPP/FOSI/';
+fpath='/Volumes/petrik-lab/Feisty/GCM_Data/GISS/VolMIP/';
+pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/VolMIP/';
 
-load([fpath 'gridspec_POP_gx1v6.mat']);
-load([fpath 'Data_grid_POP_gx1v6.mat'],'GRD');
-load([fpath 'Data_cesm_fosi_daily_1.mat']);
+load([fpath 'giss_10yr_FEISTY_forcing.mat']);
+
+load([fpath 'giss_10yr_gridspec.mat']);
 
 %%
-c_Tp = mean(ESM.Tp,2);
-c_Tb = mean(ESM.Tb,2);
-c_D = mean(ESM.det,2);
-c_Z = mean(ESM.Zm,2);
-c_Zl = mean(ESM.dZm,2);
+[LAT,LON] = meshgrid(lat,lon);
 
-[mi,mj]=size(TLONG);
-cTp=NaN*ones(mi,mj);
-cTb=NaN*ones(mi,mj);
-cD=NaN*ones(mi,mj);
-cZ=NaN*ones(mi,mj);
-cZl=NaN*ones(mi,mj);
-
-cTp(GRD.ID)=c_Tp;
-cTb(GRD.ID)=c_Tb;
-cD(GRD.ID) =c_D;
-cZ(GRD.ID) =c_Z;
-cZl(GRD.ID) =c_Zl;
+%% means
+cTp = mean(ptemp_upper200m_avg,3,'omitnan');
+cTb = mean(ptemp_bottom,3,'omitnan');
+cD = mean(poc_mgcm3_bottom,3,'omitnan');
+cZ = mean(biomass_Zmeso_intrg200m,3,'omitnan');
 
 %%
 clatlim=[-90 90];
@@ -40,9 +29,9 @@ figure(2)
 subplot('Position',[0 0.51 0.5 0.5])
 axesm ('Robinson','MapLatLimit',clatlim,'MapLonLimit',clonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
-surfm(TLAT,TLONG,cTp)
+surfm(LAT,LON,cTp)
 cmocean('thermal')
-caxis([0 35])
+clim([0 35])
 colorbar('Position',[0.05 0.56 0.4 0.03],'orientation','horizontal')
 title('Tp')
 % load coast;                     
@@ -51,29 +40,41 @@ title('Tp')
 subplot('Position',[0 0 0.5 0.5])
 axesm ('Robinson','MapLatLimit',clatlim,'MapLonLimit',clonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
-surfm(TLAT,TLONG,cTb)
+surfm(LAT,LON,cTb)
 cmocean('thermal')
-caxis([0 35])
+clim([0 35])
 colorbar('Position',[0.05 0.05 0.4 0.03],'orientation','horizontal')
 title('Tb')
 
 subplot('Position',[0.5 0.51 0.5 0.5])
 axesm ('Robinson','MapLatLimit',clatlim,'MapLonLimit',clonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
-surfm(TLAT,TLONG,log10(cZ))
+surfm(LAT,LON,log10(cZ))
 cmocean('tempo')
-caxis([0 2])
+clim([0 4])
 colorbar('Position',[0.55 0.56 0.4 0.03],'orientation','horizontal')
-title('log_1_0 Zoo')
+title('log_1_0 Zmeso (kgC m^-^2)')
 
 subplot('Position',[0.5 0 0.5 0.5])
 axesm ('Robinson','MapLatLimit',clatlim,'MapLonLimit',clonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
-surfm(TLAT,TLONG,cD)
+surfm(LAT,LON,log10(cD))
 cmocean('tempo')
-caxis([0 3])
+clim([0 2])
 colorbar('Position',[0.55 0.05 0.4 0.03],'orientation','horizontal')
-title('Det')
-%print('-dpng',[pp 'Map_CESM_FOSI_yr1_from_daily_interp_forcings.png'])
+title('log_1_0 Det (mgC cm^-^3)')
+print('-dpng',[pp 'Map_giss_10yr_mean_forcings.png'])
 
-% WORKS NOW!!!
+%% convert units
+% wgs84 = wgs84Ellipsoid("km");
+% grid_area = areaint(LAT,LON,wgs84);
+
+% Zmeso kgC -> gWW
+% 1e3 gC/kgC * 9 gWW/gC
+
+% Det mgC/cm3 -> gWW/m2
+% 1e-3 gC/mgC * 9 gWW/gC
+% cm3 * cm_gridcell_thickness -> cm2
+% cm2 * 1e-4m2/cm
+
+

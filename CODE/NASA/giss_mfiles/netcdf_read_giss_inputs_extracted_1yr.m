@@ -49,7 +49,7 @@ ncdisp([fpath '1925.Temp_bot.nc'])
 %            Datatype:   single
 %            Attributes:
 %                        long_name     = 'OCEAN POTENTIAL TEMPERATURE'
-%                        units         = 'C'
+T_units         = 'C';
 %                        _FillValue    = -1.000000015047466e+30
 %                        missing_value = -1.000000015047466e+30
 
@@ -145,7 +145,7 @@ ncdisp([fpath '1925.N_det_bot.nc'])
 %            Datatype:   single
 %            Attributes:
 %                        long_name     = 'OCEAN N_det'
-%                        units         = 'kg/kg'
+det_units         = 'kg/kg';
 %                        _FillValue    = -1.000000015047466e+30
 %                        missing_value = -1.000000015047466e+30
 
@@ -210,12 +210,12 @@ ncdisp([fpath '1925.Herb_int_200m.nc'])
 %            Datatype:   single
 %            Attributes:
 %                        long_name     = 'HERB INTEGRATED OVER TOP 200m'
-%                        units         = 'kg/m2'
+herb_units         = 'kg/m2';
 %                        _FillValue    = -8.999999873090293e+33
 %                        missing_value = -8.999999873090293e+33
 
-%%
-ncid = netcdf.open([fpath '19250101.Herb_mn_100m.nc'],'NC_NOWRITE');
+%% TP
+ncid = netcdf.open([fpath '1925.Temp_mn_200m.nc'],'NC_NOWRITE');
 
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 
@@ -226,28 +226,12 @@ for i = 1:(nvars)
 end
 netcdf.close(ncid);
 
-Herb100 = Herb;
+pel_temp = pot_temp;
 
-%% 150
-clear Herb
+%% TB 
+clear pot_temp
 
-ncid = netcdf.open([fpath '19250101.Herb_mn_150m.nc'],'NC_NOWRITE');
-
-[ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
-
-for i = 1:(nvars)
-    varname = netcdf.inqVar(ncid, i-1);
-    eval([ varname ' = netcdf.getVar(ncid,i-1);']);
-    eval([ varname '(' varname ' == 1.000000020040877e+20) = NaN;']);
-end
-netcdf.close(ncid);
-
-Herb150 = Herb;
-
-%% 200
-clear Herb
-
-ncid = netcdf.open([fpath '19250101.Herb_mn_200m.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath '1925.Temp_bot.nc'],'NC_NOWRITE');
 
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 
@@ -258,35 +242,112 @@ for i = 1:(nvars)
 end
 netcdf.close(ncid);
 
-Herb200 = Herb;
+btm_temp = pot_temp;
+
+%% Det - very small numbers (<1e-10) ['kg/kg']
+clear pot_temp
+
+ncid = netcdf.open([fpath '1925.N_det_bot.nc'],'NC_NOWRITE');
+
+[ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
+
+for i = 1:(nvars)
+    varname = netcdf.inqVar(ncid, i-1);
+    eval([ varname ' = netcdf.getVar(ncid,i-1);']);
+    eval([ varname '(' varname ' == 1.000000020040877e+20) = NaN;']);
+end
+netcdf.close(ncid);
+
+%% Herb200 - very large numbers, max ~1e7 (kg/m2 ???)
+ncid = netcdf.open([fpath '1925.Herb_int_200m.nc'],'NC_NOWRITE');
+
+[ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
+
+for i = 1:(nvars)
+    varname = netcdf.inqVar(ncid, i-1);
+    eval([ varname ' = netcdf.getVar(ncid,i-1);']);
+    eval([ varname '(' varname ' == 1.000000020040877e+20) = NaN;']);
+end
+netcdf.close(ncid);
+
+Herb200 = Herb_wt;
+
+%% Chloro much smaller than Herb, does not make sense
+clear Herb_wt
+
+ncid = netcdf.open([fpath '1925.Chlo_200m.nc'],'NC_NOWRITE');
+
+[ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
+
+for i = 1:(nvars)
+    varname = netcdf.inqVar(ncid, i-1);
+    eval([ varname ' = netcdf.getVar(ncid,i-1);']);
+    eval([ varname '(' varname ' == 1.000000020040877e+20) = NaN;']);
+end
+netcdf.close(ncid);
+
+phy_units         = 'kg/m2';
+
+%% Cocco
+ncid = netcdf.open([fpath '1925.Cocc_200m.nc'],'NC_NOWRITE');
+
+[ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
+
+for i = 1:(nvars)
+    varname = netcdf.inqVar(ncid, i-1);
+    eval([ varname ' = netcdf.getVar(ncid,i-1);']);
+    eval([ varname '(' varname ' == 1.000000020040877e+20) = NaN;']);
+end
+netcdf.close(ncid);
+
+%% Cyano
+ncid = netcdf.open([fpath '1925.Cyan_200m.nc'],'NC_NOWRITE');
+
+[ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
+
+for i = 1:(nvars)
+    varname = netcdf.inqVar(ncid, i-1);
+    eval([ varname ' = netcdf.getVar(ncid,i-1);']);
+    eval([ varname '(' varname ' == 1.000000020040877e+20) = NaN;']);
+end
+netcdf.close(ncid);
+
+%% Diat
+ncid = netcdf.open([fpath '1925.Diat_200m.nc'],'NC_NOWRITE');
+
+[ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
+
+for i = 1:(nvars)
+    varname = netcdf.inqVar(ncid, i-1);
+    eval([ varname ' = netcdf.getVar(ncid,i-1);']);
+    eval([ varname '(' varname ' == 1.000000020040877e+20) = NaN;']);
+end
+netcdf.close(ncid);
 
 %%
-clear Herb
-
-%%
-Herb100 = double(Herb100);
-Herb150 = double(Herb150);
-Herb200 = double(Herb200);
-
-Herb100(Herb100<= -1.00e+30) = nan;
-Herb150(Herb150<= -1.00e+30) = nan;
+btm_temp(btm_temp<= -1.00e+30) = nan;
+pel_temp(pel_temp<= -1.00e+30) = nan;
+N_det(N_det<= -1.00e+30) = nan;
 Herb200(Herb200<= -1.00e+30) = nan;
+Chlo_wt(Chlo_wt<= -1.00e+30) = nan;
+Cocc_wt(Cocc_wt<= -1.00e+30) = nan;
+Cyan_wt(Cyan_wt<= -1.00e+30) = nan;
+Diat_wt(Diat_wt<= -1.00e+30) = nan;
 
 %%
-figure(1)
-pcolor(log10(Herb100)); shading flat; colorbar;
-clim([-12 -7])
-
-figure(2)
-pcolor(log10(Herb150)); shading flat; colorbar;
-clim([-12 -7])
-
-figure(3)
-pcolor(log10(Herb200)); shading flat; colorbar;
-clim([-12 -7])
+btm_temp = double(btm_temp);
+pel_temp = double(pel_temp);
+N_det = double(N_det);
+Herb200 = double(Herb200);
+Chlo_wt = double(Chlo_wt);
+Cocc_wt = double(Cocc_wt);
+Cyan_wt = double(Cyan_wt);
+Diat_wt = double(Diat_wt);
 
 %%
-%save([fpath 'g.e11_LENS.GECOIAF.T62_g16.009.FIESTY-forcing.mat']);
+save([fpath 'giss1925_FEISTY_forcing.mat'],'btm_temp','Chlo_wt',...
+    'pel_temp','Cocc_wt','Cyan_wt','Diat_wt','Herb200','N_det',...
+    'T_units','det_units','herb_units','phy_units');
 
 
 

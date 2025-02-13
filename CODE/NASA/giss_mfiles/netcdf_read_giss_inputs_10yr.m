@@ -8,9 +8,8 @@ fpath='/Volumes/petrik-lab/Feisty/GCM_Data/GISS/VolMIP/';
 %%
 ncdisp([fpath 'Data2Colleen.nc'])
 
-
 %%
-ncid = netcdf.open([fpath 'APR1925.oijlVolMIPCarbANL1924Control.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'Data2Colleen.nc'],'NC_NOWRITE');
 
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 
@@ -21,8 +20,40 @@ for i = 1:(nvars)
 end
 netcdf.close(ncid);
 
-%% Time
-yr = (time-time(1)+1)/365;
+%% Rearrange
+% test = ones(3,3,12,10);
+% for m=1:12
+%     for y=1:10
+%     test(:,:,m,y) = m*y;
+%     end
+% end
+% test2=reshape(test,3,3,12*10,1);
+
+[ni,nj,nm,ny] = size(ptemp_upper200m_avg);
+ptemp_upper200m_avg = reshape(ptemp_upper200m_avg,ni,nj,nm*ny);
+
+% mpt=mean(ptemp_upper200m_avg,1,'omitnan');
+% mpt=mean(mpt,2,'omitnan');
+% mpt=squeeze(mpt);
+% plot(mpt)
+
+ptemp_bottom = reshape(ptemp_bottom,ni,nj,nm*ny);
+poc_mgcm3_bottom = reshape(poc_mgcm3_bottom,ni,nj,nm*ny);
+biomass_Chlo_intrg200m = reshape(biomass_Chlo_intrg200m,ni,nj,nm*ny);
+biomass_Cocc_intrg200m = reshape(biomass_Cocc_intrg200m,ni,nj,nm*ny);
+biomass_Cyan_intrg200m = reshape(biomass_Cyan_intrg200m,ni,nj,nm*ny);
+biomass_Diat_intrg200m = reshape(biomass_Diat_intrg200m,ni,nj,nm*ny);
+biomass_Herb_intrg200m = reshape(biomass_Herb_intrg200m,ni,nj,nm*ny);
+
+%% L frac
+Lfrac = biomass_Diat_intrg200m ./ (biomass_Diat_intrg200m+biomass_Chlo_intrg200m+...
+    biomass_Cocc_intrg200m+biomass_Cyan_intrg200m);
+biomass_Zmeso_intrg200m = Lfrac .* biomass_Herb_intrg200m;
 
 %%
-%save([fpath 'g.e11_LENS.GECOIAF.T62_g16.009.FIESTY-forcing.mat']);
+save([fpath 'giss_10yr_FEISTY_forcing.mat'],'biomass_Diat_intrg200m',...
+    'biomass_Chlo_intrg200m','biomass_Cocc_intrg200m','biomass_Cyan_intrg200m',...
+    'biomass_Herb_intrg200m','biomass_Zmeso_intrg200m','Lfrac','poc_mgcm3_bottom',...
+    'ptemp_bottom','ptemp_upper200m_avg');
+
+save([fpath 'giss_10yr_gridspec.mat'],'lat','lon');
