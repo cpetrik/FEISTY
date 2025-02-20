@@ -1,6 +1,6 @@
-%% POEM Make file
+%% FEISTY Make file
 
-clear all
+clear 
 close all
 
 %%%%!! EXPERIMENTS
@@ -18,7 +18,8 @@ climatol        = false;
 climatol_crr    = false;
 climatol_con    = false;
 climatol_ngdc   = false;
-core_fished     = true;
+core_fished     = false;
+hindcast        = true;
 pre_industrial  = false;
 historic_pristine   = false;
 historic_fished     = false;
@@ -47,7 +48,8 @@ end
 if spinup_pristine
     %Spinup_pristine()
     %Spinup_CORE_pristine()
-    Spinup_CORE_fished_obs_data()
+    %Spinup_CORE_fished_obs_data()
+    Spinup_fished_gfdl_mom6_cobalt2_15arcmin_2meso_v2()
 end
 if climatol_loop
     Climatol_fishing_RE_search()
@@ -78,6 +80,9 @@ if core_fished
     CORE_fished_obs()
     %CORE_rec_rep_nmort()
     %CORE_nu_gam_die()
+end
+if hindcast
+    Hindcast_fished_gfdl_mom6_cobalt2_15arcmin_2meso()
 end
 if pre_industrial
     %Pre_industrial()

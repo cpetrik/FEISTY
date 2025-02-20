@@ -28,7 +28,7 @@ MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Create a directory for output
 opath = '/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/';
-[fname,simname,outdir] = sub_fname_hindcast_gfdl_15arcmin_2meso(param,opath);
+[fname,sname,simname] = sub_fname_hindcast_gfdl_15arcmin_2meso(param,opath);
 
 %! Storage variables
 S_Bent_bio = zeros(NX,DAYS);
@@ -44,7 +44,7 @@ S_Lrg_p = zeros(NX,DAYS);
 S_Lrg_d = zeros(NX,DAYS);
 
 %! Initialize
-load([outdir '_Last_mo_All_fish03' simname '.mat']);
+load([sname '_' simname '.mat']); %Last month of spinup
 BENT.mass = BENT.bio;
 [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_hist(ID,DAYS,Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT);
 

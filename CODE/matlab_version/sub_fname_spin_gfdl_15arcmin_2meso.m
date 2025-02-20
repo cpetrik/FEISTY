@@ -12,30 +12,34 @@ tcc = num2str(param.CC);
 tmort = num2str(param.MORT);
 tre = num2str(100000+int64(round(10000 * param.rfrac)));
 
-if (nanmean(param.dfrateF) == 0)
-    tF = '0';
+if (frate >= 0.1)
+    tfish = num2str(100+int64(10*frate));
+    tF = num2str(1000+int64(100*frate*param.MFsel));
+    tP = num2str(1000+int64(100*frate*param.LPsel));
+    tD = num2str(1000+int64(100*frate*param.LDsel));
+    tJ = num2str(100+int64(10*param.Jsel));
 else
-    selF = num2str(1000+int64(100*param.MFsel));
-    tF = ['obs' selF(2:end)];
+    tfish = num2str(1000+int64(100*frate));
+    tF = num2str(1000+int64(100*frate*param.MFsel));
+    tP = num2str(1000+int64(100*frate*param.LPsel));
+    tD = num2str(1000+int64(100*frate*param.LDsel));
 end
-if (nanmean(param.dfrateP) == 0)
-    tP = '0';
-else
-    selP = num2str(1000+int64(100*param.LPsel));
-    tP = ['obs' selP(2:end)];
-end
-if (nanmean(param.dfrateD) == 0)
-    tD = '0';
-else
-    selD = num2str(1000+int64(100*param.LDsel));  
-    tD = ['obs' selD(2:end)];
-end
-if (nanmean(param.dfrateF) > 0)
-    if (nanmean(param.dfrateP) > 0 && nanmean(param.dfrateD) > 0)
+if (param.MFsel > 0)
+    if (param.LPsel > 0 && param.LDsel > 0)
         sel='All';
-        tfish='obs';
+    else
+        sel='F';
+    end
+else
+    if (param.LPsel > 0 && param.LDsel > 0)
+        sel = 'L';
+    elseif (param.LPsel > 0)
+        sel = 'P';
+    elseif (param.LDsel > 0)
+        sel = 'D';
     end
 end
+
 if (param.pdc == 0)
     coup = 'NoDc';
 elseif (param.pdc == 1)
@@ -43,7 +47,7 @@ elseif (param.pdc == 1)
 elseif (param.pdc == 2)
     coup = 'PDc';
 end
-tmfn = num2str(int64(100 * param.amet)); %num2str(param.amet);
+tmfn = num2str(param.amet);
 tcfn = num2str(param.h);
 tefn = num2str(round(param.gam));
 tkfn = num2str(1000+int64(1000 * param.kt));
@@ -72,7 +76,7 @@ elseif (param.Jsel~=0.1)
 elseif (param.MFsel~=param.LPsel)
     fname = [outdir, 'Spinup_fish_F',tF(2:end),'_P',tP(2:end),'_D',tD(2:end)];
 else
-    fname = [outdir, 'Spinup_', sel,'_fish',tfish];
+    fname = [outdir, 'Spinup_', sel,'_fish',tfish(2:end)];
 end
 
 

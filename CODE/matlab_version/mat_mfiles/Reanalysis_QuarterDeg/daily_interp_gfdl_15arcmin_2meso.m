@@ -3,7 +3,7 @@
 % Obsclim
 % Use MZ and LZ instead of one mesozoo
 
-clear 
+clear
 close all
 
 fpath='/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/QuarterDeg/';
@@ -100,7 +100,7 @@ NID = length(WID);                    % number of water cells
 %%
 for y = 2:nyrs
     YR = yrs(y)
-    
+
     if y==1
         range = mstart(y):(mend(y)+1);
         Time=15:30:395;
@@ -111,7 +111,7 @@ for y = 2:nyrs
         range = (mstart(y)-1):(mend(y)+1);
         Time=-15:30:395;
     end
-    
+
     tp = (temp_100(:,:,range));
     tb = (tob(:,:,range));
     poc= (det_btm(:,:,range));
@@ -119,12 +119,12 @@ for y = 2:nyrs
     zl = (nlgz_100(:,:,range));
     hpm = (hploss_nmdz_100(:,:,range));
     hpl = (hploss_nlgz_100(:,:,range));
-    
+
     % % index of water cells
     % [ni,nj,nt] = size(tb);
     % WID = find(~isnan(tb(:,:,1)));  % spatial index of water cells
     % NID = length(WID);              % number of water cells
-     
+
     % setup FEISTY data files
     Tp   = nan*zeros(NID,365);
     Tb   = nan*zeros(NID,365);
@@ -133,22 +133,22 @@ for y = 2:nyrs
     Zl   = nan*zeros(NID,365);
     dZm  = nan*zeros(NID,365);
     dZl  = nan*zeros(NID,365);
-    
-    %% interpolate to daily resolution
+
+    % interpolate to daily resolution
     for j = 1:NID
         % indexes
         [m,n] = ind2sub([ni,nj],WID(j)); % spatial index of water cell
-        
+
         % pelagic temperature (in Celcius)
         Y = squeeze(tp(m,n,:));
         yi = interp1(Time, Y, 1:365,'linear','extrap');
         Tp(j,:) = yi;
-        
+
         % bottom temperature (in Celcius)
         Y = squeeze(tb(m,n,:));
         yi = interp1(Time, Y, 1:365,'linear','extrap');
         Tb(j,:) = yi;
-        
+
         % MZ: from gC m-2 to g(WW) m-2
         % 1 g dry W in 9 g wet W (Pauly & Christiansen)
         Y = squeeze(zm(m,n,:));
@@ -184,16 +184,16 @@ for y = 2:nyrs
         Y = squeeze(poc(m,n,:));
         yi = interp1(Time, Y, 1:365,'linear','extrap');
         det(j,:) = yi * 12.01 * 9.0 * 60 * 60 * 24;
-        
+
     end
-    
+
     % Negative biomass or mortality loss from interp
     Zm(Zm<0)   = 0.0;
     Zl(Zl<0)   = 0.0;
     dZm(dZm<0) = 0.0;
     dZl(dZl<0) = 0.0;
     det(det<0) = 0.0;
-    
+
     ESM.Tp  = Tp;
     ESM.Tb  = Tb;
     ESM.Zm  = Zm;
@@ -201,16 +201,16 @@ for y = 2:nyrs
     ESM.dZm = dZm;
     ESM.dZl = dZl;
     ESM.det = det;
-    
+
     % save
     save([cpath 'Data_gfdl_mom6_cobalt2_2meso_15arcmin_daily_',num2str(YR),'.mat'], 'ESM','-v7.3');
-%     save([fpath 'gfdl_mom6_cobalt2_obsclim_15arcmin_daily_',num2str(YR),'.mat'],...
-%         'Tp','Tb','Zm','det','-v7.3');
+    %     save([fpath 'gfdl_mom6_cobalt2_obsclim_15arcmin_daily_',num2str(YR),'.mat'],...
+    %         'Tp','Tb','Zm','det','-v7.3');
 
-% TAKES A SUPER LONG TIME TO SAVE (AND FILES HUGE)
-% MAYBE RUN EACH YEAR WITH DAILY INTERP AS PART OF IT
-% INSTEAD OF SAVING
-    
+    % TAKES A SUPER LONG TIME TO SAVE (AND FILES HUGE)
+    % MAYBE RUN EACH YEAR WITH DAILY INTERP AS PART OF IT
+    % INSTEAD OF SAVING
+
 end
 
 

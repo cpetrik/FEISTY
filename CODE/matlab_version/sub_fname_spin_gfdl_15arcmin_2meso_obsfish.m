@@ -1,6 +1,5 @@
 %%%% File naming system
-function [fname,sname,simname] = sub_fname_hindcast_gfdl_15arcmin_2meso(param,odir)
-%[fname,sname,simname,outdir] = sub_fname_hindcast_gfdl_15arcmin_2meso(param,odir)
+function [fname,simname,outdir] = sub_fname_spin_gfdl_15arcmin_2meso_obsfish(param,odir)
 
 frate = param.frate;
 
@@ -13,34 +12,30 @@ tcc = num2str(param.CC);
 tmort = num2str(param.MORT);
 tre = num2str(100000+int64(round(10000 * param.rfrac)));
 
-if (frate >= 0.1)
-    tfish = num2str(100+int64(10*frate));
-    tF = num2str(1000+int64(100*frate*param.MFsel));
-    tP = num2str(1000+int64(100*frate*param.LPsel));
-    tD = num2str(1000+int64(100*frate*param.LDsel));
-    tJ = num2str(100+int64(10*param.Jsel));
+if (nanmean(param.dfrateF) == 0)
+    tF = '0';
 else
-    tfish = num2str(1000+int64(100*frate));
-    tF = num2str(1000+int64(100*frate*param.MFsel));
-    tP = num2str(1000+int64(100*frate*param.LPsel));
-    tD = num2str(1000+int64(100*frate*param.LDsel));
+    selF = num2str(1000+int64(100*param.MFsel));
+    tF = ['obs' selF(2:end)];
 end
-if (param.MFsel > 0)
-    if (param.LPsel > 0 && param.LDsel > 0)
+if (nanmean(param.dfrateP) == 0)
+    tP = '0';
+else
+    selP = num2str(1000+int64(100*param.LPsel));
+    tP = ['obs' selP(2:end)];
+end
+if (nanmean(param.dfrateD) == 0)
+    tD = '0';
+else
+    selD = num2str(1000+int64(100*param.LDsel));  
+    tD = ['obs' selD(2:end)];
+end
+if (nanmean(param.dfrateF) > 0)
+    if (nanmean(param.dfrateP) > 0 && nanmean(param.dfrateD) > 0)
         sel='All';
-    else
-        sel='F';
-    end
-else
-    if (param.LPsel > 0 && param.LDsel > 0)
-        sel = 'L';
-    elseif (param.LPsel > 0)
-        sel = 'P';
-    elseif (param.LDsel > 0)
-        sel = 'D';
+        tfish='obs';
     end
 end
-
 if (param.pdc == 0)
     coup = 'NoDc';
 elseif (param.pdc == 1)
@@ -48,8 +43,7 @@ elseif (param.pdc == 1)
 elseif (param.pdc == 2)
     coup = 'PDc';
 end
-
-tmfn = num2str(param.amet);
+tmfn = num2str(int64(100 * param.amet)); %num2str(param.amet);
 tcfn = num2str(param.h);
 tefn = num2str(round(param.gam));
 tkfn = num2str(1000+int64(1000 * param.kt));
@@ -72,17 +66,13 @@ end
 
 %! Setup netcdf path to store to
 if (frate==0)
-    fname = [outdir, 'Hindcast_pristine'];
-    sname = [outdir, 'Last_mo_Spinup_pristine'];
+    fname = [outdir, 'Spinup_pristine'];
 elseif (param.Jsel~=0.1)
-    fname = [outdir, 'Hindcast_', sel,'_fish',tfish(2:end),'_Juve',tJ(2:end)];
-    sname = [outdir, 'Last_mo_Spinup_', sel,'_fish',tfish(2:end),'_Juve',tJ(2:end)];
+    fname = [outdir, 'Spinup_', sel,'_fish',tfish(2:end),'_Juve',tJ(2:end)];
 elseif (param.MFsel~=param.LPsel)
-    fname = [outdir, 'Hindcast_fish_F',tF(2:end),'_P',tP(2:end),'_D',tD(2:end)];
-    sname = [outdir, 'Last_mo_Spinup_fish_F',tF(2:end),'_P',tP(2:end),'_D',tD(2:end)];
+    fname = [outdir, 'Spinup_fish_F',tF(2:end),'_P',tP(2:end),'_D',tD(2:end)];
 else
-    fname = [outdir, 'Hindcast_', sel,'_fish',tfish(2:end)];
-    sname = [outdir, 'Last_mo_Spinup_', sel,'_fish',tfish(2:end)];
+    fname = [outdir, 'Spinup_', sel,'_fish',tfish];
 end
 
 

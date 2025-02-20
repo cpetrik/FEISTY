@@ -1,6 +1,8 @@
 %%%% File naming system
-function [fname,sname,simname] = sub_fname_hindcast_gfdl_15arcmin_2meso(param,odir)
+function [fname,sname,simname] = sub_fname_hindcast_gfdl_15arcmin_2meso_v2(param,odir)
 %[fname,sname,simname,outdir] = sub_fname_hindcast_gfdl_15arcmin_2meso(param,odir)
+
+% run on rockfish, so "Volumes" now "project"
 
 frate = param.frate;
 

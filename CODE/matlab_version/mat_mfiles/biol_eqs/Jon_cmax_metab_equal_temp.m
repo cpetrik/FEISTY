@@ -27,7 +27,7 @@ Cmet = 0.2 * (exp(0.08555*(temp-10.0)) .* 20 .* m.^(-0.175)) ./365.0;
 
 % TEMP-DEP
 mass=[M_s; M_m; M_l];
-temp = -2:30;
+temp = -2:40;
 temp2 = temp+273;
 
 for s=1:3
@@ -45,8 +45,8 @@ for s=1:3
      
     subplot(3,1,s)
     plot(temp,log10(Cmet),'-b','MarkerSize',15,'LineWidth',2); hold on;
-     plot(temp,log10(0.6*Ccmax),'-','color',[0 0.5 0.75],'MarkerSize',15,'LineWidth',2); hold on;
-    xlim([-2 30])
+     plot(temp,log10(0.7*Ccmax),'-','color',[0 0.5 0.75],'MarkerSize',15,'LineWidth',2); hold on;
+    xlim([-2 35])
     if (s==1)
 %         legend('K&H','Hart','J&C','mizer','me')
 %         legend('location','northwest')
