@@ -52,9 +52,6 @@ file_med_d = [fname,'_yield_med_d.nc'];
 file_lrg_p = [fname,'_yield_lrg_p.nc'];
 file_lrg_d = [fname,'_yield_lrg_d.nc'];
 
-ncidSF = netcdf.create(file_sml_f,'NC_WRITE');
-ncidSP = netcdf.create(file_sml_p,'NC_WRITE');
-ncidSD = netcdf.create(file_sml_d,'NC_WRITE');
 ncidMF = netcdf.create(file_med_f,'NC_WRITE');
 ncidMP = netcdf.create(file_med_p,'NC_WRITE');
 ncidMD = netcdf.create(file_med_d,'NC_WRITE');
