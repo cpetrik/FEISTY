@@ -34,7 +34,9 @@ if core_fished
     %CORE_nu_gam_die()
 end
 if hindcast
-    Hindcast_fished_gfdl_mom6_cobalt2_15arcmin_2meso_v2()
+    %Hindcast_fished_gfdl_mom6_cobalt2_15arcmin_2meso_v2()
+    Hindcast_fished_gfdl_mom6_cobalt2_15arcmin_2meso_prod()
+    %Hindcast_fished_gfdl_mom6_cobalt2_15arcmin_2meso_yield()
 end
 if pre_industrial
     %Pre_industrial()
