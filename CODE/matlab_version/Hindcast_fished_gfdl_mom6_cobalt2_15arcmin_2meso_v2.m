@@ -63,16 +63,16 @@ file_lrg_d = [fname,'_v2_lrg_d.nc'];
 file_bent  = [fname,'_v2_bent.nc'];
 % file_mzoo  = [fname,'_mzoo.nc'];
 
-ncidSF = netcdf.create(file_sml_f,'NC_WRITE','NETCDF4');
-ncidSP = netcdf.create(file_sml_p,'NC_WRITE','NETCDF4');
-ncidSD = netcdf.create(file_sml_d,'NC_WRITE','NETCDF4');
-ncidMF = netcdf.create(file_med_f,'NC_WRITE','NETCDF4');
-ncidMP = netcdf.create(file_med_p,'NC_WRITE','NETCDF4');
-ncidMD = netcdf.create(file_med_d,'NC_WRITE','NETCDF4');
-ncidLP = netcdf.create(file_lrg_p,'NC_WRITE','NETCDF4');
-ncidLD = netcdf.create(file_lrg_d,'NC_WRITE','NETCDF4');
-ncidB  = netcdf.create(file_bent,'NC_WRITE','NETCDF4');
-% ncidMZ = netcdf.create(file_mzoo,'NC_WRITE','NETCDF4');
+ncidSF = netcdf.create(file_sml_f,'NETCDF4');
+ncidSP = netcdf.create(file_sml_p,'NETCDF4');
+ncidSD = netcdf.create(file_sml_d,'NETCDF4');
+ncidMF = netcdf.create(file_med_f,'NETCDF4');
+ncidMP = netcdf.create(file_med_p,'NETCDF4');
+ncidMD = netcdf.create(file_med_d,'NETCDF4');
+ncidLP = netcdf.create(file_lrg_p,'NETCDF4');
+ncidLD = netcdf.create(file_lrg_d,'NETCDF4');
+ncidB  = netcdf.create(file_bent,'NETCDF4');
+% ncidMZ = netcdf.create(file_mzoo,'NETCDF4');
 
 %! Dims of netcdf file
 nt = 12*nYEARS;
