@@ -52,11 +52,11 @@ file_med_d = [fname,'_yield_med_d.nc'];
 file_lrg_p = [fname,'_yield_lrg_p.nc'];
 file_lrg_d = [fname,'_yield_lrg_d.nc'];
 
-ncidMF = netcdf.create(file_med_f,'NC_WRITE');
-ncidMP = netcdf.create(file_med_p,'NC_WRITE');
-ncidMD = netcdf.create(file_med_d,'NC_WRITE');
-ncidLP = netcdf.create(file_lrg_p,'NC_WRITE');
-ncidLD = netcdf.create(file_lrg_d,'NC_WRITE');
+ncidMF = netcdf.create(file_med_f,'NC_WRITE','NETCDF4');
+ncidMP = netcdf.create(file_med_p,'NC_WRITE','NETCDF4');
+ncidMD = netcdf.create(file_med_d,'NC_WRITE','NETCDF4');
+ncidLP = netcdf.create(file_lrg_p,'NC_WRITE','NETCDF4');
+ncidLD = netcdf.create(file_lrg_d,'NC_WRITE','NETCDF4');
 
 %! Dims of netcdf file
 nt = 12*nYEARS;
