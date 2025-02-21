@@ -64,20 +64,6 @@ netcdf.setDefaultFormat('NC_FORMAT_64BIT');
 
 %% ! Def vars of netcdf file
 ['Defining netcdfs, takes ~10 minutes ... ']
-xy_dim      = netcdf.defDim(ncidSF,'nid',NX);
-time_dim    = netcdf.defDim(ncidSF,'ntime',nt);
-vidyieldSF   = netcdf.defVar(ncidSF,'yield','double',[xy_dim,time_dim]);
-netcdf.endDef(ncidSF);
-
-xy_dim      = netcdf.defDim(ncidSP,'nid',NX);
-time_dim    = netcdf.defDim(ncidSP,'ntime',nt);
-vidyieldSP   = netcdf.defVar(ncidSP,'yield','double',[xy_dim,time_dim]);
-netcdf.endDef(ncidSP);
-
-xy_dim      = netcdf.defDim(ncidSD,'nid',NX);
-time_dim    = netcdf.defDim(ncidSD,'ntime',nt);
-vidyieldSD   = netcdf.defVar(ncidSD,'yield','double',[xy_dim,time_dim]);
-netcdf.endDef(ncidSD);
 
 xy_dim      = netcdf.defDim(ncidMF,'nid',NX);
 time_dim    = netcdf.defDim(ncidMF,'ntime',nt);
