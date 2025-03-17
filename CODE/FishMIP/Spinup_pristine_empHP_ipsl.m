@@ -10,7 +10,7 @@ param.dfrate = param.frate/365.0;
 param = make_parameters_1meso(param); 
 
 %! Grid
-load('/Volumes/MIP/Fish-MIP/CMIP6/IPSL/Data_grid_ipsl.mat','GRD');
+load('/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/IPSL/Data_grid_ipsl.mat','GRD');
 param.NX = length(GRD.Z);
 param.ID = 1:param.NX;
 NX = length(GRD.Z);
