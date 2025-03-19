@@ -261,8 +261,6 @@ file_tvb = [fpath fname1 'tvb' fname3];
 [ni,nj,nt] = size(AllP);
 
 %%
-LAT = TLAT;
-LON = TLONG;
 
 %Use Netcdf4 classic
 cmode = netcdf.getConstant('NETCDF4');
