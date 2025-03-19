@@ -21,7 +21,7 @@ end
 netcdf.close(ncid);
 
 %%
-[ni,nt] = size(biomass);
+[nid,nt] = size(biomass);
 
 SP.bio = biomass;
 clear biomass 
@@ -36,7 +36,7 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-SF.bio = biomass(:,1:nt);
+SF.bio = biomass;
 clear biomass 
 
 % SD
@@ -133,7 +133,17 @@ clear biomass
 %% Netcdf OUTPUTS =================================================
 t=time;
 mo=t/12;
-yr=mo+1948;
+yr=mo+1960;
+
+cpath='/project/Feisty/GCM_Data/MOM6-COBALTv2_reanalysis/';
+rpath = '/project/Feisty/Fish-MIP/Phase3/QuarterDeg/';
+
+load([rpath 'gridspec_gfdl-mom6-cobalt2_obsclim_deptho_15arcmin.mat']);
+load([cpath 'Data_grid_gfdl-mom6-cobalt2_obsclim_deptho_15arcmin.mat'],'GRD');
+
+[ni,nj]=size(LON);
+
+%% Group
 
 allF = SF.bio + MF.bio;
 allP = SP.bio + MP.bio + LP.bio;
