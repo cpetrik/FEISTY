@@ -180,12 +180,7 @@ end
 
 
 %%
-fpath=['/Volumes/MIP/NC/CESM_MAPP/' cfile '/'];
-% save([fpath 'CESM_DPLE_CCLME_outputs_monthly_' harv cfile '.mat'],...
-%     'time','mo','lat2','lon2','cccol','ccrow',...
-%     'AllF','AllD','AllP','AllB',...
-%     'AllS','AllM','AllL');
-
+fpath=['/project/Feisty/NC/Matlab_new_size/' cfile '/QuarterDeg/'];
 
 %% netcdf write
 % nans to a negative number
@@ -200,48 +195,48 @@ AllL(isnan(AllL)) = 1.000000020040877e-20;
 AllFish = AllF + AllP + AllD;
 
 %% Quick look
-pb = AllP(:,:,50);
-db = AllD(:,:,50);
-cb = AllF(:,:,50);
-bp30 = AllB(:,:,50);
-
-figure(1)
-pcolor(log10(pb'))
-shading flat
-colormap('jet')
-colorbar
-caxis([-2 2])
-title('allP')
-
-figure(2)
-pcolor(log10(db'))
-shading flat
-colormap('jet')
-colorbar
-caxis([-2 2])
-title('allD')
-
-figure(3)
-pcolor(log10(cb'))
-shading flat
-colormap('jet')
-colorbar
-caxis([-2 2])
-title('all F')
-
-figure(4)
-pcolor(log10(bp30'))
-shading flat
-colormap('jet')
-colorbar
-caxis([-2 2])
-title('All B')
+% pb = AllP(:,:,50);
+% db = AllD(:,:,50);
+% cb = AllF(:,:,50);
+% bp30 = AllB(:,:,50);
+% 
+% figure(1)
+% pcolor(log10(pb'))
+% shading flat
+% colormap('jet')
+% colorbar
+% caxis([-2 2])
+% title('allP')
+% 
+% figure(2)
+% pcolor(log10(db'))
+% shading flat
+% colormap('jet')
+% colorbar
+% caxis([-2 2])
+% title('allD')
+% 
+% figure(3)
+% pcolor(log10(cb'))
+% shading flat
+% colormap('jet')
+% colorbar
+% caxis([-2 2])
+% title('all F')
+% 
+% figure(4)
+% pcolor(log10(bp30'))
+% shading flat
+% colormap('jet')
+% colorbar
+% caxis([-2 2])
+% title('All B')
 
 %%
-close all
+% close all
 
 %% Setup netcdf path to store to
-fname1 = 'feisty_cesm-fosi_monthly_';
+fname1 = 'feisty_mom6_cobaltv2_15arcmin_monthly_';
 fname3 = '.nc';
 
 file_tfb = [fpath fname1 'tfb' fname3];
