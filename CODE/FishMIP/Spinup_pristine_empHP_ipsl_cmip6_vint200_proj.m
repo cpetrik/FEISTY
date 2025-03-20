@@ -1,5 +1,5 @@
 %%%%!! RUN PRE-INDUSTRIAL FOR ALL LOCATIONS
-function Spinup_pristine_empHP_ipsl_cmip6_vint200()
+function Spinup_pristine_empHP_ipsl_cmip6_vint200_proj()
 
 %%%%%%%%%%%%%%% Initialize Model Variables
 %! Set fishing rate
@@ -10,7 +10,7 @@ param.dfrate = param.frate/365.0;
 param = make_parameters_1meso(param); 
 
 %! Grid
-load('/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/IPSL/Data_grid_ipsl_cmip6_2300.mat','GRD');
+load('/project/Feisty/Fish-MIP/CMIP6/IPSL/Data_grid_ipsl_cmip6_2300.mat','GRD');
 param.NX = length(GRD.Z);
 param.ID = 1:param.NX;
 NX = length(GRD.Z);
@@ -22,7 +22,7 @@ DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Create a directory for output
-opath = '/Volumes/petrik-lab/Feisty/NC/WG2300/';
+opath = '/project/Feisty/NC/WG2300/';
 mod = 'IPSL';
 exper = 'IPSL_spinup';
 [fname,simname] = sub_fname_exper(param,opath,mod,exper);
@@ -134,12 +134,12 @@ netcdf.endDef(ncidB);
 %% %%%%%%%%%%%%%%%%%%%% Run the Model
 
 %! Load first year's ESM data
-load('/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/IPSL/hist/Data_ipsl_hist_daily_1850.mat','ESM');
+load('/project/Feisty/Fish-MIP/CMIP6/IPSL/hist/Data_ipsl_hist_daily_1850.mat','ESM');
 
 MNT = 0;
 %! Run model with no fishing
 for YR = 1:YEARS % years
-    ti = num2str(YR)
+    ti = num2str(YR);
     
     for DAY = 1:param.DT:DAYS % days
         

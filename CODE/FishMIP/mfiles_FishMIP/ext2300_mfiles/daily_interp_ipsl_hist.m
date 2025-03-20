@@ -71,7 +71,7 @@ pcolor(depth); shading flat
 
 % Use btm det to find ocean cells
 WID = find(~isnan(test4(:)));
-NID = length(WID);
+NID = length(WID); %41383
 
 [ni,nj] = size(test4);
 

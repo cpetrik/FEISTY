@@ -4,38 +4,39 @@
 clear 
 %close all
 
-Cdir = '/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/IPSL/hist/';
+Cdir = '/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/IPSL/';
 
 %%
-load('/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/IPSL/gridspec_ipsl_cmip6.mat','deptho')
+load([Cdir 'gridspec_ipsl_cmip6.mat'])
 
-%% Depth, lat, lon
-ncdisp([Cdir 'IPSL/ipsl-cm6a-lr_r1i1p1f1_picontrol_deptho_onedeg_global_fixed.nc'])
-
-ncid = netcdf.open([Cdir 'IPSL/ipsl-cm6a-lr_r1i1p1f1_picontrol_deptho_onedeg_global_fixed.nc'],'NC_NOWRITE');
-[ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
-for i = 1:nvars
-    varname = netcdf.inqVar(ncid, i-1);
-    eval([ varname ' = netcdf.getVar(ncid,i-1);']);
-end
-netcdf.close(ncid);
-
-%seafloor depths
-deptho(deptho >= 1.00e+20) = NaN;
-deptho = double(deptho);
-
-%Grid of lat & lon
-[LAT,LON] = meshgrid(lat, lon);
+%% new 2300 files oriented with 
+%  Nhem on left, Shem on right, Russia on top, US on bottom
 
 %% check orientation
-figure
-pcolor(deptho)
+figure(4)
+subplot(2,2,1)
+pcolor(deptho); shading flat
+title('dep')
 
-figure
-pcolor(LAT)
+subplot(2,2,3)
+pcolor(LAT); shading flat
+title('lat')
+colorbar
 
+subplot(2,2,4)
+pcolor(LON); shading flat
+title('lon')
+colorbar
+
+subplot(2,2,2)
+pcolor(lmask); shading flat
+title('lmask')
+
+%% all need to be flipped to match forcings
 LAT = fliplr(LAT);
+LON = fliplr(LON);
 deptho = fliplr(deptho);
+lmask = fliplr(lmask);
 
 %%
 clatlim=[-90 90];
@@ -51,10 +52,6 @@ title('CMIP')
 WID = find(~isnan(deptho(:))); 
 NID = length(WID); %41383
 
-% Land mask
-lmask = deptho;
-lmask(~isnan(lmask)) = 1;
-lmask(isnan(lmask)) = 0;
 LID = find(lmask(:)==1);
 
 eq1 = (WID==LID); 
@@ -70,5 +67,5 @@ GRD.Z   = deptho(ID);
 GRD.lmask = lmask(ID);
 
 %% Save needed variables
-save([Cdir 'IPSL/gridspec_ipsl_cmip6.mat'],'deptho','LAT','LON','lmask');
-save([Cdir 'IPSL/Data_grid_ipsl.mat'],'GRD');
+save([Cdir 'gridspec_ipsl_cmip6_2300.mat'],'deptho','LAT','LON','lmask');
+save([Cdir 'Data_grid_ipsl_cmip6_2300.mat'],'GRD');
