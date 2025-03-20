@@ -79,76 +79,76 @@ NID = length(WID);
 [ni,nj] = size(test4);
 
 %%
-% for y = 1:nyrs
-%     ytime = yrs(y);
-% 
-%     if y==1
-%         range = mstart(y):(mend(y)+1);
-%         Time=15:30:395;
-%     elseif y==nyrs
-%         range = (mstart(y)-1):mend(y);
-%         Time=-15:30:365;
-%     else
-%         range = (mstart(y)-1):(mend(y)+1);
-%         Time=-15:30:395;
-%     end
-% 
-%     Tp = double(temp_150(:,:,range));
-%     Tb = double(temp_btm(:,:,range));
-%     Zm = double(zmeso_150(:,:,range));
-%     Det= double(det(:,:,range));
-% 
-%     % setup FEISTY data files
-%     D_Tp  = nan*zeros(NID,365);
-%     D_Tb  = nan*zeros(NID,365);
-%     D_Zm  = nan*zeros(NID,365);
-%     D_det = nan*zeros(NID,365);
-% 
-%     %% interpolate to daily resolution
-%     for j = 1:NID
-%         % indexes
-%         [m,n] = ind2sub([ni,nj],WID(j)); % spatial index of water cell
-% 
-%         % pelagic temperature (in Celcius)
-%         Y = squeeze(Tp(m,n,:));
-%         yi = interp1(Time, Y, Tdays,'linear','extrap');
-%         D_Tp(j,:) = yi;
-% 
-%         % bottom temperature (in Celcius)
-%         Y = squeeze(Tb(m,n,:));
-%         yi = interp1(Time, Y, Tdays,'linear','extrap');
-%         D_Tb(j,:) = yi;
-% 
-%         % meso zoo: from molC m-2 to g(WW) m-2
-%         % 12.01 g C in 1 mol C
-%         % 1 g dry W in 9 g wet W (Pauly & Christiansen)
-%         Y = squeeze(Zm(m,n,:));
-%         yi = interp1(Time, Y, Tdays,'linear','extrap');
-%         D_Zm(j,:) = yi * 12.01 * 9.0;
-% 
-%         % detrital flux to benthos: from molC m-2 s-1 to g(WW) m-2 d-1
-%         % 12.01 g C in 1 mol C
-%         % 1 g dry W in 9 g wet W (Pauly & Christiansen)
-%         % 60*60*24 sec in a day
-%         Y = squeeze(Det(m,n,:));
-%         yi = interp1(Time, Y, Tdays,'linear','extrap');
-%         D_det(j,:) = yi * 12.01 * 9.0 * 60 * 60 * 24;
-% 
-%     end
-% 
-%     % Negative biomass or mortality loss from interp
-%     D_Zm(D_Zm<0) = 0.0;
-%     D_det(D_det<0) = 0.0;
-% 
-%     ESM.Tp = D_Tp;
-%     ESM.Tb = D_Tb;
-%     ESM.Zm = D_Zm;
-%     ESM.det = D_det;
-% 
-%     % save
-%     save([fpath 'Data_cesm_ssp585_daily_',num2str(yr),'.mat'], 'ESM');
-% 
-% end
+for y = 1:nyrs
+    ytime = yrs(y);
+
+    if y==1
+        range = mstart(y):(mend(y)+1);
+        Time=15:30:395;
+    elseif y==nyrs
+        range = (mstart(y)-1):mend(y);
+        Time=-15:30:365;
+    else
+        range = (mstart(y)-1):(mend(y)+1);
+        Time=-15:30:395;
+    end
+
+    Tp = double(temp_150(:,:,range));
+    Tb = double(temp_btm(:,:,range));
+    Zm = double(zmeso_150(:,:,range));
+    Det= double(det(:,:,range));
+
+    % setup FEISTY data files
+    D_Tp  = nan*zeros(NID,365);
+    D_Tb  = nan*zeros(NID,365);
+    D_Zm  = nan*zeros(NID,365);
+    D_det = nan*zeros(NID,365);
+
+    %% interpolate to daily resolution
+    for j = 1:NID
+        % indexes
+        [m,n] = ind2sub([ni,nj],WID(j)); % spatial index of water cell
+
+        % pelagic temperature (in Celcius)
+        Y = squeeze(Tp(m,n,:));
+        yi = interp1(Time, Y, Tdays,'linear','extrap');
+        D_Tp(j,:) = yi;
+
+        % bottom temperature (in Celcius)
+        Y = squeeze(Tb(m,n,:));
+        yi = interp1(Time, Y, Tdays,'linear','extrap');
+        D_Tb(j,:) = yi;
+
+        % meso zoo: from molC m-2 to g(WW) m-2
+        % 12.01 g C in 1 mol C
+        % 1 g dry W in 9 g wet W (Pauly & Christiansen)
+        Y = squeeze(Zm(m,n,:));
+        yi = interp1(Time, Y, Tdays,'linear','extrap');
+        D_Zm(j,:) = yi * 12.01 * 9.0;
+
+        % detrital flux to benthos: from molC m-2 s-1 to g(WW) m-2 d-1
+        % 12.01 g C in 1 mol C
+        % 1 g dry W in 9 g wet W (Pauly & Christiansen)
+        % 60*60*24 sec in a day
+        Y = squeeze(Det(m,n,:));
+        yi = interp1(Time, Y, Tdays,'linear','extrap');
+        D_det(j,:) = yi * 12.01 * 9.0 * 60 * 60 * 24;
+
+    end
+
+    % Negative biomass or mortality loss from interp
+    D_Zm(D_Zm<0) = 0.0;
+    D_det(D_det<0) = 0.0;
+
+    ESM.Tp = D_Tp;
+    ESM.Tb = D_Tb;
+    ESM.Zm = D_Zm;
+    ESM.det = D_det;
+
+    % save
+    save([fpath 'Data_cesm_ssp585_daily_',num2str(ytime),'.mat'], 'ESM');
+
+end
 
 %% Means over all grid cells
 nt = length(time);

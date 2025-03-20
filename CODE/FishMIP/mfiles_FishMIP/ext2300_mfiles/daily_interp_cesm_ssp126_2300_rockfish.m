@@ -5,7 +5,7 @@
 clear 
 close all
 
-fpath='/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/ssp126/';
+fpath='/project/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/ssp126/';
 
 %% Units
 %poc flux: mol C m-2 s-1
@@ -34,8 +34,8 @@ Lfrac = diat_150 ./ phyc_150;
 Lfrac(Lfrac>1) = 1;
 zmeso_150 = Lfrac .* zooc_150;
 
-save([fpath 'cesm2_ssp126_zmeso_150_monthly_2015_2299.mat'],'zmeso_150',...
-    'Lfrac','units_vint','time','yr')
+% save([fpath 'cesm2_ssp126_zmeso_150_monthly_2015_2299.mat'],'zmeso_150',...
+%     'Lfrac','units_vint','time','yr')
 
 %%
 mos = length(time);
@@ -55,18 +55,18 @@ test2 = squeeze(double(temp_btm(:,:,70)));
 test3 = squeeze(double(zmeso_150(:,:,70)));
 test4 = squeeze(double(det(:,:,70)));
 
-figure
-subplot(2,2,1)
-pcolor(test1); shading flat
-subplot(2,2,2)
-pcolor(test2); shading flat
-subplot(2,2,3)
-pcolor(test3); shading flat
-subplot(2,2,4)
-pcolor(test4); shading flat
-
-figure
-pcolor(deptho); shading flat
+% figure
+% subplot(2,2,1)
+% pcolor(test1); shading flat
+% subplot(2,2,2)
+% pcolor(test2); shading flat
+% subplot(2,2,3)
+% pcolor(test3); shading flat
+% subplot(2,2,4)
+% pcolor(test4); shading flat
+% 
+% figure
+% pcolor(deptho); shading flat
 
 %% index of water cells
 %make GRD in another file later
@@ -149,41 +149,4 @@ for y = 1:nyrs
 
 end
 
-
-%% Means over all grid cells
-nt = length(time);
-
-Tp = double(reshape(temp_150,ni*nj,nt));
-Tb = double(reshape(temp_btm,ni*nj,nt));
-Zm = double(reshape(zmeso_150,ni*nj,nt));
-Det= double(reshape(det,ni*nj,nt));
-
-Tp = Tp(WID,:);
-Tb = Tb(WID,:);
-Zm = Zm(WID,:);
-Det= Det(WID,:);
-
-ssp126_Tp2 = mean(Tp);
-ssp126_Tb2 = mean(Tb);
-ssp126_Zm2 = mean(Zm);
-ssp126_Det2 = mean(Det);
-
-%%
-figure
-subplot(2,2,1)
-plot(yr,ssp126_Tp2,'r')
-
-subplot(2,2,2)
-plot(yr,ssp126_Tb2,'b')
-
-subplot(2,2,3)
-plot(yr,ssp126_Zm2,'color',[0.75 0 0.5])
-
-subplot(2,2,4)
-plot(yr,ssp126_Det2,'color',[0 0.5 0.75])
-
-%% save means
-ssp126_yr2 = yr;
-save([fpath 'Means_cesm2_ssp126_monthly_2015_2299.mat'], 'ssp126_Tp2','ssp126_Tb2',...
-    'ssp126_Zm2','ssp126_Det2','ssp126_yr2');
 
