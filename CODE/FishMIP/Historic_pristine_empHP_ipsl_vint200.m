@@ -41,7 +41,7 @@ S_Lrg_p = zeros(NX,DAYS);
 S_Lrg_d = zeros(NX,DAYS);
 
 %! Initialize
-load(['/project/Feisty/NC/WG2300/',simname,'/Last_mo_IPSL_spinup_pristine_',simname,'.mat']);
+load(['/project/Feisty/NC/WG2300/',simname,'/IPSL/Last_mo_IPSL_spinup_pristine_',simname,'.mat']);
 BENT.mass = BENT.bio;
 [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_hist(ID,DAYS,Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT);
 
