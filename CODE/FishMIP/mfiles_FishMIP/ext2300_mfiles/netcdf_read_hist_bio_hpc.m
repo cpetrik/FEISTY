@@ -186,13 +186,6 @@ for m=1:2 %length(esms)
     save([fpath 'Last_mo_' exper '_' cfile '.mat'],'Sml_f','Sml_p','Sml_d',...
         'Med_f','Med_p','Med_d','Lrg_p','Lrg_d','BENT')
 
-
-    %%
-    figure
-    plot(time,mf_tmean,'r'); hold on
-    plot(time,lp_tmean,'b'); hold on
-    plot(time,ld_tmean,'k')
-
     %% Fish-MIP OUTPUTS =================================================
 
     % PREFERRED (all units = gWW/m2)
