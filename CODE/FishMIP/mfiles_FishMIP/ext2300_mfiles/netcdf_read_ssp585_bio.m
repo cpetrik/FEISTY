@@ -7,10 +7,10 @@ cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80
 
 esms = {'IPSL','UKESM','CESM2-WACCM'};
 
-for m=1:2 %length(esms)
+for m=1 %:length(esms)
 
     mod = esms{m};
-    exper = [mod '_historic_pristine'];
+    exper = [mod '_ssp585_pristine'];
 
     fpath=['/project/Feisty/NC/WG2300/',cfile,'/',mod,'/'];
 
@@ -151,40 +151,63 @@ for m=1:2 %length(esms)
     t=time;
     mo=t/12;
     mo=mo+1850;
-    yrP=find(mo>1949 & mo<=1950); %?
+    yr1=find(mo>2099 & mo<=2100);
+    yr3=find(mo>2299 & mo<=2300);
 
-    sp_mean=mean(SP.bio(:,yrP),2);
-    sf_mean=mean(SF.bio(:,yrP),2);
-    sd_mean=mean(SD.bio(:,yrP),2);
-    mp_mean=mean(MP.bio(:,yrP),2);
-    mf_mean=mean(MF.bio(:,yrP),2);
-    md_mean=mean(MD.bio(:,yrP),2);
-    lp_mean=mean(LP.bio(:,yrP),2);
-    ld_mean=mean(LD.bio(:,yrP),2);
-    b_mean =mean(Bent.bio(:,yrP),2);
+    sp_mean1=mean(SP.bio(:,yr1),2);
+    sf_mean1=mean(SF.bio(:,yr1),2);
+    sd_mean1=mean(SD.bio(:,yr1),2);
+    mp_mean1=mean(MP.bio(:,yr1),2);
+    mf_mean1=mean(MF.bio(:,yr1),2);
+    md_mean1=mean(MD.bio(:,yr1),2);
+    lp_mean1=mean(LP.bio(:,yr1),2);
+    ld_mean1=mean(LD.bio(:,yr1),2);
+    b_mean1 =mean(Bent.bio(:,yr1),2);
+
+    sp_mean3=mean(SP.bio(:,yr3),2);
+    sf_mean3=mean(SF.bio(:,yr3),2);
+    sd_mean3=mean(SD.bio(:,yr3),2);
+    mp_mean3=mean(MP.bio(:,yr3),2);
+    mf_mean3=mean(MF.bio(:,yr3),2);
+    md_mean3=mean(MD.bio(:,yr3),2);
+    lp_mean3=mean(LP.bio(:,yr3),2);
+    ld_mean3=mean(LD.bio(:,yr3),2);
+    b_mean3 =mean(Bent.bio(:,yr3),2);
 
     save([fpath 'Means_' exper '_' cfile '.mat'],'time','mo',...
         'sf_tmean','sp_tmean','sd_tmean',...
         'mf_tmean','mp_tmean','md_tmean',...
         'lp_tmean','ld_tmean','b_tmean',...
-        'sf_mean','sp_mean','sd_mean',...
-        'mf_mean','mp_mean','md_mean',...
-        'lp_mean','ld_mean','b_mean')
+        'sf_mean1','sp_mean1','sd_mean1',...
+        'mf_mean1','mp_mean1','md_mean1',...
+        'lp_mean1','ld_mean1','b_mean1',...
+        'sf_mean3','sp_mean3','sd_mean3',...
+        'mf_mean3','mp_mean3','md_mean3',...
+        'lp_mean3','ld_mean3','b_mean3')
 
 
-    %% Save last year for initializing forecast runs
-    Sml_f.bio = mean(SF.bio(:,nt-11:nt),2,'omitnan');
-    Sml_p.bio = mean(SP.bio(:,nt-11:nt),2,'omitnan');
-    Sml_d.bio = mean(SD.bio(:,nt-11:nt),2,'omitnan');
-    Med_f.bio = mean(MF.bio(:,nt-11:nt),2,'omitnan');
-    Med_p.bio = mean(MP.bio(:,nt-11:nt),2,'omitnan');
-    Med_d.bio = mean(MD.bio(:,nt-11:nt),2,'omitnan');
-    Lrg_p.bio = mean(LP.bio(:,nt-11:nt),2,'omitnan');
-    Lrg_d.bio = mean(LD.bio(:,nt-11:nt),2,'omitnan');
-    BENT.bio  = mean(Bent.bio(:,nt-11:nt),2,'omitnan');
+    %% Save 2039 for initializing SSP534 runs
+
+    yrS=find(mo>=2039 & mo<2040);
+    Sml_f.bio = mean(SF.bio(:,yrS),2,'omitnan');
+    Sml_p.bio = mean(SP.bio(:,yrS),2,'omitnan');
+    Sml_d.bio = mean(SD.bio(:,yrS),2,'omitnan');
+    Med_f.bio = mean(MF.bio(:,yrS),2,'omitnan');
+    Med_p.bio = mean(MP.bio(:,yrS),2,'omitnan');
+    Med_d.bio = mean(MD.bio(:,yrS),2,'omitnan');
+    Lrg_p.bio = mean(LP.bio(:,yrS),2,'omitnan');
+    Lrg_d.bio = mean(LD.bio(:,yrS),2,'omitnan');
+    BENT.bio  = mean(Bent.bio(:,yrS),2,'omitnan');
 
     save([fpath 'Last_mo_' exper '_' cfile '.mat'],'Sml_f','Sml_p','Sml_d',...
         'Med_f','Med_p','Med_d','Lrg_p','Lrg_d','BENT')
+
+
+    %%
+    % figure
+    % plot(time,mf_tmean,'r'); hold on
+    % plot(time,lp_tmean,'b'); hold on
+    % plot(time,ld_tmean,'k')
 
     %% Fish-MIP OUTPUTS =================================================
 

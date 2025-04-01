@@ -151,7 +151,7 @@ for m=1:2 %length(esms)
     t=time;
     mo=t/12;
     mo=mo+1850;
-    yrP=find(mo>1949 & mo<=1950);
+    yrP=find(mo>1949 & mo<=1950); %?
 
     sp_mean=mean(SP.bio(:,yrP),2);
     sf_mean=mean(SF.bio(:,yrP),2);
