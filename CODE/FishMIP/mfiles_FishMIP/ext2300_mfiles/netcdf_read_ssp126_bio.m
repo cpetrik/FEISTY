@@ -7,7 +7,7 @@ cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80
 
 esms = {'IPSL','UKESM','CESM2-WACCM'};
 
-for m=1 %:length(esms)
+for m=1:2 %:length(esms)
 
     mod = esms{m};
     exper = [mod '_ssp126_pristine'];
@@ -137,15 +137,15 @@ for m=1 %:length(esms)
     %% Take means
 
     %Time
-    sp_tmean=mean(SP.bio,1);
-    sf_tmean=mean(SF.bio,1);
-    sd_tmean=mean(SD.bio,1);
-    mp_tmean=mean(MP.bio,1);
-    mf_tmean=mean(MF.bio,1);
-    md_tmean=mean(MD.bio,1);
-    lp_tmean=mean(LP.bio,1);
-    ld_tmean=mean(LD.bio,1);
-    b_tmean=mean(Bent.bio,1);
+    sp_tmean=mean(SP.bio,1,'omitnan');
+    sf_tmean=mean(SF.bio,1,'omitnan');
+    sd_tmean=mean(SD.bio,1,'omitnan');
+    mp_tmean=mean(MP.bio,1,'omitnan');
+    mf_tmean=mean(MF.bio,1,'omitnan');
+    md_tmean=mean(MD.bio,1,'omitnan');
+    lp_tmean=mean(LP.bio,1,'omitnan');
+    ld_tmean=mean(LD.bio,1,'omitnan');
+    b_tmean=mean(Bent.bio,1,'omitnan');
 
     %Space
     t=time;
@@ -154,15 +154,15 @@ for m=1 %:length(esms)
     yr1=find(mo>2099 & mo<=2100);
     yr3=find(mo>2299 & mo<=2300);
 
-    sp_mean1=mean(SP.bio(:,yr1),2);
-    sf_mean1=mean(SF.bio(:,yr1),2);
-    sd_mean1=mean(SD.bio(:,yr1),2);
-    mp_mean1=mean(MP.bio(:,yr1),2);
-    mf_mean1=mean(MF.bio(:,yr1),2);
-    md_mean1=mean(MD.bio(:,yr1),2);
-    lp_mean1=mean(LP.bio(:,yr1),2);
-    ld_mean1=mean(LD.bio(:,yr1),2);
-    b_mean1 =mean(Bent.bio(:,yr1),2);
+    sp_mean1=mean(SP.bio(:,yr1),2,'omitnan');
+    sf_mean1=mean(SF.bio(:,yr1),2,'omitnan');
+    sd_mean1=mean(SD.bio(:,yr1),2,'omitnan');
+    mp_mean1=mean(MP.bio(:,yr1),2,'omitnan');
+    mf_mean1=mean(MF.bio(:,yr1),2,'omitnan');
+    md_mean1=mean(MD.bio(:,yr1),2,'omitnan');
+    lp_mean1=mean(LP.bio(:,yr1),2,'omitnan');
+    ld_mean1=mean(LD.bio(:,yr1),2,'omitnan');
+    b_mean1 =mean(Bent.bio(:,yr1),2,'omitnan');
 
     sp_mean3=mean(SP.bio(:,yr3),2);
     sf_mean3=mean(SF.bio(:,yr3),2);
