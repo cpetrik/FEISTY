@@ -1,4 +1,4 @@
-% SSP 534-over 2101-2299
+% SSP 534-over 2015-2100
 % plot theta-bot because looks off from tob in other scenarios
 
 clear 
@@ -7,9 +7,9 @@ close all
 pp = '/Users/cpetrik/Petrik Lab Group Dropbox/Colleen Petrik/Fish-MIP/WGs/2300/testing_forcing/';
 
 %%
-fpath='/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/IPSL/ssp534over/';
+fpath='/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/UKESM1-0-LL/ssp534over/';
 
-load([fpath 'ipsl_ssp534-over_temp_btm_monthly_2040_2300.mat']);
+load([fpath 'ukesm_ssp534_temp_btm_monthly_2040_2100.mat']);
 
 temp_btm(temp_btm > 1.0e19) = nan;
 
@@ -19,25 +19,16 @@ ssp534_yr = yr;
 clear temp_btm yr
 
 %% 
-spath='/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/IPSL/ssp585/';
+spath='/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/UKESM1-0-LL/ssp585/';
 
-load([spath 'ipsl_ssp585_temp_btm_monthly_2015_2100.mat']);
+load([spath 'ukesm_ssp585_temp_btm_monthly_2015_2300.mat']);
 
 ssp585_Tb = temp_btm;
 ssp585_yr = yr;
 
 clear temp_btm yr
 
-%%
-load([spath 'ipsl_ssp585_temp_btm_monthly_2101_2300.mat']);
-load('/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/IPSL/gridspec_ipsl_cmip6_2300.mat','deptho')
-
-temp_btm(temp_btm > 1.0e19) = nan;
-
-ssp585_Tb(:,:,1033:3432) = temp_btm;
-ssp585_yr(1033:3432) = yr;
-
-clear temp_btm yr
+load('/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/UKESM1-0-LL/gridspec_ukesm_cmip6_2300.mat','deptho')
 
 %% find deep & shallow locations to plot
 
@@ -172,7 +163,7 @@ ids(:,4) = depth;
 T=array2table(ids,'RowNames',names,...
     'VariableNames',{'ID','Lon','Lat','Depth'});
 
-wpath = '/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/IPSL/';
+wpath = '/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/UKESM1-0-LL/';
 writetable(T,[wpath 'cesm_grid_id_locs_area_dep.csv'],'Delimiter',',');
 save([wpath 'cesm_grid_id_locs_dep.mat'],'T','ids','abbrev');
 
@@ -188,26 +179,26 @@ figure
 subplot(2,2,1)
 plot(ssp585_yr(1:12:end),ssp585_Tb(nid,1:12:end),'r','LineWidth',2); hold on
 plot(ssp534_yr(1:12:end),ssp534_Tb(nid,1:12:end),'color',[0 0.75 0.5],'LineWidth',2);
-title(['CESM Tbtm - North Sea ' num2str(round(deptho(nid))) 'm'])
+title(['UKESM Tbtm - North Sea ' num2str(round(deptho(nid))) 'm'])
 legend('585','534')
 legend('location','northwest')
 
 subplot(2,2,2)
 plot(ssp585_yr(1:12:end),ssp585_Tb(eid,1:12:end),'r','LineWidth',2); hold on
 plot(ssp534_yr(1:12:end),ssp534_Tb(eid,1:12:end),'color',[0 0.75 0.5],'LineWidth',2);
-title(['CESM Tbtm - E Bering Sea ' num2str(round(deptho(eid))) 'm'])
+title(['UKESM Tbtm - E Bering Sea ' num2str(round(deptho(eid))) 'm'])
 
 subplot(2,2,3)
 plot(ssp585_yr(1:12:end),ssp585_Tb(kid,1:12:end),'r','LineWidth',2); hold on
 plot(ssp534_yr(1:12:end),ssp534_Tb(kid,1:12:end),'color',[0 0.75 0.5],'LineWidth',2);
-title(['CESM Tbtm - K2 ' num2str(round(deptho(kid))) 'm'])
+title(['UKESM Tbtm - K2 ' num2str(round(deptho(kid))) 'm'])
 
 subplot(2,2,4)
 plot(ssp585_yr(1:12:end),ssp585_Tb(bid,1:12:end),'r','LineWidth',2); hold on
 plot(ssp534_yr(1:12:end),ssp534_Tb(bid,1:12:end),'color',[0 0.75 0.5],'LineWidth',2);
-title(['CESM Tbtm - BATS ' num2str(round(deptho(bid))) 'm'])
+title(['UKESM Tbtm - BATS ' num2str(round(deptho(bid))) 'm'])
 
-print('-dpng',[pp 'IPSL_bottom_temp_locs.png'])
+print('-dpng',[pp 'UKESM_bottom_temp_locs.png'])
 
 
 %%
@@ -215,25 +206,25 @@ figure
 subplot(2,2,1)
 plot(ssp585_yr(1:12:end),ssp585_Tb(gid,1:12:end),'r','LineWidth',2); hold on
 plot(ssp534_yr(1:12:end),ssp534_Tb(gid,1:12:end),'color',[0 0.75 0.5],'LineWidth',2);
-title(['CESM Tbtm - Greenland Sea ' num2str(round(deptho(gid))) 'm'])
+title(['UKESM Tbtm - Greenland Sea ' num2str(round(deptho(gid))) 'm'])
 legend('585','534')
 legend('location','northwest')
 
 subplot(2,2,2)
 plot(ssp585_yr(1:12:end),ssp585_Tb(uid,1:12:end),'r','LineWidth',2); hold on
 plot(ssp534_yr(1:12:end),ssp534_Tb(uid,1:12:end),'color',[0 0.75 0.5],'LineWidth',2);
-title(['CESM Tbtm - Peru Upwelling ' num2str(round(deptho(uid))) 'm'])
+title(['UKESM Tbtm - Peru Upwelling ' num2str(round(deptho(uid))) 'm'])
 
 subplot(2,2,3)
 plot(ssp585_yr(1:12:end),ssp585_Tb(sid,1:12:end),'r','LineWidth',2); hold on
 plot(ssp534_yr(1:12:end),ssp534_Tb(sid,1:12:end),'color',[0 0.75 0.5],'LineWidth',2);
-title(['CESM Tbtm - S1 ' num2str(round(deptho(sid))) 'm'])
+title(['UKESM Tbtm - S1 ' num2str(round(deptho(sid))) 'm'])
 
 subplot(2,2,4)
 plot(ssp585_yr(1:12:end),ssp585_Tb(hid,1:12:end),'r','LineWidth',2); hold on
 plot(ssp534_yr(1:12:end),ssp534_Tb(hid,1:12:end),'color',[0 0.75 0.5],'LineWidth',2);
-title(['CESM Tbtm - HOT ' num2str(round(deptho(hid))) 'm'])
+title(['UKESM Tbtm - HOT ' num2str(round(deptho(hid))) 'm'])
 
-print('-dpng',[pp 'IPSL_bottom_temp_locs2.png'])
+print('-dpng',[pp 'UKESM_bottom_temp_locs2.png'])
 
 

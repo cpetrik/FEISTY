@@ -1,11 +1,12 @@
 % Make mat files of interpolated time series from CESM2-WACCM
 % SSP 534-over 2101-2299
 % 200 m vertical integrations
+% bias-corrected btm temp
 
 clear 
 close all
 
-fpath='/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/ssp534over/';
+fpath='/project/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/ssp534over/';
 
 %% Units
 %poc flux: mol C m-2 s-1
@@ -13,7 +14,7 @@ fpath='/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/ssp534over/';
 %tp: degC
 %tb: degC
 
-load([fpath 'cesm2_ssp534-over_temp_btm_monthly_2040_2299.mat'],'temp_btm');
+load([fpath 'cesm2_ssp534-over_temp_btm_corrected_monthly_2040_2299.mat'],'temp_btm');
 load([fpath 'cesm2_ssp534-over_temp_150_monthly_2040_2299.mat'],'temp_150');
 load([fpath 'cesm2_ssp534-over_det_monthly_2040_2299.mat'],'det')
 load([fpath 'cesm2_ssp534-over_phyc_150_monthly_2040_2299.mat'],'phyc_150');
@@ -38,7 +39,7 @@ save([fpath 'cesm2_ssp534-over_zmeso_150_monthly_2040_2299.mat'],'zmeso_150',...
     'Lfrac','units_vint','time','yr')
 
 %%
-mos = length(time);
+mos = length(yr);
 mstart = 1:12:mos;
 mend = 12:12:mos;
 nyrs = mos/12;
@@ -81,111 +82,74 @@ NID = length(WID);
 [ni,nj] = size(test4);
 
 %%
-% for y = 1:nyrs
-%     ytime = yrs(y);
-% 
-%     if y==1
-%         range = mstart(y):(mend(y)+1);
-%         Time=15:30:395;
-%     elseif y==nyrs
-%         range = (mstart(y)-1):mend(y);
-%         Time=-15:30:365;
-%     else
-%         range = (mstart(y)-1):(mend(y)+1);
-%         Time=-15:30:395;
-%     end
-% 
-%     Tp = double(temp_150(:,:,range));
-%     Tb = double(temp_btm(:,:,range));
-%     Zm = double(zmeso_150(:,:,range));
-%     Det= double(det(:,:,range));
-% 
-%     % setup FEISTY data files
-%     D_Tp  = nan*zeros(NID,365);
-%     D_Tb  = nan*zeros(NID,365);
-%     D_Zm  = nan*zeros(NID,365);
-%     D_det = nan*zeros(NID,365);
-% 
-%     %% interpolate to daily resolution
-%     for j = 1:NID
-%         % indexes
-%         [m,n] = ind2sub([ni,nj],WID(j)); % spatial index of water cell
-% 
-%         % pelagic temperature (in Celcius)
-%         Y = squeeze(Tp(m,n,:));
-%         yi = interp1(Time, Y, Tdays,'linear','extrap');
-%         D_Tp(j,:) = yi;
-% 
-%         % bottom temperature (in Celcius)
-%         Y = squeeze(Tb(m,n,:));
-%         yi = interp1(Time, Y, Tdays,'linear','extrap');
-%         D_Tb(j,:) = yi;
-% 
-%         % meso zoo: from molC m-2 to g(WW) m-2
-%         % 12.01 g C in 1 mol C
-%         % 1 g dry W in 9 g wet W (Pauly & Christiansen)
-%         Y = squeeze(Zm(m,n,:));
-%         yi = interp1(Time, Y, Tdays,'linear','extrap');
-%         D_Zm(j,:) = yi * 12.01 * 9.0;
-% 
-%         % detrital flux to benthos: from molC m-2 s-1 to g(WW) m-2 d-1
-%         % 12.01 g C in 1 mol C
-%         % 1 g dry W in 9 g wet W (Pauly & Christiansen)
-%         % 60*60*24 sec in a day
-%         Y = squeeze(Det(m,n,:));
-%         yi = interp1(Time, Y, Tdays,'linear','extrap');
-%         D_det(j,:) = yi * 12.01 * 9.0 * 60 * 60 * 24;
-% 
-%     end
-% 
-%     % Negative biomass or mortality loss from interp
-%     D_Zm(D_Zm<0) = 0.0;
-%     D_det(D_det<0) = 0.0;
-% 
-%     ESM.Tp = D_Tp;
-%     ESM.Tb = D_Tb;
-%     ESM.Zm = D_Zm;
-%     ESM.det = D_det;
-% 
-%     % save
-%     save([fpath 'Data_cesm_ssp534-over_daily_',num2str(yr),'.mat'], 'ESM');
-% 
-% end
+for y = 1:nyrs
+    ytime = yrs(y);
 
-%% Means over all grid cells
-nt = length(time);
+    if y==1
+        range = mstart(y):(mend(y)+1);
+        Time=15:30:395;
+    elseif y==nyrs
+        range = (mstart(y)-1):mend(y);
+        Time=-15:30:365;
+    else
+        range = (mstart(y)-1):(mend(y)+1);
+        Time=-15:30:395;
+    end
 
-Tp = double(reshape(temp_150,ni*nj,nt));
-Tb = double(reshape(temp_btm,ni*nj,nt));
-Zm = double(reshape(zmeso_150,ni*nj,nt));
-Det= double(reshape(det,ni*nj,nt));
+    Tp = double(temp_150(:,:,range));
+    Tb = double(temp_btm(:,:,range));
+    Zm = double(zmeso_150(:,:,range));
+    Det= double(det(:,:,range));
 
-Tp = Tp(WID,:);
-Tb = Tb(WID,:);
-Zm = Zm(WID,:);
-Det= Det(WID,:);
+    % setup FEISTY data files
+    D_Tp  = nan*zeros(NID,365);
+    D_Tb  = nan*zeros(NID,365);
+    D_Zm  = nan*zeros(NID,365);
+    D_det = nan*zeros(NID,365);
 
-ssp534_Tp = mean(Tp);
-ssp534_Tb = mean(Tb);
-ssp534_Zm = mean(Zm);
-ssp534_Det = mean(Det);
+    %% interpolate to daily resolution
+    for j = 1:NID
+        % indexes
+        [m,n] = ind2sub([ni,nj],WID(j)); % spatial index of water cell
 
-%%
-figure
-subplot(2,2,1)
-plot(yr,ssp534_Tp,'r')
+        % pelagic temperature (in Celcius)
+        Y = squeeze(Tp(m,n,:));
+        yi = interp1(Time, Y, Tdays,'linear','extrap');
+        D_Tp(j,:) = yi;
 
-subplot(2,2,2)
-plot(yr,ssp534_Tb,'b')
+        % bottom temperature (in Celcius)
+        Y = squeeze(Tb(m,n,:));
+        yi = interp1(Time, Y, Tdays,'linear','extrap');
+        D_Tb(j,:) = yi;
 
-subplot(2,2,3)
-plot(yr,ssp534_Zm,'color',[0.75 0 0.5])
+        % meso zoo: from molC m-2 to g(WW) m-2
+        % 12.01 g C in 1 mol C
+        % 1 g dry W in 9 g wet W (Pauly & Christiansen)
+        Y = squeeze(Zm(m,n,:));
+        yi = interp1(Time, Y, Tdays,'linear','extrap');
+        D_Zm(j,:) = yi * 12.01 * 9.0;
 
-subplot(2,2,4)
-plot(yr,ssp534_Det,'color',[0 0.5 0.75])
+        % detrital flux to benthos: from molC m-2 s-1 to g(WW) m-2 d-1
+        % 12.01 g C in 1 mol C
+        % 1 g dry W in 9 g wet W (Pauly & Christiansen)
+        % 60*60*24 sec in a day
+        Y = squeeze(Det(m,n,:));
+        yi = interp1(Time, Y, Tdays,'linear','extrap');
+        D_det(j,:) = yi * 12.01 * 9.0 * 60 * 60 * 24;
 
-%% save means
-ssp534_yr = yr;
-save([fpath 'Means_cesm2_ssp534_monthly_2040_2299.mat'], 'ssp534_Tp','ssp534_Tb',...
-    'ssp534_Zm','ssp534_Det','ssp534_yr');
+    end
+
+    % Negative biomass or mortality loss from interp
+    D_Zm(D_Zm<0) = 0.0;
+    D_det(D_det<0) = 0.0;
+
+    ESM.Tp = D_Tp;
+    ESM.Tb = D_Tb;
+    ESM.Zm = D_Zm;
+    ESM.det = D_det;
+
+    % save
+    save([fpath 'Data_cesm_ssp534-over_daily_',num2str(ytime),'.mat'], 'ESM');
+
+end
 

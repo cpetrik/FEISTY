@@ -188,24 +188,24 @@ figure
 subplot(2,2,1)
 plot(ssp585_yr(1:12:end),ssp585_Tb(nid,1:12:end),'r','LineWidth',2); hold on
 plot(ssp534_yr(1:12:end),ssp534_Tb(nid,1:12:end),'color',[0 0.75 0.5],'LineWidth',2);
-title(['CESM Tbtm - North Sea ' num2str(round(deptho(nid))) 'm'])
+title(['IPSL Tbtm - North Sea ' num2str(round(deptho(nid))) 'm'])
 legend('585','534')
 legend('location','northwest')
 
 subplot(2,2,2)
 plot(ssp585_yr(1:12:end),ssp585_Tb(eid,1:12:end),'r','LineWidth',2); hold on
 plot(ssp534_yr(1:12:end),ssp534_Tb(eid,1:12:end),'color',[0 0.75 0.5],'LineWidth',2);
-title(['CESM Tbtm - E Bering Sea ' num2str(round(deptho(eid))) 'm'])
+title(['IPSL Tbtm - E Bering Sea ' num2str(round(deptho(eid))) 'm'])
 
 subplot(2,2,3)
 plot(ssp585_yr(1:12:end),ssp585_Tb(kid,1:12:end),'r','LineWidth',2); hold on
 plot(ssp534_yr(1:12:end),ssp534_Tb(kid,1:12:end),'color',[0 0.75 0.5],'LineWidth',2);
-title(['CESM Tbtm - K2 ' num2str(round(deptho(kid))) 'm'])
+title(['IPSL Tbtm - K2 ' num2str(round(deptho(kid))) 'm'])
 
 subplot(2,2,4)
 plot(ssp585_yr(1:12:end),ssp585_Tb(bid,1:12:end),'r','LineWidth',2); hold on
 plot(ssp534_yr(1:12:end),ssp534_Tb(bid,1:12:end),'color',[0 0.75 0.5],'LineWidth',2);
-title(['CESM Tbtm - BATS ' num2str(round(deptho(bid))) 'm'])
+title(['IPSL Tbtm - BATS ' num2str(round(deptho(bid))) 'm'])
 
 print('-dpng',[pp 'IPSL_bottom_temp_locs.png'])
 
@@ -215,24 +215,24 @@ figure
 subplot(2,2,1)
 plot(ssp585_yr(1:12:end),ssp585_Tb(gid,1:12:end),'r','LineWidth',2); hold on
 plot(ssp534_yr(1:12:end),ssp534_Tb(gid,1:12:end),'color',[0 0.75 0.5],'LineWidth',2);
-title(['CESM Tbtm - Greenland Sea ' num2str(round(deptho(gid))) 'm'])
+title(['IPSL Tbtm - Greenland Sea ' num2str(round(deptho(gid))) 'm'])
 legend('585','534')
 legend('location','northwest')
 
 subplot(2,2,2)
 plot(ssp585_yr(1:12:end),ssp585_Tb(uid,1:12:end),'r','LineWidth',2); hold on
 plot(ssp534_yr(1:12:end),ssp534_Tb(uid,1:12:end),'color',[0 0.75 0.5],'LineWidth',2);
-title(['CESM Tbtm - Peru Upwelling ' num2str(round(deptho(uid))) 'm'])
+title(['IPSL Tbtm - Peru Upwelling ' num2str(round(deptho(uid))) 'm'])
 
 subplot(2,2,3)
 plot(ssp585_yr(1:12:end),ssp585_Tb(sid,1:12:end),'r','LineWidth',2); hold on
 plot(ssp534_yr(1:12:end),ssp534_Tb(sid,1:12:end),'color',[0 0.75 0.5],'LineWidth',2);
-title(['CESM Tbtm - S1 ' num2str(round(deptho(sid))) 'm'])
+title(['IPSL Tbtm - S1 ' num2str(round(deptho(sid))) 'm'])
 
 subplot(2,2,4)
 plot(ssp585_yr(1:12:end),ssp585_Tb(hid,1:12:end),'r','LineWidth',2); hold on
 plot(ssp534_yr(1:12:end),ssp534_Tb(hid,1:12:end),'color',[0 0.75 0.5],'LineWidth',2);
-title(['CESM Tbtm - HOT ' num2str(round(deptho(hid))) 'm'])
+title(['IPSL Tbtm - HOT ' num2str(round(deptho(hid))) 'm'])
 
 print('-dpng',[pp 'IPSL_bottom_temp_locs2.png'])
 
