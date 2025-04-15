@@ -36,7 +36,7 @@ Lfrac(Lfrac>1) = 1;
 zmeso_150 = Lfrac .* zooc_150;
 
 save([fpath 'cesm2_ssp534-over_zmeso_150_monthly_2040_2299.mat'],'zmeso_150',...
-    'Lfrac','units_vint','time','yr')
+    'Lfrac','units_vint','yr')
 
 %%
 mos = length(yr);
