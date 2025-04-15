@@ -12,7 +12,7 @@ for m=1:2 %:length(esms)
     mod = esms{m};
     exper = [mod '_ssp126_pristine'];
 
-    fpath=['/Volumes/petrik-lab/Feisty/NC/WG2300/',cfile,'/',mod,'/'];
+    fpath=['/project/Feisty/NC/WG2300/',cfile,'/',mod,'/'];
 
     %% SP
     ncid = netcdf.open([fpath exper '_empHP_sml_p.nc'],'NC_NOWRITE');

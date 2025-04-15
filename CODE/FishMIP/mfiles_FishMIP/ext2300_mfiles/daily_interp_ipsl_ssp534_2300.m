@@ -5,7 +5,7 @@
 clear 
 close all
 
-fpath='/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/IPSL/ssp534over/';
+fpath='/project/Feisty/Fish-MIP/CMIP6/IPSL/ssp534over/';
 
 %% Units
 %poc flux: mol C m-2 s-1
@@ -18,7 +18,7 @@ load([fpath 'ipsl_ssp534-over_temp_btm_monthly_2040_2300.mat'],'temp_btm');
 load([fpath 'ipsl_ssp534-over_temp_200_monthly_2101_2300.mat'],'temp_200');
 load([fpath 'ipsl_ssp534-over_zmeso_200_monthly_2101_2300.mat']); %,'zmeso_200');
 
-load('/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/IPSL/gridspec_ipsl_cmip6.mat','deptho')
+load('/project/Feisty/Fish-MIP/CMIP6/IPSL/gridspec_ipsl_cmip6.mat','deptho')
 
 temp_btm = temp_btm(:,:,runs);
 det = expc(:,:,runs);
@@ -46,24 +46,10 @@ test2 = squeeze(double(temp_btm(:,:,70)));
 test3 = squeeze(double(zmeso_200(:,:,70)));
 test4 = squeeze(double(det(:,:,70)));
 
-figure
-subplot(2,2,1)
-pcolor(test1); shading flat
-subplot(2,2,2)
-pcolor(test2); shading flat
-subplot(2,2,3)
-pcolor(test3); shading flat
-subplot(2,2,4)
-pcolor(test4); shading flat
-
-figure
-pcolor(deptho); shading flat
 
 %% flip depth
 depth = fliplr(deptho);
 
-figure
-pcolor(depth); shading flat
 
 %% index of water cells
 %make GRD in another file later
@@ -149,39 +135,3 @@ for y = 1:nyrs
     
 end
 
-%% Means over all grid cells
-nt = length(runs);
-
-Tp = double(reshape(temp_200,ni*nj,nt));
-Tb = double(reshape(temp_btm,ni*nj,nt));
-Zm = double(reshape(zmeso_200,ni*nj,nt));
-Det= double(reshape(det,ni*nj,nt));
-
-Tp = Tp(WID,:);
-Tb = Tb(WID,:);
-Zm = Zm(WID,:);
-Det= Det(WID,:);
-
-ssp534_Tp = mean(Tp);
-ssp534_Tb = mean(Tb);
-ssp534_Zm = mean(Zm);
-ssp534_Det = mean(Det);
-
-%%
-figure
-subplot(2,2,1)
-plot(yr,ssp534_Tp,'r')
-
-subplot(2,2,2)
-plot(yr,ssp534_Tb,'b')
-
-subplot(2,2,3)
-plot(yr,ssp534_Zm,'color',[0.75 0 0.5])
-
-subplot(2,2,4)
-plot(yr,ssp534_Det,'color',[0 0.5 0.75])
-
-%% save means
-ssp534_yr2 = yr;
-save([fpath 'Means_ipsl_ssp534_monthly_2101_2300.mat'], 'ssp534_Tp','ssp534_Tb',...
-    'ssp534_Zm','ssp534_Det','ssp534_yr2');

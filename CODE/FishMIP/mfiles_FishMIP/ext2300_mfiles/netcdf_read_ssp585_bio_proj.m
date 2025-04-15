@@ -10,9 +10,9 @@ esms = {'IPSL','UKESM','CESM2-WACCM'};
 for m=1:2 %:length(esms)
 
     mod = esms{m};
-    exper = [mod '_ssp126_pristine'];
+    exper = [mod '_ssp585_pristine'];
 
-    fpath=['/Volumes/petrik-lab/Feisty/NC/WG2300/',cfile,'/',mod,'/'];
+    fpath=['/project/Feisty/NC/WG2300/',cfile,'/',mod,'/'];
 
     %% SP
     ncid = netcdf.open([fpath exper '_empHP_sml_p.nc'],'NC_NOWRITE');
@@ -183,7 +183,25 @@ for m=1:2 %:length(esms)
         'lp_mean1','ld_mean1','b_mean1',...
         'sf_mean3','sp_mean3','sd_mean3',...
         'mf_mean3','mp_mean3','md_mean3',...
-        'lp_mean3','ld_mean3','b_mean3');
+        'lp_mean3','ld_mean3','b_mean3')
+
+
+    %% Save 2039 for initializing SSP534 runs
+
+    yrS=find(mo>=2039 & mo<2040);
+    Sml_f.bio = mean(SF.bio(:,yrS),2,'omitnan');
+    Sml_p.bio = mean(SP.bio(:,yrS),2,'omitnan');
+    Sml_d.bio = mean(SD.bio(:,yrS),2,'omitnan');
+    Med_f.bio = mean(MF.bio(:,yrS),2,'omitnan');
+    Med_p.bio = mean(MP.bio(:,yrS),2,'omitnan');
+    Med_d.bio = mean(MD.bio(:,yrS),2,'omitnan');
+    Lrg_p.bio = mean(LP.bio(:,yrS),2,'omitnan');
+    Lrg_d.bio = mean(LD.bio(:,yrS),2,'omitnan');
+    BENT.bio  = mean(Bent.bio(:,yrS),2,'omitnan');
+
+    save([fpath 'Last_mo_' exper '_' cfile '.mat'],'Sml_f','Sml_p','Sml_d',...
+        'Med_f','Med_p','Med_d','Lrg_p','Lrg_d','BENT')
+
 
     %%
     % figure

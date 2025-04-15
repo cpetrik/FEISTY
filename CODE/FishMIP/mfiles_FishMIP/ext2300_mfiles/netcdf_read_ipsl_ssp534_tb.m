@@ -11,7 +11,7 @@ fpath='/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/IPSL/ssp534over/';
 %% Temp zall
 ncdisp([fpath 'ipsl-cm6a-lr_r1i1p1f1_ssp534-over_thetao-bot_60arcmin_global_monthly_2040_2300.nc'])
 
-%%
+%% thetao-bot
 long_name     = 'Sea Water Potential Temperature on Bottom (z_b)';
 standard_name = 'sea_water_potential_temperature';
 units         = 'degC';
@@ -25,12 +25,17 @@ ncid = netcdf.open([fpath 'ipsl-cm6a-lr_r1i1p1f1_ssp534-over_thetao-bot_60arcmin
 
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 
-for i = 1:(nvars)
+for i = 1:(nvars-1)
     varname = netcdf.inqVar(ncid, i-1);
     eval([ varname ' = netcdf.getVar(ncid,i-1);']);
     eval([ varname '(' varname ' == 1.000000020040877e+20) = NaN;']);
 end
-
+for n = nvars
+    varname = netcdf.inqVar(ncid, n-1);
+    thetao = netcdf.getVar(ncid,n-1);
+    
+end
+netcdf.close(ncid);
 
 %% Time
 yr = ((time+1)/12)+1601;
