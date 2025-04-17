@@ -33,7 +33,10 @@ det(det > 1.0e19) = nan;
 
 %% Calc zmeso from diat frac
 Lfrac = diat_150 ./ phyc_150;
-zmeso_150 = Lfrac .* zooc_150;
+Lfrac(Lfrac>1) = 1.0;
+Lfrac(Lfrac<0) = 0.0;
+
+zmeso_150 = (Lfrac .* double(zooc_150)) + (0.30 * (1-Lfrac) .* double(zooc_150));
 
 save([fpath 'cesm_ssp585_zmeso_150_monthly_1850_2014.mat'],'zmeso_150',...
     'Lfrac','units_vint','time','yr')
