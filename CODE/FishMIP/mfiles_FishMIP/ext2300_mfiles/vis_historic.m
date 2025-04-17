@@ -19,7 +19,7 @@ end
 
 cmBP50=cbrewer('seq','BuPu',50,'PCHIP');
 
-for m=1 %length(esms)
+for m=3 %length(esms)
 
     close all
     
