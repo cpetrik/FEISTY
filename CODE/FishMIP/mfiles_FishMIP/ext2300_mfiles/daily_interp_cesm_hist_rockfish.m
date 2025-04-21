@@ -36,7 +36,7 @@ Lfrac = double(diat_150) ./ double(phyc_150);
 Lfrac(Lfrac>1) = 1.0;
 Lfrac(Lfrac<0) = 0.0;
 
-zmeso_150 = (Lfrac .* double(zooc_150)) + (0.30 * (1-Lfrac) .* double(zooc_150));
+zmeso_150 = (Lfrac .* double(zooc_150)) + (0.43 * (1-Lfrac) .* double(zooc_150));
 
 save([fpath 'cesm2_hist_zmeso_150_monthly_1850_2014.mat'],'zmeso_150',...
     'Lfrac','units_vint','time','yr')
