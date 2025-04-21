@@ -70,7 +70,7 @@ nt = 12*YEARS;
 netcdf.setDefaultFormat('NC_FORMAT_64BIT');
 
 %% ! Def vars of netcdf file
-['Defining netcdfs, takes ~5 minutes ... ']
+['Defining netcdfs, takes ~10 minutes ... ']
 xy_dim      = netcdf.defDim(ncidSF,'nid',NX);
 time_dim    = netcdf.defDim(ncidSF,'ntime',nt);
 vidbioSF    = netcdf.defVar(ncidSF,'biomass','double',[xy_dim,time_dim]);
