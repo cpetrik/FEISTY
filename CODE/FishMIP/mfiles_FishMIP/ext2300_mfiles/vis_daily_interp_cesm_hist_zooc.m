@@ -1,6 +1,6 @@
 % View CESM mesozoo
 % Hist 1850
-% Using 100% diat, 50% SP fractions
+% Using all zooc
 
 clear 
 close all
@@ -14,8 +14,8 @@ ppath = '/Users/cpetrik/Petrik Lab Group Dropbox/Colleen Petrik/Fish-MIP/WGs/230
 %tb: degC
 
 fpath='/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/hist/';
-load([fpath 'cesm2_hist_zmeso_150_Lfrac50_monthly_1850_2014.mat']);
-load([fpath 'Data_cesm_hist_daily_1850_Lfrac50.mat']);
+load([fpath 'cesm2_hist_zooc_150_monthly_1850_2014.mat']);
+load([fpath 'Data_cesm_hist_daily_1850_zooc.mat']);
 
 cpath='/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/';
 load([cpath 'gridspec_cesm2_cmip6_2300.mat']);
@@ -72,7 +72,7 @@ clonlim=[plotminlon plotmaxlon];
 load coastlines
 
 %%
-Zm = mean(zmeso_150(:,:,1:12),3,'omitnan') * 12.01 * 9.0;
+Zm = mean(zooc_150(:,:,1:12),3,'omitnan') * 12.01 * 9.0;
 
 %%
 % pcolor(log10(Zm))
@@ -108,7 +108,7 @@ surfm(CLAT,CLON,log10(Czm))
 cmocean('tempo')
 clim([0 2])
 colorbar
-title('CESM Zmeso (gWW/m2)')
+title('CESM ZooC (gWW/m2)')
 %patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 
 subplot('Position',[0.5 0.68 0.425 0.275])
@@ -140,7 +140,7 @@ title('UKESM Zmeso (gWW/m2)')
 subplot('Position',[0.5 0.06 0.425 0.275])
 histogram(log10(Uzm(:)),ebins)
 
-print('-dpng',[ppath 'map_ESMs_hist_zmeso_1850_Lfrac50.png'])
+print('-dpng',[ppath 'map_ESMs_hist_zmeso_1850_zooc.png'])
 
 %% Plot t.s. with other ESMs
 Uhist_Zm = mean(UK.Zm,'omitnan');
@@ -154,9 +154,9 @@ plot(1:365,Uhist_Zm,'b','LineWidth',2); hold on
 plot(1:365,Ihist_Zm,'r','LineWidth',2); hold on
 plot(1:365,Chist_Zm,'color',[0 0.75 0.5],'LineWidth',2);
 title('Mesozoo')
-legend('UKESM','IPSL','CESM50')
+legend('UKESM','IPSL','CESM zooc')
 legend('location','northwest')
-print('-dpng',[ppath 'ts_ESMs_hist_zmeso_1850_Lfrac50.png'])
+print('-dpng',[ppath 'ts_ESMs_hist_zmeso_1850_zooc.png'])
 
 
 

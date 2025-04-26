@@ -5,8 +5,8 @@
 clear 
 close all
 
-fpath='/project/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/hist/';
-ppath='/project/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/preindust/';
+fpath='/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/hist/';
+ppath='/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/preindust/';
 
 %% Units
 %poc flux: mol C m-2 s-1
@@ -36,9 +36,9 @@ Lfrac = double(diat_150) ./ double(phyc_150);
 Lfrac(Lfrac>1) = 1.0;
 Lfrac(Lfrac<0) = 0.0;
 
-zmeso_150 = (Lfrac .* double(zooc_150)) + (0.43 * (1-Lfrac) .* double(zooc_150));
+zmeso_150 = (Lfrac .* double(zooc_150)) + (0.30 * (1-Lfrac) .* double(zooc_150));
 
-save([fpath 'cesm2_hist_zmeso_150_Lfrac43_monthly_1850_2014.mat'],'zmeso_150',...
+save([fpath 'cesm2_hist_zmeso_150_Lfrac30_monthly_1850_2014.mat'],'zmeso_150',...
     'Lfrac','units_vint','time','yr')
 
 %%
@@ -59,22 +59,22 @@ test2 = squeeze(double(temp_btm(:,:,70)));
 test3 = squeeze(double(zmeso_150(:,:,70)));
 test4 = squeeze(double(det(:,:,70)));
 
-% figure
-% subplot(2,2,1)
-% pcolor(test1); shading flat
-% subplot(2,2,2)
-% pcolor(test2); shading flat
-% subplot(2,2,3)
-% pcolor(test3); shading flat
-% subplot(2,2,4)
-% pcolor(test4); shading flat
-% 
-% figure
-% pcolor(deptho); shading flat
+figure
+subplot(2,2,1)
+pcolor(test1); shading flat
+subplot(2,2,2)
+pcolor(test2); shading flat
+subplot(2,2,3)
+pcolor(test3); shading flat
+subplot(2,2,4)
+pcolor(test4); shading flat
+
+figure
+pcolor(deptho); shading flat
 
 %% index of water cells
 %make GRD in another file later
-% load('/project/Feisty/Fish-MIP/CMIP6/IPSL/Data_grid_cesm.mat','GRD');
+% load('/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/IPSL/Data_grid_cesm.mat','GRD');
 % WID = GRD.ID;
 % NID = GRD.N;
 
@@ -86,7 +86,7 @@ NID = length(WID);
 
 %%
 for y = 1%:nyrs
-    ytime = yrs(y);
+    ytime = yrs(y)
 
     if y==1
         range = mstart(y):(mend(y)+1);
@@ -152,7 +152,7 @@ for y = 1%:nyrs
     ESM.det = D_det;
 
     % save
-    save([fpath 'Data_cesm_hist_daily_',num2str(ytime),'_Lfrac43.mat'], 'ESM');
+    save([fpath 'Data_cesm_hist_daily_',num2str(ytime),'_Lfrac30.mat'], 'ESM');
 
 
 end
