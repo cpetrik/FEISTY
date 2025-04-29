@@ -134,7 +134,7 @@ netcdf.endDef(ncidB);
 %% %%%%%%%%%%%%%%%%%%%% Run the Model
 
 %! Load first year's ESM data
-load('/project/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/hist/Data_cesm_hist_daily_1950_Lfrac75.mat','ESM');
+load('/project/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/hist/Data_cesm_hist_daily_1949_Lfrac75.mat','ESM');
 
 MNT = 0;
 %! Run model with no fishing
