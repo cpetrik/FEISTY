@@ -71,7 +71,7 @@ NID = length(WID);
 [ni,nj] = size(test4);
 
 %%
-for y = 1%:nyrs
+for y = 100 %:nyrs
     ytime = yrs(y);
 
     if y==1
