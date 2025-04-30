@@ -24,7 +24,7 @@ MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 %! Create a directory for output
 opath = '/project/Feisty/NC/WG2300/';
 mod = 'CESM2-WACCM';
-exper = 'CESM2-WACCM_spinup_Lfrac80';
+exper = 'CESM2-WACCM_spinup_zooc';
 [fname,simname] = sub_fname_exper(param,opath,mod,exper);
 
 %! Storage variables
@@ -134,7 +134,7 @@ netcdf.endDef(ncidB);
 %% %%%%%%%%%%%%%%%%%%%% Run the Model
 
 %! Load first year's ESM data
-load('/project/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/hist/Data_cesm_hist_daily_1949_Lfrac80.mat','ESM');
+load('/project/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/hist/Data_cesm_hist_daily_1850_zooc.mat','ESM');
 
 MNT = 0;
 %! Run model with no fishing
