@@ -24,7 +24,7 @@ MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 %! Create a directory for output
 opath = '/project/Feisty/NC/WG2300/';
 mod = 'CESM2-WACCM';
-exper = 'CESM2-WACCM_spinup_Lfrac95';
+exper = 'CESM2-WACCM_spinup_Lfrac9rand5';
 [fname,simname] = sub_fname_exper(param,opath,mod,exper);
 
 %! Storage variables
