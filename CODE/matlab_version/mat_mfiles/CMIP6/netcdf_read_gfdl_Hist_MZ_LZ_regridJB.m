@@ -10,7 +10,7 @@ fpath = '/Volumes/petrik-lab/jabrzenski/Remapping_netCDF/TYLER/';
 spath='/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/GFDL/hist/';
 
 %%
-ncdisp([fpath 'nmdz_100_regrid_1880_2014_all.nc'])
+ncdisp([fpath 'nmdz_100_1880_2014_all.nc'])
 
 %%
 %ncdisp([fpath 'ocean_cobalt_tracers_int.200001-200412.nlgz_100.nc'])
@@ -36,7 +36,7 @@ lgz_100 = nan*ones(ni,nj,nt);
 
 
 %%
-ncid = netcdf.open([fpath 'nmdz_100_regrid_1880_2014_all.nc'],...
+ncid = netcdf.open([fpath 'nmdz_100_1880_2014_all.nc'],...
     'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 

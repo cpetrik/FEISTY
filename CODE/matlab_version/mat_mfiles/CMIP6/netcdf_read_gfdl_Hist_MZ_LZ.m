@@ -1,5 +1,5 @@
 % Read GFDL netcdfs
-% CMIP6 DECK sims - Historical 
+% CMIP6 DECK sims - Historical
 % mdz & lgz biomass int over top 100m
 
 clear
@@ -8,133 +8,187 @@ close all
 fpath='/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/GFDL/hist/';
 
 %%
-ncdisp([fpath 'ocean_cobalt_tracers_int.200001-200412.nmdz_100.nc'])
+ncdisp([fpath 'nmdz_100_1880_2014_all.nc'])
 
 %%
-ncdisp([fpath 'ocean_cobalt_tracers_int.200001-200412.nlgz_100.nc'])
+ncdisp([fpath 'nlgz_100_1880_2014_all.nc'])
 
 %%
-nlgz_units         = 'molN m-2';
-nmdz_units         = 'molN m-2';
-lz_long_name    = 'large zooplankton nitrogen biomass in upper 100m';
-mz_long_name    = 'medium zooplankton nitrogen biomass in upper 100m';
-lz100_units        = 'gC/m2';
-mz100_units        = 'gC/m2';
-lz100_long_name    = 'large zooplankton carbon biomass in upper 100m';
-mz100_long_name    = 'medium zooplankton carbon biomass in upper 100m';
+ncdisp([fpath 'jhploss_nmdz_100_1880_2014_all.nc'])
+
+%%
+ncdisp([fpath 'jhploss_nlgz_100_1880_2014_all.nc'])
+
+%%
+nlgz_units      = 'molN m-2';
+nmdz_units      = 'molN m-2';
+lg_hp_units     = 'molN m-2 s-1';
+md_hp_units     = 'molN m-2 s-1';
+lz_long_name        = 'large zooplankton nitrogen biomass integral in upper 100m';
+mz_long_name        = 'medium zooplankton nitrogen biomass integral in upper 100m';
+lz_hploss_long_name = 'large zooplankton nitrogen loss to higher preds integral in upper 100m';
+mz_hploss_long_name = 'medium zooplankton nitrogen loss to higher preds integral in upper 100m';
+time_units          = 'days since 1850-01-01 00:00:00';
 missing_value = 1.000000020040877e+20;
 
-ni = 720;
-nj = 576;
-nt = 60;
+%% MZ bio
+ncid = netcdf.open([fpath 'nmdz_100_1880_2014_all.nc'],...
+    'NC_NOWRITE');
+[ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 
-%% loop over files, each 5 years (5*12 mo)
-syr = 1850:5:2014;
-eyr = 1854:5:2014;
-yr = 1850:2014;
-ttot = 12*length(yr); %total number of months across all files
-M = 0;
+for i = 1:(nvars)
+    varname = netcdf.inqVar(ncid, i-1);
+    eval([ varname ' = netcdf.getVar(ncid,i-1);']);
+    eval([ varname '(' varname ' == 1.000000020040877e+20) = NaN;']);
+end
+netcdf.close(ncid);
 
-mdz_100 = nan*ones(ni,nj,ttot);
-lgz_100 = nan*ones(ni,nj,ttot);
+%% LZ bio
+ncid = netcdf.open([fpath 'nlgz_100_1880_2014_all.nc'],...
+    'NC_NOWRITE');
+[ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 
-for y = 1:length(yr)
-    
-    %%
-    ncid = netcdf.open([fpath 'ocean_cobalt_tracers_int.',num2str(syr(y)),'01-',num2str(eyr(y)),'12.nmdz_100.nc'],...
-        'NC_NOWRITE');
-    [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
+for i = 1:(nvars)
+    varname = netcdf.inqVar(ncid, i-1);
+    eval([ varname ' = netcdf.getVar(ncid,i-1);']);
+    eval([ varname '(' varname ' == 1.000000020040877e+20) = NaN;']);
+end
+netcdf.close(ncid);
 
-    for i = 1:(nvars)
-        varname = netcdf.inqVar(ncid, i-1);
-        eval([ varname ' = netcdf.getVar(ncid,i-1);']);
-        eval([ varname '(' varname ' == 1.000000020040877e+20) = NaN;']);
-    end
-    netcdf.close(ncid);
+%% MZ loss
+ncid = netcdf.open([fpath 'jhploss_nmdz_100_1880_2014_all.nc'],...
+    'NC_NOWRITE');
+[ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 
-    %%
-    ncid = netcdf.open([fpath 'ocean_cobalt_tracers_int.',num2str(syr(y)),'01-',num2str(eyr(y)),'12.nlgz_100.nc'],...
-        'NC_NOWRITE');
-    [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
+for i = 1:(nvars)
+    varname = netcdf.inqVar(ncid, i-1);
+    eval([ varname ' = netcdf.getVar(ncid,i-1);']);
+    eval([ varname '(' varname ' == 1.000000020040877e+20) = NaN;']);
+end
+netcdf.close(ncid);
 
-    for i = 1:(nvars)
-        varname = netcdf.inqVar(ncid, i-1);
-        eval([ varname ' = netcdf.getVar(ncid,i-1);']);
-        eval([ varname '(' varname ' == 1.000000020040877e+20) = NaN;']);
-    end
-    netcdf.close(ncid);
+%% LZ loss
+ncid = netcdf.open([fpath 'jhploss_nlgz_100_1880_2014_all.nc'],...
+    'NC_NOWRITE');
+[ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 
-    %%
-    nmdz_100(nmdz_100 >= 1.00e+19) = NaN;
-    nlgz_100(nlgz_100 >= 1.00e+19) = NaN;
-
-    %% molN/kg --> gC/m3
-    nmdz_100 = double(nmdz_100 * (1/1e-3) * (106/16) * 12.01);
-    nlgz_100 = double(nlgz_100 * (1/1e-3) * (106/16) * 12.01);
-
-    %% Loop over mos
-    for t=1:nt
-        M = M+1;
-
-        testM = double(squeeze(nmdz_100(:,:,t)));
-        testL = double(squeeze(nlgz_100(:,:,t)));
-
-        Mtsplit1 = testM(1:720,:);
-        Mtsplit2 = testM(721:end,:);
-        Mtflip1 = fliplr(Mtsplit1);
-        Mtflip2 = fliplr(Mtsplit2);
-        Mtcomb = [Mtflip2;Mtflip1];
-
-        Ltsplit1 = testL(1:720,:);
-        Ltsplit2 = testL(721:end,:);
-        Ltflip1 = fliplr(Ltsplit1);
-        Ltflip2 = fliplr(Ltsplit2);
-        Ltcomb = [Ltflip2;Ltflip1];
-
-        mdz_100(:,:,M) = Mtcomb;
-        lgz_100(:,:,M) = Ltcomb;
-
-        clear Mtsplit1 Mtsplit2 Mtflip1 Mtflip2 Mtcomb
-        clear Ltsplit1 Ltsplit2 Ltflip1 Ltflip2 Ltcomb
-
-    end
-
-    clear testM testL nmdz nlgz
-
-end %yrs
+for i = 1:(nvars)
+    varname = netcdf.inqVar(ncid, i-1);
+    eval([ varname ' = netcdf.getVar(ncid,i-1);']);
+    eval([ varname '(' varname ' == 1.000000020040877e+20) = NaN;']);
+end
+netcdf.close(ncid);
 
 %%
-
-figure
-pcolor(Mtcomb); shading flat; colorbar;
-%clim([0 0.15])
-
-figure
-pcolor(Ltcomb); shading flat; colorbar;
-%clim([0 0.15])
+nmdz_100(nmdz_100 >= 1.00e+19) = NaN;
+nlgz_100(nlgz_100 >= 1.00e+19) = NaN;
+jhploss_nmdz_100(jhploss_nmdz_100 >= 1.00e+19) = NaN;
+jhploss_nlgz_100(jhploss_nlgz_100 >= 1.00e+19) = NaN;
 
 %%
-test1 = double(squeeze(mdz_100(:,:,6)))./ 12.01;
-test2 = double(squeeze(lgz_100(:,:,12)))./ 12.01;
-test3 = double(squeeze(thkcello(:,:,5)));
+% molN/m2 --> gC/m2
+% molN/m2/s --> gC/m2/d
+
+test1 = double(squeeze(nmdz_100(:,:,1950)))* (106/16) * 12.01;
+test2 = double(squeeze(nlgz_100(:,:,1950)))* (106/16) * 12.01;
+test3 = double(squeeze(jhploss_nmdz_100(:,:,1950)))* (106/16) * 12.01 *60*60*24;
+test4 = double(squeeze(jhploss_nlgz_100(:,:,1950)))* (106/16) * 12.01 *60*60*24;
 
 figure
-pcolor(test1); shading flat; colorbar;
-clim([0 0.15])
+pcolor(log10(test1)); shading flat; colorbar;
+clim([0 2])
 
 figure
-pcolor(test2); shading flat; colorbar;
-clim([0 0.15])
+pcolor(log10(test2)); shading flat; colorbar;
+clim([0 2])
 
 figure
-pcolor(test3); shading flat
+pcolor(log10(test3)); shading flat; colorbar;
+clim([-2 1])
+
+figure
+pcolor(log10(test4)); shading flat; colorbar;
+clim([-2 1])
+
+%% subset time 1950-2014
+year = (time/365) + 1850;
+
+yr65 = find(year>=1950);
+
+mz_100 = double(nmdz_100(:,:,yr65));
+lz_100 = double(nlgz_100(:,:,yr65));
+hp_mz_100 = double(jhploss_nmdz_100(:,:,yr65));
+hp_lz_100 = double(jhploss_nlgz_100(:,:,yr65));
 
 %% save
-save([spath '19610101-20101231.ocean_cobalt_tracers_int100_FishMIP_remapped.mat'],...
-    'mdz_100','lgz_100','mz100_long_name','lz100_long_name',...
-    'nmdz_units','nlgz_units','lz100_units','mz100_units','-v7.3')
+save([fpath 'gfdl_hist_int100_2zmeso_monthly_1950_2014.mat'],...
+    'mz_100','lz_100','hp_mz_100','hp_lz_100',...
+    'mz_long_name','lz_long_name','nmdz_units','nlgz_units',...
+    'mz_hploss_long_name','lz_hploss_long_name','md_hp_units','lg_hp_units',...
+    'year','time','time_units','-v7.3')
+
+% save([spath 'gfdl_hist_int100_2zmeso_monthly_1880_2014.mat'],...
+%     'mdz_100','lgz_100','mz100_long_name','lz100_long_name',...
+%     'nmdz_units','nlgz_units','lz100_units','mz100_units','-v7.3')
+
+%% load and fix orientation
+load([fpath 'gfdl_hist_int100_2zmeso_monthly_1950_2014.mat'])
+
+%%
+[ni,nj,nt] = size(mz_100);
+
+% Loop over mos
+mdz_100 = nan*ones(ni,nj,nt);
+lgz_100 = nan*ones(ni,nj,nt);
+hp_mdz_100 = nan*ones(ni,nj,nt);
+hp_lgz_100 = nan*ones(ni,nj,nt);
+
+M=0;
+
+for t=1:nt
+    testM = (squeeze(mz_100(:,:,t)));
+    testL = (squeeze(lz_100(:,:,t)));
+
+    Mtsplit1 = testM(1:180,:);
+    Mtsplit2 = testM(181:end,:);
+    Mtcomb = [Mtsplit2;Mtsplit1];
+
+    Ltsplit1 = testL(1:180,:);
+    Ltsplit2 = testL(181:end,:);
+    Ltcomb = [Ltsplit2;Ltsplit1];
+
+    mdz_100(:,:,t) = Mtcomb;
+    lgz_100(:,:,t) = Ltcomb;
+
+    clear Mtsplit1 Mtsplit2 Mtcomb
+    clear Ltsplit1 Ltsplit2 Ltcomb
 
 
+    testMH = (squeeze(hp_mz_100(:,:,t)));
+    testLH = (squeeze(hp_lz_100(:,:,t)));
+
+    Mtsplit1 = testMH(1:180,:);
+    Mtsplit2 = testMH(181:end,:);
+    MHcomb = [Mtsplit2;Mtsplit1];
+
+    Ltsplit1 = testLH(1:180,:);
+    Ltsplit2 = testLH(181:end,:);
+    LHcomb = [Ltsplit2;Ltsplit1];
+
+    hp_mdz_100(:,:,t) = MHcomb;
+    hp_lgz_100(:,:,t) = LHcomb;
+
+    clear Mtsplit1 Mtsplit2 MHcomb
+    clear Ltsplit1 Ltsplit2 LHcomb
+
+end
+
+%% save
+save([fpath 'gfdl_hist_int100_2zmeso_reorient_monthly_1950_2014.mat'],...
+    'mdz_100','lgz_100','hp_mdz_100','hp_lgz_100',...
+    'mz_long_name','lz_long_name','nmdz_units','nlgz_units',...
+    'mz_hploss_long_name','lz_hploss_long_name','md_hp_units','lg_hp_units',...
+    'year','time','time_units','-v7.3')
 
 
 
