@@ -1,8 +1,9 @@
-% Visualize difference between
+% Calc difference between
 % CESM-WACCM Historic 1949 Spinup w/fishing and
 % CESM FOSI 1948 Spinup w/fishing
 
 % MAYBE NEED TO AGGREGATE BY REGIONS?
+
 
 clear
 close all
@@ -132,8 +133,15 @@ hFrahLM = hL ./ (hL+hM);
 gpath=['/Volumes/petrik-lab/Feisty/NC/WG2300/',cfile,'/CESM2-WACCM/'];
 fracs = {'50','55','60','65','70','75','80','85','90','95','zooc'};
 
+%matrices for stats
+Amat = nan*ones(length(fracs),5);
+Fmat = Amat;
+Pmat = Amat;
+Dmat = Amat;
+PDmat = Amat;
+
 %%
-for m = 9:length(fracs)
+for m = 1:length(fracs)
     mod = [fracs{m} '_'];
     if m==length(fracs)
         exper = ['CESM2-WACCM_spinup_',mod,'All_fish03'];
@@ -142,8 +150,6 @@ for m = 9:length(fracs)
     end
 
     load([gpath 'Means_' exper '_' cfile '.mat']);
-
-    close all
 
     %%
     Csf=NaN*ones(hi,hj);
@@ -337,80 +343,62 @@ for m = 9:length(fracs)
     pbar = nanmean(p);
     mefPD = (sum((o - obar).^2) - sum((p - pbar).^2)) ./ (sum((o - obar).^2));
     
-    %% Scatter plots
-
-    x=-5:0.5:5;
-    x2h = x+log10(2);
-    x2l = x-log10(2);
-    x5h = x+log10(5);
-    x5l = x-log10(5);
-
-    figure(1)
-    subplot(2,2,1)
-    plot(x,x,'--k'); hold on;
-    plot(x,x2h,':b'); hold on;
-    plot(x,x2l,':b'); hold on;
-    plot(x,x5h,':r'); hold on;
-    plot(x,x5l,':r'); hold on;
-    %scatter(StockPNAS(:,7),glme_mcatch(keep),20,lme_tp_fosi(keep,1),'filled'); hold on;
-    %cmocean('thermal');
-    scatter(log10(hF(keep)),log10(cF(keep)),20,'filled'); hold on;
-    text(-3.25,1.25,['r = ' sprintf('%2.2f',rF) ' '])
-    text(-3.25,0.75,['RMSE = ' sprintf('%2.2f',rmseF)])
-    text(-3.25,0.25,['bias = ' sprintf('%2.2f',biasF)])
-    axis([-4 1.5 -4 1.5])
-    xlabel('CESM FOSI')
-    ylabel('CESM-WACCM')
-    title('Forage fishes')
-
-    subplot(2,2,2)
-    plot(x,x,'--k'); hold on;
-    plot(x,x2h,':b'); hold on;
-    plot(x,x2l,':b'); hold on;
-    plot(x,x5h,':r'); hold on;
-    plot(x,x5l,':r'); hold on;
-    scatter(log10(hP(keep)),log10(cP(keep)),20,'filled'); hold on;
-    text(-3.25,1.25,['r = ' sprintf('%2.2f',rP) ' '])
-    text(-3.25,0.75,['RMSE = ' sprintf('%2.2f',rmseP)])
-    text(-3.25,0.25,['bias = ' sprintf('%2.2f',biasP)])
-    axis([-4 1.5 -4 1.5])
-    xlabel('CESM FOSI')
-    ylabel('CESM-WACCM')
-    title('LgPel fishes')
-
-    subplot(2,2,3)
-    plot(x,x,'--k'); hold on;
-    plot(x,x2h,':b'); hold on;
-    plot(x,x2l,':b'); hold on;
-    plot(x,x5h,':r'); hold on;
-    plot(x,x5l,':r'); hold on;
-    scatter((hFrahPD(keep)),(cFracPD(keep)),20,'filled'); hold on;
-    text(-0.05,1.0,['r = ' sprintf('%2.2f',rPD) ' '])
-    text(-0.05,0.75,['RMSE = ' sprintf('%2.2f',rmsePD)])
-    text(-0.05,0.5,['bias = ' sprintf('%2.2f',biasPD)])
-    axis([-0.1 1.1 -0.1 1.1])
-    xlabel('CESM FOSI')
-    ylabel('CESM-WACCM')
-    title('P / (P+D)')
-
-    subplot(2,2,4)
-    plot(x,x,'--k'); hold on;
-    plot(x,x2h,':b'); hold on;
-    plot(x,x2l,':b'); hold on;
-    plot(x,x5h,':r'); hold on;
-    plot(x,x5l,':r'); hold on;
-    scatter(log10(hAll(keep)),log10(cAll(keep)),20,'filled'); hold on;
-    text(-0.75,1.75,['r = ' sprintf('%2.2f',rall) ' '])
-    text(-0.75,1.5,['RMSE = ' sprintf('%2.2f',rmse)])
-    text(-0.75,1.25,['bias = ' sprintf('%2.2f',bias)])
-    axis([-1 2.25 -1 2.25])
-    xlabel('CESM FOSI')
-    ylabel('CESM-WACCM')
-    title('All fishes')
-    stamp('')
-    print('-dpng',[ppath 'WACCM_FOSI_' mod 'scatter_types.png'])
-
     %% Create a table for stats
+
+    % r, CCC, RMSE, Fmed, bias
+    %All fish
+    Amat(m,1) = rall;
+    Amat(m,2) = aCCC{1,1}.est;
+    Amat(m,3) = rmse;
+    Amat(m,4) = Fall;
+    Amat(m,5) = bias;
+    Amat(m,6) = mef;
+
+    %Forage
+    Fmat(m,1) = rF;
+    Fmat(m,2) = fCCC{1,1}.est;
+    Fmat(m,3) = rmseF;
+    Fmat(m,4) = FF;
+    Fmat(m,5) = biasF;
+    Fmat(m,6) = mefF;
+
+    %Lg Pel
+    Pmat(m,1) = rP;
+    Pmat(m,2) = pCCC{1,1}.est;
+    Pmat(m,3) = rmseP;
+    Pmat(m,4) = FP;
+    Pmat(m,5) = biasP;
+    Pmat(m,6) = mefP;
+
+    %Dem
+    Dmat(m,1) = rD;
+    Dmat(m,2) = dCCC{1,1}.est;
+    Dmat(m,3) = rmseD;
+    Dmat(m,4) = FD;
+    Dmat(m,5) = biasD;
+    Dmat(m,6) = mefD;
+
+    %PDfrac
+    PDmat(m,1) = rPD;
+    PDmat(m,2) = pdCCC{1,1}.est;
+    PDmat(m,3) = rmsePD;
+    PDmat(m,4) = FPD;
+    PDmat(m,5) = biasPD;
+    PDmat(m,6) = mefPD;
 
 end
 
+%% Save tables as csv
+vname = {'r', 'CCC', 'RMSE', 'Fmed', 'bias', 'MEF'};
+
+Atab = array2table(Amat,'VariableNames',vname,'RowNames',fracs);
+Ftab = array2table(Fmat,'VariableNames',vname,'RowNames',fracs);
+Ptab = array2table(Pmat,'VariableNames',vname,'RowNames',fracs);
+Dtab = array2table(Dmat,'VariableNames',vname,'RowNames',fracs);
+PDtab = array2table(PDmat,'VariableNames',vname,'RowNames',fracs);
+
+writetable(Atab,[gpath 'WACCM_FOSI_stats_Lfracs_All.csv'],'Delimiter',',','WriteRowNames',true)
+writetable(Ftab,[gpath 'WACCM_FOSI_stats_Lfracs_Forage.csv'],'Delimiter',',','WriteRowNames',true)
+writetable(Ptab,[gpath 'WACCM_FOSI_stats_Lfracs_LgPel.csv'],'Delimiter',',','WriteRowNames',true)
+writetable(Dtab,[gpath 'WACCM_FOSI_stats_Lfracs_Dem.csv'],'Delimiter',',','WriteRowNames',true)
+writetable(PDtab,[gpath 'WACCM_FOSI_stats_Lfracs_PDfrac.csv'],'Delimiter',',','WriteRowNames',true)

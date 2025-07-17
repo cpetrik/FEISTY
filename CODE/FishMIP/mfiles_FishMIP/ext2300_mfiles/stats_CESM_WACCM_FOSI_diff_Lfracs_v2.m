@@ -1,11 +1,29 @@
-% Visualize difference between
+% Calc difference between
 % CESM-WACCM Historic 1949 Spinup w/fishing and
 % CESM FOSI 1948 Spinup w/fishing
 
 % MAYBE NEED TO AGGREGATE BY REGIONS?
+%try using GFDL 1 degree LME map from ISIMIP
+%with obsGLMM biomes for high seas
 
 clear
 close all
+
+%% LME mask
+load(['/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/OneDeg/',...
+    'lme_gfdl-mom6-cobalt2_onedeg.mat'], 'tlme')
+
+figure
+pcolor(tlme); shading flat
+
+lme_mask = fliplr(tlme);
+
+%% Biome mask
+load('/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/biome_masks/ESM_Biome_Masks/data_biomes_MODISAqua_x1.mat',...
+    'biomes')
+
+figure
+pcolor(biomes); shading flat
 
 %% CESM-WACCM
 wpath='/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/';
@@ -109,31 +127,33 @@ clear sf_mean sp_mean sd_mean mf_mean mp_mean md_mean lp_mean ld_mean b_mean
 HF = Hsf+Hmf;
 HP = Hsp+Hmp+Hlp;
 HD = Hsd+Hmd+Hld;
-HS = Hsp+Hsf+Hsd;
-HM = Hmp+Hmf+Hmd;
-HL = Hlp+Hld;
 
 %% Interpolate to same grid
 
 hF = griddata(tlat,tlon,HF,glat,glon);
 hP = griddata(tlat,tlon,HP,glat,glon);
 hD = griddata(tlat,tlon,HD,glat,glon);
-hB = griddata(tlat,tlon,Hb,glat,glon);
-hS = griddata(tlat,tlon,HS,glat,glon);
-hM = griddata(tlat,tlon,HM,glat,glon);
-hL = griddata(tlat,tlon,HL,glat,glon);
 
 hAll = hF+hP+hD;
-hFrahPD = hP ./ (hP+hD);
-hFrahPF = hP ./ (hP+hF);
-hFrahLM = hL ./ (hL+hM);
+
+figure
+pcolor(hAll); shading flat
 
 %% CESM-WACCM ======================================================
 gpath=['/Volumes/petrik-lab/Feisty/NC/WG2300/',cfile,'/CESM2-WACCM/'];
 fracs = {'50','55','60','65','70','75','80','85','90','95','zooc'};
 
+%matrices for stats
+Amat = nan*ones(length(fracs),5);
+Fmat = Amat;
+Pmat = Amat;
+Dmat = Amat;
+PDmat = Amat;
+
+close all
+
 %%
-for m = 9:length(fracs)
+for m = 1:length(fracs)
     mod = [fracs{m} '_'];
     if m==length(fracs)
         exper = ['CESM2-WACCM_spinup_',mod,'All_fish03'];
@@ -142,8 +162,6 @@ for m = 9:length(fracs)
     end
 
     load([gpath 'Means_' exper '_' cfile '.mat']);
-
-    close all
 
     %%
     Csf=NaN*ones(hi,hj);
@@ -184,233 +202,241 @@ for m = 9:length(fracs)
     CF = Csf+Cmf;
     CP = Csp+Cmp+Clp;
     CD = Csd+Cmd+Cld;
-    CS = Csp+Csf+Csd;
-    CM = Cmp+Cmf+Cmd;
-    CL = Clp+Cld;
 
     %% Interpolate to same grid
 
     cF = griddata(CLAT,CLON,CF,glat,glon);
     cP = griddata(CLAT,CLON,CP,glat,glon);
     cD = griddata(CLAT,CLON,CD,glat,glon);
-    cB = griddata(CLAT,CLON,Cb,glat,glon);
-    cS = griddata(CLAT,CLON,CS,glat,glon);
-    cM = griddata(CLAT,CLON,CM,glat,glon);
-    cL = griddata(CLAT,CLON,CL,glat,glon);
 
     %
     cAll = cF+cP+cD;
-    cFracPD = cP ./ (cP+cD);
-    cFracPF = cP ./ (cP+cF);
-    cFracLM = cL ./ (cL+cM);
 
-    %%
-    diffF = (cF - hF);
-    diffP = (cP - hP);
-    diffD = (cD - hD);
-    diffB = (cB - hB);
-    diffAll = (cAll - hAll);
+    %% LME means
+    % should be area-weighted means but ignore for now
 
-    pdiffF = (cF-hF) ./ hF;
-    pdiffP = (cP-hP) ./ hP;
-    pdiffD = (cD-hD) ./ hD;
-    pdiffB = (cB-hB) ./ hB;
-    pdiffAll = (cAll-hAll) ./ hAll;
+    clmeAll = NaN*ones(69,1);
+    clmeF = NaN*ones(69,1);
+    clmeP = NaN*ones(69,1);
+    clmeD = NaN*ones(69,1);
 
-    %% find non-nan grid cells (ocean cells)
-    cid = find(~isnan(cAll));
-    hid = find(~isnan(hAll));
-    keep = intersect(cid,hid);
+    hlmeAll = NaN*ones(69,1);
+    hlmeF = NaN*ones(69,1);
+    hlmeP = NaN*ones(69,1);
+    hlmeD = NaN*ones(69,1);
+
+    for L=1:66
+        lid = find(lme_mask==L);
+        % waccm
+        clmeAll(L,1) = mean(cAll(lid),'omitnan');
+        clmeF(L,1) = mean(cF(lid),'omitnan');
+        clmeP(L,1) = mean(cP(lid),'omitnan');
+        clmeD(L,1) = mean(cD(lid),'omitnan');
+
+        % fosi
+        hlmeAll(L,1) = mean(hAll(lid),'omitnan');
+        hlmeF(L,1) = mean(hF(lid),'omitnan');
+        hlmeP(L,1) = mean(hP(lid),'omitnan');
+        hlmeD(L,1) = mean(hD(lid),'omitnan');
+    end
+
+    %find biomes in high seas
+    nid = find(isnan(lme_mask));
+    for b=1:3
+        hid = find(biomes==b);
+        bid = intersect(hid,nid);
+
+        % waccm
+        clmeAll(66+b,1) = mean(cAll(bid),'omitnan');
+        clmeF(66+b,1) = mean(cF(bid),'omitnan');
+        clmeP(66+b,1) = mean(cP(bid),'omitnan');
+        clmeD(66+b,1) = mean(cD(bid),'omitnan');
+
+        % fosi
+        hlmeAll(66+b,1) = mean(hAll(bid),'omitnan');
+        hlmeF(66+b,1) = mean(hF(bid),'omitnan');
+        hlmeP(66+b,1) = mean(hP(bid),'omitnan');
+        hlmeD(66+b,1) = mean(hD(bid),'omitnan');
+    end
+
+    %% PD frac
+    hFracPD = hlmeP ./ (hlmeP+hlmeD);
+    cFracPD = clmeP ./ (clmeP+clmeD);
+    
+    %remove interior seas 
+    keep = [1:22,24:32,34:61,63:69];
 
     %% Stats
     %Pearson correlation coeff (r)
-    [rall,pall] =corr(cAll(keep),hAll(keep));
-    [rF,pF] =corr(cF(keep),hF(keep));
-    [rP,pP] =corr(cP(keep),hP(keep));
-    [rD,pD] =corr(cD(keep),hD(keep));
-    [rPD,pPD] =corr(cFracPD(keep),hFrahPD(keep));
+    [rall,pall] =corr(clmeAll(keep),hlmeAll(keep));
+    [rF,pF] =corr(clmeF(keep),hlmeF(keep));
+    [rP,pP] =corr(clmeP(keep),hlmeP(keep));
+    [rD,pD] =corr(clmeD(keep),hlmeD(keep));
+    [rPD,pPD] =corr(cFracPD(keep),hFracPD(keep));
 
 
     %Concordance correlation coeff (CCC)
-    aCCC = f_CCC([cAll(keep),hAll(keep)],0.05);
-    fCCC = f_CCC([cF(keep),hF(keep)],0.05);
-    pCCC = f_CCC([cP(keep),hP(keep)],0.05);
-    dCCC = f_CCC([cD(keep),hD(keep)],0.05);
-    pdCCC = f_CCC([cFracPD(keep),hFrahPD(keep)],0.05);
+    aCCC = f_CCC([clmeAll(keep),hlmeAll(keep)],0.05);
+    fCCC = f_CCC([clmeF(keep),hlmeF(keep)],0.05);
+    pCCC = f_CCC([clmeP(keep),hlmeP(keep)],0.05);
+    dCCC = f_CCC([clmeD(keep),hlmeD(keep)],0.05);
+    pdCCC = f_CCC([cFracPD(keep),hFracPD(keep)],0.05);
 
 
     %root mean square error
-    o=hAll(keep);
-    p=cAll(keep);
+    o=hlmeAll(keep);
+    p=clmeAll(keep);
     n = length(o);
     num=nansum((p-o).^2);
     rmse = sqrt(num/n);
 
-    o=hF(keep);
-    p=cF(keep);
+    o=hlmeF(keep);
+    p=clmeF(keep);
     n = length(o);
     num=nansum((p-o).^2);
     rmseF = sqrt(num/n);
 
-    o=hP(keep);
-    p=cP(keep);
+    o=hlmeP(keep);
+    p=clmeP(keep);
     n = length(o);
     num=nansum((p-o).^2);
     rmseP = sqrt(num/n);
 
-    o=hD(keep);
-    p=cD(keep);
+    o=hlmeD(keep);
+    p=clmeD(keep);
     n = length(o);
     num=nansum((p-o).^2);
     rmseD = sqrt(num/n);
 
-    o=hFrahPD(keep);
+    o=hFracPD(keep);
     p=cFracPD(keep);
     n = length(o);
     num=nansum((p-o).^2);
     rmsePD = sqrt(num/n);
 
     %Fmed
-    Fall=10^(median(hAll(keep)-cAll(keep)));
-    FF=10^(median(hF(keep)-cF(keep)));
-    FP=10^(median(hP(keep)-cP(keep)));
-    FD=10^(median(hD(keep)-cD(keep)));
-    FPD=10^(median(hFrahPD(keep)-cFracPD(keep)));
+    Fall=10^(median(hlmeAll(keep)-clmeAll(keep)));
+    FF=10^(median(hlmeF(keep)-clmeF(keep)));
+    FP=10^(median(hlmeP(keep)-clmeP(keep)));
+    FD=10^(median(hlmeD(keep)-clmeD(keep)));
+    FPD=10^(median(hFracPD(keep)-cFracPD(keep)));
 
     % Bias (FOSI minus SAUP)
     %average error = bias
-    p=hAll(keep);
-    o=cAll(keep);
+    p=hlmeAll(keep);
+    o=clmeAll(keep);
     n = length(o);
     bias = nansum(o-p) / n;
 
-    p=hF(keep);
-    o=cF(keep);
+    p=hlmeF(keep);
+    o=clmeF(keep);
     n = length(o);
     biasF = nansum(o-p) / n;
 
-    p=hP(keep);
-    o=cP(keep);
+    p=hlmeP(keep);
+    o=clmeP(keep);
     n = length(o);
     biasP = nansum(o-p) / n;
 
-    p=hD(keep);
-    o=cD(keep);
+    p=hlmeD(keep);
+    o=clmeD(keep);
     n = length(o);
     biasD = nansum(o-p) / n;
 
-    p=hFrahPD(keep);
+    p=hFracPD(keep);
     o=cFracPD(keep);
     n = length(o);
     biasPD = nansum(o-p) / n;
 
-    
+
     %MEF
     %(sum((r - rbar).^2) - sum((bsxfun(@minus, [r f], r)).^2))./(sum((r - rbar).^2));
-    o=hAll(keep);
-    p=cAll(keep);
+    o=hlmeAll(keep);
+    p=clmeAll(keep);
     obar = nanmean(o);
     pbar = nanmean(p);
     mef = (sum((o - obar).^2) - sum((p - pbar).^2)) ./ (sum((o - obar).^2));
 
-    o=hF(keep);
-    p=cF(keep);
+    o=hlmeF(keep);
+    p=clmeF(keep);
     obar = nanmean(o);
     pbar = nanmean(p);
     mefF = (sum((o - obar).^2) - sum((p - pbar).^2)) ./ (sum((o - obar).^2));
 
-    o=hP(keep);
-    p=cP(keep);
+    o=hlmeP(keep);
+    p=clmeP(keep);
     obar = nanmean(o);
     pbar = nanmean(p);
     mefP = (sum((o - obar).^2) - sum((p - pbar).^2)) ./ (sum((o - obar).^2));
 
-    o=hD(keep);
-    p=cD(keep);
+    o=hlmeD(keep);
+    p=clmeD(keep);
     obar = nanmean(o);
     pbar = nanmean(p);
     mefD = (sum((o - obar).^2) - sum((p - pbar).^2)) ./ (sum((o - obar).^2));
 
-    o=hFrahPD(keep);
+    o=hFracPD(keep);
     p=cFracPD(keep);
     obar = nanmean(o);
     pbar = nanmean(p);
     mefPD = (sum((o - obar).^2) - sum((p - pbar).^2)) ./ (sum((o - obar).^2));
-    
-    %% Scatter plots
-
-    x=-5:0.5:5;
-    x2h = x+log10(2);
-    x2l = x-log10(2);
-    x5h = x+log10(5);
-    x5l = x-log10(5);
-
-    figure(1)
-    subplot(2,2,1)
-    plot(x,x,'--k'); hold on;
-    plot(x,x2h,':b'); hold on;
-    plot(x,x2l,':b'); hold on;
-    plot(x,x5h,':r'); hold on;
-    plot(x,x5l,':r'); hold on;
-    %scatter(StockPNAS(:,7),glme_mcatch(keep),20,lme_tp_fosi(keep,1),'filled'); hold on;
-    %cmocean('thermal');
-    scatter(log10(hF(keep)),log10(cF(keep)),20,'filled'); hold on;
-    text(-3.25,1.25,['r = ' sprintf('%2.2f',rF) ' '])
-    text(-3.25,0.75,['RMSE = ' sprintf('%2.2f',rmseF)])
-    text(-3.25,0.25,['bias = ' sprintf('%2.2f',biasF)])
-    axis([-4 1.5 -4 1.5])
-    xlabel('CESM FOSI')
-    ylabel('CESM-WACCM')
-    title('Forage fishes')
-
-    subplot(2,2,2)
-    plot(x,x,'--k'); hold on;
-    plot(x,x2h,':b'); hold on;
-    plot(x,x2l,':b'); hold on;
-    plot(x,x5h,':r'); hold on;
-    plot(x,x5l,':r'); hold on;
-    scatter(log10(hP(keep)),log10(cP(keep)),20,'filled'); hold on;
-    text(-3.25,1.25,['r = ' sprintf('%2.2f',rP) ' '])
-    text(-3.25,0.75,['RMSE = ' sprintf('%2.2f',rmseP)])
-    text(-3.25,0.25,['bias = ' sprintf('%2.2f',biasP)])
-    axis([-4 1.5 -4 1.5])
-    xlabel('CESM FOSI')
-    ylabel('CESM-WACCM')
-    title('LgPel fishes')
-
-    subplot(2,2,3)
-    plot(x,x,'--k'); hold on;
-    plot(x,x2h,':b'); hold on;
-    plot(x,x2l,':b'); hold on;
-    plot(x,x5h,':r'); hold on;
-    plot(x,x5l,':r'); hold on;
-    scatter((hFrahPD(keep)),(cFracPD(keep)),20,'filled'); hold on;
-    text(-0.05,1.0,['r = ' sprintf('%2.2f',rPD) ' '])
-    text(-0.05,0.75,['RMSE = ' sprintf('%2.2f',rmsePD)])
-    text(-0.05,0.5,['bias = ' sprintf('%2.2f',biasPD)])
-    axis([-0.1 1.1 -0.1 1.1])
-    xlabel('CESM FOSI')
-    ylabel('CESM-WACCM')
-    title('P / (P+D)')
-
-    subplot(2,2,4)
-    plot(x,x,'--k'); hold on;
-    plot(x,x2h,':b'); hold on;
-    plot(x,x2l,':b'); hold on;
-    plot(x,x5h,':r'); hold on;
-    plot(x,x5l,':r'); hold on;
-    scatter(log10(hAll(keep)),log10(cAll(keep)),20,'filled'); hold on;
-    text(-0.75,1.75,['r = ' sprintf('%2.2f',rall) ' '])
-    text(-0.75,1.5,['RMSE = ' sprintf('%2.2f',rmse)])
-    text(-0.75,1.25,['bias = ' sprintf('%2.2f',bias)])
-    axis([-1 2.25 -1 2.25])
-    xlabel('CESM FOSI')
-    ylabel('CESM-WACCM')
-    title('All fishes')
-    stamp('')
-    print('-dpng',[ppath 'WACCM_FOSI_' mod 'scatter_types.png'])
 
     %% Create a table for stats
 
+    % r, CCC, RMSE, Fmed, bias
+    %All fish
+    Amat(m,1) = rall;
+    Amat(m,2) = aCCC{1,1}.est;
+    Amat(m,3) = rmse;
+    Amat(m,4) = Fall;
+    Amat(m,5) = bias;
+    Amat(m,6) = mef;
+
+    %Forage
+    Fmat(m,1) = rF;
+    Fmat(m,2) = fCCC{1,1}.est;
+    Fmat(m,3) = rmseF;
+    Fmat(m,4) = FF;
+    Fmat(m,5) = biasF;
+    Fmat(m,6) = mefF;
+
+    %Lg Pel
+    Pmat(m,1) = rP;
+    Pmat(m,2) = pCCC{1,1}.est;
+    Pmat(m,3) = rmseP;
+    Pmat(m,4) = FP;
+    Pmat(m,5) = biasP;
+    Pmat(m,6) = mefP;
+
+    %Dem
+    Dmat(m,1) = rD;
+    Dmat(m,2) = dCCC{1,1}.est;
+    Dmat(m,3) = rmseD;
+    Dmat(m,4) = FD;
+    Dmat(m,5) = biasD;
+    Dmat(m,6) = mefD;
+
+    %PDfrac
+    PDmat(m,1) = rPD;
+    PDmat(m,2) = pdCCC{1,1}.est;
+    PDmat(m,3) = rmsePD;
+    PDmat(m,4) = FPD;
+    PDmat(m,5) = biasPD;
+    PDmat(m,6) = mefPD;
+
 end
 
+%% Save tables as csv
+vname = {'r', 'CCC', 'RMSE', 'Fmed', 'bias', 'MEF'};
+
+Atab = array2table(Amat,'VariableNames',vname,'RowNames',fracs);
+Ftab = array2table(Fmat,'VariableNames',vname,'RowNames',fracs);
+Ptab = array2table(Pmat,'VariableNames',vname,'RowNames',fracs);
+Dtab = array2table(Dmat,'VariableNames',vname,'RowNames',fracs);
+PDtab = array2table(PDmat,'VariableNames',vname,'RowNames',fracs);
+
+writetable(Atab,[gpath 'WACCM_FOSI_stats_Lfracs_All_lmes.csv'],'Delimiter',',','WriteRowNames',true)
+writetable(Ftab,[gpath 'WACCM_FOSI_stats_Lfracs_Forage_lmes.csv'],'Delimiter',',','WriteRowNames',true)
+writetable(Ptab,[gpath 'WACCM_FOSI_stats_Lfracs_LgPel_lmes.csv'],'Delimiter',',','WriteRowNames',true)
+writetable(Dtab,[gpath 'WACCM_FOSI_stats_Lfracs_Dem_lmes.csv'],'Delimiter',',','WriteRowNames',true)
+writetable(PDtab,[gpath 'WACCM_FOSI_stats_Lfracs_PDfrac_lmes.csv'],'Delimiter',',','WriteRowNames',true)
