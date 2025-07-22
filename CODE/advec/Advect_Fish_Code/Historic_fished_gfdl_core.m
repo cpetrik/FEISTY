@@ -1,5 +1,5 @@
 %%%%!! RUN SPINUP FOR ALL LOCATIONS
-function Historic_fished_gfdl_movement()
+function Historic_fished_gfdl_core()
 
 %%%%%%%%%%%%%%% Initialize Model Variables
 %! Set fishing rate
@@ -20,18 +20,18 @@ load([vpath 'Data_grid_ocean_cobalt_ESM2Mcore.mat'],'GRD');
 GRD1 = GRD;
 clear GRD
 
-%2-D
-load([vpath 'Data_hindcast_grid_cp2D.mat'],'GRD')
-GRD2 = GRD;
-clear GRD
-
-%grid params
-[ni,nj] = size(GRD2.mask);
-param.ni = ni;
-param.nj = nj;
-param.dx = GRD2.dxtn;
-param.dy = GRD2.dyte;
-param.mask = GRD2.mask;
+% %2-D
+% load([vpath 'Data_hindcast_grid_cp2D.mat'],'GRD')
+% GRD2 = GRD;
+% clear GRD
+% 
+% %grid params
+% [ni,nj] = size(GRD2.mask);
+% param.ni = ni;
+% param.nj = nj;
+% param.dx = GRD2.dxtn;
+% param.dy = GRD2.dyte;
+% param.mask = GRD2.mask;
 
 param.NX = length(GRD1.Z);
 param.ID = 1:param.NX;
@@ -39,7 +39,7 @@ NX = length(GRD1.Z);
 ID = 1:param.NX;
 
 %! Advection/Movement time step
-param.adt = 24 * 60 * 60; %time step in seconds
+% param.adt = 24 * 60 * 60; %time step in seconds
 
 %! How long to run the model
 YEARS = 1988:2007;
@@ -48,9 +48,9 @@ DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Create a directory for output
-exper = 'move_prey';
+exper = '1988_no_move';
 opath = '/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/';
-[fname,simname,sname] = sub_fname_hist_gfdl_move(param,opath,exper);
+[fname,simname,sname] = sub_fname_hist_gfdl_core(param,opath,exper);
 
 %! Storage variables
 S_Bent_bio = zeros(NX,DAYS);
@@ -148,7 +148,7 @@ netcdf.endDef(ncidLD);
 xy_dim     = netcdf.defDim(ncidB,'nid',NX);
 time_dim   = netcdf.defDim(ncidB,'ntime',nt);
 vidbioB    = netcdf.defVar(ncidB,'biomass','double',[xy_dim,time_dim]);
-%vidTB      = netcdf.defVar(ncidB,'time','double',time_dim);
+vidTB      = netcdf.defVar(ncidB,'time','double',time_dim);
 netcdf.endDef(ncidB);
 
 %% %%%%%%%%%%%%%%%%%%%% Run the Model
@@ -158,18 +158,17 @@ MNT = 0;
 for YR = 1:nYEARS % years
     ti = num2str(YEARS(YR))
     load([vpath,'Data_ocean_cobalt_daily_',ti,'.mat'],'COBALT');
-    %u or uh? "h" are much bigger values
-    %transports (h) account for volume of top 200m
-    load([vpath,'Vel200_feb152013_run25_ocean_',ti,'.mat'],'uh','vh'); 
-    COBALT.U = uh;
-    COBALT.V = vh;
+    % %u or uh? "h" are much bigger values
+    % load([vpath,'Vel200_feb152013_run25_ocean_',ti,'.mat'],'uh','vh');
+    % COBALT.U = uh;
+    % COBALT.V = vh;
 
     for DAY = 1:param.DT:DAYS % days
 
         %%%! Future time step
         DY = int64(ceil(DAY));
         [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,ENVR] = ...
-            sub_futbio(DY,COBALT,GRD,Sml_f,Sml_p,Sml_d,...
+            sub_futbio(DY,COBALT,GRD1,Sml_f,Sml_p,Sml_d,...
             Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,param);
 
         %! Store

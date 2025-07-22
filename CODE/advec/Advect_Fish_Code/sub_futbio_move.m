@@ -256,14 +256,14 @@ current(:,:,1) = u200;
 current(:,:,2) = v200;
 
 % move
-bioSf = AdvectPredator(bioSf,preySf,current,param.tstep,param.dx,param.dy,param.U_s,param.mask,param.nj,param.ni);
-bioSp = AdvectPredator(bioSp,preySp,current,param.tstep,param.dx,param.dy,param.U_s,param.mask,param.nj,param.ni);
-bioSd = AdvectPredator(bioSd,preySd,current,param.tstep,param.dx,param.dy,param.U_s,param.mask,param.nj,param.ni);
-bioMf = AdvectPredator(bioMf,preyMf,current,param.tstep,param.dx,param.dy,param.U_m,param.mask,param.nj,param.ni);
-bioMp = AdvectPredator(bioMp,preyMp,current,param.tstep,param.dx,param.dy,param.U_m,param.mask,param.nj,param.ni);
-bioMd = AdvectPredator(bioMd,preyMd,current,param.tstep,param.dx,param.dy,param.U_m,param.mask,param.nj,param.ni);
-bioLp = AdvectPredator(bioLp,preyLp,current,param.tstep,param.dx,param.dy,param.U_l,param.mask,param.nj,param.ni);
-bioLd = AdvectPredator(bioLd,preyLd,current,param.tstep,param.dx,param.dy,param.U_l,param.mask,param.nj,param.ni);
+bioSf = AdvectPredator(bioSf,preySf,current,param.adt,param.dx,param.dy,param.U_s,param.mask,param.nj,param.ni);
+bioSp = AdvectPredator(bioSp,preySp,current,param.adt,param.dx,param.dy,param.U_s,param.mask,param.nj,param.ni);
+bioSd = AdvectPredator(bioSd,preySd,current,param.adt,param.dx,param.dy,param.U_s,param.mask,param.nj,param.ni);
+bioMf = AdvectPredator(bioMf,preyMf,current,param.adt,param.dx,param.dy,param.U_m,param.mask,param.nj,param.ni);
+bioMp = AdvectPredator(bioMp,preyMp,current,param.adt,param.dx,param.dy,param.U_m,param.mask,param.nj,param.ni);
+bioMd = AdvectPredator(bioMd,preyMd,current,param.adt,param.dx,param.dy,param.U_m,param.mask,param.nj,param.ni);
+bioLp = AdvectPredator(bioLp,preyLp,current,param.adt,param.dx,param.dy,param.U_l,param.mask,param.nj,param.ni);
+bioLd = AdvectPredator(bioLd,preyLd,current,param.adt,param.dx,param.dy,param.U_l,param.mask,param.nj,param.ni);
 
 % put back on 1D grid
 Sf.bio = bioSf(GRD.ID);

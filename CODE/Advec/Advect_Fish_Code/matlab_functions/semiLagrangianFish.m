@@ -34,18 +34,26 @@ function [Flux] = semiLagrangianFish(conc_matrix, Flux, idx, dir, current, dt, d
     % Only do four core directions
     dir = dir(1:4);
 
-    distance = [
-                dy_m;
-                dy_m;
-                dx_m;
-                dx_m;];
-
-    [ n, m] = size( conc_matrix );
-
     % Current cell coordinates
     i = idx(1);
     j = idx(2);
 
+
+    % distance = [
+    %             dy_m;
+    %             dy_m;
+    %             dx_m;
+    %             dx_m;];
+
+    distance = [
+                dy_m(i,j);
+                dy_m(i,j);
+                dx_m(i,j);
+                dx_m(i,j);];
+
+    [ n, m] = size( conc_matrix );
+
+    
     % Current cell concentration ( saves lookups later )
     cell_concentration = conc_matrix(i,j);
 
