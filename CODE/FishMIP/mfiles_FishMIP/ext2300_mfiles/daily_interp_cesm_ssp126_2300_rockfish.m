@@ -16,8 +16,8 @@ fpath='/project/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/ssp126/';
 load([fpath 'cesm2_ssp126_temp_btm_monthly_2015_2299.mat'],'temp_btm');
 load([fpath 'cesm2_ssp126_temp_150_monthly_2015_2299.mat'],'temp_150');
 load([fpath 'cesm2_ssp126_zooc_150_monthly_2015_2299.mat'],'zooc_150','units_vint');
-load([fpath 'cesm2_ssp126_phyc_150_monthly_2015_2299.mat'],'phyc_150');
-load([fpath 'cesm2_ssp126_diat_150_monthly_2015_2299.mat'],'diat_150');
+% load([fpath 'cesm2_ssp126_phyc_150_monthly_2015_2299.mat'],'phyc_150');
+% load([fpath 'cesm2_ssp126_diat_150_monthly_2015_2299.mat'],'diat_150');
 load([fpath 'cesm2_ssp126_det_monthly_2015_2299.mat']); %,'det'
 
 load([fpath 'cesm2-waccm_r1i1p1f1_ssp126_deptho_60arcmin_global_fx.mat'],'deptho')
@@ -25,19 +25,19 @@ load([fpath 'cesm2-waccm_r1i1p1f1_ssp126_deptho_60arcmin_global_fx.mat'],'deptho
 temp_btm(temp_btm > 1.0e19) = nan;
 temp_150(temp_150 > 1.0e19) = nan;
 zooc_150(zooc_150 > 1.0e19) = nan;
-phyc_150(phyc_150 > 1.0e19) = nan;
-diat_150(diat_150 > 1.0e19) = nan;
+% phyc_150(phyc_150 > 1.0e19) = nan;
+% diat_150(diat_150 > 1.0e19) = nan;
 det(det > 1.0e19) = nan;
 
 %% Calc zmeso from diat frac
-Lfrac = diat_150 ./ phyc_150;
-Lfrac(Lfrac>1) = 1.0;
-Lfrac(Lfrac<0) = 0.0;
-
-zmeso_150 = (Lfrac .* double(zooc_150)) + (0.30 * (1-Lfrac) .* double(zooc_150));
-
-save([fpath 'cesm2_ssp126_zmeso_150_monthly_2015_2299.mat'],'zmeso_150',...
-    'Lfrac','units_vint','time','yr')
+% Lfrac = diat_150 ./ phyc_150;
+% Lfrac(Lfrac>1) = 1.0;
+% Lfrac(Lfrac<0) = 0.0;
+% 
+% zmeso_150 = (Lfrac .* double(zooc_150)) + (0.30 * (1-Lfrac) .* double(zooc_150));
+% 
+% save([fpath 'cesm2_ssp126_zmeso_150_monthly_2015_2299.mat'],'zmeso_150',...
+%     'Lfrac','units_vint','time','yr')
 
 %%
 mos = length(time);
@@ -54,7 +54,8 @@ Tdays=1:365;
 %% test that all same orientation
 test1 = squeeze(double(temp_150(:,:,70)));
 test2 = squeeze(double(temp_btm(:,:,70)));
-test3 = squeeze(double(zmeso_150(:,:,70)));
+%test3 = squeeze(double(zmeso_150(:,:,70)));
+test3 = squeeze(double(zooc_150(:,:,70)));
 test4 = squeeze(double(det(:,:,70)));
 
 % figure
@@ -96,7 +97,8 @@ for y = 1:nyrs
 
     Tp = double(temp_150(:,:,range));
     Tb = double(temp_btm(:,:,range));
-    Zm = double(zmeso_150(:,:,range));
+    %Zm = double(zmeso_150(:,:,range));
+    Zm = double(zooc_150(:,:,range));
     Det= double(det(:,:,range));
 
     % setup FEISTY data files
@@ -147,7 +149,7 @@ for y = 1:nyrs
     ESM.det = D_det;
 
     % save
-    save([fpath 'Data_cesm_ssp126_daily_',num2str(ytime),'.mat'], 'ESM');
+    save([fpath 'Data_cesm_ssp126_daily_',num2str(ytime),'_zooc.mat'], 'ESM');
 
 end
 
