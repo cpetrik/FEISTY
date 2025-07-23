@@ -10,12 +10,8 @@ esms = {'IPSL','UKESM','CESM2-WACCM'};
 for m=2:3 %1:length(esms)
 
     mod = esms{m};
-    if m==3
-        exper = [mod '_ssp534_zooc_pristine'];
-    else
-        exper = [mod '_ssp534_pristine'];
-    end
-
+    exper = [mod '_ssp534_pristine'];
+    
     fpath=['/Volumes/petrik-lab/Feisty/NC/WG2300/',cfile,'/',mod,'/'];
 
     %% SP
@@ -178,7 +174,13 @@ for m=2:3 %1:length(esms)
     ld_mean3=mean(LD.bio(:,yr3),2,'omitnan');
     b_mean3 =mean(Bent.bio(:,yr3),2,'omitnan');
 
-    save([fpath 'Means_' exper '_' cfile '.mat'],'time','mo',...
+    if m==3
+        exper2 = [mod '_ssp534_zooc_pristine'];
+    else
+        exper2 = [mod '_ssp534_pristine'];
+    end
+
+    save([fpath 'Means_' exper2 '_' cfile '.mat'],'time','mo',...
         'sf_tmean','sp_tmean','sd_tmean',...
         'mf_tmean','mp_tmean','md_tmean',...
         'lp_tmean','ld_tmean','b_tmean',...
@@ -236,7 +238,7 @@ for m=2:3 %1:length(esms)
     %total demersal (>=90cm) biomass bd90cm = 360x180xMOs
     %LDem = allD;
  
-    save([fpath 'FishMIP_outputs_monthly_' exper '_' cfile '.mat'],'time','mo',...
+    save([fpath 'FishMIP_outputs_monthly_' exper2 '_' cfile '.mat'],'time','mo',...
         'allPel','allD','allC','SPel','LPel');
 
 end

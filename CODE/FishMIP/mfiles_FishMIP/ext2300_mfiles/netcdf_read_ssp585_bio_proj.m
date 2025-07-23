@@ -10,12 +10,8 @@ esms = {'IPSL','UKESM','CESM2-WACCM'};
 for m=3 %1:length(esms)
 
     mod = esms{m};
-    if m==3
-        exper = [mod '_ssp585_zooc_pristine'];
-    else
-        exper = [mod '_ssp585_pristine'];
-    end
-
+    exper = [mod '_ssp585_pristine'];
+    
     fpath=['/project/Feisty/NC/WG2300/',cfile,'/',mod,'/'];
 
     %% SP
@@ -178,7 +174,13 @@ for m=3 %1:length(esms)
     ld_mean3=mean(LD.bio(:,yr3),2);
     b_mean3 =mean(Bent.bio(:,yr3),2);
 
-    save([fpath 'Means_' exper '_' cfile '.mat'],'time','mo',...
+    if m==3
+        exper2 = [mod '_ssp534_zooc_pristine'];
+    else
+        exper2 = [mod '_ssp534_pristine'];
+    end
+
+    save([fpath 'Means_' exper2 '_' cfile '.mat'],'time','mo',...
         'sf_tmean','sp_tmean','sd_tmean',...
         'mf_tmean','mp_tmean','md_tmean',...
         'lp_tmean','ld_tmean','b_tmean',...
@@ -203,7 +205,7 @@ for m=3 %1:length(esms)
     Lrg_d.bio = mean(LD.bio(:,yrS),2,'omitnan');
     BENT.bio  = mean(Bent.bio(:,yrS),2,'omitnan');
 
-    save([fpath 'Last_mo_' exper '_' cfile '.mat'],'Sml_f','Sml_p','Sml_d',...
+    save([fpath 'Last_mo_' exper2 '_' cfile '.mat'],'Sml_f','Sml_p','Sml_d',...
         'Med_f','Med_p','Med_d','Lrg_p','Lrg_d','BENT')
 
 
