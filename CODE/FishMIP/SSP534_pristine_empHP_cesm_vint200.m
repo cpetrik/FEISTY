@@ -44,7 +44,7 @@ S_Lrg_d = zeros(NX,DAYS);
 
 %! Initialize
 %load(['/Volumes/petrik-lab/Feisty/NC/WG2300/',simname,'/CESM2-WACCM/Last_mo_CESM2-WACCM_ssp585_pristine_',simname,'.mat']);
-load(['/project/Feisty/NC/WG2300/',simname,'/CESM2-WACCM/Last_mo_CESM2-WACCM_ssp585_pristine_',simname,'.mat']);
+load(['/project/Feisty/NC/WG2300/',simname,'/CESM2-WACCM/Last_mo_CESM2-WACCM_ssp585_zooc_pristine_',simname,'.mat']);
 BENT.mass = BENT.bio;
 [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_hist(ID,DAYS,Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT);
 
@@ -144,7 +144,7 @@ MNT = 0;
 for YR = 1:nYEARS % years
     %! Load a year's ESM data
     ti = num2str(YEARS(YR));
-    load(['/project/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/ssp534over/Data_cesm_ssp534-over_daily_',ti,'.mat'],'ESM');
+    load(['/project/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/ssp534over/Data_cesm_ssp534-over_daily_',ti,'_zooc.mat'],'ESM');
     
     for DAY = 1:param.DT:DAYS % days
         

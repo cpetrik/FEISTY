@@ -1,5 +1,5 @@
 %%%%!! RUN HISTORIC FOR ALL LOCATIONS
-function SSP585_pristine_empHP_cesm_vint200()
+function SSP534_pristine_empHP_ukesm_vint200()
 
 %%%%%%%%%%%%%%% Initialize Model Variables
 %! Set fishing rate
@@ -10,22 +10,23 @@ param.dfrate = param.frate/365.0;
 param = make_parameters_1meso(param); 
 
 %! Grid
-load('/project/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/Data_grid_cesm2_cmip6_2300.mat','GRD');
+load('/project/Feisty/Fish-MIP/CMIP6/UKESM1-0-LL/Data_grid_ukesm_cmip6_2300.mat','GRD');
 param.NX = length(GRD.Z);
 param.ID = 1:param.NX;
 NX = length(GRD.Z);
 ID = 1:param.NX;
 
 %! How long to run the model
-YEARS = 2015:2300;
+YEARS = 2040:2300;
 nYEARS = length(YEARS);
 DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Create a directory for output
+%opath = '/Volumes/petrik-lab/Feisty/NC/WG2300/';
 opath = '/project/Feisty/NC/WG2300/';
-mod = 'CESM2-WACCM';
-exper = 'CESM2-WACCM_ssp585';
+mod = 'UKESM';
+exper = 'UKESM_ssp534-over';
 [fname,simname] = sub_fname_exper(param,opath,mod,exper);
 
 %! Storage variables
@@ -41,7 +42,7 @@ S_Lrg_p = zeros(NX,DAYS);
 S_Lrg_d = zeros(NX,DAYS);
 
 %! Initialize
-load(['/project/Feisty/NC/WG2300/',simname,'/CESM2-WACCM/Last_mo_CESM2-WACCM_historic_zooc_pristine_',simname,'.mat']);
+load(['/project/Feisty/NC/WG2300/',simname,'/UKESM/Last_mo_UKESM_ssp585_pristine_',simname,'.mat']);
 BENT.mass = BENT.bio;
 [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_hist(ID,DAYS,Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT);
 
@@ -141,7 +142,7 @@ MNT = 0;
 for YR = 1:nYEARS % years
     %! Load a year's ESM data
     ti = num2str(YEARS(YR));
-    load(['/project/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/ssp585/Data_cesm_ssp585_daily_',ti,'_zooc.mat'],'ESM');
+    load(['/project/Feisty/Fish-MIP/CMIP6/UKESM1-0-LL/ssp534over/Data_ukesm_ssp534-over_daily_',ti,'.mat'],'ESM');
     
     for DAY = 1:param.DT:DAYS % days
         
