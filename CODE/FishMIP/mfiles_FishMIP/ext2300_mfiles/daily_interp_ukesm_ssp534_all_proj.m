@@ -6,7 +6,7 @@
 clear 
 close all
 
-fpath='/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/UKESM1-0-LL/ssp534over/';
+fpath='/project/Feisty/Fish-MIP/CMIP6/UKESM1-0-LL/ssp534over/';
 
 %% Units
 %poc flux: mol C m-2 s-1
@@ -82,20 +82,20 @@ test2 = squeeze(double(temp_btm(:,:,70)));
 test3 = squeeze(double(zmeso_200(:,:,70)));
 test4 = squeeze(double(det(:,:,70)));
 
-figure
-subplot(2,2,1)
-pcolor(test1); shading flat
-subplot(2,2,2)
-pcolor(test2); shading flat
-subplot(2,2,3)
-pcolor(test3); shading flat
-subplot(2,2,4)
-pcolor(test4); shading flat
+% figure
+% subplot(2,2,1)
+% pcolor(test1); shading flat
+% subplot(2,2,2)
+% pcolor(test2); shading flat
+% subplot(2,2,3)
+% pcolor(test3); shading flat
+% subplot(2,2,4)
+% pcolor(test4); shading flat
 
 
 %% index of water cells
 %make GRD in another file later
-% load('/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/UKESM1-0-LL/Data_grid_ukesm.mat','GRD');
+% load('/project/Feisty/Fish-MIP/CMIP6/UKESM1-0-LL/Data_grid_ukesm.mat','GRD');
 % WID = GRD.ID;
 % NID = GRD.N;
 
