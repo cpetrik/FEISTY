@@ -1,5 +1,6 @@
 % SSP 534-over theta-bot off from tob in SSP 585
-% bias-correct with delta method using SSP585 tob 1st month
+% bias-correct with delta method using SSP585 tob 1st year
+% same method as Daniele
 
 clear
 close all
@@ -21,7 +22,7 @@ load('/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/UKESM1-0-LL/gridspec_ukesm_cmip6
 %%
 fpath='/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/UKESM1-0-LL/ssp534over/';
 
-load([fpath 'ukesm_ssp534_temp_btm_monthly_2040_2100.mat']);
+load([fpath 'ukesm_ssp534_temp_btm_monthly_2040_2300.mat']);
 
 temp_btm(temp_btm > 1.0e19) = nan;
 
@@ -33,9 +34,12 @@ clear temp_btm yr
 %% find 2040
 [iyr,yid] = intersect(ssp585_yr,ssp534_yr);
 
+ssp585_yr(yid(1:5))
+ssp534_yr(1:5)
+
 %% bias
-t2040 = ssp585_Tb(:,:,yid(1));
-tob = ssp534_Tb(:,:,1);
+t2040 = mean(ssp585_Tb(:,:,yid(1:12)),3,'omitnan');
+tob = mean(ssp534_Tb(:,:,1:12),3,'omitnan');
 tdiff = tob - t2040;
 
 %% map
@@ -83,12 +87,13 @@ title('534 theta-bot - 585 tob')
 stamp('')
 print('-dpng',[pp 'UKESM 2040 tob diff.png'])
 
+
 %% Save
 [ni,nj,nt] = size(ssp534_Tb);
 tdiff_mat = repmat(tdiff,1,1,nt);
 temp_btm = ssp534_Tb - tdiff_mat;
 
-save([fpath 'ukesm_ssp534_temp_btm_corrected_monthly_2040_2100.mat'],'temp_btm',...
+save([fpath 'ukesm_ssp534_temp_btm_corrected_monthly_2040_2300.mat'],'temp_btm',...
     'ssp534_yr','lat','lon','units');
 
 %%

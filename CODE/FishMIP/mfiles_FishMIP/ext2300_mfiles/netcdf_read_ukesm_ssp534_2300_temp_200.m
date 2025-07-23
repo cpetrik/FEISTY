@@ -9,7 +9,7 @@ close all
 fpath='/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/UKESM1-0-LL/ssp534over/';
 
 %% Temp zall
-ncdisp([fpath 'ukesm1-0-ll_r4i1p1f2_ssp534-over_thetao_60arcmin_global_monthly_2040_2100.nc'])
+ncdisp([fpath 'ukesm1-0-ll_r4i1p1f2_ssp534-over_thetao_60arcmin_global_monthly_2101_2300.nc'])
 
 %%
 standard_name      = 'sea_water_potential_temperature';
@@ -22,7 +22,7 @@ missing_value = 1.000000020040877e+20;
 %calendar   = '360_day'
                          
 %%
-ncid = netcdf.open([fpath 'ukesm1-0-ll_r4i1p1f2_ssp534-over_thetao_60arcmin_global_monthly_2040_2100.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'ukesm1-0-ll_r4i1p1f2_ssp534-over_thetao_60arcmin_global_monthly_2101_2300.nc'],'NC_NOWRITE');
 
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 
@@ -37,9 +37,8 @@ end
 % Time
 yr = ((time)/12)+1601;
 %runs1 = find(yr1>1950 & yr1<=2015);
-z200 = find(lev <= 200);
-zlev = lev;
-save([fpath 'ukesm_ssp534_zlev.mat'],'z200','zlev');
+%z200 = find(lev <= 200);
+load([fpath 'ukesm_ssp534_zlev.mat'],'z200','zlev');
 
 for n = nvars
     varname = netcdf.inqVar(ncid, n-1);
@@ -51,7 +50,7 @@ netcdf.close(ncid);
 thetao(thetao >= 1.00e+20) = NaN;
 
 %% Subset of thkcello
-tcid = netcdf.open([fpath 'ukesm1-0-ll_r4i1p1f2_ssp534-over_thkcello_60arcmin_global_monthly_2040_2100.nc'],'NC_NOWRITE');
+tcid = netcdf.open([fpath 'ukesm1-0-ll_r4i1p1f2_ssp534-over_thkcello_60arcmin_global_monthly_2101_2300.nc'],'NC_NOWRITE');
 [tdims,tvars,tgatts,unlimdimid] = netcdf.inq(tcid);
 
 % just last var = thkcello
@@ -92,7 +91,7 @@ clear thetao thkcello
 units_orig = units;
 units_vint = 'mol m-2';
 
-save([fpath 'ukesm_ssp534_temp_200_monthly_2040_2100.mat'],'temp_200',...
+save([fpath 'ukesm_ssp534_temp_200_monthly_2101_2300.mat'],'temp_200',...
     'yr','time','long_name','standard_name','lat','lon',...
-    'units','z200','lev');
+    'units','z200','zlev');
 

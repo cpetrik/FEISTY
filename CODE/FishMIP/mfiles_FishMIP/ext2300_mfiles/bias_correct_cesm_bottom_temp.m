@@ -1,5 +1,6 @@
 % SSP 534-over theta-bot off from tob in SSP 585
-% bias-correct with delta method using SSP585 tob 1st month
+% bias-correct with delta method using SSP585 tob 1st year
+% same method as Daniele
 
 clear 
 close all
@@ -34,12 +35,12 @@ clear temp_btm yr
 %% find 2040
 [iyr,yid] = intersect(ssp585_yr,ssp534_yr);
 
-ssp585_yr(yid(1))
-ssp534_yr(1)
+ssp585_yr(yid(1:12))
+ssp534_yr(1:12)
 
 %% bias
-t2040 = ssp585_Tb(:,:,yid(1));
-tob = ssp534_Tb(:,:,1);
+t2040 = mean(ssp585_Tb(:,:,yid(1:12)),3,'omitnan');
+tob = mean(ssp534_Tb(:,:,1:12),3,'omitnan');
 tdiff = tob - t2040;
 
 %% map
