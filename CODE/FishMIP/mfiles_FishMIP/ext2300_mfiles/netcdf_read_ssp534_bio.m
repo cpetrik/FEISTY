@@ -7,10 +7,14 @@ cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80
 
 esms = {'IPSL','UKESM','CESM2-WACCM'};
 
-for m=1 %:length(esms)
+for m=2:3 %1:length(esms)
 
     mod = esms{m};
-    exper = [mod '_ssp534-over_pristine'];
+    if m==3
+        exper = [mod '_ssp534_zooc_pristine'];
+    else
+        exper = [mod '_ssp534_pristine'];
+    end
 
     fpath=['/Volumes/petrik-lab/Feisty/NC/WG2300/',cfile,'/',mod,'/'];
 
