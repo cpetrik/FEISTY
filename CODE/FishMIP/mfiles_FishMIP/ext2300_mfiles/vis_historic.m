@@ -25,7 +25,11 @@ for m=3 %length(esms)
     
     mod = esms{m};
     mod2 = e2{m};
-    exper = [mod '_historic_pristine'];
+    if m==3
+        exper = [mod '_historic_zooc_pristine'];
+    else
+        exper = [mod '_historic_pristine'];
+    end
 
     fpath=['/Volumes/petrik-lab/Feisty/NC/WG2300/',cfile,'/',mod,'/'];
 
