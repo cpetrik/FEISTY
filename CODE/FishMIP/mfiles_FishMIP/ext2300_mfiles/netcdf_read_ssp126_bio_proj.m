@@ -175,9 +175,9 @@ for m=3 %1:length(esms)
     b_mean3 =mean(Bent.bio(:,yr3),2);
 
     if m==3
-        exper2 = [mod '_ssp534_zooc_pristine'];
+        exper2 = [mod '_ssp126_zooc_pristine'];
     else
-        exper2 = [mod '_ssp534_pristine'];
+        exper2 = [mod '_ssp126_pristine'];
     end
 
     save([fpath 'Means_' exper2 '_' cfile '.mat'],'time','mo',...
