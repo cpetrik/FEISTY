@@ -101,5 +101,5 @@ plot(yr,ssp126_Det,'color',[0 0.5 0.75])
 
 %% save means
 ssp126_yr = yr;
-save([fpath 'Means_cesm2_ssp126_zmeso_monthly_2015_2299.mat'], 'ssp126_Tp','ssp126_Tb',...
+save([fpath 'Means_cesm2_ssp126_zooc_monthly_2015_2299.mat'], 'ssp126_Tp','ssp126_Tb',...
     'ssp126_Zm','ssp126_Det','ssp126_yr');

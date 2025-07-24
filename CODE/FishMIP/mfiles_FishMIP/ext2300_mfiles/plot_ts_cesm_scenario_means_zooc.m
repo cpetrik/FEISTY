@@ -8,22 +8,22 @@ pp = '/Users/cpetrik/Petrik Lab Group Dropbox/Colleen Petrik/Fish-MIP/WGs/2300/t
 %% Hist
 hpath='/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/hist/';
 
-load([hpath 'Means_cesm2_hist_monthly_1850_2014.mat']);
+load([hpath 'Means_cesm2_hist_zooc_monthly_1850_2014.mat']);
 
 %% SSP 126
 bpath='/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/ssp126/';
 
-load([bpath 'Means_cesm2_ssp126_monthly_2015_2299.mat']);
+load([bpath 'Means_cesm2_ssp126_zooc_monthly_2015_2299.mat']);
 
 %% SSP 585
 wpath='/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/ssp585/';
 
-load([wpath 'Means_cesm_ssp585_monthly_2015_2299.mat']);
+load([wpath 'Means_cesm_ssp585_zooc_monthly_2015_2299.mat']);
 
 %% SSP 534
 wpath='/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/ssp534over/';
 
-load([wpath 'Means_cesm2_ssp534_monthly_2040_2299.mat']);
+load([wpath 'Means_cesm2_ssp534_zooc_monthly_2040_2299.mat']);
 
 %% Rolling means ~ annual
 hist_yr = movmean(hist_yr,12);
@@ -82,4 +82,4 @@ plot(ssp126_yr,ssp126_Det,'b','LineWidth',1.5); hold on
 plot(ssp585_yr,ssp585_Det,'r','LineWidth',1.5); hold on
 plot(ssp534_yr,ssp534_Det,'color',[0 0.75 0.5],'LineWidth',1.5);
 title('CESM Det btm')
-print('-dpng',[pp 'CESM2-WACCM_forcing_global_means_all_scenarios.png'])
+print('-dpng',[pp 'CESM2-WACCM_forcing_zooc_global_means_all_scenarios.png'])
