@@ -23,7 +23,12 @@ for m=2 %1:length(esms)
     
     mod = esms{m};
     mod2 = e2{m};
-    exper = [mod '_spinup_pristine'];
+
+    if mod==2
+        exper = [mod '_spinup_zmeso_pristine'];
+    else
+        exper = [mod '_spinup_pristine'];
+    end
 
     fpath=['/Volumes/petrik-lab/Feisty/NC/WG2300/',cfile,'/',mod,'/'];
 

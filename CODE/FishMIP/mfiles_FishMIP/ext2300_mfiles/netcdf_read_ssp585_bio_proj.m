@@ -255,7 +255,7 @@ for m=3 %1:length(esms)
     %total demersal (>=90cm) biomass bd90cm = 360x180xMOs
     %LDem = allD;
  
-    save([fpath 'FishMIP_outputs_monthly_' exper '_' cfile '.mat'],'time','mo',...
+    save([fpath 'FishMIP_outputs_monthly_' exper2 '_' cfile '.mat'],'time','mo',...
         'allPel','allD','allC','SPel','LPel');
 
 end
