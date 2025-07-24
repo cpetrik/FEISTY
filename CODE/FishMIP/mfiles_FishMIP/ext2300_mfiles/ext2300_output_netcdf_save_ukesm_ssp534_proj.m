@@ -45,7 +45,7 @@ load('/project/Feisty/Fish-MIP/CMIP6/UKESM1-0-LL/gridspec_ukesm_cmip6_2300.mat')
 
 [ni,nj] = size(LAT);
 
-load('/project/Feisty/Fish-MIP/CMIP6/UKESM1-0-LL/ssp534-over/ukesm_ssp534over_temp_btm_monthly_2040_2300.mat',...
+load('/project/Feisty/Fish-MIP/CMIP6/UKESM1-0-LL/ssp534over/ukesm_ssp534_temp_btm_monthly_2040_2300.mat',...
     'yr','time');
 t_all = time;
 
