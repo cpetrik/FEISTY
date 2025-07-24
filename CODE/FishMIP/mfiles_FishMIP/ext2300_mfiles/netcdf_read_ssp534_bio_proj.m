@@ -10,7 +10,8 @@ esms = {'IPSL','UKESM','CESM2-WACCM'};
 for m=2:3 %1:length(esms)
 
     mod = esms{m};
-    exper = [mod '_ssp534_pristine'];
+
+    exper = [mod '_ssp534-over_pristine'];
     
     fpath=['/project/Feisty/NC/WG2300/',cfile,'/',mod,'/'];
 
