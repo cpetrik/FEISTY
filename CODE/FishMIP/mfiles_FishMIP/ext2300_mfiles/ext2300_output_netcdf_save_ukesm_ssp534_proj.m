@@ -11,7 +11,7 @@ harv = 'pristine';
 
 %% Fish-MIP OUTPUTS =================================================
 
-load([fpath 'FishMIP_outputs_monthly_UKESM_ssp534-over_pristine_' cfile '.mat'])
+load([fpath 'FishMIP_outputs_monthly_UKESM_ssp534_pristine_' cfile '.mat'])
 
 % PREFERRED (all units = gWW/m2)
 %total pelagic biomass tpb = 360x180xMOs
