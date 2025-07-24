@@ -45,7 +45,7 @@ load('/project/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/gridspec_cesm2_cmip6_2300.mat')
 
 [ni,nj] = size(LAT);
 
-load('/project/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/ssp585/cesm2_ssp585_time_monthly_2015_2300.mat',...
+load('/project/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/ssp585/cesm2_ssp585_temp_btm_monthly_2015_2299.mat',...
     'yr','time');
 t_all = time;
 

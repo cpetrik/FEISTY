@@ -45,7 +45,7 @@ load('/project/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/gridspec_cesm2_cmip6_2300.mat')
 
 [ni,nj] = size(LAT);
 
-load('/project/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/ssp534over/cesm2_ssp534-over_time_monthly_2040_2300.mat');
+load('/project/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/ssp534over/cesm2_ssp534-over_temp_btm_monthly_2040_2299.mat','time');
 t_all = time;
 
 %% Reshape to lat,lon,yr

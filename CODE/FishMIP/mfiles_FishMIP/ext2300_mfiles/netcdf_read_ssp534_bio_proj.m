@@ -194,10 +194,10 @@ for m=2:3 %1:length(esms)
 
 
     %%
-    figure
-    plot(time,mf_tmean,'r'); hold on
-    plot(time,lp_tmean,'b'); hold on
-    plot(time,ld_tmean,'k')
+    % figure
+    % plot(time,mf_tmean,'r'); hold on
+    % plot(time,lp_tmean,'b'); hold on
+    % plot(time,ld_tmean,'k')
 
     %% Fish-MIP OUTPUTS =================================================
 
