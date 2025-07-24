@@ -18,7 +18,7 @@ ppath='/project/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/preindust/';
 
 load([fpath 'cesm2_hist_temp_btm_monthly_1850_2014.mat'],'temp_btm');
 load([fpath 'cesm2_hist_temp_150_monthly_1850_2014.mat'],'temp_150');
-load([fpath 'cesm2_hist_zooc_monthly_1850_2014.mat'],...
+load([fpath 'cesm2_hist_zooc_150_monthly_1850_2014.mat'],...
     'zooc_150');
 load([fpath 'cesm2_hist_det_monthly_1850_2014.mat']); %,'det'
 

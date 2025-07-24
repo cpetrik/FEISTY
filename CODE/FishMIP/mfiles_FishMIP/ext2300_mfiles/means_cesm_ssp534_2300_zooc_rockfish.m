@@ -20,7 +20,7 @@ fpath='/project/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/ssp534over/';
 load([fpath 'cesm2_ssp534-over_temp_btm_corrected_monthly_2040_2299.mat'],'temp_btm');
 load([fpath 'cesm2_ssp534-over_temp_150_monthly_2040_2299.mat'],'temp_150');
 load([fpath 'cesm2_ssp534-over_det_monthly_2040_2299.mat'],'det')
-load([fpath 'cesm2_ssp534-over_zooc_monthly_2040_2299.mat']); %,'zooc_150','units_vint');
+load([fpath 'cesm2_ssp534-over_zooc_150_monthly_2040_2299.mat']); %,'zooc_150','units_vint');
 
 temp_150(temp_150 > 1.0e19) = nan;
 temp_btm(temp_btm > 1.0e19) = nan;

@@ -17,7 +17,7 @@ fpath='/project/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/ssp126/';
 
 load([fpath 'cesm2_ssp126_temp_btm_monthly_2015_2299.mat'],'temp_btm');
 load([fpath 'cesm2_ssp126_temp_150_monthly_2015_2299.mat'],'temp_150');
-load([fpath 'cesm2_ssp126_zooc_monthly_2015_2299.mat'],'zooc_150');
+load([fpath 'cesm2_ssp126_zooc_150_monthly_2015_2299.mat'],'zooc_150');
 load([fpath 'cesm2_ssp126_det_monthly_2015_2299.mat']); %,'det'
 
 load([fpath 'cesm2-waccm_r1i1p1f1_ssp126_deptho_60arcmin_global_fx.mat'],'deptho')
