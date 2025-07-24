@@ -80,9 +80,9 @@ NID = length(WID);
 %% Means over all grid cells
 nt = length(yr);
 
-Tp = double(reshape(temp_150,ni*nj,nt));
+Tp = double(reshape(temp_200,ni*nj,nt));
 Tb = double(reshape(temp_btm,ni*nj,nt));
-Zm = double(reshape(zmeso_150,ni*nj,nt));
+Zm = double(reshape(zmeso_200,ni*nj,nt));
 Det= double(reshape(det,ni*nj,nt));
 
 Tp = Tp(WID,:);
