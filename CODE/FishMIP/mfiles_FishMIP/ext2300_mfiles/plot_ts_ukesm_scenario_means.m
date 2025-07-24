@@ -13,34 +13,13 @@ load([hpath 'Means_ukesm_hist_monthly.mat']);
 %% SSP 126
 bpath='/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/UKESM1-0-LL/ssp126/';
 
-load([bpath 'Means_ukesm_ssp126_monthly_2015_2150.mat']);
-load([bpath 'Means_ukesm_ssp126_monthly_2151_2300.mat']);
-
-ssp126_yr = [ssp126_yr1; ssp126_yr2];
-
-ssp126_Tp = [ssp126_Tp1 ssp126_Tp2];
-
-ssp126_Tb = [ssp126_Tb1 ssp126_Tb2];
-
-ssp126_Zm = [ssp126_Zm1 ssp126_Zm2];
-
-ssp126_Det = [ssp126_Det1 ssp126_Det2];
+load([bpath 'Means_ukesm_ssp126_monthly_2015_2300.mat']);
 
 %% SSP 585
 wpath='/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/UKESM1-0-LL/ssp585/';
 
-load([wpath 'Means_ukesm_ssp585_monthly_2015_2150.mat']);
-load([wpath 'Means_ukesm_ssp585_monthly_2151_2300.mat']);
+load([wpath 'Means_ukesm_ssp585_monthly_2015_2300.mat']);
 
-ssp585_yr = [ssp585_yr1; ssp585_yr2];
-
-ssp585_Tp = [ssp585_Tp1 ssp585_Tp2];
-
-ssp585_Tb = [ssp585_Tb1 ssp585_Tb2];
-
-ssp585_Zm = [ssp585_Zm1 ssp585_Zm2];
-
-ssp585_Det = [ssp585_Det1 ssp585_Det2];
 
 %% SSP 534
 wpath='/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/UKESM1-0-LL/ssp534over/';

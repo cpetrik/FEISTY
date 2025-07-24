@@ -82,7 +82,7 @@ Det= Det(WID,:);
 
 ssp126_Tp = mean(Tp);
 ssp126_Tb = mean(Tb);
-ssp126_Zm = mean(Zm);
+ssp126_Zm = mean(Zm,'omitnan');
 ssp126_Det = mean(Det);
 
 %%

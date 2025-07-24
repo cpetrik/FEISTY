@@ -85,7 +85,7 @@ Det= Det(WID,:);
 
 ssp534_Tp = mean(Tp);
 ssp534_Tb = mean(Tb);
-ssp534_Zm = mean(Zm);
+ssp534_Zm = mean(Zm,'omitnan');
 ssp534_Det = mean(Det);
 
 %%

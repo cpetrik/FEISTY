@@ -83,7 +83,7 @@ Det= Det(WID,:);
 
 ssp585_Tp = mean(Tp);
 ssp585_Tb = mean(Tb);
-ssp585_Zm = mean(Zm);
+ssp585_Zm = mean(Zm,'omitnan');
 ssp585_Det = mean(Det);
 
 %%

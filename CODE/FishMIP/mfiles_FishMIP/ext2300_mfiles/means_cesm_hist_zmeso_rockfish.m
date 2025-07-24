@@ -88,7 +88,7 @@ Det= Det(WID,:);
 
 hist_Tp = mean(Tp);
 hist_Tb = mean(Tb);
-hist_Zm = mean(Zm);
+hist_Zm = mean(Zm,'omitnan');
 hist_Det = mean(Det);
 
 %%

@@ -18,7 +18,7 @@ load([bpath 'Means_cesm2_ssp126_zmeso_monthly_2015_2299.mat']);
 %% SSP 585
 wpath='/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/ssp585/';
 
-load([wpath 'Means_cesm_ssp585_zmeso_monthly_2015_2299.mat']);
+load([wpath 'Means_cesm2_ssp585_zmeso_monthly_2015_2299.mat']);
 
 %% SSP 534
 wpath='/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/ssp534over/';
@@ -27,28 +27,28 @@ load([wpath 'Means_cesm2_ssp534_zmeso_monthly_2040_2299.mat']);
 
 %% Rolling means ~ annual
 hist_yr = movmean(hist_yr,12);
-ssp126_yr = movmean(ssp126_yr2,12);
-ssp585_yr = movmean(ssp585_yr1,12);
+ssp126_yr = movmean(ssp126_yr,12);
+ssp585_yr = movmean(ssp585_yr,12);
 ssp534_yr = movmean(ssp534_yr,12);
 
 hist_Tp = movmean(hist_Tp,12);
-ssp126_Tp = movmean(ssp126_Tp2,12);
-ssp585_Tp = movmean(ssp585_Tp1,12);
+ssp126_Tp = movmean(ssp126_Tp,12);
+ssp585_Tp = movmean(ssp585_Tp,12);
 ssp534_Tp = movmean(ssp534_Tp,12);
 
 hist_Tb = movmean(hist_Tb,12);
-ssp126_Tb = movmean(ssp126_Tb2,12);
-ssp585_Tb = movmean(ssp585_Tb1,12);
+ssp126_Tb = movmean(ssp126_Tb,12);
+ssp585_Tb = movmean(ssp585_Tb,12);
 ssp534_Tb = movmean(ssp534_Tb,12);
 
 hist_Zm = movmean(hist_Zm,12);
-ssp126_Zm = movmean(ssp126_Zm2,12);
-ssp585_Zm = movmean(ssp585_Zm1,12);
+ssp126_Zm = movmean(ssp126_Zm,12);
+ssp585_Zm = movmean(ssp585_Zm,12);
 ssp534_Zm = movmean(ssp534_Zm,12);
 
 hist_Det = movmean(hist_Det,12);
-ssp126_Det = movmean(ssp126_Det2,12);
-ssp585_Det = movmean(ssp585_Det1,12);
+ssp126_Det = movmean(ssp126_Det,12);
+ssp585_Det = movmean(ssp585_Det,12);
 ssp534_Det = movmean(ssp534_Det,12);
 
 %%
