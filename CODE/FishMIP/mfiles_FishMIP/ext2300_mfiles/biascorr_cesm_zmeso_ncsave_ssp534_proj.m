@@ -9,10 +9,10 @@ close all
 %%
 fpath='/project/Feisty/Fish-MIP/CMIP6/CESM2-WACCM/ssp534over/';
 
-load([fpath 'cesm2_ssp534-over_temp_btm_monthly_2040_2299.mat'],'time');
+load([fpath 'cesm2_ssp534-over_temp_btm_monthly_2040_2299.mat'],'time','lat','lon');
 load([fpath 'cesm2_ssp534-over_zooc_150_monthly_2040_2299.mat'],'units_vint');
 load([fpath 'cesm2_ssp534-over_zmeso150_biascorr_monthly_2040_2299.mat'],...
-    'zmeso_corr','CLAT','CLON');
+    'zmeso_corr');
 
 time_units = 'months since 1601-1-1';
 
@@ -24,8 +24,8 @@ file_tpb = [fpath fname1];
 [ni,nj,nt] = size(zmeso_corr);
 
 %% Lat & Lon should be vectors
-LAT = (CLAT(1,:));
-LON = CLON(:,1);
+LAT = lat;
+LON = lon;
 
 %Use Netcdf4 classic
 cmode = netcdf.getConstant('NETCDF4');
