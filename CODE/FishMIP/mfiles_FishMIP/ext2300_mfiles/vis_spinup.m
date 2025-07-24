@@ -24,7 +24,7 @@ for m=2 %1:length(esms)
     mod = esms{m};
     mod2 = e2{m};
 
-    if mod==2
+    if m==2
         exper = [mod '_spinup_zmeso_pristine'];
     else
         exper = [mod '_spinup_pristine'];

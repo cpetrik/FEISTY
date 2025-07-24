@@ -134,15 +134,15 @@ clear biomass
 %% Take means
 
 %Time
-sp_tmean=mean(SP.bio,1);
-sf_tmean=mean(SF.bio,1);
-sd_tmean=mean(SD.bio,1);
-mp_tmean=mean(MP.bio,1);
-mf_tmean=mean(MF.bio,1);
-md_tmean=mean(MD.bio,1);
-lp_tmean=mean(LP.bio,1);
-ld_tmean=mean(LD.bio,1);
-b_tmean=mean(Bent.bio,1);
+sp_tmean=mean(SP.bio,1,'omitnan');
+sf_tmean=mean(SF.bio,1,'omitnan');
+sd_tmean=mean(SD.bio,1,'omitnan');
+mp_tmean=mean(MP.bio,1,'omitnan');
+mf_tmean=mean(MF.bio,1,'omitnan');
+md_tmean=mean(MD.bio,1,'omitnan');
+lp_tmean=mean(LP.bio,1,'omitnan');
+ld_tmean=mean(LD.bio,1,'omitnan');
+b_tmean=mean(Bent.bio,1,'omitnan');
 
 %Space
 t=time;
