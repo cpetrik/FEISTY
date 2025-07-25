@@ -19,13 +19,11 @@ for m=4 %1:length(esms)
     
     if m==3
         exper2 = [mod '_historic_zooc_pristine'];
-    elseif m==4
-        exper2 = [mod '_historic_zmeso_pristine'];
     else
         exper2 = exper;
     end
 
-    fpath=['/Volumes/petrik-lab/Feisty/NC/WG2300/',cfile,'/',mod,'/'];
+    fpath=['/project/Feisty/NC/WG2300/',cfile,'/',mod,'/'];
 
     %% SP
     ncid = netcdf.open([fpath exper '_empHP_sml_p.nc'],'NC_NOWRITE');
@@ -201,10 +199,10 @@ for m=4 %1:length(esms)
 
 
     %%
-    figure
-    plot(time,mf_tmean,'r'); hold on
-    plot(time,lp_tmean,'b'); hold on
-    plot(time,ld_tmean,'k')
+    % figure
+    % plot(time,mf_tmean,'r'); hold on
+    % plot(time,lp_tmean,'b'); hold on
+    % plot(time,ld_tmean,'k')
 
     %% Fish-MIP OUTPUTS =================================================
 
