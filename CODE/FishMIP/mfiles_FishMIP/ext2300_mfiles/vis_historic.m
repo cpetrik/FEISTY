@@ -8,8 +8,8 @@ close all
 %% Fish data
 cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80_RE00100';
 
-esms = {'IPSL','UKESM','CESM2-WACCM'};
-e2 = {'ipsl','ukesm','cesm2'};
+esms = {'IPSL','UKESM','CESM2-WACCM','CESM2-WACCM'};
+e2 = {'ipsl','ukesm','cesm2','cesm2'};
 
 pp = '/Users/cpetrik/Petrik Lab Group Dropbox/Colleen Petrik/Princeton/FEISTY/CODE/Figs/FishMIP/wg2300/';
 ppath = [pp cfile '/'];
@@ -19,16 +19,23 @@ end
 
 cmBP50=cbrewer('seq','BuPu',50,'PCHIP');
 
-for m=3 %length(esms)
+for m=4 %1:length(esms)
 
     close all
     
     mod = esms{m};
     mod2 = e2{m};
-    if m==3
-        exper = [mod '_historic_zooc_pristine'];
+
+    if m==4
+        exper = [mod '_historic_zmeso_pristine'];
     else
         exper = [mod '_historic_pristine'];
+    end
+    
+    if m==3
+        exper2 = [mod '_historic_zooc_pristine'];
+    else
+        exper2 = exper;
     end
 
     fpath=['/Volumes/petrik-lab/Feisty/NC/WG2300/',cfile,'/',mod,'/'];
@@ -92,7 +99,7 @@ for m=3 %length(esms)
     ylabel('log_1_0 Biomass (g m^-^2)')
     title([mod ' Historic'])
     stamp(mod)
-    print('-dpng',[ppath exper,'_ts_all_sizes.png'])
+    print('-dpng',[ppath exper2,'_ts_all_sizes.png'])
 
     %% Types together
     F = sf_tmean+mf_tmean;
@@ -113,7 +120,7 @@ for m=3 %length(esms)
     ylabel('log_1_0 Biomass (g m^-^2)')
     title([mod ' Historic'])
     stamp(mod)
-    print('-dpng',[ppath exper,'_ts_all_types.png'])
+    print('-dpng',[ppath exper2,'_ts_all_types.png'])
 
     %% Plots in space
     Zsf=NaN*ones(ni,nj);
@@ -159,7 +166,7 @@ for m=3 %length(esms)
     set(gcf,'renderer','painters')
     title('Historic log10 mean benthic biomass (g m^-^2)')
     stamp(mod)
-    print('-dpng',[ppath exper,'_global_BENT.png'])
+    print('-dpng',[ppath exper2,'_global_BENT.png'])
 
     %% All 4 on subplots
     figure(4)
@@ -208,7 +215,7 @@ for m=3 %length(esms)
     set(gcf,'renderer','painters')
     title('log10 mean All fishes (g m^-^2)')
     stamp(mod)
-    print('-dpng',[ppath exper,'_global_All_subplot.png'])
+    print('-dpng',[ppath exper2,'_global_All_subplot.png'])
 
     %% Ratios on subplots red-white-blue
     % 3 figure subplot P:D, P:F, M:L
@@ -247,7 +254,7 @@ for m=3 %length(esms)
     set(gcf,'renderer','painters')
     title('Fraction Large vs. Medium')
     stamp(mod)
-    print('-dpng',[ppath exper,'_global_ratios_subplot.png'])
+    print('-dpng',[ppath exper2,'_global_ratios_subplot.png'])
 
 
 end
