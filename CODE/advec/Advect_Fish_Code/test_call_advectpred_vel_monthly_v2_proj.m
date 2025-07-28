@@ -13,7 +13,7 @@ load([vpath 'feb152013_run25_ocean.198801-200712_uh200_vh200.mat'],'u200','v200'
 load([vpath 'Data_hindcast_grid_cp2D.mat'])
 
 % Neighbors
-load(['neighbors_360x200.mat'])
+load([vpath 'neighbors_core_grid_360x200.mat'])
 
 %% number of water cells
 ID = find(GRD.mask==1);
