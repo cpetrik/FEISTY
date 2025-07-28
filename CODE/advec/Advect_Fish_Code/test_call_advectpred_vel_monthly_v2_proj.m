@@ -4,7 +4,7 @@ clear
 close all
 
 %/home/cpetrik/FEISTY/CODE/advec/Advect_Fish_Code/matlab_functions
-addpath(genpath('/home/cpetrik/FEISTY/CODE/advec/Advect_Fish_Code/matlab_functions'));
+addpath(genpath('/home/cpetrik/FEISTY/CODE/advec/Advect_Fish_Code/matlab_functions/'));
 
 %% Velocities
 %vpath = 'data/';
