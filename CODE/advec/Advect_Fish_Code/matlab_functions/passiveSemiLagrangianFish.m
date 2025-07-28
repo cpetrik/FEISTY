@@ -1,4 +1,4 @@
-function [Flux] = semiLagrangianFish(conc_matrix, Flux, idx, dir, current, dt, dx_m, dy_m, neighbors, grid_mask)
+function [Flux] = passiveSemiLagrangianFish(conc_matrix, Flux, idx, dir, current, dt, dx_m, dy_m, neighbors, grid_mask)
 %% semiLagrangianFish.m
 % -------------------------------------------------------------------------
 % Simulates fish advection in a 2D field using a 
@@ -17,8 +17,6 @@ function [Flux] = semiLagrangianFish(conc_matrix, Flux, idx, dir, current, dt, d
 %                       into account ) at idx [m/s]
 %   dt                : timestep [s]
 %   dx_m, dy_m        : grid spacing in x and y directions [m]
-%   neighborhood      : indexes of neighboring cells
-%   grid_mask         : mask of grid cells, for finding valid neighbors
 %
 % OUTPUTS:
 %   Flux              : updated flux of fish array for grid cell idx.
@@ -55,23 +53,15 @@ function [Flux] = semiLagrangianFish(conc_matrix, Flux, idx, dir, current, dt, d
                 dx_m;];
     end
 
+    valid_neighbor = check_valid_neighbor(neighbors, grid_mask);
+
     % Current cell concentration ( saves lookups later )
     cell_concentration = conc_matrix(i,j);
 
-    % Calculate the number of active directions
-    activeDirections = find( dir == 1);     % indices
-    totalDirections = numel(activeDirections);  % number of indices
-
-    % If no movement, return immediately
-    if totalDirections == 0
-        Flux = passiveSemiLagrangianFish(conc_matrix, Flux, idx, dir, current, dt, dx_m, dy_m, neighbors, grid_mask);
-        return;
-    end
-    
     % Speed swimming in each direction;
-    speeds = dir' .* current;
+    speeds = current;
     %
-    proportion_out = abs(speeds) .* dt ./ distance;
+    proportion_out = valid_neighbor .* abs(speeds) .* dt ./ distance;
     %
     conc_moving_out = proportion_out .* cell_concentration;
     %
@@ -91,19 +81,10 @@ function [Flux] = semiLagrangianFish(conc_matrix, Flux, idx, dir, current, dt, d
     %
     %conc_matrix(i, j) = cell_concentration - total_leaving;
 
-    % Update fish positions based on active directions
-    for k = 1:totalDirections
-        directionIndex = activeDirections(k); % Get the direction index
-        % ni = i + directions(directionIndex, 1); % Neighbor row
-        % nj = j + directions(directionIndex, 2); % Neighbor column
-
-        ni = neighbors( directionIndex, 1);
-        nj = neighbors( directionIndex, 2);
-
-        % Ensure the neighbor is within bounds
-        % if ni >= 1 && ni <= n && nj >= 1 && nj <= m
-        Flux(ni, nj) = Flux(ni, nj) + conc_moving_out(directionIndex);
-        %conc_matrix(ni, nj) = conc_matrix_OG(ni, nj) + conc_moving_out(directionIndex);
-        % end
+    % Update fish positions based on active current only
+    for k = 1:4
+        ni = neighbors( k, 1);
+        nj = neighbors( k, 2);
+        Flux(ni, nj) = Flux(ni, nj) + conc_moving_out(k);
     end
 end

@@ -1,4 +1,4 @@
-function [ dir ] = MoreFoodFourWay( Food, idx )
+function [ dir ] = MoreFoodFourWay( Food, idx, neighbors )
 %% This finds food in four directions, and only looks for MORE food!
 %
 % INPUTS:
@@ -29,22 +29,25 @@ function [ dir ] = MoreFoodFourWay( Food, idx )
     [n, m] = size(Food);
     
     % Define neighbors relative to (i, j)
-    neighbors = [-1, 0;  % Up
-                  1, 0;  % Down
-                  0, 1;  % Right
-                  0, -1];% Left
+    % neighbors = [-1, 0;  % Up
+    %               1, 0;  % Down
+    %               0, 1;  % Right
+    %               0, -1];% Left
 
     % Loop through each direction ( find more food )
     for k = 1:4
-        ni = i + neighbors(k, 1); % Neighbor row
-        nj = j + neighbors(k, 2); % Neighbor column
+        %ni = i + neighbors(k, 1); % Neighbor row
+        %nj = j + neighbors(k, 2); % Neighbor column
         
+        ni = neighbors(k, 1);
+        nj = neighbors(k, 2);
+
         % Check bounds and compare food values
-        if ni >= 1 && ni <= n && nj >= 1 && nj <= m % Valid neighbor
-            if Food(ni, nj) > current_val
-                dir(k) = 1;
-            end
+        %if ni >= 1 && ni <= n && nj >= 1 && nj <= m % Valid neighbor
+        if Food(ni, nj) > current_val
+            dir(k) = 1;
         end
+        %end
     end
     
 end
