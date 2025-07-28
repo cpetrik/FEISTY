@@ -3,7 +3,10 @@
 clear 
 close all
 
-% Velocities
+%/home/cpetrik/FEISTY/CODE/advec/Advect_Fish_Code/matlab_functions
+addpath('/matlab_functions');
+
+%% Velocities
 %vpath = 'data/';
 vpath = '/project/Feisty/GCM_Data/CORE-forced/';
 
@@ -41,7 +44,7 @@ bio(:,181:200) = 1.0e1;    %seed Arctic
 
 bio = bio .* GRD.mask;
 
-OG_sum = sum(bio(:));
+OG_sum = sum(bio(ID));
 
 %% define prey
 prey = zeros(ni,nj);

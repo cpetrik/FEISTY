@@ -21,9 +21,9 @@ cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_no
 
 spath = ['/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/' cfile '/CORE/'];
 
-%cname='Atl_even_dt1d_velMO_b100';
+cname='AdvectPred_Atl_even_dt1d_velMO_b100_swim01';
 %cname='Atl_evenFish_randPrey_dt1d_velMO_b100';
-cname='Arctic_evenFish_randPrey_dt1d_velMO_b100';
+%cname='Arctic_evenFish_randPrey_dt1d_velMO_b100';
 
 load([spath 'AdvectPred_' cname '.mat']);
 
@@ -47,10 +47,11 @@ end
 
 mass = bio2 .* repmat(GRD.area,1,1,nd);
 totb = squeeze(nansum(nansum(mass,1)));
-figure(10)
-subplot(2,2,1)
-plot(totb)
 cons = 100*(totb(end)-totb(1))/totb(1)
+
+massv = biov .* repmat(GRD.area(ID),1,nd);
+totbv = sum(massv,1,'omitnan');
+cons2 = 100*(totbv(end)-totbv(1))/totbv(1)
 
 %
 yrs=[1:length(totb)]/365;
@@ -80,7 +81,7 @@ t = 1:72.75:nd;
 t = round(t);
 
 % colors
-cmB=cbrewer('seq','Blues',50);
+cmB=cbrewer('seq','Blues',50,'PCHIP');
 
 %% Global flat
 for n=1:length(t)
