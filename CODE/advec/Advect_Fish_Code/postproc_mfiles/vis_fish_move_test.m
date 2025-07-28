@@ -21,7 +21,7 @@ cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_no
 
 spath = ['/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/' cfile '/CORE/'];
 
-cname='AdvectPred_Atl_even_dt1d_velMO_b100_swim01';
+cname='Atl_even_dt1d_velMO_b100_swim10';
 %cname='Atl_evenFish_randPrey_dt1d_velMO_b100';
 %cname='Arctic_evenFish_randPrey_dt1d_velMO_b100';
 
@@ -49,7 +49,7 @@ mass = bio2 .* repmat(GRD.area,1,1,nd);
 totb = squeeze(nansum(nansum(mass,1)));
 cons = 100*(totb(end)-totb(1))/totb(1)
 
-massv = biov .* repmat(GRD.area(ID),1,nd);
+massv = biov .* repmat(GRD.area(grid.ID),1,nd);
 totbv = sum(massv,1,'omitnan');
 cons2 = 100*(totbv(end)-totbv(1))/totbv(1)
 
