@@ -21,9 +21,10 @@ cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_no
 
 spath = ['/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/' cfile '/CORE/'];
 
-cname='Atl_even_dt1d_velMO_b100_swim10';
+%cname='Atl_even_dt1d_velMO_b100_swim10';
 %cname='Atl_evenFish_randPrey_dt1d_velMO_b100';
-%cname='Arctic_evenFish_randPrey_dt1d_velMO_b100';
+cname='Arctic_evenFish_randPrey_dt1d_velMO_b100_swim01';
+%cname='Equat_even_dt1d_velMO_b100_swim01';
 
 load([spath 'AdvectPred_' cname '.mat']);
 

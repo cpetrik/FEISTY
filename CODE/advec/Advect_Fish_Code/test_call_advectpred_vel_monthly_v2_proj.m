@@ -51,14 +51,14 @@ prey = zeros(ni,nj);
 %prey = 100*ones(ni,nj);   %Global
 %prey(220:240,:) = 10.0; prey(121:141,195:200) = 10.0; %Atl-Arctic
 %prey(:,84:109) = 1.0e1;     %seed equator
-%prey(220:240,:) = 1.0e1;    %seed Atl
-%prey(59:79,:) = 1.0e1;      %seed Pac
+prey(220:240,:) = 1.0e1;    %seed Atl
+prey(59:79,:) = 1.0e1;      %seed Pac
 %prey(5:25,:) = 1.0e1;       %seed Indian W
 %prey(340:360,:) = 1.0e1;    %seed Indian E
 %prey(:,181:200) = 1.0e1;    %seed Arctic
 %prey(:,12:32) = 1.0e1;      %seed Antarctic
 
-%prey = prey .* GRD.mask;
+prey = prey .* GRD.mask;
 
 %% define time
 YEARS = 1;
@@ -68,7 +68,7 @@ Mos = repmat(MNTH,1,YEARS);
 tstep = 24 * 60 * 60; %time step in seconds
 
 % Files to save
-cname='Arctic_evenFish_randPrey_dt1d_velMO_b100_swim01';
+cname='Arctic_evenFish_dt1d_velMO_b100_swim01';
 biov = zeros(NX,DAYS*YEARS);
 preyv = prey(ID);
 
@@ -82,8 +82,8 @@ for Y=1:YEARS
         M = M+1;
         current(:,:,1) = u200(:,:,M); 
         current(:,:,2) = v200(:,:,M);
-        prey = 100*rand(ni,nj);
-        prey = prey .* GRD.mask;
+        % prey = 100*rand(ni,nj);
+        % prey = prey .* GRD.mask;
         for DAY = 1:Mos(mo)
             n=n+1;
             [num2str(mo) ',' num2str(DAY)];
