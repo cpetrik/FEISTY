@@ -32,14 +32,14 @@ jed = nj;
 %% define a patch to advect
 bio = zeros(ni,nj);
 %Global
-%bio = 100*ones(ni,nj);   %Global
+bio = 100*ones(ni,nj);   %Global
 %bio(220:240,:) = 10.0; bio(121:141,195:200) = 10.0; %Atl-Arctic
 %bio(:,84:109) = 1.0e1;     %seed equator
 %bio(220:240,:) = 1.0e1;    %seed Atl
 %bio(59:79,:) = 1.0e1;      %seed Pac
 %bio(5:25,:) = 1.0e1;       %seed Indian W
 %bio(340:360,:) = 1.0e1;    %seed Indian E
-bio(:,181:200) = 1.0e1;    %seed Arctic
+%bio(:,181:200) = 1.0e1;    %seed Arctic
 %bio(:,12:32) = 1.0e1;      %seed Antarctic
 
 bio = bio .* GRD.mask;
@@ -48,11 +48,11 @@ OG_sum = sum(bio(ID));
 
 %% define prey
 prey = zeros(ni,nj);
-%prey = 100*ones(ni,nj);   %Global
+prey = 100*ones(ni,nj);   %Global
 %prey(220:240,:) = 10.0; prey(121:141,195:200) = 10.0; %Atl-Arctic
 %prey(:,84:109) = 1.0e1;     %seed equator
-prey(220:240,:) = 1.0e1;    %seed Atl
-prey(59:79,:) = 1.0e1;      %seed Pac
+%prey(220:240,:) = 1.0e1;    %seed Atl
+%prey(59:79,:) = 1.0e1;      %seed Pac
 %prey(5:25,:) = 1.0e1;       %seed Indian W
 %prey(340:360,:) = 1.0e1;    %seed Indian E
 %prey(:,181:200) = 1.0e1;    %seed Arctic
@@ -68,7 +68,7 @@ Mos = repmat(MNTH,1,YEARS);
 tstep = 24 * 60 * 60; %time step in seconds
 
 % Files to save
-cname='Arctic_evenFish_dt1d_velMO_b100_swim01';
+cname='Global_evenFish_dt1d_velMO_b100_swim01';
 biov = zeros(NX,DAYS*YEARS);
 preyv = prey(ID);
 
