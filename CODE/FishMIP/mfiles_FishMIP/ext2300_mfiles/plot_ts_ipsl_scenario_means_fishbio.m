@@ -227,16 +227,16 @@ title('IPSL All fishes')
 load(['/Volumes/petrik-lab/Feisty/NC/WG2300/',cfile,'/IPSL/Last_mo_IPSL_ssp585_pristine_',cfile,'.mat']);
 
 S534F1 = mean((Sml_f.bio + Med_f.bio),'omitnan') %0.574
-S534F_ts(1) %similar                             %0.579
+S534F_ts(1) %similar                             %0.579 -> 0.581
 S534P1 = mean((Sml_p.bio + Med_p.bio + Lrg_p.bio),'omitnan') %1.297
-S534P_ts(1) %way different                                   %0.4853
+S534P_ts(1) %way different                                   %0.4853 -> 1.31
 S534D1 = mean((Sml_d.bio + Med_d.bio + Lrg_d.bio),'omitnan') %1.774
-S534D_ts(1)                                                  %1.522
+S534D_ts(1)                                                  %1.522 -> 1.78
 S534B1 = mean(BENT.bio,'omitnan') %0.6347
-S534B_ts(1)                       %1.091
+S534B_ts(1)                       %1.091 -> 0.635
 
 S534A1 = S534F1 + S534P1 + S534D1 % 3.6413
-S534A_ts(1)                       % 2.5858
+S534A_ts(1)                       % 2.5858 -> 3.67
 
 
 

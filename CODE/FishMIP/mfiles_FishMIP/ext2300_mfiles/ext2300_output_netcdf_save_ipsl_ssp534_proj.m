@@ -168,7 +168,6 @@ netcdf.putAtt(ncidSB,vidlat,'units','degrees_north');
 netcdf.putAtt(ncidSB,vidlat,'axis','Y');
 
 vidbioSB = netcdf.defVar(ncidSB,'tpb','NC_FLOAT',[lon_dim,lat_dim,time_dim]);
-netcdf.defVarChunking(ncidSB,vidbioSB,'CHUNKED',[1, 180, 360]);
 netcdf.putAtt(ncidSB,vidbioSB,'long_name','Total Pelagic Biomass Density');
 netcdf.putAtt(ncidSB,vidbioSB,'units','g m-2' );
 netcdf.defVarFill(ncidSB,vidbioSB,false,1.000000020040877e+20);
