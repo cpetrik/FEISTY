@@ -22,15 +22,17 @@ cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_no
 spath = ['/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/' cfile '/CORE/'];
 
 %cname='Atl_even_dt1d_velMO_b100_swim10';
+%cname='Atl_even_dt1d_velMO_b100_advectonly';
 %cname='Atl_evenFish_randPrey_dt1d_velMO_b100';
 %cname='Arctic_evenFish_randPrey_dt1d_velMO_b100_swim01';
 %cname = 'Arctic_evenFish_dt1d_velMO_b100_swim01';
-cname='Equat_even_dt1d_velMO_b100_swim10';
+cname='Equat_even_dt1d_velMO_b100_swim01';
+%cname='Global_even_dt1d_velMO_b100_swim10';
 
 load([spath 'AdvectPred_' cname '.mat']);
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/Matlab_New_sizes/';
-ppath = [pp cfile '/CORE/'];
+ppath = [pp cfile '/CORE/advect_test_figs/'];
 if (~isfolder(ppath))
     mkdir(ppath)
 end
@@ -95,6 +97,7 @@ for n=1:length(t)
     shading interp;
     colorbar;
     clim([0 20]);
+    %clim([0 150]);
     %colormap('jet')
     colormap(cmB)
     title(['Day ' num2str(t(n)) ' Year 1'])
@@ -113,7 +116,8 @@ for n=1:length(t)
     colorbar
     %colormap('jet')
     colormap(cmB)
-    clim([0 20])
+    clim([0 20]);
+    %clim([0 150]);
     m_grid('xtick',6,'tickdir','out','ytick',[70 80],'linest','-');
     m_coast('patch',[.7 .7 .7],'edgecolor','k');
     title(['Day ' num2str(t(n)) ' Year 1'])
@@ -131,7 +135,8 @@ for n=1:length(t)
     colorbar
     %colormap('jet')
     colormap(cmB)
-    clim([0 20])
+    clim([0 20]);
+    %clim([0 150]);
     m_grid('xtick',12,'tickdir','out','ytick',[-50 -60 -70],'linest','-');
     m_coast('patch',[.7 .7 .7],'edgecolor','k');
     title(['Day ' num2str(t(n)) ' Year 1'])

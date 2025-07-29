@@ -1,4 +1,4 @@
-function [Flux] = semiLagrangianFish(conc_matrix, Flux, idx, dir, current, dt, dx_m, dy_m, neighbors, grid_mask)
+function [Flux] = semiLagrangianFish(conc_matrix, Flux, idx, dir, current, dt, dx_m, dy_m, neighbors, grid_mask, area)
 %% semiLagrangianFish.m
 % -------------------------------------------------------------------------
 % Simulates fish advection in a 2D field using a 
@@ -61,17 +61,19 @@ function [Flux] = semiLagrangianFish(conc_matrix, Flux, idx, dir, current, dt, d
     % Calculate the number of active directions
     activeDirections = find( dir == 1);     % indices
     totalDirections = numel(activeDirections);  % number of indices
+ 
 
     % If no movement, return immediately
     if totalDirections == 0
-        Flux = passiveSemiLagrangianFish(conc_matrix, Flux, idx, dir, current, dt, dx_m, dy_m, neighbors, grid_mask);
+        Flux = passiveSemiLagrangianFish(conc_matrix, Flux, idx, dir, current, dt, dx_m, dy_m, neighbors, grid_mask, area);
         return;
     end
     
     % Speed swimming in each direction;
-    speeds = dir' .* current;
+    speeds = dir .* current;
     %
-    proportion_out = abs(speeds) .* dt ./ distance;
+    %proportion_out = abs(speeds) .* dt ./ distance;
+    proportion_out = abs(speeds)' .* dt .* distance ./ area(i,j);
     %
     conc_moving_out = proportion_out .* cell_concentration;
     %

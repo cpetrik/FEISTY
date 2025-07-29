@@ -1,4 +1,4 @@
-function [Flux] = passiveSemiLagrangianFish(conc_matrix, Flux, idx, dir, current, dt, dx_m, dy_m, neighbors, grid_mask)
+function [Flux] = passiveSemiLagrangianFish(conc_matrix, Flux, idx, dir, current, dt, dx_m, dy_m, neighbors, grid_mask, area)
 %% semiLagrangianFish.m
 % -------------------------------------------------------------------------
 % Simulates fish advection in a 2D field using a 
@@ -55,13 +55,19 @@ function [Flux] = passiveSemiLagrangianFish(conc_matrix, Flux, idx, dir, current
 
     valid_neighbor = check_valid_neighbor(neighbors, grid_mask);
 
+
+    % if ( i == 100 && j == 96 )
+    %     keyboard
+    % end
+
     % Current cell concentration ( saves lookups later )
-    cell_concentration = conc_matrix(i,j);
+    cell_concentration = conc_matrix(i,j) .* area(i,j) ;
 
     % Speed swimming in each direction;
-    speeds = current;
+    speeds = current';
     %
-    proportion_out = valid_neighbor .* abs(speeds) .* dt ./ distance;
+    %proportion_out = valid_neighbor .* abs(speeds) .* dt ./ distance;
+    proportion_out = valid_neighbor .* abs(speeds) .* dt .* distance ./ area(i,j);
     %
     conc_moving_out = proportion_out .* cell_concentration;
     %

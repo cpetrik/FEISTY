@@ -1,4 +1,4 @@
-function [ percent_more_food_full ] = percentMoreFoodFourWay( Food, neighbors_all )
+function [ percent_more_food_full ] = percentMoreFoodFourWay( Food, neighborhood )
 %% This finds food in four directions, and then calculates percentage
 %  more food in that direction.
 %
@@ -36,11 +36,14 @@ function [ percent_more_food_full ] = percentMoreFoodFourWay( Food, neighbors_al
             % Reset food vector each loop
             percent_more_food = [ 0 0 0 0 ];
             % Local Neighborhood
-            neighborhood = get_neighbors_from_struct(neighbors_all, i, j);
-            neighbors = [neighborhood.north; ...
-                         neighborhood.south; ...
-                         neighborhood.east; ...
-                         neighborhood.west];
+            % neighborhood = get_neighbors_from_struct(neighbors_all, i, j);
+            % neighbors = [neighborhood.north; ...
+            %              neighborhood.south; ...
+            %              neighborhood.east; ...
+            %              neighborhood.west];
+            %neighbors = squeeze(neighborhood(i,j,:,:));
+            neighbors = reshape(neighborhood(i,j,:,:), [4, 2]);
+
             % Loop through each direction ( find more food )
             for k = 1:4
                 % ni = i + neighbors(k, 1); % Neighbor row

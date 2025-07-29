@@ -1,4 +1,4 @@
-function [ Flux ] = moveFishFunction( Predator, Flux, Prey, apparent_current_full, idx, neighbors, dt, dx_m, dy_m, grid_mask )
+function [ Flux ] = moveFishFunction( Predator, Flux, Prey, apparent_current_full, idx, neighbors, dt, dx_m, dy_m, grid_mask, area )
 %% Calculates the number of fish based on current and food at cell idx.
 % Basically, extracts a single location and calculates the movement
 %
@@ -26,9 +26,10 @@ j = idx(2);
 
 [food_dir] = MoreFoodFourWay( Prey, idx, neighbors );
 
-apparent_current_single = squeeze(apparent_current_full(i,j,:));
-
+%apparent_current_single = squeeze(apparent_current_full(i,j,:));
+apparent_current_single = reshape(apparent_current_full(i,j,:), 1, []);
+ 
 Flux = semiLagrangianFish( Predator, Flux, [i,j], food_dir, ...
                          apparent_current_single, ...
-                         dt, dx_m, dy_m, neighbors, grid_mask);
+                         dt, dx_m, dy_m, neighbors, grid_mask,area);
 end
