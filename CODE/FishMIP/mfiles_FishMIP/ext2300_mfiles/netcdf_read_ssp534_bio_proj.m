@@ -5,13 +5,17 @@ close all
 
 cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80_RE00100';
 
-esms = {'IPSL','UKESM','CESM2-WACCM'};
+esms = {'IPSL','UKESM','CESM2-WACCM','CESM2-WACCM'};
 
-for m=2:3 %1:length(esms)
+for m=4 %1:length(esms)
 
     mod = esms{m};
 
-    exper = [mod '_ssp534-over_pristine'];
+    if m==4
+        exper = [mod '_ssp534-over_zmeso_pristine'];
+    else
+        exper = [mod '_ssp534-over_pristine'];
+    end
     
     fpath=['/project/Feisty/NC/WG2300/',cfile,'/',mod,'/'];
 
@@ -177,8 +181,10 @@ for m=2:3 %1:length(esms)
 
     if m==3
         exper2 = [mod '_ssp534_zooc_pristine'];
+    elseif m==4
+        exper2 = [mod '_ssp534_zmeso_pristine'];
     else
-        exper2 = [mod '_ssp534_pristine'];
+        exper2 = exper;
     end
 
     save([fpath 'Means_' exper2 '_' cfile '.mat'],'time','mo',...
