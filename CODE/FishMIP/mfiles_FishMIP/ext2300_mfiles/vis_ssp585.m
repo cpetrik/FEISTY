@@ -1,5 +1,5 @@
 % Visualize output of FEISTY
-% SSP 126 2015-2300
+% SSP 585 2015-2300
 % Time series plots and maps
 
 clear
@@ -25,13 +25,13 @@ for m=1:length(esms)
     
     mod = esms{m};
     mod2 = e2{m};
-    
+
     if m==3
-        exper = [mod '_ssp126_zooc_pristine'];
+        exper = [mod '_ssp585_zooc_pristine'];
     elseif m==4
-        exper = [mod '_ssp126_zmeso_pristine'];
+        exper = [mod '_ssp585_zmeso_pristine'];
     else
-        exper = [mod '_ssp126_pristine'];
+        exper = [mod '_ssp585_pristine'];
     end
 
     fpath=['/Volumes/petrik-lab/Feisty/NC/WG2300/',cfile,'/',mod,'/'];
@@ -74,7 +74,7 @@ for m=1:length(esms)
     
     %% Plots in time
     t = 1:length(sp_tmean); %time;
-    y = 2015 + (t-1)/12;
+    y = 2040 + (t-1)/12;
 
     % All size classes of all
     figure(1)
@@ -93,7 +93,7 @@ for m=1:length(esms)
     ylim([-3 1])
     xlabel('Time (y)')
     ylabel('log_1_0 Biomass (g m^-^2)')
-    title([mod ' SSP126'])
+    title([mod ' SSP585'])
     stamp(mod)
     print('-dpng',[ppath exper,'_ts_all_sizes.png'])
 
@@ -114,7 +114,7 @@ for m=1:length(esms)
     ylim([-2 2])
     xlabel('Time (y)')
     ylabel('log_1_0 Biomass (g m^-^2)')
-    title([mod ' SSP126'])
+    title([mod ' SSP585'])
     stamp(mod)
     print('-dpng',[ppath exper,'_ts_all_types.png'])
 
@@ -195,7 +195,7 @@ for m=1:length(esms)
     colormap(cmBP50)
     h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
     clim([-1 2]);
-    title('SSP126 2100 log10 mean benthic biomass (g m^-^2)')
+    title('SSP585 2100 log10 mean benthic biomass (g m^-^2)')
     
     subplot('Position',[0 0 0.9 0.5])
     axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
@@ -206,7 +206,7 @@ for m=1:length(esms)
     clim([-1 2]);
     hcb = colorbar('h');
     set(gcf,'renderer','painters')
-    title('SSP126 2300 log10 mean benthic biomass (g m^-^2)')
+    title('SSP585 2300 log10 mean benthic biomass (g m^-^2)')
     stamp(mod)
     print('-dpng',[ppath exper,'_global_BENT_2100_2300.png'])
 

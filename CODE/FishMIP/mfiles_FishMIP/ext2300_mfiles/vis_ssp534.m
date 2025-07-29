@@ -8,8 +8,8 @@ close all
 %% Fish data
 cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80_RE00100';
 
-esms = {'IPSL','UKESM','CESM2-WACCM'};
-e2 = {'ipsl','ukesm','cesm2'};
+esms = {'IPSL','UKESM','CESM2-WACCM','CESM2-WACCM'};
+e2 = {'ipsl','ukesm','cesm2','cesm2'};
 
 pp = '/Users/cpetrik/Petrik Lab Group Dropbox/Colleen Petrik/Princeton/FEISTY/CODE/Figs/FishMIP/wg2300/';
 ppath = [pp cfile '/'];
@@ -19,14 +19,23 @@ end
 
 cmBP50=cbrewer('seq','BuPu',50,'PCHIP');
 
-for m=1 %length(esms)
+for m=2:length(esms)
 
     close all
     
     mod = esms{m};
     mod2 = e2{m};
-    exper = [mod '_ssp534-over_pristine'];
 
+    if m==3
+        exper = [mod '_ssp534_zooc_pristine'];
+    elseif m==4
+        exper = [mod '_ssp534_zmeso_pristine'];
+    elseif m==2
+        exper = [mod '_ssp534_pristine'];
+    else
+        exper = [mod '_ssp534-over_pristine'];
+    end
+    
     fpath=['/Volumes/petrik-lab/Feisty/NC/WG2300/',cfile,'/',mod,'/'];
 
     load([fpath 'Means_' exper '_' cfile '.mat']);
@@ -87,7 +96,7 @@ for m=1 %length(esms)
     xlabel('Time (y)')
     ylabel('log_1_0 Biomass (g m^-^2)')
     title([mod ' SSP534'])
-    stamp(mod)
+    stamp(exper)
     print('-dpng',[ppath exper,'_ts_all_sizes.png'])
 
     %% Types together
@@ -108,7 +117,7 @@ for m=1 %length(esms)
     xlabel('Time (y)')
     ylabel('log_1_0 Biomass (g m^-^2)')
     title([mod ' SSP534'])
-    stamp(mod)
+    stamp(exper)
     print('-dpng',[ppath exper,'_ts_all_types.png'])
 
     %% Plots in space
@@ -181,19 +190,16 @@ for m=1 %length(esms)
 
     %% bent
     figure(3)
+    subplot('Position',[0 0.51 0.9 0.5])
     axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
         'Grid','off','FLineWidth',1)
     surfm(LAT,LON,log10(Zb))
     colormap(cmBP50)
     h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
     clim([-1 2]);
-    hcb = colorbar('h');
-    set(gcf,'renderer','painters')
     title('SSP534 2100 log10 mean benthic biomass (g m^-^2)')
-    stamp(mod)
-    print('-dpng',[ppath exper,'_global_BENT_2100.png'])
-
-    figure(13)
+    
+    subplot('Position',[0 0 0.9 0.5])
     axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
         'Grid','off','FLineWidth',1)
     surfm(LAT,LON,log10(Eb))
@@ -203,8 +209,8 @@ for m=1 %length(esms)
     hcb = colorbar('h');
     set(gcf,'renderer','painters')
     title('SSP534 2300 log10 mean benthic biomass (g m^-^2)')
-    stamp(mod)
-    print('-dpng',[ppath exper,'_global_BENT_2300.png'])
+    stamp(exper)
+    print('-dpng',[ppath exper,'_global_BENT_2100_2300.png'])
 
     %% All 4 on subplots
     figure(4)
@@ -252,7 +258,7 @@ for m=1 %length(esms)
     clim([-2 2]);
     set(gcf,'renderer','painters')
     title('log10 mean All fishes (g m^-^2)')
-    stamp(mod)
+    stamp(exper)
     print('-dpng',[ppath exper,'_global_All_subplot_2100.png'])
 
     %% All 4 on subplots
@@ -301,7 +307,7 @@ for m=1 %length(esms)
     clim([-2 2]);
     set(gcf,'renderer','painters')
     title('log10 mean All fishes (g m^-^2)')
-    stamp(mod)
+    stamp(exper)
     print('-dpng',[ppath exper,'_global_All_subplot_2300.png'])
 
     %% Ratios on subplots red-white-blue
@@ -340,7 +346,7 @@ for m=1 %length(esms)
     colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
     set(gcf,'renderer','painters')
     title('Fraction Large vs. Medium')
-    stamp(mod)
+    stamp(exper)
     print('-dpng',[ppath exper,'_global_ratios_subplot_2100.png'])
 
 
@@ -380,7 +386,7 @@ for m=1 %length(esms)
     colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
     set(gcf,'renderer','painters')
     title('Fraction Large vs. Medium')
-    stamp(mod)
+    stamp(exper)
     print('-dpng',[ppath exper,'_global_ratios_subplot_2300.png'])
 
 

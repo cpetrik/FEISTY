@@ -180,9 +180,6 @@ for YR = 1:nYEARS % years
         %! Put vars of netcdf file
         netcdf.putVar(ncidB,vidbioB,[0 MNT-1],[NX 1],mean(S_Bent_bio(:,a(i):b(i)),2));
         netcdf.putVar(ncidB,vidTB,MNT-1,1,MNT);
-
-%         netcdf.putVar(ncidMZ,vidfracMZ,[0 MNT-1],[NX 1],mean(S_Mzoo_frac(:,a(i):b(i)),2));
-%         netcdf.putVar(ncidMZ,vidTMZ,MNT-1,1,MNT);
         
         netcdf.putVar(ncidSF,vidbioSF,[0 MNT-1],[NX 1],mean(S_Sml_f(:,a(i):b(i)),2));
         netcdf.putVar(ncidSP,vidbioSP,[0 MNT-1],[NX 1],mean(S_Sml_p(:,a(i):b(i)),2));
@@ -209,6 +206,5 @@ netcdf.close(ncidMD);
 netcdf.close(ncidLP);
 netcdf.close(ncidLD);
 netcdf.close(ncidB);
-% netcdf.close(ncidMZ);
 
 end

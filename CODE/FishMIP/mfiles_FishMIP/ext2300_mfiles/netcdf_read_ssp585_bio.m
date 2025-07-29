@@ -7,7 +7,7 @@ cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80
 
 esms = {'IPSL','UKESM','CESM2-WACCM'};
 
-for m=1:2 %:length(esms)
+for m=1 %:length(esms)
 
     mod = esms{m};
     exper = [mod '_ssp585_pristine'];
