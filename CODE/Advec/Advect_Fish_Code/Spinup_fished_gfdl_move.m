@@ -25,6 +25,9 @@ load([vpath 'Data_hindcast_grid_cp2D.mat'],'GRD')
 GRD2 = GRD;
 clear GRD
 
+%Grid cell neighbors
+load([vpath 'all_neighbors_core_grid_360x200.mat'],'neighborhood')
+
 %grid params
 [ni,nj] = size(GRD2.mask);
 param.ni = ni;
@@ -32,6 +35,7 @@ param.nj = nj;
 param.dx = GRD2.dxtn;
 param.dy = GRD2.dyte;
 param.mask = GRD2.mask;
+param.area = GRD2.area;
 
 param.NX = length(GRD1.Z);
 param.ID = 1:param.NX;
@@ -151,6 +155,8 @@ netcdf.endDef(ncidB);
 
 %% %%%%%%%%%%%%%%%%%%%% Run the Model
 
+addpath('matlab_functions');
+
 load([vpath,'Data_ocean_cobalt_daily_1988.mat'],'COBALT');
 load([vpath,'Vel200_feb152013_run25_ocean_1988.mat'],'uh','vh');
 COBALT.U = uh;
@@ -167,7 +173,7 @@ for YR = 1:YEARS % years
         DY = int64(ceil(DAY));
         [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,ENVR] = ...
             sub_futbio_move_prey(DY,COBALT,GRD1,Sml_f,Sml_p,Sml_d,...
-            Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,param);
+            Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,param,neighborhood);
 
         %! Store
         S_Bent_bio(:,DY) = BENT.mass;

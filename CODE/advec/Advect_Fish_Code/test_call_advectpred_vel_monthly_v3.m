@@ -34,14 +34,14 @@ jed = nj;
 %% define a patch to advect
 bio = zeros(ni,nj);
 %Global
-%bio = 100*ones(ni,nj);   %Global
+bio = 10*ones(ni,nj);   %Global
 %bio(220:240,:) = 10.0; bio(121:141,195:200) = 10.0; %Atl-Arctic
 %bio(:,84:109) = 1.0e1;     %seed equator
 %bio(220:240,:) = 1.0e1;    %seed Atl
 %bio(59:79,:) = 1.0e1;      %seed Pac
 %bio(5:25,:) = 1.0e1;       %seed Indian W
 %bio(340:360,:) = 1.0e1;    %seed Indian E
-bio(:,181:200) = 1.0e1;    %seed Arctic
+%bio(:,181:200) = 1.0e1;    %seed Arctic
 %bio(:,12:32) = 1.0e1;      %seed Antarctic
 
 bio = bio .* GRD.mask;
@@ -70,11 +70,11 @@ Mos = repmat(MNTH,1,YEARS);
 tstep = 24 * 60 * 60; %time step in seconds
 
 % Files to save
-cname='Arctic_even_dt1d_velMO_b100_swim01';
+cname='Global_even_dt1d_velMO_b100_swim10';
 biov = zeros(NX,DAYS*YEARS);
 preyv = prey(ID);
 
-fish_speed = 0.10; %(m/s)
+fish_speed = 1.0; %(m/s)
 
 %% call advec-diff
 M=0;
