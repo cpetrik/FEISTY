@@ -53,7 +53,7 @@ MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 %! Create a directory for output
 %opath = '/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/';
 opath = '/project/Feisty/NC/Matlab_new_size/';
-exper = 'Spinup1988_move_prey_v5';
+exper = 'Spinup1988_move_prey_v6';
 %[fname,simname,sname] = sub_fname_spin_gfdl_core(param,opath,exper);
 [fname,simname,sname] = sub_fname_spin_move_core(param,opath,exper);
 
@@ -174,7 +174,7 @@ MNT = 0;
 for YR = 1:YEARS % years
     ti = num2str(YR)
 
-    for DAY = 1:param.DT:DAYS % days
+    for DAY = 1:10 %:param.DT:DAYS % days
 
         %%%! Future time step
         DY = int64(ceil(DAY));
@@ -221,7 +221,8 @@ for YR = 1:YEARS % years
 
 end %Years
 
-save([fname,'_Y1.mat']);
+save([fname,'_Y1.mat'],'S_Bent_bio','S_Sml_f','S_Sml_p','S_Sml_d','S_Med_f',...
+    'S_Med_p','S_Med_d','S_Lrg_p','S_Lrg_d','GRD1','GRD2','exper');
 
 %! Close save
 % netcdf.close(ncidSF);

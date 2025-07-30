@@ -25,14 +25,14 @@ function [Flux] = passiveSemiLagrangianFish(conc_matrix, Flux, idx, dir, current
 % DATE  : 30-06-2025
 % -------------------------------------------------------------------------
     % Directions matrix
-    directions = [
-                -1, 0;  % Up
-                 1, 0;  % Down
-                 0, 1;  % Right
-                 0, -1];% Left  
+    % directions = [
+    %             -1, 0;  % Up
+    %              1, 0;  % Down
+    %              0, 1;  % Right
+    %              0, -1];% Left  
     
     % Only do four core directions
-    dir = dir(1:4);
+    % dir = dir(1:4);
 
     [ n, m] = size( conc_matrix );
 
@@ -63,11 +63,7 @@ function [Flux] = passiveSemiLagrangianFish(conc_matrix, Flux, idx, dir, current
     % Current cell concentration ( saves lookups later )
     cell_concentration = conc_matrix(i,j) .* area(i,j) ;
 
-    % Speed swimming in each direction;
-    speeds = current';
-    %
-    %proportion_out = valid_neighbor .* abs(speeds) .* dt ./ distance;
-    proportion_out = valid_neighbor .* abs(speeds) .* dt .* distance ./ area(i,j);
+    proportion_out = valid_neighbor .* abs(current) .* dt .* distance ./ area(i,j);
     %
     conc_moving_out = proportion_out .* cell_concentration;
     %

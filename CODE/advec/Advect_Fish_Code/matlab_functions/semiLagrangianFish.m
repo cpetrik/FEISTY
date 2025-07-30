@@ -65,7 +65,7 @@ function [Flux] = semiLagrangianFish(conc_matrix, Flux, idx, dir, current, dt, d
 
     % If no movement, return immediately
     if totalDirections == 0
-        %Flux = passiveSemiLagrangianFish(conc_matrix, Flux, idx, dir, current, dt, dx_m, dy_m, neighbors, grid_mask, area);
+        Flux = passiveSemiLagrangianFish(conc_matrix, Flux, idx, dir, current', dt, dx_m, dy_m, neighbors, grid_mask, area);
         return;
     end
     
