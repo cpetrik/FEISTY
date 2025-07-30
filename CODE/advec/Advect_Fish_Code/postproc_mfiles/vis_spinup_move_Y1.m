@@ -231,7 +231,7 @@ surfm(geolat_t,geolon_t,log10(Zb))
 cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-5 1]);
+clim([-2 2]);
 colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('log10 mean Benthos (g m^-^2) day 1')
@@ -244,7 +244,7 @@ surfm(geolat_t,geolon_t,log10(Mb))
 cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-5 1]);
+clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean Benthos (g m^-^2) day 183')
 
@@ -256,7 +256,7 @@ surfm(geolat_t,geolon_t,log10(Eb))
 cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-5 1]);
+clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean Benthos (g m^-^2) day 365')
 
@@ -273,7 +273,7 @@ surfm(geolat_t,geolon_t,log10(AllF1))
 cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-5 -1]);
+clim([-2 2]);
 colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('log10 mean All F (g m^-^2) Day 1')
@@ -286,7 +286,7 @@ surfm(geolat_t,geolon_t,log10(AllD1))
 cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-5 -1]);
+clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All D (g m^-^2)')
 
@@ -298,7 +298,7 @@ surfm(geolat_t,geolon_t,log10(AllP1))
 cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-5 -1]);
+clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All P (g m^-^2)')
 
@@ -310,7 +310,7 @@ surfm(geolat_t,geolon_t,log10(All1))
 cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-5 -1]);
+clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
 stamp(exper)
@@ -326,7 +326,7 @@ surfm(geolat_t,geolon_t,log10(AllF2))
 cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-5 -1]);
+clim([-2 2]);
 colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('log10 mean All F (g m^-^2) Day 183')
@@ -339,7 +339,7 @@ surfm(geolat_t,geolon_t,log10(AllD2))
 cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-5 -1]);
+clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All D (g m^-^2)')
 
@@ -351,7 +351,7 @@ surfm(geolat_t,geolon_t,log10(AllP2))
 cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-5 -1]);
+clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All P (g m^-^2)')
 
@@ -363,7 +363,7 @@ surfm(geolat_t,geolon_t,log10(All2))
 cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-5 -1]);
+clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
 stamp(exper)
@@ -379,7 +379,7 @@ surfm(geolat_t,geolon_t,log10(AllF3))
 cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-5 -1]);
+clim([-2 2]);
 colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('log10 mean All F (g m^-^2) Day 365')
@@ -392,7 +392,7 @@ surfm(geolat_t,geolon_t,log10(AllD3))
 cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-5 -1]);
+clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All D (g m^-^2)')
 
@@ -404,7 +404,7 @@ surfm(geolat_t,geolon_t,log10(AllP3))
 cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-5 -1]);
+clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All P (g m^-^2)')
 
@@ -416,7 +416,7 @@ surfm(geolat_t,geolon_t,log10(All3))
 cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-5 -1]);
+clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
 stamp(exper)

@@ -280,14 +280,14 @@ Lp.bio = bioLp(GRD.ID);
 Ld.bio = bioLd(GRD.ID);
 
 
-% Forward Euler checks for movement
-Sf.bio=sub_check(Sf.bio);
-Sp.bio=sub_check(Sp.bio);
-Sd.bio=sub_check(Sd.bio);
-Mf.bio=sub_check(Mf.bio);
-Mp.bio=sub_check(Mp.bio);
-Md.bio=sub_check(Md.bio);
-Lp.bio=sub_check(Lp.bio);
-Ld.bio=sub_check(Ld.bio);
+% Forward Euler checks for movement (set zeros to small number)
+Sf.bio=sub_check_nan(Sf.bio);
+Sp.bio=sub_check_nan(Sp.bio);
+Sd.bio=sub_check_nan(Sd.bio);
+Mf.bio=sub_check_nan(Mf.bio);
+Mp.bio=sub_check_nan(Mp.bio);
+Md.bio=sub_check_nan(Md.bio);
+Lp.bio=sub_check_nan(Lp.bio);
+Ld.bio=sub_check_nan(Ld.bio);
 
 end
