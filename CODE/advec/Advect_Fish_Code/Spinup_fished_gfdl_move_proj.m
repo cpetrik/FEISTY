@@ -46,7 +46,7 @@ ID = 1:param.NX;
 param.adt = 24 * 60 * 60; %time step in seconds
 
 %! How long to run the model
-YEARS = 1; %200;
+YEARS = 1; %50;
 DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
@@ -54,7 +54,8 @@ MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 %opath = '/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/';
 opath = '/project/Feisty/NC/Matlab_new_size/';
 exper = 'Spinup1988_move_prey';
-[fname,simname,sname] = sub_fname_spin_gfdl_core(param,opath,exper);
+%[fname,simname,sname] = sub_fname_spin_gfdl_core(param,opath,exper);
+[fname,simname,sname] = sub_fname_spin_move_core(param,opath,exper);
 
 %! Storage variables
 S_Bent_bio = zeros(NX,DAYS);
@@ -70,7 +71,12 @@ S_Lrg_p = zeros(NX,DAYS);
 S_Lrg_d = zeros(NX,DAYS);
 
 %! Initialize
-[Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish(ID,DAYS);
+%[Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish(ID,DAYS);
+
+% Last month of spinup without movement
+load([sname '_' simname '.mat']); 
+BENT.mass = BENT.bio;
+[Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_hist(ID,DAYS,Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT);
 
 %! Dims of netcdf file
 nt = 12 * YEARS;
