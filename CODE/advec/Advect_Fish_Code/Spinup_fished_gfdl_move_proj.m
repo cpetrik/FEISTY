@@ -46,7 +46,7 @@ ID = 1:param.NX;
 param.adt = 24 * 60 * 60; %time step in seconds
 
 %! How long to run the model
-YEARS = 1; %50;
+YEARS = 2; %50;
 DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
@@ -174,7 +174,7 @@ MNT = 0;
 for YR = 1:YEARS % years
     ti = num2str(YR)
 
-    for DAY = 1:10 %:param.DT:DAYS % days
+    for DAY = 1:param.DT:DAYS % days
 
         %%%! Future time step
         DY = int64(ceil(DAY));
