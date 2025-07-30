@@ -16,7 +16,7 @@ if (~isfolder(ppath))
 end
 
 %%
-mod = 'Spinup1988_move_prey_v2_All_fish03_Y1';
+mod = 'Spinup1988_move_prey_v3_All_fish03_Y1';
 load([fpath mod '.mat']);
 %load([fpath 'Means_' exper cfile '.mat']);
 
@@ -91,15 +91,25 @@ ld_mean1=mean(S_Lrg_d(:,1),2,'omitnan');
 b_mean1=mean(S_Bent_bio(:,1),2,'omitnan');
 
 %middle 
-sp_mean2=mean(S_Sml_p(:,183),2);
-sf_mean2=mean(S_Sml_f(:,183),2);
-sd_mean2=mean(S_Sml_d(:,183),2);
-mp_mean2=mean(S_Med_p(:,183),2);
-mf_mean2=mean(S_Med_f(:,183),2);
-md_mean2=mean(S_Med_d(:,183),2);
-lp_mean2=mean(S_Lrg_p(:,183),2);
-ld_mean2=mean(S_Lrg_d(:,183),2);
-b_mean2=mean(S_Bent_bio(:,183),2);
+sp_mean2=mean(S_Sml_p(:,10),2);
+sf_mean2=mean(S_Sml_f(:,10),2);
+sd_mean2=mean(S_Sml_d(:,10),2);
+mp_mean2=mean(S_Med_p(:,10),2);
+mf_mean2=mean(S_Med_f(:,10),2);
+md_mean2=mean(S_Med_d(:,10),2);
+lp_mean2=mean(S_Lrg_p(:,10),2);
+ld_mean2=mean(S_Lrg_d(:,10),2);
+b_mean2=mean(S_Bent_bio(:,10),2);
+
+% sp_mean2=mean(S_Sml_p(:,183),2);
+% sf_mean2=mean(S_Sml_f(:,183),2);
+% sd_mean2=mean(S_Sml_d(:,183),2);
+% mp_mean2=mean(S_Med_p(:,183),2);
+% mf_mean2=mean(S_Med_f(:,183),2);
+% md_mean2=mean(S_Med_d(:,183),2);
+% lp_mean2=mean(S_Lrg_p(:,183),2);
+% ld_mean2=mean(S_Lrg_d(:,183),2);
+% b_mean2=mean(S_Bent_bio(:,183),2);
 
 %end
 sp_mean3=mean(S_Sml_p(:,365),2);
@@ -431,4 +441,109 @@ set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
 stamp(exper)
 print('-dpng',[ppath mod 'All_subplot_day365.png'])
+
+%% 8plot by fn type and size
+f2 = figure('Units','inches','Position',[1 3 6.5 8]);
+%f1.Units = 'inches';
+
+%A - sf
+subplot('Position',[0.015 0.75 0.44 0.25])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,log10(Zsf))
+cmocean('dense')
+%colorbar
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+clim([-2 2])
+set(gcf,'renderer','painters')
+text(0,1.75,'SF','HorizontalAlignment','center')
+
+%B - 
+subplot('Position',[0.015 0.5 0.44 0.25])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,log10(Zsp))
+cmocean('dense')
+%colorbar
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+clim([-2 2])
+set(gcf,'renderer','painters')
+text(0,1.75,'SP','HorizontalAlignment','center')
+
+%C - 
+subplot('Position',[0.015 0.25 0.44 0.25])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,log10(Zsd))
+cmocean('dense')
+%colorbar
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+clim([-2 2])
+set(gcf,'renderer','painters')
+text(0,1.75,'SD','HorizontalAlignment','center')
+
+%D - F
+subplot('Position',[0.015 0.0 0.44 0.25])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,log10(Zmf))
+cmocean('dense')
+%colorbar
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+clim([-2 2])
+set(gcf,'renderer','painters')
+text(0,1.75,'MF','HorizontalAlignment','center')
+
+%E - P
+subplot('Position',[0.47 0.75 0.44 0.25])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,log10(Zmp))
+cmocean('dense')
+%colorbar
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+clim([-2 2])
+set(gcf,'renderer','painters')
+text(0,1.75,'MP','HorizontalAlignment','center')
+
+%F - D
+subplot('Position',[0.47 0.5 0.44 0.25])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,log10(Zmd))
+cmocean('dense')
+%colorbar
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+clim([-2 2])
+colorbar('Position',[0.92 0.25 0.025 0.5],'orientation','vertical','AxisLocation','out')
+set(gcf,'renderer','painters')
+text(0,1.75,'MD','HorizontalAlignment','center')
+
+%G - B
+subplot('Position',[0.47 0.25 0.44 0.25])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,log10(Zlp))
+cmocean('dense')
+%colorbar
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+clim([-2 2])
+set(gcf,'renderer','painters')
+text(0,1.75,'LP','HorizontalAlignment','center')
+
+%H - all
+subplot('Position',[0.47 0.0 0.44 0.25])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat_t,geolon_t,log10(Zld))
+cmocean('dense')
+%colorbar
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+clim([-2 2])
+set(gcf,'renderer','painters')
+text(0,1.75,'LD','HorizontalAlignment','center')
+stamp(exper)
+print('-dpng',[ppath mod 'All_stages_subplot_day1.png'])
+
+
 
