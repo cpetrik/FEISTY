@@ -51,8 +51,9 @@ DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Create a directory for output
-exper = 'Spinup1988_move_prey';
+%opath = '/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/';
 opath = '/project/Feisty/NC/Matlab_new_size/';
+exper = 'Spinup1988_move_prey';
 [fname,simname,sname] = sub_fname_spin_gfdl_core(param,opath,exper);
 
 %! Storage variables
