@@ -221,7 +221,7 @@ for YR = 1:YEARS % years
 
 end %Years
 
-save([fname,'_Y1.mat'],'S_Bent_bio','S_Sml_f','S_Sml_p','S_Sml_d','S_Med_f',...
+save([fname,'_Y2.mat'],'S_Bent_bio','S_Sml_f','S_Sml_p','S_Sml_d','S_Med_f',...
     'S_Med_p','S_Med_d','S_Lrg_p','S_Lrg_d','GRD1','GRD2','exper');
 
 %! Close save
