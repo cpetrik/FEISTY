@@ -16,7 +16,7 @@ if (~isfolder(ppath))
 end
 
 %%
-mod = 'Spinup1988_move_prey_All_fish03_Y1';
+mod = 'Spinup1988_move_prey_v2_All_fish03_Y1';
 load([fpath mod '.mat']);
 %load([fpath 'Means_' exper cfile '.mat']);
 
@@ -57,15 +57,25 @@ MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 
 %Time
-sp_tmean=mean(S_Sml_p,1,'omitnan');
-sf_tmean=mean(S_Sml_f,1,'omitnan');
-sd_tmean=mean(S_Sml_d,1,'omitnan');
-mp_tmean=mean(S_Med_p,1,'omitnan');
-mf_tmean=mean(S_Med_f,1,'omitnan');
-md_tmean=mean(S_Med_d,1,'omitnan');
-lp_tmean=mean(S_Lrg_p,1,'omitnan');
-ld_tmean=mean(S_Lrg_d,1,'omitnan');
-b_tmean=mean(S_Bent_bio,1,'omitnan');
+sp_tmean=mean(S_Sml_p,1);
+sf_tmean=mean(S_Sml_f,1);
+sd_tmean=mean(S_Sml_d,1);
+mp_tmean=mean(S_Med_p,1);
+mf_tmean=mean(S_Med_f,1);
+md_tmean=mean(S_Med_d,1);
+lp_tmean=mean(S_Lrg_p,1);
+ld_tmean=mean(S_Lrg_d,1);
+b_tmean=mean(S_Bent_bio,1);
+
+% sp_tmean=mean(S_Sml_p,1,'omitnan');
+% sf_tmean=mean(S_Sml_f,1,'omitnan');
+% sd_tmean=mean(S_Sml_d,1,'omitnan');
+% mp_tmean=mean(S_Med_p,1,'omitnan');
+% mf_tmean=mean(S_Med_f,1,'omitnan');
+% md_tmean=mean(S_Med_d,1,'omitnan');
+% lp_tmean=mean(S_Lrg_p,1,'omitnan');
+% ld_tmean=mean(S_Lrg_d,1,'omitnan');
+% b_tmean=mean(S_Bent_bio,1,'omitnan');
 
 
 % Space
@@ -261,7 +271,7 @@ set(gcf,'renderer','painters')
 title('log10 mean Benthos (g m^-^2) day 365')
 
 stamp(mod)
-print('-dpng',[ppath exper 'global_BENT.png'])
+print('-dpng',[ppath mod 'global_BENT.png'])
 
 %% ALL - day 1
 figure(4)
@@ -314,7 +324,7 @@ clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
 stamp(exper)
-print('-dpng',[ppath exper 'All_subplot_day1.png'])
+print('-dpng',[ppath mod 'All_subplot_day1.png'])
 
 %% ALL - day 183
 figure(5)
@@ -367,7 +377,7 @@ clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
 stamp(exper)
-print('-dpng',[ppath exper 'All_subplot_day183.png'])
+print('-dpng',[ppath mod 'All_subplot_day183.png'])
 
 %% ALL - day 365
 figure(6)
@@ -420,5 +430,5 @@ clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
 stamp(exper)
-print('-dpng',[ppath exper 'All_subplot_day365.png'])
+print('-dpng',[ppath mod 'All_subplot_day365.png'])
 

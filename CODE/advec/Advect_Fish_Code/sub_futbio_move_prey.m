@@ -215,14 +215,14 @@ Lp.bio = sub_update_fi(Lp.bio,Lp.rec,Lp.nu,Lp.rep,Lp.gamma,Lp.die,Lp.nmort,Lp.fm
 Ld.bio = sub_update_fi(Ld.bio,Ld.rec,Ld.nu,Ld.rep,Ld.gamma,Ld.die,Ld.nmort,Ld.fmort);
 
 % Forward Euler checks for demographics 
-Sf.bio=sub_check(Sf.bio);
-Sp.bio=sub_check(Sp.bio);
-Sd.bio=sub_check(Sd.bio);
-Mf.bio=sub_check(Mf.bio);
-Mp.bio=sub_check(Mp.bio);
-Md.bio=sub_check(Md.bio);
-Lp.bio=sub_check(Lp.bio);
-Ld.bio=sub_check(Ld.bio);
+Sf.bio=sub_check_nan(Sf.bio);
+Sp.bio=sub_check_nan(Sp.bio);
+Sd.bio=sub_check_nan(Sd.bio);
+Mf.bio=sub_check_nan(Mf.bio);
+Mp.bio=sub_check_nan(Mp.bio);
+Md.bio=sub_check_nan(Md.bio);
+Lp.bio=sub_check_nan(Lp.bio);
+Ld.bio=sub_check_nan(Ld.bio);
 
 
 %%% MOVEMENT CALCULATIONS - advection and directed swimming
