@@ -8,10 +8,8 @@ close all
 gpath = '/project/Feisty/GCM_DATA/CORE-forced/';
 
 %%
-load([gpath 'ocean_cobalt_grid.mat'],...
-    'geolon_t','geolat_t');
-load([gpath 'Data_grid_ocean_cobalt_ESM2Mcore.mat'],...
-    'GRD');
+load([gpath 'ocean_cobalt_grid.mat'],'geolon_t','geolat_t');
+load([gpath 'Data_grid_ocean_cobalt_ESM2Mcore.mat'],'GRD');
 
 [ni,nj]=size(geolon_t);
 geolon_t = double(geolon_t);
