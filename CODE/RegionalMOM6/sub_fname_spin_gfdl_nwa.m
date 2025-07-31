@@ -1,5 +1,5 @@
 %%%% File naming system
-function [fname,simname,outdir] = sub_fname_spin_gfdl_rmom6(param,odir,exper)
+function [fname,simname,outdir] = sub_fname_spin_gfdl_nwa(param,odir,exper)
 
 frate = param.frate;
 
@@ -62,7 +62,7 @@ else
     simname = [coup,'_enc',tefn,'-b',tbenc(2:end),'_m',tmfn,'-b',tbfn(2:end),'-k',tkfn(2:end),'_c',tcfn,'-b',tbcmx(2:end),'_D',td(2:end),'_J',tj(2:end),'_A',ta(2:end),'_Sm',tsm(2:end),'_nmort',tmort,'_BE',tbe(2:end),'_CC',tcc,'_RE',tre(2:end)];
 end
 
-outdir = [odir,simname,'/CORE/'];
+outdir = [odir,simname,'/NWA12/'];
 
 if (~isfolder(outdir))
     mkdir(outdir)

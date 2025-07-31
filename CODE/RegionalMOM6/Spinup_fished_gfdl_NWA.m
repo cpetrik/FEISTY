@@ -1,5 +1,5 @@
 %%%%!! RUN SPINUP FOR ALL LOCATIONS
-function Spinup_fished_gfdl_core()
+function Spinup_fished_gfdl_NWA()
 
 %%%%%%%%%%%%%%% Initialize Model Variables
 %! Set fishing rate
@@ -13,18 +13,16 @@ param.dfrateD = nan;
 param = make_parameters(param);
 
 %! Grids
-vpath = '/Volumes/petrik-lab/Feisty/GCM_Data/CORE-forced/';
+vpath = '/Volumes/petrik-lab/Feisty/GCM_Data/MOM6-NWA12/';
 
 %1-D
-load([vpath 'Data_grid_ocean_cobalt_ESM2Mcore.mat'],'GRD');
+load([vpath 'Data_grid_mom6_nwa12.mat'],'GRD');
 GRD1 = GRD;
 clear GRD
 
 % %2-D
-% load([vpath 'Data_hindcast_grid_cp2D.mat'],'GRD')
-% GRD2 = GRD;
-% clear GRD
-% 
+% load([vpath 'Data_grid2D_mom6_nwa12.mat'],'GRD')
+ 
 % %grid params
 % [ni,nj] = size(GRD2.mask);
 % param.ni = ni;
@@ -33,27 +31,26 @@ clear GRD
 % param.dy = GRD2.dyte;
 % param.mask = GRD2.mask;
 
-param.NX = length(GRD1.Z);
+param.NX = GRD1.NID;
 param.ID = 1:param.NX;
-NX = length(GRD1.Z);
+NX = GRD1.NID;
 ID = 1:param.NX;
 
 %! Advection/Movement time step
 % param.adt = 24 * 60 * 60; %time step in seconds
 
 %! How long to run the model
-YEARS = 200;
+YEARS = 150;
 DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Create a directory for output
-exper = 'Spinup1988_no_move';
+exper = 'Spinup1993_no_move';
 opath = '/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/';
-[fname,simname,sname] = sub_fname_spin_gfdl_core(param,opath,exper);
+[fname,simname,sname] = sub_fname_spin_gfdl_nwa(param,opath,exper);
 
 %! Storage variables
 S_Bent_bio = zeros(NX,DAYS);
-% S_Mzoo_frac = zeros(NX,DAYS);
 
 S_Sml_f = zeros(NX,DAYS);
 S_Sml_p = zeros(NX,DAYS);
@@ -151,7 +148,7 @@ netcdf.endDef(ncidB);
 
 %% %%%%%%%%%%%%%%%%%%%% Run the Model
 
-load([vpath,'Data_ocean_cobalt_daily_1988.mat'],'COBALT');
+load([vpath,'Data_mom6_nwa12_daily_1993.mat'],'ESM');
 
 MNT = 0;
 %! Run model with no fishing
@@ -163,7 +160,7 @@ for YR = 1:YEARS % years
         %%%! Future time step
         DY = int64(ceil(DAY));
         [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,ENVR] = ...
-            sub_futbio(DY,COBALT,GRD1,Sml_f,Sml_p,Sml_d,...
+            sub_futbio(DY,ESM,GRD1,Sml_f,Sml_p,Sml_d,...
             Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,param);
 
         %! Store
@@ -215,7 +212,5 @@ netcdf.close(ncidMD);
 netcdf.close(ncidLP);
 netcdf.close(ncidLD);
 netcdf.close(ncidB);
-
-
 
 end

@@ -172,7 +172,7 @@ for y = 1%:nyrs
     MOM.V  = V100;
 
     % save
-    save([fpath 'Data_mom6_nwa12_daily_',num2str(YR),'.mat'],'MOM','-v7.3');
+    save([fpath 'Vel_mom6_nwa12_daily_',num2str(YR),'.mat'],'MOM','-v7.3');
     
 end
 
