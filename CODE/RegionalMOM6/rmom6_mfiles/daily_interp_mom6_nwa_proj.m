@@ -29,10 +29,8 @@ jhploss_nmdz_100(jhploss_nmdz_100 > 1.0e19) = nan;
 jhploss_nlgz_100(jhploss_nlgz_100 > 1.0e19) = nan;
 
 %%
-load([cpath 'nwa_raw_ocean_static_gridspec.mat'],'geolon','geolat');
-
-gLAT = geolat;
-gLON = geolon;
+load([fpath 'nwa_raw_ocean_static_gridspec.mat'],'geolon','geolat');
+load([fpath 'Data_grid_mom6_nwa12.mat'],'GRD');
 
 %%
 mos = length(time);
@@ -45,10 +43,12 @@ yrs = floor(yr(1)):yr(end);
 Tdays=1:365;
 
 %%
-% index of water cells
+% size
 [ni,nj,nt] = size(fntot_btm);
-WID = find(~isnan(fntot_btm(:,:,1)));  % spatial index of water cells
-NID = length(WID);                    % number of water cells
+
+% index of water cells
+WID = GRD.ID;       % spatial index of water cells
+NID = length(WID);  % number of water cells
 
 %%
 for y = 1:nyrs
@@ -161,7 +161,4 @@ for y = 1:nyrs
 end
 
 %%
-GRD.ID = WID;
-GRD.NID = NID;
-save([cpath 'Data_grid_mom6_nwa12.mat'], 'GRD');
-    
+

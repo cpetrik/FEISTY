@@ -101,7 +101,7 @@ clear u_100 v_100 u v ut vt
 close all
 
 %%
-load([fpath 'Data_grid_mom6_nwa12.mat'], 'GRD');
+load([fpath 'Data_BGC_grid_mom6_nwa12.mat'], 'GRD');
 
 % index of water cells
 WID = GRD.ID;

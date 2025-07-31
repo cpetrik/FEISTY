@@ -12,6 +12,6 @@ function ENVR = get_ESM(ESM,GRD,param,DY)
     ENVR.fZm(:,1) = zeros(param.NX,1);
     ENVR.fZl(:,1) = zeros(param.NX,1);
     ENVR.fB(:,1)  = zeros(param.NX,1);
-    ENVR.H(:,1)   = GRD.Z(param.ID);
-    %ENVR.A(:,1)   = GRD.area(param.ID);
+    ENVR.H(:,1)   = GRD.depth(param.ID);
+    ENVR.A(:,1)   = GRD.area(param.ID);
 end
