@@ -79,7 +79,7 @@ WID = GRD.ID;
 NID = length(WID);
 
 %%
-for y = 1:nyrs
+for y = 2:nyrs
     YR = yrs(y)
 
     if y==1
@@ -121,7 +121,7 @@ for y = 1:nyrs
     ESM.V  = V100;
 
     % save
-    save([fpath 'Vel100_esm2m_core_daily_',num2str(YR),'.mat'],'ESM','-v7.3');
+    save([gpath 'Vel100_esm2m_core_daily_',num2str(YR),'.mat'],'ESM','-v7.3');
     
 end
 

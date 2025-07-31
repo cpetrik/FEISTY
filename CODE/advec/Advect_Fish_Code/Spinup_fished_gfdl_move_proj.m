@@ -54,7 +54,7 @@ MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 %! Create a directory for output
 %opath = '/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/';
 opath = '/project/Feisty/NC/Matlab_new_size/';
-exper = 'Spinup1988_move_prey_v8';
+exper = 'Spinup1988_move_prey_v9';
 [fname,simname,sname] = sub_fname_spin_move_core(param,opath,exper);
 
 %! Storage variables
@@ -164,21 +164,16 @@ netcdf.setDefaultFormat('NC_FORMAT_64BIT');
 addpath('matlab_functions');
 
 load([vpath,'Data_ocean_cobalt_daily_1988.mat'],'COBALT');
-load([vpath,'Vel200_feb152013_run25_ocean_1988.mat'],'uh','vh');
-COBALT.U = uh /200;
-COBALT.V = vh /200;
-
-% min(uh(:)) %=  -141.4702
-% max(uh(:)) %= 198.1744
-% min(vh(:)) %= -164.1879
-% max(uh(:))
+load([vpath,'Vel100_esm2m_core_daily_1988.mat'],'ESM');
+COBALT.U = ESM.U;
+COBALT.V = ESM.V;
 
 MNT = 0;
 %! Run model with no fishing
 for YR = 1:YEARS % years
     ti = num2str(YR)
 
-    for DAY = 1:param.DT:DAYS % days
+    for DAY = 1:10 %param.DT:DAYS % days
 
         %%%! Future time step
         DY = int64(ceil(DAY));
