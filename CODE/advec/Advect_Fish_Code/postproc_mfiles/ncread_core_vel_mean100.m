@@ -118,11 +118,19 @@ V(V<-1e19) = nan;
 %% mean over top 100m
 v_100 = squeeze(sum(V .* thk100m,3,'omitnan') ./ sum(thk100m,3,'omitnan'));
 
-%%
+%% min/max now +/- 1.4 m/s
 u_100 = double(u_100);
 v_100 = double(v_100);
 
 %% Time
 yr = 1888 + (TIME/365);
+
+%%
+save([vpath 'vel100_feb152013_run25_ocean.198801-200712.mat'],...
+    'FillValue','missing_value','U_units','U_long_name',...
+    'V_units','V_long_name','ST_OCEAN','ST_OCEAN_long_name',...
+    'ST_OCEAN_standard_name','ST_OCEAN_units',...
+    'TIME','yr','time_units','calendar',...
+    'z100','u_100','v_100','-v7.3');
 
 
