@@ -20,13 +20,13 @@ load([cpath 'nmdz_nlgz_100.nwa.full.hcast.monthly.raw.r20230520.199301-201912.ma
 load([cpath 'jhploss_mdz_lgz_100.nwa.full.hcast.monthly.raw.r20230520.199301-201912.mat']);
 
 %%
-temp_100(temp_100 > 1.0e19) = nan;
-btm_temp(btm_temp > 1.0e19) = nan;
-fntot_btm(fntot_btm > 1.0e19) = nan;
-nmdz_100(nmdz_100 > 1.0e19) = nan;
-nlgz_100(nlgz_100 > 1.0e19) = nan;
-jhploss_nmdz_100(jhploss_nmdz_100 > 1.0e19) = nan;
-jhploss_nlgz_100(jhploss_nlgz_100 > 1.0e19) = nan;
+temp_100(temp_100 > 1.0e18) = nan;
+btm_temp(btm_temp > 1.0e18) = nan;
+fntot_btm(fntot_btm > 1.0e18) = nan;
+nmdz_100(nmdz_100 > 1.0e18) = nan;
+nlgz_100(nlgz_100 > 1.0e18) = nan;
+jhploss_nmdz_100(jhploss_nmdz_100 > 1.0e18) = nan;
+jhploss_nlgz_100(jhploss_nlgz_100 > 1.0e18) = nan;
 
 %%
 load([cpath 'nwa_raw_ocean_static_gridspec.mat'],'geolon','geolat');
