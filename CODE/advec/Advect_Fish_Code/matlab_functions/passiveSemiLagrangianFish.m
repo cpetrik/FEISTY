@@ -35,6 +35,8 @@ function [Flux] = passiveSemiLagrangianFish(conc_matrix, Flux, idx, dir, current
     % dir = dir(1:4);
 
     [ n, m] = size( conc_matrix );
+	
+	tolerance = 1e-3;
 
     % Current cell coordinates
     i = idx(1);
@@ -72,7 +74,7 @@ function [Flux] = passiveSemiLagrangianFish(conc_matrix, Flux, idx, dir, current
     % If too much wants to leave, cap at cell capacity
     if total_leaving > cell_concentration
         % Scale amounts moving out to available concentration
-        conc_moving_out = conc_moving_out * (cell_concentration / total_leaving );
+        conc_moving_out = conc_moving_out * (cell_concentration / total_leaving ) - tolerance;
         total_leaving = sum(conc_moving_out);
     end
     % OLD
