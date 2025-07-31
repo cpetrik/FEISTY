@@ -29,8 +29,8 @@ jhploss_nmdz_100(jhploss_nmdz_100 > 1.0e19) = nan;
 jhploss_nlgz_100(jhploss_nlgz_100 > 1.0e19) = nan;
 
 %%
-load([fpath 'nwa_raw_ocean_static_gridspec.mat'],'geolon','geolat');
-load([fpath 'Data_grid_mom6_nwa12.mat'],'GRD');
+load([cpath 'nwa_raw_ocean_static_gridspec.mat'],'geolon','geolat');
+load([cpath 'Data_grid_mom6_nwa12.mat'],'GRD');
 
 %%
 mos = length(time);
