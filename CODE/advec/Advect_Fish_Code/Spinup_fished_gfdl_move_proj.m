@@ -46,20 +46,19 @@ ID = 1:param.NX;
 param.adt = 24 * 60 * 60; %time step in seconds
 
 %! How long to run the model
-YEARS = 2; %50;
+YEARS = 30;
 DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Create a directory for output
 %opath = '/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/';
 opath = '/project/Feisty/NC/Matlab_new_size/';
-exper = 'Spinup1988_move_prey_v6';
+exper = 'Spinup1988_move_prey_v5';
 %[fname,simname,sname] = sub_fname_spin_gfdl_core(param,opath,exper);
 [fname,simname,sname] = sub_fname_spin_move_core(param,opath,exper);
 
 %! Storage variables
 S_Bent_bio = zeros(NX,DAYS);
-% S_Mzoo_frac = zeros(NX,DAYS);
 
 S_Sml_f = zeros(NX,DAYS);
 S_Sml_p = zeros(NX,DAYS);
@@ -80,85 +79,85 @@ BENT.mass = BENT.bio;
 
 %! Dims of netcdf file
 nt = 12 * YEARS;
-% netcdf.setDefaultFormat('NC_FORMAT_64BIT');
-% 
-% %% %%%%%%%%%%%%% Setup NetCDF save
-% %! Setup netcdf path to store to
-% file_sml_f = [fname,'_sml_f.nc'];
-% file_sml_p = [fname,'_sml_p.nc'];
-% file_sml_d = [fname,'_sml_d.nc'];
-% file_med_f = [fname,'_med_f.nc'];
-% file_med_p = [fname,'_med_p.nc'];
-% file_med_d = [fname,'_med_d.nc'];
-% file_lrg_p = [fname,'_lrg_p.nc'];
-% file_lrg_d = [fname,'_lrg_d.nc'];
-% file_bent  = [fname,'_bent.nc'];
-% 
-% ncidSF = netcdf.create(file_sml_f,'NC_WRITE');
-% ncidSP = netcdf.create(file_sml_p,'NC_WRITE');
-% ncidSD = netcdf.create(file_sml_d,'NC_WRITE');
-% ncidMF = netcdf.create(file_med_f,'NC_WRITE');
-% ncidMP = netcdf.create(file_med_p,'NC_WRITE');
-% ncidMD = netcdf.create(file_med_d,'NC_WRITE');
-% ncidLP = netcdf.create(file_lrg_p,'NC_WRITE');
-% ncidLD = netcdf.create(file_lrg_d,'NC_WRITE');
-% ncidB  = netcdf.create(file_bent,'NC_WRITE');
-% 
-% %% ! Def vars of netcdf file
-% ['Defining netcdfs, takes ~15 minutes ... ']
-% xy_dim      = netcdf.defDim(ncidSF,'nid',NX);
-% time_dim    = netcdf.defDim(ncidSF,'ntime',nt);
-% vidbioSF    = netcdf.defVar(ncidSF,'biomass','double',[xy_dim,time_dim]);
-% % vidprodSF   = netcdf.defVar(ncidSF,'prod','double',[xy_dim,time_dim]);
-% netcdf.endDef(ncidSF);
-% 
-% xy_dim      = netcdf.defDim(ncidSP,'nid',NX);
-% time_dim    = netcdf.defDim(ncidSP,'ntime',nt);
-% vidbioSP    = netcdf.defVar(ncidSP,'biomass','double',[xy_dim,time_dim]);
-% % vidprodSP   = netcdf.defVar(ncidSP,'prod','double',[xy_dim,time_dim]);
-% netcdf.endDef(ncidSP);
-% 
-% xy_dim      = netcdf.defDim(ncidSD,'nid',NX);
-% time_dim    = netcdf.defDim(ncidSD,'ntime',nt);
-% vidbioSD    = netcdf.defVar(ncidSD,'biomass','double',[xy_dim,time_dim]);
-% % vidprodSD   = netcdf.defVar(ncidSD,'prod','double',[xy_dim,time_dim]);
-% netcdf.endDef(ncidSD);
-% 
-% xy_dim      = netcdf.defDim(ncidMF,'nid',NX);
-% time_dim    = netcdf.defDim(ncidMF,'ntime',nt);
-% vidbioMF    = netcdf.defVar(ncidMF,'biomass','double',[xy_dim,time_dim]);
-% % vidprodMF   = netcdf.defVar(ncidMF,'prod','double',[xy_dim,time_dim]);
-% netcdf.endDef(ncidMF);
-% 
-% xy_dim      = netcdf.defDim(ncidMP,'nid',NX);
-% time_dim    = netcdf.defDim(ncidMP,'ntime',nt);
-% vidbioMP    = netcdf.defVar(ncidMP,'biomass','double',[xy_dim,time_dim]);
-% % vidprodMP   = netcdf.defVar(ncidMP,'prod','double',[xy_dim,time_dim]);
-% netcdf.endDef(ncidMP);
-% 
-% xy_dim      = netcdf.defDim(ncidMD,'nid',NX);
-% time_dim    = netcdf.defDim(ncidMD,'ntime',nt);
-% vidbioMD    = netcdf.defVar(ncidMD,'biomass','double',[xy_dim,time_dim]);
-% % vidprodMD   = netcdf.defVar(ncidMD,'prod','double',[xy_dim,time_dim]);
-% netcdf.endDef(ncidMD);
-% 
-% xy_dim      = netcdf.defDim(ncidLP,'nid',NX);
-% time_dim    = netcdf.defDim(ncidLP,'ntime',nt);
-% vidbioLP    = netcdf.defVar(ncidLP,'biomass','double',[xy_dim,time_dim]);
-% % vidprodLP   = netcdf.defVar(ncidLP,'prod','double',[xy_dim,time_dim]);
-% netcdf.endDef(ncidLP);
-% 
-% xy_dim      = netcdf.defDim(ncidLD,'nid',NX);
-% time_dim    = netcdf.defDim(ncidLD,'ntime',nt);
-% vidbioLD    = netcdf.defVar(ncidLD,'biomass','double',[xy_dim,time_dim]);
-% % vidprodLD   = netcdf.defVar(ncidLD,'prod','double',[xy_dim,time_dim]);
-% netcdf.endDef(ncidLD);
-% 
-% xy_dim     = netcdf.defDim(ncidB,'nid',NX);
-% time_dim   = netcdf.defDim(ncidB,'ntime',nt);
-% vidbioB    = netcdf.defVar(ncidB,'biomass','double',[xy_dim,time_dim]);
-% vidTB      = netcdf.defVar(ncidB,'time','double',time_dim);
-% netcdf.endDef(ncidB);
+netcdf.setDefaultFormat('NC_FORMAT_64BIT');
+
+%% %%%%%%%%%%%%% Setup NetCDF save
+%! Setup netcdf path to store to
+file_sml_f = [fname,'_sml_f.nc'];
+file_sml_p = [fname,'_sml_p.nc'];
+file_sml_d = [fname,'_sml_d.nc'];
+file_med_f = [fname,'_med_f.nc'];
+file_med_p = [fname,'_med_p.nc'];
+file_med_d = [fname,'_med_d.nc'];
+file_lrg_p = [fname,'_lrg_p.nc'];
+file_lrg_d = [fname,'_lrg_d.nc'];
+file_bent  = [fname,'_bent.nc'];
+
+ncidSF = netcdf.create(file_sml_f,'NC_WRITE');
+ncidSP = netcdf.create(file_sml_p,'NC_WRITE');
+ncidSD = netcdf.create(file_sml_d,'NC_WRITE');
+ncidMF = netcdf.create(file_med_f,'NC_WRITE');
+ncidMP = netcdf.create(file_med_p,'NC_WRITE');
+ncidMD = netcdf.create(file_med_d,'NC_WRITE');
+ncidLP = netcdf.create(file_lrg_p,'NC_WRITE');
+ncidLD = netcdf.create(file_lrg_d,'NC_WRITE');
+ncidB  = netcdf.create(file_bent,'NC_WRITE');
+
+%% ! Def vars of netcdf file
+['Defining netcdfs, takes ~15 minutes ... ']
+xy_dim      = netcdf.defDim(ncidSF,'nid',NX);
+time_dim    = netcdf.defDim(ncidSF,'ntime',nt);
+vidbioSF    = netcdf.defVar(ncidSF,'biomass','double',[xy_dim,time_dim]);
+% vidprodSF   = netcdf.defVar(ncidSF,'prod','double',[xy_dim,time_dim]);
+netcdf.endDef(ncidSF);
+
+xy_dim      = netcdf.defDim(ncidSP,'nid',NX);
+time_dim    = netcdf.defDim(ncidSP,'ntime',nt);
+vidbioSP    = netcdf.defVar(ncidSP,'biomass','double',[xy_dim,time_dim]);
+% vidprodSP   = netcdf.defVar(ncidSP,'prod','double',[xy_dim,time_dim]);
+netcdf.endDef(ncidSP);
+
+xy_dim      = netcdf.defDim(ncidSD,'nid',NX);
+time_dim    = netcdf.defDim(ncidSD,'ntime',nt);
+vidbioSD    = netcdf.defVar(ncidSD,'biomass','double',[xy_dim,time_dim]);
+% vidprodSD   = netcdf.defVar(ncidSD,'prod','double',[xy_dim,time_dim]);
+netcdf.endDef(ncidSD);
+
+xy_dim      = netcdf.defDim(ncidMF,'nid',NX);
+time_dim    = netcdf.defDim(ncidMF,'ntime',nt);
+vidbioMF    = netcdf.defVar(ncidMF,'biomass','double',[xy_dim,time_dim]);
+% vidprodMF   = netcdf.defVar(ncidMF,'prod','double',[xy_dim,time_dim]);
+netcdf.endDef(ncidMF);
+
+xy_dim      = netcdf.defDim(ncidMP,'nid',NX);
+time_dim    = netcdf.defDim(ncidMP,'ntime',nt);
+vidbioMP    = netcdf.defVar(ncidMP,'biomass','double',[xy_dim,time_dim]);
+% vidprodMP   = netcdf.defVar(ncidMP,'prod','double',[xy_dim,time_dim]);
+netcdf.endDef(ncidMP);
+
+xy_dim      = netcdf.defDim(ncidMD,'nid',NX);
+time_dim    = netcdf.defDim(ncidMD,'ntime',nt);
+vidbioMD    = netcdf.defVar(ncidMD,'biomass','double',[xy_dim,time_dim]);
+% vidprodMD   = netcdf.defVar(ncidMD,'prod','double',[xy_dim,time_dim]);
+netcdf.endDef(ncidMD);
+
+xy_dim      = netcdf.defDim(ncidLP,'nid',NX);
+time_dim    = netcdf.defDim(ncidLP,'ntime',nt);
+vidbioLP    = netcdf.defVar(ncidLP,'biomass','double',[xy_dim,time_dim]);
+% vidprodLP   = netcdf.defVar(ncidLP,'prod','double',[xy_dim,time_dim]);
+netcdf.endDef(ncidLP);
+
+xy_dim      = netcdf.defDim(ncidLD,'nid',NX);
+time_dim    = netcdf.defDim(ncidLD,'ntime',nt);
+vidbioLD    = netcdf.defVar(ncidLD,'biomass','double',[xy_dim,time_dim]);
+% vidprodLD   = netcdf.defVar(ncidLD,'prod','double',[xy_dim,time_dim]);
+netcdf.endDef(ncidLD);
+
+xy_dim     = netcdf.defDim(ncidB,'nid',NX);
+time_dim   = netcdf.defDim(ncidB,'ntime',nt);
+vidbioB    = netcdf.defVar(ncidB,'biomass','double',[xy_dim,time_dim]);
+vidTB      = netcdf.defVar(ncidB,'time','double',time_dim);
+netcdf.endDef(ncidB);
 
 %% %%%%%%%%%%%%%%%%%%%% Run the Model
 
@@ -179,7 +178,7 @@ for YR = 1:YEARS % years
         %%%! Future time step
         DY = int64(ceil(DAY));
         [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,ENVR] = ...
-            sub_futbio_move_prey(DY,COBALT,GRD1,Sml_f,Sml_p,Sml_d,...
+            sub_futbio_move_prey_v5(DY,COBALT,GRD1,Sml_f,Sml_p,Sml_d,...
             Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,param,neighborhood);
 
         %! Store
@@ -197,43 +196,43 @@ for YR = 1:YEARS % years
     end %Days
 
 
-    % %! Calculate monthly means and save
-    % aa = (cumsum(MNTH)+1);
-    % a = [1,aa(1:end-1)]; % start of the month
-    % b = cumsum(MNTH); % end of the month
-    % for i = 1:12
-    %     MNT = MNT+1; % Update monthly ticker
-    % 
-    %     %! Put vars of netcdf file
-    %     netcdf.putVar(ncidB,vidbioB,[0 MNT-1],[NX 1],mean(S_Bent_bio(:,a(i):b(i)),2));
-    %     netcdf.putVar(ncidB,vidTB,MNT-1,1,MNT);
-    % 
-    %     netcdf.putVar(ncidSF,vidbioSF,[0 MNT-1],[NX 1],mean(S_Sml_f(:,a(i):b(i)),2));
-    %     netcdf.putVar(ncidSP,vidbioSP,[0 MNT-1],[NX 1],mean(S_Sml_p(:,a(i):b(i)),2));
-    %     netcdf.putVar(ncidSD,vidbioSD,[0 MNT-1],[NX 1],mean(S_Sml_d(:,a(i):b(i)),2));
-    %     netcdf.putVar(ncidMF,vidbioMF,[0 MNT-1],[NX 1],mean(S_Med_f(:,a(i):b(i)),2));
-    %     netcdf.putVar(ncidMP,vidbioMP,[0 MNT-1],[NX 1],mean(S_Med_p(:,a(i):b(i)),2));
-    %     netcdf.putVar(ncidMD,vidbioMD,[0 MNT-1],[NX 1],mean(S_Med_d(:,a(i):b(i)),2));
-    %     netcdf.putVar(ncidLP,vidbioLP,[0 MNT-1],[NX 1],mean(S_Lrg_p(:,a(i):b(i)),2));
-    %     netcdf.putVar(ncidLD,vidbioLD,[0 MNT-1],[NX 1],mean(S_Lrg_d(:,a(i):b(i)),2));
-    % 
-    % end %Monthly mean
+    %! Calculate monthly means and save
+    aa = (cumsum(MNTH)+1);
+    a = [1,aa(1:end-1)]; % start of the month
+    b = cumsum(MNTH); % end of the month
+    for i = 1:12
+        MNT = MNT+1; % Update monthly ticker
+
+        %! Put vars of netcdf file
+        netcdf.putVar(ncidB,vidbioB,[0 MNT-1],[NX 1],mean(S_Bent_bio(:,a(i):b(i)),2));
+        netcdf.putVar(ncidB,vidTB,MNT-1,1,MNT);
+
+        netcdf.putVar(ncidSF,vidbioSF,[0 MNT-1],[NX 1],mean(S_Sml_f(:,a(i):b(i)),2));
+        netcdf.putVar(ncidSP,vidbioSP,[0 MNT-1],[NX 1],mean(S_Sml_p(:,a(i):b(i)),2));
+        netcdf.putVar(ncidSD,vidbioSD,[0 MNT-1],[NX 1],mean(S_Sml_d(:,a(i):b(i)),2));
+        netcdf.putVar(ncidMF,vidbioMF,[0 MNT-1],[NX 1],mean(S_Med_f(:,a(i):b(i)),2));
+        netcdf.putVar(ncidMP,vidbioMP,[0 MNT-1],[NX 1],mean(S_Med_p(:,a(i):b(i)),2));
+        netcdf.putVar(ncidMD,vidbioMD,[0 MNT-1],[NX 1],mean(S_Med_d(:,a(i):b(i)),2));
+        netcdf.putVar(ncidLP,vidbioLP,[0 MNT-1],[NX 1],mean(S_Lrg_p(:,a(i):b(i)),2));
+        netcdf.putVar(ncidLD,vidbioLD,[0 MNT-1],[NX 1],mean(S_Lrg_d(:,a(i):b(i)),2));
+
+    end %Monthly mean
 
 end %Years
 
-save([fname,'_Y2.mat'],'S_Bent_bio','S_Sml_f','S_Sml_p','S_Sml_d','S_Med_f',...
-    'S_Med_p','S_Med_d','S_Lrg_p','S_Lrg_d','GRD1','GRD2','exper');
+% save([fname,'_Y2.mat'],'S_Bent_bio','S_Sml_f','S_Sml_p','S_Sml_d','S_Med_f',...
+%     'S_Med_p','S_Med_d','S_Lrg_p','S_Lrg_d','GRD1','GRD2','exper');
 
 %! Close save
-% netcdf.close(ncidSF);
-% netcdf.close(ncidSP);
-% netcdf.close(ncidSD);
-% netcdf.close(ncidMF);
-% netcdf.close(ncidMP);
-% netcdf.close(ncidMD);
-% netcdf.close(ncidLP);
-% netcdf.close(ncidLD);
-% netcdf.close(ncidB);
+netcdf.close(ncidSF);
+netcdf.close(ncidSP);
+netcdf.close(ncidSD);
+netcdf.close(ncidMF);
+netcdf.close(ncidMP);
+netcdf.close(ncidMD);
+netcdf.close(ncidLP);
+netcdf.close(ncidLD);
+netcdf.close(ncidB);
 
 
 
