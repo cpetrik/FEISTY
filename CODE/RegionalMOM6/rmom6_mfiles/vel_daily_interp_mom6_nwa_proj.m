@@ -5,18 +5,18 @@
 clear
 close all
 
-fpath='/project/Feisty/GCM_Data/MOM6-NWA12/';
+cpath='/project/Feisty/GCM_Data/MOM6-NWA12/';
 
 %% 
-load([fpath 'u_100.nwa.full.hcast.monthly.raw.r20230520.199301-201912.mat'],'u_100');
-load([fpath 'v_100.nwa.full.hcast.monthly.raw.r20230520.199301-201912.mat']);
+load([cpath 'u_100.nwa.full.hcast.monthly.raw.r20230520.199301-201912.mat'],'u_100');
+load([cpath 'v_100.nwa.full.hcast.monthly.raw.r20230520.199301-201912.mat']);
 
 %%
 u_100(u_100 > 1.0e15) = nan;
 v_100(v_100 > 1.0e15) = nan;
 
 %%
-load([fpath 'nwa_raw_ocean_static_gridspec.mat'],'geolon','geolat',...
+load([cpath 'nwa_raw_ocean_static_gridspec.mat'],'geolon','geolat',...
     'geolon_u','geolat_u','geolon_v','geolat_v','areacello',...
     'deptho','dxt','dyt');
 
@@ -67,7 +67,7 @@ clear u_100 v_100 u v ut vt
 close all
 
 %%
-load([fpath 'Data_grid_mom6_nwa12.mat'], 'GRD');
+load([cpath 'Data_grid_mom6_nwa12.mat'], 'GRD');
 
 % index of water cells
 WID = GRD.ID;
@@ -121,7 +121,7 @@ for y = 1:nyrs
     MOM.V  = V100;
 
     % save
-    save([fpath 'Vel_mom6_nwa12_daily_',num2str(YR),'.mat'],'MOM','-v7.3');
+    save([cpath 'Vel_mom6_nwa12_daily_',num2str(YR),'.mat'],'MOM','-v7.3');
     
 end
 
