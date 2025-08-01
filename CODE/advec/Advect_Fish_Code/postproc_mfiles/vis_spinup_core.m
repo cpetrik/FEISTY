@@ -17,7 +17,7 @@ if (~isfolder(ppath))
 end
 
 %%
-exper = 'Spinup1988_no_move_All_fish03_';
+exper = 'Spinup1988_move_prey_v5_All_fish03_';
 load([fpath 'Means_' exper cfile '.mat']);
 
 %%
@@ -52,7 +52,7 @@ cm10=[0.5 0.5 0;... %tan/army
 set(groot,'defaultAxesColorOrder',cm10);
 
 %% Plots in time
-y = time;
+y = time/12;
 F = sf_tmean+mf_tmean;
 P = sp_tmean+mp_tmean+lp_tmean;
 D = sd_tmean+md_tmean+ld_tmean;

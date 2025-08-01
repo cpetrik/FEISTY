@@ -249,15 +249,16 @@ bioLp = sub_1Dto2D(GRD,Lp.bio,param);
 bioLd = sub_1Dto2D(GRD,Ld.bio,param);
 
 %Velocities are 1-D
-% u200 = sub_1Dto2D(GRD,ESM.U,param);
-% v200 = sub_1Dto2D(GRD,ESM.V,param);
-u200 = ENVR.U;
+u100 = sub_1Dto2D(GRD,ENVR.U,param);
+v100 = sub_1Dto2D(GRD,ENVR.V,param);
+
 %Velocities are 2-D
-v200 = ENVR.V;
+% u100 = ENVR.U;
+% v100 = ENVR.V;
 
 current = nan*ones(param.ni,param.nj,2);
-current(:,:,1) = u200; 
-current(:,:,2) = v200;
+current(:,:,1) = u100; 
+current(:,:,2) = v100;
 
 % move
 bioSf = AdvectPredator_v5(bioSf,preySf,current,param.adt,param.dx,param.dy,neighbor,param.U_s,param.mask,param.area,param.nj,param.ni);
