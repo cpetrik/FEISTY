@@ -96,6 +96,7 @@ netcdf.close(ncid);
 
 %% get rid of nans first
 U(U<-1e19) = nan;
+thk100m(U<-1e19) = nan;
 
 %% mean over top 100m
 u_100 = squeeze(sum(U .* thk100m,3,'omitnan') ./ sum(thk100m,3,'omitnan'));

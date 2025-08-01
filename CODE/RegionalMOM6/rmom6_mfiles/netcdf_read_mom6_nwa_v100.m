@@ -78,7 +78,11 @@ end
 
 netcdf.close(ncid);
 
+vo(vo>1e19) = nan;
+
 %% grid cell thickness
+load([fpath 'nwa_raw_ocean_static_gridspec.mat'],'geolon','geolat','wet_v');
+
 thk = diff(z_i);
 thk100 = single(thk(z100));
 
@@ -87,13 +91,19 @@ for z=1:15
     thk100m(:,:,z) = thk100(z);
 end
 
+wet_v(wet_v==0) = nan;
+wetmat = repmat(wet_v,1,1,15);
+thk100m = thk100m .* wetmat;
+
 thk100m = repmat(thk100m,1,1,1,nt);
+
+thk100m(isnan(vo(:))) = nan;
+
 
 %% mean over top 100m
 v_100 = squeeze(sum(vo .* thk100m,3,'omitnan') ./ sum(thk100m,3,'omitnan'));
 
 %%
-v_100(v_100>1e19) = nan;
 v_100 = double(v_100);
 
 %% Time

@@ -81,7 +81,7 @@ netcdf.close(ncid);
 thetao(thetao>1e18) = nan;
 
 %% vis 0m and 100m layers
-load([fpath 'nwa_raw_ocean_static_gridspec.mat'],'geolon','geolat','wet');
+load([fpath 'nwa_raw_ocean_static_gridspec.mat'],'geolon','geolat','deptho','wet');
 
 [ni,nj]=size(geolon);
 geolon = double(geolon);
@@ -93,6 +93,43 @@ plotminlon=-100;
 plotmaxlon=-30;
 latlim=[plotminlat plotmaxlat];
 lonlim=[plotminlon plotmaxlon];
+
+figure
+%subplot(2,2,2)
+axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1)
+surfm(geolat,geolon,log10(deptho))
+cmocean('deep')
+load coastlines;                     
+%h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+clim([0 3]);
+hcb = colorbar('h');
+title('depth')
+
+t0 = squeeze(thetao(:,:,1,1));
+t100 = squeeze(thetao(:,:,15,1));
+
+figure
+%subplot(2,2,1)
+axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1)
+surfm(geolat,geolon,t0)
+cmocean('thermal')
+%h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+clim([0 30]);
+hcb = colorbar('h');
+title('5 m')
+
+figure
+%subplot(2,2,3)
+axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1)
+surfm(geolat,geolon,t100)
+cmocean('thermal')
+%h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+clim([0 30]);
+hcb = colorbar('h');
+title('100 m')
 
 %% grid cell thickness
 thk = diff(z_i);
@@ -111,14 +148,44 @@ thk100m = repmat(thk100m,1,1,1,nt);
 
 thk100m(isnan(thetao(:))) = nan;
 
+%%
+test1 = double(squeeze(thk100m(:,:,1,1)));
+test15 = double(squeeze(thk100m(:,:,15,1)));
+
+figure
+axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1)
+surfm(geolat,geolon,test1)
+cmocean('deep')
+clim([0 10]);
+hcb = colorbar('h');
+title('thick1')
+
+figure
+axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1)
+surfm(geolat,geolon,test15)
+cmocean('deep')
+clim([0 10]);
+hcb = colorbar('h');
+title('thick100')
 
 %% mean over top 100m
+% temp_100 = (nan*ones(ni,nj,nt));
+%
+% for t=1:nt
+%     tp = squeeze(thetao(:,:,:,t));
+%     mtp = sum(tp .* thk100m,3,'omitnan') ./ sum(thk100m,3,'omitnan');
+%     temp_100(:,:,t) = mtp;
+% end
+
 temp_100 = squeeze(sum(thetao .* thk100m,3,'omitnan') ./ sum(thk100m,3,'omitnan'));
 
 temp_100 = double(temp_100);
 
 %%
 figure
+%subplot(2,2,3)
 axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(geolat,geolon,squeeze(temp_100(:,:,1)))
