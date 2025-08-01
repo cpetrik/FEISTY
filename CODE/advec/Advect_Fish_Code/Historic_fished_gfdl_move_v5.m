@@ -158,6 +158,7 @@ vidTB      = netcdf.defVar(ncidB,'time','double',time_dim);
 netcdf.endDef(ncidB);
 
 %% %%%%%%%%%%%%%%%%%%%% Run the Model
+addpath('matlab_functions');
 
 MNT = 0;
 %! Run model with no fishing
