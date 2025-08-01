@@ -262,7 +262,7 @@ current(:,:,2) = v100;
 
 % Loop over advection for one day
 daysec = 24 * 60 * 60;
-nloop = int(daysec / param.adt);
+nloop = (daysec / param.adt);
 
 for n = 1:nloop
     % move
