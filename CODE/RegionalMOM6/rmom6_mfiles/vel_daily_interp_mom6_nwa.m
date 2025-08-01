@@ -101,36 +101,19 @@ clear u_100 v_100 u v ut vt
 close all
 
 %%
-load([fpath 'Data_BGC_grid_mom6_nwa12.mat'], 'GRD');
+load([fpath 'Data_grid_mom6_nwa12.mat'], 'GRD');
 
 % index of water cells
 WID = GRD.ID;
+NID = length(WID);
 
 %% Some grid cells with non-nan GBC have nan velocities
 UID = find(~isnan(ut_100(:,:,1)));
 VID = find(~isnan(vt_100(:,:,1)));
 UVID = intersect(UID,VID);
-NID = length(UVID);
 
 %%
-GRD.Lat = geolat(WID);
-GRD.Lon = geolon(WID);
-GRD.depth = deptho(WID);
-GRD.area = areacello(WID);
-GRD.UVID = UVID;
-
-save([fpath 'Data_grid_mom6_nwa12.mat'], 'GRD');
-
-GRD2.area = areacello;
-GRD2.dx = dxt;
-GRD2.dy = dyt;
-GRD2.lat = geolat;
-GRD2.lon = geolon;
-
-save([fpath 'Data_grid2D_mom6_nwa12.mat'], 'GRD2');
-
-%%
-for y = 1%:nyrs
+for y = 1:nyrs
     YR = yrs(y)
 
     if y==1
@@ -154,7 +137,7 @@ for y = 1%:nyrs
     % interpolate to daily resolution
     for j = 1:NID
         % indexes
-        [m,n] = ind2sub([ni,nj],UVID(j)); % spatial index of water cell
+        [m,n] = ind2sub([ni,nj],WID(j)); % spatial index of water cell
 
         % pelagic temperature (in Celcius)
         X = squeeze(u(m,n,:));

@@ -16,34 +16,25 @@ WIDc = find((wet_c(:)==1));
 WIDu = find((wet_u(:)==1));
 WIDv = find((wet_v(:)==1));
 
-%%
-load([fpath 'Data_BGC_grid_mom6_nwa12.mat'], 'GRD');
-GRDv0 = GRD;
-clear GRD
-
-%% Some grid cells with wet=1 have nan velocities
-% UID = find(~isnan(ut_100(:,:,1)));
-% VID = find(~isnan(vt_100(:,:,1)));
-% UVID = intersect(UID,VID);
-
-GRD.UVID = GRDv0.UVID;
-UVID = GRDv0.UVID;
-NID = length(UVID);
+WIDtu = intersect(WID,WIDu);
+WIDtuv = intersect(WIDv,WIDtu);
 
 %%
-GRD.ID = UVID;
+NID = length(WID);
+
+GRD.ID = WID;
 GRD.NID = NID;
-GRD.Lat = double(geolat(UVID));
-GRD.Lon = double(geolon(UVID));
-GRD.depth = double(deptho(UVID));
-GRD.area = double(areacello(UVID));
+GRD.Lat = double(geolat(WID));
+GRD.Lon = double(geolon(WID));
+GRD.depth = double(deptho(WID));
+GRD.area = double(areacello(WID));
 
 save([fpath 'Data_grid_mom6_nwa12.mat'], 'GRD');
 
 %%
 [ni,nj] = size(geolon);
 mask = zeros(ni,nj);
-mask(UVID) = ones;
+mask(WID) = ones;
 
 GRD2.area = double(areacello);
 GRD2.dx = double(dxt);
@@ -53,4 +44,20 @@ GRD2.lon = double(geolon);
 GRD2.mask = double(mask);
 
 save([fpath 'Data_grid2D_mom6_nwa12.mat'], 'GRD2');
+
+%%
+% load([fpath 'Data_BGC_grid_mom6_nwa12.mat'], 'GRD');
+% GRDv0 = GRD;
+% clear GRD
+% 
+% %% Some grid cells with wet=1 have nan velocities
+% % UID = find(~isnan(ut_100(:,:,1)));
+% % VID = find(~isnan(vt_100(:,:,1)));
+% % UVID = intersect(UID,VID);
+% 
+% GRD.UVID = GRDv0.UVID;
+% UVID = GRDv0.UVID;
+% NID = length(UVID);
+% 
+
 

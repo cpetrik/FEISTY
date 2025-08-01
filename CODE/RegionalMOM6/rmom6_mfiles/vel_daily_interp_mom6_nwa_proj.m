@@ -16,10 +16,16 @@ u_100(u_100 > 1.0e15) = nan;
 v_100(v_100 > 1.0e15) = nan;
 
 %%
-load([fpath 'nwa_raw_ocean_static_gridspec.mat'],'geolon','geolat');
+load([fpath 'nwa_raw_ocean_static_gridspec.mat'],'geolon','geolat',...
+    'geolon_u','geolat_u','geolon_v','geolat_v','areacello',...
+    'deptho','dxt','dyt');
 
 geolat = double(geolat);
 geolon = double(geolon);
+geolat_u = double(geolat_u);
+geolon_u = double(geolon_u);
+geolat_v = double(geolat_v);
+geolon_v = double(geolon_v);
 
 %%
 mos = length(time);
@@ -54,6 +60,7 @@ Tdays=1:365;
 ut_100 = u_100(1:ni,:,:);
 vt_100 = v_100(:,2:end,:);
 
+
 %%
 clear u_100 v_100 u v ut vt
 
@@ -63,8 +70,13 @@ close all
 load([fpath 'Data_grid_mom6_nwa12.mat'], 'GRD');
 
 % index of water cells
-UVID = GRD.UVID;
-NID = length(UVID);
+WID = GRD.ID;
+NID = length(WID);
+
+%% Some grid cells with non-nan GBC have nan velocities
+UID = find(~isnan(ut_100(:,:,1)));
+VID = find(~isnan(vt_100(:,:,1)));
+UVID = intersect(UID,VID);
 
 %%
 for y = 1:nyrs
@@ -91,7 +103,7 @@ for y = 1:nyrs
     % interpolate to daily resolution
     for j = 1:NID
         % indexes
-        [m,n] = ind2sub([ni,nj],UVID(j)); % spatial index of water cell
+        [m,n] = ind2sub([ni,nj],WID(j)); % spatial index of water cell
 
         % pelagic temperature (in Celcius)
         X = squeeze(u(m,n,:));

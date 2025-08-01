@@ -5,7 +5,7 @@
 clear
 close all
 
-cpath='/project/Feisty/GCM_Data/MOM6-NWA12/';
+fpath='/project/Feisty/GCM_Data/MOM6-NWA12/';
 
 %% Units
 %poc flux: mol N m-2 s-1
@@ -13,24 +13,24 @@ cpath='/project/Feisty/GCM_Data/MOM6-NWA12/';
 %tp: degC
 %tb: degC
 
-load([cpath 'temp_100.nwa.full.hcast.monthly.raw.r20230520.199301-201912.mat'],'temp_100');
-load([cpath 'btm_temp.nwa.full.hcast.monthly.raw.r20230520.199301-201912.mat'],'btm_temp');
-load([cpath 'fntot_btm.nwa.full.hcast.monthly.raw.r20230520.199301-201912.mat'],'fntot_btm','fntot_btm_long_name','fntot_btm_units')
-load([cpath 'nmdz_nlgz_100.nwa.full.hcast.monthly.raw.r20230520.199301-201912.mat']);
-load([cpath 'jhploss_mdz_lgz_100.nwa.full.hcast.monthly.raw.r20230520.199301-201912.mat']);
+load([fpath 'temp_100.nwa.full.hcast.monthly.raw.r20230520.199301-201912.mat'],'temp_100');
+load([fpath 'btm_temp.nwa.full.hcast.monthly.raw.r20230520.199301-201912.mat'],'btm_temp');
+load([fpath 'fntot_btm.nwa.full.hcast.monthly.raw.r20230520.199301-201912.mat'],'fntot_btm','fntot_btm_long_name','fntot_btm_units')
+load([fpath 'nmdz_nlgz_100.nwa.full.hcast.monthly.raw.r20230520.199301-201912.mat']);
+load([fpath 'jhploss_mdz_lgz_100.nwa.full.hcast.monthly.raw.r20230520.199301-201912.mat']);
 
 %%
-temp_100(temp_100 > 1.0e18) = nan;
-btm_temp(btm_temp > 1.0e18) = nan;
-fntot_btm(fntot_btm > 1.0e18) = nan;
-nmdz_100(nmdz_100 > 1.0e18) = nan;
-nlgz_100(nlgz_100 > 1.0e18) = nan;
-jhploss_nmdz_100(jhploss_nmdz_100 > 1.0e18) = nan;
-jhploss_nlgz_100(jhploss_nlgz_100 > 1.0e18) = nan;
+temp_100(temp_100 > 1.0e19) = nan;
+btm_temp(btm_temp > 1.0e19) = nan;
+fntot_btm(fntot_btm > 1.0e19) = nan;
+nmdz_100(nmdz_100 > 1.0e19) = nan;
+nlgz_100(nlgz_100 > 1.0e19) = nan;
+jhploss_nmdz_100(jhploss_nmdz_100 > 1.0e19) = nan;
+jhploss_nlgz_100(jhploss_nlgz_100 > 1.0e19) = nan;
 
 %%
-load([cpath 'nwa_raw_ocean_static_gridspec.mat'],'geolon','geolat');
-load([cpath 'Data_grid_mom6_nwa12.mat'],'GRD');
+load([fpath 'nwa_raw_ocean_static_gridspec.mat'],'geolon','geolat');
+load([fpath 'Data_grid_mom6_nwa12.mat'],'GRD');
 
 %%
 mos = length(time);
@@ -156,9 +156,9 @@ for y = 1:nyrs
     ESM.det = det;
 
     % save
-    save([cpath 'Data_mom6_nwa12_daily_',num2str(YR),'.mat'], 'ESM','-v7.3');
+    save([fpath 'Data_mom6_nwa12_daily_',num2str(YR),'.mat'], 'ESM','-v7.3');
     
 end
 
-%%
 
+    
