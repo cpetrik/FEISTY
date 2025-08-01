@@ -173,7 +173,7 @@ MNT = 0;
 for YR = 1:YEARS % years
     ti = num2str(YR)
 
-    for DAY = 1:10 %param.DT:DAYS % days
+    for DAY = 1:param.DT:DAYS % days
 
         %%%! Future time step
         DY = int64(ceil(DAY));
