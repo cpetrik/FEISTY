@@ -1,5 +1,5 @@
 %%%%!! RUN SPINUP FOR ALL LOCATIONS
-function Historic_fished_gfdl_move_v5()
+function Historic_fished_gfdl_move_mort_v5()
 
 %%%%%%%%%%%%%%% Initialize Model Variables
 %! Set fishing rate
@@ -53,7 +53,7 @@ DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Create a directory for output
-exper = 'move_nu_v5';
+exper = 'move_mort_v5';
 %opath = '/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/';
 opath = '/project/Feisty/NC/Matlab_new_size/';
 [fname,simname,sname] = sub_fname_hist_gfdl_move(param,opath,exper);
@@ -174,7 +174,7 @@ for YR = 1:nYEARS % years
         %%%! Future time step
         DY = int64(ceil(DAY));
         [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,ENVR] = ...
-            sub_futbio_move_nu_v5(DY,COBALT,GRD1,Sml_f,Sml_p,Sml_d,...
+            sub_futbio_move_mort_v5(DY,COBALT,GRD1,Sml_f,Sml_p,Sml_d,...
             Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,param,neighborhood);
 
         %! Store
