@@ -44,7 +44,7 @@ NX = length(GRD1.Z);
 ID = 1:param.NX;
 
 %! Advection/Movement time step
-param.adt = 3 * 60 * 60; %time step in seconds
+param.adt = 24 * 60 * 60; %time step in seconds
 
 %! How long to run the model
 YEARS = 1; %30;
@@ -54,7 +54,7 @@ MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 %! Create a directory for output
 %opath = '/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/';
 opath = '/project/Feisty/NC/Matlab_new_size/';
-exper = 'Spinup1988_move_prey_v12_dt3h';
+exper = 'Spinup1988_move_prey_v13_zerovel';
 [fname,simname,sname] = sub_fname_spin_move_core(param,opath,exper);
 
 %! Storage variables
@@ -165,8 +165,8 @@ addpath('matlab_functions');
 
 load([vpath,'Data_ocean_cobalt_daily_1988.mat'],'COBALT');
 load([vpath,'Vel100_esm2m_core_daily_1988.mat'],'ESM');
-COBALT.U = ESM.U;
-COBALT.V = ESM.V;
+COBALT.U = zeros(NX,DAYS); %ESM.U;
+COBALT.V = zeros(NX,DAYS); %ESM.V;
 
 MNT = 0;
 %! Run model with no fishing

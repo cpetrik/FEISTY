@@ -17,7 +17,7 @@ if (~isfolder(ppath))
 end
 
 %%
-exper = 'CORE_Hindcast1988_no_move_';
+exper = 'CORE_Hindcast_move_prey_v5_';
 load([fpath 'Means_' exper cfile '.mat']);
 
 %%
