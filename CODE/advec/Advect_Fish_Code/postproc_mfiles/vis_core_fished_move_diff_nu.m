@@ -68,7 +68,7 @@ sAllP = Zsp+Zmp+Zlp;
 sAllD = Zsd+Zmd+Zld;
 
 %%
-exper = 'CORE_Hindcast_move_prey_v5_';
+exper = 'CORE_Hindcast_move_nu_v5_';
 load([fpath 'Means_' exper cfile '.mat']);
 
 mF = sf_tmean+mf_tmean;
@@ -132,8 +132,8 @@ xlim([y(1) y(end)])
 ylim([-0.5 0.5])
 xlabel('Time (y)')
 ylabel('log10 Biomass (g m^-^2)')
-title(['CORE stationary vs. move prey'])
-print('-dpng',[ppath 'COREstationary_moveprey_all_types_ts.png'])
+title(['CORE stationary vs. move nu'])
+print('-dpng',[ppath 'COREstationary_movenu_all_types_ts.png'])
 
 figure(2)
 plot(y,(dts_B),'color',[0.5 0.5 0.5],'Linewidth',2); hold on;
@@ -146,8 +146,8 @@ xlim([y(1) y(end)])
 ylim([-0.01 0.01])
 xlabel('Time (y)')
 ylabel('Biomass difference (g m^-^2)')
-title(['CORE stationary vs. move prey'])
-print('-dpng',[ppath 'COREstationary_moveprey_diff_all_types_ts.png'])
+title(['CORE stationary vs. move nu'])
+print('-dpng',[ppath 'COREstationary_movenu_diff_all_types_ts.png'])
 
 %% bent
 figure(3)
@@ -173,7 +173,7 @@ load coastlines;
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-1 2]);
 set(gcf,'renderer','painters')
-title('Move prey')
+title('Move nu')
 
 %Diff
 subplot('Position',[0.25 0.0 0.5 0.5])
@@ -186,8 +186,8 @@ h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-0.01 0.01]);
 colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
-title('Move prey - Stationary')
-print('-dpng',[ppath 'COREstationary_moveprey_global_BENT.png'])
+title('Move nu - Stationary')
+print('-dpng',[ppath 'COREstationary_movenu_global_BENT.png'])
 
 %% ALL
 figure(4)
@@ -202,7 +202,7 @@ h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-0.01 0.01]);
 colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
-title('All F (g m^-^2)  Move prey - Stationary')
+title('All F (g m^-^2)  Move nu - Stationary')
 
 % all D
 subplot('Position',[0 0 0.5 0.5])
@@ -240,5 +240,5 @@ clim([-0.01 0.01]);
 set(gcf,'renderer','painters')
 title('All fishes (g m^-^2)')
 stamp('')
-print('-dpng',[ppath 'COREstationary_moveprey_All_subplot.png'])
+print('-dpng',[ppath 'COREstationary_movenu_All_subplot.png'])
 

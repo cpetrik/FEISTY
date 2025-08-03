@@ -134,7 +134,7 @@ axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
 surfm(geolat_t,geolon_t,log10(Zb))
 colormap('jet')
 load coastlines;                     
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+%h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-2 2]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
@@ -151,7 +151,7 @@ axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
 surfm(geolat_t,geolon_t,log10(AllF))
 colormap('jet')
 load coastlines;                     
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+%h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-2 2]);
 colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
@@ -164,7 +164,7 @@ axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
 surfm(geolat_t,geolon_t,log10(AllD))
 colormap('jet')
 load coastlines;                     
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+%h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All D (g m^-^2)')
@@ -176,7 +176,7 @@ axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
 surfm(geolat_t,geolon_t,log10(AllP))
 colormap('jet')
 load coastlines;                     
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+%h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All P (g m^-^2)')
@@ -188,7 +188,7 @@ axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
 surfm(geolat_t,geolon_t,log10(All))
 colormap('jet')
 load coastlines;                     
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+%h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
@@ -204,7 +204,7 @@ axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
 surfm(geolat_t,geolon_t,FracPD)
 cmocean('balance')
 load coastlines;                     
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+%h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([0 1]);
 set(gcf,'renderer','painters')
 title('Fraction Large Pelagics vs. Demersals')
@@ -216,7 +216,7 @@ axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
 surfm(geolat_t,geolon_t,FracPF)
 cmocean('balance')
 load coastlines;                     
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+%h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([0 1]);
 set(gcf,'renderer','painters')
 title('Fraction Large Pelagics vs. Forage Fishes')
@@ -228,7 +228,7 @@ axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
 surfm(geolat_t,geolon_t,FracLM)
 cmocean('balance')
 load coastlines;                     
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+%h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([0 1]);
 colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
