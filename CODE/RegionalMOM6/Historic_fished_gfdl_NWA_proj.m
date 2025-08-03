@@ -50,7 +50,7 @@ MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 %! Create a directory for output
 exper = '1988_no_move';
 opath = '/project/Feisty/NC/Matlab_new_size/';
-[fname,simname,sname] = sub_fname_hist_gfdl_core(param,opath,exper);
+[fname,simname,sname] = sub_fname_hist_gfdl_rmom6(param,opath,exper);
 
 %! Storage variables
 S_Bent_bio = zeros(NX,DAYS);

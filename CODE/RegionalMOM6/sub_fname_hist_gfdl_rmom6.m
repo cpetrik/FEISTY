@@ -1,5 +1,5 @@
 %%%% File naming system
-function [fname,simname,sname] = sub_fname_hist_gfdl_core(param,odir,exper)
+function [fname,simname,sname] = sub_fname_hist_gfdl_rmom6(param,odir,exper)
 
 frate = param.frate;
 
@@ -62,7 +62,7 @@ else
     simname = [coup,'_enc',tefn,'-b',tbenc(2:end),'_m',tmfn,'-b',tbfn(2:end),'-k',tkfn(2:end),'_c',tcfn,'-b',tbcmx(2:end),'_D',td(2:end),'_J',tj(2:end),'_A',ta(2:end),'_Sm',tsm(2:end),'_nmort',tmort,'_BE',tbe(2:end),'_CC',tcc,'_RE',tre(2:end)];
 end
 
-outdir = [odir,simname,'/CORE/'];
+outdir = [odir,simname,'/NWA12/'];
 
 if (~isfolder(outdir))
     mkdir(outdir)
@@ -70,16 +70,16 @@ end
 
 %! Setup netcdf path to store to
 if (frate==0)
-    fname = [outdir,'CORE_Hindcast',exper,'_pristine'];
+    fname = [outdir,'NWA12_Hindcast',exper,'_pristine'];
     sname = [outdir, 'Last_mo_Spinup',exper,'_pristine'];
 elseif (param.Jsel~=0.1)
-    fname = [outdir,'CORE_Hindcast',exper, '_', sel,'_fish',tfish(2:end),'_Juve',tJ(2:end)];
+    fname = [outdir,'NWA12_Hindcast',exper, '_', sel,'_fish',tfish(2:end),'_Juve',tJ(2:end)];
     sname = [outdir, 'Last_mo_Spinup',exper,'_', sel,'_fish',tfish(2:end),'_Juve',tJ(2:end)];
 elseif (param.MFsel~=param.LPsel)
-    fname = [outdir,'CORE_Hindcast',exper, '_fish_F',tF(2:end),'_P',tP(2:end),'_D',tD(2:end)];
+    fname = [outdir,'NWA12_Hindcast',exper, '_fish_F',tF(2:end),'_P',tP(2:end),'_D',tD(2:end)];
     sname = [outdir, 'Last_mo_Spinup',exper,'_fish_F',tF(2:end),'_P',tP(2:end),'_D',tD(2:end)];
 else
-    fname = [outdir,'CORE_Hindcast',exper, '_', sel,'_fish',tfish(2:end)];
+    fname = [outdir,'NWA12_Hindcast',exper, '_', sel,'_fish',tfish(2:end)];
     sname = [outdir, 'Last_mo_Spinup',exper,'_', sel,'_fish',tfish(2:end)];
 end
 
