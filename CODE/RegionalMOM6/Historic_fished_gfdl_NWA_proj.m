@@ -157,7 +157,7 @@ MNT = 0;
 %! Run model with no fishing
 for YR = 1:nYEARS % years
     ti = num2str(YEARS(YR))
-    load([vpath,'Data_ocean_cobalt_daily_',ti,'.mat'],'COBALT');
+    load([vpath,'Data_mom6_nwa12_daily_',ti,'.mat'],'ESM');
     
 	% COBALT.U = uh;
     % COBALT.V = vh;
@@ -167,7 +167,7 @@ for YR = 1:nYEARS % years
         %%%! Future time step
         DY = int64(ceil(DAY));
         [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,ENVR] = ...
-            sub_futbio(DY,COBALT,GRD1,Sml_f,Sml_p,Sml_d,...
+            sub_futbio(DY,ESM,GRD1,Sml_f,Sml_p,Sml_d,...
             Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,param);
 
         %! Store
