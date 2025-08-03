@@ -1,5 +1,5 @@
 %%%%!! RUN SPINUP FOR ALL LOCATIONS
-function Historic_fished_gfdl_core()
+function Historic_fished_gfdl_NWA_proj()
 
 %%%%%%%%%%%%%%% Initialize Model Variables
 %! Set fishing rate
@@ -13,12 +13,12 @@ param.dfrateD = nan;
 param = make_parameters(param);
 
 %! Grids
-vpath = '/project/Feisty/GCM_Data/CORE-forced/';
+vpath = '/Volumes/petrik-lab/Feisty/GCM_Data/MOM6-NWA12/';
 
 %1-D
-load([vpath 'Data_grid_ocean_cobalt_ESM2Mcore.mat'],'GRD');
+load([vpath 'Data_grid_mom6_nwa12.mat'],'GRD');
 GRD1 = GRD;
-clear GRD
+%clear GRD
 
 % %2-D
 % load([vpath 'Data_hindcast_grid_cp2D.mat'],'GRD')
