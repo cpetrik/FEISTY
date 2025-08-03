@@ -16,7 +16,7 @@ if (~isfolder(ppath))
 end
 
 %%
-mod = 'Spinup1988_move_prey_v12_dt3h_All_fish03_Y1';
+mod = 'Spinup1988_move_prey_v13_zerovel_All_fish03_Y1';
 load([fpath mod '.mat']);
 %load([fpath 'Means_' exper cfile '.mat']);
 
