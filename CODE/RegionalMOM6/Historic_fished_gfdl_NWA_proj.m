@@ -33,7 +33,7 @@ GRD1 = GRD;
 % param.dy = GRD2.dyte;
 % param.mask = GRD2.mask;
 
-param.NX = length(GRD1.Z);
+param.NX = length(GRD1.ID);
 param.ID = 1:param.NX;
 NX = length(GRD1.Z);
 ID = 1:param.NX;
