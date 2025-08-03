@@ -35,7 +35,7 @@ GRD1 = GRD;
 
 param.NX = length(GRD1.ID);
 param.ID = 1:param.NX;
-NX = length(GRD1.Z);
+NX = length(GRD1.ID);
 ID = 1:param.NX;
 
 %! Advection/Movement time step
