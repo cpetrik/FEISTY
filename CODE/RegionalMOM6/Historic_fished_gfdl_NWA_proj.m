@@ -13,7 +13,7 @@ param.dfrateD = nan;
 param = make_parameters(param);
 
 %! Grids
-vpath = '/Volumes/petrik-lab/Feisty/GCM_Data/MOM6-NWA12/';
+vpath = '/project/Feisty/GCM_Data/MOM6-NWA12/';
 
 %1-D
 load([vpath 'Data_grid_mom6_nwa12.mat'],'GRD');
