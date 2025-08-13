@@ -17,7 +17,7 @@ if (~isfolder(ppath))
 end
 
 %%
-exper = 'Spinup1988_move_mort_v5_All_fish03_';
+exper = 'Spinup1988_move_prey_v13_zerovel_All_fish03_';
 load([fpath 'Means_' exper cfile '.mat']);
 
 %%
@@ -130,7 +130,7 @@ figure(3)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,log10(Zb))
-colormap('jet')
+cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-2 2]);
@@ -147,7 +147,7 @@ subplot('Position',[0 0.51 0.5 0.5])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,log10(AllF))
-colormap('jet')
+cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-2 2]);
@@ -160,7 +160,7 @@ subplot('Position',[0 0 0.5 0.5])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,log10(AllD))
-colormap('jet')
+cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-2 2]);
@@ -172,7 +172,7 @@ subplot('Position',[0.5 0.51 0.5 0.5])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,log10(AllP))
-colormap('jet')
+cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-2 2]);
@@ -184,7 +184,7 @@ subplot('Position',[0.5 0 0.5 0.5])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(geolat_t,geolon_t,log10(All))
-colormap('jet')
+cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-2 2]);

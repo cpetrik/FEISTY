@@ -28,7 +28,7 @@ spath = ['/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/' cfile '/CORE/'];
 %cname='Arctic_even_dt1d_velMO_b100_swim10';
 %cname = 'Arctic_even_dt1d_velMO_b100_swim01';
 %cname='Equat_even_dt1d_velMO_b100_swim10';
-cname='Global_even_dt1d_velMO_b100_swim10';
+cname='Global_evenfish_evenprey_dt1d_velDAY_b100_swim01';
 
 load([spath 'AdvectPred_' cname '.mat']);
 
@@ -107,39 +107,39 @@ end
 
 
 %% Arctic projection
-for n=1:length(t)
-    B1 = bio2(:,:,t(n));
-    
-    figure
-    m_proj('stereographic','lat',90,'long',30,'radius',30);
-    m_pcolor(geolon_t,geolat_t,B1);
-    shading interp
-    colorbar
-    %colormap('jet')
-    colormap(cmB)
-    clim([0 20]);
-    %clim([0 150]);
-    m_grid('xtick',6,'tickdir','out','ytick',[70 80],'linest','-');
-    m_coast('patch',[.7 .7 .7],'edgecolor','k');
-    title(['Day ' num2str(t(n)) ' Year 1'])
-    print('-dpng',[ppath 'advec_test_' cname '_arcticproj_' num2str(t(n)) '.png'])
-end
-
-%% Antarctic projection
-for n=1:length(t)
-    B1 = bio2(:,:,t(n));
-    
-    figure
-    m_proj('stereographic','lat',-90,'long',30,'radius',50);
-    m_pcolor(geolon_t,geolat_t,B1);
-    shading interp
-    colorbar
-    %colormap('jet')
-    colormap(cmB)
-    clim([0 20]);
-    %clim([0 150]);
-    m_grid('xtick',12,'tickdir','out','ytick',[-50 -60 -70],'linest','-');
-    m_coast('patch',[.7 .7 .7],'edgecolor','k');
-    title(['Day ' num2str(t(n)) ' Year 1'])
-    print('-dpng',[ppath 'advec_test_' cname '_Spoleproj_' num2str(t(n)) '.png'])
-end
+% for n=1:length(t)
+%     B1 = bio2(:,:,t(n));
+% 
+%     figure
+%     m_proj('stereographic','lat',90,'long',30,'radius',30);
+%     m_pcolor(geolon_t,geolat_t,B1);
+%     shading interp
+%     colorbar
+%     %colormap('jet')
+%     colormap(cmB)
+%     clim([0 20]);
+%     %clim([0 150]);
+%     m_grid('xtick',6,'tickdir','out','ytick',[70 80],'linest','-');
+%     m_coast('patch',[.7 .7 .7],'edgecolor','k');
+%     title(['Day ' num2str(t(n)) ' Year 1'])
+%     print('-dpng',[ppath 'advec_test_' cname '_arcticproj_' num2str(t(n)) '.png'])
+% end
+% 
+% %% Antarctic projection
+% for n=1:length(t)
+%     B1 = bio2(:,:,t(n));
+% 
+%     figure
+%     m_proj('stereographic','lat',-90,'long',30,'radius',50);
+%     m_pcolor(geolon_t,geolat_t,B1);
+%     shading interp
+%     colorbar
+%     %colormap('jet')
+%     colormap(cmB)
+%     clim([0 20]);
+%     %clim([0 150]);
+%     m_grid('xtick',12,'tickdir','out','ytick',[-50 -60 -70],'linest','-');
+%     m_coast('patch',[.7 .7 .7],'edgecolor','k');
+%     title(['Day ' num2str(t(n)) ' Year 1'])
+%     print('-dpng',[ppath 'advec_test_' cname '_Spoleproj_' num2str(t(n)) '.png'])
+% end
