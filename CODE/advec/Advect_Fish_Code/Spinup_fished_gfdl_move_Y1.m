@@ -54,7 +54,7 @@ MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 %! Create a directory for output
 opath = '/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/';
 %opath = '/project/Feisty/NC/Matlab_new_size/';
-exper = 'Spinup1988_move_prey_v18_evenzoop';
+exper = 'Spinup1988_move_prey_v20_LPonly';
 [fname,simname,sname] = sub_fname_spin_move_core(param,opath,exper);
 
 %! Storage variables
@@ -164,11 +164,6 @@ netcdf.setDefaultFormat('NC_FORMAT_64BIT');
 addpath('matlab_functions');
 
 load([vpath,'Data_ocean_cobalt_daily_1988.mat'],'COBALT');
-COBALT.Zm = 10*ones(NX,DAYS);
-COBALT.Zl = 10*ones(NX,DAYS);
-COBALT.dZm = 10*ones(NX,DAYS);
-COBALT.dZl = 10*ones(NX,DAYS);
-
 load([vpath,'Vel100_esm2m_core_daily_1988.mat'],'ESM');
 COBALT.U = ESM.U;
 COBALT.V = ESM.V;
@@ -178,12 +173,12 @@ MNT = 0;
 for YR = 1:YEARS % years
     ti = num2str(YR)
 
-    for DAY = 1:25 %:param.DT:DAYS % days
+    for DAY = 1:50 %:param.DT:DAYS % days
 
         %%%! Future time step
         DY = int64(ceil(DAY));
         [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,ENVR] = ...
-            sub_futbio_move_prey(DY,COBALT,GRD1,Sml_f,Sml_p,Sml_d,...
+            sub_futbio_move_prey_LP(DY,COBALT,GRD1,Sml_f,Sml_p,Sml_d,...
             Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,param,neighborhood);
 
         %! Store
