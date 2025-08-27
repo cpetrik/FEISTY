@@ -28,9 +28,10 @@ spath = ['/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/' cfile '/CORE/'];
 %cname='Arctic_even_dt1d_velMO_b100_swim10';
 %cname = 'Arctic_even_dt1d_velMO_b100_swim01';
 %cname='Equat_even_dt1d_velMO_b100_swim10';
-cname='Global_evenfish_evenprey_dt1d_velDAY_b100_swim01';
+%cname='Global_evenfish_evenprey_dt1d_velDAY_b100_swim01';
+cname='Global_ICs_MF_LZ_dt1d_velDAY_swim01';
 
-load([spath 'AdvectPred_' cname '.mat']);
+load([spath 'AdvectPred_' cname '.mat'],'biov','preyv');
 
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/Matlab_New_sizes/';
 ppath = [pp cfile '/CORE/advect_test_figs/'];
@@ -88,6 +89,7 @@ t = round(t);
 % colors
 cmB=cbrewer('seq','Blues',50,'PCHIP');
 
+
 %% Global flat
 for n=1:length(t)
     B1 = bio2(:,:,t(n));
@@ -97,7 +99,8 @@ for n=1:length(t)
     view(2);
     shading interp;
     colorbar;
-    clim([0 20]);
+    clim([0 10]);
+    %clim([0 20]);
     %clim([0 150]);
     %colormap('jet')
     colormap(cmB)

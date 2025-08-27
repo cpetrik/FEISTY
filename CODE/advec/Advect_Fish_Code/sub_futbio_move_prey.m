@@ -263,9 +263,10 @@ btm_curr = 0.1 .* current;
 
 % Loop over advection for one day
 daysec = 24 * 60 * 60;
-nloop = (daysec / param.adt);
+nloop = (daysec / param.adt)
 
 for n = 1:nloop
+    n
     % move
     bioSf = AdvectPredator(bioSf,preySf,current,param.adt,param.dx,param.dy,neighbor,param.U_s,param.mask,param.area,param.nj,param.ni);
     bioSp = AdvectPredator(bioSp,preySp,current,param.adt,param.dx,param.dy,neighbor,param.U_s,param.mask,param.area,param.nj,param.ni);
