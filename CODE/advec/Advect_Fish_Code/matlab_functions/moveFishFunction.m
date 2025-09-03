@@ -26,7 +26,7 @@ j = idx(2);
 
 [food_dir] = MoreFoodFourWay( Prey, idx, neighbors );
 
-%apparent_current_single = squeeze(apparent_current_full(i,j,:));
+%apparent_current_single_alt = squeeze(apparent_current_full(i,j,:));
 apparent_current_single = reshape(apparent_current_full(i,j,:), 1, []);
  
 Flux = semiLagrangianFish( Predator, Flux, [i,j], food_dir, ...

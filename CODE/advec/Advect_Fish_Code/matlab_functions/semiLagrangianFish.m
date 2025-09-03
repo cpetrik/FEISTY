@@ -33,6 +33,10 @@ function [Flux] = semiLagrangianFish(conc_matrix, Flux, idx, dir, current, dt, d
                  0, 1;  % Right
                  0, -1];% Left  
     
+    tolerance = 1e-3 .* dir;
+    flag_i = -1;
+    flag_j = -1;
+
     % Only do four core directions
     dir = dir(1:4);
 
@@ -56,7 +60,7 @@ function [Flux] = semiLagrangianFish(conc_matrix, Flux, idx, dir, current, dt, d
     end
 
     % Current cell concentration ( saves lookups later )
-    cell_concentration = conc_matrix(i,j);
+    cell_concentration = conc_matrix(i,j) * area(i,j);
 
     % Calculate the number of active directions
     activeDirections = find( dir == 1);     % indices
@@ -73,7 +77,7 @@ function [Flux] = semiLagrangianFish(conc_matrix, Flux, idx, dir, current, dt, d
     speeds = dir .* current;
     %
     %proportion_out = abs(speeds) .* dt ./ distance;
-    proportion_out = abs(speeds)' .* dt .* distance ./ area(i,j);
+    proportion_out = abs(speeds)' .* dt .* flipud(distance) ./ area(i,j);
     %
     conc_moving_out = proportion_out .* cell_concentration;
     %
@@ -82,7 +86,7 @@ function [Flux] = semiLagrangianFish(conc_matrix, Flux, idx, dir, current, dt, d
     % If too much wants to leave, cap at cell capacity
     if total_leaving > cell_concentration
         % Scale amounts moving out to available concentration
-        conc_moving_out = conc_moving_out * (cell_concentration / total_leaving );
+        conc_moving_out = conc_moving_out * (cell_concentration / total_leaving ) - tolerance';
         total_leaving = sum(conc_moving_out);
     end
     % OLD

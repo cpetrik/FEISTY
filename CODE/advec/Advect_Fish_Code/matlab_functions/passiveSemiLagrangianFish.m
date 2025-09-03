@@ -9,8 +9,8 @@ function [Flux] = passiveSemiLagrangianFish(conc_matrix, Flux, idx, dir, current
 % flow field and compute their new location.
 %
 % INPUTS:
-%   conc_matrix       : [m x n] array of fish biomass  [g/m^3]
-%   Flux              : [m x n] array of flux of biomass due to movement
+%   conc_matrix       : [n x m] array of fish biomass  [g/m^3]
+%   Flux              : [n x m] array of flux of biomass due to movement
 %   idx               : index of the grid cell [m_i, n_i]
 %   dir               : [4 x 1] array of direction of more food [logical]
 %   current           : [4 x 1] apparent current (swim speed taken
@@ -31,12 +31,15 @@ function [Flux] = passiveSemiLagrangianFish(conc_matrix, Flux, idx, dir, current
     %              0, 1;  % Right
     %              0, -1];% Left  
     
-    % Only do four core directions
-    % dir = dir(1:4);
+    % Only go through loop if there is a current
+    if all( current == 0 )
+        return
+    end
+
+    tolerance = zeros(4,1);
+    tolerance( current ~= 0 ) = 1e-3;
 
     [ n, m] = size( conc_matrix );
-	
-	tolerance = 1e-3;
 
     % Current cell coordinates
     i = idx(1);
@@ -57,35 +60,26 @@ function [Flux] = passiveSemiLagrangianFish(conc_matrix, Flux, idx, dir, current
 
     valid_neighbor = check_valid_neighbor(neighbors, grid_mask);
 
-
-    % if ( i == 100 && j == 96 )
-    %     keyboard
-    % end
-
     % Current cell concentration ( saves lookups later )
     cell_concentration = conc_matrix(i,j) .* area(i,j) ;
 
-    proportion_out = valid_neighbor .* abs(current) .* dt .* distance ./ area(i,j);
+    proportion_out = valid_neighbor .* abs(current) .* dt .* flipud(distance) ./ area(i,j);
     %
     conc_moving_out = proportion_out .* cell_concentration;
     %
     total_leaving = sum(conc_moving_out);
     %
-    % If too much wants to leave, cap at cell capacity
+    % If too much wants to leave, cap at cell capacity - tolerance
     if total_leaving > cell_concentration
         % Scale amounts moving out to available concentration
-        conc_moving_out = conc_moving_out * (cell_concentration / total_leaving ) - tolerance;
+        conc_moving_out = conc_moving_out .* (cell_concentration / total_leaving ) - tolerance;
         total_leaving = sum(conc_moving_out);
     end
-    % OLD
-    % conc_moving_out = min( proportion_out .* cell_concentration, cell_concentration/totalDirections );
+
     % Remove movers from the current cell
-    %
     Flux(i,j) = Flux(i,j) - total_leaving; % update for fish leaving this timestep
     %
-    %conc_matrix(i, j) = cell_concentration - total_leaving;
-
-    % Update fish positions based on active current only
+    % Update fish positions around based on flux
     for k = 1:4
         ni = neighbors( k, 1);
         nj = neighbors( k, 2);

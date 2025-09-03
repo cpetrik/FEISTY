@@ -25,8 +25,8 @@ function[ Predator ] = AdvectPredator( Predator,...
 %   Prey                : [n x m] array of available food [g/m^3]
 %   current             : [n x m x 2] with fields 'u' and 'v' for velocity 
 %                         in x/y directions [m/s]
-%                       : u = [ 1:m, 1:n, 1 ]
-%                       : v = [ 1:m, 1:n, 2 ]
+%                       : u = [ 1:n, 1:m, 1 ]
+%                       : v = [ 1:n, 1:m, 2 ]
 %   dt                  : timestep [s]
 %   dx_m, dy_m          : grid spacing in x and y directions [m]
 %   neighbors_all       : neighbor indices for N,S,E,W ( n x m x 4 x 2 )
@@ -53,6 +53,7 @@ function[ Predator ] = AdvectPredator( Predator,...
     %
     % Calculate the percent change between cells
     percent_more_food_full = percentMoreFoodFourWay( Prey, neighbors_all );
+
     % Calculate the apparent current, taking swim speed and current
     apparent_current_full = ApparentCurrentFull( current, ...
                                                  fish_speed, ...
@@ -65,9 +66,8 @@ function[ Predator ] = AdvectPredator( Predator,...
     for j=1:m
         for i=1:n
             idx = [i j];
-            if Fish_OG(i,j) > 0 % only care about cells with fish
+            if Fish_OG(i,j) > 0 % only care about cells with +fish
                 
-               %neighborhood = get_neighbors_from_struct(neighbors_all, i, j);
                %neighbors = [neighborhood.north; ...
                %             neighborhood.south; ...
                %             neighborhood.east; ...
@@ -75,7 +75,6 @@ function[ Predator ] = AdvectPredator( Predator,...
                neighbors = squeeze(neighbors_all(i,j,:,:));
                
                if fish_speed <= 0
-                   %apparent_current_single = squeeze(apparent_current_full(i,j,:));
                    apparent_current_single = reshape(apparent_current_full(i,j,:), [4, 1]);
 
                    Flux = passiveSemiLagrangianFish( Predator, ...
@@ -105,8 +104,8 @@ function[ Predator ] = AdvectPredator( Predator,...
             end
         end
     end
-    % fprintf('Sum of Flux: %4.5e \n', sum(Flux(:)));
     
     Predator = Predator + (Flux ./ area );
+    %Predator = Predator + (Flux ./ area );
     %
 end

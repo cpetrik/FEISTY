@@ -4,6 +4,8 @@ function neighbors = get_neighbors_from_struct(neighbors_all, i, j)
 
     directions = ["north", "south", "east", "west"];
     for d = directions
-        neighbors.(d) = squeeze(neighbors_all.(d)(i,j,:))';
+        %neighbors.(d) = squeeze(neighbors_all.(d)(i,j,:))';
+        neighbors.(d) = neighbors_all.(d)(i,j,:);
+        neighbors.(d) = reshape(neighbors.(d), 1, []);
     end
 end
