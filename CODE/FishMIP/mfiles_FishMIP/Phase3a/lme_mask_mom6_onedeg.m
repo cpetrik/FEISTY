@@ -1,7 +1,7 @@
 % Make LME mask for MOM6 COBALT2 sims
 % 1961-2010 ctrlclim & obsclim with obs fishing effort
 
-clear all
+clear 
 close all
 
 %% Map data
