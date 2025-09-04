@@ -16,7 +16,7 @@ if (~isfolder(ppath))
 end
 
 %%
-mod = 'Spinup1988_move_prey_v21_dt6h_All_fish03_Y1';
+mod = 'Spinup1988_move_prey_v21_dt24h_All_fish03_Y1';
 load([fpath mod '.mat']);
 %load([fpath 'Means_' exper cfile '.mat']);
 
@@ -55,7 +55,7 @@ cm10=[0.5 0.5 0;... %tan/army
 set(groot,'defaultAxesColorOrder',cm10);
 
 %% Take means
-time = 1:365;
+time = 1:50;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 
@@ -84,37 +84,27 @@ ld_mean1=mean(S_Lrg_d(:,1),2,'omitnan');
 b_mean1=mean(S_Bent_bio(:,1),2,'omitnan');
 
 %middle 
-sp_mean2=mean(S_Sml_p(:,183),2);
-sf_mean2=mean(S_Sml_f(:,183),2);
-sd_mean2=mean(S_Sml_d(:,183),2);
-mp_mean2=mean(S_Med_p(:,183),2);
-mf_mean2=mean(S_Med_f(:,183),2);
-md_mean2=mean(S_Med_d(:,183),2);
-lp_mean2=mean(S_Lrg_p(:,183),2);
-ld_mean2=mean(S_Lrg_d(:,183),2);
-b_mean2=mean(S_Bent_bio(:,183),2);
+sp_mean2=mean(S_Sml_p(:,25),2);
+sf_mean2=mean(S_Sml_f(:,25),2);
+sd_mean2=mean(S_Sml_d(:,25),2);
+mp_mean2=mean(S_Med_p(:,25),2);
+mf_mean2=mean(S_Med_f(:,25),2);
+md_mean2=mean(S_Med_d(:,25),2);
+lp_mean2=mean(S_Lrg_p(:,25),2);
+ld_mean2=mean(S_Lrg_d(:,25),2);
+b_mean2=mean(S_Bent_bio(:,25),2);
 
 %end
-sp_mean3=mean(S_Sml_p(:,365),2);
-sf_mean3=mean(S_Sml_f(:,365),2);
-sd_mean3=mean(S_Sml_d(:,365),2);
-mp_mean3=mean(S_Med_p(:,365),2);
-mf_mean3=mean(S_Med_f(:,365),2);
-md_mean3=mean(S_Med_d(:,365),2);
-lp_mean3=mean(S_Lrg_p(:,365),2);
-ld_mean3=mean(S_Lrg_d(:,365),2);
-b_mean3=mean(S_Bent_bio(:,365),2);
+sp_mean3=mean(S_Sml_p(:,50),2);
+sf_mean3=mean(S_Sml_f(:,50),2);
+sd_mean3=mean(S_Sml_d(:,50),2);
+mp_mean3=mean(S_Med_p(:,50),2);
+mf_mean3=mean(S_Med_f(:,50),2);
+md_mean3=mean(S_Med_d(:,50),2);
+lp_mean3=mean(S_Lrg_p(:,50),2);
+ld_mean3=mean(S_Lrg_d(:,50),2);
+b_mean3=mean(S_Bent_bio(:,50),2);
 
-%whole yr
-sp_mean=mean(S_Sml_p,2);
-sf_mean=mean(S_Sml_f,2);
-sd_mean=mean(S_Sml_d,2);
-mp_mean=mean(S_Med_p,2);
-mf_mean=mean(S_Med_f,2);
-md_mean=mean(S_Med_d,2);
-lp_mean=mean(S_Lrg_p,2);
-ld_mean=mean(S_Lrg_d,2);
-b_mean=mean(S_Bent_bio,2);
 
 %% Plots in time
 y = time;
@@ -142,7 +132,7 @@ xlabel('Time (mo)')
 ylabel('log10 Biomass (g m^-^2)')
 title('Spinup')
 stamp(exper)
-print('-dpng',[ppath mod '_all_sizes.png'])
+print('-dpng',[ppath mod '_50d_all_sizes.png'])
 
 figure(2)
 plot(y,log10(B),'color',[0.5 0.5 0.5],'Linewidth',2); hold on;
@@ -156,7 +146,7 @@ ylim([-5 2])
 xlabel('Time (y)')
 ylabel('log10 Biomass (g m^-^2)')
 title(['Spinup'])
-print('-dpng',[ppath mod '_all_types.png'])
+print('-dpng',[ppath mod '_50d_all_types.png'])
 
 %% Plots in space
 Zsf=NaN*ones(ni,nj);
@@ -236,83 +226,6 @@ AllF3 = Esf+Emf;
 AllP3 = Esp+Emp+Elp;
 AllD3 = Esd+Emd+Eld;
 
-%whole yr
-Ysf=NaN*ones(ni,nj);
-Ysp=NaN*ones(ni,nj);
-Ysd=NaN*ones(ni,nj);
-Ymf=NaN*ones(ni,nj);
-Ymp=NaN*ones(ni,nj);
-Ymd=NaN*ones(ni,nj);
-Ylp=NaN*ones(ni,nj);
-Yld=NaN*ones(ni,nj);
-Yb=NaN*ones(ni,nj);
-
-Ysf(GRD.ID)=sf_mean;
-Ysp(GRD.ID)=sp_mean;
-Ysd(GRD.ID)=sd_mean;
-Ymf(GRD.ID)=mf_mean;
-Ymp(GRD.ID)=mp_mean;
-Ymd(GRD.ID)=md_mean;
-Ylp(GRD.ID)=lp_mean;
-Yld(GRD.ID)=ld_mean;
-Yb(GRD.ID)=b_mean;
-
-All4 = Ysp+Ysf+Ysd+Ymp+Ymf+Ymd+Ylp+Yld;
-AllF4 = Ysf+Ymf;
-AllP4 = Ysp+Ymp+Ylp;
-AllD4 = Ysd+Ymd+Yld;
-
-%% bent
-figure(3)
-subplot('Position',[0 0.51 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(Zb))
-cmocean('dense')
-load coastlines;                     
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-2 2]);
-colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
-set(gcf,'renderer','painters')
-title('log10 mean Benthos (g m^-^2) day 1')
-
-%
-subplot('Position',[0 0 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(Mb))
-cmocean('dense')
-load coastlines;                     
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-2 2]);
-set(gcf,'renderer','painters')
-title('log10 mean Benthos (g m^-^2) day 183')
-
-% 
-subplot('Position',[0.5 0.51 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(Eb))
-cmocean('dense')
-load coastlines;                     
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-2 2]);
-set(gcf,'renderer','painters')
-title('log10 mean Benthos (g m^-^2) day 365')
-
-subplot('Position',[0.5 0 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(Yb))
-cmocean('dense')
-load coastlines;                     
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-2 2]);
-set(gcf,'renderer','painters')
-title('log10 mean Benthos (g m^-^2) annual mean')
-
-stamp(mod)
-print('-dpng',[ppath mod 'global_BENT.png'])
 
 %% ALL - day 1
 figure(4)
@@ -367,7 +280,7 @@ title('log10 mean All fishes (g m^-^2)')
 stamp(exper)
 print('-dpng',[ppath mod 'All_subplot_day1.png'])
 
-%% ALL - day 183
+%% ALL - day 25
 figure(5)
 % all F
 subplot('Position',[0 0.51 0.5 0.5])
@@ -380,7 +293,7 @@ h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-2 2]);
 colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
-title('log10 mean All F (g m^-^2) Day 183')
+title('log10 mean All F (g m^-^2) Day 25')
 
 % all D
 subplot('Position',[0 0 0.5 0.5])
@@ -418,9 +331,9 @@ clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
 stamp(exper)
-print('-dpng',[ppath mod 'All_subplot_day183.png'])
+print('-dpng',[ppath mod 'All_subplot_day25.png'])
 
-%% ALL - day 365
+%% ALL - day 50
 figure(6)
 % all F
 subplot('Position',[0 0.51 0.5 0.5])
@@ -433,7 +346,7 @@ h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-2 2]);
 colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
-title('log10 mean All F (g m^-^2) Day 365')
+title('log10 mean All F (g m^-^2) Day 50')
 
 % all D
 subplot('Position',[0 0 0.5 0.5])
@@ -471,161 +384,5 @@ clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
 stamp(exper)
-print('-dpng',[ppath mod 'All_subplot_day365.png'])
-
-%% ALL - all year mean
-figure(15)
-% all F
-subplot('Position',[0 0.51 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(AllF4))
-cmocean('dense')
-load coastlines;                     
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-2 2]);
-colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
-set(gcf,'renderer','painters')
-title('log10 mean All F (g m^-^2) Y1')
-
-% all D
-subplot('Position',[0 0 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(AllD4))
-cmocean('dense')
-load coastlines;                     
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-2 2]);
-set(gcf,'renderer','painters')
-title('log10 mean All D (g m^-^2)')
-
-% All P
-subplot('Position',[0.5 0.51 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(AllP4))
-cmocean('dense')
-load coastlines;                     
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-2 2]);
-set(gcf,'renderer','painters')
-title('log10 mean All P (g m^-^2)')
-
-% All
-subplot('Position',[0.5 0 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(All4))
-cmocean('dense')
-load coastlines;                     
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-2 2]);
-set(gcf,'renderer','painters')
-title('log10 mean All fishes (g m^-^2)')
-stamp(exper)
-print('-dpng',[ppath mod 'All_subplot_wholeYR.png'])
-
-%% 8plot by fn type and size
-f2 = figure('Units','inches','Position',[1 3 6.5 8]);
-%f1.Units = 'inches';
-
-%A - sf
-subplot('Position',[0.015 0.75 0.44 0.25])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(Esf))
-cmocean('dense')
-%colorbar
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-2 2])
-set(gcf,'renderer','painters')
-text(0,1.75,'SF','HorizontalAlignment','center')
-
-%B - 
-subplot('Position',[0.015 0.5 0.44 0.25])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(Esp))
-cmocean('dense')
-%colorbar
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-2 2])
-set(gcf,'renderer','painters')
-text(0,1.75,'SP','HorizontalAlignment','center')
-
-%C - 
-subplot('Position',[0.015 0.25 0.44 0.25])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(Esd))
-cmocean('dense')
-%colorbar
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-2 2])
-set(gcf,'renderer','painters')
-text(0,1.75,'SD','HorizontalAlignment','center')
-
-%D - F
-subplot('Position',[0.015 0.0 0.44 0.25])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(Emf))
-cmocean('dense')
-%colorbar
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-2 2])
-set(gcf,'renderer','painters')
-text(0,1.75,'MF','HorizontalAlignment','center')
-
-%E - P
-subplot('Position',[0.47 0.75 0.44 0.25])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(Emp))
-cmocean('dense')
-%colorbar
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-2 2])
-set(gcf,'renderer','painters')
-text(0,1.75,'MP','HorizontalAlignment','center')
-
-%F - D
-subplot('Position',[0.47 0.5 0.44 0.25])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(Emd))
-cmocean('dense')
-%colorbar
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-2 2])
-colorbar('Position',[0.92 0.25 0.025 0.5],'orientation','vertical','AxisLocation','out')
-set(gcf,'renderer','painters')
-text(0,1.75,'MD','HorizontalAlignment','center')
-
-%G - B
-subplot('Position',[0.47 0.25 0.44 0.25])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(Elp))
-cmocean('dense')
-%colorbar
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-2 2])
-set(gcf,'renderer','painters')
-text(0,1.75,'LP','HorizontalAlignment','center')
-
-%H - all
-subplot('Position',[0.47 0.0 0.44 0.25])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,log10(Eld))
-cmocean('dense')
-%colorbar
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-2 2])
-set(gcf,'renderer','painters')
-text(0,1.75,'LD','HorizontalAlignment','center')
-stamp(exper)
-%print('-dpng',[ppath mod 'All_stages_subplot_day365.png'])
-
+print('-dpng',[ppath mod 'All_subplot_day50.png'])
+ 
