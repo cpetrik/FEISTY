@@ -66,11 +66,11 @@ Mos = repmat(MNTH,1,YEARS);
 tstep = 24 * 60 * 60; %time step in seconds
 
 % Files to save
-cname='Global_ICs_MF_LZ_dt1d_velDAY_swim01';
+cname='Global_ICs_MF_LZ_dt1d_velDAY_swim10';
 biov = zeros(NX,DAYS*YEARS);
 preyv = prey(ID);
 
-fish_speed = 0.10; %(m/s)
+fish_speed = 1.0; %(m/s)
 
 %% call advec-diff
 M=0;

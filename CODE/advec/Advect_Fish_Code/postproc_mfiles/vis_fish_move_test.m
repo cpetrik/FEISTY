@@ -25,8 +25,7 @@ spath = ['/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/' cfile '/CORE/'];
 %cname='Atl_even_dt1d_velMO_b100_advectonly';
 %cname='Atl_evenFish_randPrey_dt1d_velMO_b100';
 %cname='Arctic_evenFish_randPrey_dt1d_velMO_b100_swim01';
-%cname='Arctic_even_dt1d_velMO_b100_swim10';
-%cname = 'Arctic_even_dt1d_velMO_b100_swim01';
+%cname='Arctic_even_dt1d_velMO_b100_swim01';
 %cname='Equat_even_dt1d_velMO_b100_swim10';
 %cname='Global_evenfish_evenprey_dt1d_velDAY_b100_swim01';
 cname='Global_ICs_MF_LZ_dt1d_velDAY_swim10';
@@ -88,6 +87,22 @@ t = round(t);
 
 % colors
 cmB=cbrewer('seq','Blues',50,'PCHIP');
+
+%% prey
+prey = NaN*ones(ni,nj);
+prey(grid.ID) = (preyv);
+
+figure
+surf(geolon_t,geolat_t,prey);
+view(2);
+shading interp;
+colorbar;
+clim([0 10]);
+% clim([0 20]);
+% clim([0 150]);
+colormap(cmB)
+title('Prey distribution')
+print('-dpng',[ppath 'advec_test_' cname '_prey.png'])
 
 
 %% Global flat
