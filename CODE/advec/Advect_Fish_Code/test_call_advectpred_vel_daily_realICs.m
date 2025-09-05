@@ -63,14 +63,14 @@ YEARS = 1;
 DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 Mos = repmat(MNTH,1,YEARS);
-tstep = 24 * 60 * 60; %time step in seconds
+tstep = 6 * 60 * 60; %time step in seconds
 
 % Files to save
-cname='Global_ICs_MF_LZ_dt1d_velDAY_swim10';
+cname='Global_ICs_MF_LZ_dt6h_velDAY_swim01';
 biov = zeros(NX,DAYS*YEARS);
 preyv = prey(ID);
 
-fish_speed = 1.0; %(m/s)
+fish_speed = 0.10; %(m/s)
 
 %% call advec-diff
 M=0;

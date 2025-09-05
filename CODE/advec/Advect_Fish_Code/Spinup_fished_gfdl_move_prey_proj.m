@@ -1,5 +1,5 @@
 %%%%!! RUN SPINUP FOR ALL LOCATIONS
-function Spinup_fished_gfdl_move_nu_proj()
+function Spinup_fished_gfdl_move_prey_proj()
 
 %%%%%%%%%%%%%%% Initialize Model Variables
 %! Set fishing rate
@@ -47,14 +47,14 @@ ID = 1:param.NX;
 param.adt = 6 * 60 * 60; %time step in seconds
 
 %! How long to run the model
-YEARS = 50;
+YEARS = 50; 
 DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Create a directory for output
 %opath = '/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/';
 opath = '/project/Feisty/NC/Matlab_new_size/';
-exper = 'Spinup1988_move_nu_v21_dt4h';
+exper = 'Spinup1988_move_prey_v21_dt4h';
 [fname,simname,sname] = sub_fname_spin_move_core(param,opath,exper);
 
 %! Storage variables
@@ -178,7 +178,7 @@ for YR = 1:YEARS % years
         %%%! Future time step
         DY = int64(ceil(DAY));
         [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,ENVR] = ...
-            sub_futbio_move_nu(DY,COBALT,GRD1,Sml_f,Sml_p,Sml_d,...
+            sub_futbio_move_prey(DY,COBALT,GRD1,Sml_f,Sml_p,Sml_d,...
             Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,param,neighborhood);
 
         %! Store
@@ -196,7 +196,7 @@ for YR = 1:YEARS % years
     end %Days
 
 
-    %! Calculate monthly means and save
+    ! Calculate monthly means and save
     aa = (cumsum(MNTH)+1);
     a = [1,aa(1:end-1)]; % start of the month
     b = cumsum(MNTH); % end of the month
@@ -219,9 +219,6 @@ for YR = 1:YEARS % years
     end %Monthly mean
 
 end %Years
-
-% save([fname,'_Y1.mat'],'S_Bent_bio','S_Sml_f','S_Sml_p','S_Sml_d','S_Med_f',...
-%     'S_Med_p','S_Med_d','S_Lrg_p','S_Lrg_d','GRD1','GRD2','exper');
 
 %! Close save
 netcdf.close(ncidSF);

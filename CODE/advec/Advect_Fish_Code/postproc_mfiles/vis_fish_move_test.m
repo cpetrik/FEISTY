@@ -28,7 +28,7 @@ spath = ['/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/' cfile '/CORE/'];
 %cname='Arctic_even_dt1d_velMO_b100_swim01';
 %cname='Equat_even_dt1d_velMO_b100_swim10';
 %cname='Global_evenfish_evenprey_dt1d_velDAY_b100_swim01';
-cname='Global_ICs_MF_LZ_dt1d_velDAY_swim10';
+cname='Global_ICs_MF_LZ_dt6h_velDAY_swim01';
 
 load([spath 'AdvectPred_' cname '.mat'],'biov','preyv');
 
