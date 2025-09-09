@@ -154,7 +154,7 @@ netcdf.endDef(ncidLD);
 xy_dim     = netcdf.defDim(ncidB,'nid',NX);
 time_dim   = netcdf.defDim(ncidB,'ntime',nt);
 vidbioB    = netcdf.defVar(ncidB,'biomass','double',[xy_dim,time_dim]);
-%vidTB      = netcdf.defVar(ncidB,'time','double',time_dim);
+vidTB      = netcdf.defVar(ncidB,'time','double',time_dim);
 netcdf.endDef(ncidB);
 
 %% %%%%%%%%%%%%%%%%%%%% Run the Model
