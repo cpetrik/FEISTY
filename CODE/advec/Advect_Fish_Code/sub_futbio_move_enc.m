@@ -273,7 +273,7 @@ btm_curr = 0.05 .* current;
 
 % Loop over advection for one day
 daysec = 24 * 60 * 60;
-nloop = (daysec / param.adt);
+nloop = int64(round(daysec / param.adt));
 
 %bioMf(1530)
 for n = 1:nloop
