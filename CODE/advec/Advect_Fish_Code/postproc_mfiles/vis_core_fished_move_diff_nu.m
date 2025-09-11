@@ -1,6 +1,6 @@
-% Visualize output of Spinup 
-% 150 years
-% Saved as mat files
+% Compare CORE-forced run
+% 1988-2007 with and w/o movement
+% nu rule = maximize avail energy
 
 clear 
 close all
@@ -68,7 +68,7 @@ sAllP = Zsp+Zmp+Zlp;
 sAllD = Zsd+Zmd+Zld;
 
 %%
-exper = 'CORE_Hindcast_move_nu_v5_';
+exper = 'CORE_Hindcast_move_nu_v21_dt6h_';
 load([fpath 'Means_' exper cfile '.mat']);
 
 mF = sf_tmean+mf_tmean;
@@ -129,10 +129,10 @@ plot(y,log10(mD),'--k','Linewidth',2); hold on;
 legend('sB','sF','sP','sD','mB','mF','mP','mD')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
-ylim([-0.5 0.5])
+%ylim([-0.5 0.5])
 xlabel('Time (y)')
 ylabel('log10 Biomass (g m^-^2)')
-title(['CORE stationary vs. move nu'])
+title(['CORE Move nu vs. Stationary'])
 print('-dpng',[ppath 'COREstationary_movenu_all_types_ts.png'])
 
 figure(2)
@@ -143,10 +143,10 @@ plot(y,(dts_D),'k','Linewidth',2); hold on;
 legend('B','F','P','D')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
-ylim([-0.01 0.01])
+ylim([-1 0.5])
 xlabel('Time (y)')
 ylabel('Biomass difference (g m^-^2)')
-title(['CORE stationary vs. move nu'])
+title(['CORE Move nu - Stationary'])
 print('-dpng',[ppath 'COREstationary_movenu_diff_all_types_ts.png'])
 
 %% bent
@@ -155,25 +155,26 @@ subplot('Position',[0 0.53 0.5 0.5])
 %No move
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,Zb)
+surfm(geolat_t,geolon_t,log10(Zb))
 cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-1 2]);
 set(gcf,'renderer','painters')
-title('Stationary Benthos')
+title('Stationary Benthos (log_1_0 g/m2)')
 
 %Move
 subplot('Position',[0.5 0.53 0.5 0.5])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,Mb)
+surfm(geolat_t,geolon_t,log10(Mb))
 cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-1 2]);
 set(gcf,'renderer','painters')
-title('Move nu')
+title('Move nu (log_1_0 g/m2)')
+colorbar('Position',[0.2 0.51 0.6 0.05],'orientation','horizontal')
 
 %Diff
 subplot('Position',[0.25 0.0 0.5 0.5])
@@ -183,10 +184,10 @@ surfm(geolat_t,geolon_t,dAllB)
 cmocean('balance')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-0.01 0.01]);
-colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
+clim([-30 30]);
+colorbar('Position',[0.8 0.1 0.05 0.25],'orientation','vertical')
 set(gcf,'renderer','painters')
-title('Move nu - Stationary')
+title('Move nu - Stationary (g/m2)')
 print('-dpng',[ppath 'COREstationary_movenu_global_BENT.png'])
 
 %% ALL
@@ -199,7 +200,7 @@ surfm(geolat_t,geolon_t,dAllF)
 cmocean('balance')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-0.01 0.01]);
+clim([-10 10]);
 colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('All F (g m^-^2)  Move nu - Stationary')
@@ -212,7 +213,7 @@ surfm(geolat_t,geolon_t,dAllD)
 cmocean('balance')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-0.01 0.01]);
+clim([-10 10]);
 set(gcf,'renderer','painters')
 title('All D (g m^-^2)')
 
@@ -224,7 +225,7 @@ surfm(geolat_t,geolon_t,dAllP)
 cmocean('balance')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-0.01 0.01]);
+clim([-10 10]);
 set(gcf,'renderer','painters')
 title('All P (g m^-^2)')
 
@@ -236,7 +237,7 @@ surfm(geolat_t,geolon_t,dAll)
 cmocean('balance')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-0.01 0.01]);
+clim([-10 10]);
 set(gcf,'renderer','painters')
 title('All fishes (g m^-^2)')
 stamp('')

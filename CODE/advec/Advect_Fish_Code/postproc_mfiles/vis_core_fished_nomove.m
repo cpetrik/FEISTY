@@ -1,6 +1,5 @@
-% Visualize output of Spinup 
-% 150 years
-% Saved as mat files
+% Visualize output of CORE-forced run
+% 1988-2007 for comparison with movement
 
 clear 
 close all

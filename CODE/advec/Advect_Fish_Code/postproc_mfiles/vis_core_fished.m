@@ -1,6 +1,5 @@
-% Visualize output of Spinup 
-% 150 years
-% Saved as mat files
+% Visualize output of CORE-forced run
+% 1988-2007 with movement
 
 clear 
 close all
@@ -17,7 +16,7 @@ if (~isfolder(ppath))
 end
 
 %%
-exper = 'CORE_Hindcast_move_mort_v5_';
+exper = 'CORE_Hindcast_move_nu_v21_dt6h_';
 load([fpath 'Means_' exper cfile '.mat']);
 
 %%
@@ -132,7 +131,7 @@ surfm(geolat_t,geolon_t,log10(Zb))
 cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
+clim([-2 2]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('log10 mean benthic biomass (g m^-^2)')
@@ -149,7 +148,7 @@ surfm(geolat_t,geolon_t,log10(AllF))
 cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
+clim([-2 2]);
 colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('log10 mean All F (g m^-^2)')
@@ -162,7 +161,7 @@ surfm(geolat_t,geolon_t,log10(AllD))
 cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
+clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All D (g m^-^2)')
 
@@ -174,7 +173,7 @@ surfm(geolat_t,geolon_t,log10(AllP))
 cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
+clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All P (g m^-^2)')
 
@@ -186,7 +185,7 @@ surfm(geolat_t,geolon_t,log10(All))
 cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([-2 2]);
+clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
 stamp(exper)
@@ -202,7 +201,7 @@ surfm(geolat_t,geolon_t,FracPD)
 cmocean('balance')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([0 1]);
+clim([0 1]);
 set(gcf,'renderer','painters')
 title('Fraction Large Pelagics vs. Demersals')
 
@@ -214,7 +213,7 @@ surfm(geolat_t,geolon_t,FracPF)
 cmocean('balance')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([0 1]);
+clim([0 1]);
 set(gcf,'renderer','painters')
 title('Fraction Large Pelagics vs. Forage Fishes')
 
@@ -226,7 +225,7 @@ surfm(geolat_t,geolon_t,FracLM)
 cmocean('balance')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-caxis([0 1]);
+clim([0 1]);
 colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('Fraction Large vs. Medium')
