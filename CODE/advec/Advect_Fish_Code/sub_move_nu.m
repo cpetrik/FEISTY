@@ -1,6 +1,9 @@
 %%%% THE MODEL
+% Turn off dB/dt 
+% Just calc physiol to get movement behavior
+% See if conserves mass
 %%% DEMOGRAPHIC CALCULATIONS
-function [Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT,ENVR] = sub_futbio_move_mort(DY,ESM,GRD,Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT,param,neighbor)
+function [Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT,ENVR] = sub_move_nu(DY,ESM,GRD,Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT,param,neighbor)
 
 dfrate = param.dfrate;
 
@@ -203,16 +206,16 @@ Ld.rec = sub_rec(Md.gamma,Md.bio);
 
 % Mass balance
 %                      (bio_in,  rec,   nu,   rep,   gamma,   die,   nmort,fmort)
-Sf.bio = sub_update_fi(Sf.bio,Sf.rec,Sf.nu,Sf.rep,Sf.gamma,Sf.die,Sf.nmort,0);
-Sp.bio = sub_update_fi(Sp.bio,Sp.rec,Sp.nu,Sp.rep,Sp.gamma,Sp.die,Sp.nmort,0);
-Sd.bio = sub_update_fi(Sd.bio,Sd.rec,Sd.nu,Sd.rep,Sd.gamma,Sd.die,Sd.nmort,0);
-
-Mf.bio = sub_update_fi(Mf.bio,Mf.rec,Mf.nu,Mf.rep,Mf.gamma,Mf.die,Mf.nmort,Mf.fmort);
-Mp.bio = sub_update_fi(Mp.bio,Mp.rec,Mp.nu,Mp.rep,Mp.gamma,Mp.die,Mp.nmort,Mp.fmort);
-Md.bio = sub_update_fi(Md.bio,Md.rec,Md.nu,Md.rep,Md.gamma,Md.die,Md.nmort,Md.fmort);
-
-Lp.bio = sub_update_fi(Lp.bio,Lp.rec,Lp.nu,Lp.rep,Lp.gamma,Lp.die,Lp.nmort,Lp.fmort);
-Ld.bio = sub_update_fi(Ld.bio,Ld.rec,Ld.nu,Ld.rep,Ld.gamma,Ld.die,Ld.nmort,Ld.fmort);
+% Sf.bio = sub_update_fi(Sf.bio,Sf.rec,Sf.nu,Sf.rep,Sf.gamma,Sf.die,Sf.nmort,0);
+% Sp.bio = sub_update_fi(Sp.bio,Sp.rec,Sp.nu,Sp.rep,Sp.gamma,Sp.die,Sp.nmort,0);
+% Sd.bio = sub_update_fi(Sd.bio,Sd.rec,Sd.nu,Sd.rep,Sd.gamma,Sd.die,Sd.nmort,0);
+% 
+% Mf.bio = sub_update_fi(Mf.bio,Mf.rec,Mf.nu,Mf.rep,Mf.gamma,Mf.die,Mf.nmort,Mf.fmort);
+% Mp.bio = sub_update_fi(Mp.bio,Mp.rec,Mp.nu,Mp.rep,Mp.gamma,Mp.die,Mp.nmort,Mp.fmort);
+% Md.bio = sub_update_fi(Md.bio,Md.rec,Md.nu,Md.rep,Md.gamma,Md.die,Md.nmort,Md.fmort);
+% 
+% Lp.bio = sub_update_fi(Lp.bio,Lp.rec,Lp.nu,Lp.rep,Lp.gamma,Lp.die,Lp.nmort,Lp.fmort);
+% Ld.bio = sub_update_fi(Ld.bio,Ld.rec,Ld.nu,Ld.rep,Ld.gamma,Ld.die,Ld.nmort,Ld.fmort);
 
 % Forward Euler checks for demographics 
 Sf.bio=sub_check_nan(Sf.bio);
@@ -226,27 +229,18 @@ Ld.bio=sub_check_nan(Ld.bio);
 
 
 %%% MOVEMENT CALCULATIONS - advection and directed swimming
-%need to 1) calc tot mort of each fish; 2) put on 2D grid
-%prey - total consump (I) prob easiest to use here because factors in prefs
-
-Sf.tmort = 1 ./ (Sf.pred + Sf.nmort + 0);
-Sp.tmort = 1 ./ (Sp.pred + Sp.nmort + 0);
-Sd.tmort = 1 ./ (Sd.pred + Sd.nmort + 0);
-Mf.tmort = 1 ./ (Mf.pred + Mf.nmort + Mf.fmort);
-Mp.tmort = 1 ./ (Mp.pred + Mp.nmort + Mp.fmort);
-Md.tmort = 1 ./ (Md.pred + Md.nmort + Md.fmort);
-Lp.tmort = 1 ./ (Lp.pred + Lp.nmort + Lp.fmort);
-Ld.tmort = 1 ./ (Ld.pred + Ld.nmort + Ld.fmort);
+%put on 2D grid
+%nu
 
 % make 2D
-preySf = sub_1Dto2D(GRD,Sf.tmort,param);
-preySp = sub_1Dto2D(GRD,Sp.tmort,param);
-preySd = sub_1Dto2D(GRD,Sd.tmort,param);
-preyMf = sub_1Dto2D(GRD,Mf.tmort,param);
-preyMp = sub_1Dto2D(GRD,Mp.tmort,param);
-preyMd = sub_1Dto2D(GRD,Md.tmort,param);
-preyLp = sub_1Dto2D(GRD,Lp.tmort,param);
-preyLd = sub_1Dto2D(GRD,Ld.tmort,param);
+preySf = sub_1Dto2D(GRD,Sf.nu,param);
+preySp = sub_1Dto2D(GRD,Sp.nu,param);
+preySd = sub_1Dto2D(GRD,Sd.nu,param);
+preyMf = sub_1Dto2D(GRD,Mf.nu,param);
+preyMp = sub_1Dto2D(GRD,Mp.nu,param);
+preyMd = sub_1Dto2D(GRD,Md.nu,param);
+preyLp = sub_1Dto2D(GRD,Lp.nu,param);
+preyLd = sub_1Dto2D(GRD,Ld.nu,param);
 
 bioSf = sub_1Dto2D(GRD,Sf.bio,param);
 bioSp = sub_1Dto2D(GRD,Sp.bio,param);

@@ -17,7 +17,7 @@ if (~isfolder(ppath))
 end
 
 %%
-exper = 'Spinup1988_move_nu_v21_dt6h_All_fish03_';
+exper = 'Spinup1988_move_mort_v21_dt6h_All_fish03_';
 load([fpath 'Means_' exper cfile '.mat']);
 
 %%
@@ -72,7 +72,7 @@ plot(y,log10(ld_tmean),'Linewidth',1); hold on;
 legend('B','SF','MF','SP','MP','LP','SD','MD','LD')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
-ylim([-2 2])
+ylim([-3 2])
 xlabel('Time (mo)')
 ylabel('log10 Biomass (g m^-^2)')
 title('Spinup')
