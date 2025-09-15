@@ -10,7 +10,7 @@ param.dfrateP = nan;
 param.dfrateD = nan;
 
 %! Make core parameters/constants
-param = make_parameters(param);
+param = make_parameters_BCC(param);
 
 %! Grids
 vpath = '/Volumes/petrik-lab/Feisty/GCM_Data/CORE-forced/';
