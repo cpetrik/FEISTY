@@ -17,7 +17,7 @@ if (~isfolder(ppath))
 end
 
 %%
-exper = 'Spinup1988_move_mort_v21_dt6h_All_fish03_';
+exper = 'Spinup1988_move_enc_v21_dt6h_All_fish03_';
 load([fpath 'Means_' exper cfile '.mat']);
 
 %%

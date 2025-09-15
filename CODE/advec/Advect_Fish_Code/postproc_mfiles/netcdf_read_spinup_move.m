@@ -1,4 +1,4 @@
-% Spinup for 150 yrs
+% Spinup for 10-50 yrs
 % Save last month for initializing runs
 
 clear 
@@ -6,8 +6,8 @@ close all
 
 %%
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
-%fpath=['/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/' cfile '/CORE/'];
-fpath=['/project/Feisty/NC/Matlab_new_size/' cfile '/CORE/'];
+fpath=['/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/' cfile '/CORE/'];
+%fpath=['/project/Feisty/NC/Matlab_new_size/' cfile '/CORE/'];
 
 %exper = 'Spinup1988_no_move';
 exper = 'Spinup1988_move_enc_v21_dt6h';

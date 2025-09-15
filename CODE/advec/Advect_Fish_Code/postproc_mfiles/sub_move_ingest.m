@@ -3,7 +3,7 @@
 % Just calc physiol to get movement behavior
 % See if conserves mass
 %%% DEMOGRAPHIC CALCULATIONS
-function [Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT,ENVR] = sub_move_prey(DY,ESM,GRD,Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT,param,neighbor)
+function [Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT,ENVR] = sub_move_ingest(DY,ESM,GRD,Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT,param,neighbor)
 
 dfrate = param.dfrate;
 
@@ -230,25 +230,17 @@ Ld.bio=sub_check_nan(Ld.bio);
 
 %%% MOVEMENT CALCULATIONS - advection and directed swimming
 %need to 1) calc prey of each fish; 2) put on 2D grid
-%prey (factor in prefs?)
-Sf.prey = ENVR.Zm;
-Sp.prey = ENVR.Zm;
-Sd.prey = ENVR.Zm;
-Mf.prey = ENVR.Zm + ENVR.Zl + Sf.bio + Sp.bio + Sd.bio;
-Mp.prey = ENVR.Zm + ENVR.Zl + Sf.bio + Sp.bio + Sd.bio;
-Md.prey = BENT.mass;
-Lp.prey = Mf.bio + Mp.bio;
-Ld.prey = Mf.bio + Mp.bio + Md.bio + BENT.mass;
+%prey - total consump (I) prob easiest to use here because factors in prefs
 
 % make 2D
-preySf = sub_1Dto2D(GRD,Sf.prey,param);
-preySp = sub_1Dto2D(GRD,Sp.prey,param);
-preySd = sub_1Dto2D(GRD,Sd.prey,param);
-preyMf = sub_1Dto2D(GRD,Mf.prey,param);
-preyMp = sub_1Dto2D(GRD,Mp.prey,param);
-preyMd = sub_1Dto2D(GRD,Md.prey,param);
-preyLp = sub_1Dto2D(GRD,Lp.prey,param);
-preyLd = sub_1Dto2D(GRD,Ld.prey,param);
+preySf = sub_1Dto2D(GRD,Sf.I,param);
+preySp = sub_1Dto2D(GRD,Sp.I,param);
+preySd = sub_1Dto2D(GRD,Sd.I,param);
+preyMf = sub_1Dto2D(GRD,Mf.I,param);
+preyMp = sub_1Dto2D(GRD,Mp.I,param);
+preyMd = sub_1Dto2D(GRD,Md.I,param);
+preyLp = sub_1Dto2D(GRD,Lp.I,param);
+preyLd = sub_1Dto2D(GRD,Ld.I,param);
 
 bioSf = sub_1Dto2D(GRD,Sf.bio,param);
 bioSp = sub_1Dto2D(GRD,Sp.bio,param);
