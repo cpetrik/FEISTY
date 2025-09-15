@@ -13,7 +13,8 @@ param.dfrateD = nan;
 param = make_parameters_BCC(param);
 
 %! Grids
-vpath = '/Volumes/petrik-lab/Feisty/GCM_Data/CORE-forced/';
+%vpath = '/Volumes/petrik-lab/Feisty/GCM_Data/CORE-forced/';
+vpath = '/project/Feisty/GCM_Data/CORE-forced/';
 
 %1-D
 load([vpath 'Data_grid_ocean_cobalt_ESM2Mcore.mat'],'GRD');
@@ -49,7 +50,8 @@ MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Create a directory for output
 exper = '1988_no_move';
-opath = '/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/';
+%opath = '/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/';
+opath = '/project/Feisty/NC/Matlab_new_size/';
 [fname,simname,sname] = sub_fname_hist_gfdl_core(param,opath,exper);
 
 %! Storage variables
