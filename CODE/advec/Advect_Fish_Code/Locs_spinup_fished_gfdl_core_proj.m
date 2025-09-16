@@ -76,7 +76,7 @@ MNT=0;
 for YR = 1:YEARS % years
     num2str(YR)
 
-    for DAY = 1:DT:DAYS % days
+    for DAY = 1:DAYS % days
         
         %%%! ticker
         DY = int64(ceil(DAY));
