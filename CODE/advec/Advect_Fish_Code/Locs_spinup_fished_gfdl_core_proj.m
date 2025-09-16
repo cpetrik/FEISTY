@@ -48,25 +48,25 @@ opath = '/project/Feisty/NC/Matlab_new_size/';
 [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish(ids,DAYS);
 
 %! Storage
-Spinup_Sml_f = NaN*ones(DAYS,25,NX);
-Spinup_Sml_p = NaN*ones(DAYS,25,NX);
-Spinup_Sml_d = NaN*ones(DAYS,25,NX);
-Spinup_Med_f = NaN*ones(DAYS,25,NX);
-Spinup_Med_p = NaN*ones(DAYS,25,NX);
-Spinup_Med_d = NaN*ones(DAYS,25,NX);
-Spinup_Lrg_p = NaN*ones(DAYS,25,NX);
-Spinup_Lrg_d = NaN*ones(DAYS,25,NX);
-Spinup_Cobalt = NaN*ones(DAYS,5,NX);
+Spinup_Sml_f = NaN*ones(DAYS,25,param.NX);
+Spinup_Sml_p = NaN*ones(DAYS,25,param.NX);
+Spinup_Sml_d = NaN*ones(DAYS,25,param.NX);
+Spinup_Med_f = NaN*ones(DAYS,25,param.NX);
+Spinup_Med_p = NaN*ones(DAYS,25,param.NX);
+Spinup_Med_d = NaN*ones(DAYS,25,param.NX);
+Spinup_Lrg_p = NaN*ones(DAYS,25,param.NX);
+Spinup_Lrg_d = NaN*ones(DAYS,25,param.NX);
+Spinup_Cobalt = NaN*ones(DAYS,5,param.NX);
 
-S_Sml_f = NaN*ones(12*YEARS,25,NX);
-S_Sml_p = NaN*ones(12*YEARS,25,NX);
-S_Sml_d = NaN*ones(12*YEARS,25,NX);
-S_Med_f = NaN*ones(12*YEARS,25,NX);
-S_Med_p = NaN*ones(12*YEARS,25,NX);
-S_Med_d = NaN*ones(12*YEARS,25,NX);
-S_Lrg_p = NaN*ones(12*YEARS,25,NX);
-S_Lrg_d = NaN*ones(12*YEARS,25,NX);
-S_Cobalt = NaN*ones(12*YEARS,5,NX);
+S_Sml_f = NaN*ones(12*YEARS,25,param.NX);
+S_Sml_p = NaN*ones(12*YEARS,25,param.NX);
+S_Sml_d = NaN*ones(12*YEARS,25,param.NX);
+S_Med_f = NaN*ones(12*YEARS,25,param.NX);
+S_Med_p = NaN*ones(12*YEARS,25,param.NX);
+S_Med_d = NaN*ones(12*YEARS,25,param.NX);
+S_Lrg_p = NaN*ones(12*YEARS,25,param.NX);
+S_Lrg_d = NaN*ones(12*YEARS,25,param.NX);
+S_Cobalt = NaN*ones(12*YEARS,5,param.NX);
 
 %% %%%%%%%%%%%%%%%%%%%% Run the Model
 %! Iterate forward in time 
