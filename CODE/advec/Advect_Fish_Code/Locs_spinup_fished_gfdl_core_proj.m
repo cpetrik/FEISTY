@@ -45,7 +45,7 @@ opath = '/project/Feisty/NC/Matlab_new_size/';
 [fname,simname,sname] = sub_fname_spin_gfdl_core(param,opath,exper);
 
 %! Initialize
-[Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish(ID,DAYS);
+[Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish(ids,DAYS);
 
 %! Storage
 Spinup_Sml_f = NaN*ones(DAYS,25,NX);
