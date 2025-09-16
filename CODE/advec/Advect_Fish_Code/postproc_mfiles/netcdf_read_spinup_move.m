@@ -6,11 +6,11 @@ close all
 
 %%
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
-fpath=['/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/' cfile '/CORE/'];
-%fpath=['/project/Feisty/NC/Matlab_new_size/' cfile '/CORE/'];
+%fpath=['/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/' cfile '/CORE/'];
+fpath=['/project/Feisty/NC/Matlab_new_size/' cfile '/CORE/'];
 
 %exper = 'Spinup1988_no_move';
-exper = 'Spinup1988_move_enc_v21_dt6h';
+exper = 'Spinup1988_move_prey_v21_dt6h';
 
 %% SP
 ncid = netcdf.open([fpath exper '_All_fish03_sml_p.nc'],'NC_NOWRITE');
@@ -176,7 +176,24 @@ lp_mean=mean(LP.bio(:,lyr),2);
 ld_mean=mean(LD.bio(:,lyr),2);
 b_mean=mean(Bent.bio(:,lyr),2);
 
+%% Each year
+st=1:12:length(time);
+en=12:12:length(time);
+
+for n=1:length(st)
+    sp_smean(:,n)=mean(SP.bio(:,st(n):en(n)),2);
+    sf_smean(:,n)=mean(SF.bio(:,st(n):en(n)),2);
+    sd_smean(:,n)=mean(SD.bio(:,st(n):en(n)),2);
+    mp_smean(:,n)=mean(MP.bio(:,st(n):en(n)),2);
+    mf_smean(:,n)=mean(MF.bio(:,st(n):en(n)),2);
+    md_smean(:,n)=mean(MD.bio(:,st(n):en(n)),2);
+    lp_smean(:,n)=mean(LP.bio(:,st(n):en(n)),2);
+    ld_smean(:,n)=mean(LD.bio(:,st(n):en(n)),2);
+    b_smean(:,n)=mean(Bent.bio(:,st(n):en(n)),2);
+end
+
 %% Save last month for initializing hindcast runs
+exper2 = 'Spinup1988_move_ingest_v21_dt6h';
 
 Sml_f.bio = mean(SF.bio(:,end),2,'omitnan');
 Sml_p.bio = mean(SP.bio(:,end),2,'omitnan');
@@ -188,18 +205,21 @@ Lrg_p.bio = mean(LP.bio(:,end),2,'omitnan');
 Lrg_d.bio = mean(LD.bio(:,end),2,'omitnan');
 BENT.bio  = mean(Bent.bio(:,end),2,'omitnan');
 
-save([fpath 'Last_mo_' exper '_All_fish03_' cfile '.mat'],'Sml_f','Sml_p','Sml_d',...
+save([fpath 'Last_mo_' exper2 '_All_fish03_' cfile '.mat'],'Sml_f','Sml_p','Sml_d',...
     'Med_f','Med_p','Med_d','Lrg_p','Lrg_d','BENT')
 
 
 %% Save means
-save([fpath 'Means_' exper '_All_fish03_' cfile '.mat'],'time','lyr',...
+save([fpath 'Means_' exper2 '_All_fish03_' cfile '.mat'],'time','lyr',...
     'sf_mean','sp_mean','sd_mean',...
     'mf_mean','mp_mean','md_mean',...
     'b_mean','lp_mean','ld_mean',...
     'sf_tmean','sp_tmean','sd_tmean',...
     'mf_tmean','mp_tmean','md_tmean',...
-    'b_tmean','lp_tmean','ld_tmean');
+    'b_tmean','lp_tmean','ld_tmean',...
+    'sf_smean','sp_smean','sd_smean',...
+    'mf_smean','mp_smean','md_smean',...
+    'b_smean','lp_smean','ld_smean');
     
 
 
