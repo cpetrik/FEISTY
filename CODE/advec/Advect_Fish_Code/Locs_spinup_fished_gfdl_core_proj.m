@@ -18,20 +18,13 @@ vpath = '/project/Feisty/GCM_Data/CORE-forced/';
 
 %1-D
 load([vpath 'Data_grid_ocean_cobalt_ESM2Mcore.mat'],'GRD');
+GRD1 = GRD;
 
 load([vpath 'core_grid_360x200_id_locs_area_dep.mat'],'ids','abbrev');
 names = abbrev;
 
-GRD1.ID = GRD.ID(ids);
-GRD1.LON = GRD.LON(ids);
-GRD1.LAT = GRD.LAT(ids);
-GRD1.Z = GRD.Z(ids);
-GRD1.lmask = GRD.lmask(ids);
-GRD1.area = GRD.area(ids);
-GRD1.N = length(ids);
-
-param.NX = GRD1.N;
-param.ID = GRD1.ID;
+param.NX = length(ids);
+param.ID = ids;
 
 %! How long to run the model
 YEARS = 200;
