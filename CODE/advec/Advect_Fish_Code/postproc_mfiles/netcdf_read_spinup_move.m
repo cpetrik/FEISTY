@@ -5,12 +5,12 @@ clear
 close all
 
 %%
-cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
+cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_CC80_RE00100';
 %fpath=['/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/' cfile '/CORE/'];
 fpath=['/project/Feisty/NC/Matlab_new_size/' cfile '/CORE/'];
 
 %exper = 'Spinup1988_no_move';
-exper = 'Spinup1988_move_prey_v21_dt6h';
+exper = 'Spinup1988_move_nu_v21_dt6h';
 
 %% SP
 ncid = netcdf.open([fpath exper '_All_fish03_sml_p.nc'],'NC_NOWRITE');
@@ -193,8 +193,6 @@ for n=1:length(st)
 end
 
 %% Save last month for initializing hindcast runs
-exper2 = 'Spinup1988_move_ingest_v21_dt6h';
-
 Sml_f.bio = mean(SF.bio(:,end),2,'omitnan');
 Sml_p.bio = mean(SP.bio(:,end),2,'omitnan');
 Sml_d.bio = mean(SD.bio(:,end),2,'omitnan');
@@ -205,12 +203,12 @@ Lrg_p.bio = mean(LP.bio(:,end),2,'omitnan');
 Lrg_d.bio = mean(LD.bio(:,end),2,'omitnan');
 BENT.bio  = mean(Bent.bio(:,end),2,'omitnan');
 
-save([fpath 'Last_mo_' exper2 '_All_fish03_' cfile '.mat'],'Sml_f','Sml_p','Sml_d',...
+save([fpath 'Last_mo_' exper '_All_fish03_' cfile '.mat'],'Sml_f','Sml_p','Sml_d',...
     'Med_f','Med_p','Med_d','Lrg_p','Lrg_d','BENT')
 
 
 %% Save means
-save([fpath 'Means_' exper2 '_All_fish03_' cfile '.mat'],'time','lyr',...
+save([fpath 'Means_' exper '_All_fish03_' cfile '.mat'],'time','lyr',...
     'sf_mean','sp_mean','sd_mean',...
     'mf_mean','mp_mean','md_mean',...
     'b_mean','lp_mean','ld_mean',...
