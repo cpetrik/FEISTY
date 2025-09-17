@@ -8,7 +8,7 @@ close all
 %%
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/Matlab_New_sizes/';
 
-cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
+cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_CC80_RE00100';
 
 fpath=['/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/' cfile '/CORE/'];
 ppath = [pp cfile '/CORE/'];
@@ -17,7 +17,7 @@ if (~isfolder(ppath))
 end
 
 %%
-exper = 'Spinup1988_move_enc_v21_dt6h_All_fish03_';
+exper = 'Spinup1988_move_nu_v21_dt6h_All_fish03_';
 load([fpath 'Means_' exper cfile '.mat']);
 
 %%
