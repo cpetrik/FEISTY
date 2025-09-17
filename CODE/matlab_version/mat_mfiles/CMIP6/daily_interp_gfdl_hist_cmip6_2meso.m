@@ -43,7 +43,7 @@ yrs = floor(yr(1)):yr(end);
 Tdays=1:365;
 
 %% test that all same orientation
-pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/FishMIP/Phase3a/';
+pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/FishMIP/FishMIP6/';
 
 figure
 subplot(3,3,1)

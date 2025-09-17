@@ -13,8 +13,10 @@ param.dfrateD = nan;
 param = make_parameters(param);
 
 %! Grid
-cpath = '/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/GFDL/';
-gpath = '/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/GFDL/hist/';
+% cpath = '/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/GFDL/';
+% gpath = '/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/GFDL/hist/';
+cpath = '/project/Feisty/Fish-MIP/CMIP6/GFDL/';
+gpath = '/project/Feisty/Fish-MIP/CMIP6/GFDL/hist/';
 load([cpath 'Data_grid_gfdl.mat'],'GRD');
 param.NX = length(GRD.Z);
 param.ID = 1:param.NX;
@@ -29,7 +31,8 @@ MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Create a directory for output
 exper = 'const_spawning';
-opath = '/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/';
+%opath = '/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/';
+opath = '/project/Feisty/NC/Matlab_new_size/';
 [fname,simname,sname] = sub_fname_hist_gfdl_cmip6_2meso(param,opath,exper);
 
 %! Storage variables
@@ -129,7 +132,7 @@ netcdf.endDef(ncidLD);
 xy_dim     = netcdf.defDim(ncidB,'nid',NX);
 time_dim   = netcdf.defDim(ncidB,'ntime',nt);
 vidbioB    = netcdf.defVar(ncidB,'biomass','double',[xy_dim,time_dim]);
-%vidTB      = netcdf.defVar(ncidB,'time','double',time_dim);
+vidTB      = netcdf.defVar(ncidB,'time','double',time_dim);
 netcdf.endDef(ncidB);
 
 %% %%%%%%%%%%%%%%%%%%%% Run the Model
