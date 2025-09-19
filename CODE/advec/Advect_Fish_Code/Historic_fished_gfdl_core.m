@@ -160,11 +160,7 @@ MNT = 0;
 for YR = 1:nYEARS % years
     ti = num2str(YEARS(YR))
     load([vpath,'Data_ocean_cobalt_daily_',ti,'.mat'],'COBALT');
-    % %u or uh? "h" are much bigger values
-    % load([vpath,'Vel200_feb152013_run25_ocean_',ti,'.mat'],'uh','vh');
-    % COBALT.U = uh;
-    % COBALT.V = vh;
-
+    
     for DAY = 1:param.DT:DAYS % days
 
         %%%! Future time step

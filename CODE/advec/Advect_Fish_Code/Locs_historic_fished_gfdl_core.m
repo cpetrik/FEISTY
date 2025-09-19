@@ -1,9 +1,6 @@
 %%%%!! RUN SPINUP FOR ONE LOCATION
 function Locs_historic_fished_gfdl_core()
 
-% Add your specific subfunctions to the path
-addpath(genpath('colleen_functions'));
-
 %%%%%%%%%%%%%%% Initialize Model Variables
 %! Set fishing rate
 param.frate = 0.3;
@@ -13,7 +10,7 @@ param.dfrateP = nan;
 param.dfrateD = nan;
 
 %! Make core parameters/constants
-param = make_parameters(param);
+param = make_parameters_BCC(param);
 
 %! Grids
 vpath = '/Volumes/petrik-lab/Feisty/GCM_Data/CORE-forced/';
@@ -81,11 +78,11 @@ Mo_Cobalt = NaN*ones(nt,5,param.NX);
 %% %%%%%%%%%%%%%%%%%%%% Run the Model
 %! Iterate forward in time 
 MNT=0;
-for YR = 1:YEARS % years
+for YR = 1:nYEARS % years
     ti = num2str(YEARS(YR))
     load([vpath,'Data_ocean_cobalt_daily_',ti,'.mat'],'COBALT');
 
-    for DAY = param.DTday:param.DTday:DAYS % days
+    for DAY = 1:DAYS % days
         
         %%%! ticker
         DY = int64(ceil(DAY));
@@ -135,7 +132,7 @@ for YR = 1:YEARS % years
 end %Years
 
 %%% Save
-save([fname '.mat'],...
+save([fname '_locs.mat'],...
 'Mo_Sml_f','Mo_Sml_p','Mo_Sml_d','Mo_Med_f','Mo_Med_p','Mo_Med_d',...
 'Mo_Lrg_p','Mo_Lrg_d','Mo_Cobalt')
 
