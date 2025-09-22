@@ -13,9 +13,9 @@ behave = {'enc','nu','mort','prey'};
 
 for b = 1:length(behave)
     
-    exper = ['FullSpinup1988_move_',behave{b},'_v21_dt6h'];
+    exper = ['Full_Spinup1988_move_',behave{b},'_v21_dt6h'];
     if b==4
-        exper2 = 'FullSpinup1988_move_ingest_v21_dt6h';
+        exper2 = 'Full_Spinup1988_move_ingest_v21_dt6h';
     else
         exper2 = exper;
     end
