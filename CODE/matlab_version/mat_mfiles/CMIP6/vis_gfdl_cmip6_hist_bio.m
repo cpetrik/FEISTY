@@ -23,8 +23,8 @@ end
 vers = 'Historic_const_spawning_All_fish03';
 mod = 'Historic_const_spawning_All_fish03';
 
-load([fpath 'Time_Means_' vers '_' cfile '.mat']);
-load([fpath 'Space_Means_' vers '_' cfile '.mat']);
+load([fpath 'Time_Means_' vers '_' cfile '_v2.mat']);
+load([fpath 'Space_Means_' vers '_' cfile '_v2.mat']);
 
 load([gpath 'Data_grid_gfdl.mat'],'GRD');
 load([gpath 'gridspec_gfdl_cmip6.mat']);
@@ -83,7 +83,7 @@ xlabel('Time (mo)')
 ylabel('log10 Biomass (g m^-^2)')
 title('Historic')
 stamp('')
-print('-dpng',[ppath mod '_ts_all_sizes.png'])
+print('-dpng',[ppath mod '_ts_all_sizes_v2.png'])
 
 % Fn Types
 figure(2)
@@ -99,7 +99,7 @@ xlabel('Time (y)')
 ylabel('log10 Biomass (g m^-^2)')
 title('Historic')
 stamp('')
-print('-dpng',[ppath mod '_ts_all_types.png'])
+print('-dpng',[ppath mod '_ts_all_types_v2.png'])
 
 
 %% Plots in space
@@ -147,7 +147,7 @@ hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('log10 mean benthic biomass (g m^-^2)')
 stamp('')
-print('-dpng',[ppath mod '_global_Bent.png'])
+print('-dpng',[ppath mod '_global_Bent_v2.png'])
 
 %% All 4 on subplots
 figure(4)
@@ -196,7 +196,7 @@ clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
 stamp('')
-print('-dpng',[ppath mod '_global_All_subplot.png'])
+print('-dpng',[ppath mod '_global_All_subplot_v2.png'])
 
 %% Ratios on subplots red-white-blue
 % 3 figure subplot P:D, P:F, M:L
@@ -235,6 +235,6 @@ colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('Fraction Large vs. Medium')
 stamp('')
-print('-dpng',[ppath mod '_global_ratios_subplot.png'])
+print('-dpng',[ppath mod '_global_ratios_subplot_v2.png'])
 
 
