@@ -275,7 +275,6 @@ btm_curr = 0.05 .* current;
 daysec = 24 * 60 * 60;
 nloop = int64(round(daysec / param.adt));
 
-%bioMf(1530)
 for n = 1:nloop
     %n
     % move
@@ -287,8 +286,16 @@ for n = 1:nloop
     bioMd = AdvectPredator(bioMd,preyMd,btm_curr,param.adt,param.dx,param.dy,neighbor,param.U_m,param.mask,param.area,param.nj,param.ni);
     bioLp = AdvectPredator(bioLp,preyLp,current,param.adt,param.dx,param.dy,neighbor,param.U_l,param.mask,param.area,param.nj,param.ni);
     bioLd = AdvectPredator(bioLd,preyLd,btm_curr,param.adt,param.dx,param.dy,neighbor,param.U_l,param.mask,param.area,param.nj,param.ni);
+
+    bioSf = smooth2nan(bioSf,3);
+    bioSp = smooth2nan(bioSp,3);
+    bioSd = smooth2nan(bioSd,3);
+    bioMf = smooth2nan(bioMf,3);
+    bioMp = smooth2nan(bioMp,3);
+    bioMd = smooth2nan(bioMd,3);
+    bioLp = smooth2nan(bioLp,3);
+    bioLd = smooth2nan(bioLd,3);
 end
-%bioMf(1530)
 
 % put back on 1D grid
 Sf.bio = bioSf(GRD.ID);
