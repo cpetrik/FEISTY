@@ -30,7 +30,7 @@ DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Create a directory for output
-exper = 'const_spawning_v3';
+exper = 'const_spawning';
 %opath = '/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/';
 opath = '/project/Feisty/NC/Matlab_new_size/';
 [fname,simname,sname] = sub_fname_hist_gfdl_cmip6_2meso(param,opath,exper);
@@ -59,15 +59,15 @@ netcdf.setDefaultFormat('NC_FORMAT_64BIT');
 
 %% %%%%%%%%%%%%% Setup NetCDF save
 %! Setup netcdf path to store to
-file_sml_f = [fname,'_sml_f.nc'];
-file_sml_p = [fname,'_sml_p.nc'];
-file_sml_d = [fname,'_sml_d.nc'];
-file_med_f = [fname,'_med_f.nc'];
-file_med_p = [fname,'_med_p.nc'];
-file_med_d = [fname,'_med_d.nc'];
-file_lrg_p = [fname,'_lrg_p.nc'];
-file_lrg_d = [fname,'_lrg_d.nc'];
-file_bent  = [fname,'_bent.nc'];
+file_sml_f = [fname,'_v3_sml_f.nc'];
+file_sml_p = [fname,'_v3_sml_p.nc'];
+file_sml_d = [fname,'_v3_sml_d.nc'];
+file_med_f = [fname,'_v3_med_f.nc'];
+file_med_p = [fname,'_v3_med_p.nc'];
+file_med_d = [fname,'_v3_med_d.nc'];
+file_lrg_p = [fname,'_v3_lrg_p.nc'];
+file_lrg_d = [fname,'_v3_lrg_d.nc'];
+file_bent  = [fname,'_v3_bent.nc'];
 
 ncidSF = netcdf.create(file_sml_f,'NC_WRITE');
 ncidSP = netcdf.create(file_sml_p,'NC_WRITE');
