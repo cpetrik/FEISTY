@@ -179,5 +179,18 @@ save([fpath 'Means_' vers '_' cfile '.mat'],...
     'md_tmean','b_tmean','lp_tmean','ld_tmean','time','lyr');
 
 
+%%
+Sml_f.bio = mean(SF.bio(:,lyr),2,'omitnan');
+Sml_p.bio = mean(SP.bio(:,lyr),2,'omitnan');
+Sml_d.bio = mean(SD.bio(:,lyr),2,'omitnan');
+Med_f.bio = mean(MF.bio(:,lyr),2,'omitnan');
+Med_p.bio = mean(MP.bio(:,lyr),2,'omitnan');
+Med_d.bio = mean(MD.bio(:,lyr),2,'omitnan');
+Lrg_p.bio = mean(LP.bio(:,lyr),2,'omitnan');
+Lrg_d.bio = mean(LD.bio(:,lyr),2,'omitnan');
+BENT.bio  = mean(B.bio(:,lyr),2,'omitnan');
+
+save([fpath 'Last_yr_' vers '_' cfile '.mat'],'Sml_f','Sml_p','Sml_d',...
+    'Med_f','Med_p','Med_d','Lrg_p','Lrg_d','BENT')
 
 
