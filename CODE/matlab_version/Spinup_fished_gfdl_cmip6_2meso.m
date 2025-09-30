@@ -13,8 +13,10 @@ param.dfrateD = nan;
 param = make_parameters(param);
 
 %! Grid
-cpath = '/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/GFDL/';
-gpath = '/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/GFDL/hist/';
+% cpath = '/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/GFDL/';
+% gpath = '/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/GFDL/hist/';
+cpath = '/project/Feisty/Fish-MIP/CMIP6/GFDL/';
+gpath = '/project/Feisty/Fish-MIP/CMIP6/GFDL/hist/';
 load([cpath 'Data_grid_gfdl.mat'],'GRD');
 param.NX = length(GRD.Z);
 param.ID = 1:param.NX;
@@ -27,8 +29,9 @@ DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Create a directory for output
-exper = 'Spinup_const_spawning';
-opath = '/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/';
+exper = 'Spinup1951_const_spawning';
+%opath = '/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/';
+opath = '/project/Feisty/NC/Matlab_new_size/';
 [fname,simname,outdir] = sub_fname_spin_gfdl_cmip6_2meso(param,opath,exper);
 
 %! Storage variables
@@ -142,7 +145,7 @@ netcdf.endDef(ncidB);
 
 %% %%%%%%%%%%%%%%%%%%%% Run the Model
 
-load([gpath,'Data_gfdl_cmip6_hist_2meso_daily_1950.mat'],'ESM');
+load([gpath,'Data_gfdl_cmip6_hist_2meso_daily_1951.mat'],'ESM');
 
 MNT = 0;
 %! Run model with no fishing
