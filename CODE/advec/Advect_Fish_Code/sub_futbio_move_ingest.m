@@ -265,20 +265,28 @@ btm_curr = 0.05 .* current;
 daysec = 24 * 60 * 60;
 nloop = int64(round(daysec / param.adt));
 
-%bioMf(1530)
+% Setup groups to parallelize
+speciesBio = {bioSf, bioSp, bioSd, bioMf, bioMp, bioMd, bioLp, bioLd};
+speciesPrey = {preySf, preySp, preySd, preyMf, preyMp, preyMd, preyLp, preyLd};
+speciesU    = {param.U_s, param.U_s, param.U_s, param.U_m, param.U_m, param.U_m, param.U_l, param.U_l};
+speciesCurr = {current, current, current, current, current, btm_curr, current, btm_curr};
+
 for n = 1:nloop
-    %n
-    % move
-    bioSf = AdvectPredator(bioSf,preySf,current,param.adt,param.dx,param.dy,neighbor,param.U_s,param.mask,param.area,param.nj,param.ni);
-    bioSp = AdvectPredator(bioSp,preySp,current,param.adt,param.dx,param.dy,neighbor,param.U_s,param.mask,param.area,param.nj,param.ni);
-    bioSd = AdvectPredator(bioSd,preySd,current,param.adt,param.dx,param.dy,neighbor,param.U_s,param.mask,param.area,param.nj,param.ni);
-    bioMf = AdvectPredator(bioMf,preyMf,current,param.adt,param.dx,param.dy,neighbor,param.U_m,param.mask,param.area,param.nj,param.ni);
-    bioMp = AdvectPredator(bioMp,preyMp,current,param.adt,param.dx,param.dy,neighbor,param.U_m,param.mask,param.area,param.nj,param.ni);
-    bioMd = AdvectPredator(bioMd,preyMd,btm_curr,param.adt,param.dx,param.dy,neighbor,param.U_m,param.mask,param.area,param.nj,param.ni);
-    bioLp = AdvectPredator(bioLp,preyLp,current,param.adt,param.dx,param.dy,neighbor,param.U_l,param.mask,param.area,param.nj,param.ni);
-    bioLd = AdvectPredator(bioLd,preyLd,btm_curr,param.adt,param.dx,param.dy,neighbor,param.U_l,param.mask,param.area,param.nj,param.ni);
+    % Parfor loop to run concurrently
+    parfor k = 1:8
+        % All eight are run at the same time
+        speciesBio{k} = AdvectPredator( ...
+            speciesBio{k}, speciesPrey{k}, speciesCurr{k}, ...
+            param.adt, param.dx, param.dy, neighbor, ...
+            speciesU{k}, param.mask, param.area, param.nj, param.ni);
+        % Smooth if you want?
+        speciesBio{k} = smooth2nan(speciesBio{k},3);
+    end
 end
-%bioMf(1530)
+
+% Re-expand the bio values
+[bioSf, bioSp, bioSd, bioMf, bioMp, bioMd, bioLp, bioLd] = speciesBio{:};
+
 
 % put back on 1D grid
 Sf.bio = bioSf(GRD.ID);

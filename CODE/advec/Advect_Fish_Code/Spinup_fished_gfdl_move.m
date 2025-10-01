@@ -44,7 +44,7 @@ NX = length(GRD1.Z);
 ID = 1:param.NX;
 
 %! Advection/Movement time step
-param.adt = 24 * 60 * 60; %time step in seconds
+param.adt = 12 * 60 * 60; %time step in seconds
 
 %! How long to run the model
 YEARS = 30;
@@ -54,7 +54,7 @@ MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 %! Create a directory for output
 opath = '/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/';
 %opath = '/project/Feisty/NC/Matlab_new_size/';
-exper = 'Spinup1988_move_prey_v13_zerovel';
+exper = 'Spinup1988_move_v_dt12h';
 [fname,simname,sname] = sub_fname_spin_move_core(param,opath,exper);
 
 %! Storage variables
@@ -196,7 +196,7 @@ for YR = 1:YEARS % years
     end %Days
 
 
-    ! Calculate monthly means and save
+    %! Calculate monthly means and save
     aa = (cumsum(MNTH)+1);
     a = [1,aa(1:end-1)]; % start of the month
     b = cumsum(MNTH); % end of the month

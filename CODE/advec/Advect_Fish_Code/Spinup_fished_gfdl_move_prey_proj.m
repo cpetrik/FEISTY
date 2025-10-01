@@ -44,7 +44,7 @@ NX = length(GRD1.Z);
 ID = 1:param.NX;
 
 %! Advection/Movement time step
-param.adt = 6 * 60 * 60; %time step in seconds
+param.adt = 12 * 60 * 60; %time step in seconds
 
 %! How long to run the model
 YEARS = 50; 
