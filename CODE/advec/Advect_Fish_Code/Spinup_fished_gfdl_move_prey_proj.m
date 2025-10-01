@@ -54,7 +54,7 @@ MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 %! Create a directory for output
 %opath = '/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/';
 opath = '/project/Feisty/NC/Matlab_new_size/';
-exper = 'Spinup1988_move_preyconc_v21_dt6h';
+exper = 'Spinup1988_move_preyconc_v24_dt12h';
 [fname,simname,sname] = sub_fname_spin_move_core(param,opath,exper);
 
 %! Storage variables
@@ -196,7 +196,7 @@ for YR = 1:YEARS % years
     end %Days
 
 
-    ! Calculate monthly means and save
+    %! Calculate monthly means and save
     aa = (cumsum(MNTH)+1);
     a = [1,aa(1:end-1)]; % start of the month
     b = cumsum(MNTH); % end of the month

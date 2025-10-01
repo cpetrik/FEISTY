@@ -16,7 +16,7 @@ if (~isfolder(ppath))
 end
 
 %%
-mod = 'Spinup1988_move_preyconc_v21_dt4h_All_fish03_Y1';
+mod = 'Spinup1988_move_enc_v25_dt12h_All_fish03_Y1';
 load([fpath mod '.mat']);
 %load([fpath 'Means_' exper cfile '.mat']);
 
@@ -73,15 +73,15 @@ b_tmean=mean(S_Bent_bio,1);
 
 % Space
 %start 
-sp_mean1=mean(S_Sml_p(:,1),2,'omitnan');
-sf_mean1=mean(S_Sml_f(:,1),2,'omitnan');
-sd_mean1=mean(S_Sml_d(:,1),2,'omitnan');
-mp_mean1=mean(S_Med_p(:,1),2,'omitnan');
-mf_mean1=mean(S_Med_f(:,1),2,'omitnan');
-md_mean1=mean(S_Med_d(:,1),2,'omitnan');
-lp_mean1=mean(S_Lrg_p(:,1),2,'omitnan');
-ld_mean1=mean(S_Lrg_d(:,1),2,'omitnan');
-b_mean1=mean(S_Bent_bio(:,1),2,'omitnan');
+sp_mean1=mean(S_Sml_p(:,1),2);
+sf_mean1=mean(S_Sml_f(:,1),2);
+sd_mean1=mean(S_Sml_d(:,1),2);
+mp_mean1=mean(S_Med_p(:,1),2);
+mf_mean1=mean(S_Med_f(:,1),2);
+md_mean1=mean(S_Med_d(:,1),2);
+lp_mean1=mean(S_Lrg_p(:,1),2);
+ld_mean1=mean(S_Lrg_d(:,1),2);
+b_mean1=mean(S_Bent_bio(:,1),2);
 
 %middle 
 sp_mean2=mean(S_Sml_p(:,183),2);
@@ -138,7 +138,7 @@ legend('B','SF','MF','SP','MP','LP','SD','MD','LD')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
 ylim([-5 2])
-xlabel('Time (mo)')
+xlabel('Time (d)')
 ylabel('log10 Biomass (g m^-^2)')
 title('Spinup')
 stamp(exper)
@@ -153,7 +153,7 @@ legend('B','F','P','D')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
 ylim([-5 2])
-xlabel('Time (y)')
+xlabel('Time (d)')
 ylabel('log10 Biomass (g m^-^2)')
 title(['Spinup'])
 print('-dpng',[ppath mod '_all_types.png'])
