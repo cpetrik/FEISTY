@@ -84,7 +84,7 @@ elseif (param.MFsel~=param.LPsel)
 else
     fname = [outdir,'Historic_',exper, '_', sel,'_fish',tfish(2:end)];
     %sname = [outdir, 'Last_mo_Spinup_',exper,'_', sel,'_fish',tfish(2:end)];
-    sname = [outdir, 'Last_yr_Spinup_',exper,'_', sel,'_fish',tfish(2:end)];
+    sname = [outdir, 'Last_yr_Spinup1951_',exper,'_', sel,'_fish',tfish(2:end)];
 end
 
 

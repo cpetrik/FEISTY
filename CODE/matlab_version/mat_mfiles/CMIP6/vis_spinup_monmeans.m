@@ -20,8 +20,8 @@ if (~isfolder(ppath))
     mkdir(ppath)
 end
 
-vers = 'Spinup_const_spawning_All_fish03';
-mod = 'Spinup_const_spawning_All_fish03';
+vers = 'Spinup1951_const_spawning_All_fish03';
+mod = 'Spinup1951_const_spawning_All_fish03';
 load([fpath 'Means_' vers '_' cfile '.mat']);
 
 load([gpath 'Data_grid_gfdl.mat'],'GRD');

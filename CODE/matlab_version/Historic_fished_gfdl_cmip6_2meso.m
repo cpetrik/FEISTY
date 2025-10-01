@@ -24,7 +24,7 @@ NX = length(GRD.Z);
 ID = 1:param.NX;
 
 %! How long to run the model
-YEARS = 1950:2014;
+YEARS = 1951:2014; %1950:2014;
 nYEARS = length(YEARS);
 DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
@@ -49,7 +49,7 @@ S_Lrg_p = zeros(NX,DAYS);
 S_Lrg_d = zeros(NX,DAYS);
 
 %! Initialize
-load([sname '_' simname '.mat']); %Last month of spinup; v3 = last year of spinup instead
+load([sname '_' simname '.mat']); %Last month of spinup; v3 = last year of spinup instead, 1951 = 1951 spinup w/ last yr as IC
 BENT.mass = BENT.bio;
 [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_hist(ID,DAYS,Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT);
 
@@ -59,15 +59,15 @@ netcdf.setDefaultFormat('NC_FORMAT_64BIT');
 
 %% %%%%%%%%%%%%% Setup NetCDF save
 %! Setup netcdf path to store to
-file_sml_f = [fname,'_v3_sml_f.nc'];
-file_sml_p = [fname,'_v3_sml_p.nc'];
-file_sml_d = [fname,'_v3_sml_d.nc'];
-file_med_f = [fname,'_v3_med_f.nc'];
-file_med_p = [fname,'_v3_med_p.nc'];
-file_med_d = [fname,'_v3_med_d.nc'];
-file_lrg_p = [fname,'_v3_lrg_p.nc'];
-file_lrg_d = [fname,'_v3_lrg_d.nc'];
-file_bent  = [fname,'_v3_bent.nc'];
+file_sml_f = [fname,'_1951_sml_f.nc'];
+file_sml_p = [fname,'_1951_sml_p.nc'];
+file_sml_d = [fname,'_1951_sml_d.nc'];
+file_med_f = [fname,'_1951_med_f.nc'];
+file_med_p = [fname,'_1951_med_p.nc'];
+file_med_d = [fname,'_1951_med_d.nc'];
+file_lrg_p = [fname,'_1951_lrg_p.nc'];
+file_lrg_d = [fname,'_1951_lrg_d.nc'];
+file_bent  = [fname,'_1951_bent.nc'];
 
 ncidSF = netcdf.create(file_sml_f,'NC_WRITE');
 ncidSP = netcdf.create(file_sml_p,'NC_WRITE');
