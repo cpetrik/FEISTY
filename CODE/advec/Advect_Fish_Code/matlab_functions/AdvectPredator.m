@@ -106,6 +106,18 @@ function[ Predator ] = AdvectPredator( Predator,...
     end
     
     Predator = Predator + (Flux ./ area );
-    %Predator = Predator + (Flux ./ area );
+    %Check that we kept the same number of fish
+    Diff = sum( Fish_OG(:) - Predator(:), 'omitnan');
+    if ( Diff > 0.0 || Diff < 0.0 )
+        %fprintf('Diff > 0, %5.8f, adjusting...', Diff);
+        original_total = sum(sum(Fish_OG, 'omitnan'));
+        new_total = sum(sum(Predator, 'omitnan'));
+        %
+        scaling_factor = original_total / new_total;
+        %
+        Predator = Predator * scaling_factor;
+        newer_total = sum(sum(Predator, 'omitnan'));
+        %fprintf('Diff now %5.8f\n', sum( Fish_OG(:) - Predator(:), 'omitnan'));
+    end
     %
 end
