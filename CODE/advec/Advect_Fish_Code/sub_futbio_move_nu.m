@@ -275,7 +275,7 @@ for n = 1:nloop
             param.adt, param.dx, param.dy, neighbor, ...
             speciesU{k}, param.mask, param.area, param.nj, param.ni);
         % Smooth if you want?
-        speciesBio{k} = smooth2nan(speciesBio{k},3);
+        %speciesBio{k} = smooth2nan(speciesBio{k},3);
     end
 end
 

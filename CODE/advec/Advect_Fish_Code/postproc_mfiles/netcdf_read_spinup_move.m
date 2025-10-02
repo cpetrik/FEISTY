@@ -10,7 +10,7 @@ cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_no
 fpath=['/project/Feisty/NC/Matlab_new_size/' cfile '/CORE/'];
 
 %exper = 'Spinup1988_no_move';
-exper = 'Spinup1988_move_preyconc_v21_dt6h';
+exper = 'Spinup1988_move_preyconc_v24_dt12h';
 
 %% SP
 ncid = netcdf.open([fpath exper '_All_fish03_sml_p.nc'],'NC_NOWRITE');
