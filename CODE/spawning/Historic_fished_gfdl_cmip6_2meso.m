@@ -24,15 +24,15 @@ NX = length(GRD.Z);
 ID = 1:param.NX;
 
 %! How long to run the model
-YEARS = 1951:2014; %1950:2014;
+YEARS = 1950:2014; %1950:2014;
 nYEARS = length(YEARS);
 DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Create a directory for output
 exper = 'const_spawning';
-%opath = '/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/';
-opath = '/project/Feisty/NC/Matlab_new_size/';
+%opath = '/Volumes/petrik-lab/Feisty/NC/spawning/';
+opath = '/project/Feisty/NC/spawning/';
 [fname,simname,sname] = sub_fname_hist_gfdl_cmip6_2meso(param,opath,exper);
 
 %! Storage variables
@@ -148,7 +148,7 @@ for YR = 1:nYEARS % years
         %%%! Future time step
         DY = int64(ceil(DAY));
         [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,ENVR] = ...
-            sub_futbio(DY,ESM,GRD,Sml_f,Sml_p,Sml_d,...
+            sub_futbio(ID,DY,ESM,GRD,Sml_f,Sml_p,Sml_d,...
             Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT,param);
 
         %! Store

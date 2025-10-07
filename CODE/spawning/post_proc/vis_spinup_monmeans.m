@@ -20,8 +20,8 @@ if (~isfolder(ppath))
     mkdir(ppath)
 end
 
-vers = 'Spinup1951_const_spawning_All_fish03';
-mod = 'Spinup1951_const_spawning_All_fish03';
+vers = 'Spinup1950_const_spawning_All_fish03';
+mod = 'Spinup1950_const_spawning_All_fish03';
 load([fpath 'Means_' vers '_' cfile '.mat']);
 
 load([gpath 'Data_grid_gfdl.mat'],'GRD');
@@ -76,10 +76,10 @@ legend('B','SF','MF','SP','MP','LP','SD','MD','LD')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
 ylim([-5 2])
-xlabel('Time (mo)')
+xlabel('Time (yr)')
 ylabel('log10 Biomass (g m^-^2)')
 title('Spinup')
-stamp(cfile)
+stamp(vers)
 print('-dpng',[ppath mod '_ts_all_sizes.png'])
 
 % Fn Types
@@ -92,9 +92,10 @@ legend('B','F','P','D')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
 ylim([-5 2])
-xlabel('Time (y)')
+xlabel('Time (yr)')
 ylabel('log10 Biomass (g m^-^2)')
 title(['Spinup'])
+stamp(vers)
 print('-dpng',[ppath mod '_ts_all_types.png'])
 
 
@@ -136,13 +137,13 @@ figure(3)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(LAT,LON,log10(Zb))
-cmocean('matter')
+cmocean('dense')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-2 2]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('log10 mean benthic biomass (g m^-^2)')
-stamp(cfile)
+stamp(vers)
 print('-dpng',[ppath mod '_global_Bent.png'])
 
 %% All 4 on subplots
@@ -152,7 +153,7 @@ subplot('Position',[0 0.51 0.5 0.5])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(LAT,LON,log10(AllF))
-cmocean('matter')
+cmocean('dense')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-2 2]);
 colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
@@ -164,7 +165,7 @@ subplot('Position',[0 0 0.5 0.5])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(LAT,LON,log10(AllD))
-cmocean('matter')
+cmocean('dense')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-2 2]);
 set(gcf,'renderer','painters')
@@ -175,7 +176,7 @@ subplot('Position',[0.5 0.51 0.5 0.5])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(LAT,LON,log10(AllP))
-cmocean('matter')
+cmocean('dense')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-2 2]);
 set(gcf,'renderer','painters')
@@ -186,12 +187,12 @@ subplot('Position',[0.5 0 0.5 0.5])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(LAT,LON,log10(All))
-cmocean('matter')
+cmocean('dense')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
-%stamp(cfile)
+stamp(vers)
 print('-dpng',[ppath mod '_global_All_subplot.png'])
 
 %% Ratios on subplots red-white-blue
@@ -230,7 +231,7 @@ clim([0 1]);
 colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('Fraction Large vs. Medium')
-stamp(cfile)
+stamp(vers)
 print('-dpng',[ppath mod '_global_ratios_subplot.png'])
 
 
