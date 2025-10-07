@@ -10,7 +10,7 @@ param.dfrateP = nan;
 param.dfrateD = nan;
 
 %! Make core parameters/constants
-param = make_parameters(param);
+param = make_parameters_BCC(param);
 
 %! Grids
 %vpath = '/Volumes/petrik-lab/Feisty/GCM_Data/CORE-forced/';
@@ -47,7 +47,7 @@ ID = 1:param.NX;
 param.adt = 12 * 60 * 60; %time step in seconds
 
 %! How long to run the model
-YEARS = 50; 
+YEARS = 20; 
 DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
