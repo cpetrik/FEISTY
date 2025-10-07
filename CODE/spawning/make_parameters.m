@@ -1,15 +1,13 @@
 %============== Parameters of the model =============%
 %============= PARAMETER TYPE ==========%
 function param = make_parameters(param)
-
     %! Integration parameters
     param.DT = 1.0;       % time step
     param.tstep = 1.0;    % time step in hours for adv-diff
 
-    %! Set fishing rate
-    param.frate = 0.3; 
-    param.dfrate = param.frate/365.0;
-    
+    % define diffusivity
+    param.K = 600.0;
+
     %! Which fishes harvested
     param.MFsel = 1;
     param.LPsel = 1;
@@ -27,14 +25,15 @@ function param = make_parameters(param)
     param.M_s = 10^((log10(0.001)+log10(0.5))/2);  %0.0224
     param.M_m = 10^((log10(0.5)+log10(250))/2);    %11.1803
     param.M_l = 10^((log10(250)+log10(125000))/2); %5.5902e3
-    
+    %logspace(-3,5.0969,7) %gives end points and mid points
+
     %! Ratio of initial and final body sizes per size-class
     param.Z_s = 0.001/0.5;
     param.Z_m = 0.5/250;
     param.Z_l = 250/125000;
 
     %%%! Assimilation efficiency lambda (constant across everything)
-    param.Lambda = 0.7;
+    param.Lambda = 0.7; %0.579;
 
     %%%! Kappa rule K as a function of body size
     % K = fraction of energy consumed diverted to somatic growth
@@ -44,9 +43,9 @@ function param = make_parameters(param)
     param.K_a = 0.5;
 
     %%%! Metabolism constants (activity and basal)
-    param.amet = 4;       % coeff on met
-    param.h = 20;         % coeff on Cmax
-    param.gam = 70;       % coeff on search area
+    param.amet = 4;       % coeff on met (4, 4.4)
+    param.h = 20;         % coeff on Cmax %19.72;
+    param.gam = 70;       % coeff on search area (70 baseline) 5.9; 
     param.kc = 0.063;     % coeff on cmax T-dep fn (orig 0.063)
     param.ke = 0.063;     % coeff on enc T-dep fn (orig 0.063)
     param.kt = 0.0855;    % coeff on met T-dep fn (orig 0.063) %0.0855
@@ -56,6 +55,7 @@ function param = make_parameters(param)
 
     %%%! Transfer efficiency of detritus to benthic prey
     param.bent_eff = 0.075;
+    param.CC = 0; % 80
 
     %%%! Reproductive efficiency
     param.rfrac = 0.01;
@@ -84,19 +84,18 @@ function param = make_parameters(param)
     %medium detritivore eats detritus
     %large piscivore eats medium forage fish, medium piscivore, medium detritivore
     %large detritivore eats detritus, medium forage fish, medium piscivore, medium detrivore
-
-    param.Sm = 0.25;  %Feeding 2 sizes down
-    param.J = 1.0;    %Juvenile feeding reduction
+    
+    param.Sm = 0.25;  %Feeding 2 sizes down, 0.25
     param.D = 0.75;   %Demersal feeding in pelagic reduction
-    param.A = 0.70;    %Adult predation reduction %*****
+    param.A = 0.5;    %Adult predation reduction %*****
 
     param.MF_phi_MZ = param.Sm;
     param.MF_phi_LZ = 1.0;
     param.MF_phi_S  = 1.0;
 
-    param.MP_phi_MZ = param.Sm * param.J;
-    param.MP_phi_LZ = param.J;
-    param.MP_phi_S  = param.J;
+    param.MP_phi_MZ = param.Sm;
+    param.MP_phi_LZ = 1.0;
+    param.MP_phi_S  = 1.0;
 
     param.MD_phi_BE = 1.0;
 
@@ -108,6 +107,6 @@ function param = make_parameters(param)
     param.LD_phi_MP = param.D;
     param.LD_phi_MD = 1.0;
     param.LD_phi_BE = 1.0;
-
+    
 %-----
 end

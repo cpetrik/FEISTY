@@ -20,8 +20,8 @@ if (~isfolder(ppath))
     mkdir(ppath)
 end
 
-vers = 'Historic_const_spawning_All_fish03_v3';
-mod = 'Historic_const_spawning_All_fish03_v3';
+vers = 'Historic_const_spawning_All_fish03_1951';
+mod = 'Historic_const_spawning_All_fish03_1951';
 
 load([fpath 'Time_Means_' vers '_' cfile '.mat']);
 load([fpath 'Space_Means_' vers '_' cfile '.mat']);
