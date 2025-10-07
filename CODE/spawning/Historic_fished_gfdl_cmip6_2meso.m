@@ -59,15 +59,15 @@ netcdf.setDefaultFormat('NC_FORMAT_64BIT');
 
 %% %%%%%%%%%%%%% Setup NetCDF save
 %! Setup netcdf path to store to
-file_sml_f = [fname,'_1951_sml_f.nc'];
-file_sml_p = [fname,'_1951_sml_p.nc'];
-file_sml_d = [fname,'_1951_sml_d.nc'];
-file_med_f = [fname,'_1951_med_f.nc'];
-file_med_p = [fname,'_1951_med_p.nc'];
-file_med_d = [fname,'_1951_med_d.nc'];
-file_lrg_p = [fname,'_1951_lrg_p.nc'];
-file_lrg_d = [fname,'_1951_lrg_d.nc'];
-file_bent  = [fname,'_1951_bent.nc'];
+file_sml_f = [fname,'_1950yr_sml_f.nc'];
+file_sml_p = [fname,'_1950yr_sml_p.nc'];
+file_sml_d = [fname,'_1950yr_sml_d.nc'];
+file_med_f = [fname,'_1950yr_med_f.nc'];
+file_med_p = [fname,'_1950yr_med_p.nc'];
+file_med_d = [fname,'_1950yr_med_d.nc'];
+file_lrg_p = [fname,'_1950yr_lrg_p.nc'];
+file_lrg_d = [fname,'_1950yr_lrg_d.nc'];
+file_bent  = [fname,'_1950yr_bent.nc'];
 
 ncidSF = netcdf.create(file_sml_f,'NC_WRITE');
 ncidSP = netcdf.create(file_sml_p,'NC_WRITE');

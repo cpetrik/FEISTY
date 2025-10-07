@@ -6,6 +6,7 @@ close all
 %%
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 
+%fpath=['/project/Feisty/NC/spawning/' cfile '/CMIP6/'];
 fpath=['/Volumes/petrik-lab/Feisty/NC/spawning/' cfile '/CMIP6/'];
 
 mod = 'Historic_const_spawning_All_fish03_1950_';

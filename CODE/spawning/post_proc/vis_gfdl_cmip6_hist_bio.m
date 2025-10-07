@@ -10,7 +10,7 @@ close all
 gpath='/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/GFDL/';
 opath = '/Volumes/petrik-lab/Feisty/NC/spawning/';
 
-pp = '/Users/cpetrik/Petrik Lab Group Dropbox/Colleen Petrik/Princeton/FEISTY/CODE/Figs/Matlab_New_sizes/';
+pp = '/Users/cpetrik/Petrik Lab Group Dropbox/Colleen Petrik/Princeton/FEISTY/CODE/Figs/Spawning/';
 
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 
@@ -20,8 +20,8 @@ if (~isfolder(ppath))
     mkdir(ppath)
 end
 
-vers = 'Historic_const_spawning_All_fish03_1951';
-mod = 'Historic_const_spawning_All_fish03_1951';
+vers = 'Historic_const_spawning_All_fish03_1950';
+mod = 'Historic_const_spawning_All_fish03_1950';
 
 load([fpath 'Time_Means_' vers '_' cfile '.mat']);
 load([fpath 'Space_Means_' vers '_' cfile '.mat']);
