@@ -1,5 +1,6 @@
 % CORE-forced run
 % with movement
+% used IC of Spinup for 20 yrs
 
 clear
 close all
@@ -9,11 +10,11 @@ cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_CC
 %fpath=['/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/' cfile '/CORE/'];
 fpath=['/project/Feisty/NC/Matlab_new_size/' cfile '/CORE/'];
 
-mods = {'nomoveIC','spin50IC'};
+mods = {'enc','ingest','mort','nu','preyconc'};
 
 for m =1:length(mods)
     
-    exper = ['CORE_Hindcast_move_nu_v21_dt6h_All_fish03_' mods{m}];
+    exper = ['CORE_Hindcast_move_',mods{m},'_v27_dt12h_All_fish03_spin20IC' ];
 
     %% SP
     ncid = netcdf.open([fpath exper '_sml_p.nc'],'NC_NOWRITE');
