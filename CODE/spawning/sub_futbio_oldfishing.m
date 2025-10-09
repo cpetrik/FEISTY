@@ -1,16 +1,16 @@
 %%%% THE MODEL
 %%% DEMOGRAPHIC CALCULATIONS
-function [Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT,ENVR] = sub_futbio(DY,ESM,GRD,Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT,param)
+function [Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT,ENVR] = sub_futbio_oldfishing(ID,DY,COBALT,GRD,Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT,param)
 
-dfrate = param.dfrate;
+%%% If biomass < individual fish mass per grid cell, set all rates to zero? %%%
 
-%%% ESM information
-ENVR = get_ESM(ESM,GRD,param,DY);
+%%% COBALT information
+ENVR = get_COBALT(COBALT,GRD,ID,DY);
 ENVR.det = sub_neg(ENVR.det);
 ENVR.Zm  = sub_neg(ENVR.Zm);
 ENVR.Zl  = sub_neg(ENVR.Zl);
-ENVR.dZm  = sub_neg(ENVR.dZm);
-ENVR.dZl  = sub_neg(ENVR.dZl);
+ENVR.dZm = sub_neg(ENVR.dZm);
+ENVR.dZl = sub_neg(ENVR.dZl);
 
 % Update benthic biomass with new detritus avail at that time step
 [BENT.mass,BENT.pred] = sub_update_be(BENT.mass,param,ENVR.det,[Md.con_be,Ld.con_be],[Md.bio,Ld.bio]);
@@ -166,23 +166,20 @@ Ld.nmort = sub_nmort(param,ENVR.Tp,ENVR.Tb,Ld.td,param.M_l);
 [Lp.nu, Lp.prod] = sub_nu(param,Lp.I,Lp.bio,Lp.met);
 [Ld.nu, Ld.prod] = sub_nu(param,Ld.I,Ld.bio,Ld.met);
 
-
 % Maturation (note subscript on Kappa is larvae, juv, adult)
 Sf.gamma = sub_gamma(param.K_l,param.Z_s,Sf.nu,Sf.die,Sf.bio,Sf.nmort,0,0);
 Sp.gamma = sub_gamma(param.K_l,param.Z_s,Sp.nu,Sp.die,Sp.bio,Sp.nmort,0,0);
 Sd.gamma = sub_gamma(param.K_l,param.Z_s,Sd.nu,Sd.die,Sd.bio,Sd.nmort,0,0);
-Mf.gamma = sub_gamma(param.K_a,param.Z_m,Mf.nu,Mf.die,Mf.bio,Mf.nmort,dfrate,param.MFsel);
-Mp.gamma = sub_gamma(param.K_j,param.Z_m,Mp.nu,Mp.die,Mp.bio,Mp.nmort,dfrate,param.MPsel);
-Md.gamma = sub_gamma(param.K_j,param.Z_m,Md.nu,Md.die,Md.bio,Md.nmort,dfrate,param.MDsel);
-Lp.gamma = sub_gamma(param.K_a,param.Z_l,Lp.nu,Lp.die,Lp.bio,Lp.nmort,dfrate,param.LPsel);
-Ld.gamma = sub_gamma(param.K_a,param.Z_l,Ld.nu,Ld.die,Ld.bio,Ld.nmort,dfrate,param.LDsel);
-
+Mf.gamma = sub_gamma(param.K_a,param.Z_m,Mf.nu,Mf.die,Mf.bio,Mf.nmort,param.dfrate,param.MFsel);
+Mp.gamma = sub_gamma(param.K_j,param.Z_m,Mp.nu,Mp.die,Mp.bio,Mp.nmort,param.dfrate,param.MPsel);
+Md.gamma = sub_gamma(param.K_j,param.Z_m,Md.nu,Md.die,Md.bio,Md.nmort,param.dfrate,param.MDsel);
+Lp.gamma = sub_gamma(param.K_a,param.Z_l,Lp.nu,Lp.die,Lp.bio,Lp.nmort,param.dfrate,param.LPsel);
+Ld.gamma = sub_gamma(param.K_a,param.Z_l,Ld.nu,Ld.die,Ld.bio,Ld.nmort,param.dfrate,param.LDsel);
 
 % Egg production (by med and large size classes only)
 [Mf.gamma,Mf.nu,Mf.rep] = sub_rep(param.NX,Mf.gamma,Mf.nu,param.K_a);
 [Lp.gamma,Lp.nu,Lp.rep] = sub_rep(param.NX,Lp.gamma,Lp.nu,param.K_a);
 [Ld.gamma,Ld.nu,Ld.rep] = sub_rep(param.NX,Ld.gamma,Ld.nu,param.K_a);
-
 
 % Recruitment (from smaller size class)
 Sf.rec = sub_rec_larv(Mf.rep,Mf.bio,param.rfrac);
@@ -194,26 +191,24 @@ Md.rec = sub_rec(Sd.gamma,Sd.bio);
 Lp.rec = sub_rec(Mp.gamma,Mp.bio);
 Ld.rec = sub_rec(Md.gamma,Md.bio);
 
-% Fishing by rate
-[Mf.bio, Mf.caught, Mf.fmort] = sub_fishing_rate(Mf.bio,dfrate,param.MFsel);
-[Mp.bio, Mp.caught, Mp.fmort] = sub_fishing_rate(Mp.bio,dfrate,param.MPsel);
-[Md.bio, Md.caught, Md.fmort] = sub_fishing_rate(Md.bio,dfrate,param.MDsel);
-[Lp.bio, Lp.caught, Lp.fmort] = sub_fishing_rate(Lp.bio,dfrate,param.LPsel);
-[Ld.bio, Ld.caught, Ld.fmort] = sub_fishing_rate(Ld.bio,dfrate,param.LDsel);
-
 % Mass balance
-%                      (bio_in,  rec,   nu,   rep,   gamma,   die,   nmort,fmort)
-Sf.bio = sub_update_fi(Sf.bio,Sf.rec,Sf.nu,Sf.rep,Sf.gamma,Sf.die,Sf.nmort,0);
-Sp.bio = sub_update_fi(Sp.bio,Sp.rec,Sp.nu,Sp.rep,Sp.gamma,Sp.die,Sp.nmort,0);
-Sd.bio = sub_update_fi(Sd.bio,Sd.rec,Sd.nu,Sd.rep,Sd.gamma,Sd.die,Sd.nmort,0);
+Sf.bio = sub_update_fi(Sf.bio,Sf.rec,Sf.nu,Sf.rep,Sf.gamma,Sf.die,Sf.nmort);
+Sp.bio = sub_update_fi(Sp.bio,Sp.rec,Sp.nu,Sp.rep,Sp.gamma,Sp.die,Sp.nmort);
+Sd.bio = sub_update_fi(Sd.bio,Sd.rec,Sd.nu,Sd.rep,Sd.gamma,Sd.die,Sd.nmort);
 
-Mf.bio = sub_update_fi(Mf.bio,Mf.rec,Mf.nu,Mf.rep,Mf.gamma,Mf.die,Mf.nmort,Mf.fmort);
-Mp.bio = sub_update_fi(Mp.bio,Mp.rec,Mp.nu,Mp.rep,Mp.gamma,Mp.die,Mp.nmort,Mp.fmort);
-Md.bio = sub_update_fi(Md.bio,Md.rec,Md.nu,Md.rep,Md.gamma,Md.die,Md.nmort,Md.fmort);
+Mf.bio = sub_update_fi(Mf.bio,Mf.rec,Mf.nu,Mf.rep,Mf.gamma,Mf.die,Mf.nmort);
+Mp.bio = sub_update_fi(Mp.bio,Mp.rec,Mp.nu,Mp.rep,Mp.gamma,Mp.die,Mp.nmort);
+Md.bio = sub_update_fi(Md.bio,Md.rec,Md.nu,Md.rep,Md.gamma,Md.die,Md.nmort);
 
-Lp.bio = sub_update_fi(Lp.bio,Lp.rec,Lp.nu,Lp.rep,Lp.gamma,Lp.die,Lp.nmort,Lp.fmort);
-Ld.bio = sub_update_fi(Ld.bio,Ld.rec,Ld.nu,Ld.rep,Ld.gamma,Ld.die,Ld.nmort,Ld.fmort);
+Lp.bio = sub_update_fi(Lp.bio,Lp.rec,Lp.nu,Lp.rep,Lp.gamma,Lp.die,Lp.nmort);
+Ld.bio = sub_update_fi(Ld.bio,Ld.rec,Ld.nu,Ld.rep,Ld.gamma,Ld.die,Ld.nmort);
 
+% Fishing by rate
+[Mf.bio, Mf.caught, Mf.fmort] = sub_fishing_rate(Mf.bio,param.dfrate,param.MFsel);
+[Mp.bio, Mp.caught, Mp.fmort] = sub_fishing_rate(Mp.bio,param.dfrate,param.MPsel);
+[Md.bio, Md.caught, Md.fmort] = sub_fishing_rate(Md.bio,param.dfrate,param.MDsel);
+[Lp.bio, Lp.caught, Lp.fmort] = sub_fishing_rate(Lp.bio,param.dfrate,param.LPsel);
+[Ld.bio, Ld.caught, Ld.fmort] = sub_fishing_rate(Ld.bio,param.dfrate,param.LDsel);
 
 % Forward Euler checks for demographics and movement
 Sf.bio=sub_check(Sf.bio);

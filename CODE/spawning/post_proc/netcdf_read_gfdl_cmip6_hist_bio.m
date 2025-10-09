@@ -9,7 +9,7 @@ cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_no
 %fpath=['/project/Feisty/NC/spawning/' cfile '/CMIP6/'];
 fpath=['/Volumes/petrik-lab/Feisty/NC/spawning/' cfile '/CMIP6/'];
 
-mod = 'Historic_const_spawning_All_fish03_1950_';
+mod = 'Historic_const_spawning_All_fish03_1950yr_';
 
 %% SP
 ncid = netcdf.open([fpath mod 'sml_p.nc'],'NC_NOWRITE');
