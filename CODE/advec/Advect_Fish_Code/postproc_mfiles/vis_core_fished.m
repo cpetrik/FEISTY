@@ -46,12 +46,12 @@ cm10=[0.5 0.5 0;... %tan/army
 set(groot,'defaultAxesColorOrder',cm10);
 
 %%
-mods = {'nomoveIC','spin50IC'};
+mods = {'enc','nu','mort','ingest','preyconc'};
 
 for m =1:length(mods)
 
     close all
-    exper = ['CORE_Hindcast_move_nu_v21_dt6h_All_fish03_' mods{m}];
+    exper = ['CORE_Hindcast_move_',mods{m},'_v27_dt12h_All_fish03_spin20IC'];
 
     load([fpath 'Means_' exper '_' cfile '.mat']);
 
@@ -91,7 +91,7 @@ for m =1:length(mods)
     legend('B','F','P','D')
     legend('location','eastoutside')
     xlim([y(1) y(end)])
-    ylim([-1 1])
+    ylim([-2 1.5])
     xlabel('Time (y)')
     ylabel('log10 Biomass (g m^-^2)')
     title(['CORE'])

@@ -85,7 +85,7 @@ plot(y,log10(D),'k','Linewidth',2); hold on;
 legend('B','F','P','D')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
-ylim([-1 1])
+ylim([-2 1.5])
 xlabel('Time (y)')
 ylabel('log10 Biomass (g m^-^2)')
 title(['CORE'])
