@@ -269,7 +269,7 @@ v100 = sub_1Dto2D(GRD,ENVR.V,param);
 current = nan*ones(param.ni,param.nj,2);
 current(:,:,1) = u100; 
 current(:,:,2) = v100;
-btm_curr = 0.05 .* current;
+btm_curr = 0.0 .* current;
 
 % Loop over advection for one day
 daysec = 24 * 60 * 60;
