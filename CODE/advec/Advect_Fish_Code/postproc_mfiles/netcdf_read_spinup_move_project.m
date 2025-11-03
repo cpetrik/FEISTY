@@ -14,9 +14,7 @@ mods = {'enc','nu','mort','ingest','preyconc'};
 for m =1:length(mods)
 
     close all
-    exper = ['Spinup1988_move_',mods{m},'_v28_dt12h_All_fish03'];
-
-    load([fpath 'Means_' exper '_' cfile '.mat']);
+    exper = ['Spinup1988_move_',mods{m},'_v28_dt12h'];
 
     %% SP
     ncid = netcdf.open([fpath exper '_All_fish03_sml_p.nc'],'NC_NOWRITE');
