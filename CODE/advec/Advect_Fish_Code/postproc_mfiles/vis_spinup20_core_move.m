@@ -53,7 +53,7 @@ behave = {'enc','nu','mort','ingest','preyconc'};
 for b = 1:length(behave)
 
     %%
-    exper2 = ['Spinup1988_move_',behave{b},'_v27_dt12h_20yr_All_fish03_'];
+    exper2 = ['Spinup1988_move_',behave{b},'_v28_dt12h_All_fish03_'];
 
     load([fpath 'Means_' exper2 cfile '.mat']);
 
@@ -80,7 +80,7 @@ for b = 1:length(behave)
     legend('B','SF','MF','SP','MP','LP','SD','MD','LD')
     legend('location','eastoutside')
     xlim([y(1) y(end)])
-    ylim([-3 2])
+    ylim([-4 2])
     xlabel('Time (mo)')
     ylabel('log10 Biomass (g m^-^2)')
     title('Spinup')

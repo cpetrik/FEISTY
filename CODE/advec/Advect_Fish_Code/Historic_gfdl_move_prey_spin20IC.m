@@ -53,7 +53,7 @@ DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Create a directory for output
-exper = 'move_preyconc_v27_dt12h';
+exper = 'move_preyconc_v28_dt12h';
 %opath = '/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/';
 opath = '/project/Feisty/NC/Matlab_new_size/';
 [fname,simname,sname] = sub_fname_hist_gfdl_move(param,opath,exper);
