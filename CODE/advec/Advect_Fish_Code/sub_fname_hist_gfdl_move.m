@@ -71,16 +71,16 @@ end
 %! Setup netcdf path to store to
 if (frate==0)
     fname = [outdir,'CORE_Hindcast_',exper,'_pristine'];
-    sname = [outdir, 'Last_mo_Spinup1988_',exper,'_20yr_pristine'];
+    sname = [outdir, 'Last_mo_Spinup1988_',exper,'_pristine'];
 elseif (param.Jsel~=0.1)
     fname = [outdir,'CORE_Hindcast_',exper, '_', sel,'_fish',tfish(2:end),'_Juve',tJ(2:end)];
-    sname = [outdir, 'Last_mo_Spinup1988_',exper,'_20yr_', sel,'_fish',tfish(2:end),'_Juve',tJ(2:end)];
+    sname = [outdir, 'Last_mo_Spinup1988_',exper,'_', sel,'_fish',tfish(2:end),'_Juve',tJ(2:end)];
 elseif (param.MFsel~=param.LPsel)
     fname = [outdir,'CORE_Hindcast_',exper, '_fish_F',tF(2:end),'_P',tP(2:end),'_D',tD(2:end)];
-    sname = [outdir, 'Last_mo_Spinup1988_',exper,'_20yr_fish_F',tF(2:end),'_P',tP(2:end),'_D',tD(2:end)];
+    sname = [outdir, 'Last_mo_Spinup1988_',exper,'_fish_F',tF(2:end),'_P',tP(2:end),'_D',tD(2:end)];
 else
     fname = [outdir,'CORE_Hindcast_',exper, '_', sel,'_fish',tfish(2:end)];
-    sname = [outdir, 'Last_mo_Spinup1988_',exper,'_20yr_', sel,'_fish',tfish(2:end)];
+    sname = [outdir, 'Last_mo_Spinup1988_',exper,'_', sel,'_fish',tfish(2:end)];
 end
 
 
