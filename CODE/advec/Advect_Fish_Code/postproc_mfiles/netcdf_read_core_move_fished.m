@@ -14,7 +14,7 @@ mods = {'enc','ingest','mort','nu','preyconc'};
 
 for m =1:length(mods)
     
-    exper = ['CORE_Hindcast_move_',mods{m},'_v27_dt12h_All_fish03_spin20IC' ];
+    exper = ['CORE_Hindcast_move_',mods{m},'_v28_dt12h_All_fish03_spin20IC' ];
 
     %% SP
     ncid = netcdf.open([fpath exper '_sml_p.nc'],'NC_NOWRITE');
