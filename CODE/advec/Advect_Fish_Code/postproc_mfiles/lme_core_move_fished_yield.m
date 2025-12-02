@@ -23,7 +23,7 @@ load([vpath 'lme_mask_esm2m.mat']);
 %%
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_CC80_RE00100';
 %fpath=['/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/' cfile '/CORE/'];
-fpath=['/project/Feisty/NC/Matlab_new_size/' cfile '/CORE/'];
+dpath=['/project/Feisty/NC/Matlab_new_size/' cfile '/CORE/'];
 
 mods = {'enc','ingest','mort','nu','preyconc'};
 
