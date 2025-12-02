@@ -188,16 +188,16 @@ for m =1:length(mods)
     st=1:12:nt;
     en=12:12:nt;
 
-    mf_tac = nan*ones(ni,nyr);
-    mp_tac = nan*ones(ni,nyr);
-    md_tac = nan*ones(ni,nyr);
-    lp_tac = nan*ones(ni,nyr);
-    ld_tac = nan*ones(ni,nyr);
-    mf_may = nan*ones(ni,nyr);
-    mp_may = nan*ones(ni,nyr);
-    md_may = nan*ones(ni,nyr);
-    lp_may = nan*ones(ni,nyr);
-    ld_may = nan*ones(ni,nyr);
+    mf_tac = nan*ones(nid,nyr);
+    mp_tac = nan*ones(nid,nyr);
+    md_tac = nan*ones(nid,nyr);
+    lp_tac = nan*ones(nid,nyr);
+    ld_tac = nan*ones(nid,nyr);
+    mf_may = nan*ones(nid,nyr);
+    mp_may = nan*ones(nid,nyr);
+    md_may = nan*ones(nid,nyr);
+    lp_may = nan*ones(nid,nyr);
+    ld_may = nan*ones(nid,nyr);
 
     Cmf=NaN*ones(ni,nj,nyr);
     Cmp=NaN*ones(ni,nj,nyr);
