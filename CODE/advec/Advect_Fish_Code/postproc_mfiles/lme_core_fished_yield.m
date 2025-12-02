@@ -34,6 +34,7 @@ dpath=['/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/' cfile '/CORE/'];
 
 ppath = [pp cfile '/CORE/'];
 
+exper = 'CORE_Hindcast1988_no_move_All_fish03_yield';
 load([dpath 'Annual_Means_' exper '_' cfile '.mat']);
 
 %% Total annual catch - reshape to grid
@@ -42,7 +43,7 @@ load([dpath 'Annual_Means_' exper '_' cfile '.mat']);
 %       mf_tac = sum(MF.catch(:,st(n):en(n)),2,'omitnan');
 %       units_tac = 'g_yr';
 
-[ni,nj]=size(geolon_t);
+[ni,nj]  = size(GRD2.area);
 [nid,nt]=size(mf_tac);
 
 %% Calc LMEs
@@ -58,9 +59,9 @@ end
 
 %% g/yr, area already accounted for
 % can just sum over lme
-vlme = tlme(ID);
+vlme = tlme(GRD1.ID);
 
-lme_tcatch_MF = nan*ones(66,nyr);
+lme_tcatch_MF = nan*ones(66,nt);
 lme_tcatch_MP = lme_tcatch_MF;
 lme_tcatch_MD = lme_tcatch_MF;
 lme_tcatch_LP = lme_tcatch_MF;
@@ -69,19 +70,21 @@ lme_tcatch_LD = lme_tcatch_MF;
 for L=1:66
     lid = find(vlme==L);
     %total catch g
-    lme_tcatch_MF(L,:) = sum(Amf_mean(lid,:),'omitnan');
-    lme_tcatch_MP(L,:) = sum(Amp_mean(lid,:),'omitnan');
-    lme_tcatch_MD(L,:) = sum(Amd_mean(lid,:),'omitnan');
-    lme_tcatch_LP(L,:) = sum(Alp_mean(lid,:),'omitnan');
-    lme_tcatch_LD(L,:) = sum(Ald_mean(lid,:),'omitnan');
+    lme_tcatch_MF(L,:) = sum(mf_tac(lid,:),'omitnan');
+    lme_tcatch_MP(L,:) = sum(mp_tac(lid,:),'omitnan');
+    lme_tcatch_MD(L,:) = sum(md_tac(lid,:),'omitnan');
+    lme_tcatch_LP(L,:) = sum(lp_tac(lid,:),'omitnan');
+    lme_tcatch_LD(L,:) = sum(ld_tac(lid,:),'omitnan');
 end
 
-%hlme_tcatch = sum(lme_tcatch,2,'omitnan') * 1e-6; %g to MT?
+lme_tcatch_all = lme_tcatch_MF + lme_tcatch_MP + lme_tcatch_MD +...
+    lme_tcatch_LP + lme_tcatch_LD;
+lme_tcatch_MT = sum(lme_tcatch_all,'omitnan') * 1e-6; %g to MT?
 
 %%
 save([dpath 'LME_Annual_total_catch_' exper '_' cfile '.mat'],...
     'lme_tcatch_MF','lme_tcatch_MP','lme_tcatch_MD',...
-    'lme_tcatch_LP','lme_tcatch_LD','lme_area');
+    'lme_tcatch_LP','lme_tcatch_LD','lme_tcatch_all','lme_area');
 
 
 
