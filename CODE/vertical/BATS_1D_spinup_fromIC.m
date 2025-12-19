@@ -1,5 +1,5 @@
 %%%%!! RUN SPINUP FOR ONE LOCATION, ALL DEPTHS
-function BATS_1D_spinup()
+function BATS_1D_spinup_fromIC()
 
 %%%%%%%%%%%%%%% Initialize Model Variables
 %! Set fishing rate
@@ -33,13 +33,15 @@ MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Create a directory for output
 %eventually change so exper is subfolder within offline_feisty
-exper = 'BATS_spinup_COBALT2004_v2';
+exper = 'BATS_spinup_fromIC_COBALT2004_v2';
 opath = '/Volumes/petrik-lab/Feisty/NC/MOM6-1D/BATS_vert/offline_feisty/';
 %opath = '/project/Feisty/NC/MOM6-1D/BATS_vert/offline_feisty/';
 [fname,simname,sname] = sub_fname_spin(param,opath,exper);
 
 %! Initialize
-[Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish(NID,param);
+load([sname 'IC_means_1988_no_move_All_fish03_BATS.mat'])
+[Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish_IC(NID,param,Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT);
+
 
 %! Storage
 D_Sml_f = zeros(NID,DAYS);
@@ -52,6 +54,14 @@ D_Lrg_p = zeros(NID,DAYS);
 D_Lrg_d = zeros(NID,DAYS);
 D_Bent_bio = zeros(NID,DAYS);
 
+D_rec_SD = zeros(NID,DAYS);
+D_rec_MD = zeros(NID,DAYS);
+D_rec_LD = zeros(NID,DAYS);
+D_nu_SD = zeros(NID,DAYS);
+D_nu_MD = zeros(NID,DAYS);
+D_nu_LD = zeros(NID,DAYS);
+D_rep_LD = zeros(NID,DAYS);
+
 S_Sml_f = zeros(NID,12*YEARS);
 S_Sml_p = zeros(NID,12*YEARS);
 S_Sml_d = zeros(NID,12*YEARS);
@@ -61,6 +71,14 @@ S_Med_d = zeros(NID,12*YEARS);
 S_Lrg_p = zeros(NID,12*YEARS);
 S_Lrg_d = zeros(NID,12*YEARS);
 S_Bent_bio = zeros(NID,12*YEARS);
+
+M_rec_SD = zeros(NID,12*YEARS);
+M_rec_MD = zeros(NID,12*YEARS);
+M_rec_LD = zeros(NID,12*YEARS);
+M_nu_SD = zeros(NID,12*YEARS);
+M_nu_MD = zeros(NID,12*YEARS);
+M_nu_LD = zeros(NID,12*YEARS);
+M_rep_LD = zeros(NID,12*YEARS);
 
 %% %%%%%%%%%%%%%%%%%%%% Run the Model
 %! Iterate forward in time 
@@ -90,6 +108,14 @@ for YR = 1:YEARS % years
         D_Med_d(:,DY) = Med_d.bio;
         D_Lrg_p(:,DY) = Lrg_p.bio;
         D_Lrg_d(:,DY) = Lrg_d.bio;
+
+        D_rec_SD(:,DY) = Sml_d.rec;
+        D_rec_MD(:,DY) = Med_d.rec;
+        D_rec_LD(:,DY) = Lrg_d.rec;
+        D_nu_SD(:,DY) = Sml_d.nu;
+        D_nu_MD(:,DY) = Med_d.nu;
+        D_nu_LD(:,DY) = Lrg_d.nu;
+        D_rep_LD(:,DY) = Lrg_d.rep;
         
         
     end %Days
@@ -109,6 +135,15 @@ for YR = 1:YEARS % years
         S_Lrg_p(:,MNT) = mean(D_Lrg_p(:,a(i):b(i)),2);
         S_Lrg_d(:,MNT) = mean(D_Lrg_d(:,a(i):b(i)),2);
         S_Bent_bio(:,MNT) = mean(D_Bent_bio(:,a(i):b(i)),2);
+
+        M_rec_SD(:,MNT) = mean(D_rec_SD(:,a(i):b(i)),2);
+        M_rec_MD(:,MNT) = mean(D_rec_MD(:,a(i):b(i)),2);
+        M_rec_LD(:,MNT) = mean(D_rec_LD(:,a(i):b(i)),2);
+        M_nu_SD(:,MNT) = mean(D_nu_SD(:,a(i):b(i)),2);
+        M_nu_MD(:,MNT) = mean(D_nu_MD(:,a(i):b(i)),2);
+        M_nu_LD(:,MNT) = mean(D_nu_LD(:,a(i):b(i)),2);
+        M_rep_LD(:,MNT) = mean(D_rep_LD(:,a(i):b(i)),2);
+
     end
     
 end %Years
@@ -116,6 +151,7 @@ end %Years
 %%% Save
 save([fname '.mat'],...
 'S_Sml_f','S_Sml_p','S_Sml_d','S_Med_f','S_Med_p','S_Med_d',...
-'S_Lrg_p','S_Lrg_d','S_Bent_bio')
+'S_Lrg_p','S_Lrg_d','S_Bent_bio',...
+'M_rec_SD','M_rec_MD','M_rec_LD','M_nu_SD','M_nu_MD','M_nu_LD','M_rep_LD')
 
 end

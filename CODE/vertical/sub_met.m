@@ -1,5 +1,5 @@
 %%% Metabolism
-function met = sub_met(Tp,Tb,tdif,wgt,param)
+function met = sub_met(Tp,td,wgt,param)
     %Tp: pelagic temp
     %Tb: bottom temp
     %tdif: frac pelagic time
@@ -8,10 +8,10 @@ function met = sub_met(Tp,Tb,tdif,wgt,param)
     %cmax: max consumption rate
     %U: swimming speed
 
-    temp = (Tp.*tdif) + (Tb.*(1.0-tdif));
+    temp = Tp;
 
     %Own Fn ------------
     %Metabolism with its own coeff, temp-sens, mass-sens
-    met = (exp(param.kt * (temp-10.0)) .* param.amet .* wgt.^(-param.bpow)) ./365.0;
+    met = td .* (exp(param.kt * (temp-10.0)) .* param.amet .* wgt.^(-param.bpow)) ./365.0;
 
 end

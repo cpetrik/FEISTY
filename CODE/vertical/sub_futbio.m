@@ -1,112 +1,111 @@
 %%%% THE MODEL
 %%% DEMOGRAPHIC CALCULATIONS
-function [Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT,ENVR] = sub_futbio(DY,ESM,GRD,Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT,param)
+function [Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT,ENVR] = sub_futbio(DY,ESM,Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT,param)
 
 dfrate = param.dfrate;
 
 %%% ESM information
-ENVR = get_ESM(ESM,GRD,param,DY);
+ENVR = get_ESM(ESM,param,DY);
 ENVR.det = sub_neg(ENVR.det);
 ENVR.Zm  = sub_neg(ENVR.Zm);
 ENVR.Zl  = sub_neg(ENVR.Zl);
 ENVR.dZm  = sub_neg(ENVR.dZm);
 ENVR.dZl  = sub_neg(ENVR.dZl);
 
+%ENVR.det = ENVR.det *10;
+
 % Update benthic biomass with new detritus avail at that time step
 [BENT.mass,BENT.pred] = sub_update_be(BENT.mass,param,ENVR.det,[Md.con_be,Ld.con_be],[Md.bio,Ld.bio]);
 BENT.mass = sub_check(BENT.mass);
 
 % Pelagic-demersal coupling
-%Lp: fraction of time large piscivores spends in pelagic
-%Ld: fraction of time large demersals spends in pelagic
-if (param.pdc == 0)
-    Lp.td = ones(param.NX,1);
+%depth levels occupied
+if (param.pdc == 1)
+    Md.td = zeros(param.NX,1);
     Ld.td = zeros(param.NX,1);
-elseif (param.pdc == 1)
-    Lp.td = ones(param.NX,1);
-    Ld.td = sub_tdif_dem(ENVR.H,param,Mf.bio,Mp.bio,Md.bio,BENT.mass);
-elseif (param.pdc == 2)
-    Lp.td = sub_tdif_pel(ENVR.H,param,Mf.bio,Mp.bio,Md.bio);
-    Ld.td = sub_tdif_dem(ENVR.H,param,Mf.bio,Mp.bio,Md.bio,BENT.mass);
-else
-    Lp.td = ones(param.NX,1);
-    Ld.td = ones(param.NX,1);
+    Md.td(param.NX) = 1.0;
+    Ld.td(param.NX) = 1.0;
+    if (ENVR.H <= param.PI_be_cutoff)
+        Ld.td = ones(param.NX,1);
+    end
 end
 
 % Metabolism
-Sf.met = sub_met(ENVR.Tp,ENVR.Tb,Sf.td,param.M_s,param);
-Sp.met = sub_met(ENVR.Tp,ENVR.Tb,Sp.td,param.M_s,param);
-Sd.met = sub_met(ENVR.Tp,ENVR.Tb,Sd.td,param.M_s,param);
-Mf.met = sub_met(ENVR.Tp,ENVR.Tb,Mf.td,param.M_m,param);
-Mp.met = sub_met(ENVR.Tp,ENVR.Tb,Mp.td,param.M_m,param);
-Md.met = sub_met(ENVR.Tp,ENVR.Tb,Md.td,param.M_m,param);
-Lp.met = sub_met(ENVR.Tp,ENVR.Tb,Lp.td,param.M_l,param);
-Ld.met = sub_met(ENVR.Tp,ENVR.Tb,Ld.td,param.M_l,param);
+Sf.met = sub_met(ENVR.Tp,Sf.td,param.M_s,param);
+Sp.met = sub_met(ENVR.Tp,Sp.td,param.M_s,param);
+Sd.met = sub_met(ENVR.Tp,Sd.td,param.M_s,param);
+Mf.met = sub_met(ENVR.Tp,Mf.td,param.M_m,param);
+Mp.met = sub_met(ENVR.Tp,Mp.td,param.M_m,param);
+Md.met = sub_met(ENVR.Tp,Md.td,param.M_m,param);
+Lp.met = sub_met(ENVR.Tp,Lp.td,param.M_l,param);
+Ld.met = sub_met(ENVR.Tp,Ld.td,param.M_l,param);
 
 % Encounter rates
-%           sub_enc(params,Tp     ,Tb     ,wgt      ,prey   ,tpel ,tprey,pref)
-Sf.enc_zm = sub_enc(param,ENVR.Tp,ENVR.Tb,param.M_s,ENVR.Zm,Sf.td,Sf.td,1);
-Sp.enc_zm = sub_enc(param,ENVR.Tp,ENVR.Tb,param.M_s,ENVR.Zm,Sp.td,Sp.td,1);
-Sd.enc_zm = sub_enc(param,ENVR.Tp,ENVR.Tb,param.M_s,ENVR.Zm,Sd.td,Sd.td,1);
+%           sub_enc(params,Tp     ,wgt     ,prey   ,tpel ,pref)
+Sf.enc_zm = sub_enc(param,ENVR.Tp,param.M_s,ENVR.Zm,Sf.td,1);
+Sp.enc_zm = sub_enc(param,ENVR.Tp,param.M_s,ENVR.Zm,Sp.td,1);
+Sd.enc_zm = sub_enc(param,ENVR.Tp,param.M_s,ENVR.Zm,Sd.td,1);
 
-Mf.enc_zm = sub_enc(param,ENVR.Tp,ENVR.Tb,param.M_m,ENVR.Zm,Mf.td,Mf.td,param.MF_phi_MZ);
-Mf.enc_zl = sub_enc(param,ENVR.Tp,ENVR.Tb,param.M_m,ENVR.Zl,Mf.td,Mf.td,param.MF_phi_LZ);
-Mf.enc_f  = sub_enc(param,ENVR.Tp,ENVR.Tb,param.M_m,Sf.bio,Mf.td,Mf.td,param.MF_phi_S);
-Mf.enc_p  = sub_enc(param,ENVR.Tp,ENVR.Tb,param.M_m,Sp.bio,Mf.td,Mf.td,param.MF_phi_S);
-Mf.enc_d  = sub_enc(param,ENVR.Tp,ENVR.Tb,param.M_m,Sd.bio,Mf.td,Mf.td,param.MF_phi_S);
+Mf.enc_zm = sub_enc(param,ENVR.Tp,param.M_m,ENVR.Zm,Mf.td,param.MF_phi_MZ);
+Mf.enc_zl = sub_enc(param,ENVR.Tp,param.M_m,ENVR.Zl,Mf.td,param.MF_phi_LZ);
+Mf.enc_f  = sub_enc(param,ENVR.Tp,param.M_m,Sf.bio,Mf.td,param.MF_phi_S);
+Mf.enc_p  = sub_enc(param,ENVR.Tp,param.M_m,Sp.bio,Mf.td,param.MF_phi_S);
+Mf.enc_d  = sub_enc(param,ENVR.Tp,param.M_m,Sd.bio,Mf.td,param.MF_phi_S);
 
-Mp.enc_zm = sub_enc(param,ENVR.Tp,ENVR.Tb,param.M_m,ENVR.Zm,Mp.td,Mp.td,param.MP_phi_MZ);
-Mp.enc_zl = sub_enc(param,ENVR.Tp,ENVR.Tb,param.M_m,ENVR.Zl,Mp.td,Mp.td,param.MP_phi_LZ);
-Mp.enc_f  = sub_enc(param,ENVR.Tp,ENVR.Tb,param.M_m,Sf.bio,Mp.td,Mp.td,param.MP_phi_S);
-Mp.enc_p  = sub_enc(param,ENVR.Tp,ENVR.Tb,param.M_m,Sp.bio,Mp.td,Mp.td,param.MP_phi_S);
-Mp.enc_d  = sub_enc(param,ENVR.Tp,ENVR.Tb,param.M_m,Sd.bio,Mp.td,Mp.td,param.MP_phi_S);
+Mp.enc_zm = sub_enc(param,ENVR.Tp,param.M_m,ENVR.Zm,Mp.td,param.MP_phi_MZ);
+Mp.enc_zl = sub_enc(param,ENVR.Tp,param.M_m,ENVR.Zl,Mp.td,param.MP_phi_LZ);
+Mp.enc_f  = sub_enc(param,ENVR.Tp,param.M_m,Sf.bio,Mp.td,param.MP_phi_S);
+Mp.enc_p  = sub_enc(param,ENVR.Tp,param.M_m,Sp.bio,Mp.td,param.MP_phi_S);
+Mp.enc_d  = sub_enc(param,ENVR.Tp,param.M_m,Sd.bio,Mp.td,param.MP_phi_S);
 
-Md.enc_be = sub_enc(param,ENVR.Tp,ENVR.Tb,param.M_m,BENT.mass,Md.td,1-Md.td,param.MD_phi_BE);
+Md.enc_be = sub_enc(param,ENVR.Tp,param.M_m,BENT.mass,Md.td,param.MD_phi_BE);
 
-Lp.enc_f  = sub_enc(param,ENVR.Tp,ENVR.Tb,param.M_l,Mf.bio,Lp.td,Lp.td,param.LP_phi_MF);
-Lp.enc_p  = sub_enc(param,ENVR.Tp,ENVR.Tb,param.M_l,Mp.bio,Lp.td,Lp.td,param.LP_phi_MP);
-Lp.enc_d  = sub_enc(param,ENVR.Tp,ENVR.Tb,param.M_l,Md.bio,Lp.td,1-Lp.td,param.LP_phi_MD);
+Lp.enc_f  = sub_enc(param,ENVR.Tp,param.M_l,Mf.bio,Lp.td,param.LP_phi_MF);
+Lp.enc_p  = sub_enc(param,ENVR.Tp,param.M_l,Mp.bio,Lp.td,param.LP_phi_MP);
+Lp.enc_d  = sub_enc(param,ENVR.Tp,param.M_l,Md.bio,Lp.td,param.LP_phi_MD);
 
-Ld.enc_f  = sub_enc(param,ENVR.Tp,ENVR.Tb,param.M_l,Mf.bio,Ld.td,Ld.td,param.LD_phi_MF);
-Ld.enc_p  = sub_enc(param,ENVR.Tp,ENVR.Tb,param.M_l,Mp.bio,Ld.td,Ld.td,param.LD_phi_MP);
-Ld.enc_d  = sub_enc(param,ENVR.Tp,ENVR.Tb,param.M_l,Md.bio,Ld.td,1-Ld.td,param.LD_phi_MD);
-Ld.enc_be = sub_enc(param,ENVR.Tp,ENVR.Tb,param.M_l,BENT.mass,Ld.td,1-Ld.td,param.LD_phi_BE);
+Ld.enc_f  = sub_enc(param,ENVR.Tp,param.M_l,Mf.bio,Ld.td,param.LD_phi_MF);
+Ld.enc_p  = sub_enc(param,ENVR.Tp,param.M_l,Mp.bio,Ld.td,param.LD_phi_MP);
+Ld.enc_d  = sub_enc(param,ENVR.Tp,param.M_l,Md.bio,Ld.td,param.LD_phi_MD);
+Ld.enc_be = sub_enc(param,ENVR.Tp,param.M_l,BENT.mass,Ld.td,param.LD_phi_BE);
 
 % Consumption rates
-Sf.con_zm = sub_cons(param,ENVR.Tp,ENVR.Tb,Sf.td,param.M_s,Sf.enc_zm);
-Sp.con_zm = sub_cons(param,ENVR.Tp,ENVR.Tb,Sp.td,param.M_s,Sp.enc_zm);
-Sd.con_zm = sub_cons(param,ENVR.Tp,ENVR.Tb,Sd.td,param.M_s,Sd.enc_zm);
+Sf.con_zm = sub_cons(param,ENVR.Tp,Sf.td,param.M_s,Sf.enc_zm);
+Sp.con_zm = sub_cons(param,ENVR.Tp,Sp.td,param.M_s,Sp.enc_zm);
+Sd.con_zm = sub_cons(param,ENVR.Tp,Sd.td,param.M_s,Sd.enc_zm);
 
-Mf.con_zm = sub_cons(param,ENVR.Tp,ENVR.Tb,Mf.td,param.M_m,[Mf.enc_zm,Mf.enc_zl,Mf.enc_f,Mf.enc_p,Mf.enc_d]);
-Mf.con_zl = sub_cons(param,ENVR.Tp,ENVR.Tb,Mf.td,param.M_m,[Mf.enc_zl,Mf.enc_zm,Mf.enc_f,Mf.enc_p,Mf.enc_d]);
-Mf.con_f  = sub_cons(param,ENVR.Tp,ENVR.Tb,Mf.td,param.M_m,[Mf.enc_f,Mf.enc_zm,Mf.enc_zl,Mf.enc_p,Mf.enc_d]);
-Mf.con_p  = sub_cons(param,ENVR.Tp,ENVR.Tb,Mf.td,param.M_m,[Mf.enc_p,Mf.enc_zm,Mf.enc_zl,Mf.enc_f,Mf.enc_d]);
-Mf.con_d  = sub_cons(param,ENVR.Tp,ENVR.Tb,Mf.td,param.M_m,[Mf.enc_d,Mf.enc_zm,Mf.enc_zl,Mf.enc_f,Mf.enc_p]);
+Mf.con_zm = sub_cons(param,ENVR.Tp,Mf.td,param.M_m,[Mf.enc_zm,Mf.enc_zl,Mf.enc_f,Mf.enc_p,Mf.enc_d]);
+Mf.con_zl = sub_cons(param,ENVR.Tp,Mf.td,param.M_m,[Mf.enc_zl,Mf.enc_zm,Mf.enc_f,Mf.enc_p,Mf.enc_d]);
+Mf.con_f  = sub_cons(param,ENVR.Tp,Mf.td,param.M_m,[Mf.enc_f,Mf.enc_zm,Mf.enc_zl,Mf.enc_p,Mf.enc_d]);
+Mf.con_p  = sub_cons(param,ENVR.Tp,Mf.td,param.M_m,[Mf.enc_p,Mf.enc_zm,Mf.enc_zl,Mf.enc_f,Mf.enc_d]);
+Mf.con_d  = sub_cons(param,ENVR.Tp,Mf.td,param.M_m,[Mf.enc_d,Mf.enc_zm,Mf.enc_zl,Mf.enc_f,Mf.enc_p]);
 
-Mp.con_zm = sub_cons(param,ENVR.Tp,ENVR.Tb,Mp.td,param.M_m,[Mp.enc_zm,Mp.enc_zl,Mp.enc_f,Mp.enc_p,Mp.enc_d]);
-Mp.con_zl = sub_cons(param,ENVR.Tp,ENVR.Tb,Mp.td,param.M_m,[Mp.enc_zl,Mp.enc_zm,Mp.enc_f,Mp.enc_p,Mp.enc_d]);
-Mp.con_f  = sub_cons(param,ENVR.Tp,ENVR.Tb,Mp.td,param.M_m,[Mp.enc_f,Mp.enc_zm,Mp.enc_zl,Mp.enc_p,Mp.enc_d]);
-Mp.con_p  = sub_cons(param,ENVR.Tp,ENVR.Tb,Mp.td,param.M_m,[Mp.enc_p,Mp.enc_zm,Mp.enc_zl,Mp.enc_f,Mp.enc_d]);
-Mp.con_d  = sub_cons(param,ENVR.Tp,ENVR.Tb,Mp.td,param.M_m,[Mp.enc_d,Mp.enc_zm,Mp.enc_zl,Mp.enc_f,Mp.enc_p]);
+Mp.con_zm = sub_cons(param,ENVR.Tp,Mp.td,param.M_m,[Mp.enc_zm,Mp.enc_zl,Mp.enc_f,Mp.enc_p,Mp.enc_d]);
+Mp.con_zl = sub_cons(param,ENVR.Tp,Mp.td,param.M_m,[Mp.enc_zl,Mp.enc_zm,Mp.enc_f,Mp.enc_p,Mp.enc_d]);
+Mp.con_f  = sub_cons(param,ENVR.Tp,Mp.td,param.M_m,[Mp.enc_f,Mp.enc_zm,Mp.enc_zl,Mp.enc_p,Mp.enc_d]);
+Mp.con_p  = sub_cons(param,ENVR.Tp,Mp.td,param.M_m,[Mp.enc_p,Mp.enc_zm,Mp.enc_zl,Mp.enc_f,Mp.enc_d]);
+Mp.con_d  = sub_cons(param,ENVR.Tp,Mp.td,param.M_m,[Mp.enc_d,Mp.enc_zm,Mp.enc_zl,Mp.enc_f,Mp.enc_p]);
 
-Md.con_be = sub_cons(param,ENVR.Tp,ENVR.Tb,Md.td,param.M_m,Md.enc_be);
+Md.con_be = sub_cons(param,ENVR.Tp,Md.td,param.M_m,Md.enc_be);
 
-Lp.con_f  = sub_cons(param,ENVR.Tp,ENVR.Tb,Lp.td,param.M_l,[Lp.enc_f,Lp.enc_p,Lp.enc_d]);
-Lp.con_p  = sub_cons(param,ENVR.Tp,ENVR.Tb,Lp.td,param.M_l,[Lp.enc_p,Lp.enc_f,Lp.enc_d]);
-Lp.con_d  = sub_cons(param,ENVR.Tp,ENVR.Tb,Lp.td,param.M_l,[Lp.enc_d,Lp.enc_p,Lp.enc_f]);
+Lp.con_f  = sub_cons(param,ENVR.Tp,Lp.td,param.M_l,[Lp.enc_f,Lp.enc_p,Lp.enc_d]);
+Lp.con_p  = sub_cons(param,ENVR.Tp,Lp.td,param.M_l,[Lp.enc_p,Lp.enc_f,Lp.enc_d]);
+Lp.con_d  = sub_cons(param,ENVR.Tp,Lp.td,param.M_l,[Lp.enc_d,Lp.enc_p,Lp.enc_f]);
 
-Ld.con_f  = sub_cons(param,ENVR.Tp,ENVR.Tb,Ld.td,param.M_l,[Ld.enc_f,Ld.enc_p,Ld.enc_d,Ld.enc_be]);
-Ld.con_p  = sub_cons(param,ENVR.Tp,ENVR.Tb,Ld.td,param.M_l,[Ld.enc_p,Ld.enc_f,Ld.enc_d,Ld.enc_be]);
-Ld.con_d  = sub_cons(param,ENVR.Tp,ENVR.Tb,Ld.td,param.M_l,[Ld.enc_d,Ld.enc_p,Ld.enc_f,Ld.enc_be]);
-Ld.con_be = sub_cons(param,ENVR.Tp,ENVR.Tb,Ld.td,param.M_l,[Ld.enc_be,Ld.enc_f,Ld.enc_p,Ld.enc_d]);
+Ld.con_f  = sub_cons(param,ENVR.Tp,Ld.td,param.M_l,[Ld.enc_f,Ld.enc_p,Ld.enc_d,Ld.enc_be]);
+Ld.con_p  = sub_cons(param,ENVR.Tp,Ld.td,param.M_l,[Ld.enc_p,Ld.enc_f,Ld.enc_d,Ld.enc_be]);
+Ld.con_d  = sub_cons(param,ENVR.Tp,Ld.td,param.M_l,[Ld.enc_d,Ld.enc_p,Ld.enc_f,Ld.enc_be]);
+Ld.con_be = sub_cons(param,ENVR.Tp,Ld.td,param.M_l,[Ld.enc_be,Ld.enc_f,Ld.enc_p,Ld.enc_d]);
 
 % Offline coupling
-%MZ consumption cannot exceed amount lost to higher predation in COBALT runs
-[Sf.con_zm,Sp.con_zm,Sd.con_zm,Mf.con_zm,Mp.con_zm,ENVR.fZm] = ...
-    sub_offline_zm(Sf.con_zm,Sp.con_zm,Sd.con_zm,Mf.con_zm,Mp.con_zm,Sf.bio,Sp.bio,Sd.bio,Mf.bio,Mp.bio,ENVR.dZm);
-%LZ consumption cannot exceed amount lost to higher predation in COBALT runs
-[Mf.con_zl,Mp.con_zl,ENVR.fZl] = ...
-    sub_offline_zl(Mf.con_zl,Mp.con_zl,Mf.bio,Mp.bio,ENVR.dZl);
+if param.hploss == 1
+    %MZ consumption cannot exceed amount lost to higher predation in COBALT runs
+    [Sf.con_zm,Sp.con_zm,Sd.con_zm,Mf.con_zm,Mp.con_zm,ENVR.fZm] = ...
+        sub_offline_zm(Sf.con_zm,Sp.con_zm,Sd.con_zm,Mf.con_zm,Mp.con_zm,Sf.bio,Sp.bio,Sd.bio,Mf.bio,Mp.bio,ENVR.dZm);
+    %LZ consumption cannot exceed amount lost to higher predation in COBALT runs
+    [Mf.con_zl,Mp.con_zl,ENVR.fZl] = ...
+        sub_offline_zl(Mf.con_zl,Mp.con_zl,Mf.bio,Mp.bio,ENVR.dZl);
+end
 %Track fraction of benthic material consumed
 [ENVR.fB] = sub_offline_bent([Md.con_be,Ld.con_be],[Md.bio,Ld.bio],BENT.mass);
 
@@ -121,14 +120,14 @@ Lp.I = Lp.con_f + Lp.con_p + Lp.con_d;
 Ld.I = Ld.con_f + Ld.con_p + Ld.con_d + Ld.con_be;
 
 % Consumption related to Cmax
-Sf.clev = sub_clev(param,Sf.I,ENVR.Tp,ENVR.Tb,Sf.td,param.M_s);
-Sp.clev = sub_clev(param,Sp.I,ENVR.Tp,ENVR.Tb,Sp.td,param.M_s);
-Sd.clev = sub_clev(param,Sd.I,ENVR.Tp,ENVR.Tb,Sd.td,param.M_s);
-Mf.clev = sub_clev(param,Mf.I,ENVR.Tp,ENVR.Tb,Mf.td,param.M_m);
-Mp.clev = sub_clev(param,Mp.I,ENVR.Tp,ENVR.Tb,Mp.td,param.M_m);
-Md.clev = sub_clev(param,Md.I,ENVR.Tp,ENVR.Tb,Md.td,param.M_m);
-Lp.clev = sub_clev(param,Lp.I,ENVR.Tp,ENVR.Tb,Lp.td,param.M_l);
-Ld.clev = sub_clev(param,Ld.I,ENVR.Tp,ENVR.Tb,Ld.td,param.M_l);
+Sf.clev = sub_clev(param,Sf.I,ENVR.Tp,Sf.td,param.M_s);
+Sp.clev = sub_clev(param,Sp.I,ENVR.Tp,Sp.td,param.M_s);
+Sd.clev = sub_clev(param,Sd.I,ENVR.Tp,Sd.td,param.M_s);
+Mf.clev = sub_clev(param,Mf.I,ENVR.Tp,Mf.td,param.M_m);
+Mp.clev = sub_clev(param,Mp.I,ENVR.Tp,Mp.td,param.M_m);
+Md.clev = sub_clev(param,Md.I,ENVR.Tp,Md.td,param.M_m);
+Lp.clev = sub_clev(param,Lp.I,ENVR.Tp,Lp.td,param.M_l);
+Ld.clev = sub_clev(param,Ld.I,ENVR.Tp,Ld.td,param.M_l);
 
 % Death rates (g m-2 d-1)
 Sf.die = Mp.con_f.*Mp.bio + Mf.con_f.*Mf.bio;
@@ -147,14 +146,14 @@ Mp.pred = Mp.die ./ Mp.bio;
 Md.pred = Md.die ./ Md.bio;
 
 % Natural mortality rates
-Sf.nmort = sub_nmort(param,ENVR.Tp,ENVR.Tb,Sf.td,param.M_s);
-Sp.nmort = sub_nmort(param,ENVR.Tp,ENVR.Tb,Sp.td,param.M_s);
-Sd.nmort = sub_nmort(param,ENVR.Tp,ENVR.Tb,Sd.td,param.M_s);
-Mf.nmort = sub_nmort(param,ENVR.Tp,ENVR.Tb,Mf.td,param.M_m);
-Mp.nmort = sub_nmort(param,ENVR.Tp,ENVR.Tb,Mp.td,param.M_m);
-Md.nmort = sub_nmort(param,ENVR.Tp,ENVR.Tb,Md.td,param.M_m);
-Lp.nmort = sub_nmort(param,ENVR.Tp,ENVR.Tb,Lp.td,param.M_l);
-Ld.nmort = sub_nmort(param,ENVR.Tp,ENVR.Tb,Ld.td,param.M_l);
+Sf.nmort = sub_nmort(param,ENVR.Tp,Sf.td,param.M_s);
+Sp.nmort = sub_nmort(param,ENVR.Tp,Sp.td,param.M_s);
+Sd.nmort = sub_nmort(param,ENVR.Tp,Sd.td,param.M_s);
+Mf.nmort = sub_nmort(param,ENVR.Tp,Mf.td,param.M_m);
+Mp.nmort = sub_nmort(param,ENVR.Tp,Mp.td,param.M_m);
+Md.nmort = sub_nmort(param,ENVR.Tp,Md.td,param.M_m);
+Lp.nmort = sub_nmort(param,ENVR.Tp,Lp.td,param.M_l);
+Ld.nmort = sub_nmort(param,ENVR.Tp,Ld.td,param.M_l);
 
 % Energy available for somatic growth nu
 [Sf.nu, Sf.prod] = sub_nu(param,Sf.I,Sf.bio,Sf.met);
@@ -187,19 +186,21 @@ Ld.gamma = sub_gamma(param.K_a,param.Z_l,Ld.nu,Ld.die,Ld.bio,Ld.nmort,dfrate,par
 % Recruitment (from smaller size class)
 Sf.rec = sub_rec_larv(Mf.rep,Mf.bio,param.rfrac);
 Sp.rec = sub_rec_larv(Lp.rep,Lp.bio,param.rfrac);
-Sd.rec = sub_rec_larv(Ld.rep,Ld.bio,param.rfrac);
+
 Mf.rec = sub_rec(Sf.gamma,Sf.bio);
 Mp.rec = sub_rec(Sp.gamma,Sp.bio);
-Md.rec = sub_rec(Sd.gamma,Sd.bio);
 Lp.rec = sub_rec(Mp.gamma,Mp.bio);
-Ld.rec = sub_rec(Md.gamma,Md.bio);
+
+Sd.rec = sub_rec_larvSD(Ld.rep,Ld.bio,param.rfrac,ENVR.Zm);
+Md.rec = sub_recMD(Sd.gamma,Sd.bio,Md.td);
+Ld.rec = sub_recLD(Md.gamma,Md.bio,ENVR);
 
 % Fishing by rate
-[Mf.bio, Mf.caught, Mf.fmort] = sub_fishing_rate(Mf.bio,dfrate,param.MFsel);
-[Mp.bio, Mp.caught, Mp.fmort] = sub_fishing_rate(Mp.bio,dfrate,param.MPsel);
-[Md.bio, Md.caught, Md.fmort] = sub_fishing_rate(Md.bio,dfrate,param.MDsel);
-[Lp.bio, Lp.caught, Lp.fmort] = sub_fishing_rate(Lp.bio,dfrate,param.LPsel);
-[Ld.bio, Ld.caught, Ld.fmort] = sub_fishing_rate(Ld.bio,dfrate,param.LDsel);
+[Mf.caught, Mf.fmort] = sub_fishing_rate(Mf.bio,dfrate,param.MFsel);
+[Mp.caught, Mp.fmort] = sub_fishing_rate(Mp.bio,dfrate,param.MPsel);
+[Md.caught, Md.fmort] = sub_fishing_rate(Md.bio,dfrate,param.MDsel);
+[Lp.caught, Lp.fmort] = sub_fishing_rate(Lp.bio,dfrate,param.LPsel);
+[Ld.caught, Ld.fmort] = sub_fishing_rate(Ld.bio,dfrate,param.LDsel);
 
 % Mass balance
 %                      (bio_in,  rec,   nu,   rep,   gamma,   die,   nmort,fmort)

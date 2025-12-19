@@ -56,13 +56,19 @@ tbenc = num2str(1000+int64(1000 * param.benc));
 tbcmx = num2str(1000+int64(1000 * param.bcmx));
 %tlam = num2str(1000+int64(1000 * param.Lambda));
 
+if param.hploss == 1
+    cap = 'HPcap';
+elseif param.hploss ==0
+    cap = 'noHPcap';
+end
+
 if (param.CC==0)
     simname = [coup,'_enc',tefn,'-b',tbenc(2:end),'_m',tmfn,'-b',tbfn(2:end),'-k',tkfn(2:end),'_c',tcfn,'-b',tbcmx(2:end),'_D',td(2:end),'_J',tj(2:end),'_A',ta(2:end),'_Sm',tsm(2:end),'_nmort',tmort,'_BE',tbe(2:end),'_noCC_RE',tre(2:end)];
 else
     simname = [coup,'_enc',tefn,'-b',tbenc(2:end),'_m',tmfn,'-b',tbfn(2:end),'-k',tkfn(2:end),'_c',tcfn,'-b',tbcmx(2:end),'_D',td(2:end),'_J',tj(2:end),'_A',ta(2:end),'_Sm',tsm(2:end),'_nmort',tmort,'_BE',tbe(2:end),'_CC',tcc,'_RE',tre(2:end)];
 end
 
-outdir = [odir,simname,'/CORE/'];
+outdir = [odir,simname,'/'];
 
 if (~isfolder(outdir))
     mkdir(outdir)
@@ -70,13 +76,13 @@ end
 
 %! Setup netcdf path to store to
 if (frate==0)
-    fname = [outdir,exper, '_pristine'];
+    fname = [outdir,exper,'_' cap '_pristine'];
 elseif (param.Jsel~=0.1)
-    fname = [outdir,exper, '_', sel,'_fish',tfish(2:end),'_Juve',tJ(2:end)];
+    fname = [outdir,exper,'_' cap '_', sel,'_fish',tfish(2:end),'_Juve',tJ(2:end)];
 elseif (param.MFsel~=param.LPsel)
-    fname = [outdir,exper, '_fish_F',tF(2:end),'_P',tP(2:end),'_D',tD(2:end)];
+    fname = [outdir,exper,'_' cap '_fish_F',tF(2:end),'_P',tP(2:end),'_D',tD(2:end)];
 else
-    fname = [outdir,exper, '_', sel,'_fish',tfish(2:end)];
+    fname = [outdir,exper,'_' cap '_', sel,'_fish',tfish(2:end)];
 end
 
 
