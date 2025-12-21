@@ -5,7 +5,37 @@
 clear 
 close all
 
+%% SAUP data 320x720x66, units = MT
+epath = '/Users/cpetrik/Petrik Lab Group Dropbox/Colleen Petrik/Princeton/FEISTY_other/movement/FishingDataColleen/';
+
+load([epath 'saupdem_0d5_1950-2015.mat']);
+Dsaup = SAUP;
+clear SAUP
+
+load([epath 'sauppel_0d5_1950-2015.mat']);
+Psaup = SAUP;
+clear SAUP
+
+%grid lat & lon
+[elat,elon] = meshgrid(lat,lon);
+
 %%
+figure(1)
+pcolor(squeeze(Psaup(:,:,50))); shading flat
+colorbar
+clim([0 50])
+
+figure(2)
+pcolor(elat); shading flat
+colorbar
+title('lat')
+
+figure(3)
+pcolor(elon); shading flat
+colorbar
+title('lon')
+
+%% FEISTY
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/Matlab_New_sizes/';
 
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_CC80_RE00100';
@@ -33,212 +63,210 @@ latlim=[plotminlat plotmaxlat];
 lonlim=[plotminlon plotmaxlon];
 
 %%
-exper = 'CORE_Hindcast1988_no_move_';
-load([fpath 'Means_' exper cfile '.mat']);
+figure(4)
+pcolor(geolat_t); shading flat
+colorbar
+title('Glat')
 
-sF = sf_tmean+mf_tmean;
-sP = sp_tmean+mp_tmean+lp_tmean;
-sD = sd_tmean+md_tmean+ld_tmean;
-sB = b_tmean;
-
-% Plots in space
-Zsf=NaN*ones(ni,nj);
-Zsp=NaN*ones(ni,nj);
-Zsd=NaN*ones(ni,nj);
-Zmf=NaN*ones(ni,nj);
-Zmp=NaN*ones(ni,nj);
-Zmd=NaN*ones(ni,nj);
-Zlp=NaN*ones(ni,nj);
-Zld=NaN*ones(ni,nj);
-Zb=NaN*ones(ni,nj);
-
-Zsf(GRD.ID)=sf_mean20;
-Zsp(GRD.ID)=sp_mean20;
-Zsd(GRD.ID)=sd_mean20;
-Zmf(GRD.ID)=mf_mean20;
-Zmp(GRD.ID)=mp_mean20;
-Zmd(GRD.ID)=md_mean20;
-Zlp(GRD.ID)=lp_mean20;
-Zld(GRD.ID)=ld_mean20;
-Zb(GRD.ID)=b_mean20;
-
-sAll = Zsp+Zsf+Zsd+Zmp+Zmf+Zmd+Zlp+Zld;
-sAllF = Zsf+Zmf;
-sAllP = Zsp+Zmp+Zlp;
-sAllD = Zsd+Zmd+Zld;
+figure(5)
+pcolor(geolon_t); shading flat
+colorbar
+title('Glon')
 
 %%
-exper = 'CORE_Hindcast_move_prey_v5_';
-load([fpath 'Means_' exper cfile '.mat']);
+exper = 'CORE_Hindcast1988_no_move_All_fish03_yield_';
+load([fpath 'Annual_Means_' exper cfile '.mat']);
 
-mF = sf_tmean+mf_tmean;
-mP = sp_tmean+mp_tmean+lp_tmean;
-mD = sd_tmean+md_tmean+ld_tmean;
-mB = b_tmean;
+CP = Cmp + Clp;
+CD = Cmd + Cld;
+CPel = Cmf + CP;
+CAll = CPel + CD;
 
-Msf=NaN*ones(ni,nj);
-Msp=NaN*ones(ni,nj);
-Msd=NaN*ones(ni,nj);
-Mmf=NaN*ones(ni,nj);
-Mmp=NaN*ones(ni,nj);
-Mmd=NaN*ones(ni,nj);
-Mlp=NaN*ones(ni,nj);
-Mld=NaN*ones(ni,nj);
-Mb=NaN*ones(ni,nj);
+% Plots in space
+ZF = mean(Cmf,3,'omitnan');
+ZP = mean(CP,3,'omitnan');
+ZD = mean(CD,3,'omitnan');
+ZPel = mean(CPel,3,'omitnan');
+ZAll = mean(CAll,3,'omitnan');
 
-Msf(GRD.ID)=sf_mean20;
-Msp(GRD.ID)=sp_mean20;
-Msd(GRD.ID)=sd_mean20;
-Mmf(GRD.ID)=mf_mean20;
-Mmp(GRD.ID)=mp_mean20;
-Mmd(GRD.ID)=md_mean20;
-Mlp(GRD.ID)=lp_mean20;
-Mld(GRD.ID)=ld_mean20;
-Mb(GRD.ID)=b_mean20;
+%% Interp to same grid
+%elat       [-89.7500 89.2500]
+%geolat_t   [-81.5 89.4879]
+%elon       [-179.7500 179.2500]
+%geolon_t   [-279.9803 79.9803]
 
-mAll = Msp+Msf+Msd+Mmp+Mmf+Mmd+Mlp+Mld;
-mAllF = Msf+Mmf;
-mAllP = Msp+Mmp+Mlp;
-mAllD = Msd+Mmd+Mld;
+%% Need to fix GFDL longitude
+test2=geolon_t;
+id=find(test2<-180);
+test2(id)=test2(id)+360;
+geolon = test2;
 
-%% Diffs
-dAll = mAll - sAll;
-dAllF = mAllF - sAllF;
-dAllP = mAllP - sAllP;
-dAllD = mAllD - sAllD;
-dAllB = Mb - Zb;
+geolat = geolat_t;
+geolon = geolon;
 
-dts_B=(mB-sB);
-dts_F=(mF-sF);
-dts_P=(mP-sP);
-dts_D=(mD-sD);
+%%
+figure(6)
+pcolor(geolat); shading flat
+colorbar
+title('Glat2')
 
-%% Plots in time
-y = (time/12)+1988;
+figure(7)
+pcolor(geolon); shading flat
+colorbar
+title('Glon2')
 
-% All size classes of all
-figure(1)
-plot(y,log10(sB),'color',[0.5 0.5 0.5],'Linewidth',2); hold on;
-plot(y,log10(sF),'r','Linewidth',2); hold on;
-plot(y,log10(sP),'b','Linewidth',2); hold on;
-plot(y,log10(sD),'k','Linewidth',2); hold on;
-plot(y,log10(mB),'--','color',[0.5 0.5 0.5],'Linewidth',2); hold on;
-plot(y,log10(mF),'--r','Linewidth',2); hold on;
-plot(y,log10(mP),'--b','Linewidth',2); hold on;
-plot(y,log10(mD),'--k','Linewidth',2); hold on;
-legend('sB','sF','sP','sD','mB','mF','mP','mD')
-legend('location','eastoutside')
-xlim([y(1) y(end)])
-ylim([-0.5 0.5])
-xlabel('Time (y)')
-ylabel('log10 Biomass (g m^-^2)')
-title(['CORE stationary vs. move prey'])
-print('-dpng',[ppath 'COREstationary_moveprey_all_types_ts.png'])
+%%
+lats = -89.5:89.5;
+lons = -179.5:179.5;
+[glon,glat] = meshgrid(lons,lats);
 
-figure(2)
-plot(y,(dts_B),'color',[0.5 0.5 0.5],'Linewidth',2); hold on;
-plot(y,(dts_F),'r','Linewidth',2); hold on;
-plot(y,(dts_P),'b','Linewidth',2); hold on;
-plot(y,(dts_D),'k','Linewidth',2); hold on;
-legend('B','F','P','D')
-legend('location','eastoutside')
-xlim([y(1) y(end)])
-ylim([-0.01 0.01])
-xlabel('Time (y)')
-ylabel('Biomass difference (g m^-^2)')
-title(['CORE stationary vs. move prey'])
-print('-dpng',[ppath 'COREstationary_moveprey_diff_all_types_ts.png'])
+%%
+cAll = griddata(geolat,geolon,ZAll,glat,glon);
+cPel = griddata(geolat,geolon,ZPel,glat,glon);
+cP = griddata(geolat,geolon,ZP,glat,glon);
+cD = griddata(geolat,geolon,ZD,glat,glon);
+cF = griddata(geolat,geolon,ZF,glat,glon);
 
-%% bent
+eP = griddata(elat,elon,meanPeffort,glat,glon);
+eD = griddata(elat,elon,meanDeffort,glat,glon);
+
+cP(cP<=0) = nan;
+
+%% Pelagic - check things aligned
 figure(3)
-subplot('Position',[0 0.53 0.5 0.5])
-%No move
+subplot('Position',[0 0.53 0.49 0.49])
+%F
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,Zb)
+surfm(glat,glon,log10(cF))
 cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-1 2]);
+clim([6 12]);
+colorbar
 set(gcf,'renderer','painters')
-title('Stationary Benthos')
+title('Forage')
 
-%Move
-subplot('Position',[0.5 0.53 0.5 0.5])
+%LP
+subplot('Position',[0.5 0.53 0.49 0.49])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,Mb)
+surfm(glat,glon,log10(cP))
 cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-1 2]);
+clim([6 12]);
+colorbar
 set(gcf,'renderer','painters')
-title('Move prey')
+title('Lg Pel')
 
-%Diff
-subplot('Position',[0.25 0.0 0.5 0.5])
+%Effort
+subplot('Position',[0.25 0.0 0.49 0.49])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,dAllB)
-cmocean('balance')
+surfm(glat,glon,log10(eP))
+cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-0.01 0.01]);
-colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
+clim([-2 2]);
+colorbar
 set(gcf,'renderer','painters')
-title('Move prey - Stationary')
-print('-dpng',[ppath 'COREstationary_moveprey_global_BENT.png'])
+title('Pel effort')
+print('-dpng',[ppath exper 'effort_global_Pelagics.png'])
 
-%% ALL
+
+%% Demersal - check things aligned
 figure(4)
-% all F
-subplot('Position',[0 0.51 0.5 0.5])
+subplot('Position',[0 0.53 0.49 0.49])
+%F
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,dAllF)
-cmocean('balance')
+surfm(glat,glon,log10(cD))
+cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-0.01 0.01]);
-colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
+clim([6 12]);
+colorbar
 set(gcf,'renderer','painters')
-title('All F (g m^-^2)  Move prey - Stationary')
+title('Demersal')
 
-% all D
-subplot('Position',[0 0 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,dAllD)
-cmocean('balance')
-load coastlines;                     
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-0.01 0.01]);
-set(gcf,'renderer','painters')
-title('All D (g m^-^2)')
+%LP
+% subplot('Position',[0.5 0.53 0.49 0.49])
+% axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+%     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+% surfm(glat,glon,log10(cP))
+% cmocean('dense')
+% load coastlines;                     
+% h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+% clim([6 12]);
+% colorbar
+% set(gcf,'renderer','painters')
+% title('Lg Pel')
 
-% All P
-subplot('Position',[0.5 0.51 0.5 0.5])
+%Effort
+subplot('Position',[0.25 0.0 0.49 0.49])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,dAllP)
-cmocean('balance')
+surfm(glat,glon,log10(eD))
+cmocean('dense')
 load coastlines;                     
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-0.01 0.01]);
+clim([-2 2]);
+colorbar
 set(gcf,'renderer','painters')
-title('All P (g m^-^2)')
+title('Dem effort')
+print('-dpng',[ppath exper 'effort_global_Demersals.png'])
 
-% All
-subplot('Position',[0.5 0 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat_t,geolon_t,dAll)
-cmocean('balance')
-load coastlines;                     
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-0.01 0.01]);
-set(gcf,'renderer','painters')
-title('All fishes (g m^-^2)')
-stamp('')
-print('-dpng',[ppath 'COREstationary_moveprey_All_subplot.png'])
+%% Scatter plots
+figure(5)
+subplot(2,2,1)
+plot(log10(eP(:)+1),log10(cPel(:)+1),'.k')
+title('All Pel')
+ylim([6 12])
+
+subplot(2,2,2)
+plot(log10(eP(:)+1),log10(cF(:)+1),'.r')
+title('F')
+ylim([6 11])
+
+subplot(2,2,3)
+plot(log10(eP(:)+1),log10(cP(:)+1),'.b')
+title('P')
+ylabel('FEISTY catch')
+xlabel('Effort')
+
+subplot(2,2,4)
+plot(log10(eD(:)+1),log10(cD(:)+1),'.','color',[0 0.75 0.25])
+title('D')
+ylim([6 11])
+print('-dpng',[ppath exper 'effort_scatter.png'])
+
+%% Stats
+%remove non-ocean grid cells
+fid = find(~isnan(cPel));
+eid = find(~isnan(eP));
+pid = intersect(fid,eid);
+
+fid = find(~isnan(cD));
+eid = find(~isnan(eD));
+did = intersect(fid,eid);
+
+%r
+[rP,pP]=corrcoef(log10(eP(pid)+1),log10(cPel(pid)+1));
+[rD,pD]=corrcoef(log10(eD(did)+1),log10(cD(did)+1));
+r(1) = rP(2,1);
+r(2) = rD(2,1);
+
+%root mean square error - Doesn't make sense with effort, not same units
+o=log10(eP(pid)+1);
+p=log10(cPel(pid)+1);
+n = length(o);
+num=nansum((p-o).^2);
+rmse(1) = sqrt(num/n);
+
+o=log10(eD(did)+1);
+p=log10(cD(did)+1);
+n = length(o);
+num=nansum((p-o).^2);
+rmse(2) = sqrt(num/n);
 
