@@ -25,6 +25,7 @@ param.hploss = 1; %1=yes cap; 0=no cap
 NID = length(zl);
 param.ID = 1:NID;
 param.NX = NID;
+param.dz = diff(zi);
 
 %! How long to run the model
 YEARS = 150;

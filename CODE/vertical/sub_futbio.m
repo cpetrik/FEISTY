@@ -191,9 +191,9 @@ Mf.rec = sub_rec(Sf.gamma,Sf.bio);
 Mp.rec = sub_rec(Sp.gamma,Sp.bio);
 Lp.rec = sub_rec(Mp.gamma,Mp.bio);
 
-Sd.rec = sub_rec_larvSD(Ld.rep,Ld.bio,param.rfrac,ENVR.Zm);
-Md.rec = sub_recMD(Sd.gamma,Sd.bio,Md.td);
-Ld.rec = sub_recLD(Md.gamma,Md.bio,ENVR);
+Sd.rec = sub_rec_larvSD(Ld.rep,Ld.bio,param.rfrac,ENVR.Zm,param);
+Md.rec = sub_recMD(Sd.gamma,Sd.bio,Md.td,param);
+Ld.rec = sub_recLD(Md.gamma,Md.bio,ENVR,param);
 
 % Fishing by rate
 [Mf.caught, Mf.fmort] = sub_fishing_rate(Mf.bio,dfrate,param.MFsel);

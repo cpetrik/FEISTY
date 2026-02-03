@@ -1,5 +1,5 @@
 %%% Biomass recruiting to size-class (g m-3 d-1)
-function rec = sub_recLD(X,bio,ENVR)
+function rec = sub_recLD(X,bio,ENVR,param)
     %X: growth rate out of Med size
     %bio: Med biomass
     
@@ -9,9 +9,13 @@ function rec = sub_recLD(X,bio,ENVR)
     %if shallow shelf, distribute in water column 
     if ENVR.H <= 200
         nz = length(X);
-        frac = ones(size(X)) .* (1.0/nz);
-        trec = sum(trec,'omitnan');
-        rec = trec .* frac;
+        %frac = ones(size(X)) .* (1.0/nz);
+        frac = ones(size(X)) ./ (nz .* param.dz);
+
+        % account for grid cell thickness (m) - Remy didn't do this
+        %trec = sum((trec.*param.dz),'omitnan');
+        
+        rec = sum(trec,'omitnan') .* frac;
     else
         rec = trec;
     end
