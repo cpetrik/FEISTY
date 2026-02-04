@@ -60,8 +60,8 @@ tMP=sum(S_Med_p.*dz_mat,1);
 tLP=sum(S_Lrg_p.*dz_mat,1);
 
 tSD=sum(S_Sml_d.*dz_mat,1);
-tMD=sum(S_Med_d.*dz_mat,1);
-tLD=sum(S_Lrg_d.*dz_mat,1);
+tMD=sum(S_Med_d,1);
+tLD=sum(S_Lrg_d,1);
 
 %%
 F = tSF + tMF;
@@ -89,7 +89,7 @@ plot(y,log10(tLD),'Linewidth',1); hold on;
 legend('B','SF','MF','SP','MP','LP','SD','MD','LD')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
-ylim([-5 3])
+ylim([-5 2])
 xlabel('Time (mo)')
 %ylabel('log10 Biomass (g m^-^2)')
 ylabel('log10 integrated Biomass (g m^-^2)')
@@ -106,7 +106,7 @@ plot(y,log10(D),'k','Linewidth',2); hold on;
 legend('B','F','P','D')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
-ylim([-5 3])
+ylim([-5 2])
 xlabel('Time (y)')
 %ylabel('log10 Biomass (g m^-^2)')
 ylabel('log10 integrated Biomass (g m^-^2)')
