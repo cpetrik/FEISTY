@@ -8,14 +8,20 @@ vpath = '/Volumes/petrik-lab/Feisty/NC/MOM6-1D/BATS_vert/cobalt_only/12mo/';
 cname = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 fpath = ['/Volumes/petrik-lab/Feisty/NC/MOM6-1D/BATS_vert/offline_feisty/' cname '/'];
 
-exper = 'BATS_spinup_COBALT2004_v2_HPcap_All_fish03';
+exper = 'BATS_spinup_COBALT2004_v3_HPcap_All_fish03';
 
 ppath = '/Users/cpetrik/Petrik Lab Group Dropbox/Colleen Petrik/MAPP-METF/NCAR3/online_FEISTY/GFDL_MOM6_1D/Vertical/Offline/';
 
 %%
 load([fpath exper '.mat'])
 
-load([vpath '20040101.ocean_grid_12mo_BATS.mat'],'zl','zl_long_name')
+[nz,nt] = size(S_Sml_f);
+
+load([vpath '20040101.ocean_grid_12mo_BATS.mat'],'zl','zl_long_name',...
+    'zi')
+
+dz = diff(zi);
+dz_mat = repmat(dz,1,nt);
 
 %% colors
 cm10=[0.5 0.5 0;... %tan/army
@@ -34,16 +40,28 @@ set(groot,'defaultAxesColorOrder',cm10);
 
 
 %% time totals
-tSF=sum(S_Sml_f,1);
-tMF=sum(S_Med_f,1);
+% tSF=sum(S_Sml_f,1);
+% tMF=sum(S_Med_f,1);
+% 
+% tSP=sum(S_Sml_p,1);
+% tMP=sum(S_Med_p,1);
+% tLP=sum(S_Lrg_p,1);
+% 
+% tSD=sum(S_Sml_d,1);
+% tMD=sum(S_Med_d,1);
+% tLD=sum(S_Lrg_d,1);
 
-tSP=sum(S_Sml_p,1);
-tMP=sum(S_Med_p,1);
-tLP=sum(S_Lrg_p,1);
+%integrated
+tSF=sum(S_Sml_f.*dz_mat,1);
+tMF=sum(S_Med_f.*dz_mat,1);
 
-tSD=sum(S_Sml_d,1);
-tMD=sum(S_Med_d,1);
-tLD=sum(S_Lrg_d,1);
+tSP=sum(S_Sml_p.*dz_mat,1);
+tMP=sum(S_Med_p.*dz_mat,1);
+tLP=sum(S_Lrg_p.*dz_mat,1);
+
+tSD=sum(S_Sml_d.*dz_mat,1);
+tMD=sum(S_Med_d.*dz_mat,1);
+tLD=sum(S_Lrg_d.*dz_mat,1);
 
 %%
 F = tSF + tMF;
@@ -71,9 +89,10 @@ plot(y,log10(tLD),'Linewidth',1); hold on;
 legend('B','SF','MF','SP','MP','LP','SD','MD','LD')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
-ylim([-5 2])
+ylim([-5 3])
 xlabel('Time (mo)')
-ylabel('log10 Biomass (g m^-^2)')
+%ylabel('log10 Biomass (g m^-^2)')
+ylabel('log10 integrated Biomass (g m^-^2)')
 title('Spinup')
 stamp('')
 print('-dpng',[ppath exper '_ts_all_sizes.png'])
@@ -87,9 +106,10 @@ plot(y,log10(D),'k','Linewidth',2); hold on;
 legend('B','F','P','D')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
-ylim([-5 2])
+ylim([-5 3])
 xlabel('Time (y)')
-ylabel('log10 Biomass (g m^-^2)')
+%ylabel('log10 Biomass (g m^-^2)')
+ylabel('log10 integrated Biomass (g m^-^2)')
 title('Spinup')
 stamp('')
 print('-dpng',[ppath exper '_ts_all_types.png'])

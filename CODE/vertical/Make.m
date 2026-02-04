@@ -9,8 +9,8 @@ testoneloc = true;
 tic
 
 if testoneloc
-    %BATS_1D_spinup()
-    BATS_1D_spinup_fromIC()
+    BATS_1D_spinup()
+    %BATS_1D_spinup_fromIC()
 end
 
 

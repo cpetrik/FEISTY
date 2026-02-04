@@ -34,7 +34,7 @@ MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Create a directory for output
 %eventually change so exper is subfolder within offline_feisty
-exper = 'BATS_spinup_COBALT2004_v2';
+exper = 'BATS_spinup_COBALT2004_v4';
 opath = '/Volumes/petrik-lab/Feisty/NC/MOM6-1D/BATS_vert/offline_feisty/';
 %opath = '/project/Feisty/NC/MOM6-1D/BATS_vert/offline_feisty/';
 [fname,simname,sname] = sub_fname_spin(param,opath,exper);

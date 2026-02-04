@@ -11,6 +11,7 @@ function enc = sub_enc(param,Tp,wgt,prey,td,pref)
     % pref: preference for prey item
 
     %Mult enc rate by 100 to go from 100m vert integral to per m3
+    %Except seafloor, divide pref by 100 to correct
     
     temp = (Tp);
     

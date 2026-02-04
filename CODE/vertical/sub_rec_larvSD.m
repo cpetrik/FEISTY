@@ -1,9 +1,11 @@
 %%% Biomass recruiting to size-class (g m-3 d-1)
-function rec = sub_rec_larvSD(X,bio,RE,Zm,param)
+function rec = sub_rec_larvSD(X,bio,RE,ENVR,param)
     %X: repro rate
     %bio: adult biomass
     %RE=rfrac: repro efficiency ~ sex ratio * egg survival
     %Zm: medium zoop biomass
+
+    Zm = ENVR.Zm;
 
     %Ld_Repro_zi = FEISTY%Ld_Repro(i, j, nk) / (nk * dzt(k))
     

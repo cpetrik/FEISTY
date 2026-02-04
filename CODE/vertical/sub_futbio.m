@@ -12,6 +12,10 @@ ENVR.Zl  = sub_neg(ENVR.Zl);
 ENVR.dZm  = sub_neg(ENVR.dZm);
 ENVR.dZl  = sub_neg(ENVR.dZl);
 
+if isfield(ENVR,'H')==0
+    ENVR = param.depth;
+end
+
 %ENVR.det = ENVR.det *10;
 
 % Update benthic biomass with new detritus avail at that time step
@@ -58,7 +62,7 @@ Mp.enc_f  = sub_enc(param,ENVR.Tp,param.M_m,Sf.bio,Mp.td,param.MP_phi_S);
 Mp.enc_p  = sub_enc(param,ENVR.Tp,param.M_m,Sp.bio,Mp.td,param.MP_phi_S);
 Mp.enc_d  = sub_enc(param,ENVR.Tp,param.M_m,Sd.bio,Mp.td,param.MP_phi_S);
 
-Md.enc_be = sub_enc(param,ENVR.Tp,param.M_m,BENT.mass,Md.td,param.MD_phi_BE);
+Md.enc_be = sub_enc(param,ENVR.Tp,param.M_m,BENT.mass,Md.td,param.MD_phi_BE/100);
 
 Lp.enc_f  = sub_enc(param,ENVR.Tp,param.M_l,Mf.bio,Lp.td,param.LP_phi_MF);
 Lp.enc_p  = sub_enc(param,ENVR.Tp,param.M_l,Mp.bio,Lp.td,param.LP_phi_MP);
@@ -66,8 +70,8 @@ Lp.enc_d  = sub_enc(param,ENVR.Tp,param.M_l,Md.bio,Lp.td,param.LP_phi_MD);
 
 Ld.enc_f  = sub_enc(param,ENVR.Tp,param.M_l,Mf.bio,Ld.td,param.LD_phi_MF);
 Ld.enc_p  = sub_enc(param,ENVR.Tp,param.M_l,Mp.bio,Ld.td,param.LD_phi_MP);
-Ld.enc_d  = sub_enc(param,ENVR.Tp,param.M_l,Md.bio,Ld.td,param.LD_phi_MD);
-Ld.enc_be = sub_enc(param,ENVR.Tp,param.M_l,BENT.mass,Ld.td,param.LD_phi_BE);
+Ld.enc_d  = sub_enc(param,ENVR.Tp,param.M_l,Md.bio,Ld.td,param.LD_phi_MD/100);
+Ld.enc_be = sub_enc(param,ENVR.Tp,param.M_l,BENT.mass,Ld.td,param.LD_phi_BE/100);
 
 % Consumption rates
 Sf.con_zm = sub_cons(param,ENVR.Tp,Sf.td,param.M_s,Sf.enc_zm);
@@ -191,7 +195,7 @@ Mf.rec = sub_rec(Sf.gamma,Sf.bio);
 Mp.rec = sub_rec(Sp.gamma,Sp.bio);
 Lp.rec = sub_rec(Mp.gamma,Mp.bio);
 
-Sd.rec = sub_rec_larvSD(Ld.rep,Ld.bio,param.rfrac,ENVR.Zm,param);
+Sd.rec = sub_rec_larvSD(Ld.rep,Ld.bio,param.rfrac,ENVR,param);
 Md.rec = sub_recMD(Sd.gamma,Sd.bio,Md.td,param);
 Ld.rec = sub_recLD(Md.gamma,Md.bio,ENVR,param);
 
