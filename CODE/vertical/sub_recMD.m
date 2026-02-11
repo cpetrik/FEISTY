@@ -1,5 +1,5 @@
 %%% Biomass recruiting to size-class (g m-3 d-1)
-function rec = sub_recMD(X,bio,td,param)
+function rec = sub_recMD(X,bio,td,ENVR)
     % X = biomass specific maturation rate of smaller size class (gamma)
     % bio = biomass of smaller size class
     % td = pel/dem
@@ -9,7 +9,7 @@ function rec = sub_recMD(X,bio,td,param)
     %growth out of size class at each depth
     drec = X .* bio;
     %total recruitment
-    trec = sum((drec.* param.dz),'omitnan');
+    trec = sum((drec.* ENVR.dz),'omitnan');
     %put in bottom layer - need to figure out how to do this if bottom !=75
     rec = trec .* td;
 

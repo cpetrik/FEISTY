@@ -3,12 +3,12 @@
 clear
 close all
 
-vpath = '/Volumes/petrik-lab/Feisty/NC/MOM6-1D/BATS_vert/cobalt_only/12mo/';
+vpath = '/Volumes/petrik-lab/Feisty/NC/MOM6-1D/BATS_vert/cobalt_only/';
 
 cname = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 fpath = ['/Volumes/petrik-lab/Feisty/NC/MOM6-1D/BATS_vert/offline_feisty/' cname '/'];
 
-exper = 'BATS_spinup_COBALT2004_v3_HPcap_All_fish03';
+exper = 'BATS_spinup_COBALT2004_v4_HPcap_All_fish03';
 
 ppath = '/Users/cpetrik/Petrik Lab Group Dropbox/Colleen Petrik/MAPP-METF/NCAR3/online_FEISTY/GFDL_MOM6_1D/Vertical/Offline/';
 
@@ -22,6 +22,20 @@ load([vpath '20040101.ocean_grid_12mo_BATS.mat'],'zl','zl_long_name',...
 
 dz = diff(zi);
 dz_mat = repmat(dz,1,nt);
+
+%% Save last month for initializing hindcast runs
+Sml_f.bio = S_Sml_f(:,end);
+Sml_p.bio = S_Sml_p(:,end);
+Sml_d.bio = S_Sml_d(:,end);
+Med_f.bio = S_Med_f(:,end);
+Med_p.bio = S_Med_p(:,end);
+Med_d.bio = S_Med_d(:,end);
+Lrg_p.bio = S_Lrg_p(:,end);
+Lrg_d.bio = S_Lrg_d(:,end);
+BENT.bio  = S_Bent_bio(75,end);
+
+save([fpath 'Last_mo_' exper '_' cname '.mat'],'Sml_f','Sml_p','Sml_d',...
+    'Med_f','Med_p','Med_d','Lrg_p','Lrg_d','BENT')
 
 %% colors
 cm10=[0.5 0.5 0;... %tan/army
@@ -90,7 +104,7 @@ legend('B','SF','MF','SP','MP','LP','SD','MD','LD')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
 ylim([-5 2])
-xlabel('Time (mo)')
+xlabel('Time (y)')
 %ylabel('log10 Biomass (g m^-^2)')
 ylabel('log10 integrated Biomass (g m^-^2)')
 title('Spinup')

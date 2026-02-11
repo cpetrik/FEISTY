@@ -1,5 +1,5 @@
 %%% Biomass recruiting to size-class (g m-3 d-1)
-function rec = sub_rec_larvSD(X,bio,RE,ENVR,param)
+function rec = sub_rec_larvSD(X,bio,RE,ENVR)
     %X: repro rate
     %bio: adult biomass
     %RE=rfrac: repro efficiency ~ sex ratio * egg survival
@@ -22,7 +22,7 @@ function rec = sub_rec_larvSD(X,bio,RE,ENVR,param)
 
         %distribure evenly (how Remy did it)
         nz = length(X);
-        zfrac = ones(size(X)) ./ (nz .* param.dz);
+        zfrac = ones(size(X)) ./ (nz .* ENVR.dz);
 
         %distribute in water column in proportion to MZ bio
         % Zm(Zm<1e-5) = 0.0;
