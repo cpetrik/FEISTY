@@ -153,7 +153,8 @@ load([vpath 'ocean_cobalt_feisty_forcing_z.199001-199412.thkcello.mat'],'thkcell
 thkcello = thkcello(:,:,:,1:12);
 
 %! Loop over ocean grid cells - PARALLELIZE THIS STEP
-for W = 1%:NWID
+%parfor W = 1:NWID
+for W = 1:4%:NWID
 
     [m,n] = ind2sub([ni,nj],WID(W)); % spatial index of water cell
     % location of interest
@@ -189,7 +190,7 @@ for W = 1%:NWID
         D_Med_f = zeros(NZID,DAYS);
         D_Med_p = zeros(NZID,DAYS);
         D_Lrg_p = zeros(NZID,DAYS);
-        
+
         D_Med_d = zeros(1,DAYS);
         D_Lrg_d = zeros(1,DAYS);
         D_Bent_bio = zeros(1,DAYS);

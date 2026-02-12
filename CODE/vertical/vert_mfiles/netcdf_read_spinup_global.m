@@ -22,9 +22,8 @@ netcdf.close(ncid);
 
 [nid,nt] = size(biomass);
 SP.bio = biomass;
-Sml_p.bio = biomass(:,nt);
 
-%clear biomass 
+clear biomass 
 
 %% SF
 ncid = netcdf.open([fpath exper '_All_fish03_sml_f.nc'],'NC_NOWRITE');
@@ -52,7 +51,6 @@ end
 netcdf.close(ncid);
 
 SD.bio = biomass;
-Sml_d.bio = biomass(:,nt);
 
 clear biomass 
 
@@ -67,7 +65,6 @@ end
 netcdf.close(ncid);
 
 MP.bio = biomass;
-Med_p.bio = biomass(:,nt);
 
 clear biomass 
 
@@ -82,7 +79,6 @@ end
 netcdf.close(ncid);
 
 MF.bio = biomass;
-Med_f.bio = biomass(:,nt);
 
 clear biomass
 
@@ -97,7 +93,6 @@ end
 netcdf.close(ncid);
 
 MD.bio = biomass;
-Med_d.bio = biomass(:,nt);
 
 clear biomass 
 
@@ -112,7 +107,6 @@ end
 netcdf.close(ncid);
 
 LP.bio = biomass;
-Lrg_p.bio = biomass(:,nt);
 
 clear biomass 
 
@@ -127,7 +121,6 @@ end
 netcdf.close(ncid);
 
 LD.bio = biomass;
-Lrg_d.bio = biomass(:,nt);
 
 clear biomass 
 
@@ -142,7 +135,7 @@ end
 netcdf.close(ncid);
 
 Bent.bio = biomass;
-BENT.bio = biomass(:,nt);
+
 clear biomass 
 
 %% Take means

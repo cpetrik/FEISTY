@@ -154,6 +154,7 @@ load([vpath 'ocean_cobalt_feisty_forcing_z.199001-199412.thkcello.mat'],'thkcell
 thkcello = thkcello(:,:,:,1:12);
 
 %! Loop over ocean grid cells - PARALLELIZE THIS STEP
+parpool('Processes', 128)
 parfor W = 1:NWID
 
     [m,n] = ind2sub([ni,nj],WID(W)); % spatial index of water cell
