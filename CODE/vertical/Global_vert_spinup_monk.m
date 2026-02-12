@@ -48,7 +48,7 @@ Tdays=1:DAYS;
 
 %! Create a directory for output
 %eventually change so exper is subfolder within offline_feisty
-exper = 'Global_spinup_COBALTv3_halfdeg';
+exper = 'Global_spinup_COBALTv3_halfdeg_v2';
 %opath = '/Volumes/petrik-lab/Feisty/NC/MOM6-1D/Global/offline_feisty/';
 %opath = '/project/Feisty/NC/MOM6-1D/Global/offline_feisty/';
 opath = '/scratch/cpetrik/Feisty/MOM6-COBALTv3/Global_offline_feisty/';
