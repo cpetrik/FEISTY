@@ -1,5 +1,5 @@
 %%%%!! RUN SPINUP FOR WHOLE GLOBE, ALL DEPTHS
-function Global_vert_spinup()
+function Global_vert_spinup_monk()
 
 %%%%%%%%%%%%%%% Initialize Model Variables
 %! Set fishing rate
@@ -13,9 +13,9 @@ param.dfrateD = nan;
 param = make_parameters(param);
 
 %! Grids
-vpath = '/Volumes/petrik-lab/Feisty/GCM_Data/OM4_05_COBALTv3_FEISTYoff/';
+%vpath = '/Volumes/petrik-lab/Feisty/GCM_Data/OM4_05_COBALTv3_FEISTYoff/';
 %vpath = '/project/Feisty/GCM_Data/OM4_05_COBALTv3_FEISTYoff/';
-%vpath = '/scratch/cpetrik/GCM_Data/OM4_05_COBALTv3_FEISTYoff/';
+vpath = '/scratch/cpetrik/GCM_Data/OM4_05_COBALTv3_FEISTYoff/';
 
 %1-D
 load([vpath 'grid_OM4_05_COBALTv3.mat'],'wet','geolon','z_l');
@@ -49,8 +49,9 @@ Tdays=1:DAYS;
 %! Create a directory for output
 %eventually change so exper is subfolder within offline_feisty
 exper = 'Global_spinup_COBALTv3_halfdeg';
-opath = '/Volumes/petrik-lab/Feisty/NC/MOM6-1D/Global/offline_feisty/';
+%opath = '/Volumes/petrik-lab/Feisty/NC/MOM6-1D/Global/offline_feisty/';
 %opath = '/project/Feisty/NC/MOM6-1D/Global/offline_feisty/';
+opath = '/scratch/cpetrik/Feisty/MOM6-COBALTv3/Global_offline_feisty/';
 [fname,simname,sname] = sub_fname_spin(param,opath,exper);
 
 
@@ -153,7 +154,7 @@ load([vpath 'ocean_cobalt_feisty_forcing_z.199001-199412.thkcello.mat'],'thkcell
 thkcello = thkcello(:,:,:,1:12);
 
 %! Loop over ocean grid cells - PARALLELIZE THIS STEP
-for W = 1%:NWID
+parfor W = 1:NWID
 
     [m,n] = ind2sub([ni,nj],WID(W)); % spatial index of water cell
     % location of interest
