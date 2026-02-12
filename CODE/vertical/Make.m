@@ -15,7 +15,8 @@ if testoneloc
     %BATS_1D_spinup_fromIC()
 end
 if testglobal
-    Global_vert_spinup()
+    %Global_vert_spinup()
+    Global_vert_spinup_monk()
 end
 
 toc
