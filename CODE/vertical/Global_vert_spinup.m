@@ -154,7 +154,7 @@ thkcello = thkcello(:,:,:,1:12);
 
 %! Loop over ocean grid cells - PARALLELIZE THIS STEP
 %parfor W = 1:NWID
-for W = 1:4%:NWID
+for W = 1:NWID
 
     [m,n] = ind2sub([ni,nj],WID(W)); % spatial index of water cell
     % location of interest
