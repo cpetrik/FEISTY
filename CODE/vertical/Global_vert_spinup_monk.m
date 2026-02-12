@@ -154,7 +154,7 @@ load([vpath 'ocean_cobalt_feisty_forcing_z.199001-199412.thkcello.mat'],'thkcell
 thkcello = thkcello(:,:,:,1:12);
 
 %! Loop over ocean grid cells 
-parfor W = 1:NWID
+for W = 1:NWID
 
     if (rem(W,100)==0)
         num2str(W)
