@@ -48,7 +48,7 @@ Tdays=1:DAYS;
 
 %! Create a directory for output
 %eventually change so exper is subfolder within offline_feisty
-exper = 'Global_spinup_COBALTv3_halfdeg_v3';
+exper = 'Global_spinup_COBALTv3_halfdeg_v2';
 %opath = '/Volumes/petrik-lab/Feisty/NC/MOM6-1D/Global/offline_feisty/';
 %opath = '/project/Feisty/NC/MOM6-1D/Global/offline_feisty/';
 opath = '/scratch/cpetrik/Feisty/MOM6-COBALTv3/Global_offline_feisty/';
@@ -83,7 +83,7 @@ ncidLD = netcdf.create(file_lrg_d,'NC_WRITE');
 ncidB  = netcdf.create(file_bent,'NC_WRITE');
 
 %% ! Def vars of netcdf file
-['Defining netcdfs, takes ~5 minutes ... ']
+['Defining netcdfs, takes ~15 minutes ... ']
 %3-D
 xy_dim      = netcdf.defDim(ncidSF,'wid',NWID);
 z_dim       = netcdf.defDim(ncidSF,'zid',NZID);
@@ -153,12 +153,10 @@ netcdf.endDef(ncidB);
 load([vpath 'ocean_cobalt_feisty_forcing_z.199001-199412.thkcello.mat'],'thkcello')
 thkcello = thkcello(:,:,:,1:12);
 
-%! Loop over ocean grid cells 
-parfor W = 1:NWID
-
-    if (rem(W,100)==0)
-        num2str(W)
-    end
+%! Loop over ocean grid cells - PARALLELIZE THIS STEP
+%parpool('Processes', 128)
+parpool('Processes', 2)
+parfor W = 1:2 %NWID
 
     [m,n] = ind2sub([ni,nj],WID(W)); % spatial index of water cell
     % location of interest
