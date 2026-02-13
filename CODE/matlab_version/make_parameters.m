@@ -19,7 +19,7 @@ function param = make_parameters(param)
     %! Benthic-pelagic coupling cutoff (depth, m)
     param.PI_be_cutoff = 200;
     % 0:no coupling; 1:demersal coupled only; 2:pelagic & demersal coupled;
-    param.pdc = 1;
+    param.pdc = 0;
 
     %!Individual Mass (g) = geometric mean
     param.M_s = 10^((log10(0.001)+log10(0.5))/2);  %0.0224

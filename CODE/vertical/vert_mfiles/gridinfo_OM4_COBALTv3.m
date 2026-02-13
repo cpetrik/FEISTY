@@ -60,8 +60,19 @@ save([fpath 'grid_OM4_05_COBALTv3.mat'],'areacello_units','areacello_long_name',
     'geolon_units','geolon_long_name','geolon','sftof_units','sftof_long_name','sftof',...
     'wet_long_name','wet','z_l_units','z_l_long_name','z_l');
 
+%%
+WID = find(wet(:)==1);
+NWID = length(WID);
+
+GRD.ID = WID;
+GRD.N = NWID;
+GRD.LON = geolon(WID);
+GRD.LAT = geolat(WID);
+GRD.Z = deptho(WID);
+GRD.A = areacello(WID);
 
 
+save([fpath 'Data_grid_OM4_05_COBALTv3.mat'],'GRD');
 
 
 
