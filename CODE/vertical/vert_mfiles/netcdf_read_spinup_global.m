@@ -20,6 +20,8 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
+biomass(biomass>1e19) = nan;
+
 [nid,nt] = size(biomass);
 SP.bio = biomass;
 
@@ -34,6 +36,7 @@ for i = 1:nvars
     eval([ varname '(' varname ' == 99999) = NaN;']);
 end
 netcdf.close(ncid);
+biomass(biomass>1e19) = nan;
 
 SF.bio = biomass;
 Sml_f.bio = biomass(:,nt);
@@ -49,6 +52,7 @@ for i = 1:nvars
     eval([ varname '(' varname ' == 99999) = NaN;']);
 end
 netcdf.close(ncid);
+biomass(biomass>1e19) = nan;
 
 SD.bio = biomass;
 
@@ -63,6 +67,7 @@ for i = 1:nvars
     eval([ varname '(' varname ' == 99999) = NaN;']);
 end
 netcdf.close(ncid);
+biomass(biomass>1e19) = nan;
 
 MP.bio = biomass;
 
@@ -77,6 +82,7 @@ for i = 1:nvars
     eval([ varname '(' varname ' == 99999) = NaN;']);
 end
 netcdf.close(ncid);
+biomass(biomass>1e19) = nan;
 
 MF.bio = biomass;
 
@@ -91,6 +97,7 @@ for i = 1:nvars
     eval([ varname '(' varname ' == 99999) = NaN;']);
 end
 netcdf.close(ncid);
+biomass(biomass>1e19) = nan;
 
 MD.bio = biomass;
 
@@ -105,6 +112,7 @@ for i = 1:nvars
     eval([ varname '(' varname ' == 99999) = NaN;']);
 end
 netcdf.close(ncid);
+biomass(biomass>1e19) = nan;
 
 LP.bio = biomass;
 
@@ -119,6 +127,7 @@ for i = 1:nvars
     eval([ varname '(' varname ' == 99999) = NaN;']);
 end
 netcdf.close(ncid);
+biomass(biomass>1e19) = nan;
 
 LD.bio = biomass;
 
@@ -133,6 +142,7 @@ for i = 1:nvars
     eval([ varname '(' varname ' == 99999) = NaN;']);
 end
 netcdf.close(ncid);
+biomass(biomass>1e19) = nan;
 
 Bent.bio = biomass;
 
@@ -144,53 +154,90 @@ MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 
 %Time
-sp_tmean=mean(SP.bio,1);
-sf_tmean=mean(SF.bio,1);
-sd_tmean=mean(SD.bio,1);
-mp_tmean=mean(MP.bio,1);
-mf_tmean=mean(MF.bio,1);
-md_tmean=mean(MD.bio,1);
-lp_tmean=mean(LP.bio,1);
-ld_tmean=mean(LD.bio,1);
-b_tmean=mean(Bent.bio,1);
+sf_tmean=squeeze(mean(SF.bio,1,'omitnan'));
+sp_tmean=squeeze(mean(SP.bio,1,'omitnan'));
+sd_tmean=squeeze(mean(SD.bio,1,'omitnan'));
+mf_tmean=squeeze(mean(MF.bio,1,'omitnan'));
+mp_tmean=squeeze(mean(MP.bio,1,'omitnan'));
+md_tmean=squeeze(mean(MD.bio,1,'omitnan'));
+lp_tmean=squeeze(mean(LP.bio,1,'omitnan'));
+ld_tmean=squeeze(mean(LD.bio,1,'omitnan'));
+b_tmean=squeeze(mean(Bent.bio,1,'omitnan'));
 
 
-% Last year
-lyr=time((end-12+1):end);
-sp_mean=mean(SP.bio(:,lyr),2);
-sf_mean=mean(SF.bio(:,lyr),2);
-sd_mean=mean(SD.bio(:,lyr),2);
-mp_mean=mean(MP.bio(:,lyr),2);
-mf_mean=mean(MF.bio(:,lyr),2);
-md_mean=mean(MD.bio(:,lyr),2);
-lp_mean=mean(LP.bio(:,lyr),2);
-ld_mean=mean(LD.bio(:,lyr),2);
-b_mean=mean(Bent.bio(:,lyr),2);
+%% Last year
+% lyr=time((end-12+1):end);
+% sp_mean=mean(SP.bio(:,lyr),2);
+% sf_mean=mean(SF.bio(:,lyr),2);
+% sd_mean=mean(SD.bio(:,lyr),2);
+% mp_mean=mean(MP.bio(:,lyr),2);
+% mf_mean=mean(MF.bio(:,lyr),2);
+% md_mean=mean(MD.bio(:,lyr),2);
+% lp_mean=mean(LP.bio(:,lyr),2);
+% ld_mean=mean(LD.bio(:,lyr),2);
+% b_mean=mean(Bent.bio(:,lyr),2);
+% 
+% %% Save last month for initializing hindcast runs
+% 
+% Sml_f.bio = mean(SF.bio(:,end),2,'omitnan');
+% Sml_p.bio = mean(SP.bio(:,end),2,'omitnan');
+% Sml_d.bio = mean(SD.bio(:,end),2,'omitnan');
+% Med_f.bio = mean(MF.bio(:,end),2,'omitnan');
+% Med_p.bio = mean(MP.bio(:,end),2,'omitnan');
+% Med_d.bio = mean(MD.bio(:,end),2,'omitnan');
+% Lrg_p.bio = mean(LP.bio(:,end),2,'omitnan');
+% Lrg_d.bio = mean(LD.bio(:,end),2,'omitnan');
+% BENT.bio  = mean(Bent.bio(:,end),2,'omitnan');
+% 
+% save([fpath 'Last_mo_' exper '_All_fish03_' cfile '.mat'],'Sml_f','Sml_p','Sml_d',...
+%     'Med_f','Med_p','Med_d','Lrg_p','Lrg_d','BENT')
+% 
+% 
+% %% Save means
+% save([fpath 'Means_' exper '_All_fish03_' cfile '.mat'],'time','lyr',...
+%     'sf_mean','sp_mean','sd_mean',...
+%     'mf_mean','mp_mean','md_mean',...
+%     'b_mean','lp_mean','ld_mean',...
+%     'sf_tmean','sp_tmean','sd_tmean',...
+%     'mf_tmean','mp_tmean','md_tmean',...
+%     'b_tmean','lp_tmean','ld_tmean');
+% 
+% 
+%%
+time = 5:5:150;
 
-%% Save last month for initializing hindcast runs
+figure
+plot(time,sf_tmean)
+title('SF')
 
-Sml_f.bio = mean(SF.bio(:,end),2,'omitnan');
-Sml_p.bio = mean(SP.bio(:,end),2,'omitnan');
-Sml_d.bio = mean(SD.bio(:,end),2,'omitnan');
-Med_f.bio = mean(MF.bio(:,end),2,'omitnan');
-Med_p.bio = mean(MP.bio(:,end),2,'omitnan');
-Med_d.bio = mean(MD.bio(:,end),2,'omitnan');
-Lrg_p.bio = mean(LP.bio(:,end),2,'omitnan');
-Lrg_d.bio = mean(LD.bio(:,end),2,'omitnan');
-BENT.bio  = mean(Bent.bio(:,end),2,'omitnan');
+figure
+plot(time,sp_tmean)
+title('SP')
 
-save([fpath 'Last_mo_' exper '_All_fish03_' cfile '.mat'],'Sml_f','Sml_p','Sml_d',...
-    'Med_f','Med_p','Med_d','Lrg_p','Lrg_d','BENT')
+figure
+plot(time,sd_tmean)
+title('SD')
 
+figure
+plot(time,mf_tmean)
+title('MF')
 
-%% Save means
-save([fpath 'Means_' exper '_All_fish03_' cfile '.mat'],'time','lyr',...
-    'sf_mean','sp_mean','sd_mean',...
-    'mf_mean','mp_mean','md_mean',...
-    'b_mean','lp_mean','ld_mean',...
-    'sf_tmean','sp_tmean','sd_tmean',...
-    'mf_tmean','mp_tmean','md_tmean',...
-    'b_tmean','lp_tmean','ld_tmean');
-    
+figure
+plot(time,mp_tmean)
+title('MP')
 
+figure
+plot(time,md_tmean)
+title('MD')
 
+figure
+plot(time,lp_tmean)
+title('LP')
+
+figure
+plot(time,ld_tmean)
+title('LD')
+
+figure
+plot(time,b_tmean)
+title('B')

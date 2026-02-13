@@ -34,4 +34,4 @@ ESM = daily_interp_int_monthly_means(NWID,Time,Tdays,...
     TEMP_z,TEMP_btm,det_btm,MZ,LZ,MZloss,LZloss,thkcello,WID,ni,nj);
 
 %% Save
-save([vpath 'ocean_cobalt_feisty_forcing_2dint_1990.mat'],'ESM')
+save([vpath 'ocean_cobalt_feisty_forcing_2dint_1990.mat'],'ESM',"-v7.3")

@@ -48,7 +48,7 @@ Tdays=1:DAYS;
 
 %! Create a directory for output
 %eventually change so exper is subfolder within offline_feisty
-exper = 'Global_spinup_COBALTv3_halfdeg_v3';
+exper = 'Global_spinup_COBALTv3_halfdeg_v4';
 %opath = '/Volumes/petrik-lab/Feisty/NC/MOM6-1D/Global/offline_feisty/';
 %opath = '/project/Feisty/NC/MOM6-1D/Global/offline_feisty/';
 opath = '/scratch/cpetrik/Feisty/MOM6-COBALTv3/Global_offline_feisty/';
@@ -154,7 +154,7 @@ load([vpath 'ocean_cobalt_feisty_forcing_z.199001-199412.thkcello.mat'],'thkcell
 thkcello = thkcello(:,:,:,1:12);
 
 %! Loop over ocean grid cells 
-for W = 1:NWID
+for W = 700:NWID
 
     if (rem(W,100)==0)
         num2str(W)
