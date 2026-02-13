@@ -18,7 +18,7 @@ nyears = length(ystart);
 load([fpath 'grid_OM4_05_COBALTv3.mat'],'areacello','areacello_long_name','areacello_units');
 
 %% loop over years
-for y = 1:nyears
+for y = 5:6 %1:nyears
 
     %% volume
     ncid = netcdf.open([fpath 'ocean_cobalt_feisty_forcing_z.',num2str(ystart(y)),'01-',num2str(yend(y)),'12.volcello.nc'],'NC_NOWRITE');

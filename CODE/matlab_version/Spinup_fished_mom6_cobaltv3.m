@@ -51,7 +51,7 @@ S_Lrg_d = zeros(NX,DAYS);
 [Sml_f,Sml_p,Sml_d,Med_f,Med_p,Med_d,Lrg_p,Lrg_d,BENT] = sub_init_fish(ID,DAYS);
 
 %! Dims of netcdf file
-nt = length(YEARS);
+nt = (YEARS);
 netcdf.setDefaultFormat('NC_FORMAT_64BIT');
 
 %% %%%%%%%%%%%%% Setup NetCDF save
