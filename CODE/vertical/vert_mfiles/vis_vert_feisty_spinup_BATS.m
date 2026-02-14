@@ -5,12 +5,12 @@ close all
 
 vpath = '/Volumes/petrik-lab/Feisty/NC/MOM6-1D/BATS_vert/cobalt_only/';
 
-cname = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
+cname = 'NoDc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 fpath = ['/Volumes/petrik-lab/Feisty/NC/MOM6-1D/BATS_vert/offline_feisty/' cname '/'];
 
 exper = 'BATS_spinup_COBALT2004_v4_HPcap_All_fish03';
 
-ppath = '/Users/cpetrik/Petrik Lab Group Dropbox/Colleen Petrik/MAPP-METF/NCAR3/online_FEISTY/GFDL_MOM6_1D/Vertical/Offline/';
+ppath = '/Users/cpetrik/Petrik Lab Group Dropbox/Colleen Petrik/MAPP-METF/NCAR3/online_FEISTY/GFDL_MOM6_1D/Vertical/Offline_Feisty/NoDc/';
 
 %%
 load([fpath exper '.mat'])

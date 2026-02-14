@@ -10,7 +10,7 @@ fpath = ['/Volumes/petrik-lab/Feisty/NC/MOM6-1D/BATS_vert/offline_feisty/' cname
 
 exper = 'BATS_10yr_COBALT2004_v4_HPcap_All_fish03';
 
-ppath = '/Users/cpetrik/Petrik Lab Group Dropbox/Colleen Petrik/MAPP-METF/NCAR3/online_FEISTY/GFDL_MOM6_1D/Vertical/Offline_Feisty/';
+ppath = '/Users/cpetrik/Petrik Lab Group Dropbox/Colleen Petrik/MAPP-METF/NCAR3/online_FEISTY/GFDL_MOM6_1D/Vertical/Offline_Feisty/NoDc/';
 
 %%
 load([fpath exper '.mat'])

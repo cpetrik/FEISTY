@@ -16,22 +16,29 @@ NWID = length(WID);
 NZID = length(z_l);
 [ni,nj] = size(geolon);
 
-%%
-[TEMP_z,TEMP_btm,MZ,LZ,MZloss,LZloss,det_btm] = ncread_global_feisty_forcing_first_year(vpath,ni,nj,NZID);
+%% years
+ystart = 1990:5:2015;
+yend = 1994:5:2019;
+nyears = length(ystart);
 
-% THICKNESS
-load([vpath 'ocean_cobalt_feisty_forcing_z.199001-199412.thkcello.mat'],'thkcello')
-thkcello = thkcello(:,:,:,1:12);
-
-%%
 Time=15:30:365;
 Tdays=1:365;
 
-%%
+%% loop over years
+for y = 1:nyears
 
-%Interpolate monthly forcing to daily
-ESM = daily_interp_int_monthly_means(NWID,Time,Tdays,...
-    TEMP_z,TEMP_btm,det_btm,MZ,LZ,MZloss,LZloss,thkcello,WID,ni,nj);
+    %%
+    [TEMP_z,TEMP_btm,MZ,LZ,MZloss,LZloss,det_btm] = ncread_global_feisty_forcing_first_year(vpath,ni,nj,NZID);
 
-%% Save
-save([vpath 'ocean_cobalt_feisty_forcing_2dint_1990.mat'],'ESM',"-v7.3")
+    % THICKNESS
+    load([vpath 'ocean_cobalt_feisty_forcing_z.',num2str(ystart(y)),'01-',num2str(yend(y)),'12.thkcello.mat'],'thkcello')
+    thkcello = thkcello(:,:,:,1:12);
+
+    %% Interpolate monthly forcing to daily
+    ESM = daily_interp_int_monthly_means(NWID,Time,Tdays,...
+        TEMP_z,TEMP_btm,det_btm,MZ,LZ,MZloss,LZloss,thkcello,WID,ni,nj);
+
+    %% Save
+    save([vpath 'ocean_cobalt_feisty_forcing_2dint_',num2str(ystart(y)),'.mat'],'ESM',"-v7.3")
+
+end

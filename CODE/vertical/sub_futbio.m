@@ -13,7 +13,11 @@ ENVR.dZm  = sub_neg(ENVR.dZm);
 ENVR.dZl  = sub_neg(ENVR.dZl);
 
 if isfield(ENVR,'H')==0
-    ENVR = param.depth;
+    ENVR.H = param.depth;
+end
+
+if isfield(ENVR,'dz')==0
+    ENVR.dz = param.dz;
 end
 
 %ENVR.det = ENVR.det *10;
@@ -195,9 +199,9 @@ Mf.rec = sub_rec(Sf.gamma,Sf.bio);
 Mp.rec = sub_rec(Sp.gamma,Sp.bio);
 Lp.rec = sub_rec(Mp.gamma,Mp.bio);
 
-Sd.rec = sub_rec_larvSD(Ld.rep,Ld.bio,param.rfrac,ENVR,param);
-Md.rec = sub_recMD(Sd.gamma,Sd.bio,Md.td,param);
-Ld.rec = sub_recLD(Md.gamma,Md.bio,ENVR,param);
+Sd.rec = sub_rec_larvSD(Ld.rep,Ld.bio,param.rfrac,ENVR);
+Md.rec = sub_recMD(Sd.gamma,Sd.bio,Md.td,ENVR);
+Ld.rec = sub_recLD(Md.gamma,Md.bio,ENVR);
 
 % Fishing by rate
 [Mf.caught, Mf.fmort] = sub_fishing_rate(Mf.bio,dfrate,param.MFsel);
