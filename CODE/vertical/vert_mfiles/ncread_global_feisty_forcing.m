@@ -4,17 +4,17 @@
 clear
 close all
 
-%fpath = '/Volumes/petrik-lab/Feisty/NC/Global_COBALT_FEISTY/';
-fpath = '/project/Feisty/NC/Global_COBALT_FEISTY/';
+fpath = '/Volumes/petrik-lab/Feisty/NC/Global_COBALT_FEISTY/';
+%fpath = '/project/Feisty/NC/Global_COBALT_FEISTY/';
 
-%gpath = '/Volumes/petrik-lab/Feisty/GCM_Data/OM4_05_COBALTv3_FEISTYoff/';
-gpath = '/project/Feisty/GCM_Data/OM4_05_COBALTv3_FEISTYoff/';
-
-%%
-load([gpath 'grid_OM4_05_COBALTv3.mat'],'wet','z_l_units','z_l_long_name','z_l')
+gpath = '/Volumes/petrik-lab/Feisty/GCM_Data/OM4_05_COBALTv3_FEISTYoff/';
+%gpath = '/project/Feisty/GCM_Data/OM4_05_COBALTv3_FEISTYoff/';
 
 %%
-%ncdisp([fpath 'ocean_cobalt_feisty_forcing_z.199001-199412.nmdz.nc'])
+%load([gpath 'grid_OM4_05_COBALTv3.mat'],'wet','z_l_units','z_l_long_name','z_l')
+
+%%
+ncdisp([fpath 'ocean_cobalt_feisty_forcing_z.199001-199412.nmdz.nc'])
 
 %%
 st = 1990:5:2019;
@@ -140,43 +140,43 @@ for y=1:2%:6
         num2str(st(y)),'01-',num2str(en(y)),'12.thkcello.mat'])
 
     %% Vertical means
-    vMz = mean(nmdz,1);
-    vMz = squeeze(mean(vMz,2));
-    vMz = squeeze(mean(vMz,2));
+    vMz = mean(nmdz,1,'omitnan');
+    vMz = squeeze(mean(vMz,2,'omitnan'));
+    vMz = squeeze(mean(vMz,2,'omitnan'));
 
-    vMhp = mean(jhploss_n_Mdz,1);
-    vMhp = squeeze(mean(vMhp,2));
-    vMhp = squeeze(mean(vMhp,2));
+    vMhp = mean(jhploss_n_Mdz,1,'omitnan');
+    vMhp = squeeze(mean(vMhp,2,'omitnan'));
+    vMhp = squeeze(mean(vMhp,2,'omitnan'));
 
-    vLz = mean(nlgz,1);
-    vLz = squeeze(mean(vLz,2));
-    vLz = squeeze(mean(vLz,2));
+    vLz = mean(nlgz,1,'omitnan');
+    vLz = squeeze(mean(vLz,2,'omitnan'));
+    vLz = squeeze(mean(vLz,2,'omitnan'));
 
-    vLhp = mean(jhploss_n_Lgz,1);
-    vLhp = squeeze(mean(vLhp,2));
-    vLhp = squeeze(mean(vLhp,2));
+    vLhp = mean(jhploss_n_Lgz,1,'omitnan');
+    vLhp = squeeze(mean(vLhp,2,'omitnan'));
+    vLhp = squeeze(mean(vLhp,2,'omitnan'));
   
     %% vert sums or means
-    iMZ = squeeze(sum((nmdz.*thkcello),3));
-    iMH = squeeze(sum((jhploss_n_Mdz.*thkcello),3));
+    iMZ = squeeze(sum((nmdz.*thkcello),3,'omitnan'));
+    iMH = squeeze(sum((jhploss_n_Mdz.*thkcello),3,'omitnan'));
     
-    iLZ = squeeze(sum((nlgz.*thkcello),1));
-    iLH = squeeze(sum((jhploss_n_Lgz.*thkcello),3));
+    iLZ = squeeze(sum((nlgz.*thkcello),1,'omitnan'));
+    iLH = squeeze(sum((jhploss_n_Lgz.*thkcello),3,'omitnan'));
 
-    mTP = squeeze(sum((thetao(:,:,1:10,:).*thkcello(:,:,1:10,:)),3) ./ sum(thkcello(:,:,1:10,:),3));
+    mTP = squeeze(sum((thetao(:,:,1:10,:).*thkcello(:,:,1:10,:)),3,'omitnan') ./ sum(thkcello(:,:,1:10,:),3,'omitnan'));
 
     %% Time series of vert integral
-    tMz = mean(iMZ,1);
-    tMz = squeeze(mean(tMz,2));
+    tMz = mean(iMZ,1,'omitnan');
+    tMz = squeeze(mean(tMz,2,'omitnan'));
 
-    tMhp = mean(iMH,1);
-    tMhp = squeeze(mean(tMhp,2));
+    tMhp = mean(iMH,1,'omitnan');
+    tMhp = squeeze(mean(tMhp,2,'omitnan'));
 
-    tLz = mean(iLZ,1);
-    tLz = squeeze(mean(tLz,2));
+    tLz = mean(iLZ,1,'omitnan');
+    tLz = squeeze(mean(tLz,2,'omitnan'));
 
-    tLhp = mean(iLH,1);
-    tLhp = squeeze(mean(tLhp,2));
+    tLhp = mean(iLH,1,'omitnan');
+    tLhp = squeeze(mean(tLhp,2,'omitnan'));
 
     tTp = mean(mTP,1,'omitnan');
     tTp = squeeze(mean(tTp,2,'omitnan'));
@@ -223,7 +223,9 @@ for y=1:2%:6
 end
 
 save([fpath 'ocean_cobalt_feisty_forcing_z.199001',...
-        '-',num2str(en(y)),'12_means.nc'])
+        '-',num2str(en(y)),'12_means.nc'],'tMZ','tMH','tLZ','tLH','tTP',...
+        'tTB','tDE','sMZ','sMH','sLZ','sLH','sTP','sTB','sDE',...
+        'vMZ','vMH','vLZ','vLH')
 
 
 
