@@ -160,7 +160,7 @@ for y=1:2%:6
     iMZ = squeeze(sum((nmdz.*thkcello),3,'omitnan'));
     iMH = squeeze(sum((jhploss_n_Mdz.*thkcello),3,'omitnan'));
     
-    iLZ = squeeze(sum((nlgz.*thkcello),1,'omitnan'));
+    iLZ = squeeze(sum((nlgz.*thkcello),3,'omitnan'));
     iLH = squeeze(sum((jhploss_n_Lgz.*thkcello),3,'omitnan'));
 
     mTP = squeeze(sum((thetao(:,:,1:10,:).*thkcello(:,:,1:10,:)),3,'omitnan') ./ sum(thkcello(:,:,1:10,:),3,'omitnan'));
