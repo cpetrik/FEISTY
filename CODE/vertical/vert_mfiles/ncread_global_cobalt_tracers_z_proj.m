@@ -52,7 +52,7 @@ for y=1%:6
     ndet(ndet>1e19) = nan;
 
     %% nsm
-    ncid = netcdf.open([fpath 'ocean_cobalt_feisty_forcing_2d.',...
+    ncid = netcdf.open([fpath 'ocean_cobalt_tracers_month_z.',...
         num2str(st(y)),'01-',num2str(en(y)),'12.nsm.nc'],'NC_NOWRITE');
     [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
     for i = 5
