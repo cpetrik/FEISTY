@@ -7,27 +7,32 @@ clear
 close all
 
 %%
-gpath='/Volumes/petrik-lab/Feisty/Fish-MIP/CMIP6/GFDL/';
+cpath = '/Volumes/petrik-lab/Feisty/GCM_Data/OM4_05_COBALTv3_FEISTYoff/';
+gpath = cpath;
+
 opath = '/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/';
 
 pp = '/Users/cpetrik/Petrik Lab Group Dropbox/Colleen Petrik/Princeton/FEISTY/CODE/Figs/Matlab_New_sizes/';
 
-cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
+cfile = 'NoDc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 
-fpath=[opath cfile '/CMIP6/'];
-ppath = [pp cfile '/CMIP6/'];
+fpath=[opath cfile '/COBALTv3_Hindcast_HalfDeg/'];
+ppath = [pp cfile '/Cobalt_Feisty/'];
 if (~isfolder(ppath))
     mkdir(ppath)
 end
 
-vers = 'Spinup1951_const_spawning_All_fish03';
-mod = 'Spinup1951_const_spawning_All_fish03';
+vers = 'Spinup1990_All_fish03';
+mod = 'Spinup1990_All_fish03_2D_offline';
 load([fpath 'Means_' vers '_' cfile '.mat']);
 
-load([gpath 'Data_grid_gfdl.mat'],'GRD');
-load([gpath 'gridspec_gfdl_cmip6.mat']);
+load([cpath 'Data_grid_OM4_05_COBALTv3.mat'],'GRD');
+load([gpath 'grid_OM4_05_COBALTv3.mat'],'geolon','geolat');
 
 %%
+LON = double(geolon);
+LAT = double(geolat);
+
 [ni,nj]=size(LON);
 plotminlat=-90; %Set these bounds for your data
 plotmaxlat=90;
@@ -59,7 +64,7 @@ D = sd_tmean+md_tmean+ld_tmean;
 B = b_tmean;
 
 %% Plots in time
-y = time/12; %last 30 yrs
+y = time; %last 30 yrs
 
 % All size classes of all
 figure(1)

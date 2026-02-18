@@ -24,16 +24,16 @@ NX = length(GRD.Z);
 ID = 1:param.NX;
 
 %! How long to run the model
-YEARS = 1990:2019; %1950:2014;
+YEARS = 1990:1994; %1990:2019;
 nYEARS = length(YEARS);
 DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Create a directory for output
-exper = 'Spinup1990';
+exper = '1990';
 %opath = '/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/';
 opath = '/project/Feisty/NC/Matlab_new_size/';
-[fname,simname,outdir] = sub_fname_spin_mom6_cobaltv2(param,opath,exper);
+[fname,simname,sname] = sub_fname_hist_mom6_cobaltv3(param,opath,exper);
 
 %! Storage variables
 S_Bent_bio = zeros(NX,DAYS);
