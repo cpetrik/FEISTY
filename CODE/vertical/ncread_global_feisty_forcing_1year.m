@@ -10,7 +10,7 @@ ncid = netcdf.open([fpath 'ocean_cobalt_feisty_forcing_z.',yrs,'.thetao.nc'],'NC
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 6
     varname = netcdf.inqVar(ncid, i-1);
-    eval([ varname ' = netcdf.getVar(ncid,i-1, [0,0,0,styr],[ni nj nz 12]);']);
+    eval([ varname ' = netcdf.getVar(ncid,i-1, [0,0,0,styr-1],[ni nj nz 12]);']);
     eval([ varname '(' varname ' == 1e20) = NaN;']);
 end
 netcdf.close(ncid);
@@ -22,7 +22,7 @@ ncid = netcdf.open([fpath 'ocean_cobalt_feisty_forcing_2d.',yrs,'.tob.nc'],'NC_N
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 7
     varname = netcdf.inqVar(ncid, i-1);
-    eval([ varname ' = netcdf.getVar(ncid,i-1, [0,0,styr],[ni nj 12]);']);
+    eval([ varname ' = netcdf.getVar(ncid,i-1, [0,0,styr-1],[ni nj 12]);']);
     eval([ varname '(' varname ' == 1e20) = NaN;']);
 end
 netcdf.close(ncid);
@@ -34,7 +34,7 @@ ncid = netcdf.open([fpath 'ocean_cobalt_feisty_forcing_z.',yrs,'.nmdz.nc'],'NC_N
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 5
     varname = netcdf.inqVar(ncid, i-1);
-    eval([ varname ' = netcdf.getVar(ncid,i-1, [0,0,0,styr],[ni nj nz 12]);']);
+    eval([ varname ' = netcdf.getVar(ncid,i-1, [0,0,0,styr-1],[ni nj nz 12]);']);
     eval([ varname '(' varname ' == 1e20) = NaN;']);
 end
 netcdf.close(ncid);
@@ -46,7 +46,7 @@ ncid = netcdf.open([fpath 'ocean_cobalt_feisty_forcing_z.',yrs,'.nlgz.nc'],'NC_N
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 5
     varname = netcdf.inqVar(ncid, i-1);
-    eval([ varname ' = netcdf.getVar(ncid,i-1, [0,0,0,styr],[ni nj nz 12]);']);
+    eval([ varname ' = netcdf.getVar(ncid,i-1, [0,0,0,styr-1],[ni nj nz 12]);']);
     eval([ varname '(' varname ' == 1e20) = NaN;']);
 end
 netcdf.close(ncid);
@@ -58,7 +58,7 @@ ncid = netcdf.open([fpath 'ocean_cobalt_feisty_forcing_z.',yrs,'.jhploss_n_Mdz.n
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 5
     varname = netcdf.inqVar(ncid, i-1);
-    eval([ varname ' = netcdf.getVar(ncid,i-1, [0,0,0,styr],[ni nj nz 12]);']);
+    eval([ varname ' = netcdf.getVar(ncid,i-1, [0,0,0,styr-1],[ni nj nz 12]);']);
     eval([ varname '(' varname ' == 1e20) = NaN;']);
 end
 netcdf.close(ncid);
@@ -70,7 +70,7 @@ ncid = netcdf.open([fpath 'ocean_cobalt_feisty_forcing_z.',yrs,'.jhploss_n_Lgz.n
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 5
     varname = netcdf.inqVar(ncid, i-1);
-    eval([ varname ' = netcdf.getVar(ncid,i-1, [0,0,0,styr],[ni nj nz 12]);']);
+    eval([ varname ' = netcdf.getVar(ncid,i-1, [0,0,0,styr-1],[ni nj nz 12]);']);
     eval([ varname '(' varname ' == 1e20) = NaN;']);
 end
 netcdf.close(ncid);
@@ -82,7 +82,7 @@ ncid = netcdf.open([fpath 'ocean_cobalt_feisty_forcing_2d.',yrs,'.fntot_btm.nc']
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 4
     varname = netcdf.inqVar(ncid, i-1);
-    eval([ varname ' = netcdf.getVar(ncid,i-1, [0,0,styr],[ni nj 12]);']);
+    eval([ varname ' = netcdf.getVar(ncid,i-1, [0,0,styr-1],[ni nj 12]);']);
     eval([ varname '(' varname ' == 1e20) = NaN;']);
 end
 netcdf.close(ncid);

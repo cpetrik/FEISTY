@@ -27,9 +27,9 @@ yst = 1990:5:2019;
 yen = 1994:5:2019;
 
 allY = 1990:2019;
-ytick = 0;
+ytick = 4;
 for Y = 1:length(yst)
-    for m = 1:5
+    for m = 5 %1:5
         %% read in one year
         ytick= ytick+1;
         yrs = [num2str(yst(Y)),'01-',num2str(yen(Y)),'12'];
