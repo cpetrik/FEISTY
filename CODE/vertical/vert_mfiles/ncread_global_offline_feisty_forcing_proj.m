@@ -1,17 +1,14 @@
-% 0.5 degree global MOM6-COBALTv3-FEISTY online
+% 0.5 degree global MOM6-COBALTv3 only
 
 
 clear
 close all
 
-%fpath = '/Volumes/petrik-lab/Feisty/NC/Global_COBALT_FEISTY/';
-fpath = '/project/Feisty/NC/Global_COBALT_FEISTY/';
-
 %gpath = '/Volumes/petrik-lab/Feisty/GCM_Data/OM4_05_COBALTv3_FEISTYoff/';
-gpath = '/project/Feisty/GCM_Data/OM4_05_COBALTv3_FEISTYoff/';
+fpath = '/project/Feisty/GCM_Data/OM4_05_COBALTv3_FEISTYoff/';
 
 %%
-%load([gpath 'grid_OM4_05_COBALTv3.mat'],'wet','z_l_units','z_l_long_name','z_l')
+%load([fpath 'grid_OM4_05_COBALTv3.mat'],'wet','z_l_units','z_l_long_name','z_l')
 
 %%
 %ncdisp([fpath 'ocean_cobalt_feisty_forcing_z.199001-199412.nmdz.nc'])
@@ -136,7 +133,7 @@ for y=1:2%:6
     fntot_btm(fntot_btm>1e19) = nan;
 
     %% thkcello
-    load([gpath 'ocean_cobalt_feisty_forcing_z.',...
+    load([fpath 'ocean_cobalt_feisty_forcing_z.',...
         num2str(st(y)),'01-',num2str(en(y)),'12.thkcello.mat'])
 
     %% Vertical means
