@@ -64,7 +64,7 @@ for y=1:2%:6
     Sf_B(Sf_B>1e19) = nan;
 
     %% SP
-    ncid = netcdf.open([fpath 'ocean_feisty_tracers_2d.',...
+    ncid = netcdf.open([fpath 'ocean_feisty_tracers_z.',...
         num2str(st(y)),'01-',num2str(en(y)),'12.Sp_B.nc'],'NC_NOWRITE');
     [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
     for i = 2
@@ -129,7 +129,7 @@ for y=1:2%:6
     Md_B(Md_B>1e19) = nan;
 
     %% LP
-    ncid = netcdf.open([fpath 'ocean_feisty_tracers_2d.',...
+    ncid = netcdf.open([fpath 'ocean_feisty_tracers_z.',...
         num2str(st(y)),'01-',num2str(en(y)),'12.Lp_B.nc'],'NC_NOWRITE');
     [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
     for i = 2
@@ -142,7 +142,7 @@ for y=1:2%:6
     Lp_B(Lp_B>1e19) = nan;
 
     %% LD
-    ncid = netcdf.open([fpath 'ocean_feisty_tracers_2d.',...
+    ncid = netcdf.open([fpath 'ocean_feisty_tracers_z.',...
         num2str(st(y)),'01-',num2str(en(y)),'12.Ld_B.nc'],'NC_NOWRITE');
     [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
     for i = 2
@@ -155,7 +155,7 @@ for y=1:2%:6
     Ld_B(Ld_B>1e19) = nan;
 
     %% BE
-    ncid = netcdf.open([fpath 'ocean_feisty_tracers_2d.',...
+    ncid = netcdf.open([fpath 'ocean_feisty_tracers_z.',...
         num2str(st(y)),'01-',num2str(en(y)),'12.BE_B.nc'],'NC_NOWRITE');
     [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
     for i = 2
