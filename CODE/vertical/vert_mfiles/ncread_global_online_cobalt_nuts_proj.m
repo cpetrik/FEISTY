@@ -87,7 +87,7 @@ for y=1:2%:6
 
     wc_vert_int_o2(wc_vert_int_o2>1e19) = nan;
 
-    %% Total N sinking flux 'mol m-2 s-1' - Monthly
+    %% Total N sinking flux @100m 'mol m-2 s-1' - Monthly
     ncid = netcdf.open([fpath 'ocean_cobalt_fdet_100.',...
         num2str(st(y)),'01-',num2str(en(y)),'12.fntot_100.nc'],'NC_NOWRITE');
     [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);

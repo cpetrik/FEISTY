@@ -141,7 +141,7 @@ for y=1:2%:6
 
     Lp_B(Lp_B>1e19) = nan;
 
-    %% LD
+    % LD
     ncid = netcdf.open([fpath 'ocean_feisty_tracers_z.',...
         num2str(st(y)),'01-',num2str(en(y)),'12.Ld_B.nc'],'NC_NOWRITE');
     [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
@@ -154,7 +154,7 @@ for y=1:2%:6
 
     Ld_B(Ld_B>1e19) = nan;
 
-    %% BE
+    % BE
     ncid = netcdf.open([fpath 'ocean_feisty_tracers_z.',...
         num2str(st(y)),'01-',num2str(en(y)),'12.BE_B.nc'],'NC_NOWRITE');
     [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
@@ -195,6 +195,10 @@ for y=1:2%:6
     vLp = mean(Lp_B,1,'omitnan');
     vLp = squeeze(mean(vLp,2,'omitnan'));
     vLp = squeeze(mean(vLp,2,'omitnan'));
+
+    vLd = mean(Ld_B,1,'omitnan');
+    vLd = squeeze(mean(vLd,2,'omitnan'));
+    vLd = squeeze(sum(vLd,2,'omitnan'));
     
   
     %% vert sums
