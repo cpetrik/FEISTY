@@ -132,6 +132,7 @@ dvLZ = NvLZ - FvLZ;
 dvMH = NvMH - FvMH;
 dvLH = NvLH - FvLH;
 
+tmos = 1:120;
 
 %% PLOTS OF DIFFS
 % Time series

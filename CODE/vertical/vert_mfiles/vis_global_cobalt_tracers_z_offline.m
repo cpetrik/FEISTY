@@ -48,7 +48,7 @@ lonlim=[plotminlon plotmaxlon];
 load coastlines;  
 
 %% 
-load([fpath 'ocean_cobalt_ocean_tracers_z.199001-199912_means.mat'])
+load([fpath 'ocean_cobalt_ocean_tracers_z.199001-199412_means.mat'])
 
 %% molN/kg to gC/m3
 NtoC= 1035 * (106/16) * 12.01;
@@ -61,12 +61,13 @@ NtoC= 1035 * (106/16) * 12.01;
 tmos = 1:60;
 
 figure(1)
-plot(tmos,log10(NtoC*tDE(tmos)+eps),'color',cm10(8,:)); hold on;
-plot(tmos,log10(NtoC*tDI(tmos)+eps),'color',cm10(1,:)); hold on;
+% plot(tmos,log10(NtoC*tDE(tmos)+eps),'color',cm10(8,:)); hold on;
+% plot(tmos,log10(NtoC*tDI(tmos)+eps),'color',cm10(1,:)); hold on;
 plot(tmos,log10(NtoC*tSP(tmos)+eps),'color',cm10(3,:)); hold on;
 plot(tmos,log10(NtoC*tLP(tmos)+eps),'color',cm10(5,:)); hold on; 
 plot(tmos,log10(NtoC*tSZ(tmos)+eps),'color',cm10(2,:)); hold on;
-legend({'Det','Diaz','SP','LP','SZ'})
+%legend({'Det','Diaz','SP','LP','SZ'})
+legend({'SP','LP','SZ'})
 legend('location','eastoutside')
 title('log_1_0 Integrated Biomass (gC m^-^3)')
 xlabel('Months')
@@ -76,19 +77,20 @@ print('-dpng',[ppath exper '_ts_mean_ocean_tracers_z.png'])
 %% Vert distrib
 figure(2)
 subplot(1,2,1)
-plot(log10(NtoC*vDE(:,1)+eps),-1*z_l,'color',cm10(8,:)); hold on;
-plot(log10(NtoC*vDI(:,1)+eps),-1*z_l,'color',cm10(1,:)); hold on;
+% plot(log10(NtoC*vDE(:,1)+eps),-1*z_l,'color',cm10(8,:)); hold on;
+% plot(log10(NtoC*vDI(:,1)+eps),-1*z_l,'color',cm10(1,:)); hold on;
 plot(log10(NtoC*vSP(:,1)+eps),-1*z_l,'color',cm10(3,:)); hold on;
 plot(log10(NtoC*vLP(:,1)+eps),-1*z_l,'color',cm10(5,:)); hold on; 
 plot(log10(NtoC*vSZ(:,1)+eps),-1*z_l,'color',cm10(2,:)); hold on;
-legend({'Det','Diaz','SP','LP','SZ'})
+legend({'SP','LP','SZ'})
+%legend({'Det','Diaz','SP','LP','SZ'})
 legend('location','east')
 title('log_1_0 Mean Biomass (gC m^-^3)')
 ylabel('Depth (m)')
 
 subplot(1,2,2)
-plot((NtoC*vDE(1:8,1)),-1*z_l(1:8),'color',cm10(8,:)); hold on;
-plot((NtoC*vDI(1:8,1)),-1*z_l(1:8),'color',cm10(1,:)); hold on;
+% plot((NtoC*vDE(1:8,1)),-1*z_l(1:8),'color',cm10(8,:)); hold on;
+% plot((NtoC*vDI(1:8,1)),-1*z_l(1:8),'color',cm10(1,:)); hold on;
 plot((NtoC*vSP(1:8,1)),-1*z_l(1:8),'color',cm10(3,:)); hold on;
 plot((NtoC*vLP(1:8,1)),-1*z_l(1:8),'color',cm10(5,:)); hold on; 
 plot((NtoC*vSZ(1:8,1)),-1*z_l(1:8),'color',cm10(2,:)); hold on;
@@ -101,32 +103,32 @@ print('-dpng',[ppath exper '_vert_mean_ocean_tracers_z.png'])
 
 %% Maps
 % Det
-figure(3)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat,geolon,log10(squeeze(NtoC*sDE(:,:,1))))
-cmocean('matter')
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-3 0]);
-hcb = colorbar('h');
-set(gcf,'renderer','painters')
-title('log10 mean detritus (gC m^-^2)')
-stamp(cfile)
-print('-dpng',[ppath exper '_global_Det.png'])
+% figure(3)
+% axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+%     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+% surfm(geolat,geolon,log10(squeeze(NtoC*sDE(:,:,1))))
+% cmocean('matter')
+% h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+% clim([-3 0]);
+% hcb = colorbar('h');
+% set(gcf,'renderer','painters')
+% title('log10 mean detritus (gC m^-^2)')
+% stamp(cfile)
+% print('-dpng',[ppath exper '_global_Det.png'])
 
 %% Diaz
-figure(4)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat,geolon,log10(squeeze(NtoC*sDI(:,:,1))))
-cmocean('matter')
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-3 0]);
-hcb = colorbar('h');
-set(gcf,'renderer','painters')
-title('log10 mean diazotrophs (gC m^-^2)')
-stamp(cfile)
-print('-dpng',[ppath exper '_global_Diaz.png'])
+% figure(4)
+% axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+%     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+% surfm(geolat,geolon,log10(squeeze(NtoC*sDI(:,:,1))))
+% cmocean('matter')
+% h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+% clim([-3 0]);
+% hcb = colorbar('h');
+% set(gcf,'renderer','painters')
+% title('log10 mean diazotrophs (gC m^-^2)')
+% stamp(cfile)
+% print('-dpng',[ppath exper '_global_Diaz.png'])
 
 %% SP
 figure(5)
