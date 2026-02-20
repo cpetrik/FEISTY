@@ -104,7 +104,7 @@ for y=1%:6
     nsmz(nsmz>1e19) = nan;
 
     %% thkcello
-    load([gpath 'ocean_cobalt_feisty_forcing_z.',...
+    load([fpath 'ocean_cobalt_feisty_forcing_z.',...
         num2str(st(y)),'01-',num2str(en(y)),'12.thkcello.mat'])
 
     %% Vertical means
