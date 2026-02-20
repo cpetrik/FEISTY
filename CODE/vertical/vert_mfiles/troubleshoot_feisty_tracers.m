@@ -1,19 +1,19 @@
-test1=Ld_B(:,:,35,1);
-test2=Ld_B(:,:,34,1);
-test3=Ld_B(:,:,33,1);
-test4=Ld_B(:,:,32,1);
-test5=Ld_B(:,:,31,1);
-test6=Lp_B(:,:,1,1);
-test7=Lp_B(:,:,3,1);
-test8=Lp_B(:,:,5,1);
-test9=Lp_B(:,:,7,1);
-test10=Lp_B(:,:,9,1);
+test1=Ld_B(:,:,35);
+test2=Ld_B(:,:,34);
+test3=Ld_B(:,:,33);
+test4=Ld_B(:,:,32);
+test5=Ld_B(:,:,31);
+test6=Lp_B(:,:,1);
+test7=Lp_B(:,:,3);
+test8=Lp_B(:,:,5);
+test9=Lp_B(:,:,7);
+test10=Lp_B(:,:,9);
 
-test11=BE_B(:,:,34,1);
-test12=BE_B(:,:,33,1);
-test13=BE_B(:,:,32,1);
-test14=BE_B(:,:,31,1);
-test15=BE_B(:,:,30,1);
+test11=BE_B(:,:,34);
+test12=BE_B(:,:,33);
+test13=BE_B(:,:,32);
+test14=BE_B(:,:,31);
+test15=BE_B(:,:,30);
 
 %%
 figure
