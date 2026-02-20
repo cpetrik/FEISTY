@@ -48,7 +48,7 @@ lonlim=[plotminlon plotmaxlon];
 load coastlines;  
 
 %% 
-load([fpath 'ocean_cobalt_ocean_tracers_z.199001-199412_means.mat'])
+load([fpath 'ocean_cobalt_tracers_month_z.199001-199412_means.mat'])
 
 %% molN/kg to gC/m3
 NtoC= 1035 * (106/16) * 12.01;
@@ -141,7 +141,7 @@ clim([-1 0]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('log10 mean small phyto (gC m^-^2)')
-stamp(cfile)
+stamp('')
 print('-dpng',[ppath exper '_global_SP.png'])
 
 %% LP
@@ -155,7 +155,7 @@ clim([-1 0.5]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('log10 mean large phyto (gC m^-^2)')
-stamp(cfile)
+stamp('')
 print('-dpng',[ppath exper '_global_LP.png'])
 
 %% SZ
@@ -169,7 +169,7 @@ clim([-0.5 0.5]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('log10 mean small zoo (gC m^-^2)')
-stamp(cfile)
+stamp('')
 print('-dpng',[ppath exper '_global_SZ.png'])
 
 %% Vert distrib over time
