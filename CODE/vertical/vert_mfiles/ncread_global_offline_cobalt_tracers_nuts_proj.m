@@ -43,7 +43,7 @@ for y=1%:6
     ncid = netcdf.open([fpath 'ocean_cobalt_tracers_month_z.',...
         num2str(st(y)),'01-',num2str(en(y)),'12.no3.nc'],'NC_NOWRITE');
     [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
-    for i = 1:nvars
+    for i = 2:nvars
         varname = netcdf.inqVar(ncid, i-1);
         eval([ varname ' = netcdf.getVar(ncid,i-1);']);
         eval([ varname '(' varname ' == 1e20) = NaN;']);
