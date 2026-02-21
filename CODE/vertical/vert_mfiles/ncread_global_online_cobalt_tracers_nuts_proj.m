@@ -141,18 +141,17 @@ for y=1%:6
     sChls = mean(schl,3,'omitnan');
    
     %% put in arrays
-    yid = (((y-1)*5)+1):(y*5);
-    mid = (((y-1)*60)+1):(y*60);
+    yid = (((y-1)*60)+1):(y*60);
    
     tNO3(1,yid) = tNo3;
     tNH4(1,yid) = tNh4;
     tCHL(1,yid) = tChl;
     tO2(1,yid) = to2;
 
-    vNO3(1,yid) = vNo3;
-    vNH4(1,yid) = vNh4;
-    vCHL(1,yid) = vChl;
-    vO2(1,yid) = vo2;
+    vNO3(:,y) = vNo3;
+    vNH4(:,y) = vNh4;
+    vCHL(:,y) = vChl;
+    vO2(:,y) = vo2;
 
     sNO3(:,:,y) = sNo3;
     sNH4(:,:,y) = sNh4;
