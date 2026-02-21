@@ -157,7 +157,7 @@ for y=1%:6
     sNH4(:,:,y) = sNh4;
     sCHL(:,:,y) = sChl;
     sO2(:,:,y) = so2;
-    sCHLs(:,:,y) = sCHLs;
+    sCHLs(:,:,y) = sChls;
 
 end
 
