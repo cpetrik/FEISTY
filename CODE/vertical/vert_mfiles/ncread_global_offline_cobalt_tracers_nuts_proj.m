@@ -65,7 +65,7 @@ for y=1%:6
 
     nh4(nh4>1e19) = nan;
 
-    %% CHL
+    %% CHL 'ug kg-1'
     ncid = netcdf.open([fpath 'ocean_cobalt_tracers_month_z.',...
         num2str(st(y)),'01-',num2str(en(y)),'12.chl.nc'],'NC_NOWRITE');
     [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
