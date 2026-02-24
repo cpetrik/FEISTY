@@ -128,6 +128,13 @@ for y=1%:6
     load([fpath 'ocean_cobalt_feisty_forcing_z.',...
         num2str(st(y)),'01-',num2str(en(y)),'12.thkcello.mat'])
 
+    %% Vertical means, area weighted
+    [ni,nj] = size(geolat);
+    matarea1 = reshape(areacello,ni*nj,1);
+    matarea = repmat(matarea1,1,35,60);
+    matarea2 = repmat(matarea1,1,60);
+    matthk = reshape(thkcello,ni*nj,35,60);
+
     matSp = reshape(nsm,ni*nj,35,60);
     matLp = reshape(nlg,ni*nj,35,60);
     matSz = reshape(nsmz,ni*nj,35,60);
