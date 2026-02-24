@@ -8,7 +8,8 @@ close all
 fpath = '/project/Feisty/GCM_Data/OM4_05_COBALTv3_FEISTYoff/';
 
 %%
-%load([fpath 'grid_OM4_05_COBALTv3.mat'],'wet','z_l_units','z_l_long_name','z_l')
+load([gpath 'grid_OM4_05_COBALTv3.mat'],'wet','areacello',...
+ 'z_l_units','z_l_long_name','z_l','geolat')
 
 %%
 %ncdisp([fpath 'ocean_cobalt_tracers_month_z.199001-199412.nlg.nc'])
