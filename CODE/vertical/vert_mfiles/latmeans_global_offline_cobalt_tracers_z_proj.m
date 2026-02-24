@@ -125,77 +125,185 @@ for y=1%:6
     load([fpath 'ocean_cobalt_feisty_forcing_z.',...
         num2str(st(y)),'01-',num2str(en(y)),'12.thkcello.mat'])
 
-    %% Vertical means
-    vSp = mean(nsm,1,'omitnan');
-    vSp = squeeze(mean(vSp,2,'omitnan'));
-    vSp = squeeze(mean(vSp,2,'omitnan'));
+    matSp = reshape(nsm,ni*nj,35,60);
+    matLp = reshape(nlg,ni*nj,35,60);
+    matSz = reshape(nsmz,ni*nj,35,60);
+    matDi = reshape(ndi,ni*nj,35,60);
+    matDe = reshape(nde,ni*nj,35,60);
 
-    vLp = mean(nlg,1,'omitnan');
-    vLp = squeeze(mean(vLp,2,'omitnan'));
-    vLp = squeeze(mean(vLp,2,'omitnan'));
+    %eq
+    ear = matarea(eq,:,:);
+    eth = matthk(eq,:,:);
 
-    vSz = mean(nsmz,1,'omitnan');
-    vSz = squeeze(mean(vSz,2,'omitnan'));
-    vSz = squeeze(mean(vSz,2,'omitnan'));
+    evSp = matSp(eq,:,:);
+    evSp = squeeze(sum(evSp.*ear,1,'omitnan') ./ sum(ear,1,'omitnan'));
+    evSp = squeeze(mean(evSp,2,'omitnan'));
 
-    vDe = mean(ndet,1,'omitnan');
-    vDe = squeeze(mean(vDe,2,'omitnan'));
-    vDe = squeeze(mean(vDe,2,'omitnan'));
+    evLp = matLp(eq,:,:);
+    evLp = squeeze(sum(evLp.*ear,1,'omitnan') ./ sum(ear,1,'omitnan'));
+    evLp = squeeze(mean(evLp,2,'omitnan'));
 
-    vDi = mean(ndi,1,'omitnan');
-    vDi = squeeze(mean(vDi,2,'omitnan'));
-    vDi = squeeze(mean(vDi,2,'omitnan'));
-  
-    %% vert sums or means
-    iSp = squeeze(sum((nsm.*thkcello),3,'omitnan'));
-    iLp = squeeze(sum((nlg.*thkcello),3,'omitnan'));
-    iSz = squeeze(sum((nsmz.*thkcello),3,'omitnan'));
-    iDe = squeeze(sum((ndet.*thkcello),3,'omitnan'));
-    iDi = squeeze(sum((ndi.*thkcello),3,'omitnan'));
+    evSz = matSz(eq,:,:);
+    evSz = squeeze(sum(evSz.*ear,1,'omitnan') ./ sum(ear,1,'omitnan'));
+    evSz = squeeze(mean(evSz,2,'omitnan'));
+
+    evDi = matDi(eq,:,:);
+    evDi = squeeze(sum(evDi.*ear,1,'omitnan') ./ sum(ear,1,'omitnan'));
+    evDi = squeeze(mean(evDi,2,'omitnan'));
+
+
+    %subtrop
+    sar = matarea(sub,:,:);
+    sth = matthk(sub,:,:);
+
+    svSp = matSp(sub,:,:);
+    svSp = squeeze(sum(svSp.*sar,1,'omitnan') ./ sum(sar,1,'omitnan'));
+    svSp = squeeze(mean(svSp,2,'omitnan'));
+
+    svLp = matLp(sub,:,:);
+    svLp = squeeze(sum(svLp.*sar,1,'omitnan') ./ sum(sar,1,'omitnan'));
+    svLp = squeeze(mean(svLp,2,'omitnan'));
+
+    svSz = matSz(sub,:,:);
+    svSz = squeeze(sum(svSz.*sar,1,'omitnan') ./ sum(sar,1,'omitnan'));
+    svSz = squeeze(mean(svSz,2,'omitnan'));
+
+    svDi = matDi(sub,:,:);
+    svDi = squeeze(sum(svDi.*sar,1,'omitnan') ./ sum(sar,1,'omitnan'));
+    svDi = squeeze(mean(svDi,2,'omitnan'));
+
+
+    %temp/subp
+    tar = matarea(tem,:,:);
+    tth = matthk(tem,:,:);
+
+    tvSp = matSp(tem,:,:);
+    tvSp = squeeze(sum(tvSp.*tar,1,'omitnan') ./ sum(tar,1,'omitnan'));
+    tvSp = squeeze(mean(tvSp,2,'omitnan'));
+
+    tvLp = matLp(tem,:,:);
+    tvLp = squeeze(sum(tvLp.*tar,1,'omitnan') ./ sum(tar,1,'omitnan'));
+    tvLp = squeeze(mean(tvLp,2,'omitnan'));
+
+    tvSz = matSz(tem,:,:);
+    tvSz = squeeze(sum(tvSz.*tar,1,'omitnan') ./ sum(tar,1,'omitnan'));
+    tvSz = squeeze(mean(tvSz,2,'omitnan'));
+
+    tvDi = matDi(tem,:,:);
+    tvDi = squeeze(sum(tvDi.*tar,1,'omitnan') ./ sum(tar,1,'omitnan'));
+    tvDi = squeeze(mean(tvDi,2,'omitnan'));
+
+
+    %polar
+    par = matarea(pol,:,:);
+    pth = matthk(pol,:,:);
+
+    pvSp = matSp(pol,:,:);
+    pvSp = squeeze(sum(pvSp.*par,1,'omitnan') ./ sum(par,1,'omitnan'));
+    pvSp = squeeze(mean(pvSp,2,'omitnan'));
+
+    pvLp = matLp(pol,:,:);
+    pvLp = squeeze(sum(pvLp.*par,1,'omitnan') ./ sum(par,1,'omitnan'));
+    pvLp = squeeze(mean(pvLp,2,'omitnan'));
     
-    %% Time series of vert integral
-    tSp = mean(iSp,1,'omitnan');
-    tSp = squeeze(mean(tSp,2,'omitnan'));
+    pvSz = matSz(pol,:,:);
+    pvSz = squeeze(sum(pvSz.*par,1,'omitnan') ./ sum(par,1,'omitnan'));
+    pvSz = squeeze(mean(pvSz,2,'omitnan'));
 
-    tLp = mean(iLp,1,'omitnan');
-    tLp = squeeze(mean(tLp,2,'omitnan'));
+    pvDi = matDi(pol,:,:);
+    pvDi = squeeze(sum(pvDi.*par,1,'omitnan') ./ sum(par,1,'omitnan'));
+    pvDi = squeeze(mean(pvDi,2,'omitnan'));
 
-    tSz = mean(iSz,1,'omitnan');
-    tSz = squeeze(mean(tSz,2,'omitnan'));
+  
+    %% vert & spatial means
+    %eq
+    emth = mean(eth,3,'omitnan');
+    emth = mean(emth,1,'omitnan');
+    eiSp = squeeze(sum(evSp.*emth','omitnan'));
+    eiLp = squeeze(sum(evLp.*emth','omitnan'));
+    eiSz = squeeze(sum(evSz.*emth','omitnan'));
+    eiDi = squeeze(sum(evDi.*emth','omitnan'));
+    eSDi = squeeze(sum(matSDi(eq,:).*matarea2(eq,:),1,'omitnan') ./ sum(matarea2(eq,:),1,'omitnan'));
+    emSDi = mean(eSDi,'omitnan');
 
-    tDe = mean(iDe,1,'omitnan');
-    tDe = squeeze(mean(tDe,2,'omitnan'));
+    %sub
+    smth = mean(sth,3,'omitnan');
+    smth = mean(smth,1,'omitnan');
+    siSp = squeeze(sum(svSp.*smth','omitnan'));
+    siLp = squeeze(sum(svLp.*smth','omitnan'));
+    siSz = squeeze(sum(svSz.*smth','omitnan'));
+    siDi = squeeze(sum(svDi.*smth','omitnan'));
+    sSDi = squeeze(sum(matSDi(sub,:).*matarea2(sub,:),1,'omitnan') ./ sum(matarea2(sub,:),1,'omitnan'));
+    smSDi = mean(sSDi,'omitnan');
 
-    tDi = mean(iDi,1,'omitnan');
-    tDi = squeeze(mean(tDi,2,'omitnan'));
+    %temp
+    tmth = mean(tth,3,'omitnan');
+    tmth = mean(tmth,1,'omitnan');
+    tiSp = squeeze(sum(tvSp.*tmth','omitnan'));
+    tiLp = squeeze(sum(tvLp.*tmth','omitnan'));
+    tiSz = squeeze(sum(tvSz.*tmth','omitnan'));
+    tiDi = squeeze(sum(tvDi.*tmth','omitnan'));
+    tSDi = squeeze(sum(matSDi(tem,:).*matarea2(tem,:),1,'omitnan') ./ sum(matarea2(tem,:),1,'omitnan'));
+    tmSDi = mean(tSDi,'omitnan');
 
-    %% spatial mean of vert integral
-    sSp = mean(iSp,3,'omitnan');
-    sLp = mean(iLp,3,'omitnan');
-    sSz = mean(iSz,3,'omitnan');
-    sDe = mean(iDe,3,'omitnan');
-    sDi = mean(iDi,3,'omitnan');
+    %pol
+    pmth = mean(pth,3,'omitnan');
+    pmth = mean(pmth,1,'omitnan');
+    piSp = squeeze(sum(pvSp.*pmth','omitnan'));
+    piLp = squeeze(sum(pvLp.*pmth','omitnan'));
+    piSz = squeeze(sum(pvSz.*pmth','omitnan'));
+    piDi = squeeze(sum(pvDi.*pmth','omitnan'));
+    pSDi = squeeze(sum(matSDi(pol,:).*matarea2(pol,:),1,'omitnan') ./ sum(matarea2(pol,:),1,'omitnan'));
+    pmSDi = mean(pSDi,'omitnan');
+
+
+    %% Seasonal cycle of vert integral - TO DO
    
     %% put in arrays
-    yid = (((y-1)*60)+1):(y*60);
-   
-    tSP(1,yid) = tSp;
-    tLP(1,yid) = tLp;
-    tSZ(1,yid) = tSz;
-    tDE(1,yid) = tDe;
-    tDI(1,yid) = tDi;
+    vNO3(:,1) = evSp;
+    vNO3(:,2) = svSp;
+    vNO3(:,3) = tvSp;
+    vNO3(:,4) = pvSp;
+    
+    vNH4(:,1) = evLp;
+    vNH4(:,2) = svLp;
+    vNH4(:,3) = tvLp;
+    vNH4(:,4) = pvLp;
 
-    mSP(:,:,y) = sSp;
-    mLP(:,:,y) = sLp;
-    mSZ(:,:,y) = sSz;
-    mDE(:,:,y) = sDe;
-    mDI(:,:,y) = sDi;
+    vO2(:,1) = evSz;
+    vO2(:,2) = svSz;
+    vO2(:,3) = tvSz;
+    vO2(:,4) = pvSz;
+    
+    vCHL(:,1) = evDi;
+    vCHL(:,2) = svDi;
+    vCHL(:,3) = tvDi;
+    vCHL(:,4) = pvDi;
 
-    vSP(:,y) = vSp;
-    vLP(:,y) = vLp;
-    vSZ(:,y) = vSz;
-    vDE(:,y) = vDe;
-    vDI(:,y) = vDi;
+    mNO3(1,1) = eiSp;
+    mNO3(2,1) = siSp;
+    mNO3(3,1) = tiSp;
+    mNO3(4,1) = piSp;
+    
+    mNH4(1,1) = eiLp;
+    mNH4(2,1) = siLp;
+    mNH4(3,1) = tiLp;
+    mNH4(4,1) = piLp;
+
+    mO2(1,1) = eiSz;
+    mO2(2,1) = siSz;
+    mO2(3,1) = tiSz;
+    mO2(4,1) = piSz;
+    
+    mCHL(1,1) = eiDi;
+    mCHL(2,1) = siDi;
+    mCHL(3,1) = tiDi;
+    mCHL(4,1) = piDi;
+    
+    mSCHL(1,1) = emSDi;
+    mSCHL(2,1) = smSDi;
+    mSCHL(3,1) = tmSDi;
+    mCHLs(4,1) = pmSDi;
 
 end
 
@@ -205,7 +313,7 @@ end
 %         'vSP','vLP','vSZ')
 
 save([fpath 'ocean_cobalt_tracers_month_z.199001',...
-        '-',num2str(en(y)),'12_means.mat'],'tSP','tLP','tSZ','tDE','tDI',...
+        '-',num2str(en(y)),'12_means.mat'],...
         'mSP','mLP','mSZ','mDE','mDI',...
         'vSP','vLP','vSZ','vDE','vDI')
 
