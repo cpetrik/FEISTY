@@ -137,7 +137,7 @@ for y=1%:6
     matLp = reshape(nlg,ni*nj,35,60);
     matSz = reshape(nsmz,ni*nj,35,60);
     matDi = reshape(ndi,ni*nj,35,60);
-    matDe = reshape(nde,ni*nj,35,60);
+    matDe = reshape(ndet,ni*nj,35,60);
 
     %eq
     ear = matarea(eq,:,:);
