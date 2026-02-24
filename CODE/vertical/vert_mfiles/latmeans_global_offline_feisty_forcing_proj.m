@@ -236,6 +236,7 @@ for y=1%:6
     stMz = nan*ones(12,4);
     stLz = nan*ones(12,4);
     stDet = nan*ones(12,4);
+    % NEED TO SHIFT S HEM OR TAKE MEAN SEPARATELY
     for mo = 1:12
         m = mo:12:60;
         
