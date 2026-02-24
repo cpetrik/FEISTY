@@ -4,8 +4,10 @@
 clear
 close all
 
-%fpath = '/Volumes/petrik-lab/Feisty/GCM_Data/OM4_05_COBALTv3_FEISTYoff/';
-fpath = '/project/Feisty/GCM_Data/OM4_05_COBALTv3_FEISTYoff/';
+%fpath = '/Volumes/petrik-lab/Feisty/NC/Global_COBALT_FEISTY/';
+fpath = '/project/Feisty/NC/Global_COBALT_FEISTY/';
+
+%gpath = '/Volumes/petrik-lab/Feisty/GCM_Data/OM4_05_COBALTv3_FEISTYoff/';
 gpath = '/project/Feisty/GCM_Data/OM4_05_COBALTv3_FEISTYoff/';
 
 %%
