@@ -4,7 +4,8 @@
 clear
 close all
 
-%% molN/kg to gC/m3 or gC/m3/d
+%% FEISTY FORCING ---------------------------------------
+% molN/kg to gC/m3 or gC/m3/d
 S2D= 60*60*24;
 D2Y = S2D*365;
 %MZ and LZ molN/kg
