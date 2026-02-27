@@ -60,7 +60,7 @@ mnMD = mnB;
 mnLP = mnB;
 mnLD = mnB;
 
-tnB = nan(nz,nnt);
+tnB = nan(1,nnt);
 tnSF = tnB;
 tnSP = tnB;
 tnSD = tnB;
@@ -145,7 +145,7 @@ mdiffD = mnD - mfD;
 st = 1:12:nnt;  %start of the yr
 en = 12:12:nnt; %end of the yr
 
-afB = nan(nz,12);
+afB = nan(12,1);
 afSF = afB;
 afSP = afB;
 afSD = afB;
@@ -155,7 +155,7 @@ afMD = afB;
 afLP = afB;
 afLD = afB;
 
-anB = nan(nz,12);
+anB = nan(12,1);
 anSF = anB;
 anSP = anB;
 anSD = anB;
@@ -165,26 +165,27 @@ anMD = anB;
 anLP = anB;
 anLD = anB;
 
-for i = 4:8
-    afB(:,i)  = mean(tfB(:,st(i):en(i)),2);
-    afSF(:,i) = mean(tfSF(:,st(i):en(i)),2);
-    afSP(:,i) = mean(tfSP(:,st(i):en(i)),2);
-    afSD(:,i) = mean(tfSD(:,st(i):en(i)),2);
-    afMF(:,i) = mean(tfMF(:,st(i):en(i)),2);
-    afMP(:,i) = mean(tfMP(:,st(i):en(i)),2);
-    afMD(:,i) = mean(tfMD(:,st(i):en(i)),2);
-    afLP(:,i) = mean(tfLP(:,st(i):en(i)),2);
-    afLD(:,i) = mean(tfLD(:,st(i):en(i)),2);
+for m = 1:12
+    i = (36+m):12:96;
+    afB(m)  = mean(tfB(:,i),2);
+    afSF(m) = mean(tfSF(:,i),2);
+    afSP(m) = mean(tfSP(:,i),2);
+    afSD(m) = mean(tfSD(:,i),2);
+    afMF(m) = mean(tfMF(:,i),2);
+    afMP(m) = mean(tfMP(:,i),2);
+    afMD(m) = mean(tfMD(:,i),2);
+    afLP(m) = mean(tfLP(:,i),2);
+    afLD(m) = mean(tfLD(:,i),2);
 
-    anB(:,i)  = mean(tnB(:,st(i):en(i)),2);
-    anSF(:,i) = mean(tnSF(:,st(i):en(i)),2);
-    anSP(:,i) = mean(tnSP(:,st(i):en(i)),2);
-    anSD(:,i) = mean(tnSD(:,st(i):en(i)),2);
-    anMF(:,i) = mean(tnMF(:,st(i):en(i)),2);
-    anMP(:,i) = mean(tnMP(:,st(i):en(i)),2);
-    anMD(:,i) = mean(tnMD(:,st(i):en(i)),2);
-    anLP(:,i) = mean(tnLP(:,st(i):en(i)),2);
-    anLD(:,i) = mean(tnLD(:,st(i):en(i)),2);
+    anB(m)  = mean(tnB(:,i),2);
+    anSF(m) = mean(tnSF(:,i),2);
+    anSP(m) = mean(tnSP(:,i),2);
+    anSD(m) = mean(tnSD(:,i),2);
+    anMF(m) = mean(tnMF(:,i),2);
+    anMP(m) = mean(tnMP(:,i),2);
+    anMD(m) = mean(tnMD(:,i),2);
+    anLP(m) = mean(tnLP(:,i),2);
+    anLD(m) = mean(tnLD(:,i),2);
 end
 
 vfB  = mean(S_Bent_bio(:,st(4):en(8)),2);
@@ -207,20 +208,61 @@ vnMD = mean(mnMD(:,st(4):en(8)),2);
 vnLP = mean(mnLP(:,st(4):en(8)),2);
 vnLD = mean(mnLD(:,st(4):en(8)),2);
 
-%% Diffs - 1yr time series
+anF = anSF + anMF;
+anP = anSP + anMP + anLP;
+anD = anSD + anMD + anLD;
 
-%% Diffs - 1 yr vert distrib
+vnF = vnSF + vnMF;
+vnP = vnSP + vnMP + vnLP;
+vnD = vnSD + vnMD + vnLD;
 
-%%
-zl_ts = repmat(zl,1,length(tdays));
-[zl2,tts] = meshgrid(tdays,-1*zl);
+afF = afSF + afMF;
+afP = afSP + afMP + afLP;
+afD = afSD + afMD + afLD;
 
-%flipud seafloor - offline
-mMD2 = flipud(mMD2);
-mLD2 = flipud(mLD2);
-mBE2 = flipud(mBE2);
-Bts = flipud(tts);
+vfF = vfSF + vfMF;
+vfP = vfSP + vfMP + vfLP;
+vfD = vfSD + vfMD + vfLD;
 
+%% Diffs 1yr ts
+tdSF = anSF - afSF;
+tdSP = anSP - afSP;
+tdSD = anSD - afSD;
+tdMF = anMF - afMF;
+tdMP = anMP - afMP;
+tdMD = anMD - afMD;
+tdLP = anLP - afLP;
+tdLD = anLD - afLD;
+
+tdB = anB - afB;
+tdF = anF - afF;
+tdP = anP - afP;
+tdD = anD - afD;
+
+tpB = (anB - afB) ./ afB;
+tpF = (anF - afF) ./ afF;
+tpP = (anP - afP) ./ afP;
+tpD = (anD - afD) ./ afD;
+
+%% Diffs - 1yr vert 2D
+vdSF = vnSF - vfSF;
+vdSP = vnSP - vfSP;
+vdSD = vnSD - vfSD;
+vdMF = vnMF - vfMF;
+vdMP = vnMP - vfMP;
+vdMD = vnMD - vfMD;
+vdLP = vnLP - vfLP;
+vdLD = vnLD - vfLD;
+
+vdB = vnB - vfB;
+vdF = vnF - vfF;
+vdP = vnP - vfP;
+vdD = vnD - vfD;
+
+vpB = (vnB - vfB) ./ vfB;
+vpF = (vnF - vfF) ./ vfB;
+vpP = (vnP - vfP) ./ vfB;
+vpD = (vnD - vfD) ./ vfB;
 
 %% colors
 cm10=[0.5 0.5 0;... %tan/army
@@ -238,185 +280,108 @@ cm10=[0.5 0.5 0;... %tan/army
 set(groot,'defaultAxesColorOrder',cm10);
 
 %% Plots in time
-nmo = length(P);
-nyr = nmo/12;
-y = (1:nmo)/12;
+y = 1:12;
 
 % All size classes of all
 figure(1)
-plot(y,log10(B),'Linewidth',1); hold on;
-plot(y,log10(tSF),'Linewidth',1); hold on;
-plot(y,log10(tMF),'Linewidth',1); hold on;
-plot(y,log10(tSP),'Linewidth',1); hold on;
-plot(y,log10(tMP),'Linewidth',1); hold on;
-plot(y,log10(tLP),'Linewidth',1); hold on;
-plot(y,log10(tSD),'Linewidth',1); hold on;
-plot(y,log10(tMD),'Linewidth',1); hold on;
-plot(y,log10(tLD),'Linewidth',1); hold on;
-legend('B','SF','MF','SP','MP','LP','SD','MD','LD')
+%plot(y,(tdB),'Linewidth',1); hold on;
+plot(y,(tdSF),'Linewidth',1); hold on;
+plot(y,(tdMF),'Linewidth',1); hold on;
+plot(y,(tdSP),'Linewidth',1); hold on;
+plot(y,(tdMP),'Linewidth',1); hold on;
+plot(y,(tdLP),'Linewidth',1); hold on;
+plot(y,(tdSD),'Linewidth',1); hold on;
+plot(y,(tdMD),'Linewidth',1); hold on;
+plot(y,(tdLD),'Linewidth',1); hold on;
+%legend('B','SF','MF','SP','MP','LP','SD','MD','LD')
+legend('SF','MF','SP','MP','LP','SD','MD','LD')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
-ylim([-5 2])
+%ylim([-5 2])
 xlabel('Time (y)')
-%ylabel('log10 Biomass (g m^-^2)')
-ylabel('log10 integrated Biomass (g m^-^2)')
-title('Spinup')
+%ylabel(' Biomass (g m^-^2)')
+ylabel('Difference in integrated Biomass (g m^-^2)')
 stamp('')
-print('-dpng',[ppath exper '_ts_all_sizes.png'])
+%print('-dpng',[ppath exper '_ts_all_sizes.png'])
 
 % Fn Types
 figure(2)
-plot(y,log10(B),'color',[0.5 0.5 0.5],'Linewidth',2); hold on;
-plot(y,log10(F),'r','Linewidth',2); hold on;
-plot(y,log10(P),'b','Linewidth',2); hold on;
-plot(y,log10(D),'k','Linewidth',2); hold on;
-legend('B','F','P','D')
+%plot(y,(tdB),'color',[0.5 0.5 0.5],'Linewidth',2); hold on;
+plot(y,(tdF),'r','Linewidth',2); hold on;
+plot(y,(tdP),'b','Linewidth',2); hold on;
+plot(y,(tdD),'k','Linewidth',2); hold on;
+%legend('B','F','P','D')
+legend('F','P','D')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
-ylim([-5 2])
+ylim([-4 0.5])
 xlabel('Time (y)')
-%ylabel('log10 Biomass (g m^-^2)')
-ylabel('log10 integrated Biomass (g m^-^2)')
-title('Spinup')
+ylabel('Difference in integrated Biomass (g m^-^2)')
 stamp('')
-print('-dpng',[ppath exper '_ts_all_types.png'])
+% print('-dpng',[ppath exper '_ts_all_types.png'])
 
-%% Plots
+% Fn Types %diff
 figure(3)
-subplot(3,3,1)
-pcolor(tts,zl2,log10(S_Sml_f));
-shading flat;
-colorbar
-clim([-5 2])
-title('SF')
-
-subplot(3,3,2)
-pcolor(tts,zl2,log10(S_Sml_p));
-shading flat;
-colorbar
-clim([-5 2])
-title('SP')
-
-subplot(3,3,3)
-pcolor(tts,zl2,log10(S_Sml_d));
-shading flat;
-colorbar
-clim([-5 2])
-title('SD')
-
-subplot(3,3,4)
-pcolor(tts,zl2,log10(S_Med_f));
-shading flat;
-colorbar
-title('MF')
-clim([-5 2])
-ylabel('Depth (m)')
-
-subplot(3,3,5)
-pcolor(tts,zl2,log10(S_Med_p));
-shading flat;
-colorbar
-clim([-5 2])
-title('MP')
-
-subplot(3,3,6)
-pcolor(tts,zl2,log10(S_Med_d(2:76,:)));
-shading flat;
-colorbar
-clim([-5 2])
-title('MD')
-
-subplot(3,3,7)
-pcolor(tts,zl2,log10(S_Bent_bio(2:76,:)));
-shading flat;
-colorbar
-clim([-5 2])
-title('BE')
-
-subplot(3,3,8)
-pcolor(tts,zl2,log10(S_Lrg_p));
-shading flat;
-colorbar
-title('LP')
-clim([-5 2])
+%plot(y,(tdB),'color',[0.5 0.5 0.5],'Linewidth',2); hold on;
+plot(y,100*(tpF),'r','Linewidth',2); hold on;
+plot(y,100*(tpP),'b','Linewidth',2); hold on;
+plot(y,100*(tpD),'k','Linewidth',2); hold on;
+%legend('B','F','P','D')
+legend('F','P','D')
+legend('location','eastoutside')
+xlim([y(1) y(end)])
+%ylim([-4 0.5])
 xlabel('Time (y)')
+ylabel('% Difference in integrated Biomass')
+stamp('')
+% print('-dpng',[ppath exper '_ts_all_types.png'])
 
-subplot(3,3,9)
-pcolor(tts,zl2,log10(S_Lrg_d(2:76,:)));
-shading flat;
-colorbar
-clim([-5 2])
-title('LD')
-print('-dpng',[ppath exper '_depth_ts_fntypes.png'])
+%% Plots with depth
 
+% All size classes of all
+figure(4)
+%plot((vdB(1:40)),-1*zl(1:40),'Linewidth',1); hold on;
+plot((vdSF(1:40)),-1*zl(1:40),'Linewidth',1); hold on;
+plot((vdMF(1:40)),-1*zl(1:40),'Linewidth',1); hold on;
+plot((vdSP(1:40)),-1*zl(1:40),'Linewidth',1); hold on;
+plot((vdMP(1:40)),-1*zl(1:40),'Linewidth',1); hold on;
+plot((vdLP(1:40)),-1*zl(1:40),'Linewidth',1); hold on;
+plot((vdSD(1:40)),-1*zl(1:40),'Linewidth',1); hold on;
+plot((vdMD(1:40)),-1*zl(1:40),'Linewidth',1); hold on;
+plot((vdLD(1:40)),-1*zl(1:40),'Linewidth',1); hold on;
+%legend('B','SF','MF','SP','MP','LP','SD','MD','LD')
+legend('SF','MF','SP','MP','LP','SD','MD','LD')
+legend('location','eastoutside')
+ylabel('Depth (m)')
+xlabel('Difference in integrated Biomass (g m^-^2)')
+stamp('')
+%print('-dpng',[ppath exper '_ts_all_sizes.png'])
 
-%% All zoom
+% Fn Types
+figure(5)
+%plot((vdB),'color',[0.5 0.5 0.5],'Linewidth',2); hold on;
+plot((vdF(1:40)),-1*zl(1:40),'r','Linewidth',2); hold on;
+plot((vdP(1:40)),-1*zl(1:40),'b','Linewidth',2); hold on;
+plot((vdD(1:40)),-1*zl(1:40),'k','Linewidth',2); hold on;
+%legend('B','F','P','D')
+legend('F','P','D')
+legend('location','eastoutside')
+ylabel('Depth (m)')
+xlabel('Difference in integrated Biomass (g m^-^2)')
+stamp('')
+% print('-dpng',[ppath exper '_ts_all_types.png'])
 
+% Fn Types %diff
 figure(6)
-subplot(3,3,1)
-pcolor(tts(1:45,:),zl2(1:45,:),log10(S_Sml_f(1:45,:)));
-shading flat;
-colorbar
-clim([-5 0])
-title('SF')
-
-subplot(3,3,2)
-pcolor(tts(1:45,:),zl2(1:45,:),log10(S_Sml_p(1:45,:)));
-shading flat;
-colorbar
-clim([-5 0])
-title('SP')
-
-subplot(3,3,3)
-pcolor(tts(1:45,:),zl2(1:45,:),log10(S_Sml_d(1:45,:)));
-shading flat;
-colorbar
-clim([-5 0])
-title('SD')
-
-subplot(3,3,4)
-pcolor(tts(1:45,:),zl2(1:45,:),log10(S_Med_f(1:45,:)));
-shading flat;
-colorbar
-title('MF')
-clim([-5 0])
+%plot((tdB),'color',[0.5 0.5 0.5],'Linewidth',2); hold on;
+plot(100*(vpF(1:40)),-1*zl(1:40),'r','Linewidth',2); hold on;
+plot(100*(vpP(1:40)),-1*zl(1:40),'b','Linewidth',2); hold on;
+plot(100*(vpD(1:40)),-1*zl(1:40),'k','Linewidth',2); hold on;
+%legend('B','F','P','D')
+legend('F','P','D')
+legend('location','eastoutside')
 ylabel('Depth (m)')
-
-subplot(3,3,5)
-pcolor(tts(1:45,:),zl2(1:45,:),log10(S_Med_p(1:45,:)));
-shading flat;
-colorbar
-clim([-5 0])
-title('MP')
-
-subplot(3,3,6)
-pcolor(tts(73:75,:),zl2(73:75,:),log10(S_Med_d(74:76,:)));
-shading flat;
-colorbar
-clim([-5 0])
-title('MD')
-
-subplot(3,3,7)
-pcolor(tts(73:75,:),zl2(73:75,:),log10(S_Bent_bio(74:76,:)));
-shading flat;
-colorbar
-clim([-3 1])
-title('BE')
-
-subplot(3,3,8)
-pcolor(tts(1:45,:),zl2(1:45,:),log10(S_Lrg_p(1:45,:)));
-shading flat;
-colorbar
-title('LP')
-clim([-3 1])
-xlabel('Time (y)')
-
-subplot(3,3,9)
-pcolor(tts(73:75,:),zl2(73:75,:),log10(S_Lrg_d(74:76,:)));
-shading flat;
-colorbar
-clim([-3 1])
-title('LD')
-print('-dpng',[ppath exper '_depth_ts_fntypes_zoom.png'])
-
+xlabel('Difference in integrated Biomass (g m^-^2)')
+stamp('')
+% print('-dpng',[ppath exper '_ts_all_types.png'])
 
