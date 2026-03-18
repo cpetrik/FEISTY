@@ -157,7 +157,7 @@ sBe = mean(BE_B(:,:,35,:),4,'omitnan');
 
 %% put in arrays
 y=1;
-yid = (((y-1)*60)+1):(y*60);
+yid = 1:12;
 
 tSF(1,yid) = tSf;
 tSP(1,yid) = tSp;
