@@ -20,7 +20,12 @@ gpath = '/project/Feisty/GCM_Data/OM4_05_COBALTv3_FEISTYoff/';
 
 ncid = netcdf.open([fpath '19900101.ocean_feisty_tracers_z.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
-for i = 1:nvars
+for i = 1:2
+    varname = netcdf.inqVar(ncid, i-1);
+    eval([ varname ' = netcdf.getVar(ncid,i-1);']);
+    eval([ varname '(' varname ' == 1e20) = NaN;']);
+end
+for i = 5:nvars
     varname = netcdf.inqVar(ncid, i-1);
     eval([ varname ' = netcdf.getVar(ncid,i-1);']);
     eval([ varname '(' varname ' == 1e20) = NaN;']);
