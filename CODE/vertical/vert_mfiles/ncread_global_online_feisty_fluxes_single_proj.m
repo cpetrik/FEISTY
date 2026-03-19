@@ -16,11 +16,12 @@ gpath = '/project/Feisty/GCM_Data/OM4_05_COBALTv3_FEISTYoff/';
 %%
 %ncdisp([fpath '19900101.ocean_feisty_pelagic_fluxes_z.nc'])
 
-%%
+%% want met, prod, E_A, f_tot, Fout, rho
+
+
 st = 1990;
 
-tSF = nan*ones(1,60*length(st));
-tLD_met2 = nan*ones(1,366*10);
+tLD_met2 = nan*ones(1,12);
 tLD_prod2 = tLD_met2;
 tLD_rho2 = tLD_met2;
 tLP_met2 = tLD_met2;
@@ -44,15 +45,14 @@ tSP_prod2 = tLD_met2;
 tSF_met2 = tLD_met2;
 tSF_Fout2 = tLD_met2;
 tSF_prod2 = tLD_met2;
-tMD_mu2 = tLD_met2;
-tMP_mu2 = tLD_met2;
-tMF_mu2 = tLD_met2;
-tSD_mu2 = tLD_met2;
-tSP_mu2 = tLD_met2;
-tSF_mu2 = tLD_met2;
+tMD_EA2 = tLD_met2;
+tMP_EA2 = tLD_met2;
+tMF_EA2 = tLD_met2;
+tSD_EA2 = tLD_met2;
+tSP_EA2 = tLD_met2;
+tSF_EA2 = tLD_met2;
 
-sSF = nan*ones(720,576,length(st));
-mLD_met2 = nan*ones(75,366*10);
+mLD_met2 = nan*ones(720,576,length(st));
 mLD_prod2 = mLD_met2;
 mLD_rho2 = mLD_met2;
 mLP_met2 = mLD_met2;
@@ -76,15 +76,14 @@ mSP_prod2 = mLD_met2;
 mSF_met2 = mLD_met2;
 mSF_Fout2 = mLD_met2;
 mSF_prod2 = mLD_met2;
-mMD_mu2 = mLD_met2;
-mMP_mu2 = mLD_met2;
-mMF_mu2 = mLD_met2;
-mSD_mu2 = mLD_met2;
-mSP_mu2 = mLD_met2;
-mSF_mu2 = mLD_met2;
+mMD_EA2 = mLD_met2;
+mMP_EA2 = mLD_met2;
+mMF_EA2 = mLD_met2;
+mSD_EA2 = mLD_met2;
+mSP_EA2 = mLD_met2;
+mSF_EA2 = mLD_met2;
 
-vSF = nan*ones(35,length(st));
-vLD_met2 = nan*ones(75,366*10);
+vLD_met2 = nan*ones(35,length(st));
 vLD_prod2 = vLD_met2;
 vLD_rho2 = vLD_met2;
 vLP_met2 = vLD_met2;
@@ -108,12 +107,31 @@ vSP_prod2 = vLD_met2;
 vSF_met2 = vLD_met2;
 vSF_Fout2 = vLD_met2;
 vSF_prod2 = vLD_met2;
-vMD_mu2 = vLD_met2;
-vMP_mu2 = vLD_met2;
-vMF_mu2 = vLD_met2;
-vSD_mu2 = vLD_met2;
-vSP_mu2 = vLD_met2;
-vSF_mu2 = vLD_met2;
+vMD_EA2 = vLD_met2;
+vMP_EA2 = vLD_met2;
+vMF_EA2 = vLD_met2;
+vSD_EA2 = vLD_met2;
+vSP_EA2 = vLD_met2;
+vSF_EA2 = vLD_met2;
+
+tMD_flev = tLD_met2;
+tMP_flev = tLD_met2;
+tMF_flev = tLD_met2;
+tSD_flev = tLD_met2;
+tSP_flev = tLD_met2;
+tSF_flev = tLD_met2;
+mMD_flev = mLD_met2;
+mMP_flev = mLD_met2;
+mMF_flev = mLD_met2;
+mSD_flev = mLD_met2;
+mSP_flev = mLD_met2;
+mSF_flev = mLD_met2;
+vMD_flev = vLD_met2;
+vMP_flev = vLD_met2;
+vMF_flev = vLD_met2;
+vSD_flev = vLD_met2;
+vSP_flev = vLD_met2;
+vSF_flev = vLD_met2;
 
 %%
 ncid = netcdf.open([fpath '19900101.ocean_feisty_tracers_z.nc'],'NC_NOWRITE');

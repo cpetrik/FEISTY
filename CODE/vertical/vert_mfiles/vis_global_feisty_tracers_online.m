@@ -4,7 +4,7 @@ clear
 close all
 
 %%
-fpath = '/Volumes/petrik-lab/Feisty/NC/Global_COBALT_FEISTY/';
+fpath = '/Volumes/petrik-lab/Feisty/NC/Global_COBALT_FEISTY/cobalt_feisty/';
 
 gpath = '/Volumes/petrik-lab/Feisty/GCM_Data/OM4_05_COBALTv3_FEISTYoff/';
 
@@ -39,8 +39,8 @@ set(groot,'defaultAxesColorOrder',cm10);
 
 %%
 [ni,nj]=size(geolon);
-geolon = double(geolon);
-geolat = double(geolat);
+LON = double(geolon);
+LAT = double(geolat);
 
 plotminlat=-90; %Set these bounds for your data
 plotmaxlat=90;
@@ -52,7 +52,7 @@ lonlim=[plotminlon plotmaxlon];
 load coastlines;  
 
 %% 
-load([fpath 'ocean_feisty_tracers_z.199001-199912_means.mat'])
+load([fpath '19900101.ocean_feisty_tracers_z_means.mat'])
 
 %%
 tF = tSF+tMF;
@@ -68,17 +68,21 @@ FracPD = sP ./ (sP + sD);
 FracPF = sP ./ (sP + sF);
 FracLM = (sLP+sLD) ./ (sLP+sLD+sMF+sMP+sMD);
 
+vF = vSF+vMF;
+vP = vSP+vMP+vLP;
+vD = vSD+vMD+vLD;
+vAll = vF+vP+vD;
+
 %%
 % z_l_ts = repmat(z_l,1,length(tmos));
 % [z_l2,tts] = meshgrid(tmos,-1*z_l);
 
 %% Time series
-y = 1:120;
+y = 1:12; %120;
 
-figure(1)
 % All size classes of all
 figure(1)
-plot(y,log10(tBE(y)),'Linewidth',1); hold on;
+%plot(y,log10(tBE(y)),'Linewidth',1); hold on;
 plot(y,log10(tSF(y)),'Linewidth',1); hold on;
 plot(y,log10(tMF(y)),'Linewidth',1); hold on;
 plot(y,log10(tSP(y)),'Linewidth',1); hold on;
@@ -87,14 +91,15 @@ plot(y,log10(tLP(y)),'Linewidth',1); hold on;
 plot(y,log10(tSD(y)),'Linewidth',1); hold on;
 plot(y,log10(tMD(y)),'Linewidth',1); hold on;
 plot(y,log10(tLD(y)),'Linewidth',1); hold on;
-legend('B','SF','MF','SP','MP','LP','SD','MD','LD')
+%legend('B','SF','MF','SP','MP','LP','SD','MD','LD')
+legend('SF','MF','SP','MP','LP','SD','MD','LD')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
 %ylim([-5 2])
 xlabel('Time (mo)')
 ylabel('log10 Integrated Biomass (g m^-^2)')
 stamp(cfile)
-print('-dpng',[ppath mod '_ts_mean_feisty_all_sizes.png'])
+print('-dpng',[ppath mod '_ts_logmean_feisty_all_sizes.png'])
 
 % Fn Types
 figure(2)
@@ -109,32 +114,69 @@ xlim([y(1) y(end)])
 xlabel('Time (y)')
 ylabel('log10 Integrated Biomass (g m^-^2)')
 stamp(cfile)
+print('-dpng',[ppath mod '_ts_logmean_feisty_all_types.png'])
+
+
+figure(3)
+subplot(2,1,1)
+plot(y,(tSF(y)),'Linewidth',1); hold on;
+plot(y,(tMF(y)),'Linewidth',1); hold on;
+plot(y,(tSP(y)),'Linewidth',1); hold on;
+plot(y,(tMP(y)),'Linewidth',1); hold on;
+plot(y,(tLP(y)),'Linewidth',1); hold on;
+plot(y,(tSD(y)),'Linewidth',1); hold on;
+plot(y,(tMD(y)),'Linewidth',1); hold on;
+legend('SF','MF','SP','MP','LP','SD','MD')
+legend('location','eastoutside')
+subplot(2,1,2)
+plot(y,(tLD(y)),'Linewidth',1); hold on;
+xlim([y(1) y(end)])
+%ylim([-5 2])
+xlabel('Time (mo)')
+ylabel('Integrated Biomass (g m^-^2)')
+stamp(cfile)
+print('-dpng',[ppath mod '_ts_mean_feisty_all_sizes.png'])
+
+% Fn Types
+figure(4)
+subplot(2,1,1)
+plot(y,(tF(y)),'r','Linewidth',2); hold on;
+plot(y,(tP(y)),'b','Linewidth',2); hold on;
+legend('F','P')
+legend('location','eastoutside')
+subplot(2,1,2)
+plot(y,(tBE(y)),'color',[0.5 0.5 0.5],'Linewidth',2); hold on;
+plot(y,(tD(y)),'k','Linewidth',2); hold on;
+legend('B','D')
+legend('location','eastoutside')
+xlim([y(1) y(end)])
+%ylim([-5 2])
+xlabel('Time (y)')
+ylabel('Integrated Biomass (g m^-^2)')
+stamp(cfile)
 print('-dpng',[ppath mod '_ts_mean_feisty_all_types.png'])
 
 
+
 %% Vert distrib
-figure(2)
+figure(5)
 subplot(1,2,1)
-plot(log10(tBE(:,1)),-1*z_l,'Linewidth',1); hold on;
-plot(log10(tSF(:,1)),-1*z_l,'Linewidth',1); hold on;
-plot(log10(tMF(:,1)),-1*z_l,'Linewidth',1); hold on;
-plot(log10(tSP(:,1)),-1*z_l,'Linewidth',1); hold on;
-plot(log10(tMP(:,1)),-1*z_l,'Linewidth',1); hold on;
-plot(log10(tLP(:,1)),-1*z_l,'Linewidth',1); hold on;
-plot(log10(tSD(:,1)),-1*z_l,'Linewidth',1); hold on;
-plot(log10(tMD(:,1)),-1*z_l,'Linewidth',1); hold on;
-plot(log10(tLD(:,1)),-1*z_l,'Linewidth',1); hold on;
-legend('B','SF','MF','SP','MP','LP','SD','MD','LD')
+plot(log10(vSF(:,1)),-1*z_l,'color',cm10(2,:),'Linewidth',1); hold on;
+plot(log10(vMF(:,1)),-1*z_l,'color',cm10(3,:),'Linewidth',1); hold on;
+plot(log10(vSP(:,1)),-1*z_l,'color',cm10(4,:),'Linewidth',1); hold on;
+plot(log10(vMP(:,1)),-1*z_l,'color',cm10(5,:),'Linewidth',1); hold on;
+plot(log10(vLP(:,1)),-1*z_l,'color',cm10(6,:),'Linewidth',1); hold on;
+plot(log10(vSD(:,1)),-1*z_l,'color',cm10(7,:),'Linewidth',1); hold on;
+legend('SF','MF','SP','MP','LP','SD')
 legend('location','east')
 title('log_1_0 Mean Biomass (g m^-^3)')
 ylabel('Depth (m)')
 
 subplot(1,2,2)
-plot(log10(tBE(:,1)),-1*z_l,'Linewidth',1,'color',[0.5 0.5 0.5]); hold on;
-plot(log10(tF(:,1)),-1*z_l,'Linewidth',1,'r'); hold on;
-plot(log10(tP(:,1)),-1*z_l,'Linewidth',1,'b'); hold on;
-plot(log10(tD(:,1)),-1*z_l,'Linewidth',1,'k'); hold on;
-legend('B','F','P','D')
+plot(log10(vF(:,1)),-1*z_l,'r','Linewidth',1); hold on;
+plot(log10(vP(:,1)),-1*z_l,'b','Linewidth',1); hold on;
+plot(log10(vD(:,1)),-1*z_l,'k','Linewidth',1); hold on;
+legend('F','P','D')
 legend('location','east')
 title('log_1_0 Mean Biomass (g m^-^3)')
 ylabel('Depth (m)')
@@ -142,29 +184,25 @@ stamp('')
 print('-dpng',[ppath exper '_vert_mean_feisty_subplot.png'])
 
 %% Vert distrib - upper ocean
-figure(10)
+figure(6)
 subplot(1,2,1)
-plot(log10(tBE(1:10,1)),-1*z_l(1:10),'Linewidth',1); hold on;
-plot(log10(tSF(1:10,1)),-1*z_l(1:10),'Linewidth',1); hold on;
-plot(log10(tMF(1:10,1)),-1*z_l(1:10),'Linewidth',1); hold on;
-plot(log10(tSP(1:10,1)),-1*z_l(1:10),'Linewidth',1); hold on;
-plot(log10(tMP(1:10,1)),-1*z_l(1:10),'Linewidth',1); hold on;
-plot(log10(tLP(1:10,1)),-1*z_l(1:10),'Linewidth',1); hold on;
-plot(log10(tSD(1:10,1)),-1*z_l(1:10),'Linewidth',1); hold on;
-plot(log10(tMD(1:10,1)),-1*z_l(1:10),'Linewidth',1); hold on;
-plot(log10(tLD(1:10,1)),-1*z_l(1:10),'Linewidth',1); hold on;
-legend('B','SF','MF','SP','MP','LP','SD','MD','LD')
-legend('location','east')
+plot(log10(vSF(1:10,1)),-1*z_l(1:10),'color',cm10(2,:),'Linewidth',1); hold on;
+plot(log10(vMF(1:10,1)),-1*z_l(1:10),'color',cm10(3,:),'Linewidth',1); hold on;
+plot(log10(vSP(1:10,1)),-1*z_l(1:10),'color',cm10(4,:),'Linewidth',1); hold on;
+plot(log10(vMP(1:10,1)),-1*z_l(1:10),'color',cm10(5,:),'Linewidth',1); hold on;
+plot(log10(vLP(1:10,1)),-1*z_l(1:10),'color',cm10(6,:),'Linewidth',1); hold on;
+plot(log10(vSD(1:10,1)),-1*z_l(1:10),'color',cm10(7,:),'Linewidth',1); hold on;
+legend('SF','MF','SP','MP','LP','SD')
+legend('location','southeast')
 title('log_1_0 Mean Biomass (g m^-^3)')
 ylabel('Depth (m)')
 
 subplot(1,2,2)
-plot(log10(tBE(1:10,1)),-1*z_l(1:10),'Linewidth',1,'color',[0.5 0.5 0.5]); hold on;
-plot(log10(tF(1:10,1)),-1*z_l(1:10),'Linewidth',1,'r'); hold on;
-plot(log10(tP(1:10,1)),-1*z_l(1:10),'Linewidth',1,'b'); hold on;
-plot(log10(tD(1:10,1)),-1*z_l(1:10),'Linewidth',1,'k'); hold on;
-legend('B','F','P','D')
-legend('location','east')
+plot(log10(vF(1:10,1)),-1*z_l(1:10),'r','Linewidth',1); hold on;
+plot(log10(vP(1:10,1)),-1*z_l(1:10),'b','Linewidth',1); hold on;
+plot(log10(vD(1:10,1)),-1*z_l(1:10),'k','Linewidth',1); hold on;
+legend('F','P','D')
+legend('location','southeast')
 title('log_1_0 Mean Biomass (g m^-^3)')
 ylabel('Depth (m)')
 stamp('')
@@ -172,7 +210,7 @@ print('-dpng',[ppath exper '_vert_upper_mean_feisty_subplot.png'])
 
 %% Maps
 % bent
-figure(3)
+figure(7)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(LAT,LON,log10(sBE))
@@ -186,7 +224,7 @@ stamp(cfile)
 print('-dpng',[ppath exper '_global_Bent.png'])
 
 %% All 4 on subplots
-figure(4)
+figure(8)
 % all F
 subplot('Position',[0 0.51 0.5 0.5])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
@@ -236,7 +274,7 @@ print('-dpng',[ppath exper '_global_All_subplot.png'])
 
 %% Ratios on subplots red-white-blue
 % 3 figure subplot P:D, P:F, M:L
-figure(5)
+figure(9)
 subplot('Position',[0 0.53 0.5 0.5])
 %P:D
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
