@@ -72,18 +72,19 @@ vLp = mean(Lp_B,1,'omitnan');
 vLp = squeeze(mean(vLp,2,'omitnan'));
 vLP = squeeze(mean(vLp,2,'omitnan'));
 
-% sum btm vars
+% sum btm vars?
 vMd = mean(Md_B,1,'omitnan');
 vMd = squeeze(mean(vMd,2,'omitnan'));
-vMD = squeeze(sum(vMd,2,'omitnan'));
+vMD = squeeze(mean(vMd,2,'omitnan'));
+%vMD = squeeze(sum(vMd,2,'omitnan'));
 
 vLd = mean(Ld_B,1,'omitnan');
 vLd = squeeze(mean(vLd,2,'omitnan'));
-vLD = squeeze(sum(vLd,2,'omitnan'));
+vLD = squeeze(mean(vLd,2,'omitnan'));
 
 vBe = mean(BE_B,1,'omitnan');
 vBe = squeeze(mean(vBe,2,'omitnan'));
-vBE = squeeze(sum(vBe,2,'omitnan'));
+vBE = squeeze(mean(vBe,2,'omitnan'));
 
 %% vert sums
 iSf = squeeze(sum((Sf_B.*thkcello),3,'omitnan'));
@@ -92,8 +93,9 @@ iSp = squeeze(sum((Sp_B.*thkcello),3,'omitnan'));
 iMp = squeeze(sum((Mp_B.*thkcello),3,'omitnan'));
 iLp = squeeze(sum((Lp_B.*thkcello),3,'omitnan'));
 iSd = squeeze(sum((Sd_B.*thkcello),3,'omitnan'));
-iMd = squeeze(sum((Md_B.*thkcello),3,'omitnan'));
-iLd = squeeze(sum((Ld_B.*thkcello),3,'omitnan'));
+iMd = squeeze(sum(Md_B,3,'omitnan'));
+iLd = squeeze(sum(Ld_B,3,'omitnan'));
+iBe = squeeze(sum(BE_B,3,'omitnan'));
 
 %% Time series (of vert integral)
 tSf = mean(iSf,1,'omitnan');
@@ -120,14 +122,17 @@ tMD = squeeze(mean(tMd,2,'omitnan'));
 tLd = mean(iLd,1,'omitnan');
 tLD = squeeze(mean(tLd,2,'omitnan'));
 
+tBe = mean(iBe,1,'omitnan');
+tBE = squeeze(mean(tBe,2,'omitnan'));
+
 % tMd = mean(Md_B(:,:,35,:),1,'omitnan');
 % tMd = squeeze(mean(tMd,2,'omitnan'));
 % 
 % tLd = mean(Ld_B(:,:,35,:),1,'omitnan');
 % tLd = squeeze(mean(tLd,2,'omitnan'));
-
-tBe = mean(BE_B(:,:,35,:),1,'omitnan');
-tBE = squeeze(mean(tBe,2,'omitnan'));
+%
+% tBe = mean(BE_B(:,:,35,:),1,'omitnan');
+% tBE = squeeze(mean(tBe,2,'omitnan'));
 
 %% spatial mean (of vert integral)
 sSF = mean(iSf,3,'omitnan');
@@ -138,9 +143,10 @@ sMP = mean(iMp,3,'omitnan');
 sLP = mean(iLp,3,'omitnan');
 sMD = mean(iMd,3,'omitnan');
 sLD = mean(iLd,3,'omitnan');
+sBE = mean(iBe,3,'omitnan');
 % sMD = mean(Md_B(:,:,35,:),4,'omitnan');
 % sLD = mean(Ld_B(:,:,35,:),4,'omitnan');
-sBE = mean(BE_B(:,:,35,:),4,'omitnan');
+% sBE = mean(BE_B(:,:,35,:),4,'omitnan');
 
 %%
 save([fpath '19900101.ocean_feisty_tracers_z_means.mat'],...

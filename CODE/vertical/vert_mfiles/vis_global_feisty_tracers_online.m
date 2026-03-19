@@ -82,7 +82,7 @@ y = 1:12; %120;
 
 % All size classes of all
 figure(1)
-%plot(y,log10(tBE(y)),'Linewidth',1); hold on;
+plot(y,log10(tBE(y)),'Linewidth',1); hold on;
 plot(y,log10(tSF(y)),'Linewidth',1); hold on;
 plot(y,log10(tMF(y)),'Linewidth',1); hold on;
 plot(y,log10(tSP(y)),'Linewidth',1); hold on;
@@ -91,8 +91,7 @@ plot(y,log10(tLP(y)),'Linewidth',1); hold on;
 plot(y,log10(tSD(y)),'Linewidth',1); hold on;
 plot(y,log10(tMD(y)),'Linewidth',1); hold on;
 plot(y,log10(tLD(y)),'Linewidth',1); hold on;
-%legend('B','SF','MF','SP','MP','LP','SD','MD','LD')
-legend('SF','MF','SP','MP','LP','SD','MD','LD')
+legend('B','SF','MF','SP','MP','LP','SD','MD','LD')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
 %ylim([-5 2])
