@@ -32,7 +32,7 @@ for i = 5:nvars
 end
 netcdf.close(ncid);
 
-Sf_B(Sf_B>1e19) = nan;
+Sf_B(Sf_B>1e19) = nan; 
 Sp_B(Sp_B>1e19) = nan;
 Sd_B(Sd_B>1e19) = nan;
 Mf_B(Mf_B>1e19) = nan;
@@ -40,7 +40,7 @@ Mp_B(Mp_B>1e19) = nan;
 Md_B(Md_B>1e19) = nan;
 Lp_B(Lp_B>1e19) = nan;
 Ld_B(Ld_B>1e19) = nan;
-BE_B(BE_B>1e19) = nan;
+BE_B(BE_B>1e19) = nan; % >1e15?
 
 %% thkcello
 load([gpath 'ocean_cobalt_feisty_forcing_z.199001-199412.thkcello.mat'])
