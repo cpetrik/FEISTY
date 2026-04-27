@@ -60,41 +60,41 @@ thkcello = thkcello(:,:,:,1:12);
 
 %% Vertical means
 vMz = mean(nmdz,1,'omitnan');
-vMz = squeeze(mean(vMz,2,'omitnan'));
-vMz = squeeze(mean(vMz,2,'omitnan'));
+vMz2 = squeeze(mean(vMz,2,'omitnan'));
+vMz1 = squeeze(mean(vMz2,2,'omitnan'));
 
 vMhp = mean(jhploss_n_Mdz,1,'omitnan');
-vMhp = squeeze(mean(vMhp,2,'omitnan'));
-vMhp = squeeze(mean(vMhp,2,'omitnan'));
+vMhp2 = squeeze(mean(vMhp,2,'omitnan'));
+vMhp1 = squeeze(mean(vMhp2,2,'omitnan'));
 
 vLz = mean(nlgz,1,'omitnan');
-vLz = squeeze(mean(vLz,2,'omitnan'));
-vLz = squeeze(mean(vLz,2,'omitnan'));
+vLz2 = squeeze(mean(vLz,2,'omitnan'));
+vLz1 = squeeze(mean(vLz2,2,'omitnan'));
 
 vLhp = mean(jhploss_n_Lgz,1,'omitnan');
-vLhp = squeeze(mean(vLhp,2,'omitnan'));
-vLhp = squeeze(mean(vLhp,2,'omitnan'));
+vLhp2 = squeeze(mean(vLhp,2,'omitnan'));
+vLhp1 = squeeze(mean(vLhp2,2,'omitnan'));
 
 %% vert sums or means
-vMZ = squeeze(sum((nmdz.*thkcello),3,'omitnan'));
-vMH = squeeze(sum((jhploss_n_Mdz.*thkcello),3,'omitnan'));
+iMZ = squeeze(sum((nmdz.*thkcello),3,'omitnan'));
+iMH = squeeze(sum((jhploss_n_Mdz.*thkcello),3,'omitnan'));
 
-vLZ = squeeze(sum((nlgz.*thkcello),3,'omitnan'));
-vLH = squeeze(sum((jhploss_n_Lgz.*thkcello),3,'omitnan'));
+iLZ = squeeze(sum((nlgz.*thkcello),3,'omitnan'));
+iLH = squeeze(sum((jhploss_n_Lgz.*thkcello),3,'omitnan'));
 
 mTP = squeeze(sum((thetao(:,:,1:10,:).*thkcello(:,:,1:10,:)),3,'omitnan') ./ sum(thkcello(:,:,1:10,:),3,'omitnan'));
 
 %% Time series of vert integral
-tMz = mean(vMZ,1,'omitnan');
+tMz = mean(iMZ,1,'omitnan');
 tMz = squeeze(mean(tMz,2,'omitnan'));
 
-tMhp = mean(vMH,1,'omitnan');
+tMhp = mean(iMH,1,'omitnan');
 tMhp = squeeze(mean(tMhp,2,'omitnan'));
 
-tLz = mean(vLZ,1,'omitnan');
+tLz = mean(iLZ,1,'omitnan');
 tLz = squeeze(mean(tLz,2,'omitnan'));
 
-tLhp = mean(vLH,1,'omitnan');
+tLhp = mean(iLH,1,'omitnan');
 tLhp = squeeze(mean(tLhp,2,'omitnan'));
 
 tTp = mean(mTP,1,'omitnan');
@@ -107,10 +107,10 @@ tDet = mean(fntot_btm,1,'omitnan');
 tDet = squeeze(mean(tDet,2,'omitnan'));
 
 %% spatial mean of vert integral
-sMz = mean(vMZ,3,'omitnan');
-sMhp = mean(vMH,3,'omitnan');
-sLz = mean(vLZ,3,'omitnan');
-sLhp = mean(vLH,3,'omitnan');
+sMz = mean(iMZ,3,'omitnan');
+sMhp = mean(iMH,3,'omitnan');
+sLz = mean(iLZ,3,'omitnan');
+sLhp = mean(iLH,3,'omitnan');
 sTp = mean(mTP,3,'omitnan');
 sTb = mean(tob,3,'omitnan');
 sDet = mean(fntot_btm,3,'omitnan');
@@ -119,7 +119,8 @@ sDet = mean(fntot_btm,3,'omitnan');
 save([fpath 'ocean_cobalt_feisty_forcing_1990_means.mat'],...
     'tMz','tMhp','tLz','tLhp','tTp','tTb','tDet',...
     'sMz','sMhp','sLz','sLhp','sTp','sTb','sDet',...
-    'vMZ','vMH','vLZ','vLH','mTP')
+    'iMZ','iMH','iLZ','iLH','mTP',...
+    'vMz2','vMz1','vMhp2','vMhp1','vLz2','vLz1','vLhp2','vLhp1')
 
 
 
