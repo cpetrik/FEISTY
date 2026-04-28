@@ -17,7 +17,7 @@ cfile = 'NoDc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_
 
 fpath=[opath cfile '/COBALTv3_Hindcast_HalfDeg/'];
 
-mod = 'Historic1990_All_fish03';
+mod = 'Historic1990_All_fish03_';
 
 %% SP
 ncid = netcdf.open([fpath mod 'sml_p.nc'],'NC_NOWRITE');
