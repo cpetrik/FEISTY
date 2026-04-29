@@ -1,5 +1,5 @@
 % Visualize output 
-% Spinup global on 1 degree grid
+% Spinup global on 0.5 degree grid
 % 200 years, annual means
 % Saved as mat files
 

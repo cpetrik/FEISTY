@@ -22,9 +22,10 @@ if (~isfolder(ppath))
     mkdir(ppath)
 end
 
-vers = 'Historic1990_All_fish03';
+vers = 'Historic_1990_All_fish03';
 mod = 'Historic1990_All_fish03_2D_offline';
-load([fpath 'Means_' vers '_' cfile '.mat']);
+load([fpath 'Time_Means_' vers '_' cfile '.mat']);
+load([fpath 'Annual_Means_' vers '_' cfile '.mat']);
 
 load([cpath 'Data_grid_OM4_05_COBALTv3.mat'],'GRD');
 load([gpath 'grid_OM4_05_COBALTv3.mat'],'geolon','geolat');
@@ -96,13 +97,74 @@ plot(y,log10(D),'k','Linewidth',2); hold on;
 legend('B','F','P','D')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
-%ylim([-1 1])
-ylim([-0.4 0.2])
-xlabel('Time (y)')
+ylim([-1 1])
+xlabel('Time (mo)')
 ylabel('log10 Biomass (g m^-^2)')
 title('Hindcast')
 stamp('')
 print('-dpng',[ppath mod '_ts_all_types.png'])
+
+%% First 12 mos
+figure(11)
+plot(y,log10(b_tmean),'Linewidth',1); hold on;
+plot(y,log10(sf_tmean),'Linewidth',1); hold on;
+plot(y,log10(mf_tmean),'Linewidth',1); hold on;
+plot(y,log10(sp_tmean),'Linewidth',1); hold on;
+plot(y,log10(mp_tmean),'Linewidth',1); hold on;
+plot(y,log10(lp_tmean),'Linewidth',1); hold on;
+plot(y,log10(sd_tmean),'Linewidth',1); hold on;
+plot(y,log10(md_tmean),'Linewidth',1); hold on;
+plot(y,log10(ld_tmean),'Linewidth',1); hold on;
+legend('B','SF','MF','SP','MP','LP','SD','MD','LD')
+legend('location','eastoutside')
+xlim([y(1) y(12)])
+ylim([-3 1])
+xlabel('Time (mo)')
+ylabel('log10 Biomass (g m^-^2)')
+title('Hindcast')
+stamp('')
+print('-dpng',[ppath mod '_ts_all_sizes_1990.png'])
+
+% Fn Types
+figure(12)
+plot(y,log10(B),'color',[0.5 0.5 0.5],'Linewidth',2); hold on;
+plot(y,log10(F),'r','Linewidth',2); hold on;
+plot(y,log10(P),'b','Linewidth',2); hold on;
+plot(y,log10(D),'k','Linewidth',2); hold on;
+legend('B','F','P','D')
+legend('location','eastoutside')
+xlim([y(1) y(12)])
+ylim([-1 1])
+xlabel('Time (mo)')
+ylabel('log10 Biomass (g m^-^2)')
+title('Hindcast')
+stamp('')
+print('-dpng',[ppath mod '_ts_all_types_1990.png'])
+
+figure(13)
+subplot(2,2,4)
+plot(y,(B),'color',[0.5 0.5 0.5],'Linewidth',2); 
+xlim([y(1) y(12)])
+title('Hindcast Benthos')
+xlabel('Time (mo)')
+subplot(2,2,1)
+plot(y,(F),'r','Linewidth',2); 
+xlim([y(1) y(12)])
+title('Hindcast Forage')
+ylabel('Biomass (g m^-^2)')
+subplot(2,2,2)
+plot(y,(P),'b','Linewidth',2); 
+xlim([y(1) y(12)])
+title('Hindcast Lg Pel')
+subplot(2,2,3)
+plot(y,(D),'k','Linewidth',2);
+xlim([y(1) y(12)])
+%ylim([-1 1])
+xlabel('Time (mo)')
+ylabel('Biomass (g m^-^2)')
+title('Hindcast Demersal')
+stamp('')
+print('-dpng',[ppath mod '_ts_all_types_notlog_1990.png'])
 
 
 %% Plots in space
@@ -116,15 +178,15 @@ Zlp=NaN*ones(ni,nj);
 Zld=NaN*ones(ni,nj);
 Zb=NaN*ones(ni,nj);
 
-Zsf(GRD.ID)=sf_sbio;
-Zsp(GRD.ID)=sp_sbio;
-Zsd(GRD.ID)=sd_sbio;
-Zmf(GRD.ID)=mf_sbio;
-Zmp(GRD.ID)=mp_sbio;
-Zmd(GRD.ID)=md_sbio;
-Zlp(GRD.ID)=lp_sbio;
-Zld(GRD.ID)=ld_sbio;
-Zb(GRD.ID)=b_sbio;
+Zsf(GRD.ID)=sf_abio(:,1);
+Zsp(GRD.ID)=sp_abio(:,1);
+Zsd(GRD.ID)=sd_abio(:,1);
+Zmf(GRD.ID)=mf_abio(:,1);
+Zmp(GRD.ID)=mp_abio(:,1);
+Zmd(GRD.ID)=md_abio(:,1);
+Zlp(GRD.ID)=lp_abio(:,1);
+Zld(GRD.ID)=ld_abio(:,1);
+Zb(GRD.ID)=b_abio(:,1);
 
 % Diff maps of all fish
 All = Zsp+Zsf+Zsd+Zmp+Zmf+Zmd+Zlp+Zld;
@@ -143,7 +205,7 @@ figure(3)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(LAT,LON,log10(Zb))
-cmocean('dense')
+cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-2 2]);
 hcb = colorbar('h');
@@ -159,7 +221,7 @@ subplot('Position',[0 0.51 0.5 0.5])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(LAT,LON,log10(AllF))
-cmocean('dense')
+cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-2 2]);
 colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
@@ -171,7 +233,7 @@ subplot('Position',[0 0 0.5 0.5])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(LAT,LON,log10(AllD))
-cmocean('dense')
+cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-2 2]);
 set(gcf,'renderer','painters')
@@ -182,7 +244,7 @@ subplot('Position',[0.5 0.51 0.5 0.5])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(LAT,LON,log10(AllP))
-cmocean('dense')
+cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-2 2]);
 set(gcf,'renderer','painters')
@@ -193,7 +255,7 @@ subplot('Position',[0.5 0 0.5 0.5])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
 surfm(LAT,LON,log10(All))
-cmocean('dense')
+cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-2 2]);
 set(gcf,'renderer','painters')

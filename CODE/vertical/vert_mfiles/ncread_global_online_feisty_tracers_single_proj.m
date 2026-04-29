@@ -42,6 +42,10 @@ Lp_B(Lp_B>1e19) = nan;
 Ld_B(Ld_B>1e19) = nan;
 BE_B(BE_B>1e19) = nan; % >1e15?
 
+Md_B(Md_B>1e10) = eps;
+Ld_B(Ld_B>1e10) = eps;
+BE_B(BE_B>1e10) = eps;
+
 %% thkcello
 load([gpath 'ocean_cobalt_feisty_forcing_z.199001-199412.thkcello.mat'])
 
