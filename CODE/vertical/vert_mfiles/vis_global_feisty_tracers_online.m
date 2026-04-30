@@ -98,7 +98,7 @@ xlim([y(1) y(end)])
 xlabel('Time (mo)')
 ylabel('log10 Integrated Biomass (g m^-^2)')
 stamp(cfile)
-print('-dpng',[ppath mod '_ts_logmean_feisty_all_sizes.png'])
+print('-dpng',[ppath mod '_ts_logmean_feisty_all_sizes_v2.png'])
 
 % Fn Types
 figure(2)
@@ -113,7 +113,7 @@ xlim([y(1) y(end)])
 xlabel('Time (y)')
 ylabel('log10 Integrated Biomass (g m^-^2)')
 stamp(cfile)
-print('-dpng',[ppath mod '_ts_logmean_feisty_all_types.png'])
+print('-dpng',[ppath mod '_ts_logmean_feisty_all_types_v2.png'])
 
 
 figure(3)
@@ -139,7 +139,7 @@ plot(y,(tBE(y)),'color',cm10(9,:),'Linewidth',1);
 xlabel('Time (mo)')
 ylabel('Integrated Biomass (g m^-^2)')
 stamp(cfile)
-print('-dpng',[ppath mod '_ts_mean_feisty_all_sizes.png'])
+print('-dpng',[ppath mod '_ts_mean_feisty_all_sizes_v2.png'])
 
 % Fn Types
 figure(4)
@@ -155,7 +155,7 @@ plot(y,(tBE(y)),'color',[0.5 0.5 0.5],'Linewidth',2); hold on;
 xlabel('Time (y)')
 ylabel('Integrated Biomass (g m^-^2)')
 stamp(cfile)
-print('-dpng',[ppath mod '_ts_mean_feisty_all_types.png'])
+print('-dpng',[ppath mod '_ts_mean_feisty_all_types_v2.png'])
 
 %% Vert distrib
 figure(5)
@@ -184,7 +184,7 @@ legend('location','east')
 title('log_1_0 Mean Biomass (g m^-^3)')
 ylabel('Depth (m)')
 stamp('')
-print('-dpng',[ppath exper '_vert_mean_feisty_subplot.png'])
+print('-dpng',[ppath exper '_vert_mean_feisty_subplot_v2.png'])
 
 %% Vert distrib - upper ocean
 figure(6)
@@ -209,7 +209,7 @@ legend('location','southeast')
 title('log_1_0 Mean Biomass (g m^-^3)')
 ylabel('Depth (m)')
 stamp('')
-print('-dpng',[ppath exper '_vert_upper_mean_feisty_subplot.png'])
+print('-dpng',[ppath exper '_vert_upper_mean_feisty_subplot_v2.png'])
 
 %% Maps
 % bent
@@ -224,7 +224,7 @@ hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('log10 mean benthic biomass (g m^-^2)')
 stamp(cfile)
-print('-dpng',[ppath exper '_global_Bent.png'])
+print('-dpng',[ppath exper '_global_Bent_v2.png'])
 
 %% All 4 on subplots
 figure(8)
@@ -273,7 +273,7 @@ clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
 %stamp(cfile)
-print('-dpng',[ppath exper '_global_All_subplot.png'])
+print('-dpng',[ppath exper '_global_All_subplot_v2.png'])
 
 %% All 4 on subplots
 figure(18)
@@ -322,7 +322,7 @@ clim([-2 3]);
 set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
 %stamp(cfile)
-print('-dpng',[ppath exper '_global_All_subplot_newcb.png'])
+print('-dpng',[ppath exper '_global_All_subplot_newcb_v2.png'])
 
 %% Ratios on subplots red-white-blue
 % 3 figure subplot P:D, P:F, M:L
@@ -361,4 +361,4 @@ colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('Fraction Large vs. Medium')
 stamp(cfile)
-print('-dpng',[ppath exper '_global_ratios_subplot.png'])
+print('-dpng',[ppath exper '_global_ratios_subplot_v2.png'])

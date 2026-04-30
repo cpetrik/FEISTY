@@ -4,6 +4,15 @@
 clear
 close all
 
+%%
+gpath = '/Volumes/petrik-lab/Feisty/GCM_Data/OM4_05_COBALTv3_FEISTYoff/';
+load([gpath 'Data_grid_OM4_05_COBALTv3.mat'],'GRD');
+load([gpath 'grid_OM4_05_COBALTv3.mat'],'wet',...
+    'z_l_units','z_l_long_name','z_l','geolon','geolat')
+[ni,nj]=size(geolon);
+
+dz = diff(z_l);
+
 %% ONLINE -----------------------------------------------------------
 npath = '/Volumes/petrik-lab/Feisty/NC/Global_COBALT_FEISTY/cobalt_feisty/';
 
@@ -14,6 +23,23 @@ ppath = ['/Users/cpetrik/Petrik Lab Group Dropbox/Colleen Petrik/Princeton/FEIST
 exper = 'OM4_05_COBALTv3_FEISTYon_021326';
 
 load([npath '19900101.ocean_feisty_tracers_z_means.mat'])
+
+NtF = tSF+tMF;
+NtP = tSP+tMP+tLP;
+NtD = tSD+tMD+tLD;
+NtB = tBE;
+NtAll = NtF + NtP + NtD;
+
+NsB = sBE;
+NsF = sSF+sMF;
+NsP = sSP+sMP+sLP;
+NsD = sSD+sMD+sLD;
+NsM = sMF+sMP+sMD;
+NsL = sLP+sLD;
+NsAll = NsF+NsP+NsD;
+NFracPD = NsP ./ (NsP + NsD);
+NFracPF = NsP ./ (NsP + NsF);
+NFracLM = NsL ./ (NsL + NsM);
 
 %% OFFLINE -----------------------------------------------------------
 fpath = '/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/NoDc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100/COBALTv3_Hindcast_HalfDeg/';
@@ -38,6 +64,7 @@ FtF = sf_tmean(1:12)+mf_tmean(1:12);
 FtP = sp_tmean(1:12)+mp_tmean(1:12)+lp_tmean(1:12);
 FtD = sd_tmean(1:12)+md_tmean(1:12)+ld_tmean(1:12);
 FtB = b_tmean(1:12);
+FtAll = FtF + FtP + FtD;
 
 FZsf=NaN*ones(ni,nj);
 FZsp=NaN*ones(ni,nj);
@@ -46,7 +73,7 @@ FZmf=NaN*ones(ni,nj);
 FZmp=NaN*ones(ni,nj);
 FZmd=NaN*ones(ni,nj);
 FZlp=NaN*ones(ni,nj);
-FFZld=NaN*ones(ni,nj);
+FZld=NaN*ones(ni,nj);
 FZb=NaN*ones(ni,nj);
 
 FZsf(GRD.ID)=sf_abio(:,1);
@@ -60,8 +87,8 @@ FZld(GRD.ID)=ld_abio(:,1);
 FZb(GRD.ID)=b_abio(:,1);
 
 % Diff maps of all fish
-FAll = FZsp+FZsf+FZsd+FZmp+FZmf+FZmd+FZlp+FZld;
-FsF = Zsf+FZmf;
+FsAll = FZsp+FZsf+FZsd+FZmp+FZmf+FZmd+FZlp+FZld;
+FsF = FZsf+FZmf;
 FsP = FZsp+FZmp+FZlp;
 FsD = FZsd+FZmd+FZld;
 FsM = FZmp+FZmf+FZmd;
@@ -70,12 +97,6 @@ FFracPD = FsP ./ (FsP + FsD);
 FFracPF = FsP ./ (FsP + FsF);
 FFracLM = FsL ./ (FsL + FsM);
 
-
-%%
-load([fpath 'grid_OM4_05_COBALTv3.mat'],'wet',...
-    'z_l_units','z_l_long_name','z_l','geolon','geolat')
-
-dz = diff(z_l);
 
 %% colors
 cm10=[0.5 0.5 0;... %tan/army
@@ -93,7 +114,6 @@ cm10=[0.5 0.5 0;... %tan/army
 set(groot,'defaultAxesColorOrder',cm10);
 
 %%
-[ni,nj]=size(geolon);
 geolon = double(geolon);
 geolat = double(geolat);
 
@@ -108,22 +128,17 @@ load coastlines;
 
 %% Diffs Online - Offline
 
-dtDE = NtDE - FtDE;
-dtMZ = NtMZ - FtMZ;
-dtLZ = NtLZ - FtLZ;
-dtMH = NtMH - FtMH;
-dtLH = NtLH - FtLH;
+dtB = NtB - FtB;
+dtF = NtF - FtF;
+dtP = NtP - FtP;
+dtD = NtD - FtD;
+dtAll = NtAll - FtAll;
 
-dsDE = NsDE - FsDE;
-dsMZ = NsMZ - FsMZ;
-dsLZ = NsLZ - FsLZ;
-dsMH = NsMH - FsMH;
-dsLH = NsLH - FsLH;
-
-dvMZ = NvMZ - FvMZ;
-dvLZ = NvLZ - FvLZ;
-dvMH = NvMH - FvMH;
-dvLH = NvLH - FvLH;
+dsB = NsB - FZb;
+dsF = NsF - FsF;
+dsP = NsP - FsP;
+dsD = NsD - FsD;
+dsAll = NsAll - FsAll;
 
 %% PLOTS TOGETHER
 % Time series
@@ -131,350 +146,256 @@ tmos = 1:12;
 
 % Log10
 figure(1)
-subplot(3,1,1)
-plot(tmos,log10(NtMZ(tmos)+eps),'color',cm10(4,:),'LineWidth',2); hold on;
-plot(tmos,log10(NtLZ(tmos)+eps),'color',cm10(5,:),'LineWidth',2); hold on;
-plot(tmos,log10(FtMZ(tmos)+eps),'--','color',cm10(4,:),'LineWidth',2); hold on;
-plot(tmos,log10(FtLZ(tmos)+eps),'--','color',cm10(5,:),'LineWidth',2); hold on;
-legend({'OnMZbio','OnLZbio','OffMZbio','OffLZbio'})
-legend('location','eastoutside')
+plot(tmos,log10(NtF(tmos)+eps),'r','LineWidth',2); hold on;
+plot(tmos,log10(NtP(tmos)+eps),'b','LineWidth',2); hold on;
+plot(tmos,log10(NtD(tmos)+eps),'color',cm10(2,:),'LineWidth',2); hold on;
+plot(tmos,log10(FtF(tmos)+eps),'--r','LineWidth',2); hold on;
+plot(tmos,log10(FtP(tmos)+eps),'--b','LineWidth',2); hold on;
+plot(tmos,log10(FtD(tmos)+eps),'--','color',cm10(2,:),'LineWidth',2); hold on;
+legend({'OnF','OnP','OnD','OffF','OffP','OffD'})
+legend('location','west')
 title('log_1_0 Integrated Biomass (gC m^-^2)')
-subplot(3,1,2)
-plot(tmos,log10(NtMH(tmos)+eps),'color',cm10(6,:),'LineWidth',2); hold on; 
-plot(tmos,log10(NtLH(tmos)+eps),'color',cm10(7,:),'LineWidth',2); hold on;
-plot(tmos,log10(FtMH(tmos)+eps),'--','color',cm10(6,:),'LineWidth',2); hold on; 
-plot(tmos,log10(FtLH(tmos)+eps),'--','color',cm10(7,:),'LineWidth',2); hold on;
-legend({'OnMZloss','OnLZloss','OffMZloss','OffLZloss'})
-legend('location','eastoutside')
-title('log_1_0 Integrated Higher Predation Rate (gC m^-^2 d^-^1)')
-subplot(3,1,3)
-plot(tmos,log10(NtDE(tmos)+eps),'color',cm10(1,:),'LineWidth',2); hold on;
-plot(tmos,log10(FtDE(tmos)+eps),'--','color',cm10(1,:),'LineWidth',2); hold on;
-legend({'OnBtmDet','OffBtmDet'})
-legend('location','eastoutside')
-title('log_1_0 Bottom Detritus Flux (gC m^-^2 d^-^1)')
 xlabel('Months')
 stamp('')
-print('-dpng',[ppath 'OM4_05_COBALTv3_FEISTY_on-off_ts_log10mean_feisty_forcing.png'])
+print('-dpng',[ppath 'OM4_05_COBALTv3_FEISTY_on3D-off2D_ts_log10mean_feisty_types.png'])
 
-% No log
 figure(2)
-subplot(3,1,1)
-plot(tmos,(NtMZ(tmos)+eps),'color',cm10(4,:),'LineWidth',2); hold on;
-plot(tmos,(NtLZ(tmos)+eps),'color',cm10(5,:),'LineWidth',2); hold on;
-plot(tmos,(FtMZ(tmos)+eps),'--','color',cm10(4,:),'LineWidth',2); hold on;
-plot(tmos,(FtLZ(tmos)+eps),'--','color',cm10(5,:),'LineWidth',2); hold on;
-legend({'OnMZbio','OnLZbio','OffMZbio','OffLZbio'})
-legend('location','eastoutside')
-title('Integrated Biomass (gC m^-^2)')
-subplot(3,1,2)
-plot(tmos,(NtMH(tmos)+eps),'color',cm10(6,:),'LineWidth',2); hold on; 
-plot(tmos,(NtLH(tmos)+eps),'color',cm10(7,:),'LineWidth',2); hold on;
-plot(tmos,(FtMH(tmos)+eps),'--','color',cm10(6,:),'LineWidth',2); hold on; 
-plot(tmos,(FtLH(tmos)+eps),'--','color',cm10(7,:),'LineWidth',2); hold on;
-legend({'OnMZloss','OnLZloss','OffMZloss','OffLZloss'})
-legend('location','eastoutside')
-title('Integrated Higher Predation Rate (gC m^-^2 d^-^1)')
-subplot(3,1,3)
-plot(tmos,(NtDE(tmos)+eps),'color',cm10(1,:),'LineWidth',2); hold on;
-plot(tmos,(FtDE(tmos)+eps),'--','color',cm10(1,:),'LineWidth',2); hold on;
-legend({'OnBtmDet','OffBtmDet'})
-legend('location','eastoutside')
-title('Bottom Detritus Flux (gC m^-^2 d^-^1)')
+subplot(2,2,1)
+plot(tmos,(NtF(tmos)+eps),'r','LineWidth',2); hold on;
+plot(tmos,(FtF(tmos)+eps),'--r','LineWidth',2); hold on;
+title('Forage')
+subplot(2,2,2)
+plot(tmos,(NtP(tmos)+eps),'b','LineWidth',2); hold on;
+plot(tmos,(FtP(tmos)+eps),'--b','LineWidth',2); hold on;
+title('Lg Pelagics')
+subplot(2,2,3)
+plot(tmos,(NtD(tmos)+eps),'color',cm10(2,:),'LineWidth',2); hold on;
+plot(tmos,(FtD(tmos)+eps),'--','color',cm10(2,:),'LineWidth',2); hold on;
+title('Demersals')
+subplot(2,2,4)
+plot(tmos,(NtAll(tmos)+eps),'k','LineWidth',2); hold on;
+plot(tmos,(FtAll(tmos)+eps),'--k','LineWidth',2); hold on;
+title('All fishes (gC m^-^2)')
 xlabel('Months')
 stamp('')
-print('-dpng',[ppath 'OM4_05_COBALTv3_FEISTY_on-off_ts_mean_feisty_forcing.png'])
-
-%% Vert
-figure(3)
-subplot(2,2,3)
-plot(log10(NvMZ(:,1)+eps),-1*z_l,'color',cm10(4,:),'LineWidth',2); hold on;
-plot(log10(NvLZ(:,1)+eps),-1*z_l,'color',cm10(5,:),'LineWidth',2); hold on;
-plot(log10(FvMZ(:,1)+eps),-1*z_l,'--','color',cm10(4,:),'LineWidth',2); hold on;
-plot(log10(FvLZ(:,1)+eps),-1*z_l,'--','color',cm10(5,:),'LineWidth',2); hold on;
-title('log_1_0')
-%legend({'OnMZbio','OnLZbio','OffMZbio','OffLZbio'})
-subplot(2,2,4)
-plot(log10(NvMH(:,1)+eps),-1*z_l,'color',cm10(6,:),'LineWidth',2); hold on; 
-plot(log10(NvLH(:,1)+eps),-1*z_l,'color',cm10(7,:),'LineWidth',2); hold on;
-plot(log10(FvMH(:,1)+eps),-1*z_l,'--','color',cm10(6,:),'LineWidth',2); hold on; 
-plot(log10(FvLH(:,1)+eps),-1*z_l,'--','color',cm10(7,:),'LineWidth',2); hold on;
-title('log_1_0')
-%legend({'OnMZloss','OnLZloss','OffMZloss','OffLZloss'})
-%legend('location','east')
-ylabel('Depth (m)')
-
-subplot(2,2,1)
-plot((NvMZ(1:8,1)),-1*z_l(1:8),'color',cm10(4,:),'LineWidth',2); hold on;
-plot((NvLZ(1:8,1)),-1*z_l(1:8),'color',cm10(5,:),'LineWidth',2); hold on;
-plot((FvMZ(1:8,1)),-1*z_l(1:8),'--','color',cm10(4,:),'LineWidth',2); hold on;
-plot((FvLZ(1:8,1)),-1*z_l(1:8),'--','color',cm10(5,:),'LineWidth',2); hold on;
-legend({'OnMZbio','OnLZbio','OffMZbio','OffLZbio'})
-legend('location','southeast')
-title('Mean Biomass (gC m^-^3)')
-subplot(2,2,2)
-plot((NvMH(1:8,1)),-1*z_l(1:8),'color',cm10(6,:),'LineWidth',2); hold on; 
-plot((NvLH(1:8,1)),-1*z_l(1:8),'color',cm10(7,:),'LineWidth',2); hold on;
-plot((FvMH(1:8,1)),-1*z_l(1:8),'--','color',cm10(6,:),'LineWidth',2); hold on; 
-plot((FvLH(1:8,1)),-1*z_l(1:8),'--','color',cm10(7,:),'LineWidth',2); hold on;
-legend({'OnMZloss','OnLZloss','OffMZloss','OffLZloss'})
-legend('location','southeast')
-title('Mean Higher Predation Rate (gC m^-^3 d^-^1)')
-ylabel('Depth (m)')
-stamp('')
-print('-dpng',[ppath 'OM4_05_COBALTv3_FEISTY_on-off_vert_mean_feisty_forcing.png'])
+print('-dpng',[ppath 'OM4_05_COBALTv3_FEISTY_on3D-off2D_ts_mean_feisty_types.png'])
 
 %% Maps
-% Zoo bio 
+% Forage
+figure(3)
+subplot(2,1,1) %off
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat,geolon,log10(squeeze(FsF)))
+cmocean('matter')
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+clim([-2 2]);
+hcb = colorbar('h');
+set(gcf,'renderer','painters')
+title('Offline')
+text(0.5,-4,'log10 mean Forage (gC m^-^2)','HorizontalAlignment','center')
+
+subplot(2,1,2) %on
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat,geolon,log10(squeeze(NsF)))
+cmocean('matter')
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+clim([-2 2]);
+hcb = colorbar('h');
+set(gcf,'renderer','painters')
+title('Online')
+print('-dpng',[ppath 'OM4_05_COBALTv3_FEISTY_on3D-off2D_map_F.png'])
+
+%%
 figure(4)
-subplot(2,2,1) %off
+subplot(2,1,1) %off
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat,geolon,log10(squeeze(FsMZ(:,:,1))))
+surfm(geolat,geolon,log10(squeeze(FsP)))
 cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-1 0.5]);
+clim([-2 2]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('Offline')
-text(6,2.5,'log10 mean Medium zoo (gC m^-^2)','HorizontalAlignment','center')
+text(0.5,-4,'log10 mean Lg Pelagic (gC m^-^2)','HorizontalAlignment','center')
 
-subplot(2,2,2) %on
+subplot(2,1,2) %on
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat,geolon,log10(squeeze(NsMZ(:,:,1))))
+surfm(geolat,geolon,log10(squeeze(NsP)))
 cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-1 0.5]);
-hcb = colorbar('h');
-set(gcf,'renderer','painters')
-title('Online')
-
-subplot(2,2,3) %off
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat,geolon,log10(squeeze(FsLZ(:,:,1))))
-cmocean('matter')
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-1 1]);
-hcb = colorbar('h');
-set(gcf,'renderer','painters')
-title('Offline')
-text(6,2.5,'log10 mean Large zoo (gC m^-^2)','HorizontalAlignment','center')
-
-subplot(2,2,4) %on
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat,geolon,log10(squeeze(NsLZ(:,:,1))))
-cmocean('matter')
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-1 1]);
+clim([-2 2]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('Online')
 stamp('')
-print('-dpng',[ppath 'OM4_05_COBALTv3_FEISTY_on-off_map_zmeso.png'])
+print('-dpng',[ppath 'OM4_05_COBALTv3_FEISTY_on3D-off2D_map_P.png'])
 
-
-% Zoo HPloss
+% Dem
 figure(5)
-subplot(2,2,1) %off
+subplot(2,1,1) %off
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat,geolon,log10(squeeze(FsMH(:,:,1))))
+surfm(geolat,geolon,log10(squeeze(FsD)))
 cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-4 -2]);
+clim([-2 2]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('Offline')
-text(6,2.5,'log10 mean MZ HPloss (gC m^-^2 d^-^1)','HorizontalAlignment','center')
+text(0.5,-4,'log10 mean Demersal (gC m^-^2)','HorizontalAlignment','center')
 
-subplot(2,2,2) %on
+subplot(2,1,2) %on
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat,geolon,log10(squeeze(NsMH(:,:,1))))
+surfm(geolat,geolon,log10(squeeze(NsD)))
 cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-4 -2]);
-hcb = colorbar('h');
-set(gcf,'renderer','painters')
-title('Online')
-
-subplot(2,2,3) %off
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat,geolon,log10(squeeze(FsLH(:,:,1))))
-cmocean('matter')
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-4 -1]);
-hcb = colorbar('h');
-set(gcf,'renderer','painters')
-title('Offline')
-text(6,2.5,'log10 mean LZ HPloss (gC m^-^2 d^-^1)','HorizontalAlignment','center')
-
-subplot(2,2,4) %on
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat,geolon,log10(squeeze(NsLH(:,:,1))))
-cmocean('matter')
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-4 -1]);
+clim([-2 2]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('Online')
 stamp('')
-print('-dpng',[ppath 'OM4_05_COBALTv3_FEISTY_on-off_map_hploss.png'])
+print('-dpng',[ppath 'OM4_05_COBALTv3_FEISTY_on3D-off2D_map_D.png'])
 
-
-
-% Det btm
+%% All
 figure(6)
+subplot(2,1,1) %off
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat,geolon,log10(squeeze(FsAll)))
+cmocean('matter')
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+clim([-2 3]);
+hcb = colorbar('h');
+set(gcf,'renderer','painters')
+title('Offline')
+text(0.5,-4,'log10 mean All fishes (gC m^-^2)','HorizontalAlignment','center')
+
+subplot(2,1,2) %on
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(geolat,geolon,log10(squeeze(NsAll)))
+cmocean('matter')
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+clim([-2 3]);
+hcb = colorbar('h');
+set(gcf,'renderer','painters')
+title('Online')
+stamp('')
+print('-dpng',[ppath 'OM4_05_COBALTv3_FEISTY_on3D-off2D_map_AllFishes.png'])
+
+% Bent
+figure(7)
 subplot(1,2,1) %off
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat,geolon,log10(squeeze(FsDE(:,:,1))))
+surfm(geolat,geolon,log10(squeeze(FZb)))
 cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-3 -1]);
+clim([-3 1]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('Offline')
-text(4,2.5,'log10 mean btm detritus flux (gC m^-^2 d^-^1)','HorizontalAlignment','center')
+text(0.5,-4,'log10 mean Benthos (gC m^-^2)','HorizontalAlignment','center')
 
 subplot(1,2,2) %on
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat,geolon,log10(squeeze(NsDE(:,:,1))))
+surfm(geolat,geolon,log10(squeeze(NsB)))
 cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-3 -1]);
+clim([-3 1]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('Online')
 stamp('')
-print('-dpng',[ppath 'OM4_05_COBALTv3_FEISTY_on-off_map_mean_DetBtm.png'])
+print('-dpng',[ppath 'OM4_05_COBALTv3_FEISTY_on3D-off2D_map_mean_Bent.png'])
 
 
 %% PLOTS OF DIFFS
 % Time series
 % NO Log10
-figure(7)
-subplot(3,1,1)
-plot(tmos,(dtMZ(tmos)+eps),'color',cm10(4,:),'LineWidth',2); hold on;
-plot(tmos,(dtLZ(tmos)+eps),'color',cm10(5,:),'LineWidth',2); hold on;
-title('Integrated Biomass (gC m^-^2)')
-legend({'MZ','LZ'})
-legend('location','east')
-subplot(3,1,2)
-plot(tmos,(dtMH(tmos)* 365+eps),'color',cm10(6,:),'LineWidth',2); hold on; 
-plot(tmos,(dtLH(tmos)* 365+eps),'color',cm10(7,:),'LineWidth',2); hold on;
-ylabel('Online - Offline')
-title('Integrated Higher Predation Rate (gC m^-^2 y^-^1)')
-legend({'MZ','LZ'})
-legend('location','northeast')
-subplot(3,1,3)
-plot(tmos,(dtDE(tmos)* 365+eps),'color',cm10(1,:),'LineWidth',2); 
-title('Bottom Detritus Flux (gC m^-^2 y^-^1)')
+figure(8)
+plot(tmos,(dtF(tmos)+eps),'r','LineWidth',2); hold on;
+plot(tmos,(dtP(tmos)+eps),'b','LineWidth',2); hold on;
+plot(tmos,(dtD(tmos)+eps),'color',cm10(2,:),'LineWidth',2); hold on; 
+legend({'F','P','D'})
+legend('location','west')
+title('Diff Integrated Biomass (gC m^-^2)')
 xlabel('Months')
 stamp('')
-print('-dpng',[ppath 'OM4_05_COBALTv3_FEISTY_on-off_ts_diff_feisty_forcing.png'])
-
-%% Vert
-figure(8)
-% subplot(2,2,3)
-% plot((dvMZ(:,1)+eps),-1*z_l,'color',cm10(4,:)); hold on;
-% plot((dvLZ(:,1)+eps),-1*z_l,'color',cm10(5,:)); hold on;
-% title('Online - Offline')
-% subplot(2,2,4)
-% plot((dvMH(:,1)+eps),-1*z_l,'color',cm10(6,:)); hold on; 
-% plot((dvLH(:,1)+eps),-1*z_l,'color',cm10(7,:)); hold on;
-% title('Online - Offline')
-% ylabel('Depth (m)')
-
-subplot(1,2,1)
-plot((dvMZ(1:8,1)),-1*z_l(1:8),'color',cm10(4,:),'LineWidth',2); hold on;
-plot((dvLZ(1:8,1)),-1*z_l(1:8),'color',cm10(5,:),'LineWidth',2); hold on;
-legend({'MZ','LZ'})
-legend('location','southeast')
-title('Mean Biomass (gC m^-^3)')
-subplot(1,2,2)
-plot((dvMH(1:8,1)* 365),-1*z_l(1:8),'color',cm10(6,:),'LineWidth',2); hold on; 
-plot((dvLH(1:8,1)* 365),-1*z_l(1:8),'color',cm10(7,:),'LineWidth',2); hold on;
-legend({'MZ','LZ'})
-legend('location','southwest')
-title('Mean Higher Predation Rate (gC m^-^3 y^-^1)')
-ylabel('Depth (m)')
-stamp('')
-print('-dpng',[ppath 'OM4_05_COBALTv3_FEISTY_on-off_vert_diff_feisty_forcing.png'])
-
+print('-dpng',[ppath 'OM4_05_COBALTv3_FEISTY_on3D-off2D_ts_diff_feisty_types.png'])
 
 %% Maps
-% MZ & LZ
+LAT = geolat;
+LON= geolon;
 figure(9)
-subplot(1,2,1) %off
+% all F
+subplot('Position',[0 0.51 0.5 0.5])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat,geolon,(squeeze(dsMZ(:,:,1))))
+surfm(LAT,LON,dsF)
 cmocean('balance')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-1 1]);
-hcb = colorbar('h');
+clim([-20 20]);
+colorbar
 set(gcf,'renderer','painters')
-title('Medium zoo biomass difference (gC m^2)')
-text(4,2.5,'Online - Offline','HorizontalAlignment','center')
+title('Diff mean All F (g m^-^2)')
+%colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
 
-subplot(1,2,2) %on
+% all D
+subplot('Position',[0 0 0.5 0.5])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat,geolon,(squeeze(dsLZ(:,:,1))))
-cmocean('balance')
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-3 3]);
-hcb = colorbar('h');
-set(gcf,'renderer','painters')
-title('Large zoo biomass difference (gC m^2)')
-stamp('')
-print('-dpng',[ppath 'OM4_05_COBALTv3_FEISTY_on-off_map_diff_zmeso.png'])
-
-%% HPloss
-figure(10)
-subplot(1,2,1) %off
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat,geolon,(squeeze(dsMH(:,:,1))* 365))
+surfm(LAT,LON,dsD)
 cmocean('balance')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-10 10]);
-hcb = colorbar('h');
+colorbar
 set(gcf,'renderer','painters')
-title('MZ HPloss difference (gC m^2 y^-^1)')
-text(4,2.5,'Online - Offline','HorizontalAlignment','center')
+title('Diff mean All D (g m^-^2)')
 
-subplot(1,2,2) %on
+% All P
+subplot('Position',[0.5 0.51 0.5 0.5])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat,geolon,(squeeze(dsLH(:,:,1))* 365))
+surfm(LAT,LON,dsP)
 cmocean('balance')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-10 10]);
-hcb = colorbar('h');
+clim([-150 150]);
+colorbar
 set(gcf,'renderer','painters')
-title('LZ HPloss difference (gC m^2 y^-^1)')
-stamp('')
-print('-dpng',[ppath 'OM4_05_COBALTv3_FEISTY_on-off_map_mean_diff_HPloss.png'])
+title('Diff mean All P (g m^-^2)')
 
-%% Det
+% All
+subplot('Position',[0.5 0 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(LAT,LON,dsAll)
+cmocean('balance')
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+clim([-150 150]);
+colorbar
+set(gcf,'renderer','painters')
+title('Diff mean All fishes (g m^-^2)')
+stamp('')
+print('-dpng',[ppath mod '_OM4_05_COBALTv3_FEISTY_on3D-off2D_global_diffs.png'])
+
+%% Bent
 figure(11)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat,geolon,(squeeze(dsDE(:,:,1))* 365))
+surfm(geolat,geolon,(squeeze(dsB)))
 cmocean('balance')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-25 25]);
+clim([-10 10]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
-title('Bottom detrius flux difference (gC m^2 y^-^1) Online - Offline')
+title('Benthic biomass difference (gC m^2) Online - Offline')
 stamp('')
-print('-dpng',[ppath 'OM4_05_COBALTv3_FEISTY_on-off_map_mean_diff_DetBtm.png'])
+print('-dpng',[ppath 'OM4_05_COBALTv3_FEISTY_on3D-off2D_map_mean_diff_Bent.png'])
 
