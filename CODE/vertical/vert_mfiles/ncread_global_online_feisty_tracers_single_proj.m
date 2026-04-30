@@ -42,9 +42,9 @@ Lp_B(Lp_B>1e19) = nan;
 Ld_B(Ld_B>1e19) = nan;
 BE_B(BE_B>1e19) = nan; % >1e15?
 
-Md_B(Md_B>1e10) = eps;
-Ld_B(Ld_B>1e10) = eps;
-BE_B(BE_B>1e10) = eps;
+Md_B(Md_B>1e9) = eps;
+Ld_B(Ld_B>1e9) = eps;
+BE_B(BE_B>1e9) = eps;
 
 %% thkcello
 load([gpath 'ocean_cobalt_feisty_forcing_z.199001-199412.thkcello.mat'])
@@ -121,13 +121,16 @@ tLp = mean(iLp,1,'omitnan');
 tLP = squeeze(mean(tLp,2,'omitnan'));
 
 tMd = mean(iMd,1,'omitnan');
-tMD = squeeze(mean(tMd,2,'omitnan'));
+%tMD = squeeze(mean(tMd,2,'omitnan'));
+tMD = squeeze(vMd(35,:));
 
 tLd = mean(iLd,1,'omitnan');
-tLD = squeeze(mean(tLd,2,'omitnan'));
+%tLD = squeeze(mean(tLd,2,'omitnan'));
+tLD = squeeze(vLd(35,:));
 
 tBe = mean(iBe,1,'omitnan');
-tBE = squeeze(mean(tBe,2,'omitnan'));
+%tBE = squeeze(mean(tBe,2,'omitnan'));
+tBE = squeeze(vBe(35,:));
 
 % tMd = mean(Md_B(:,:,35,:),1,'omitnan');
 % tMd = squeeze(mean(tMd,2,'omitnan'));
@@ -153,7 +156,7 @@ sBE = mean(iBe,3,'omitnan');
 % sBE = mean(BE_B(:,:,35,:),4,'omitnan');
 
 %%
-save([fpath '19900101.ocean_feisty_tracers_z_means.mat'],...
+save([fpath '19900101.ocean_feisty_tracers_z_means_v2.mat'],...
     'tSF','tSP','tSD','tMF','tMP','tMD','tLP','tLD','tBE',...
     'sSF','sSP','sSD','sMF','sMP','sMD','sLP','sLD','sBE',...
     'vSF','vSP','vSD','vMF','vMP','vLP','vMD','vLD','vBE')
