@@ -10,11 +10,13 @@ fpath = '/project/Feisty/NC/Global_COBALT_FEISTY/';
 %gpath = '/Volumes/petrik-lab/Feisty/GCM_Data/OM4_05_COBALTv3_FEISTYoff/';
 gpath = '/project/Feisty/GCM_Data/OM4_05_COBALTv3_FEISTYoff/';
 
+spath = '/project/Feisty/NC/Global_COBALT_FEISTY/cobalt_feisty/';
+
 %%
 %load([gpath 'grid_OM4_05_COBALTv3.mat'],'wet','z_l_units','z_l_long_name','z_l')
 
 %%
-ncdisp([fpath 'ocean_cobalt_tracers_month_z.199001-199412.ndet.nc'])
+ncdisp([fpath '19900101.ocean_cobalt_tracers_month_z.nc'])
 
 %%
 st = 1990:5:2019;
