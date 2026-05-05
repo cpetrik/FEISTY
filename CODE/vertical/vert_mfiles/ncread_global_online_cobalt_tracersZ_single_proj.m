@@ -21,8 +21,7 @@ ncdisp([fpath '19900101.ocean_cobalt_tracers_month_z.nc'])
 
 %%
 %
-ncid = netcdf.open([fpath 'ocean_cobalt_tracers_month_z.',...
-    num2str(st(y)),'01-',num2str(en(y)),'12.ndet.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath '19900101.ocean_cobalt_tracers_month_z.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 
 % xh and yh
