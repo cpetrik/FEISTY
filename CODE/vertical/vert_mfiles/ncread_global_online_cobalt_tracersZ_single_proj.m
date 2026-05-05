@@ -46,14 +46,14 @@ for i = 8:14
 end
 
 % ndet
-for i = 26
+for i = 25
     varname = netcdf.inqVar(ncid, i-1);
     eval([ varname ' = netcdf.getVar(ncid,i-1);']);
     eval([ varname '(' varname ' == 1e20) = NaN;']);
 end
 
 % c,p,o
-for i = 40:44
+for i = 39:43
     varname = netcdf.inqVar(ncid, i-1);
     eval([ varname ' = netcdf.getVar(ncid,i-1);']);
     eval([ varname '(' varname ' == 1e20) = NaN;']);
