@@ -72,9 +72,12 @@ schl = squeeze(chl(:,:,1,:));
 o2(o2>1e19) = nan;
 
 %% thkcello
-%load([gpath 'ocean_cobalt_feisty_forcing_z.199001-199412.thkcello.mat'])
-load([gpath 'ocean_cobalt_feisty_forcing_z.199501-199912.thkcello.mat'])
-thkcello = thkcello(:,:,:,1:12);
+load([gpath 'ocean_cobalt_feisty_forcing_z.199001-199412.thkcello.mat'])
+%thkcello = thkcello(:,:,:,1:12);
+thkcello = thkcello(:,:,:,(60-11):60);
+
+%load([gpath 'ocean_cobalt_feisty_forcing_z.199501-199912.thkcello.mat'])
+
 
 %% Vertical means
 vNo3 = mean(no3,1,'omitnan');

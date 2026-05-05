@@ -17,10 +17,10 @@ spath = '/project/Feisty/NC/Global_COBALT_FEISTY/cobalt_feisty/';
 %load([gpath 'grid_OM4_05_COBALTv3.mat'],'wet','z_l_units','z_l_long_name','z_l')
 
 %%
-ncdisp([fpath '19900101.ocean_cobalt_fluxes_int.nc'])
+ncdisp([fpath '19940101.ocean_cobalt_fluxes_int.nc'])
 
 %%
-ncid = netcdf.open([fpath '19900101.ocean_cobalt_fluxes_int.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath '19940101.ocean_cobalt_fluxes_int.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 
 % 
@@ -61,7 +61,7 @@ sMZprod = mean(jprod_nmdz_100,3,'omitnan');
 sLZprod = mean(jprod_nlgz_100,3,'omitnan');
 
 %%
-save([spath '19900101.ocean_cobalt_fluxes_int_1990_means.nc'],...
+save([spath '19940101.ocean_cobalt_fluxes_int_1990_means.mat'],...
     'tNPP','tMZzl','tMZprod','tLZprod',...
     'sNPP','sMZzl','sMZprod','sLZprod')
 

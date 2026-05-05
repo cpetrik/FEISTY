@@ -54,8 +54,11 @@ end
 netcdf.close(ncid);
 
 %% thkcello
-load([gpath 'ocean_cobalt_feisty_forcing_z.199401-199412.thkcello.mat'])
-thkcello = thkcello(:,:,:,1:12);
+load([gpath 'ocean_cobalt_feisty_forcing_z.199001-199412.thkcello.mat'])
+%thkcello = thkcello(:,:,:,1:12);
+thkcello = thkcello(:,:,:,(60-11):60);
+
+%load([gpath 'ocean_cobalt_feisty_forcing_z.199501-199912.thkcello.mat'])
 
 %% 
 % Define the fish groups and the base variables
