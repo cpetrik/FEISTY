@@ -17,120 +17,53 @@ spath = '/project/Feisty/NC/Global_COBALT_FEISTY/cobalt_feisty/';
 %load([gpath 'grid_OM4_05_COBALTv3.mat'],'wet','z_l_units','z_l_long_name','z_l')
 
 %%
-ncdisp([fpath '19900101.ocean_cobalt_tracers_month_z.nc'])
+ncdisp([fpath '19900101.ocean_cobalt_fluxes_int.nc'])
 
 %%
+ncid = netcdf.open([fpath '19900101.ocean_cobalt_fluxes_int.nc'],'NC_NOWRITE');
+[ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 
-
-    %% Total particulate organic carbon vertical integral 'mol m-2' - Annual
-    ncid = netcdf.open([fpath 'ocean_cobalt_tracers_instant.',...
-        num2str(st(y)),'01-',num2str(en(y)),'12.wc_vert_int_poc.nc'],'NC_NOWRITE');
-    [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
-    for i = 1:nvars
-        varname = netcdf.inqVar(ncid, i-1);
-        eval([ varname ' = netcdf.getVar(ncid,i-1);']);
-        eval([ varname '(' varname ' == 1e20) = NaN;']);
-    end
-    netcdf.close(ncid);
-
-    wc_vert_int_poc(wc_vert_int_poc>1e19) = nan;
-
-    %% DOC  - Annual
-    ncid = netcdf.open([fpath 'ocean_cobalt_tracers_instant.',...
-        num2str(st(y)),'01-',num2str(en(y)),'12.wc_vert_int_doc.nc'],'NC_NOWRITE');
-    [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
-    for i = 1:nvars
-        varname = netcdf.inqVar(ncid, i-1);
-        eval([ varname ' = netcdf.getVar(ncid,i-1);']);
-        eval([ varname '(' varname ' == 1e20) = NaN;']);
-    end
-    netcdf.close(ncid);
-
-    wc_vert_int_doc(wc_vert_int_doc>1e19) = nan;
-
-    %% DIC  - Annual
-    ncid = netcdf.open([fpath 'ocean_cobalt_tracers_instant.',...
-        num2str(st(y)),'01-',num2str(en(y)),'12.wc_vert_int_dic.nc'],'NC_NOWRITE');
-    [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
-    for i = 1:nvars
-        varname = netcdf.inqVar(ncid, i-1);
-        eval([ varname ' = netcdf.getVar(ncid,i-1);']);
-        eval([ varname '(' varname ' == 1e20) = NaN;']);
-    end
-    netcdf.close(ncid);
-
-    wc_vert_int_dic(wc_vert_int_dic>1e19) = nan;
-
-    %% O2 'mol m-2' - Annual
-    ncid = netcdf.open([fpath 'ocean_cobalt_tracers_instant.',...
-        num2str(st(y)),'01-',num2str(en(y)),'12.wc_vert_int_o2.nc'],'NC_NOWRITE');
-    [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
-    for i = 1:nvars
-        varname = netcdf.inqVar(ncid, i-1);
-        eval([ varname ' = netcdf.getVar(ncid,i-1);']);
-        eval([ varname '(' varname ' == 1e20) = NaN;']);
-    end
-    netcdf.close(ncid);
-
-    wc_vert_int_o2(wc_vert_int_o2>1e19) = nan;
-
-    %% Total N sinking flux @100m 'mol m-2 s-1' - Monthly
-    ncid = netcdf.open([fpath 'ocean_cobalt_fdet_100.',...
-        num2str(st(y)),'01-',num2str(en(y)),'12.fntot_100.nc'],'NC_NOWRITE');
-    [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
-    for i = 1:nvars
-        varname = netcdf.inqVar(ncid, i-1);
-        eval([ varname ' = netcdf.getVar(ncid,i-1);']);
-        eval([ varname '(' varname ' == 1e20) = NaN;']);
-    end
-    netcdf.close(ncid);
-
-    fntot_100(fntot_100>1e19) = nan;
-    
-    %% Time series of vert integral
-    tPoc = mean(wc_vert_int_poc,1,'omitnan');
-    tPoc = squeeze(mean(tPoc,2,'omitnan'));
-
-    tDoc = mean(wc_vert_int_doc,1,'omitnan');
-    tDoc = squeeze(mean(tDoc,2,'omitnan'));
-
-    tDic = mean(wc_vert_int_dic,1,'omitnan');
-    tDic = squeeze(mean(tDic,2,'omitnan'));
-
-    to2 = mean(wc_vert_int_o2,1,'omitnan');
-    to2 = squeeze(mean(to2,2,'omitnan'));
-
-    tFn = mean(fntot_100,1,'omitnan');
-    tFn = squeeze(mean(tFn,2,'omitnan'));
-
-    %% spatial mean of vert integral
-    sPoc = mean(wc_vert_int_poc,3,'omitnan');
-    sDoc = mean(wc_vert_int_doc,3,'omitnan');
-    sDic = mean(wc_vert_int_dic,3,'omitnan');
-    so2 = mean(wc_vert_int_o2,3,'omitnan');
-    sFn = mean(fntot_100,3,'omitnan');
-   
-    %% put in arrays
-    yid = (((y-1)*5)+1):(y*5);
-    mid = (((y-1)*60)+1):(y*60);
-   
-    tPOC(1,yid) = tPoc;
-    tDOC(1,yid) = tDoc;
-    tDIC(1,yid) = tDic;
-    tO2(1,yid) = to2;
-    tFN(1,mid) = tFn;
-
-    sPOC(:,:,y) = sPoc;
-    sDOC(:,:,y) = sDoc;
-    sDIC(:,:,y) = sDic;
-    sO2(:,:,y) = so2;
-    sFN(:,:,y) = sFn;
-
+% 
+for i = 1:nvars
+    varname = netcdf.inqVar(ncid, i-1);
+    eval([ varname ' = netcdf.getVar(ncid,i-1);']);
+    eval([ varname '(' varname ' == 1e20) = NaN;']);
 end
+netcdf.close(ncid);
 
-save([fpath 'ocean_cobalt_tracers_instant.199001',...
-        '-',num2str(en(y)),'12_means.nc'],'tPOC','tFN','tDOC','tDIC','tO2',...
-        'sPOC','sFN','sDOC','sDIC','sO2')
+% wc_vert_int_poc(wc_vert_int_poc>1e19) = nan;
+% wc_vert_int_doc(wc_vert_int_doc>1e19) = nan;
+% wc_vert_int_dic(wc_vert_int_dic>1e19) = nan;
+% wc_vert_int_o2(wc_vert_int_o2>1e19) = nan;
+
+wc_vert_int_npp(wc_vert_int_npp>1e19) = nan;
+jzloss_nmdz_100(jzloss_nmdz_100>1e19) = nan;
+jprod_nmdz_100(jprod_nmdz_100>1e19) = nan;
+jprod_nlgz_100(jprod_nlgz_100>1e19) = nan;
+
+%% Time series of vert integral
+tNPP = mean(wc_vert_int_npp,1,'omitnan');
+tNPP = squeeze(mean(tNPP,2,'omitnan'));
+
+tMZzl = mean(jzloss_nmdz_100,1,'omitnan');
+tMZzl = squeeze(mean(tMZzl,2,'omitnan'));
+
+tMZprod = mean(jprod_nmdz_100,1,'omitnan');
+tMZprod = squeeze(mean(tMZprod,2,'omitnan'));
+
+tLZprod = mean(jprod_nlgz_100,1,'omitnan');
+tLZprod = squeeze(mean(tLZprod,2,'omitnan'));
+
+%% spatial mean of vert integral
+sNPP = mean(wc_vert_int_npp,3,'omitnan');
+sMZzl = mean(jzloss_nmdz_100,3,'omitnan');
+sMZprod = mean(jprod_nmdz_100,3,'omitnan');
+sLZprod = mean(jprod_nlgz_100,3,'omitnan');
+
+%%
+save([spath '19900101.ocean_cobalt_fluxes_int_1990_means.nc'],...
+    'tNPP','tMZzl','tMZprod','tLZprod',...
+    'sNPP','sMZzl','sMZprod','sLZprod')
 
 
 

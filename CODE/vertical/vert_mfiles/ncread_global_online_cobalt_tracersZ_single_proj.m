@@ -17,11 +17,11 @@ spath = '/project/Feisty/NC/Global_COBALT_FEISTY/cobalt_feisty/';
 %load([gpath 'grid_OM4_05_COBALTv3.mat'],'wet','z_l_units','z_l_long_name','z_l')
 
 %%
-ncdisp([fpath '19900101.ocean_cobalt_tracers_month_z.nc'])
+ncdisp([fpath '19940101.ocean_cobalt_tracers_month_z.nc'])
 
 %%
 %
-ncid = netcdf.open([fpath '19900101.ocean_cobalt_tracers_month_z.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath '19940101.ocean_cobalt_tracers_month_z.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 
 % xh and yh
@@ -58,6 +58,7 @@ for i = 39:43
     eval([ varname ' = netcdf.getVar(ncid,i-1);']);
     eval([ varname '(' varname ' == 1e20) = NaN;']);
 end
+netcdf.close(ncid);
 
 ndet(ndet>1e19) = nan;
 nsm(nsm>1e19) = nan;
@@ -71,7 +72,8 @@ schl = squeeze(chl(:,:,1,:));
 o2(o2>1e19) = nan;
 
 %% thkcello
-load([gpath 'ocean_cobalt_feisty_forcing_z.199001-199412.thkcello.mat'])
+%load([gpath 'ocean_cobalt_feisty_forcing_z.199001-199412.thkcello.mat'])
+load([gpath 'ocean_cobalt_feisty_forcing_z.199501-199912.thkcello.mat'])
 thkcello = thkcello(:,:,:,1:12);
 
 %% Vertical means
@@ -166,7 +168,7 @@ sDi = mean(iDi,3,'omitnan');
 
 
 %%
-save([spath '19900101.ocean_cobalt_tracers_month_z.mat'],...
+save([spath '19940101.ocean_cobalt_tracers_month_z.mat'],...
     'tNo3','tNh4','tChl','to2',...
     'sNo3','sNh4','sChl','sChls','so2',...
     'vNo3','vNh4','vChl','vo2',...
