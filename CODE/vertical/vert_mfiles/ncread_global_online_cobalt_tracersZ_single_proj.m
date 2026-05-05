@@ -71,7 +71,7 @@ schl = squeeze(chl(:,:,1,:));
 o2(o2>1e19) = nan;
 
 %% thkcello
-load([gpath 'ocean_cobalt_feisty_forcing_z.199401-199412.thkcello.mat'])
+load([gpath 'ocean_cobalt_feisty_forcing_z.199001-199412.thkcello.mat'])
 thkcello = thkcello(:,:,:,1:12);
 
 %% Vertical means
