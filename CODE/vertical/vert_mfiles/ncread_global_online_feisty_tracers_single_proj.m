@@ -1,6 +1,5 @@
 % 0.5 degree global MOM6-COBALTv3-FEISTY online
 
-
 clear
 close all
 
@@ -56,42 +55,42 @@ thkcello = thkcello(:,:,:,1:12);
 
 %% Vertical means
 vSf = mean(Sf_B,1,'omitnan');
-vSf = squeeze(mean(vSf,2,'omitnan'));
-vSF = squeeze(mean(vSf,2,'omitnan'));
+vSf2 = squeeze(mean(vSf,2,'omitnan'));
+vSF = squeeze(mean(vSf2,2,'omitnan'));
 
 vSp = mean(Sp_B,1,'omitnan');
-vSp = squeeze(mean(vSp,2,'omitnan'));
-vSP = squeeze(mean(vSp,2,'omitnan'));
+vSp2 = squeeze(mean(vSp,2,'omitnan'));
+vSP = squeeze(mean(vSp2,2,'omitnan'));
 
 vSd = mean(Sd_B,1,'omitnan');
-vSd = squeeze(mean(vSd,2,'omitnan'));
-vSD = squeeze(mean(vSd,2,'omitnan'));
+vSd2 = squeeze(mean(vSd,2,'omitnan'));
+vSD = squeeze(mean(vSd2,2,'omitnan'));
 
 vMf = mean(Mf_B,1,'omitnan');
-vMf = squeeze(mean(vMf,2,'omitnan'));
-vMF = squeeze(mean(vMf,2,'omitnan'));
+vMf2 = squeeze(mean(vMf,2,'omitnan'));
+vMF = squeeze(mean(vMf2,2,'omitnan'));
 
 vMp = mean(Mp_B,1,'omitnan');
-vMp = squeeze(mean(vMp,2,'omitnan'));
-vMP = squeeze(mean(vMp,2,'omitnan'));
+vMp2 = squeeze(mean(vMp,2,'omitnan'));
+vMP = squeeze(mean(vMp2,2,'omitnan'));
 
 vLp = mean(Lp_B,1,'omitnan');
-vLp = squeeze(mean(vLp,2,'omitnan'));
-vLP = squeeze(mean(vLp,2,'omitnan'));
+vLp2 = squeeze(mean(vLp,2,'omitnan'));
+vLP = squeeze(mean(vLp2,2,'omitnan'));
 
 % sum btm vars?
 vMd = mean(Md_B,1,'omitnan');
-vMd = squeeze(mean(vMd,2,'omitnan'));
-vMD = squeeze(mean(vMd,2,'omitnan'));
+vMd2 = squeeze(mean(vMd,2,'omitnan'));
+vMD = squeeze(mean(vMd2,2,'omitnan'));
 %vMD = squeeze(sum(vMd,2,'omitnan'));
 
 vLd = mean(Ld_B,1,'omitnan');
-vLd = squeeze(mean(vLd,2,'omitnan'));
-vLD = squeeze(mean(vLd,2,'omitnan'));
+vLd2 = squeeze(mean(vLd,2,'omitnan'));
+vLD = squeeze(mean(vLd2,2,'omitnan'));
 
 vBe = mean(BE_B,1,'omitnan');
-vBe = squeeze(mean(vBe,2,'omitnan'));
-vBE = squeeze(mean(vBe,2,'omitnan'));
+vBe2 = squeeze(mean(vBe,2,'omitnan'));
+vBE = squeeze(mean(vBe2,2,'omitnan'));
 
 %% vert sums
 iSf = squeeze(sum((Sf_B.*thkcello),3,'omitnan'));
@@ -125,15 +124,15 @@ tLP = squeeze(mean(tLp,2,'omitnan'));
 
 tMd = mean(iMd,1,'omitnan');
 %tMD = squeeze(mean(tMd,2,'omitnan'));
-tMD = squeeze(vMd(35,:));
+tMD = squeeze(vMd2(35,:));
 
 tLd = mean(iLd,1,'omitnan');
 %tLD = squeeze(mean(tLd,2,'omitnan'));
-tLD = squeeze(vLd(35,:));
+tLD = squeeze(vLd2(35,:));
 
 tBe = mean(iBe,1,'omitnan');
 %tBE = squeeze(mean(tBe,2,'omitnan'));
-tBE = squeeze(vBe(35,:));
+tBE = squeeze(vBe2(35,:));
 
 % tMd = mean(Md_B(:,:,35,:),1,'omitnan');
 % tMd = squeeze(mean(tMd,2,'omitnan'));
@@ -162,7 +161,8 @@ sBE = mean(iBe,3,'omitnan');
 save([spath '19940101.ocean_feisty_tracers_z_means_v2.mat'],...
     'tSF','tSP','tSD','tMF','tMP','tMD','tLP','tLD','tBE',...
     'sSF','sSP','sSD','sMF','sMP','sMD','sLP','sLD','sBE',...
-    'vSF','vSP','vSD','vMF','vMP','vLP','vMD','vLD','vBE')
+    'vSF','vSP','vSD','vMF','vMP','vLP','vMD','vLD','vBE',...
+    'vSf2','vSp2','vSd2','vMf2','vMp2','vLp2','vMd2','vLd2','vBe2')
 
 
 
