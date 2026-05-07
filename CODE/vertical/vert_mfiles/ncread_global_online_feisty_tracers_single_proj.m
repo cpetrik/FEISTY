@@ -49,9 +49,9 @@ Ld_B(Ld_B>1e9) = eps;
 BE_B(BE_B>1e9) = eps;
 
 %% thkcello
-load([gpath 'ocean_cobalt_feisty_forcing_z.199401-199412.thkcello.mat'])
-
-thkcello = thkcello(:,:,:,1:12);
+load([gpath 'ocean_cobalt_feisty_forcing_z.199001-199412.thkcello.mat'])
+%thkcello = thkcello(:,:,:,1:12);
+thkcello = thkcello(:,:,:,(60-11):60);
 
 %% Vertical means
 vSf = mean(Sf_B,1,'omitnan');
