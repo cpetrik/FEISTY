@@ -36,7 +36,6 @@ cm10=[0.5 0.5 0;... %tan/army
     0.5 0.5 0.5; ...    %med grey
     0 0 0];...      %black
     
-
 set(groot,'defaultAxesColorOrder',cm10);
 
 %%

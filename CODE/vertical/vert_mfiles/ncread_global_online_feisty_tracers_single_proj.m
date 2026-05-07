@@ -19,7 +19,7 @@ spath = '/project/Feisty/NC/Global_COBALT_FEISTY/cobalt_feisty/';
 %ncdisp([fpath '19940101.ocean_feisty_tracers_z.nc'])
 
 %%
-ncid = netcdf.open([fpath '19940101.ocean_feisty_tracers_z.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath '19900101.ocean_feisty_tracers_z.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:2
     varname = netcdf.inqVar(ncid, i-1);
@@ -50,8 +50,8 @@ BE_B(BE_B>1e9) = eps;
 
 %% thkcello
 load([gpath 'ocean_cobalt_feisty_forcing_z.199001-199412.thkcello.mat'])
-%thkcello = thkcello(:,:,:,1:12);
-thkcello = thkcello(:,:,:,(60-11):60);
+thkcello = thkcello(:,:,:,1:12);
+%thkcello = thkcello(:,:,:,(60-11):60);
 
 %% Vertical means
 vSf = mean(Sf_B,1,'omitnan');
@@ -158,7 +158,7 @@ sBE = mean(iBe,3,'omitnan');
 % sBE = mean(BE_B(:,:,35,:),4,'omitnan');
 
 %%
-save([spath '19940101.ocean_feisty_tracers_z_means_v2.mat'],...
+save([spath '19900101.ocean_feisty_tracers_z_means_v2.mat'],...
     'tSF','tSP','tSD','tMF','tMP','tMD','tLP','tLD','tBE',...
     'sSF','sSP','sSD','sMF','sMP','sMD','sLP','sLD','sBE',...
     'vSF','vSP','vSD','vMF','vMP','vLP','vMD','vLD','vBE',...
