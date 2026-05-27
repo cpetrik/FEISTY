@@ -1,5 +1,4 @@
-% Look at COBALT-FEISTY tracers (fish) from online sim
-% 12 mo of output
+% Look at COBALT-FEISTY fluxes (fish) from online sim
 
 clear
 close all
@@ -14,8 +13,7 @@ ppath = ['/Users/cpetrik/Petrik Lab Group Dropbox/Colleen Petrik/Princeton/FEIST
     cfile,'/Cobalt_Feisty/'];
 
 exper = 'OM4_05_COBALTv3_FEISTYon_021326';
-Yr = '1990';
-mod = [exper '_' Yr];
+mod = exper;
 
 %%
 load([gpath 'grid_OM4_05_COBALTv3.mat'],'wet',...
@@ -36,6 +34,7 @@ cm10=[0.5 0.5 0;... %tan/army
     0.5 0.5 0.5; ...    %med grey
     0 0 0];...      %black
     
+
 set(groot,'defaultAxesColorOrder',cm10);
 
 %%
@@ -53,7 +52,7 @@ lonlim=[plotminlon plotmaxlon];
 load coastlines;  
 
 %% 
-load([fpath Yr '0101.ocean_feisty_tracers_z_means_v2.mat'])
+load([fpath '19940101.ocean_feisty_fluxes_z_means.mat'])
 
 %%
 tF = tSF+tMF;
@@ -98,8 +97,8 @@ xlim([y(1) y(end)])
 %ylim([-5 2])
 xlabel('Time (mo)')
 ylabel('log10 Integrated Biomass (g m^-^2)')
-stamp(Yr)
-print('-dpng',[ppath mod '_ts_logmean_feisty_all_sizes_v2.png'])
+stamp(cfile)
+print('-dpng',[ppath mod '_ts_logmean_feisty_all_sizes.png'])
 
 % Fn Types
 figure(2)
@@ -113,63 +112,50 @@ xlim([y(1) y(end)])
 %ylim([-5 2])
 xlabel('Time (y)')
 ylabel('log10 Integrated Biomass (g m^-^2)')
-stamp(Yr)
-print('-dpng',[ppath mod '_ts_logmean_feisty_all_types_v2.png'])
+stamp(cfile)
+print('-dpng',[ppath mod '_ts_logmean_feisty_all_types.png'])
 
 
 figure(3)
 subplot(3,3,1)
 plot(y,(tSF(y)),'color',cm10(1,:),'Linewidth',1); 
-title('Sm F')
 subplot(3,3,4)
 plot(y,(tMF(y)),'color',cm10(2,:),'Linewidth',1); 
-title('Md F')
 subplot(3,3,2)
 plot(y,(tSP(y)),'color',cm10(3,:),'Linewidth',1); 
-title('Sm P')
 subplot(3,3,5)
 plot(y,(tMP(y)),'color',cm10(4,:),'Linewidth',1); 
-title('Md P')
 subplot(3,3,8)
 plot(y,(tLP(y)),'color',cm10(5,:),'Linewidth',1); 
-title('Lg P')
 subplot(3,3,3)
 plot(y,(tSD(y)),'color',cm10(6,:),'Linewidth',1); 
-title('Sm D')
 subplot(3,3,6)
 plot(y,(tMD(y)),'color',cm10(7,:),'Linewidth',1); 
-title('Md D')
 subplot(3,3,9)
 plot(y,(tLD(y)),'color',cm10(8,:),'Linewidth',1);
-title('Lg D')
 subplot(3,3,7)
 plot(y,(tBE(y)),'color',cm10(9,:),'Linewidth',1);
-title('Bent')
 %xlim([y(1) y(end)])
 xlabel('Time (mo)')
 ylabel('Integrated Biomass (g m^-^2)')
-stamp(Yr)
-print('-dpng',[ppath mod '_ts_mean_feisty_all_sizes_v2.png'])
+stamp(cfile)
+print('-dpng',[ppath mod '_ts_mean_feisty_all_sizes.png'])
 
 % Fn Types
 figure(4)
 subplot(2,2,1)
 plot(y,(tF(y)),'r','Linewidth',2);
-title('Forage')
 subplot(2,2,2)
 plot(y,(tP(y)),'b','Linewidth',2); 
-title('Lg Pel')
 subplot(2,2,3)
 plot(y,(tD(y)),'k','Linewidth',2); hold on;
-title('Dem')
 subplot(2,2,4)
 plot(y,(tBE(y)),'color',[0.5 0.5 0.5],'Linewidth',2); hold on;
-title('Bent')
 %xlim([y(1) y(end)])
 xlabel('Time (y)')
 ylabel('Integrated Biomass (g m^-^2)')
-stamp(Yr)
-print('-dpng',[ppath mod '_ts_mean_feisty_all_types_v2.png'])
+stamp(cfile)
+print('-dpng',[ppath mod '_ts_mean_feisty_all_types.png'])
 
 %% Vert distrib
 figure(5)
@@ -197,33 +183,33 @@ legend('F','P','D')
 legend('location','east')
 title('log_1_0 Mean Biomass (g m^-^3)')
 ylabel('Depth (m)')
-stamp(Yr)
-print('-dpng',[ppath mod '_vert_mean_feisty_subplot_v2.png'])
+stamp('')
+print('-dpng',[ppath exper '_vert_mean_feisty_subplot.png'])
 
 %% Vert distrib - upper ocean
 figure(6)
 subplot(1,2,1)
-plot((vSF(1:10,1)),-1*z_l(1:10),'color',cm10(1,:),'Linewidth',1); hold on;
-plot((vMF(1:10,1)),-1*z_l(1:10),'color',cm10(2,:),'Linewidth',1); hold on;
-plot((vSP(1:10,1)),-1*z_l(1:10),'color',cm10(3,:),'Linewidth',1); hold on;
-plot((vMP(1:10,1)),-1*z_l(1:10),'color',cm10(4,:),'Linewidth',1); hold on;
-plot((vLP(1:10,1)),-1*z_l(1:10),'color',cm10(5,:),'Linewidth',1); hold on;
-plot((vSD(1:10,1)),-1*z_l(1:10),'color',cm10(6,:),'Linewidth',1); hold on;
+plot(log10(vSF(1:10,1)),-1*z_l(1:10),'color',cm10(1,:),'Linewidth',1); hold on;
+plot(log10(vMF(1:10,1)),-1*z_l(1:10),'color',cm10(2,:),'Linewidth',1); hold on;
+plot(log10(vSP(1:10,1)),-1*z_l(1:10),'color',cm10(3,:),'Linewidth',1); hold on;
+plot(log10(vMP(1:10,1)),-1*z_l(1:10),'color',cm10(4,:),'Linewidth',1); hold on;
+plot(log10(vLP(1:10,1)),-1*z_l(1:10),'color',cm10(5,:),'Linewidth',1); hold on;
+plot(log10(vSD(1:10,1)),-1*z_l(1:10),'color',cm10(6,:),'Linewidth',1); hold on;
 legend('SF','MF','SP','MP','LP','SD')
 legend('location','southeast')
-title('Mean Biomass (g m^-^3)')
+title('log_1_0 Mean Biomass (g m^-^3)')
 ylabel('Depth (m)')
 
 subplot(1,2,2)
-plot((vF(1:10,1)),-1*z_l(1:10),'r','Linewidth',1); hold on;
-plot((vP(1:10,1)),-1*z_l(1:10),'b','Linewidth',1); hold on;
-plot((vD(1:10,1)),-1*z_l(1:10),'k','Linewidth',1); hold on;
+plot(log10(vF(1:10,1)),-1*z_l(1:10),'r','Linewidth',1); hold on;
+plot(log10(vP(1:10,1)),-1*z_l(1:10),'b','Linewidth',1); hold on;
+plot(log10(vD(1:10,1)),-1*z_l(1:10),'k','Linewidth',1); hold on;
 legend('F','P','D')
 legend('location','southeast')
-title('Mean Biomass (g m^-^3)')
+title('log_1_0 Mean Biomass (g m^-^3)')
 ylabel('Depth (m)')
-stamp(Yr)
-print('-dpng',[ppath mod '_vert_upper_mean_feisty_subplot_v2.png'])
+stamp('')
+print('-dpng',[ppath exper '_vert_upper_mean_feisty_subplot.png'])
 
 %% Maps
 % bent
@@ -237,8 +223,8 @@ clim([-2 2]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('log10 mean benthic biomass (g m^-^2)')
-stamp(Yr)
-print('-dpng',[ppath mod '_global_Bent_v2.png'])
+stamp(cfile)
+print('-dpng',[ppath exper '_global_Bent.png'])
 
 %% All 4 on subplots
 figure(8)
@@ -286,8 +272,8 @@ h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
-stamp(Yr)
-print('-dpng',[ppath mod '_global_All_subplot_v2.png'])
+%stamp(cfile)
+print('-dpng',[ppath exper '_global_All_subplot.png'])
 
 %% All 4 on subplots
 figure(18)
@@ -335,8 +321,8 @@ h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-2 3]);
 set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
-stamp(Yr)
-print('-dpng',[ppath mod '_global_All_subplot_newcb_v2.png'])
+%stamp(cfile)
+print('-dpng',[ppath exper '_global_All_subplot_newcb.png'])
 
 %% Ratios on subplots red-white-blue
 % 3 figure subplot P:D, P:F, M:L
@@ -374,87 +360,5 @@ clim([0 1]);
 colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('Fraction Large vs. Medium')
-stamp(Yr)
-print('-dpng',[ppath mod '_global_ratios_subplot_v2.png'])
-
-%% Vert distrib over time
-tmos = 1:12;
-% z_l_ts = repmat(z_l,1,length(tmos));
-[z_l2,tts] = meshgrid(tmos,-1*z_l);
-
-% flip seafloor vars
-vBe = flipud(vBe2);
-vMd = flipud(vMd2);
-vLd = flipud(vLd2);
-ts2 = flipud(tts);
-
-figure(10)
-subplot(3,3,1)
-pcolor(z_l2(1:10,:),tts(1:10,:),log10(vSf2(1:10,:)+eps));
-shading flat;
-colorbar
-clim([-4 -3])
-title('SF bio (gC m^-^3)')
-
-subplot(3,3,2)
-pcolor(z_l2(1:10,:),tts(1:10,:),log10(vSp2(1:10,:)+eps));
-shading flat;
-colorbar
-clim([-4 -3])
-title('SP bio (gC m^-^3)')
-
-subplot(3,3,3)
-pcolor(z_l2(1:10,:),tts(1:10,:),log10(vSd2(1:10,:)+eps));
-shading flat;
-colorbar
-clim([-4 -3])
-title('SD bio (gC m^-^3)')
-
-subplot(3,3,4)
-pcolor(z_l2(1:10,:),tts(1:10,:),log10(vMf2(1:10,:)+eps));
-shading flat;
-colorbar
-clim([-3 -2])
-title('MF bio (gC m^-^3)')
-ylabel('Depth (m)')
-xlabel('Time (mo)')
-
-subplot(3,3,5)
-pcolor(z_l2(1:10,:),tts(1:10,:),log10(vMp2(1:10,:)+eps));
-shading flat;
-colorbar
-clim([-3 -2])
-title('MP bio (gC m^-^3)')
-
-subplot(3,3,6)
-pcolor(z_l2(1:10,:),ts2(1:10,:),log10(vMd(1:10,:)+eps));
-shading flat;
-colorbar
-clim([-4 -3])
-title('MD bio (gC m^-^2)')
-
-subplot(3,3,7)
-pcolor(z_l2(1:10,:),ts2(1:10,:),log10(vBe(1:10,:)+eps));
-shading flat;
-colorbar
-clim([-5 -3])
-title('Bent bio (gC m^-^2)')
-ylabel('Depth (m)')
-xlabel('Time (mo)')
-
-subplot(3,3,8)
-pcolor(z_l2(1:10,:),tts(1:10,:),log10(vLp2(1:10,:)+eps));
-shading flat;
-colorbar
-clim([-2.5 -1.5])
-title('LP bio (gC m^-^3)')
-
-subplot(3,3,9)
-pcolor(z_l2(1:10,:),ts2(1:10,:),log10(vLd(1:10,:)+eps));
-shading flat;
-colorbar
-clim([-5 -3])
-title('LD bio (gC m^-^2)')
-
-stamp(Yr)
-print('-dpng',[ppath mod '_depth_ts_stages.png'])
+stamp(cfile)
+print('-dpng',[ppath exper '_global_ratios_subplot.png'])

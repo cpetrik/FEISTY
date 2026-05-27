@@ -1,21 +1,21 @@
-% Look at COBALT-FEISTY tracers from online sim
+% Look at COBALT tracers from online sim
 % 12 mo of output
 
 clear
 close all
 
 %%
-fpath = '/Volumes/petrik-lab/Feisty/NC/Global_COBALT_FEISTY/';
+fpath = '/Volumes/petrik-lab/Feisty/NC/Global_COBALT_FEISTY/cobalt_feisty/';
 
 gpath = '/Volumes/petrik-lab/Feisty/GCM_Data/OM4_05_COBALTv3_FEISTYoff/';
 
 cfile ='NoDc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
-ppath = ['/Users/cpetrik/Petrik Lab Group Dropbox/Colleen Petrik/Princeton/FEISTY/CODE/Figs/Matlab_New_sizes/',...
+ppath = ['/Users/cpetrik/Petrik Lab Group Dropbox/Colleen Petrik/Princeton/FEISTY/CODe/Figs/Matlab_New_sizes/',...
     cfile,'/Cobalt_Feisty/'];
 
 exper = 'OM4_05_COBALTv3_FEISTYon_021326';
-mod = [exper '_'];
-Yr = '1990';
+Yr = '1994';
+mod = [exper '_' Yr];
 
 %%
 load([gpath 'grid_OM4_05_COBALTv3.mat'],'wet',...
@@ -53,7 +53,7 @@ lonlim=[plotminlon plotmaxlon];
 load coastlines;  
 
 %% 
-load([fpath 'ocean_cobalt_tracers_month_z.199001-199412_means.mat'])
+load([fpath Yr '0101.ocean_cobalt_tracers_month_z.mat'])
 
 %% molN/kg to gC/m3
 NtoC= 1035 * (106/16) * 12.01;
@@ -63,117 +63,117 @@ NtoC= 1035 * (106/16) * 12.01;
 % [z_l2,tts] = meshgrid(tmos,-1*z_l);
 
 %% Time series
-tmos = 1:60;
+tmos = 1:12;
 
 figure(1)
-plot(tmos,log10(NtoC*tDE(tmos)+eps),'color',cm10(8,:)); hold on;
-plot(tmos,log10(NtoC*tDI(tmos)+eps),'color',cm10(1,:)); hold on;
-plot(tmos,log10(NtoC*tSP(tmos)+eps),'color',cm10(3,:)); hold on;
-plot(tmos,log10(NtoC*tLP(tmos)+eps),'color',cm10(5,:)); hold on; 
-plot(tmos,log10(NtoC*tSZ(tmos)+eps),'color',cm10(2,:)); hold on;
+plot(tmos,log10(NtoC*tDe(tmos)+eps),'color',cm10(8,:)); hold on;
+plot(tmos,log10(NtoC*tDi(tmos)+eps),'color',cm10(1,:)); hold on;
+plot(tmos,log10(NtoC*tSp(tmos)+eps),'color',cm10(3,:)); hold on;
+plot(tmos,log10(NtoC*tLp(tmos)+eps),'color',cm10(5,:)); hold on; 
+plot(tmos,log10(NtoC*tSz(tmos)+eps),'color',cm10(2,:)); hold on;
 legend({'Det','Diaz','SP','LP','SZ'})
 legend('location','eastoutside')
 title('log_1_0 Integrated Biomass (gC m^-^3)')
 xlabel('Months')
-stamp('')
-print('-dpng',[ppath exper '_ts_mean_ocean_tracers_z.png'])
+stamp(Yr)
+print('-dpng',[ppath mod '_ts_mean_ocean_tracers_z.png'])
 
 %% Vert distrib
 figure(2)
 subplot(1,2,1)
-plot(log10(NtoC*vDE(:,1)+eps),-1*z_l,'color',cm10(8,:)); hold on;
-plot(log10(NtoC*vDI(:,1)+eps),-1*z_l,'color',cm10(1,:)); hold on;
-plot(log10(NtoC*vSP(:,1)+eps),-1*z_l,'color',cm10(3,:)); hold on;
-plot(log10(NtoC*vLP(:,1)+eps),-1*z_l,'color',cm10(5,:)); hold on; 
-plot(log10(NtoC*vSZ(:,1)+eps),-1*z_l,'color',cm10(2,:)); hold on;
+plot(log10(NtoC*vDe(:,1)+eps),-1*z_l,'color',cm10(8,:)); hold on;
+plot(log10(NtoC*vDi(:,1)+eps),-1*z_l,'color',cm10(1,:)); hold on;
+plot(log10(NtoC*vSp(:,1)+eps),-1*z_l,'color',cm10(3,:)); hold on;
+plot(log10(NtoC*vLp(:,1)+eps),-1*z_l,'color',cm10(5,:)); hold on; 
+plot(log10(NtoC*vSz(:,1)+eps),-1*z_l,'color',cm10(2,:)); hold on;
 legend({'Det','Diaz','SP','LP','SZ'})
 legend('location','east')
 title('log_1_0 Mean Biomass (gC m^-^3)')
 ylabel('Depth (m)')
 
 subplot(1,2,2)
-plot((NtoC*vDE(1:8,1)),-1*z_l(1:8),'color',cm10(8,:)); hold on;
-plot((NtoC*vDI(1:8,1)),-1*z_l(1:8),'color',cm10(1,:)); hold on;
-plot((NtoC*vSP(1:8,1)),-1*z_l(1:8),'color',cm10(3,:)); hold on;
-plot((NtoC*vLP(1:8,1)),-1*z_l(1:8),'color',cm10(5,:)); hold on; 
-plot((NtoC*vSZ(1:8,1)),-1*z_l(1:8),'color',cm10(2,:)); hold on;
+plot((NtoC*vDe(1:8,1)),-1*z_l(1:8),'color',cm10(8,:)); hold on;
+plot((NtoC*vDi(1:8,1)),-1*z_l(1:8),'color',cm10(1,:)); hold on;
+plot((NtoC*vSp(1:8,1)),-1*z_l(1:8),'color',cm10(3,:)); hold on;
+plot((NtoC*vLp(1:8,1)),-1*z_l(1:8),'color',cm10(5,:)); hold on; 
+plot((NtoC*vSz(1:8,1)),-1*z_l(1:8),'color',cm10(2,:)); hold on;
 % legend({'Det','Diaz','SP','LP','SZ'})
 % legend('location','east')
 title('Mean Biomass (gC m^-^3)')
 ylabel('Depth (m)')
-stamp('')
-print('-dpng',[ppath exper '_vert_mean_ocean_tracers_z.png'])
+stamp(Yr)
+print('-dpng',[ppath mod '_vert_mean_ocean_tracers_z.png'])
 
 %% Maps
 % Det
 figure(3)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat,geolon,log10(squeeze(NtoC*sDE(:,:,1))))
+surfm(geolat,geolon,log10(squeeze(NtoC*sDe(:,:,1))))
 cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-3 0]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('log10 mean detritus (gC m^-^2)')
-stamp(cfile)
-print('-dpng',[ppath exper '_global_Det.png'])
+stamp(Yr)
+print('-dpng',[ppath mod '_global_Det.png'])
 
 %% Diaz
 figure(4)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat,geolon,log10(squeeze(NtoC*sDI(:,:,1))))
+surfm(geolat,geolon,log10(squeeze(NtoC*sDi(:,:,1))))
 cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-3 0]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('log10 mean diazotrophs (gC m^-^2)')
-stamp(cfile)
-print('-dpng',[ppath exper '_global_Diaz.png'])
+stamp(Yr)
+print('-dpng',[ppath mod '_global_Diaz.png'])
 
-%% SP
+%% Sp
 figure(5)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat,geolon,log10(squeeze(NtoC*sSP(:,:,1))))
+surfm(geolat,geolon,log10(squeeze(NtoC*sSp(:,:,1))))
 cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-1 0]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('log10 mean small phyto (gC m^-^2)')
-stamp(cfile)
-print('-dpng',[ppath exper '_global_SP.png'])
+stamp(Yr)
+print('-dpng',[ppath mod '_global_Sp.png'])
 
-%% LP
+%% Lp
 figure(6)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat,geolon,log10(squeeze(NtoC*sLP(:,:,1))))
+surfm(geolat,geolon,log10(squeeze(NtoC*sLp(:,:,1))))
 cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-1 0.5]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('log10 mean large phyto (gC m^-^2)')
-stamp(cfile)
-print('-dpng',[ppath exper '_global_LP.png'])
+stamp(Yr)
+print('-dpng',[ppath mod '_global_Lp.png'])
 
-%% SZ
+%% Sz
 figure(7)
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(geolat,geolon,log10(squeeze(NtoC*sSZ(:,:,1))))
+surfm(geolat,geolon,log10(squeeze(NtoC*sSz(:,:,1))))
 cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-0.5 0.5]);
 hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('log10 mean small zoo (gC m^-^2)')
-stamp(cfile)
-print('-dpng',[ppath exper '_global_SZ.png'])
+stamp(Yr)
+print('-dpng',[ppath mod '_global_Sz.png'])
 
 %% Vert distrib over time
 % figure(1)
@@ -214,11 +214,11 @@ print('-dpng',[ppath exper '_global_SZ.png'])
 % title('Diaz')
 % 
 % subplot(3,3,6)
-% pcolor(z_l2(1:10,:),tts(1:10,:),log10(mSP2(1:10,:)+eps));
+% pcolor(z_l2(1:10,:),tts(1:10,:),log10(mSp2(1:10,:)+eps));
 % shading flat;
 % colorbar
 % clim([-10 -6])
-% title('SP')
+% title('Sp')
 % 
 % subplot(3,3,7)
 % pcolor(z_l2(1:10,:),tts(1:10,:),log10(mMP2(1:10,:)+eps));
@@ -228,22 +228,22 @@ print('-dpng',[ppath exper '_global_SZ.png'])
 % title('MP')
 % 
 % subplot(3,3,8)
-% pcolor(z_l2(1:10,:),tts(1:10,:),log10(mLP2(1:10,:)+eps));
+% pcolor(z_l2(1:10,:),tts(1:10,:),log10(mLp2(1:10,:)+eps));
 % shading flat;
 % colorbar
 % clim([-10 -6])
-% title('LP')
+% title('Lp')
 % xlabel('Time (mo)')
 % 
 % subplot(3,3,9)
-% pcolor(z_l2(1:10,:),tts(1:10,:),log10(mSZ2(1:10,:)+eps));
+% pcolor(z_l2(1:10,:),tts(1:10,:),log10(mSz2(1:10,:)+eps));
 % shading flat;
 % colorbar
 % clim([-10 -6])
-% title('SZ')
+% title('Sz')
 % xlabel('Time (mo)')
 % 
-%print('-dpng',[ppath exper '_OSP_depth_ts_phyto_nuts.png'])
+%print('-dpng',[ppath mod '_depth_ts_phyto_sz.png'])
 
 
 
