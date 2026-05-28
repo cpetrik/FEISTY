@@ -82,7 +82,7 @@ legend('location','eastoutside')
 title('log_1_0 Integrated Biomass/Flux (gC m^-^2 or gC m^-^2 d^-^1)')
 xlabel('Months')
 stamp(Yr)
-print('-dpng',[ppath exper Yr '_ts_mean_feisty_forcing_z.png'])
+print('-dpng',[ppath exper '_' Yr '_ts_mean_feisty_forcing_z.png'])
 
 %% Vert distrib
 figure(2)
@@ -106,7 +106,7 @@ plot((N2CkgD*vLhp1(1:8,1)),-1*z_l(1:8),'color',cm10(7,:)); hold on;
 title('Mean Biomass/Flux (gC m^-^3 or gC m^-^3 d^-^1)')
 ylabel('Depth (m)')
 stamp(Yr)
-print('-dpng',[ppath exper Yr '_vert_mean_feisty_forcing_z.png'])
+print('-dpng',[ppath exper '_' Yr '_vert_mean_feisty_forcing_z.png'])
 
 %% Maps
 % Det
@@ -121,7 +121,7 @@ hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('log10 mean btm detritus flux (gC m^-^2 d^-^1)')
 stamp(Yr)
-print('-dpng',[ppath exper Yr '_global_DetBtm.png'])
+print('-dpng',[ppath exper '_' Yr '_global_DetBtm.png'])
 
 %% MZ
 figure(4)
@@ -135,7 +135,7 @@ hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('log10 mean medium zoo (gC m^-^2)')
 stamp(Yr)
-print('-dpng',[ppath exper Yr '_global_MZ.png'])
+print('-dpng',[ppath exper '_' Yr '_global_MZ.png'])
 
 %% LZ
 figure(5)
@@ -149,7 +149,7 @@ hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('log10 mean large zoo (gC m^-^2)')
 stamp(Yr)
-print('-dpng',[ppath exper Yr '_global_LZ.png'])
+print('-dpng',[ppath exper '_' Yr '_global_LZ.png'])
 
 %% MZ HPloss
 figure(6)
@@ -163,7 +163,7 @@ hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('log10 mean MZ HPloss (gC m^-^2 d^-^1)')
 stamp(Yr)
-print('-dpng',[ppath exper Yr '_global_MZhploss.png'])
+print('-dpng',[ppath exper '_' Yr '_global_MZhploss.png'])
 
 %% LZ HPloss
 figure(7)
@@ -177,7 +177,7 @@ hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('log10 mean LZ HPloss (gC m^-^2 d^-^1)')
 stamp(Yr)
-print('-dpng',[ppath exper Yr '_global_LZhploss.png'])
+print('-dpng',[ppath exper '_' Yr '_global_LZhploss.png'])
 
 %% Vert distrib over time
 figure(8)
@@ -211,7 +211,7 @@ title('LZ hploss')
 ylabel('Depth (m)')
 xlabel('Time (mo)')
 stamp(Yr)
-print('-dpng',[ppath exper Yr '_depth_ts_zbio_hploss.png'])
+print('-dpng',[ppath exper '_' Yr '_depth_ts_zbio_hploss.png'])
 
 
 %% HPloss vs Z biomass -> functional response
@@ -231,48 +231,48 @@ tThpL = tLhp ./ tTdep;
 
 %%
 figure(9)
-plot(tMhp,tThpM,'.k','MarkerSize',15)
+plot(tMz,tThpM,'.k','MarkerSize',15)
 xlabel('MZ biomass')
 ylabel('MZ HPloss normalized by temp-dep')
 title('Global monthly means')
-print('-dpng',[ppath exper Yr '_global_MZvsHP_tmean'])
+print('-dpng',[ppath exper '_' Yr '_global_MZvsHP_tmean'])
 
 %%
 figure(10)
-plot(tLhp,tThpL,'.k','MarkerSize',15)
+plot(tLz,tThpL,'.k','MarkerSize',15)
 xlabel('LZ biomass')
 ylabel('LZ HPloss normalized by temp-dep')
 title('Global monthly means')
-print('-dpng',[ppath exper Yr '_global_LZvsHP_tmean'])
+print('-dpng',[ppath exper '_' Yr '_global_LZvsHP_tmean'])
 
 %%
 figure(11)
-plot(sMhp(:),sThpM(:),'.k','MarkerSize',10)
+plot(sMz(:),sThpM(:),'.k','MarkerSize',10)
 xlabel('MZ biomass')
 ylabel('MZ HPloss normalized by temp-dep')
 title('Vertically integrated, annual means')
-print('-dpng',[ppath exper Yr '_global_MZvsHP_smean.png'])
+print('-dpng',[ppath exper '_' Yr '_global_MZvsHP_smean.png'])
 
 %%
 figure(12)
-plot(sLhp(:),sThpL(:),'.k','MarkerSize',15)
+plot(sLz(:),sThpL(:),'.k','MarkerSize',15)
 xlabel('LZ biomass')
 ylabel('LZ HPloss normalized by temp-dep')
 title('Vertically integrated, annual means')
-print('-dpng',[ppath exper Yr '_global_LZvsHP_smean.png'])
+print('-dpng',[ppath exper '_' Yr '_global_LZvsHP_smean.png'])
 
 %%
 figure(13)
-plot(iMH(:),mThpM(:),'.k','MarkerSize',15)
+plot(iMZ(:),mThpM(:),'.k','MarkerSize',15)
 xlabel('MZ biomass')
 ylabel('MZ HPloss normalized by temp-dep')
 title('Vertically integrated means')
-print('-dpng',[ppath exper Yr '_global_MZvsHP_imean.png'])
+print('-dpng',[ppath exper '_' Yr '_global_MZvsHP_imean.png'])
 
 %%
 figure(14)
-plot(iLH(:),mThpL(:),'.k','MarkerSize',15)
+plot(iLZ(:),mThpL(:),'.k','MarkerSize',15)
 xlabel('LZ biomass')
 ylabel('LZ HPloss normalized by temp-dep')
 title('Vertically integrated means')
-print('-dpng',[ppath exper Yr '_global_LZvsHP_imean.png'])
+print('-dpng',[ppath exper '_' Yr '_global_LZvsHP_imean.png'])

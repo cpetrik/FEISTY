@@ -17,11 +17,11 @@ spath = '/project/Feisty/NC/Global_COBALT_FEISTY/cobalt_feisty/';
 %load([gpath 'grid_OM4_05_COBALTv3.mat'],'wet','z_l_units','z_l_long_name','z_l')
 
 %%
-%ncdisp([fpath '19940101.ocean_feisty_pelagic_fluxes_z.nc'])
+%ncdisp([fpath '19900101.ocean_feisty_pelagic_fluxes_z.nc'])
 
 %% want _cons_Mz, _cons_Lz
 
-ncid = netcdf.open([fpath '19940101.ocean_feisty_forage_fluxes_z.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath '19900101.ocean_feisty_forage_fluxes_z.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:2
     varname = netcdf.inqVar(ncid, i-1);
@@ -35,7 +35,7 @@ for i = 5:nvars
 end
 netcdf.close(ncid);
 
-ncid = netcdf.open([fpath '19940101.ocean_feisty_pelagic_fluxes_z.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath '19900101.ocean_feisty_pelagic_fluxes_z.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 5:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -44,7 +44,7 @@ for i = 5:nvars
 end
 netcdf.close(ncid);
 
-ncid = netcdf.open([fpath '19940101.ocean_feisty_demersal_fluxes_z.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath '19900101.ocean_feisty_demersal_fluxes_z.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 5:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -55,8 +55,8 @@ netcdf.close(ncid);
 
 %% thkcello
 load([gpath 'ocean_cobalt_feisty_forcing_z.199001-199412.thkcello.mat'])
-%thkcello = thkcello(:,:,:,1:12);
-thkcello = thkcello(:,:,:,(60-11):60);
+thkcello = thkcello(:,:,:,1:12);
+%thkcello = thkcello(:,:,:,(60-11):60);
 
 %load([gpath 'ocean_cobalt_feisty_forcing_z.199501-199912.thkcello.mat'])
 
@@ -110,7 +110,7 @@ for f = 1:length(fishTypes)
 end
 
 %%
-save([spath '19940101.ocean_feisty_consump_z_means.mat'],...
+save([spath '19900101.ocean_feisty_consump_z_means.mat'],...
     'fishTypes','baseVars','ts_means','spat_vert_ints','vert_means')
 
 

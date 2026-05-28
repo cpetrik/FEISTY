@@ -14,6 +14,7 @@ ppath = ['/Users/cpetrik/Petrik Lab Group Dropbox/Colleen Petrik/Princeton/FEIST
 
 exper = 'OM4_05_COBALTv3_FEISTYon_021326';
 mod = exper;
+Yr = '1990'; %1990, 1994
 
 %%
 load([gpath 'grid_OM4_05_COBALTv3.mat'],'wet',...
@@ -52,7 +53,7 @@ lonlim=[plotminlon plotmaxlon];
 load coastlines;  
 
 %% 
-load([fpath '19940101.ocean_feisty_fluxes_z_means.mat'])
+load([fpath Yr '0101.ocean_feisty_fluxes_z_means.mat'])
 
 %%
 % z_l_ts = repmat(z_l,1,length(tmos));
@@ -85,7 +86,7 @@ plot(mos,(ts_means.LD_met),'--g'); hold on;
 legend({'LP','LD'})
 legend('location','southeast')
 xlabel('Time (d)')
-print('-dpng',[ppath exper '_met_ts_mean_fntypes.png'])
+print('-dpng',[ppath exper '_' Yr '_met_ts_mean_fntypes.png'])
 
 %% Rec
 figure(2)
@@ -102,7 +103,7 @@ plot(mos,(ts_means.MD_Fout),'--g'); hold on;
 legend({'MP','MD'})
 legend('location','southeast')
 xlabel('Time (d)')
-print('-dpng',[ppath exper '_rec_ts_mean_fntypes.png'])
+print('-dpng',[ppath exper '_' Yr '_rec_ts_mean_fntypes.png'])
 
 %% Prod
 figure(3)
@@ -125,7 +126,7 @@ plot(mos,(ts_means.LD_prod),'--g'); hold on;
 legend({'LP','LD'})
 legend('location','southeast')
 xlabel('Time (d)')
-print('-dpng',[ppath exper '_prod_ts_mean_fntypes.png'])
+print('-dpng',[ppath exper '_' Yr '_prod_ts_mean_fntypes.png'])
 
 %% Repro
 figure(4)
@@ -140,7 +141,7 @@ plot(mos,(ts_means.LD_rho),'--g'); hold on;
 legend({'LP','LD'})
 legend('location','southeast')
 xlabel('Time (d)')
-print('-dpng',[ppath exper '_repro_ts_mean_fntypes.png'])
+print('-dpng',[ppath exper '_' Yr '_repro_ts_mean_fntypes.png'])
 
 %% mort
 % figure(5)
@@ -158,7 +159,7 @@ print('-dpng',[ppath exper '_repro_ts_mean_fntypes.png'])
 % legend({'MF','MP','MD'})
 % legend('location','southeast')
 % xlabel('Time (d)')
-% print('-dpng',[ppath exper '_pmort_ts_mean_fntypes.png'])
+% print('-dpng',[ppath exper '_' Yr '_pmort_ts_mean_fntypes.png'])
 
 
 %% Vert distrib
@@ -208,7 +209,7 @@ legend('location','east')
 xlabel('log_1_0 Met (d^-^1)')
 ylabel('Depth (m)')
 stamp('')
-print('-dpng',[ppath mod '_met_vert_mean_fntypes.png'])
+print('-dpng',[ppath mod '_' Yr '_met_vert_mean_fntypes.png'])
 
 %% vert Rec
 figure(7) 
@@ -257,7 +258,7 @@ legend('location','east')
 xlabel('log_1_0 Rec (d^-^1)')
 ylabel('Depth (m)')
 stamp('')
-print('-dpng',[ppath mod '_recruit_vert_mean_fntypes.png'])
+print('-dpng',[ppath mod '_' Yr '_recruit_vert_mean_fntypes.png'])
 
 %% vert  Prod
 figure(8) 
@@ -306,7 +307,7 @@ legend('location','east')
 xlabel('log_1_0 Prod (g m^-^3 d^-^1)')
 ylabel('Depth (m)')
 stamp('')
-print('-dpng',[ppath mod '_prod_vert_mean_fntypes.png'])
+print('-dpng',[ppath mod '_' Yr '_prod_vert_mean_fntypes.png'])
 
 
 
@@ -359,7 +360,7 @@ title('log10 mean prod SP (g m^-^2 d^-^1)')
 % set(gcf,'renderer','painters')
 % title('log10 mean All fishes (g m^-^2)')
 stamp('')
-print('-dpng',[ppath exper '_global_small_prod_subplot.png'])
+print('-dpng',[ppath exper '_' Yr '_global_small_prod_subplot.png'])
 
 %% All med
 figure(10)
@@ -408,7 +409,7 @@ title('log10 mean prod MP (g m^-^2 d^-^1)')
 % set(gcf,'renderer','painters')
 % title('log10 mean All fishes (g m^-^2)')
 stamp('')
-print('-dpng',[ppath exper '_global_med_prod_subplot.png'])
+print('-dpng',[ppath exper '_' Yr '_global_med_prod_subplot.png'])
 
 %% All lg
 figure(11)
@@ -457,7 +458,7 @@ title('log10 mean prod LP (g m^-^2 d^-^1)')
 % set(gcf,'renderer','painters')
 % title('log10 mean All fishes (g m^-^2)')
 stamp('')
-print('-dpng',[ppath exper '_global_lrg_prod_subplot.png'])
+print('-dpng',[ppath exper '_' Yr '_global_lrg_prod_subplot.png'])
 
 %% Flux times biomass
 % %Rec
