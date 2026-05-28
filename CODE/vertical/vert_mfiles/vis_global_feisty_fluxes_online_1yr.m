@@ -55,310 +55,409 @@ load coastlines;
 load([fpath '19940101.ocean_feisty_fluxes_z_means.mat'])
 
 %%
-tF = tSF+tMF;
-tP = tSP+tMP+tLP;
-tD = tSD+tMD+tLD;
-
-sF = sSF+sMF;
-sP = sSP+sMP+sLP;
-sD = sSD+sMD+sLD;
-sAll = sF+sP+sD;
-
-FracPD = sP ./ (sP + sD);
-FracPF = sP ./ (sP + sF);
-FracLM = (sLP+sLD) ./ (sLP+sLD+sMF+sMP+sMD);
-
-vF = vSF+vMF;
-vP = vSP+vMP+vLP;
-vD = vSD+vMD+vLD;
-vAll = vF+vP+vD;
-
-%%
 % z_l_ts = repmat(z_l,1,length(tmos));
 % [z_l2,tts] = meshgrid(tmos,-1*z_l);
 
 %% Time series
-y = 1:12; %120;
+%y = 1:12; %120;
 
-% All size classes of all
+%% Time series
+mos = 1:12;
+
+% Met
 figure(1)
-plot(y,log10(tSF(y)),'Linewidth',1); hold on;
-plot(y,log10(tMF(y)),'Linewidth',1); hold on;
-plot(y,log10(tSP(y)),'Linewidth',1); hold on;
-plot(y,log10(tMP(y)),'Linewidth',1); hold on;
-plot(y,log10(tLP(y)),'Linewidth',1); hold on;
-plot(y,log10(tSD(y)),'Linewidth',1); hold on;
-plot(y,log10(tMD(y)),'Linewidth',1); hold on;
-plot(y,log10(tLD(y)),'Linewidth',1); hold on;
-plot(y,log10(tBE(y)),'Linewidth',1); hold on;
-legend('SF','MF','SP','MP','LP','SD','MD','LD','B')
-legend('location','eastoutside')
-xlim([y(1) y(end)])
-%ylim([-5 2])
-xlabel('Time (mo)')
-ylabel('log10 Integrated Biomass (g m^-^2)')
-stamp(cfile)
-print('-dpng',[ppath mod '_ts_logmean_feisty_all_sizes.png'])
+subplot(3,1,1)
+plot(mos,(ts_means.SF_met),'r'); hold on;
+plot(mos,(ts_means.SP_met),'--b'); hold on;
+plot(mos,(ts_means.SD_met),':g'); hold on;
+legend({'SF','SP','SD'})
+title('Mean Metab (d^-^1)')
 
-% Fn Types
+subplot(3,1,2)
+plot(mos,(ts_means.MF_met),'r'); hold on;
+plot(mos,(ts_means.MP_met),'--b'); hold on;
+plot(mos,(ts_means.MD_met),':g'); hold on;
+legend({'MF','MP','MD'})
+
+subplot(3,1,3)
+plot(mos,(ts_means.LP_met),'b'); hold on;
+plot(mos,(ts_means.LD_met),'--g'); hold on;
+legend({'LP','LD'})
+legend('location','southeast')
+xlabel('Time (d)')
+print('-dpng',[ppath exper '_met_ts_mean_fntypes.png'])
+
+%% Rec
 figure(2)
-plot(y,log10(tBE(y)),'color',[0.5 0.5 0.5],'Linewidth',2); hold on;
-plot(y,log10(tF(y)),'r','Linewidth',2); hold on;
-plot(y,log10(tP(y)),'b','Linewidth',2); hold on;
-plot(y,log10(tD(y)),'k','Linewidth',2); hold on;
-legend('B','F','P','D')
-legend('location','eastoutside')
-xlim([y(1) y(end)])
-%ylim([-5 2])
-xlabel('Time (y)')
-ylabel('log10 Integrated Biomass (g m^-^2)')
-stamp(cfile)
-print('-dpng',[ppath mod '_ts_logmean_feisty_all_types.png'])
+subplot(2,1,1)
+plot(mos,(ts_means.SF_Fout),'r'); hold on;
+plot(mos,(ts_means.SP_Fout),'--b'); hold on;
+plot(mos,(ts_means.SD_Fout),':g'); hold on;
+legend({'SF','SP','SD'})
+title('Mean recruitment (d^-^1)')
 
+subplot(2,1,2)
+plot(mos,(ts_means.MP_Fout),'b'); hold on;
+plot(mos,(ts_means.MD_Fout),'--g'); hold on;
+legend({'MP','MD'})
+legend('location','southeast')
+xlabel('Time (d)')
+print('-dpng',[ppath exper '_rec_ts_mean_fntypes.png'])
 
+%% Prod
 figure(3)
-subplot(3,3,1)
-plot(y,(tSF(y)),'color',cm10(1,:),'Linewidth',1); 
-subplot(3,3,4)
-plot(y,(tMF(y)),'color',cm10(2,:),'Linewidth',1); 
-subplot(3,3,2)
-plot(y,(tSP(y)),'color',cm10(3,:),'Linewidth',1); 
-subplot(3,3,5)
-plot(y,(tMP(y)),'color',cm10(4,:),'Linewidth',1); 
-subplot(3,3,8)
-plot(y,(tLP(y)),'color',cm10(5,:),'Linewidth',1); 
-subplot(3,3,3)
-plot(y,(tSD(y)),'color',cm10(6,:),'Linewidth',1); 
-subplot(3,3,6)
-plot(y,(tMD(y)),'color',cm10(7,:),'Linewidth',1); 
-subplot(3,3,9)
-plot(y,(tLD(y)),'color',cm10(8,:),'Linewidth',1);
-subplot(3,3,7)
-plot(y,(tBE(y)),'color',cm10(9,:),'Linewidth',1);
-%xlim([y(1) y(end)])
-xlabel('Time (mo)')
-ylabel('Integrated Biomass (g m^-^2)')
-stamp(cfile)
-print('-dpng',[ppath mod '_ts_mean_feisty_all_sizes.png'])
+subplot(3,1,1)
+plot(mos,(ts_means.SF_prod),'r'); hold on;
+plot(mos,(ts_means.SP_prod),'--b'); hold on;
+plot(mos,(ts_means.SD_prod),':g'); hold on;
+legend({'SF','SP','SD'})
+title('Mean production (gWW/m3/d)')
 
-% Fn Types
+subplot(3,1,2)
+plot(mos,(ts_means.MF_prod),'r'); hold on;
+plot(mos,(ts_means.MP_prod),'--b'); hold on;
+plot(mos,(ts_means.MD_prod),':g'); hold on;
+legend({'MF','MP','MD'})
+
+subplot(3,1,3)
+plot(mos,(ts_means.LP_prod),'b'); hold on;
+plot(mos,(ts_means.LD_prod),'--g'); hold on;
+legend({'LP','LD'})
+legend('location','southeast')
+xlabel('Time (d)')
+print('-dpng',[ppath exper '_prod_ts_mean_fntypes.png'])
+
+%% Repro
 figure(4)
-subplot(2,2,1)
-plot(y,(tF(y)),'r','Linewidth',2);
-subplot(2,2,2)
-plot(y,(tP(y)),'b','Linewidth',2); 
-subplot(2,2,3)
-plot(y,(tD(y)),'k','Linewidth',2); hold on;
-subplot(2,2,4)
-plot(y,(tBE(y)),'color',[0.5 0.5 0.5],'Linewidth',2); hold on;
-%xlim([y(1) y(end)])
-xlabel('Time (y)')
-ylabel('Integrated Biomass (g m^-^2)')
-stamp(cfile)
-print('-dpng',[ppath mod '_ts_mean_feisty_all_types.png'])
+subplot(2,1,1)
+plot(mos,(ts_means.MF_rho),'r'); hold on;
+title('Repro')
+ylabel('MF (d^-^1)')
+
+subplot(2,1,2)
+plot(mos,(ts_means.LP_rho),'b'); hold on;
+plot(mos,(ts_means.LD_rho),'--g'); hold on;
+legend({'LP','LD'})
+legend('location','southeast')
+xlabel('Time (d)')
+print('-dpng',[ppath exper '_repro_ts_mean_fntypes.png'])
+
+%% mort
+% figure(5)
+% subplot(2,1,1)
+% plot(mos,(ts_means.SF_mu),'r'); hold on;
+% plot(mos,(ts_means.SP_mu),'--b'); hold on;
+% plot(mos,(ts_means.SD_mu),':g'); hold on;
+% legend({'SF','SP','SD'})
+% title('Mean Predation mortality rate (d^-^1)')
+% 
+% subplot(2,1,2)
+% plot(mos,(ts_means.MF_mu),'r'); hold on;
+% plot(mos,(ts_means.MP_mu),'--b'); hold on;
+% plot(mos,(ts_means.MD_mu),':g'); hold on;
+% legend({'MF','MP','MD'})
+% legend('location','southeast')
+% xlabel('Time (d)')
+% print('-dpng',[ppath exper '_pmort_ts_mean_fntypes.png'])
+
 
 %% Vert distrib
-figure(5)
-subplot(1,2,1)
-plot(log10(vSF(:,1)),-1*z_l,'color',cm10(1,:),'Linewidth',1); hold on;
-plot(log10(vMF(:,1)),-1*z_l,'color',cm10(2,:),'Linewidth',1); hold on;
-plot(log10(vSP(:,1)),-1*z_l,'color',cm10(3,:),'Linewidth',1); hold on;
-plot(log10(vMP(:,1)),-1*z_l,'color',cm10(4,:),'Linewidth',1); hold on;
-plot(log10(vLP(:,1)),-1*z_l,'color',cm10(5,:),'Linewidth',1); hold on;
-plot(log10(vSD(:,1)),-1*z_l,'color',cm10(6,:),'Linewidth',1); hold on;
-% plot(log10(vMD(:,1)),-1*z_l,'color',cm10(7,:),'Linewidth',1); hold on;
-% plot(log10(vLD(:,1)),-1*z_l,'color',cm10(8,:),'Linewidth',1); hold on;
-% plot(log10(vBE(:,1)),-1*z_l,'color',cm10(9,:),'Linewidth',1); hold on;
-% legend('SF','MF','SP','MP','LP','SD','MD','LD','B')
-legend('SF','MF','SP','MP','LP','SD')
+figure(6) % Met
+subplot(2,3,1)
+plot((vert_means.SF_met(1:10,1)),-1*z_l(1:10),'color',cm10(1,:),'Linewidth',1); hold on;
+plot((vert_means.MF_met(1:10,1)),-1*z_l(1:10),'color',cm10(2,:),'Linewidth',1); hold on;
+title('Forage')
+xlabel('Met (d^-^1)')
+
+subplot(2,3,2)
+plot((vert_means.SP_met(1:10,1)),-1*z_l(1:10),'color',cm10(3,:),'Linewidth',1); hold on;
+plot((vert_means.MP_met(1:10,1)),-1*z_l(1:10),'color',cm10(4,:),'Linewidth',1); hold on;
+plot((vert_means.LP_met(1:10,1)),-1*z_l(1:10),'color',cm10(5,:),'Linewidth',1); hold on;
+title('Lg pel')
+xlabel('Met (d^-^1)')
+
+subplot(2,3,3)
+plot((vert_means.SD_met(1:10,1)),-1*z_l(1:10),'color',cm10(6,:),'Linewidth',1); hold on;
+title('Demersal')
+xlabel('Met (d^-^1)')
+
+subplot(2,3,4)
+plot(log10(vert_means.SF_met),-1*z_l,'color',cm10(1,:),'Linewidth',1); hold on;
+plot(log10(vert_means.MF_met),-1*z_l,'color',cm10(2,:),'Linewidth',1); hold on;
+legend('SF','MF')
+%legend('SF','MF','SP','MP','LP','SD')
 legend('location','east')
-title('log_1_0 Mean Biomass (g m^-^3)')
+xlabel('log_1_0 Met (d^-^1)')
 ylabel('Depth (m)')
 
-subplot(1,2,2)
-plot(log10(vF(:,1)),-1*z_l,'r','Linewidth',1); hold on;
-plot(log10(vP(:,1)),-1*z_l,'b','Linewidth',1); hold on;
-plot(log10(vD(:,1)),-1*z_l,'k','Linewidth',1); hold on;
-legend('F','P','D')
+subplot(2,3,5)
+plot(log10(vert_means.SP_met),-1*z_l,'color',cm10(3,:),'Linewidth',1); hold on;
+plot(log10(vert_means.MP_met),-1*z_l,'color',cm10(4,:),'Linewidth',1); hold on;
+plot(log10(vert_means.LP_met),-1*z_l,'color',cm10(5,:),'Linewidth',1); hold on;
+legend('SP','MP','LP')
 legend('location','east')
-title('log_1_0 Mean Biomass (g m^-^3)')
+xlabel('log_1_0 Met (d^-^1)')
+ylabel('Depth (m)')
+
+subplot(2,3,6)
+plot(log10(vert_means.SD_met),-1*z_l,'color',cm10(6,:),'Linewidth',1); hold on;
+plot(log10(vert_means.MD_met),-1*z_l,'color',cm10(7,:),'Linewidth',1); hold on;
+plot(log10(vert_means.LD_met),-1*z_l,'color',cm10(8,:),'Linewidth',1); hold on;
+legend('SD','MD','LD')
+legend('location','east')
+xlabel('log_1_0 Met (d^-^1)')
 ylabel('Depth (m)')
 stamp('')
-print('-dpng',[ppath exper '_vert_mean_feisty_subplot.png'])
+print('-dpng',[ppath mod '_met_vert_mean_fntypes.png'])
 
-%% Vert distrib - upper ocean
-figure(6)
-subplot(1,2,1)
-plot(log10(vSF(1:10,1)),-1*z_l(1:10),'color',cm10(1,:),'Linewidth',1); hold on;
-plot(log10(vMF(1:10,1)),-1*z_l(1:10),'color',cm10(2,:),'Linewidth',1); hold on;
-plot(log10(vSP(1:10,1)),-1*z_l(1:10),'color',cm10(3,:),'Linewidth',1); hold on;
-plot(log10(vMP(1:10,1)),-1*z_l(1:10),'color',cm10(4,:),'Linewidth',1); hold on;
-plot(log10(vLP(1:10,1)),-1*z_l(1:10),'color',cm10(5,:),'Linewidth',1); hold on;
-plot(log10(vSD(1:10,1)),-1*z_l(1:10),'color',cm10(6,:),'Linewidth',1); hold on;
-legend('SF','MF','SP','MP','LP','SD')
-legend('location','southeast')
-title('log_1_0 Mean Biomass (g m^-^3)')
+%% vert Rec
+figure(7) 
+subplot(2,3,1)
+plot((vert_means.SF_Fout(1:10,1)),-1*z_l(1:10),'color',cm10(1,:),'Linewidth',1); hold on;
+plot((vert_means.MF_Fout(1:10,1)),-1*z_l(1:10),'color',cm10(2,:),'Linewidth',1); hold on;
+title('Forage')
+xlabel('Rec (d^-^1)')
+
+subplot(2,3,2)
+plot((vert_means.SP_Fout(1:10,1)),-1*z_l(1:10),'color',cm10(3,:),'Linewidth',1); hold on;
+plot((vert_means.MP_Fout(1:10,1)),-1*z_l(1:10),'color',cm10(4,:),'Linewidth',1); hold on;
+plot((vert_means.LP_Fout(1:10,1)),-1*z_l(1:10),'color',cm10(5,:),'Linewidth',1); hold on;
+title('Lg pel')
+xlabel('Rec (d^-^1)')
+
+subplot(2,3,3)
+plot((vert_means.SD_Fout(1:10,1)),-1*z_l(1:10),'color',cm10(6,:),'Linewidth',1); hold on;
+title('Demersal')
+xlabel('Rec (d^-^1)')
+
+subplot(2,3,4)
+plot(log10(vert_means.SF_Fout),-1*z_l,'color',cm10(1,:),'Linewidth',1); hold on;
+plot(log10(vert_means.MF_Fout),-1*z_l,'color',cm10(2,:),'Linewidth',1); hold on;
+legend('SF','MF')
+%legend('SF','MF','SP','MP','LP','SD')
+legend('location','east')
+xlabel('log_1_0 Rec (d^-^1)')
 ylabel('Depth (m)')
 
-subplot(1,2,2)
-plot(log10(vF(1:10,1)),-1*z_l(1:10),'r','Linewidth',1); hold on;
-plot(log10(vP(1:10,1)),-1*z_l(1:10),'b','Linewidth',1); hold on;
-plot(log10(vD(1:10,1)),-1*z_l(1:10),'k','Linewidth',1); hold on;
-legend('F','P','D')
-legend('location','southeast')
-title('log_1_0 Mean Biomass (g m^-^3)')
+subplot(2,3,5)
+plot(log10(vert_means.SP_Fout),-1*z_l,'color',cm10(3,:),'Linewidth',1); hold on;
+plot(log10(vert_means.MP_Fout),-1*z_l,'color',cm10(4,:),'Linewidth',1); hold on;
+plot(log10(vert_means.LP_Fout),-1*z_l,'color',cm10(5,:),'Linewidth',1); hold on;
+legend('SP','MP','LP')
+legend('location','east')
+xlabel('log_1_0 Rec (d^-^1)')
+ylabel('Depth (m)')
+
+subplot(2,3,6)
+plot(log10(vert_means.SD_Fout),-1*z_l,'color',cm10(6,:),'Linewidth',1); hold on;
+plot(log10(vert_means.MD_Fout),-1*z_l,'color',cm10(7,:),'Linewidth',1); hold on;
+plot(log10(vert_means.LD_Fout),-1*z_l,'color',cm10(8,:),'Linewidth',1); hold on;
+legend('SD','MD','LD')
+legend('location','east')
+xlabel('log_1_0 Rec (d^-^1)')
 ylabel('Depth (m)')
 stamp('')
-print('-dpng',[ppath exper '_vert_upper_mean_feisty_subplot.png'])
+print('-dpng',[ppath mod '_recruit_vert_mean_fntypes.png'])
+
+%% vert  Prod
+figure(8) 
+subplot(2,3,1)
+plot((vert_means.SF_prod(1:10,1)),-1*z_l(1:10),'color',cm10(1,:),'Linewidth',1); hold on;
+plot((vert_means.MF_prod(1:10,1)),-1*z_l(1:10),'color',cm10(2,:),'Linewidth',1); hold on;
+title('Forage')
+xlabel('Prod (g m^-^3 d^-^1)')
+
+subplot(2,3,2)
+plot((vert_means.SP_prod(1:10,1)),-1*z_l(1:10),'color',cm10(3,:),'Linewidth',1); hold on;
+plot((vert_means.MP_prod(1:10,1)),-1*z_l(1:10),'color',cm10(4,:),'Linewidth',1); hold on;
+plot((vert_means.LP_prod(1:10,1)),-1*z_l(1:10),'color',cm10(5,:),'Linewidth',1); hold on;
+title('Lg pel')
+xlabel('Prod (g m^-^3 d^-^1)')
+
+subplot(2,3,3)
+plot((vert_means.SD_prod(1:10,1)),-1*z_l(1:10),'color',cm10(6,:),'Linewidth',1); hold on;
+title('Demersal')
+xlabel('Prod (g m^-^3 d^-^1)')
+
+subplot(2,3,4)
+plot(log10(vert_means.SF_prod),-1*z_l,'color',cm10(1,:),'Linewidth',1); hold on;
+plot(log10(vert_means.MF_prod),-1*z_l,'color',cm10(2,:),'Linewidth',1); hold on;
+legend('SF','MF')
+%legend('SF','MF','SP','MP','LP','SD')
+legend('location','east')
+xlabel('log_1_0 Prod (g m^-^3 d^-^1)')
+ylabel('Depth (m)')
+
+subplot(2,3,5)
+plot(log10(vert_means.SP_prod),-1*z_l,'color',cm10(3,:),'Linewidth',1); hold on;
+plot(log10(vert_means.MP_prod),-1*z_l,'color',cm10(4,:),'Linewidth',1); hold on;
+plot(log10(vert_means.LP_prod),-1*z_l,'color',cm10(5,:),'Linewidth',1); hold on;
+legend('SP','MP','LP')
+legend('location','east')
+xlabel('log_1_0 Prod (g m^-^3 d^-^1)')
+ylabel('Depth (m)')
+
+subplot(2,3,6)
+plot(log10(vert_means.SD_prod),-1*z_l,'color',cm10(6,:),'Linewidth',1); hold on;
+plot(log10(vert_means.MD_prod),-1*z_l,'color',cm10(7,:),'Linewidth',1); hold on;
+plot(log10(vert_means.LD_prod),-1*z_l,'color',cm10(8,:),'Linewidth',1); hold on;
+legend('SD','MD','LD')
+legend('location','east')
+xlabel('log_1_0 Prod (g m^-^3 d^-^1)')
+ylabel('Depth (m)')
+stamp('')
+print('-dpng',[ppath mod '_prod_vert_mean_fntypes.png'])
+
+
 
 %% Maps
-% bent
-figure(7)
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(LAT,LON,log10(sBE))
-cmocean('matter')
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-2 2]);
-hcb = colorbar('h');
-set(gcf,'renderer','painters')
-title('log10 mean benthic biomass (g m^-^2)')
-stamp(cfile)
-print('-dpng',[ppath exper '_global_Bent.png'])
 
-%% All 4 on subplots
-figure(8)
-% all F
-subplot('Position',[0 0.51 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(LAT,LON,log10(sF))
-cmocean('matter')
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-2 2]);
-colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
-set(gcf,'renderer','painters')
-title('log10 mean All F (g m^-^2)')
-
-% all D
-subplot('Position',[0 0 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(LAT,LON,log10(sD))
-cmocean('matter')
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-2 2]);
-set(gcf,'renderer','painters')
-title('log10 mean All D (g m^-^2)')
-
-% All P
-subplot('Position',[0.5 0.51 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(LAT,LON,log10(sP))
-cmocean('matter')
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-2 2]);
-set(gcf,'renderer','painters')
-title('log10 mean All P (g m^-^2)')
-
-% All
-subplot('Position',[0.5 0 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(LAT,LON,log10(sAll))
-cmocean('matter')
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-2 2]);
-set(gcf,'renderer','painters')
-title('log10 mean All fishes (g m^-^2)')
-%stamp(cfile)
-print('-dpng',[ppath exper '_global_All_subplot.png'])
-
-%% All 4 on subplots
-figure(18)
-% all F
-subplot('Position',[0 0.51 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(LAT,LON,log10(sF))
-cmocean('matter')
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-2 3]);
-colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
-set(gcf,'renderer','painters')
-title('log10 mean All F (g m^-^2)')
-
-% all D
-subplot('Position',[0 0 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(LAT,LON,log10(sD))
-cmocean('matter')
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-2 3]);
-set(gcf,'renderer','painters')
-title('log10 mean All D (g m^-^2)')
-
-% All P
-subplot('Position',[0.5 0.51 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(LAT,LON,log10(sP))
-cmocean('matter')
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-2 3]);
-set(gcf,'renderer','painters')
-title('log10 mean All P (g m^-^2)')
-
-% All
-subplot('Position',[0.5 0 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(LAT,LON,log10(sAll))
-cmocean('matter')
-h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-2 3]);
-set(gcf,'renderer','painters')
-title('log10 mean All fishes (g m^-^2)')
-%stamp(cfile)
-print('-dpng',[ppath exper '_global_All_subplot_newcb.png'])
-
-%% Ratios on subplots red-white-blue
-% 3 figure subplot P:D, P:F, M:L
+%% All small
 figure(9)
-subplot('Position',[0 0.53 0.5 0.5])
-%P:D
+% SF
+subplot('Position',[0 0.51 0.5 0.5])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(LAT,LON,FracPD)
-cmocean('balance')
+surfm(LAT,LON,log10(spat_vert_ints.SF_prod))
+cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([0 1]);
+clim([-6 -3]);
+colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
-title('Fraction Large Pelagics vs. Demersals')
+title('log10 mean prod SF (g m^-^2 d^-^1)')
 
-%P:F
-subplot('Position',[0.5 0.53 0.5 0.5])
+% SD
+subplot('Position',[0 0 0.5 0.5])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(LAT,LON,FracPF)
-cmocean('balance')
+surfm(LAT,LON,log10(spat_vert_ints.SD_prod))
+cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([0 1]);
+clim([-6 -3]);
 set(gcf,'renderer','painters')
-title('Fraction Large Pelagics vs. Forage Fishes')
+title('log10 mean prod SD (g m^-^2 d^-^1)')
 
-%L:M
-subplot('Position',[0.25 0.0 0.5 0.5])
+% SP
+subplot('Position',[0.5 0.51 0.5 0.5])
 axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
-surfm(LAT,LON,FracLM)
-cmocean('balance')
+surfm(LAT,LON,log10(spat_vert_ints.SP_prod))
+cmocean('matter')
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([0 1]);
-colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
+clim([-6 -3]);
 set(gcf,'renderer','painters')
-title('Fraction Large vs. Medium')
-stamp(cfile)
-print('-dpng',[ppath exper '_global_ratios_subplot.png'])
+title('log10 mean prod SP (g m^-^2 d^-^1)')
+
+% All
+% subplot('Position',[0.5 0 0.5 0.5])
+% axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+%     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+% surfm(LAT,LON,log10(sAll))
+% cmocean('matter')
+% h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+% clim([-2 2]);
+% set(gcf,'renderer','painters')
+% title('log10 mean All fishes (g m^-^2)')
+stamp('')
+print('-dpng',[ppath exper '_global_small_prod_subplot.png'])
+
+%% All med
+figure(10)
+% MF
+subplot('Position',[0 0.51 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(LAT,LON,log10(spat_vert_ints.MF_prod))
+cmocean('matter')
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+clim([-6 -3]);
+colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
+set(gcf,'renderer','painters')
+title('log10 mean prod MF (g m^-^2 d^-^1)')
+
+% MD
+subplot('Position',[0 0 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(LAT,LON,log10(spat_vert_ints.MD_prod))
+cmocean('matter')
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+clim([-6 -3]);
+set(gcf,'renderer','painters')
+title('log10 mean prod MD (g m^-^2 d^-^1)')
+
+% MP
+subplot('Position',[0.5 0.51 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(LAT,LON,log10(spat_vert_ints.MP_prod))
+cmocean('matter')
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+clim([-6 -3]);
+set(gcf,'renderer','painters')
+title('log10 mean prod MP (g m^-^2 d^-^1)')
+
+% All
+% subplot('Position',[0.5 0 0.5 0.5])
+% axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+%     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+% surfm(LAT,LON,log10(sAll))
+% cmocean('matter')
+% h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+% clim([-2 2]);
+% set(gcf,'renderer','painters')
+% title('log10 mean All fishes (g m^-^2)')
+stamp('')
+print('-dpng',[ppath exper '_global_med_prod_subplot.png'])
+
+%% All lg
+figure(11)
+% SF
+% subplot('Position',[0 0.51 0.5 0.5])
+% axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+%     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+% surfm(LAT,LON,log10(spat_vert_ints.SF_prod))
+% cmocean('matter')
+% h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+% clim([-6 -3]);
+% colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
+% set(gcf,'renderer','painters')
+% title('log10 mean All F (g m^-^2)')
+
+% LD
+subplot('Position',[0 0 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(LAT,LON,log10(spat_vert_ints.LD_prod))
+cmocean('matter')
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+clim([-6 -3]);
+set(gcf,'renderer','painters')
+title('log10 mean prod LD (g m^-^2 d^-^1)')
+
+% LP
+subplot('Position',[0.5 0.51 0.5 0.5])
+axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+surfm(LAT,LON,log10(spat_vert_ints.LP_prod))
+cmocean('matter')
+h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+clim([-6 -3]);
+set(gcf,'renderer','painters')
+title('log10 mean prod LP (g m^-^2 d^-^1)')
+
+% All
+% subplot('Position',[0.5 0 0.5 0.5])
+% axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
+%     'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+% surfm(LAT,LON,log10(sAll))
+% cmocean('matter')
+% h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+% clim([-2 2]);
+% set(gcf,'renderer','painters')
+% title('log10 mean All fishes (g m^-^2)')
+stamp('')
+print('-dpng',[ppath exper '_global_lrg_prod_subplot.png'])
+
+%% Flux times biomass
+% %Rec

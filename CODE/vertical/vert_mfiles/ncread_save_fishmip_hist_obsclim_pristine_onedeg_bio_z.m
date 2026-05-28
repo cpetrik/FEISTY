@@ -4,6 +4,7 @@
 % Historic experimental period uses 1901 as the reference year
 % Get 1990 for vertical IC file
 % Divide fish biomass into 35 vert levels
+% Flip LAT
 
 clear 
 close all
@@ -19,7 +20,7 @@ cfile = 'Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_nmort1_BE08_CC80
 
 %fpath=['/Volumes/MIP/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
 fpath=['/Volumes/petrik-lab/Feisty/NC/FishMIP/GFDL_mom6_cobalt2/' cfile '/OneDeg/'];
-spath=['/Volumes/petrik-lab/Feisty/NC/MOM6-1D/Global/offline_feisty/'];
+spath=['/Volumes/petrik-lab/Feisty/NC/MOM6-1D/'];
 
 %% Benthic material
 ncid = netcdf.open([fpath 'Hist_obsclim_pristine_empHP_bent.nc'],'NC_NOWRITE');
@@ -201,9 +202,6 @@ load([epath 'gridspec_gfdl-mom6-cobalt2_obsclim_deptho_onedeg.mat'],'LAT','LON')
 
 [ni,nj] = size(LAT);
 
-lat = LAT(1,:);
-lon = LON(:,1);
-
 %% Reshape to lat,lon,yr
 Sf_B = 1.0e20*ones(ni,nj,35);
 Mf_B = Sf_B;
@@ -254,7 +252,22 @@ gb = 1.0e20*ones(ni,nj);
 gb(GRD.ID) = Bz(:,35);
 BE_B_btf(:,:,35) = gb;
 
+%% Jessica said LAT needs to be increasing
+LAT = fliplr(LAT);
+LON = fliplr(LON);
 
+Sf_B = fliplr(Sf_B);
+Mf_B = fliplr(Mf_B);
+Sp_B = fliplr(Sp_B);
+Mp_B = fliplr(Mp_B);
+Lp_B = fliplr(Lp_B);
+Sd_B = fliplr(Sd_B);
+Md_B_btf = fliplr(Md_B_btf);
+Ld_B_btf = fliplr(Ld_B_btf);
+BE_B_btf = fliplr(BE_B_btf);
+
+lat = LAT(1,:);
+lon = LON(:,1);
 
 %% Quick look
 pb = Mf_B(:,:,1);
@@ -290,7 +303,7 @@ title('LD')
 close all
 
 %% Setup netcdf path to store to
-fname1 = 'Fish_ICs_from_offline_COBALT1990.nc';
+fname1 = 'Fish_ICs_from_offline_COBALT1990_v2.nc';
 
 file_tpb = [spath fname1];
 

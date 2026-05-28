@@ -14,7 +14,7 @@ ppath = ['/Users/cpetrik/Petrik Lab Group Dropbox/Colleen Petrik/Princeton/FEIST
     cfile,'/Cobalt_Feisty/'];
 
 exper = 'OM4_05_COBALTv3_FEISTYon_021326';
-Yr = '1994';
+Yr = '1990'; %1990, 1994
 
 %%
 load([gpath 'grid_OM4_05_COBALTv3.mat'],'wet',...
@@ -214,4 +214,65 @@ stamp(Yr)
 print('-dpng',[ppath exper Yr '_depth_ts_zbio_hploss.png'])
 
 
+%% HPloss vs Z biomass -> functional response
 
+mTdep = exp(0.063 * (mTP-10.0));
+sTdep = exp(0.063 * (sTp-10.0));
+tTdep = exp(0.063 * (tTp-10.0));
+
+mThpM = iMH ./ mTdep;
+mThpL = iLH ./ mTdep;
+
+sThpM = sMhp ./ sTdep;
+sThpL = sLhp ./ sTdep;
+
+tThpM = tMhp ./ tTdep;
+tThpL = tLhp ./ tTdep;
+
+%%
+figure(9)
+plot(tMhp,tThpM,'.k','MarkerSize',15)
+xlabel('MZ biomass')
+ylabel('MZ HPloss normalized by temp-dep')
+title('Global monthly means')
+print('-dpng',[ppath exper Yr '_global_MZvsHP_tmean'])
+
+%%
+figure(10)
+plot(tLhp,tThpL,'.k','MarkerSize',15)
+xlabel('LZ biomass')
+ylabel('LZ HPloss normalized by temp-dep')
+title('Global monthly means')
+print('-dpng',[ppath exper Yr '_global_LZvsHP_tmean'])
+
+%%
+figure(11)
+plot(sMhp(:),sThpM(:),'.k','MarkerSize',10)
+xlabel('MZ biomass')
+ylabel('MZ HPloss normalized by temp-dep')
+title('Vertically integrated, annual means')
+print('-dpng',[ppath exper Yr '_global_MZvsHP_smean.png'])
+
+%%
+figure(12)
+plot(sLhp(:),sThpL(:),'.k','MarkerSize',15)
+xlabel('LZ biomass')
+ylabel('LZ HPloss normalized by temp-dep')
+title('Vertically integrated, annual means')
+print('-dpng',[ppath exper Yr '_global_LZvsHP_smean.png'])
+
+%%
+figure(13)
+plot(iMH(:),mThpM(:),'.k','MarkerSize',15)
+xlabel('MZ biomass')
+ylabel('MZ HPloss normalized by temp-dep')
+title('Vertically integrated means')
+print('-dpng',[ppath exper Yr '_global_MZvsHP_imean.png'])
+
+%%
+figure(14)
+plot(iLH(:),mThpL(:),'.k','MarkerSize',15)
+xlabel('LZ biomass')
+ylabel('LZ HPloss normalized by temp-dep')
+title('Vertically integrated means')
+print('-dpng',[ppath exper Yr '_global_LZvsHP_imean.png'])
