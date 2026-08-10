@@ -160,7 +160,8 @@ thkcello = squeeze(thkcello(:,:,:,1));
 thkcello = reshape(thkcello,720*576,35);
 thk = mean(thkcello,1,'omitnan');
 
-%% FIsh
+%% Fish
+% All 3-D
 SFz = zeros(nid,35);
 MFz = zeros(nid,35);
 Bz  = zeros(nid,35);
@@ -190,10 +191,9 @@ MPz(:,zid) = MPbio./(10*thkmat);
 LPz(:,zid) = LPbio./(10*thkmat);
 SDz(:,zid) = SDbio./(10*thkmat);
 
-MDz(:,35) = MD.bio;
-LDz(:,35) = LD.bio;
-Bz(:,35) = allBB(:,yid);
-
+MDz(:,1) = MD.bio;
+LDz(:,1) = LD.bio;
+Bz(:,1) = allBB(:,yid);
 
 %% ESM
 epath = '/Volumes/petrik-lab/Feisty/Fish-MIP/Phase3/OneDeg/';
@@ -241,16 +241,21 @@ end
 
 
 gmd = 1.0e20*ones(ni,nj);
-gmd(GRD.ID) = MDz(:,35);
-Md_B_btf(:,:,35) = gmd;
+gmd(GRD.ID) = MDz(:,1);
+Md_B_btf(:,:,1) = gmd;
 
 gld = 1.0e20*ones(ni,nj);
-gld(GRD.ID) = LDz(:,35);
-Ld_B_btf(:,:,35) = gld;
+gld(GRD.ID) = LDz(:,1);
+Ld_B_btf(:,:,1) = gld;
 
 gb = 1.0e20*ones(ni,nj);
-gb(GRD.ID) = Bz(:,35);
-BE_B_btf(:,:,35) = gb;
+gb(GRD.ID) = Bz(:,1);
+BE_B_btf(:,:,1) = gb;
+
+% Seafloor 2-D
+Bz2  = Md_B_btf(:,:,1);
+MDz2 = Ld_B_btf(:,:,1);
+LDz2 = BE_B_btf(:,:,1);
 
 %% Jessica said LAT needs to be increasing
 LAT = fliplr(LAT);
@@ -266,13 +271,17 @@ Md_B_btf = fliplr(Md_B_btf);
 Ld_B_btf = fliplr(Ld_B_btf);
 BE_B_btf = fliplr(BE_B_btf);
 
+Md_B_btf2 = fliplr(MDz2);
+Ld_B_btf2 = fliplr(LDz2);
+BE_B_btf2 = fliplr(Bz2);
+
 lat = LAT(1,:);
 lon = LON(:,1);
 
 %% Quick look
 pb = Mf_B(:,:,1);
 db = Lp_B(:,:,3);
-fb = Ld_B_btf(:,:,35);
+fb = Ld_B_btf(:,:,1);
 
 figure(1)
 pcolor(log10(pb))
@@ -303,7 +312,7 @@ title('LD')
 close all
 
 %% Setup netcdf path to store to
-fname1 = 'Fish_ICs_from_offline_COBALT1990_v2.nc';
+fname1 = 'Fish_ICs_from_offline_COBALT1990_seafloor3D.nc';
 
 file_tpb = [spath fname1];
 
@@ -317,7 +326,7 @@ ncidSB = netcdf.create(file_tpb,"CLOBBER");
 
 lon_dim = netcdf.defDim(ncidSB,'lon',ni);
 lat_dim = netcdf.defDim(ncidSB,'lat',nj);
-time_dim = netcdf.defDim(ncidSB,'depth',35);
+dep_dim = netcdf.defDim(ncidSB,'depth',35);
 
 vidlat = netcdf.defVar(ncidSB,'lat','double',lat_dim);
 netcdf.putAtt(ncidSB,vidlat,'long_name','latitude');
@@ -331,57 +340,57 @@ netcdf.putAtt(ncidSB,vidlon,'standard_name','lon');
 netcdf.putAtt(ncidSB,vidlon,'units','degrees_east' );
 netcdf.putAtt(ncidSB,vidlon,'axis','X');
 
-vidtSB = netcdf.defVar(ncidSB,'z_l','double',time_dim);
+vidtSB = netcdf.defVar(ncidSB,'z_l','double',dep_dim);
 netcdf.putAtt(ncidSB,vidtSB,'long_name',z_l_long_name);
 netcdf.putAtt(ncidSB,vidtSB,'units',z_l_units);
 netcdf.putAtt(ncidSB,vidtSB,'axis','z_l');
 
 %small
-vidbioSF = netcdf.defVar(ncidSB,'SF_B','double',[lon_dim,lat_dim,time_dim]);
+vidbioSF = netcdf.defVar(ncidSB,'SF_B','double',[lon_dim,lat_dim,dep_dim]);
 netcdf.putAtt(ncidSB,vidbioSF,'long_name','Small Forage Biomass Density');
 netcdf.putAtt(ncidSB,vidbioSF,'units','gWW m-3' );
 netcdf.defVarFill(ncidSB,vidbioSF,false,1.0e20);
 
-vidbioSP = netcdf.defVar(ncidSB,'SP_B','double',[lon_dim,lat_dim,time_dim]);
+vidbioSP = netcdf.defVar(ncidSB,'SP_B','double',[lon_dim,lat_dim,dep_dim]);
 netcdf.putAtt(ncidSB,vidbioSP,'long_name','Small Lg Pelagic Biomass Density');
 netcdf.putAtt(ncidSB,vidbioSP,'units','gWW m-3' );
 netcdf.defVarFill(ncidSB,vidbioSP,false,1.0e20);
 
-vidbioSD = netcdf.defVar(ncidSB,'SD_B','double',[lon_dim,lat_dim,time_dim]);
+vidbioSD = netcdf.defVar(ncidSB,'SD_B','double',[lon_dim,lat_dim,dep_dim]);
 netcdf.putAtt(ncidSB,vidbioSD,'long_name','Small Demersal Biomass Density');
 netcdf.putAtt(ncidSB,vidbioSD,'units','gWW m-3' );
 netcdf.defVarFill(ncidSB,vidbioSD,false,1.0e20);
 
 %medium
-vidbioMF = netcdf.defVar(ncidSB,'MF_B','double',[lon_dim,lat_dim,time_dim]);
+vidbioMF = netcdf.defVar(ncidSB,'MF_B','double',[lon_dim,lat_dim,dep_dim]);
 netcdf.putAtt(ncidSB,vidbioMF,'long_name','Medium Forage Biomass Density');
 netcdf.putAtt(ncidSB,vidbioMF,'units','gWW m-3' );
 netcdf.defVarFill(ncidSB,vidbioMF,false,1.0e20);
 
-vidbioMP = netcdf.defVar(ncidSB,'MP_B','double',[lon_dim,lat_dim,time_dim]);
+vidbioMP = netcdf.defVar(ncidSB,'MP_B','double',[lon_dim,lat_dim,dep_dim]);
 netcdf.putAtt(ncidSB,vidbioMP,'long_name','Medium Lg Pelagic Biomass Density');
 netcdf.putAtt(ncidSB,vidbioMP,'units','gWW m-3' );
 netcdf.defVarFill(ncidSB,vidbioMP,false,1.0e20);
 
-vidbioMD = netcdf.defVar(ncidSB,'MD_B_btf','double',[lon_dim,lat_dim,time_dim]);
+vidbioMD = netcdf.defVar(ncidSB,'MD_B_btf','double',[lon_dim,lat_dim,dep_dim]);
 netcdf.putAtt(ncidSB,vidbioMD,'long_name','Medium Demersal Biomass Density');
 netcdf.putAtt(ncidSB,vidbioMD,'units','gWW m-2' );
 netcdf.defVarFill(ncidSB,vidbioMD,false,1.0e20);
 
 %large
-vidbioLP = netcdf.defVar(ncidSB,'LP_B','double',[lon_dim,lat_dim,time_dim]);
+vidbioLP = netcdf.defVar(ncidSB,'LP_B','double',[lon_dim,lat_dim,dep_dim]);
 netcdf.putAtt(ncidSB,vidbioLP,'long_name','Large Lg Pelagic Biomass Density');
 netcdf.putAtt(ncidSB,vidbioLP,'units','gWW m-3' );
 netcdf.defVarFill(ncidSB,vidbioLP,false,1.0e20);
 
-vidbioLD = netcdf.defVar(ncidSB,'LD_B_btf','double',[lon_dim,lat_dim,time_dim]);
+vidbioLD = netcdf.defVar(ncidSB,'LD_B_btf','double',[lon_dim,lat_dim,dep_dim]);
 netcdf.putAtt(ncidSB,vidbioLD,'long_name','Large Demersal Biomass Density');
 netcdf.putAtt(ncidSB,vidbioLD,'units','gWW m-2' );
 netcdf.defVarFill(ncidSB,vidbioLD,false,1.0e20);
 
 %Bent
-vidbioB = netcdf.defVar(ncidSB,'BE_B_btf','double',[lon_dim,lat_dim,time_dim]);
-netcdf.putAtt(ncidSB,vidbioB,'long_name','Total Pelagic Biomass Density');
+vidbioB = netcdf.defVar(ncidSB,'BE_B_btf','double',[lon_dim,lat_dim,dep_dim]);
+netcdf.putAtt(ncidSB,vidbioB,'long_name','Benthic Invert Biomass Density');
 netcdf.putAtt(ncidSB,vidbioB,'units','gWW m-2' );
 netcdf.defVarFill(ncidSB,vidbioB,false,1.0e20);
 
@@ -412,6 +421,119 @@ netcdf.close(ncidSB);
 
 %%
 ncdisp(file_tpb)
+
+%% Seafloor 2D
+fname2 = 'Fish_ICs_from_offline_COBALT1990_seafloor2D.nc';
+
+file_tpb = [spath fname2];
+
+[ni,nj,nt] = size(Sf_B);
+
+cmode = netcdf.getConstant('NETCDF4');
+cmode = bitor(cmode,netcdf.getConstant('CLASSIC_MODEL'));
+
+%% tpb
+ncidSB = netcdf.create(file_tpb,"CLOBBER");
+
+lon_dim = netcdf.defDim(ncidSB,'lon',ni);
+lat_dim = netcdf.defDim(ncidSB,'lat',nj);
+dep_dim = netcdf.defDim(ncidSB,'depth',35);
+
+vidlat = netcdf.defVar(ncidSB,'lat','double',lat_dim);
+netcdf.putAtt(ncidSB,vidlat,'long_name','latitude');
+netcdf.putAtt(ncidSB,vidlat,'standard_name','lat');
+netcdf.putAtt(ncidSB,vidlat,'units','degrees_north');
+netcdf.putAtt(ncidSB,vidlat,'axis','Y');
+
+vidlon = netcdf.defVar(ncidSB,'lon','double',lon_dim);
+netcdf.putAtt(ncidSB,vidlon,'long_name','longitude');
+netcdf.putAtt(ncidSB,vidlon,'standard_name','lon');
+netcdf.putAtt(ncidSB,vidlon,'units','degrees_east' );
+netcdf.putAtt(ncidSB,vidlon,'axis','X');
+
+vidtSB = netcdf.defVar(ncidSB,'z_l','double',dep_dim);
+netcdf.putAtt(ncidSB,vidtSB,'long_name',z_l_long_name);
+netcdf.putAtt(ncidSB,vidtSB,'units',z_l_units);
+netcdf.putAtt(ncidSB,vidtSB,'axis','z_l');
+
+%small
+vidbioSF = netcdf.defVar(ncidSB,'SF_B','double',[lon_dim,lat_dim,dep_dim]);
+netcdf.putAtt(ncidSB,vidbioSF,'long_name','Small Forage Biomass Density');
+netcdf.putAtt(ncidSB,vidbioSF,'units','gWW m-3' );
+netcdf.defVarFill(ncidSB,vidbioSF,false,1.0e20);
+
+vidbioSP = netcdf.defVar(ncidSB,'SP_B','double',[lon_dim,lat_dim,dep_dim]);
+netcdf.putAtt(ncidSB,vidbioSP,'long_name','Small Lg Pelagic Biomass Density');
+netcdf.putAtt(ncidSB,vidbioSP,'units','gWW m-3' );
+netcdf.defVarFill(ncidSB,vidbioSP,false,1.0e20);
+
+vidbioSD = netcdf.defVar(ncidSB,'SD_B','double',[lon_dim,lat_dim,dep_dim]);
+netcdf.putAtt(ncidSB,vidbioSD,'long_name','Small Demersal Biomass Density');
+netcdf.putAtt(ncidSB,vidbioSD,'units','gWW m-3' );
+netcdf.defVarFill(ncidSB,vidbioSD,false,1.0e20);
+
+%medium
+vidbioMF = netcdf.defVar(ncidSB,'MF_B','double',[lon_dim,lat_dim,dep_dim]);
+netcdf.putAtt(ncidSB,vidbioMF,'long_name','Medium Forage Biomass Density');
+netcdf.putAtt(ncidSB,vidbioMF,'units','gWW m-3' );
+netcdf.defVarFill(ncidSB,vidbioMF,false,1.0e20);
+
+vidbioMP = netcdf.defVar(ncidSB,'MP_B','double',[lon_dim,lat_dim,dep_dim]);
+netcdf.putAtt(ncidSB,vidbioMP,'long_name','Medium Lg Pelagic Biomass Density');
+netcdf.putAtt(ncidSB,vidbioMP,'units','gWW m-3' );
+netcdf.defVarFill(ncidSB,vidbioMP,false,1.0e20);
+
+vidbioMD = netcdf.defVar(ncidSB,'MD_B_btf','double',[lon_dim,lat_dim]);
+netcdf.putAtt(ncidSB,vidbioMD,'long_name','Medium Demersal Biomass Density');
+netcdf.putAtt(ncidSB,vidbioMD,'units','gWW m-2' );
+netcdf.defVarFill(ncidSB,vidbioMD,false,1.0e20);
+
+%large
+vidbioLP = netcdf.defVar(ncidSB,'LP_B','double',[lon_dim,lat_dim,dep_dim]);
+netcdf.putAtt(ncidSB,vidbioLP,'long_name','Large Lg Pelagic Biomass Density');
+netcdf.putAtt(ncidSB,vidbioLP,'units','gWW m-3' );
+netcdf.defVarFill(ncidSB,vidbioLP,false,1.0e20);
+
+vidbioLD = netcdf.defVar(ncidSB,'LD_B_btf','double',[lon_dim,lat_dim]);
+netcdf.putAtt(ncidSB,vidbioLD,'long_name','Large Demersal Biomass Density');
+netcdf.putAtt(ncidSB,vidbioLD,'units','gWW m-2' );
+netcdf.defVarFill(ncidSB,vidbioLD,false,1.0e20);
+
+%Bent
+vidbioB = netcdf.defVar(ncidSB,'BE_B_btf','double',[lon_dim,lat_dim]);
+netcdf.putAtt(ncidSB,vidbioB,'long_name','Benthic Invert Biomass Density');
+netcdf.putAtt(ncidSB,vidbioB,'units','gWW m-2' );
+netcdf.defVarFill(ncidSB,vidbioB,false,1.0e20);
+
+
+varid = netcdf.getConstant('GLOBAL');
+netcdf.putAtt(ncidSB,varid,'creation_date',datestr(now));
+netcdf.putAtt(ncidSB,varid,'_FillValue',1.00e20);
+netcdf.putAtt(ncidSB,varid,'contact','C. Petrik');
+netcdf.putAtt(ncidSB,varid,'institution','UC San Diego');
+netcdf.putAtt(ncidSB,varid,'wet weight:C ratio','9:1');
+
+netcdf.endDef(ncidSB);
+
+netcdf.putVar(ncidSB,vidlat,lat);
+netcdf.putVar(ncidSB,vidlon,lon);
+netcdf.putVar(ncidSB,vidbioSF,Sf_B);
+netcdf.putVar(ncidSB,vidbioMF,Mf_B);
+netcdf.putVar(ncidSB,vidbioSP,Sp_B);
+netcdf.putVar(ncidSB,vidbioMP,Mp_B);
+netcdf.putVar(ncidSB,vidbioLP,Lp_B);
+netcdf.putVar(ncidSB,vidbioSD,Sd_B);
+netcdf.putVar(ncidSB,vidbioMD,Md_B_btf2);
+netcdf.putVar(ncidSB,vidbioLD,Ld_B_btf2);
+netcdf.putVar(ncidSB,vidbioB,BE_B_btf2);
+netcdf.putVar(ncidSB,vidtSB,z_l);
+
+netcdf.close(ncidSB);
+
+%%
+
+ncdisp(file_tpb)
+
 
 
 

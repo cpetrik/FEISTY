@@ -4,20 +4,22 @@
 clear
 close all
 
-%fpath = '/Volumes/petrik-lab/Feisty/NC/Global_COBALT_FEISTY/cobalt_feisty/';
-fpath = '/project/Feisty/NC/Global_COBALT_FEISTY/cobalt_feisty/';
-%fpath = '/project/Feisty/Globus_RW/COBALT-FEISTY/';
+%% Petrik-Lab
+fpath = '/Volumes/petrik-lab/Feisty/NC/Global_COBALT_FEISTY/cobalt_feisty/';
+gpath = '/Volumes/petrik-lab/Feisty/GCM_Data/OM4_05_COBALTv3_FEISTYoff/';
+spath = '/Volumes/petrik-lab/Feisty/NC/Global_COBALT_FEISTY/cobalt_feisty/';
 
-%gpath = '/Volumes/petrik-lab/Feisty/GCM_Data/OM4_05_COBALTv3_FEISTYoff/';
-gpath = '/project/Feisty/GCM_Data/OM4_05_COBALTv3_FEISTYoff/';
-
-spath = '/project/Feisty/NC/Global_COBALT_FEISTY/cobalt_feisty/';
+% Project
+% fpath = '/project/Feisty/NC/Global_COBALT_FEISTY/cobalt_feisty/';
+% %fpath = '/project/Feisty/Globus_RW/COBALT-FEISTY/';
+% gpath = '/project/Feisty/GCM_Data/OM4_05_COBALTv3_FEISTYoff/';
+% spath = '/project/Feisty/NC/Global_COBALT_FEISTY/cobalt_feisty/';
 
 %%
-%load([gpath 'grid_OM4_05_COBALTv3.mat'],'wet','z_l_units','z_l_long_name','z_l')
+load([gpath 'grid_OM4_05_COBALTv3.mat'],'wet','z_l_units','z_l_long_name','z_l')
 
 %%
-%ncdisp([fpath '19900101.ocean_feisty_pelagic_fluxes_z.nc'])
+ncdisp([fpath '19900101.ocean_feisty_pelagic_fluxes_z.nc'])
 
 %% want _cons_Mz, _cons_Lz
 
@@ -28,7 +30,7 @@ for i = 1:2
     eval([ varname ' = netcdf.getVar(ncid,i-1);']);
     eval([ varname '(' varname ' == 1e20) = NaN;']);
 end
-for i = 5:nvars
+for i = [15,16,20,36,37,41,57,58,62]
     varname = netcdf.inqVar(ncid, i-1);
     eval([ varname ' = netcdf.getVar(ncid,i-1);']);
     eval([ varname '(' varname ' == 1e20) = NaN;']);
