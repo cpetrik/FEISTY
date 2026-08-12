@@ -4,10 +4,11 @@
 clear
 close all
 
-fpath='/Volumes/petrik-lab/Feisty/GCM_Data/MOM6-NWA12/';
+%fpath='/Volumes/petrik-lab/Feisty/GCM_Data/MOM6-NWA12/';
+fpath='/project/Feisty/GCM_Data/MOM6-NWA12/';
 
 %% one file
-ncdisp([fpath 'btm_temp.nwa.full.hcast.monthly.raw.r20230520.199301-201912.nc'])
+ncdisp([fpath 'btm_temp.nwa.full.hcast.monthly.raw.r20250715.199301-202312.nc'])
 
 %%
 % Dimensions:
@@ -32,7 +33,7 @@ calendar_type = 'GREGORIAN';
 calendar      = 'gregorian';
 
 %%
-ncid = netcdf.open([fpath 'btm_temp.nwa.full.hcast.monthly.raw.r20230520.199301-201912.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'btm_temp.nwa.full.hcast.monthly.raw.r20250715.199301-202312.nc'],'NC_NOWRITE');
 
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 
@@ -52,5 +53,5 @@ btm_temp = double(btm_temp);
 yr = 1993 + (time/365);
 
 %%
-save([fpath 'btm_temp.nwa.full.hcast.monthly.raw.r20230520.199301-201912.mat'], '-v7.3');
+save([fpath 'btm_temp.nwa.full.hcast.monthly.raw.r20250715.199301-202312.mat'], '-v7.3');
 
