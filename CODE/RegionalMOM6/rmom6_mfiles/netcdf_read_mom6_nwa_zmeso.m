@@ -4,12 +4,13 @@
 clear
 close all
 
-fpath='/Volumes/petrik-lab/Feisty/GCM_Data/MOM6-NWA12/';
+%fpath='/Volumes/petrik-lab/Feisty/GCM_Data/MOM6-NWA12/';
+fpath='/project/Feisty/GCM_Data/MOM6-NWA12/';
 
 %% zmeso
-ncdisp([fpath 'nmdz_100.nwa.full.hcast.monthly.raw.r20230520.199301-201912.nc'])
+ncdisp([fpath 'nmdz_100.nwa.full.hcast.monthly.raw.r20250715.199301-202312.nc'])
 
-ncdisp([fpath 'nlgz_100.nwa.full.hcast.monthly.raw.r20230520.199301-201912.nc'])
+ncdisp([fpath 'nlgz_100.nwa.full.hcast.monthly.raw.r20250715.199301-202312.nc'])
 
 %%
 % Dimensions:
@@ -42,7 +43,7 @@ calendar_type = 'GREGORIAN';
 calendar      = 'gregorian';
 
 %% medium
-ncid = netcdf.open([fpath 'nmdz_100.nwa.full.hcast.monthly.raw.r20230520.199301-201912.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'nmdz_100.nwa.full.hcast.monthly.raw.r20250715.199301-202312.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 
 for i = 1:nvars
@@ -53,7 +54,7 @@ end
 netcdf.close(ncid);
 
 %% large
-ncid = netcdf.open([fpath 'nlgz_100.nwa.full.hcast.monthly.raw.r20230520.199301-201912.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'nlgz_100.nwa.full.hcast.monthly.raw.r20250715.199301-202312.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 
 for i = 1:nvars
@@ -75,7 +76,7 @@ nlgz_100 = double(nlgz_100);
 yr = 1993 + (time/365);
 
 %%
-save([fpath 'nmdz_nlgz_100.nwa.full.hcast.monthly.raw.r20230520.199301-201912.mat'],...
+save([fpath 'nmdz_nlgz_100.nwa.full.hcast.monthly.raw.r20250715.199301-202312.mat'],...
     '-v7.3');
 
 
