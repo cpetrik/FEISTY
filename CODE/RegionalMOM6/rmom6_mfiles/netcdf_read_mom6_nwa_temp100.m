@@ -1,13 +1,15 @@
 % Read GFDL MOM6-NWA12
 % Temp mean over top 100m
+% Use calc thkcello
 
 clear
 close all
 
-fpath='/Volumes/petrik-lab/Feisty/GCM_Data/MOM6-NWA12/';
+%fpath='/Volumes/petrik-lab/Feisty/GCM_Data/MOM6-NWA12/';
+fpath='/project/Feisty/GCM_Data/MOM6-NWA12/';
 
 %% one file
-ncdisp([fpath 'thetao.nwa.full.hcast.monthly.raw.r20230520.199301-201912.nc'])
+ncdisp([fpath 'thetao.nwa.full.hcast.monthly.raw.r20250715.199301-202312.nc'])
 
 %%
 % Dimensions:
@@ -47,7 +49,7 @@ calendar_type = 'GREGORIAN';
 calendar      = 'gregorian';
 
 %%
-ncid = netcdf.open([fpath 'thetao.nwa.full.hcast.monthly.raw.r20230520.199301-201912.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath 'thetao.nwa.full.hcast.monthly.raw.r20250715.199301-202312.nc'],'NC_NOWRITE');
 
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 
@@ -95,25 +97,10 @@ latlim=[plotminlat plotmaxlat];
 lonlim=[plotminlon plotmaxlon];
 
 %% grid cell thickness
-thk = diff(z_i);
-thk100 = single(thk(z100));
-
-thk100m = (nan*ones(ni,nj,15));
-for z=1:15
-    thk100m(:,:,z) = thk100(z);
-end
-
-wet(wet==0) = nan;
-wetmat = repmat(wet,1,1,15);
-thk100m = thk100m .* wetmat;
-
-thk100m = repmat(thk100m,1,1,1,nt);
-
-thk100m(isnan(thetao(:))) = nan;
-
+load([fpath 'thkcello.nwa.full.hcast.monthly.raw.r20250715.199301-202312.mat'])
 
 %% mean over top 100m
-temp_100 = squeeze(sum(thetao .* thk100m,3,'omitnan') ./ sum(thk100m,3,'omitnan'));
+temp_100 = squeeze(sum(thetao .* thkcello,3,'omitnan') ./ sum(thkcello,3,'omitnan'));
 
 temp_100 = double(temp_100);
 
@@ -132,8 +119,8 @@ title('t100')
 yr = 1993 + (time/365);
 
 %%
-save([fpath 'temp_100.nwa.full.hcast.monthly.raw.r20230520.199301-201912.mat'],...
+save([fpath 'temp_100.nwa.full.hcast.monthly.raw.r20250715.199301-202312.mat'],...
     'FillValue','missing_value','thetao_units','thetao_long_name',...
-    'z_l_units','z_l_long_name','time_units','calendar_type','calendar',...
-    'time','yr','z_l','temp_100','-v7.3');
+    'time_units','calendar_type','calendar',...
+    'time','yr','temp_100','-v7.3');
 

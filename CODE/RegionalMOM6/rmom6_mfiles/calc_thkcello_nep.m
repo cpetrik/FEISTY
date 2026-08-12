@@ -110,4 +110,4 @@ thk_units = 'm';
 zl = z_l(z100);
 
 save([fpath 'thkcello.nep.full.hcast.monthly.raw.r20250912.199301-202506.mat'],...
-    'thkcello','thk_units','xh','yh','zl','time', '-v7.3');
+    'thkcello','thk_units','ih','jh','zl','time', '-v7.3');
