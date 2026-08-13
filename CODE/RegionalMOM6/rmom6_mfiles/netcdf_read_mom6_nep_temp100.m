@@ -68,8 +68,8 @@ end
 %% just top 100
 z100 = find(z_l <= 100);
 
-ni = length(xh);
-nj = length(yh);
+ni = length(ih);
+nj = length(jh);
 nz = length(z_l);
 nt = length(time);
 
@@ -89,12 +89,12 @@ load([fpath 'nwa_raw_ocean_static_gridspec.mat'],'geolon','geolat','wet');
 geolon = double(geolon);
 geolat = double(geolat);
 %NWAtl
-plotminlat=5; 
-plotmaxlat=60;
-plotminlon=-100;
-plotmaxlon=-30;
-latlim=[plotminlat plotmaxlat];
-lonlim=[plotminlon plotmaxlon];
+% plotminlat=5; 
+% plotmaxlat=60;
+% plotminlon=-100;
+% plotmaxlon=-30;
+% latlim=[plotminlat plotmaxlat];
+% lonlim=[plotminlon plotmaxlon];
 
 %% grid cell thickness
 load([fpath 'thkcello.nep.full.hcast.monthly.raw.r20250912.199301-202506.mat'])
