@@ -1,5 +1,5 @@
 % Make mat files of interpolated time series from GFDL
-% Reanalysis-forced runs 1993-2019
+% Reanalysis-forced runs 1993-2023, v20250715
 % MOM6-NWA12
 
 clear
@@ -13,11 +13,11 @@ cpath='/project/Feisty/GCM_Data/MOM6-NWA12/';
 %tp: degC
 %tb: degC
 
-load([cpath 'temp_100.nwa.full.hcast.monthly.raw.r20230520.199301-201912.mat'],'temp_100');
-load([cpath 'btm_temp.nwa.full.hcast.monthly.raw.r20230520.199301-201912.mat'],'btm_temp');
-load([cpath 'fntot_btm.nwa.full.hcast.monthly.raw.r20230520.199301-201912.mat'],'fntot_btm','fntot_btm_long_name','fntot_btm_units')
-load([cpath 'nmdz_nlgz_100.nwa.full.hcast.monthly.raw.r20230520.199301-201912.mat']);
-load([cpath 'jhploss_mdz_lgz_100.nwa.full.hcast.monthly.raw.r20230520.199301-201912.mat']);
+load([cpath 'temp_100.nwa.full.hcast.monthly.raw.r20250715.199301-202312.mat'],'temp_100');
+load([cpath 'btm_temp.nwa.full.hcast.monthly.raw.r20250715.199301-202312.mat'],'btm_temp');
+load([cpath 'fntot_btm.nwa.full.hcast.monthly.raw.r20250715.199301-202312.mat'],'fntot_btm','fntot_btm_long_name','fntot_btm_units')
+load([cpath 'nmdz_nlgz_100.nwa.full.hcast.monthly.raw.r20250715.199301-202312.mat']);
+load([cpath 'jhploss_mdz_lgz_100.nwa.full.hcast.monthly.raw.r20250715.199301-202312.mat']);
 
 %%
 temp_100(temp_100 > 1.0e19) = nan;

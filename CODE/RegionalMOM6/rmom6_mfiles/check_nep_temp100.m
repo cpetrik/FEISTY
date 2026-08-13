@@ -11,26 +11,25 @@ cpath='/Volumes/petrik-lab/Feisty/GCM_Data/MOM6-NEP10/';
 %tp: degC
 %tb: degC
 
-load([cpath 'temp_100.nwa.full.hcast.monthly.raw.r20250715.199301-202312.mat'],'temp_100');
+load([cpath 'temp_100.nep.full.hcast.monthly.raw.r20250912.199301-202506.mat'],'temp_100');
 
 %%
 temp_100(temp_100 > 1.0e19) = nan;
 
 %%
-load([cpath 'nwa_raw_ocean_static_gridspec.mat'],'geolon','geolat');
-load([cpath 'Data_grid_mom6_nwa12.mat'],'GRD');
+load([cpath 'nep_raw_ocean_static_gridspec.mat'],'geolon','geolat');
 
 [ni,nj]=size(geolon);
 geolon = double(geolon);
 geolat = double(geolat);
-%NWAtl
-plotminlat=5; 
-plotmaxlat=60;
-plotminlon=-100;
-plotmaxlon=-30;
+
+%% NEPac
+plotminlat=10; 
+plotmaxlat=85;
+plotminlon=156;
+plotmaxlon=-104;
 latlim=[plotminlat plotmaxlat];
 lonlim=[plotminlon plotmaxlon];
-
 
 %%
 figure
