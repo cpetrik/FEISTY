@@ -53,13 +53,19 @@ ncid = netcdf.open([fpath 'thetao.nep.full.hcast.monthly.raw.r20250912.199301-20
 
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 
-for i = 1:4
+for i = 4:5
     varname = netcdf.inqVar(ncid, i-1);
     eval([ varname ' = netcdf.getVar(ncid,i-1);']);
     eval([ varname '(' varname ' == 1.0000000e+20) = NaN;']);
 end
 
-for i = 6:nvars
+for i = 8
+    varname = netcdf.inqVar(ncid, i-1);
+    eval([ varname ' = netcdf.getVar(ncid,i-1);']);
+    eval([ varname '(' varname ' == 1.0000000e+20) = NaN;']);
+end
+
+for i = 12
     varname = netcdf.inqVar(ncid, i-1);
     eval([ varname ' = netcdf.getVar(ncid,i-1);']);
     eval([ varname '(' varname ' == 1.0000000e+20) = NaN;']);
@@ -73,7 +79,7 @@ nj = length(jh);
 nz = length(z_l);
 nt = length(time);
 
-for i = 5
+for i = 7
     varname = netcdf.inqVar(ncid, i-1);
     eval([ varname ' = netcdf.getVar(ncid,i-1, [0,0,0,0],[ni nj length(z100) nt]);']);
     eval([ varname '(' varname ' == 1.0000000e+20) = NaN;']);
@@ -82,20 +88,6 @@ netcdf.close(ncid);
 
 thetao(thetao>1e18) = nan;
 
-%% vis 0m and 100m layers
-load([fpath 'nwa_raw_ocean_static_gridspec.mat'],'geolon','geolat','wet');
-
-[ni,nj]=size(geolon);
-geolon = double(geolon);
-geolat = double(geolat);
-%NWAtl
-% plotminlat=5; 
-% plotmaxlat=60;
-% plotminlon=-100;
-% plotmaxlon=-30;
-% latlim=[plotminlat plotmaxlat];
-% lonlim=[plotminlon plotmaxlon];
-
 %% grid cell thickness
 load([fpath 'thkcello.nep.full.hcast.monthly.raw.r20250912.199301-202506.mat'])
 
@@ -103,17 +95,6 @@ load([fpath 'thkcello.nep.full.hcast.monthly.raw.r20250912.199301-202506.mat'])
 temp_100 = squeeze(sum(thetao .* thkcello,3,'omitnan') ./ sum(thkcello,3,'omitnan'));
 
 temp_100 = double(temp_100);
-
-%%
-% figure
-% axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-%     'Grid','off','FLineWidth',1)
-% surfm(geolat,geolon,squeeze(temp_100(:,:,1)))
-% cmocean('thermal')
-% %h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-% clim([0 30]);
-% hcb = colorbar('h');
-% title('t100')
 
 %% Time
 yr = 1993 + (time/365);
