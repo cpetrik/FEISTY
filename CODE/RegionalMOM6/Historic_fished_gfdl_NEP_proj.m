@@ -1,5 +1,5 @@
 %%%%!! RUN SPINUP FOR ALL LOCATIONS
-function Historic_fished_gfdl_NWA_proj()
+function Historic_fished_gfdl_NEP_proj()
 
 %%%%%%%%%%%%%%% Initialize Model Variables
 %! Set fishing rate
@@ -13,10 +13,10 @@ param.dfrateD = nan;
 param = make_parameters(param);
 
 %! Grids
-vpath = '/project/Feisty/GCM_Data/MOM6-NWA12/';
+vpath = '/project/Feisty/GCM_Data/MOM6-NEP10/';
 
 %1-D
-load([vpath 'Data_grid_mom6_nwa12.mat'],'GRD');
+load([vpath 'Data_grid_mom6_nep10.mat'],'GRD');
 GRD1 = GRD;
 %clear GRD
 
@@ -42,7 +42,7 @@ ID = 1:param.NX;
 % param.adt = 24 * 60 * 60; %time step in seconds
 
 %! How long to run the model
-YEARS = 1993:2023;
+YEARS = 1993:2024;
 nYEARS = length(YEARS);
 DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
@@ -50,7 +50,7 @@ MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 %! Create a directory for output
 exper = '1993_no_move';
 opath = '/project/Feisty/NC/Matlab_new_size/';
-[fname,simname,sname] = sub_fname_hist_gfdl_nwa(param,opath,exper);
+[fname,simname,sname] = sub_fname_hist_gfdl_nep(param,opath,exper);
 
 %! Storage variables
 S_Bent_bio = zeros(NX,DAYS);
@@ -157,7 +157,7 @@ MNT = 0;
 %! Run model with no fishing
 for YR = 1:nYEARS % years
     ti = num2str(YEARS(YR))
-    load([vpath,'Data_mom6_nwa12_daily_',ti,'.mat'],'ESM');
+    load([vpath,'Data_mom6_nep10_daily_',ti,'.mat'],'ESM');
     
 	% COBALT.U = uh;
     % COBALT.V = vh;
