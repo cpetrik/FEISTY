@@ -1,9 +1,9 @@
 %%%%!! RUN SPINUP FOR ALL LOCATIONS
-function Historic_fished_gfdl_NEP_proj()
+function Historic_pristine_gfdl_NEP_proj()
 
 %%%%%%%%%%%%%%% Initialize Model Variables
 %! Set fishing rate
-param.frate = 0.3;
+param.frate = 0.0;
 param.dfrate = param.frate/365.0;
 param.dfrateF = nan;
 param.dfrateP = nan;

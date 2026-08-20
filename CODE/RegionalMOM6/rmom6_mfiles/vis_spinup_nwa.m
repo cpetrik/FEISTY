@@ -79,7 +79,7 @@ xlabel('Time (mo)')
 ylabel('log10 Biomass (g m^-^2)')
 title('Spinup')
 stamp(exper)
-print('-dpng',[ppath exper 'all_sizes.png'])
+print('-dpng',[ppath exper 'NWA12_all_sizes.png'])
 
 figure(2)
 plot(y,log10(B),'color',[0.5 0.5 0.5],'Linewidth',2); hold on;
@@ -93,7 +93,7 @@ ylim([-5 2])
 xlabel('Time (y)')
 ylabel('log10 Biomass (g m^-^2)')
 title(['Spinup'])
-print('-dpng',[ppath exper 'all_types.png'])
+print('-dpng',[ppath exper 'NWA12_all_types.png'])
 
 %% Plots in space
 Zsf=NaN*ones(ni,nj);
@@ -140,12 +140,12 @@ hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('log10 mean benthic biomass (g m^-^2)')
 stamp(exper)
-print('-dpng',[ppath exper 'NWA_BENT.png'])
+print('-dpng',[ppath exper 'NWA12_BENT.png'])
 
 %% ALL
 figure(4)
 % all F
-subplot('Position',[0 0.51 0.5 0.5])
+subplot('Position',[0 0.51 0.45 0.45])
 axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(geolat_t,geolon_t,log10(AllF))
@@ -153,12 +153,11 @@ colormap('jet')
 load coastlines;                     
 %h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-2 2]);
-colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('log10 mean All F (g m^-^2)')
 
 % all D
-subplot('Position',[0 0 0.5 0.5])
+subplot('Position',[0 0 0.45 0.45])
 axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(geolat_t,geolon_t,log10(AllD))
@@ -170,7 +169,7 @@ set(gcf,'renderer','painters')
 title('log10 mean All D (g m^-^2)')
 
 % All P
-subplot('Position',[0.5 0.51 0.5 0.5])
+subplot('Position',[0.5 0.51 0.45 0.45])
 axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(geolat_t,geolon_t,log10(AllP))
@@ -182,7 +181,7 @@ set(gcf,'renderer','painters')
 title('log10 mean All P (g m^-^2)')
 
 % All
-subplot('Position',[0.5 0 0.5 0.5])
+subplot('Position',[0.5 0 0.45 0.45])
 axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(geolat_t,geolon_t,log10(All))
@@ -192,12 +191,13 @@ load coastlines;
 clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
+colorbar('Position',[0.25 0.5 0.5 0.03],'orientation','horizontal')
 stamp(exper)
-print('-dpng',[ppath exper 'All_subplot.png'])
+print('-dpng',[ppath exper 'NWA12_All_subplot.png'])
 
 %% Ratios on subplots 3 figure subplot P:D, P:F, M:L
 figure(5)
-subplot('Position',[0 0.53 0.5 0.5])
+subplot('Position',[0 0.53 0.45 0.45])
 %P:D
 axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
@@ -210,7 +210,7 @@ set(gcf,'renderer','painters')
 title('Fraction Large Pelagics vs. Demersals')
 
 %P:F
-subplot('Position',[0.5 0.53 0.5 0.5])
+subplot('Position',[0.5 0.53 0.45 0.45])
 axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(geolat_t,geolon_t,FracPF)
@@ -222,7 +222,7 @@ set(gcf,'renderer','painters')
 title('Fraction Large Pelagics vs. Forage Fishes')
 
 %L:M
-subplot('Position',[0.25 0.0 0.5 0.5])
+subplot('Position',[0.25 0.0 0.45 0.45])
 axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
     'Grid','off','FLineWidth',1)
 surfm(geolat_t,geolon_t,FracLM)
@@ -230,11 +230,11 @@ cmocean('balance')
 load coastlines;                     
 %h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([0 1]);
-colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
+colorbar('Position',[0.2 0.5 0.5 0.03],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('Fraction Large vs. Medium')
 stamp(exper)
-print('-dpng',[ppath exper 'NWA_ratios_subplot.png'])
+print('-dpng',[ppath exper 'NWA12_ratios_subplot.png'])
 
 
 %%

@@ -17,7 +17,8 @@ if (~isfolder(ppath))
 end
 
 %%
-exper = 'Spinup1993_no_move_All_fish03_';
+%exper = 'Spinup1993_no_move_All_fish03_';
+exper = 'Spinup1993_no_move_pristine_';
 load([fpath 'Means_' exper cfile '.mat']);
 
 %%
@@ -79,7 +80,7 @@ xlabel('Time (mo)')
 ylabel('log10 Biomass (g m^-^2)')
 title('Spinup')
 stamp(exper)
-print('-dpng',[ppath exper 'all_sizes.png'])
+print('-dpng',[ppath exper 'NEP10_all_sizes.png'])
 
 figure(2)
 plot(y,log10(B),'color',[0.5 0.5 0.5],'Linewidth',2); hold on;
@@ -93,7 +94,7 @@ ylim([-5 2])
 xlabel('Time (y)')
 ylabel('log10 Biomass (g m^-^2)')
 title(['Spinup'])
-print('-dpng',[ppath exper 'all_types.png'])
+print('-dpng',[ppath exper 'NEP10_all_types.png'])
 
 %% Plots in space
 Zsf=NaN*ones(ni,nj);
@@ -140,7 +141,7 @@ hcb = colorbar('h');
 set(gcf,'renderer','painters')
 title('log10 mean benthic biomass (g m^-^2)')
 stamp(exper)
-print('-dpng',[ppath exper 'NWA_BENT.png'])
+print('-dpng',[ppath exper 'NEP10_BENT.png'])
 
 %% ALL
 figure(4)
@@ -193,7 +194,7 @@ set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
 colorbar('Position',[0.25 0.5 0.5 0.03],'orientation','horizontal')
 stamp(exper)
-print('-dpng',[ppath exper 'All_subplot.png'])
+print('-dpng',[ppath exper 'NEP10_All_subplot.png'])
 
 %% Ratios on subplots 3 figure subplot P:D, P:F, M:L
 figure(5)
@@ -234,7 +235,7 @@ colorbar('Position',[0.2 0.5 0.5 0.03],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('Fraction Large vs. Medium')
 stamp(exper)
-print('-dpng',[ppath exper 'NWA_ratios_subplot.png'])
+print('-dpng',[ppath exper 'NEP10_ratios_subplot.png'])
 
 
 %%
