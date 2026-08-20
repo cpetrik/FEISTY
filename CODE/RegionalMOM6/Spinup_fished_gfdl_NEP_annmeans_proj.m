@@ -47,7 +47,7 @@ MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 %! Create a directory for output
 exper = 'Spinup1993_no_move';
 opath = '/project/Feisty/NC/Matlab_new_size/';
-[fname,simname,sname] = sub_fname_spin_gfdl_nwa(param,opath,exper);
+[fname,simname,sname] = sub_fname_spin_gfdl_nep(param,opath,exper);
 
 %! Storage variables
 S_Bent_bio = zeros(NX,DAYS);
