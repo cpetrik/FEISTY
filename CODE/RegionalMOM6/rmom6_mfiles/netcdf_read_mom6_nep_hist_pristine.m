@@ -1,14 +1,14 @@
-% MOM6-NWA12 run
+% MOM6-NEP10 run
 
 clear 
 close all
 
 %%
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
-fpath=['/project/Feisty/NC/Matlab_new_size/' cfile '/NWA12/'];
+fpath=['/project/Feisty/NC/Matlab_new_size/' cfile '/NEP10/'];
 
-exper = 'NWA12_Hindcast1993_no_move_All_fish03';
-%exper = 'NWA12_Hindcast1993_no_move_pristine';
+%exper = 'NEP10_Hindcast1993_no_move_All_fish03';
+exper = 'NEP10_Hindcast1993_no_move_pristine';
 
 %% SP
 ncid = netcdf.open([fpath exper '_sml_p.nc'],'NC_NOWRITE');
@@ -64,7 +64,7 @@ end
 netcdf.close(ncid);
 
 MP.bio = biomass;
-MP.yield = yield;
+%MP.yield = yield;
 
 clear biomass yield
 
@@ -79,7 +79,7 @@ end
 netcdf.close(ncid);
 
 MF.bio = biomass;
-MF.yield = yield;
+%MF.yield = yield;
 
 clear biomassyield
 
@@ -94,7 +94,7 @@ end
 netcdf.close(ncid);
 
 MD.bio = biomass;
-MD.yield = yield;
+%MD.yield = yield;
 
 clear biomass yield
 
@@ -109,7 +109,7 @@ end
 netcdf.close(ncid);
 
 LP.bio = biomass;
-LP.yield = yield;
+%LP.yield = yield;
 
 clear biomass yield
 
@@ -124,7 +124,7 @@ end
 netcdf.close(ncid);
 
 LD.bio = biomass;
-LD.yield = yield;
+%LD.yield = yield;
 
 clear biomass yield
 
@@ -173,29 +173,29 @@ for n=1:length(st)
     ld_smean(:,n)=mean(LD.bio(:,st(n):en(n)),2,'omitnan');
     b_smean(:,n)=mean(Bent.bio(:,st(n):en(n)),2,'omitnan');
     
-    mp_my(:,n)=mean(MP.yield(:,st(n):en(n)),2,'omitnan');
-    mf_my(:,n)=mean(MF.yield(:,st(n):en(n)),2,'omitnan');
-    md_my(:,n)=mean(MD.yield(:,st(n):en(n)),2,'omitnan');
-    lp_my(:,n)=mean(LP.yield(:,st(n):en(n)),2,'omitnan');
-    ld_my(:,n)=mean(LD.yield(:,st(n):en(n)),2,'omitnan');
+    % mp_my(:,n)=mean(MP.yield(:,st(n):en(n)),2,'omitnan');
+    % mf_my(:,n)=mean(MF.yield(:,st(n):en(n)),2,'omitnan');
+    % md_my(:,n)=mean(MD.yield(:,st(n):en(n)),2,'omitnan');
+    % lp_my(:,n)=mean(LP.yield(:,st(n):en(n)),2,'omitnan');
+    % ld_my(:,n)=mean(LD.yield(:,st(n):en(n)),2,'omitnan');
 end
 
 %% Whole time period mean
-sp_mean20=mean(SP.bio,2,'omitnan');
-sf_mean20=mean(SF.bio,2,'omitnan');
-sd_mean20=mean(SD.bio,2,'omitnan');
-mp_mean20=mean(MP.bio,2,'omitnan');
-mf_mean20=mean(MF.bio,2,'omitnan');
-md_mean20=mean(MD.bio,2,'omitnan');
-lp_mean20=mean(LP.bio,2,'omitnan');
-ld_mean20=mean(LD.bio,2,'omitnan');
-b_mean20=mean(Bent.bio,2,'omitnan');
+sp_mean=mean(SP.bio,2,'omitnan');
+sf_mean=mean(SF.bio,2,'omitnan');
+sd_mean=mean(SD.bio,2,'omitnan');
+mp_mean=mean(MP.bio,2,'omitnan');
+mf_mean=mean(MF.bio,2,'omitnan');
+md_mean=mean(MD.bio,2,'omitnan');
+lp_mean=mean(LP.bio,2,'omitnan');
+ld_mean=mean(LD.bio,2,'omitnan');
+b_mean=mean(Bent.bio,2,'omitnan');
 
-mf_my20=mean(MF.yield,2,'omitnan');
-mp_my20=mean(MP.yield,2,'omitnan');
-md_my20=mean(MD.yield,2,'omitnan');
-lp_my20=mean(LP.yield,2,'omitnan');
-ld_my20=mean(LD.yield,2,'omitnan');
+% mf_my=mean(MF.yield,2,'omitnan');
+% mp_my=mean(MP.yield,2,'omitnan');
+% md_my=mean(MD.yield,2,'omitnan');
+% lp_my=mean(LP.yield,2,'omitnan');
+% ld_my=mean(LD.yield,2,'omitnan');
 
 %% Whole time period each month
 % sp_bio=SP.bio;
@@ -222,11 +222,11 @@ save([fpath 'Means_' exper '_' cfile '.mat'],'time',...
     'sf_tmean','sp_tmean','sd_tmean',...
     'mf_tmean','mp_tmean','md_tmean',...
     'b_tmean','lp_tmean','ld_tmean',...
-    'sf_mean20','sp_mean20','sd_mean20',...
-    'mf_mean20','mp_mean20','md_mean20',...
-    'lp_mean20','ld_mean20','b_mean20',...
-    'mf_my20','mp_my20','md_my20',...
-    'lp_my20','ld_my20'); %,,...
+    'sf_mean','sp_mean','sd_mean',...
+    'mf_mean','mp_mean','md_mean',...
+    'lp_mean','ld_mean','b_mean'); %,...
+    % 'mf_my','mp_my','md_my',...
+    % 'lp_my','ld_my',,...
     % 'sf_bio','sp_bio','sd_bio',...
     % 'mf_bio','mp_bio','md_bio',...
     % 'b_bio','lp_bio','ld_bio',...
