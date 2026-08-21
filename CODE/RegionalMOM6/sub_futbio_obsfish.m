@@ -2,7 +2,7 @@
 %%% DEMOGRAPHIC CALCULATIONS
 function [Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT,ENVR] = sub_futbio_obsfish(DY,ESM,GRD,Sf,Sp,Sd,Mf,Mp,Md,Lp,Ld,BENT,param)
 
-dfrate = param.dfrate;
+%dfrate = param.dfrate;
 
 %%% ESM information
 ENVR = get_ESM(ESM,GRD,param,DY);
