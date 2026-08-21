@@ -1,5 +1,4 @@
-% Visualize output of Spinup 
-% 150 years
+% Visualize output of Hindcast
 % Saved as mat files
 
 clear 
@@ -10,32 +9,32 @@ pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/Matlab_New_sizes/';
 
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 
-fpath=['/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/' cfile '/NWA12/'];
-ppath = [pp cfile '/NWA12/'];
+fpath=['/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/' cfile '/NEP10/'];
+ppath = [pp cfile '/NEP10/'];
 if (~isfolder(ppath))
     mkdir(ppath)
 end
 
 %%
-exper = 'NWA12_Hindcast1993_no_move_All_fish03_';
-%exper = 'NWA12_Hindcast1993_no_move_pristine_';
+exper = 'NEP10_Hindcast1993_no_move_All_fish03_';
+%exper = 'NEP10_Hindcast1993_no_move_pristine_';
 load([fpath 'Means_' exper cfile '.mat']);
 
 %%
-gpath='/Volumes/petrik-lab/Feisty/GCM_Data/MOM6-NWA12/';
+gpath='/Volumes/petrik-lab/Feisty/GCM_Data/MOM6-NEP10/';
 
-load([gpath 'nwa_raw_ocean_static_gridspec.mat'],'geolon','geolat');
-load([gpath 'Data_grid_mom6_nwa12.mat'],'GRD');
+load([gpath 'nep_raw_ocean_static_gridspec.mat'],'geolon','geolat');
+load([gpath 'Data_grid_mom6_nep10.mat'],'GRD');
 
 [ni,nj]=size(geolon);
 geolon_t = double(geolon);
 geolat_t = double(geolat);
 
-%NWAtl
-plotminlat=5; 
-plotmaxlat=60;
-plotminlon=-100;
-plotmaxlon=-30;
+%NE Pac
+plotminlat=10; 
+plotmaxlat=85;
+plotminlon=156;
+plotmaxlon=-104;
 latlim=[plotminlat plotmaxlat];
 lonlim=[plotminlon plotmaxlon];
 
@@ -54,7 +53,7 @@ cm10=[0.5 0.5 0;... %tan/army
 set(groot,'defaultAxesColorOrder',cm10);
 
 %% Plots in time
-y = (time/12)+1988;
+y = (time/12)+1993;
 F = sf_tmean+mf_tmean;
 P = sp_tmean+mp_tmean+lp_tmean;
 D = sd_tmean+md_tmean+ld_tmean;
@@ -77,7 +76,7 @@ xlim([y(1) y(end)])
 ylim([-3 1])
 xlabel('Time (mo)')
 ylabel('log10 Biomass (g m^-^2)')
-title('CORE')
+title('Hindcast')
 stamp(exper)
 print('-dpng',[ppath exper 'all_sizes.png'])
 
@@ -92,7 +91,7 @@ xlim([y(1) y(end)])
 ylim([-1 1])
 xlabel('Time (y)')
 ylabel('log10 Biomass (g m^-^2)')
-title(['CORE'])
+title('Hindcast')
 print('-dpng',[ppath exper 'all_types.png'])
 
 %% Plots in space
@@ -106,15 +105,15 @@ Zlp=NaN*ones(ni,nj);
 Zld=NaN*ones(ni,nj);
 Zb=NaN*ones(ni,nj);
 
-Zsf(GRD.ID)=sf_mean20;
-Zsp(GRD.ID)=sp_mean20;
-Zsd(GRD.ID)=sd_mean20;
-Zmf(GRD.ID)=mf_mean20;
-Zmp(GRD.ID)=mp_mean20;
-Zmd(GRD.ID)=md_mean20;
-Zlp(GRD.ID)=lp_mean20;
-Zld(GRD.ID)=ld_mean20;
-Zb(GRD.ID)=b_mean20;
+Zsf(GRD.ID)=sf_mean;
+Zsp(GRD.ID)=sp_mean;
+Zsd(GRD.ID)=sd_mean;
+Zmf(GRD.ID)=mf_mean;
+Zmp(GRD.ID)=mp_mean;
+Zmd(GRD.ID)=md_mean;
+Zlp(GRD.ID)=lp_mean;
+Zld(GRD.ID)=ld_mean;
+Zb(GRD.ID)=b_mean;
 
 All = Zsp+Zsf+Zsd+Zmp+Zmf+Zmd+Zlp+Zld;
 AllF = Zsf+Zmf;
@@ -129,11 +128,10 @@ FracLM = AllL ./ (AllL+AllM);
 
 %% bent
 figure(3)
-
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','off',...
+    'Grid','off','FLineWidth',1)
 surfm(geolat_t,geolon_t,log10(Zb))
-cmocean('dense')
+cmocean('matter')
 load coastlines;                     
 %h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([-2 2]);
@@ -146,62 +144,62 @@ print('-dpng',[ppath exper 'global_BENT.png'])
 %% ALL
 figure(4)
 % all F
-subplot('Position',[0 0.51 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+subplot('Position',[0 0.51 0.45 0.45])
+axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','off',...
+    'Grid','off','FLineWidth',1)
 surfm(geolat_t,geolon_t,log10(AllF))
-cmocean('dense')
+cmocean('matter')
 load coastlines;                     
 %h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-1.5 2.5]);
-colorbar('Position',[0.25 0.5 0.5 0.05],'orientation','horizontal')
+clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All F (g m^-^2)')
 
 % all D
-subplot('Position',[0 0 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+subplot('Position',[0 0 0.45 0.45])
+axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','off',...
+    'Grid','off','FLineWidth',1)
 surfm(geolat_t,geolon_t,log10(AllD))
-cmocean('dense')
+cmocean('matter')
 load coastlines;                     
 %h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-1.5 2.5]);
+clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All D (g m^-^2)')
 
 % All P
-subplot('Position',[0.5 0.51 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+subplot('Position',[0.5 0.51 0.45 0.45])
+axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','off',...
+    'Grid','off','FLineWidth',1)
 surfm(geolat_t,geolon_t,log10(AllP))
-cmocean('dense')
+cmocean('matter')
 load coastlines;                     
 %h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-1.5 2.5]);
+clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All P (g m^-^2)')
 
 % All
-subplot('Position',[0.5 0 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+subplot('Position',[0.5 0 0.45 0.45])
+axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','off',...
+    'Grid','off','FLineWidth',1)
 surfm(geolat_t,geolon_t,log10(All))
-cmocean('dense')
+cmocean('matter')
 load coastlines;                     
 %h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
-clim([-1.5 2.5]);
+clim([-2 2]);
 set(gcf,'renderer','painters')
 title('log10 mean All fishes (g m^-^2)')
+colorbar('Position',[0.25 0.5 0.5 0.03],'orientation','horizontal')
 stamp(exper)
 print('-dpng',[ppath exper 'global_All_subplot.png'])
 
 %% Ratios on subplots 3 figure subplot P:D, P:F, M:L
 figure(5)
-subplot('Position',[0 0.53 0.5 0.5])
+subplot('Position',[0 0.5 0.45 0.45])
 %P:D
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','off',...
+    'Grid','off','FLineWidth',1)
 surfm(geolat_t,geolon_t,FracPD)
 cmocean('balance')
 load coastlines;                     
@@ -211,9 +209,9 @@ set(gcf,'renderer','painters')
 title('Fraction Large Pelagics vs. Demersals')
 
 %P:F
-subplot('Position',[0.5 0.53 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+subplot('Position',[0.5 0.5 0.45 0.45])
+axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','off',...
+    'Grid','off','FLineWidth',1)
 surfm(geolat_t,geolon_t,FracPF)
 cmocean('balance')
 load coastlines;                     
@@ -223,15 +221,15 @@ set(gcf,'renderer','painters')
 title('Fraction Large Pelagics vs. Forage Fishes')
 
 %L:M
-subplot('Position',[0.25 0.0 0.5 0.5])
-axesm ('Robinson','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','on',...
-    'Grid','off','FLineWidth',1,'origin',[0 -100 0])
+subplot('Position',[0.25 0.0 0.45 0.45])
+axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','off',...
+    'Grid','off','FLineWidth',1)
 surfm(geolat_t,geolon_t,FracLM)
 cmocean('balance')
 load coastlines;                     
 %h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 clim([0 1]);
-colorbar('Position',[0.2 0.485 0.6 0.05],'orientation','horizontal')
+colorbar('Position',[0.2 0.5 0.5 0.03],'orientation','horizontal')
 set(gcf,'renderer','painters')
 title('Fraction Large vs. Medium')
 stamp(exper)
