@@ -7,10 +7,11 @@ close all
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 fpath=['/project/Feisty/NC/Matlab_new_size/' cfile '/NWA12/'];
 
-exper = 'NWA12_Hindcast1993_no_move';
+exper = 'NWA12_Hindcast1993_no_move_All_fish03';
+%exper = 'NWA12_Hindcast1993_no_move_pristine';
 
 %% SP
-ncid = netcdf.open([fpath exper '_All_fish03_sml_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath exper '_sml_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -25,7 +26,7 @@ SP.bio = biomass;
 clear biomass 
 
 %% SF
-ncid = netcdf.open([fpath exper '_All_fish03_sml_f.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath exper '_sml_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -39,7 +40,7 @@ SF.bio = biomass(:,1:nt);
 clear biomass
 
 % SD
-ncid = netcdf.open([fpath exper '_All_fish03_sml_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath exper '_sml_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -53,7 +54,7 @@ SD.bio = biomass;
 clear biomass 
 
 %% MP
-ncid = netcdf.open([fpath exper '_All_fish03_med_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath exper '_med_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -63,12 +64,12 @@ end
 netcdf.close(ncid);
 
 MP.bio = biomass;
-% MP.yield = yield;
+MP.yield = yield;
 
 clear biomass yield
 
 % MF
-ncid = netcdf.open([fpath exper '_All_fish03_med_f.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath exper '_med_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -78,12 +79,12 @@ end
 netcdf.close(ncid);
 
 MF.bio = biomass;
-% MF.yield = yield;
+MF.yield = yield;
 
 clear biomassyield
 
 % MD
-ncid = netcdf.open([fpath exper '_All_fish03_med_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath exper '_med_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -93,12 +94,12 @@ end
 netcdf.close(ncid);
 
 MD.bio = biomass;
-% MD.yield = yield;
+MD.yield = yield;
 
 clear biomass yield
 
 % LP
-ncid = netcdf.open([fpath exper '_All_fish03_lrg_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath exper '_lrg_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -108,12 +109,12 @@ end
 netcdf.close(ncid);
 
 LP.bio = biomass;
-% LP.yield = yield;
+LP.yield = yield;
 
 clear biomass yield
 
 % LD
-ncid = netcdf.open([fpath exper '_All_fish03_lrg_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath exper '_lrg_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -123,12 +124,12 @@ end
 netcdf.close(ncid);
 
 LD.bio = biomass;
-% LD.yield = yield;
+LD.yield = yield;
 
 clear biomass yield
 
 % Benthic material
-ncid = netcdf.open([fpath exper '_All_fish03_bent.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath exper '_bent.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -172,11 +173,11 @@ for n=1:length(st)
     ld_smean(:,n)=nanmean(LD.bio(:,st(n):en(n)),2);
     b_smean(:,n)=nanmean(Bent.bio(:,st(n):en(n)),2);
     
-%     mp_my(:,n)=nanmean(MP.yield(:,st(n):en(n)),2);
-%     mf_my(:,n)=nanmean(MF.yield(:,st(n):en(n)),2);
-%     md_my(:,n)=nanmean(MD.yield(:,st(n):en(n)),2);
-%     lp_my(:,n)=nanmean(LP.yield(:,st(n):en(n)),2);
-%     ld_my(:,n)=nanmean(LD.yield(:,st(n):en(n)),2);
+    mp_my(:,n)=nanmean(MP.yield(:,st(n):en(n)),2);
+    mf_my(:,n)=nanmean(MF.yield(:,st(n):en(n)),2);
+    md_my(:,n)=nanmean(MD.yield(:,st(n):en(n)),2);
+    lp_my(:,n)=nanmean(LP.yield(:,st(n):en(n)),2);
+    ld_my(:,n)=nanmean(LD.yield(:,st(n):en(n)),2);
 end
 
 %% Whole time period mean
@@ -190,11 +191,11 @@ lp_mean20=mean(LP.bio,2);
 ld_mean20=mean(LD.bio,2);
 b_mean20=mean(Bent.bio,2);
 
-% mf_my20=mean(MF.yield,2);
-% mp_my20=mean(MP.yield,2);
-% md_my20=mean(MD.yield,2);
-% lp_my20=mean(LP.yield,2);
-% ld_my20=mean(LD.yield,2);
+mf_my20=mean(MF.yield,2);
+mp_my20=mean(MP.yield,2);
+md_my20=mean(MD.yield,2);
+lp_my20=mean(LP.yield,2);
+ld_my20=mean(LD.yield,2);
 
 %% Whole time period each month
 % sp_bio=SP.bio;
@@ -223,9 +224,9 @@ save([fpath 'Means_' exper '_' cfile '.mat'],'time',...
     'b_tmean','lp_tmean','ld_tmean',...
     'sf_mean20','sp_mean20','sd_mean20',...
     'mf_mean20','mp_mean20','md_mean20',...
-    'lp_mean20','ld_mean20','b_mean20'); %,...
-    % 'mf_my20','mp_my20','md_my20',...
-    % 'lp_my20','ld_my20',...
+    'lp_mean20','ld_mean20','b_mean20',...
+    'mf_my20','mp_my20','md_my20',...
+    'lp_my20','ld_my20'); %,,...
     % 'sf_bio','sp_bio','sd_bio',...
     % 'mf_bio','mp_bio','md_bio',...
     % 'b_bio','lp_bio','ld_bio',...
