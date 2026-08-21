@@ -11,7 +11,7 @@ exper = 'NWA12_Hindcast1993_no_move_All_fish03';
 %exper = 'NWA12_Hindcast1993_no_move_obsfish';
 
 %% MP
-ncid = netcdf.open([fpath exper '_med_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath exper '_yield_med_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -25,7 +25,7 @@ MP.yield = yield;
 clear yield
 
 % MF
-ncid = netcdf.open([fpath exper '_med_f.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath exper '_yield_med_f.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -39,7 +39,7 @@ MF.yield = yield;
 clear yield
 
 % MD
-ncid = netcdf.open([fpath exper '_med_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath exper '_yield_med_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -53,7 +53,7 @@ MD.yield = yield;
 clear biomass yield
 
 % LP
-ncid = netcdf.open([fpath exper '_lrg_p.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath exper '_yield_lrg_p.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
@@ -67,7 +67,7 @@ LP.yield = yield;
 clear biomass yield
 
 % LD
-ncid = netcdf.open([fpath exper '_lrg_d.nc'],'NC_NOWRITE');
+ncid = netcdf.open([fpath exper '_yield_lrg_d.nc'],'NC_NOWRITE');
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid);
 for i = 1:nvars
     varname = netcdf.inqVar(ncid, i-1);
