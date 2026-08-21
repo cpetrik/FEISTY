@@ -74,6 +74,7 @@ if (frate==0)
     sname = [outdir, 'Last_mo_Spinup',exper,'_pristine'];
 elseif (isnan(frate))
     fname = [outdir,exper, '_obsfish'];
+    sname = [outdir, 'Last_mo_Spinup',exper,'_obsfish'];
 elseif (param.Jsel~=0.1)
     fname = [outdir,'NEP10_Hindcast',exper, '_', sel,'_fish',tfish(2:end),'_Juve',tJ(2:end)];
     sname = [outdir, 'Last_mo_Spinup',exper,'_', sel,'_fish',tfish(2:end),'_Juve',tJ(2:end)];
