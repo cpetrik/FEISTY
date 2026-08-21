@@ -86,11 +86,11 @@ MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 
 %Time
-mp_yield_tmean=mean(MP.bio,1);
-mf_yield_tmean=mean(MF.bio,1);
-md_yield_tmean=mean(MD.bio,1);
-lp_yield_tmean=mean(LP.bio,1);
-ld_yield_tmean=mean(LD.bio,1);
+mp_yield_tmean=mean(MP.yield,1);
+mf_yield_tmean=mean(MF.yield,1);
+md_yield_tmean=mean(MD.yield,1);
+lp_yield_tmean=mean(LP.yield,1);
+ld_yield_tmean=mean(LD.yield,1);
 
 %% Each year
 st=1:12:length(time);
