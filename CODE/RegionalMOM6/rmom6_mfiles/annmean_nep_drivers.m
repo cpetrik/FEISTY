@@ -127,6 +127,23 @@ for n=1:12
 
 end
 
+%% Seasonal cycle map test
+figure(1)
+for s=1:12
+    subplot(3,4,s)
+    axesm ('gortho','MapLatLimit',latlim,'MapLonLimit',lonlim,'frame','off',...
+        'Grid','off','FLineWidth',1)
+    surfm(geolat,geolon,squeeze(tp_smean(:,:,s)))
+    cmocean('thermal')
+    %colorbar
+    h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
+    clim([0 20])
+    set(gcf,'renderer','painters')
+    text(0,0.3,['TP mo ' num2str(s)],'HorizontalAlignment','center')
+end
+stamp('')
+print('-dpng',[ppath 'nep.full.hcast.monthly.raw.r20250912_map_TP_season.png'])
+
 
 %% SAVE
 save([cpath 'nep.full.hcast.monthly.raw.r20250912.199301-202506_annual_means.mat'],'yrs',...

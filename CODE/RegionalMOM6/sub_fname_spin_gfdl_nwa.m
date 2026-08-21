@@ -71,6 +71,8 @@ end
 %! Setup netcdf path to store to
 if (frate==0)
     fname = [outdir,exper, '_pristine'];
+elseif (isnan(frate))
+    fname = [outdir,exper, '_obsfish'];
 elseif (param.Jsel~=0.1)
     fname = [outdir,exper, '_', sel,'_fish',tfish(2:end),'_Juve',tJ(2:end)];
 elseif (param.MFsel~=param.LPsel)

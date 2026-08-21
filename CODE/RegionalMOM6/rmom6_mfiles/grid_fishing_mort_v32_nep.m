@@ -35,20 +35,33 @@ fmortP = fmortP(:,yid);
 lats = unique([LatD, LatF, LatP]);
 lons = unique([LonD, LonF, LonP]);
 
-%% NWA grid info
-cpath='/Volumes/petrik-lab/Feisty/GCM_Data/MOM6-NWA12/';
+%% NEP grid info
+cpath='/Volumes/petrik-lab/Feisty/GCM_Data/MOM6-NEP10/';
 
 % Depth, lat, lon, area, grid cell with seafloor
-load([cpath 'nwa_raw_ocean_static_gridspec.mat'],'geolon','geolat');
-load([cpath 'Data_grid_mom6_nwa12.mat'],'GRD');
+load([cpath 'nep_raw_ocean_static_gridspec.mat'],'geolon','geolat');
+load([cpath 'Data_grid_mom6_nep10.mat'],'GRD');
 
 geolon = double(geolon);
 geolat = double(geolat);
+geolon(geolon>1e20) = nan;
+geolat(geolat>1e20) = nan;
 
 [ni,nj] = size(geolon);
 
 WID = GRD.ID;
 NID = GRD.NID;
+
+%%
+figure
+pcolor(geolon'); shading flat; colorbar
+
+figure
+pcolor(geolat'); shading flat; colorbar
+
+%% make W longitudes neg
+sid = find(geolon>180);
+geolon(sid) = geolon(sid) - 360;
 
 %%
 nt = length(yid);
@@ -70,11 +83,11 @@ for t=1:nt
 end
 
 %%
-%NWAtl
-plotminlat=5; 
-plotmaxlat=60;
-plotminlon=-100;
-plotmaxlon=-30;
+%NE Pac
+plotminlat=10; 
+plotmaxlat=85;
+plotminlon=156;
+plotmaxlon=-104;
 latlim=[plotminlat plotmaxlat];
 lonlim=[plotminlon plotmaxlon];
 
@@ -102,7 +115,7 @@ clim([0 0.6])
 h=patchm(coastlat+0.5,coastlon+0.5,'w','FaceColor',[0.75 0.75 0.75]);
 
 %% temp scaling
-load([cpath 'nwa.full.hcast.monthly.raw.r20250715.199301-202312_annual_means.mat'],...
+load([cpath 'nep.full.hcast.monthly.raw.r20250912.199301-202506_annual_means.mat'],...
     'tp_amean','tb_amean','yrs')
 
 vmtp = nan*ones(NID,length(yrs));
@@ -138,9 +151,9 @@ fmP(fmP<0) = 0.0;
 %% save 
 year = 1993:2010;
 
-save([cpath 'nwa.full.hcast.monthly.raw.r20250715_fmort_annual_1993_2010_tempSc_v32.mat'],'year','WID',...
+save([cpath 'nep.full.hcast.monthly.raw.r20250912_fmort_annual_1993_2010_tempSc_v32.mat'],'year','WID',...
     'fmD','fmF','fmP');
-save([spath32 'nwa.full.hcast.monthly.raw.r20250715_fmort_annual_1993_2010_tempSc_v32.mat'],'year','WID',...
+save([spath32 'nep.full.hcast.monthly.raw.r20250912_fmort_annual_1993_2010_tempSc_v32.mat'],'year','WID',...
     'fmD','fmF','fmP');
 
 

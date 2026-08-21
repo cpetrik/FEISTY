@@ -2,18 +2,13 @@
 function Spinup_obsfish_gfdl_NEP_annmeans_proj()
 
 %%%%%%%%%%%%%%% Initialize Model Variables
+vpath = '/project/Feisty/GCM_Data/MOM6-NEP10/';
+
 %! Set fishing rate
-vers = 'v3.2';
-% V1 for predators
-load(['/Users/cpetrik/Dropbox/Princeton/FEISTY_other/fishing_ms_ideas/',...
-    'fishing_effort_impl/grid_mortality_guilds_v1/',...
-    'gfdl-mom6-cobalt2_obsclim_15arcmin_fmort_ID_annual_1961_2010_tempSc.mat'],...
-    'fmD','fmP');
-% V3 for forage fish
-load(['/Users/cpetrik/Dropbox/Princeton/FEISTY_other/fishing_ms_ideas/',...
-    'fishing_effort_impl/grid_mortality_guilds_v3/',...
-    'gfdl-mom6-cobalt2_obsclim_15arcmin_fmort_ID_annual_1961_2010_tempSc_v3.mat'],...
-    'fmF');
+%vers = 'v3.2'; % V1 for predators, V3 for forage fish
+load([vpath 'nep.full.hcast.monthly.raw.r20250912_fmort_annual_1993_2010_tempSc_v32.mat'],...
+    'fmD','fmP','fmF');
+
 % Set fishing rate as 1st year for fname
 param.frate = nan;
 param.frateF = fmF(:,1);
@@ -27,8 +22,6 @@ param.dfrateD = param.frateD/365.0;
 param = make_parameters(param);
 
 %! Grids
-vpath = '/project/Feisty/GCM_Data/MOM6-NEP10/';
-
 %1-D
 load([vpath 'Data_grid_mom6_nep10.mat'],'GRD');
 GRD1 = GRD;
