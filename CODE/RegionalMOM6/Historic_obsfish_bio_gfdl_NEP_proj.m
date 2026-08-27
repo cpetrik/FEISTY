@@ -51,7 +51,7 @@ ID = 1:param.NX;
 % param.adt = 24 * 60 * 60; %time step in seconds
 
 %! How long to run the model
-YEARS = 1993:2024;
+YEARS = 1993:2010;
 nYEARS = length(YEARS);
 DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];

@@ -55,7 +55,7 @@ DAYS = 365;
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Create a directory for output
-exper = '1993_no_move';
+exper = 'Hindcast1993_no_move';
 opath = '/project/Feisty/NC/Matlab_new_size/';
 [fname,simname,sname] = sub_fname_hist_gfdl_nwa(param,opath,exper);
 

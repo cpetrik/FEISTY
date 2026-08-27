@@ -1,14 +1,14 @@
 %%%%!! RUN SPINUP FOR ALL LOCATIONS
-function Historic_obsfish_yield_gfdl_NEP_proj()
+function Historic_obsfish_yield_gfdl_NWA_proj()
 
 %%%%%%%%%%%%%%% Initialize Model Variables
-vpath = '/project/Feisty/GCM_Data/MOM6-NEP10/';
+%vpath = '/Volumes/petrik-lab/Feisty/GCM_Data/MOM6-NWA12/';
+vpath = '/project/Feisty/GCM_Data/MOM6-NWA12/';
 
 %! Set fishing rate
 %vers = 'v3.2'; % V1 for predators, V3 for forage fish
-load([vpath 'nep.full.hcast.monthly.raw.r20250912_fmort_annual_1993_2010_tempSc_v32.mat'],...
+load([vpath 'nwa.full.hcast.monthly.raw.r20250715_fmort_annual_1993_2010_tempSc_v32.mat'],...
     'fmD','fmP','fmF');
-
 % Set fishing rate as 1st year for fname
 param.frate = nan;
 param.frateF = fmF(:,1);
@@ -22,10 +22,8 @@ param.dfrateD = param.frateD/365.0;
 param = make_parameters(param);
 
 %! Grids
-%vpath = '/Volumes/petrik-lab/Feisty/GCM_Data/MOM6-NEP10/';
-
 %1-D
-load([vpath 'Data_grid_mom6_nep10.mat'],'GRD');
+load([vpath 'Data_grid_mom6_nwa12.mat'],'GRD');
 GRD1 = GRD;
 %clear GRD
 
@@ -58,9 +56,8 @@ MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 %! Create a directory for output
 exper = '1993_no_move';
-%opath = '/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/';
 opath = '/project/Feisty/NC/Matlab_new_size/';
-[fname,simname,sname] = sub_fname_hist_gfdl_nep(param,opath,exper);
+[fname,simname,sname] = sub_fname_hist_gfdl_nwa(param,opath,exper);
 
 %! Storage variables
 S_Med_f = zeros(NX,DAYS);
@@ -94,6 +91,7 @@ ncidLD = netcdf.create(file_lrg_d,'NC_WRITE');
 
 %% ! Def vars of netcdf file
 ['Defining netcdfs, takes ~10 minutes ... ']
+
 xy_dim      = netcdf.defDim(ncidMF,'nid',NX);
 time_dim    = netcdf.defDim(ncidMF,'ntime',nt);
 vidyieldMF    = netcdf.defVar(ncidMF,'yield','double',[xy_dim,time_dim]);
@@ -126,7 +124,7 @@ MNT = 0;
 %! Run model with no fishing
 for YR = 1:nYEARS % years
     ti = num2str(YEARS(YR))
-    load([vpath,'Data_mom6_nep10_daily_',ti,'.mat'],'ESM');
+    load([vpath,'Data_mom6_nwa12_daily_',ti,'.mat'],'ESM');
 
     param.frateF = fmF(:,YR);
     param.frateP = fmP(:,YR);
