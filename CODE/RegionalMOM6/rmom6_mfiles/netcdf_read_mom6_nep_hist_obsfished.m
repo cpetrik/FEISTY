@@ -7,8 +7,9 @@ close all
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 fpath=['/project/Feisty/NC/Matlab_new_size/' cfile '/NEP10/'];
 
-%exper = 'NEP10_Hindcast1993_no_move_All_fish03';
 exper = 'NEP10_Hindcast1993_no_move_obsfish';
+
+nt=12*18; %experiment set to run to 2024, but obs effort only to 2010
 
 %% MP
 ncid = netcdf.open([fpath exper '_yield_med_p.nc'],'NC_NOWRITE');
@@ -20,7 +21,7 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-MP.yield = yield;
+MP.yield = yield(:,1:nt);
 
 clear biomass yield
 
@@ -34,7 +35,7 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-MF.yield = yield;
+MF.yield = yield(:,1:nt);
 
 clear yield
 
@@ -48,7 +49,7 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-MD.yield = yield;
+MD.yield = yield(:,1:nt);
 
 clear biomass yield
 
@@ -62,7 +63,7 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-LP.yield = yield;
+LP.yield = yield(:,1:nt);
 
 clear biomass yield
 
@@ -76,7 +77,7 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-LD.yield = yield;
+LD.yield = yield(:,1:nt);
 
 clear biomass yield
 

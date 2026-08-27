@@ -8,6 +8,7 @@ function bio_out = sub_update_fi(bio_in,rec,nu,rep,gamma,die,egg,nmort)
     % gamma = energy lost to maturation to larger size class
     % nmort = natural mortality rate
     % die = biomass lost to predation
+		
     db = rec + ((nu + egg - rep - gamma - nmort) .* bio_in) - die;
     bio_out =  bio_in + db;
 end

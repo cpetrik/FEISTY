@@ -16,8 +16,9 @@ if (~isfolder(ppath))
 end
 
 %%
+exper = 'NEP10_Hindcast1993_no_move_obsfish_';
 %exper = 'NEP10_Hindcast1993_no_move_All_fish03_';
-exper = 'NEP10_Hindcast1993_no_move_pristine_';
+%exper = 'NEP10_Hindcast1993_no_move_pristine_';
 load([fpath 'Means_' exper cfile '.mat']);
 
 %%
