@@ -49,7 +49,7 @@ for i = 1:nvars
 end
 netcdf.close(ncid);
 
-SD.bio = biomass;
+SD.bio = biomass(:,1:nt);
 
 clear biomass 
 
