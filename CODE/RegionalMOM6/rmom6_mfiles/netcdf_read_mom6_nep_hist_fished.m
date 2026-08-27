@@ -7,8 +7,9 @@ close all
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 fpath=['/project/Feisty/NC/Matlab_new_size/' cfile '/NEP10/'];
 
-exper = 'NEP10_Hindcast1993_no_move_All_fish03';
-%exper = 'NEP10_Hindcast1993_no_move_obsfish';
+%exper = 'NEP10_Hindcast1993_no_move_All_fish03';
+exper = '1993_no_move_obsfish';
+exper2 = 'NEP10_Hindcast1993_no_move_obsfish';
 
 %% MP
 ncid = netcdf.open([fpath exper '_yield_med_p.nc'],'NC_NOWRITE');
@@ -119,7 +120,7 @@ ld_yield_smean=mean(LD.yield,2,'omitnan');
 % ld_yield=LD.yield;
 
 %% Save means
-save([fpath 'Means_yield_' exper '_' cfile '.mat'],'time',...
+save([fpath 'Means_yield_' exper2 '_' cfile '.mat'],'time',...
     'mf_yield_tmean','mp_yield_tmean','md_yield_tmean',...
     'lp_yield_tmean','ld_yield_tmean',...
     'mf_yield_asum','mp_yield_asum','md_yield_asum',...

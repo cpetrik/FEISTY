@@ -7,7 +7,8 @@ close all
 cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
 fpath=['/project/Feisty/NC/Matlab_new_size/' cfile '/NEP10/'];
 
-exper = 'NEP10_Hindcast1993_no_move_obsfish';
+exper = '1993_no_move_obsfish';
+exper2 = 'NEP10_Hindcast1993_no_move_obsfish';
 %exper = 'NEP10_Hindcast1993_no_move_All_fish03';
 %exper = 'NEP10_Hindcast1993_no_move_pristine';
 
@@ -202,7 +203,7 @@ b_mean=mean(Bent.bio,2,'omitnan');
 
 
 %% Save means
-save([fpath 'Means_' exper '_' cfile '.mat'],'time',...
+save([fpath 'Means_' exper2 '_' cfile '.mat'],'time',...
     'sf_smean','sp_smean','sd_smean',...
     'mf_smean','mp_smean','md_smean',...
     'b_smean','lp_smean','ld_smean',...
