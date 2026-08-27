@@ -142,7 +142,7 @@ Bent.bio = biomass(:,1:nt);
 BENT.bio = biomass(:,nt);
 clear biomass 
 
-time = time(:,1:nt);
+time = time(1:nt);
 
 %% Take means
 nt = length(time);

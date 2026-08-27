@@ -82,9 +82,8 @@ LD.yield = yield(:,1:nt);
 clear biomass yield
 
 %% Take means
-nt = length(time);
+time = time(1:nt);
 MNTH = [31,28,31,30,31,30,31,31,30,31,30,31];
-
 
 %Time
 mp_yield_tmean=mean(MP.yield,1);
