@@ -4,12 +4,12 @@ clear
 close all
 
 %%
-%cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
-cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_CC80_RE00100';
+cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
+%cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_CC80_RE00100';
 fpath=['/project/Feisty/NC/Matlab_new_size/' cfile '/NWA12/'];
 
-%exper = 'NWA12_Hindcast1993_no_move_obsfish';
-exper = 'NWA12_Hindcast1993_no_move_All_fish03';
+exper = 'NWA12_Hindcast1993_no_move_obsfish';
+%exper = 'NWA12_Hindcast1993_no_move_All_fish03';
 %exper = 'NWA12_Hindcast1993_no_move_pristine';
 
 %% SP

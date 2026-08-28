@@ -7,7 +7,8 @@ close all
 %%
 pp = '/Users/cpetrik/Dropbox/Princeton/FEISTY/CODE/Figs/Matlab_New_sizes/';
 
-cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
+%cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_noCC_RE00100';
+cfile = 'Dc_enc70-b200_m4-b175-k086_c20-b250_D075_J100_A050_Sm025_nmort1_BE08_CC80_RE00100';
 
 fpath=['/Volumes/petrik-lab/Feisty/NC/Matlab_new_size/' cfile '/NEP10/'];
 ppath = [pp cfile '/NEP10/'];
@@ -16,9 +17,9 @@ if (~isfolder(ppath))
 end
 
 %%
-exper = 'NEP10_Hindcast1993_no_move_obsfish_';
+%exper = 'NEP10_Hindcast1993_no_move_obsfish_';
 %exper = 'NEP10_Hindcast1993_no_move_All_fish03_';
-%exper = 'NEP10_Hindcast1993_no_move_pristine_';
+exper = 'NEP10_Hindcast1993_no_move_pristine_';
 load([fpath 'Means_' exper cfile '.mat']);
 
 %%
@@ -89,7 +90,7 @@ plot(y,log10(D),'k','Linewidth',2); hold on;
 legend('B','F','P','D')
 legend('location','eastoutside')
 xlim([y(1) y(end)])
-ylim([-1 1.5])
+ylim([-1 1])
 xlabel('Time (y)')
 ylabel('log10 Biomass (g m^-^2)')
 title('Hindcast')
